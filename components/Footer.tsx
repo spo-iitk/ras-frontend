@@ -8,7 +8,7 @@ import HomeIcon from '@mui/icons-material/Home';
 
 const Footer = () => {
     return (
-        <div style={{ backgroundColor: "#c4c4c0", padding: 10 }}>
+        <div style={{ backgroundColor: "#c4c4c0", padding: 10, marginTop:30 }}>
             <Grid
                 container
                 spacing={3}
@@ -37,6 +37,9 @@ const Footer = () => {
                         <Stack direction="row" alignItems="center" spacing={1}><MailIcon /><a href="mailto:spo@iitk.ac.in" target="_blank" rel="noreferrer">spo@iitk.ac.in</a></Stack>
                         <Stack direction="row" alignItems="center" spacing={1}><CallIcon /><a href="tel:+91 5122594433"> +91 512 259 44 33/34</a></Stack>
                     </Stack>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                    <h4>&copy; Student Placement Office | IIT Kanpur. All Rights Reserved</h4>
                 </Grid>
             </Grid>
         </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Card, TextField, Grid, InputLabel, OutlinedInput, CardHeader, Typography, Stack } from '@mui/material'
+import { TextField, Grid, InputLabel, OutlinedInput, Typography, Stack } from '@mui/material'
 import { InputAdornment } from '@mui/material';
 import { IconButton, FormControl, Button } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
@@ -47,7 +47,7 @@ const Login = () => {
         style={{ minHeight: '74vh' }}
       >
         <Grid item >
-          <Stack>
+          <Stack  spacing={4}>
             <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
               <h1>Welcome!</h1>
               <h2>Sign in to</h2>
@@ -91,10 +91,10 @@ const Login = () => {
               </Stack>
             </FormControl>
             <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-              <Button variant="contained">Login</Button>
+              <Button variant="contained">Sign In</Button>
             </FormControl>
             <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-              <Typography>Don&apos;t have an account? <span style={{color:"blue"}}><Link href="/">Register</Link></span></Typography>
+              <Typography>Don&apos;t have an account? <span style={{color:"blue"}}><Link href="/signup">Sign Up</Link></span></Typography>
             </FormControl>
           </Stack>
         </Grid>
