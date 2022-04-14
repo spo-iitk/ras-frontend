@@ -6,6 +6,7 @@ import { useState } from 'react';
 import SignUpStudent from '../sections/signUpStudent';
 import SignUpRecruiter from '../sections/signUpRecruiter';
 import { Tab, Tabs } from '@mui/material';
+import Header from '../components/Header';
 const SignUp = () => {
     const [role, setRole] = useState(0);
 
@@ -22,6 +23,7 @@ const SignUp = () => {
 
     return (
         <div>
+            <Header/>
             <Meta title={'Login - Recruitment Automation System'} />
             <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ minHeight: "70vh" }}>
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">

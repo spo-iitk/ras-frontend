@@ -6,7 +6,6 @@ import Meta from "./Meta"
 const Layout = ({children}:{children:any}) => {
   return (
     <div>
-      <Header/>
       <Meta/>
       {children}
       <Footer/>

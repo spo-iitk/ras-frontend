@@ -7,6 +7,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Meta from '../components/Meta';
 import Checkbox from '@mui/material/Checkbox';
 import Link from 'next/link';
+import Header from '../components/Header';
 
 const Login = () => {
   const [values, setValues] = React.useState({
@@ -37,6 +38,7 @@ const Login = () => {
 
   return (
     <div>
+      <Header/>
       <Meta title={'Login - Recruitment Automation System'} />
       <Stack spacing={2} justifyContent="center" alignItems="center" sx={{minHeight:"70vh"}}>
         <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
