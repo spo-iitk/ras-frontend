@@ -1,64 +1,48 @@
 import React from 'react'
-import { TextField, Grid, InputLabel, OutlinedInput, Typography, Stack } from '@mui/material'
-import { InputAdornment } from '@mui/material';
-import { IconButton, FormControl, Button } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Typography, Stack } from '@mui/material'
+import { FormControl, Button } from '@mui/material';
 import Meta from '../components/Meta';
-import Link from 'next/link';
 import { useState } from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import SignUpStudent from '../sections/signUpStudent';
 import SignUpRecruiter from '../sections/signUpRecruiter';
-
+import { Tab, Tabs } from '@mui/material';
 const SignUp = () => {
-    const [role, setRole] = useState('student');
+    const [role, setRole] = useState(0);
 
-    const handleRole = (event: any, newRole: string) => {
-        if (newRole !== null) {
-            setRole(newRole);
-        }
+    const handleRole = (event: React.SyntheticEvent, newRole: number) => {
+        setRole(newRole);
     };
+
+    function a11yProps(index: Number) {
+        return {
+            id: `full-width-tab-${index}`,
+            'aria-controls': `full-width-tabpanel-${index}`,
+        };
+    }
 
     return (
         <div style={{ margin: 50 }}>
             <Meta title={'Login - Recruitment Automation System'} />
-            <Grid
-                container
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                justifyContent="center"
-                style={{ minHeight: '74vh' }}
-            >
-                <Grid item xs={12}>
-                    <Stack spacing={4}>
-                        <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-                            <h1>Welcome!</h1>
-                            <h2>Sign up to</h2>
-                            <Typography variant='subtitle1' color="text.secondary">Recruitment Portal IIT Kanpur</Typography>
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-                            <ToggleButtonGroup
-                                value={role}
-                                exclusive
-                                onChange={handleRole}
-                                aria-label="text alignment"
-                                sx={{ alignItems: 'center', justifyContent: 'center' }}
-                            >
-                                <ToggleButton value="student" aria-label="left aligned">
-                                    Student
-                                </ToggleButton>
-                                <ToggleButton value="recruiter" aria-label="centered">
-                                    Recruiter
-                                </ToggleButton>
-                            </ToggleButtonGroup>
-                        </FormControl>
-                        {role == 'student' ? <SignUpStudent /> : <SignUpRecruiter />}
-                    </Stack>
-                </Grid>
-            </Grid>
+            <Stack spacing={3} justifyContent="center" alignItems="center" sx={{ minHeight: "70vh" }}>
+                <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+                    <h1>Welcome!</h1>
+                    <h2>Sign up to</h2>
+                    <Typography variant='subtitle1' color="text.secondary">Recruitment Portal IIT Kanpur</Typography>
+                </FormControl>
+                <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+                    <Tabs
+                        centered
+                        value={role}
+                        onChange={handleRole}
+                        textColor="inherit"
+                        aria-label="full width tabs example"
+                    >
+                        <Tab label="Student" {...a11yProps(0)} />
+                        <Tab label="Recruiter" {...a11yProps(1)} />
+                    </Tabs>
+                </FormControl>
+                {role == 0 ? <SignUpStudent /> : <SignUpRecruiter />}
+            </Stack>
         </div >
     )
 }

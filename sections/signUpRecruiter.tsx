@@ -5,37 +5,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 const SignUpRecruiter = () => {
-    const [values, setValues] = useState({
-        password: '',
-        showPassword: false,
-        confirmPassword: '',
-        showConfirmPassword: false,
-    });
-    const handleChange = (prop: any) => (event: any) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
-    const handleClickShowPassword = (pass: string) => {
-        if (pass === 'password') {
-            setValues({
-                ...values,
-                showPassword: !values.showPassword,
-            });
-        }
-        else {
-            setValues({
-                ...values,
-                showConfirmPassword: !values.showConfirmPassword,
-            });
-        }
-    };
-
-    const handleMouseDownPassword = (event: any) => {
-        event.preventDefault();
-    };
     return (
         <div>
-            <Stack spacing={4}>
+            <Stack justifyContent="center" alignItems="center" spacing={3}>
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <TextField id="companyName" label="Company Name" variant="outlined" />
                 </FormControl>
