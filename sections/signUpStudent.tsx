@@ -38,7 +38,7 @@ const SignUpStudent = () => {
     };
     return (
         <div>
-            <Stack justifyContent="center" alignItems="center" spacing={3}>
+            <Stack justifyContent="center" alignItems="center" spacing={2}>
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <TextField id="firstName" label="First Name" variant="outlined" />
                 </FormControl>

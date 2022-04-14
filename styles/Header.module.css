@@ -1,0 +1,19 @@
+.sideMenu{
+    display: none;
+}
+
+@media(max-width:900px) {
+    .sideNav {
+        display: none;
+    }
+
+    .sideMenu{
+        display: block;
+    }
+}
+
+@media(max-width:550px) {
+    .title {
+        display: none;
+    }   
+}

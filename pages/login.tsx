@@ -38,7 +38,7 @@ const Login = () => {
   return (
     <div>
       <Meta title={'Login - Recruitment Automation System'} />
-      <Stack spacing={3} justifyContent="center" alignItems="center" sx={{minHeight:"70vh"}}>
+      <Stack spacing={2} justifyContent="center" alignItems="center" sx={{minHeight:"70vh"}}>
         <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
           <h1>Welcome!</h1>
           <h2>Sign in to</h2>

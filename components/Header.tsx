@@ -1,180 +1,100 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import CallIcon from '@mui/icons-material/Call';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import Image from 'next/image';
-import { Stack } from '@mui/material';
+import Image from 'next/image'
+import React from 'react'
+import { IconButton, Stack } from '@mui/material'
 import Link from 'next/link'
-
-export default function Header() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const handleProfileMenuOpen = (event: any) => {
+import headerstyles from "../styles/Header.module.css"
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Tooltip } from '@mui/material'
+import { Menu, MenuItem } from '@mui/material'
+const Header = () => {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
-
-    const handleMenuClose = () => {
+    const handleClose = () => {
         setAnchorEl(null);
-        handleMobileMenuClose();
     };
-
-    const handleMobileMenuOpen = (event: any) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
-
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-        </Menu>
-    );
-
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={mobileMenuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
-            <MenuItem>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
-                        <CallIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                >
-                    <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
-        </Menu>
-    );
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" color='default'>
-                <Toolbar>
-                    <Stack direction='row' spacing={2}>
-                        <Link href='/' passHref={true}>
-                            <Image src="/images/logo/spoLogo.png" alt="logo" width={65} height={50} />
-                        </Link>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
-                            sx={{ display: { xs: 'none', sm: 'block' } }}
-                        >
-                            <h3 style={{ margin: "4px 2px 2px 2px" }}>Recruitment Automation System</h3>
-                            <h6 style={{ margin: "2px 5px 2px 5px" }}>Indian Institute of Technology, Kanpur</h6>
-                        </Typography>
+        <div style={{ padding: "15px 40px 15px 40px" }}>
+            <Stack direction="row" spacing={3} alignItems="center" justifyContent="space-between">
+                <Stack direction="row" spacing={2} alignItems={"center"}>
+                    <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
+                    <h2 className={headerstyles.title}>Recruitment Automation System<h6 style={{ margin: 0 }}>Indian Institute of Technology, Kanpur</h6></h2>
+                </Stack>
+                <div className={headerstyles.sideNav}>
+                    <Stack direction="row" spacing={3} alignItems={"center"}>
+                        <Link href="/login">Sign in</Link>
+                        <Link href="/signup">Sign Up</Link>
+                        <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel='noreferrer'>Contact Us</a>
+                        <Link href="/credits">Credits</Link>
                     </Stack>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
-                                <CallIcon />
-                            </Badge>
-                        </IconButton>
+                </div>
+                <div className={headerstyles.sideMenu}>
+                    <Tooltip title="Options">
                         <IconButton
-                            size="large"
-                            aria-label="show 17 new notifications"
-                            color="inherit"
-                        >
-                            <Badge badgeContent={17} color="error">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
+                            onClick={handleClick}
+                            size="small"
+                            sx={{ ml: 2 }}
+                            aria-controls={open ? 'account-menu' : undefined}
                             aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
+                            aria-expanded={open ? 'true' : undefined}>
+                            <MoreVertIcon />
                         </IconButton>
-                    </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
-        </Box>
-    );
+                    </Tooltip>
+                    <Menu
+                        anchorEl={anchorEl}
+                        id="account-menu"
+                        open={open}
+                        onClose={handleClose}
+                        onClick={handleClose}
+                        PaperProps={{
+                            elevation: 0,
+                            sx: {
+                                overflow: 'visible',
+                                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                mt: 1.5,
+                                '& .MuiAvatar-root': {
+                                    width: 32,
+                                    height: 32,
+                                    ml: -0.5,
+                                    mr: 1,
+                                },
+                                '&:before': {
+                                    content: '""',
+                                    display: 'block',
+                                    position: 'absolute',
+                                    top: 0,
+                                    right: 14,
+                                    width: 10,
+                                    height: 10,
+                                    bgcolor: 'background.paper',
+                                    transform: 'translateY(-50%) rotate(45deg)',
+                                    zIndex: 0,
+                                },
+                            },
+                        }}
+                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    >
+                        <MenuItem>
+                            <Link href="/login">Sign in</Link>
+                        </MenuItem>
+                        <MenuItem>
+                            <Link href="/signup">Sign Up</Link>
+                        </MenuItem>
+                        <MenuItem>
+                            <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel='noreferrer'>Contact Us</a>
+                        </MenuItem>
+                        <MenuItem>
+                            <Link href="/credits">Credits</Link>
+                        </MenuItem>
+                    </Menu>
+                </div>
+            </Stack>
+        </div>
+    )
 }
+
+export default Header
