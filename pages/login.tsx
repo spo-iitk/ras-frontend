@@ -38,7 +38,7 @@ const Login = () => {
 
   return (
     <div>
-      <Header/>
+      {/* <Header/> */}
       <Meta title={'Login - Recruitment Automation System'} />
       <Stack spacing={2} justifyContent="center" alignItems="center" sx={{minHeight:"70vh"}}>
         <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
@@ -80,7 +80,7 @@ const Login = () => {
                 onChange={handleCheck}
                 inputProps={{ 'aria-label': 'controlled' }}
               />Remember Me</Typography>
-            <Typography variant="subtitle2" color="text.secondary"><span style={{ color: "blue" }}><Link href="/">Forgot password?</Link></span></Typography>
+            <Typography variant="subtitle2" color="text.secondary"><span style={{ color: "blue" }}><Link href="/forgotPass">Forgot password?</Link></span></Typography>
           </Stack>
         </FormControl>
         <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
@@ -95,4 +95,5 @@ const Login = () => {
   )
 }
 
+Login.layout='Navigation'
 export default Login

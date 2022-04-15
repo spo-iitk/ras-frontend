@@ -7,6 +7,7 @@ const Layout = ({children}:{children:any}) => {
   return (
     <div>
       <Meta/>
+      <Header/>
       {children}
       <Footer/>
     </div>

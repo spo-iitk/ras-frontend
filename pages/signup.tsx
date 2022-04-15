@@ -23,8 +23,8 @@ const SignUp = () => {
 
     return (
         <div>
-            <Header/>
-            <Meta title={'Login - Recruitment Automation System'} />
+            {/* <Header/> */}
+            <Meta title={'Sign Up - Recruitment Automation System'} />
             <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ minHeight: "70vh" }}>
                 <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                     <h1>Welcome!</h1>
@@ -49,4 +49,5 @@ const SignUp = () => {
     )
 }
 
+SignUp.layout='Navigation'
 export default SignUp

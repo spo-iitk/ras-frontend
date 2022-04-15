@@ -14,6 +14,7 @@ const SignUpStudent = () => {
         confirmPassword: '',
         showConfirmPassword: false,
     });
+    
     const handleChange = (prop: any) => (event: any) => {
         setValues({ ...values, [prop]: event.target.value });
     };
