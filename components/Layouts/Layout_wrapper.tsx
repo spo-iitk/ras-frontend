@@ -1,10 +1,10 @@
 import React from 'react'
 import Layout from './Layout'
-import Layout2 from './Layout2'
+import StudentDashBoard from './StudentDashBoard'
 
 const layouts = {
     'Navigation': Layout,
-    'dashboard': Layout2,
+    'dashboard': StudentDashBoard,
 }
 const Layout_wrapper = ({ children }: { children: any }) => {
     let layoutType:string=children.type.layout

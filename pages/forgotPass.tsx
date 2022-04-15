@@ -54,7 +54,7 @@ const ForgotPass = () => {
     return (
         <div>
             {/* <Header /> */}
-            <Meta title={'Login - Recruitment Automation System'} />
+            <Meta title={'Forgot Password - Recruitment Automation System'} />
             {sent ?
                 <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ minHeight: "70vh" }}>
                     <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
