@@ -73,13 +73,13 @@ const Footer = () => {
                         <Grid item xs={12} md={3}>
                             <h2>Important Links</h2>
                             <Stack direction="column" justifyContent="center" spacing={2}>
-                                <Link href="/">&#10097; Student Placement Office</Link>
-                                <Link href="/">&#10097; Department Brochure</Link>
-                                <Link href="/">&#10097; Intern Policy (Company)</Link>
-                                <Link href="/">&#10097; Intern Policy (Student)</Link>
-                                <Link href="/">&#10097; Recruitment Guide</Link>
-                                <Link href="/">&#10097; Recruitment Itinerarry</Link>
-                                <Link href="/">&#10097; Contact Us</Link>
+                                <Link href="/"> Student Placement Office</Link>
+                                <Link href="/"> Department Brochure</Link>
+                                <Link href="/"> Intern Policy (Company)</Link>
+                                <Link href="/"> Intern Policy (Student)</Link>
+                                <Link href="/"> Recruitment Guide</Link>
+                                <Link href="/"> Recruitment Itinerarry</Link>
+                                <Link href="/"> Contact Us</Link>
                             </Stack>
                         </Grid>
                         <Grid item xs={12} md={3}>
