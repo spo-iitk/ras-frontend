@@ -21,7 +21,10 @@ const Header = () => {
             <Stack direction="row" spacing={3} alignItems="center" justifyContent="space-between">
                 <Stack direction="row" spacing={2} alignItems={"center"}>
                     <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
-                    <h2 className={headerstyles.title}>Recruitment Automation System<h6 style={{ margin: 0 }}>Indian Institute of Technology, Kanpur</h6></h2>
+                    <Stack direction="column">
+                        <h2 className={headerstyles.title} style={{ margin: 0 }}>Recruitment Automation System</h2>
+                        <h5 className={headerstyles.title} style={{ margin: 0 }}>Indian Institute of Technology, Kanpur</h5>
+                    </Stack>
                 </Stack>
                 <div className={headerstyles.sideNav}>
                     <Stack direction="row" spacing={3} alignItems={"center"}>
