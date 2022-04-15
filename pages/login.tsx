@@ -8,8 +8,10 @@ import Meta from '../components/Meta';
 import Checkbox from '@mui/material/Checkbox';
 import Link from 'next/link';
 import Header from '../components/Header';
+import { useRouter } from 'next/router';
 
 const Login = () => {
+  const router=useRouter();
   const [values, setValues] = React.useState({
     password: '',
     showPassword: false,
@@ -35,6 +37,10 @@ const Login = () => {
   const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
   };
+
+  const onLogin=()=>{
+    router.push('/studentDashboard/overview');
+  }
 
   return (
     <div>
@@ -84,7 +90,7 @@ const Login = () => {
           </Stack>
         </FormControl>
         <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-          <Button variant="contained">Sign In</Button>
+          <Button variant="contained" onClick={onLogin}>Sign In</Button>
         </FormControl>
         <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
           <Typography>Don&apos;t have an account? <span style={{ color: "blue" }}><Link href="/signup">Sign Up</Link></span></Typography>

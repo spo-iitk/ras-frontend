@@ -1,0 +1,27 @@
+.mobileContainer{
+    display:none;
+}
+
+@media(max-width: 1650px){
+    .container{
+        width: 250px;
+    }
+}
+
+@media(max-width: 1300px){
+    .container{
+        width: 220px;
+    }
+}
+
+@media(max-width: 1200px){
+    .container{
+        display:none;
+    }
+
+    .mobileContainer{
+        padding: 20px;
+        display:block;
+    }
+}
+
