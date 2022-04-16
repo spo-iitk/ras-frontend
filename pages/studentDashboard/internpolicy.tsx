@@ -9,4 +9,5 @@ const InternPolicy = () => {
   )
 }
 
+InternPolicy.layout = 'dashboard'
 export default InternPolicy

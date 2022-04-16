@@ -7,11 +7,12 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Meta from '../components/Meta';
 import Checkbox from '@mui/material/Checkbox';
 import Link from 'next/link';
-import Header from '../components/Header';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
+import formstyles from "../styles/Form.module.css";
 
 const Login = () => {
-  const router=useRouter();
+  const router = useRouter();
   const [values, setValues] = React.useState({
     password: '',
     showPassword: false,
@@ -38,68 +39,72 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const onLogin=()=>{
+  const onLogin = () => {
     router.push('/studentDashboard/overview');
   }
 
   return (
     <div>
-      {/* <Header/> */}
       <Meta title={'Login - Recruitment Automation System'} />
-      <Stack spacing={2} justifyContent="center" alignItems="center" sx={{minHeight:"70vh"}}>
-        <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-          <h1>Welcome!</h1>
-          <h2>Sign in to</h2>
-          <Typography variant='subtitle1' color="text.secondary">Recruitment Portal IIT Kanpur</Typography>
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-          <TextField id="username" label="Username" variant="outlined" />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
-            id="password"
-            type={values.showPassword ? 'text' : 'password'}
-            value={values.password}
-            onChange={handleChange('password')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '37ch' }} variant="outlined">
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="subtitle2" color="text.secondary">
-              <Checkbox
-                size="small"
-                checked={checked}
-                onChange={handleCheck}
-                inputProps={{ 'aria-label': 'controlled' }}
-              />Remember Me</Typography>
-            <Typography variant="subtitle2" color="text.secondary"><span style={{ color: "blue" }}><Link href="/forgotPass">Forgot password?</Link></span></Typography>
-          </Stack>
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-          <Button variant="contained" onClick={onLogin}>Sign In</Button>
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-          <Typography>Don&apos;t have an account? <span style={{ color: "blue" }}><Link href="/signup">Sign Up</Link></span></Typography>
-        </FormControl>
+      <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="center" alignItems="center" spacing={10}>
+        <div className={formstyles.image}>
+          <Image src={'/images/signin.png'} height={450} width={400} alt="loginPage" />
+        </div>
+        <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ minHeight: "70vh" }}>
+          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+            <h1>Welcome Back!</h1>
+            <h2>Sign in to</h2>
+            <Typography variant='subtitle1' color="text.secondary">Recruitment Portal IIT Kanpur</Typography>
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+            <TextField id="username" label="Username" variant="outlined" />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <OutlinedInput
+              id="password"
+              type={values.showPassword ? 'text' : 'password'}
+              value={values.password}
+              onChange={handleChange('password')}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '37ch' }} variant="outlined">
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Typography variant="subtitle2" color="text.secondary">
+                <Checkbox
+                  size="small"
+                  checked={checked}
+                  onChange={handleCheck}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />Remember Me</Typography>
+              <Typography variant="subtitle2" color="text.secondary"><span style={{ color: "blue" }}><Link href="/forgotPass">Forgot password?</Link></span></Typography>
+            </Stack>
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+            <Button variant="contained" onClick={onLogin}>Sign In</Button>
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+            <Typography>Don&apos;t have an account? <span style={{ color: "blue" }}><Link href="/signup">Sign Up</Link></span></Typography>
+          </FormControl>
+        </Stack>
       </Stack>
     </div >
 
   )
 }
 
-Login.layout='Navigation'
+Login.layout = 'Navigation'
 export default Login

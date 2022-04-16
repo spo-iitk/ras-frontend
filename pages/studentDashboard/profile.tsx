@@ -9,4 +9,5 @@ const Profile = () => {
   )
 }
 
+Profile.layout = 'dashboard'
 export default Profile

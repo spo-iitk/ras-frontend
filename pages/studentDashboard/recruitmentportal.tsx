@@ -9,4 +9,5 @@ const RecruitmentPortal = () => {
   )
 }
 
+RecruitmentPortal.layout = 'dashboard'
 export default RecruitmentPortal
