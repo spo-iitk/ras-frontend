@@ -39,9 +39,10 @@ const Overview = () => {
       <Stack>
         <div style={{ height: 50 }} />
         <h1>Dashboard</h1>
-        <h2>Hi, Welcome Back!</h2>
+        <h2>Recruitment Cycle</h2>
+
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650, backgroundColor: '#ebebeb' }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell sx={{ fontSize: '1.2em', fontWeight: 600 }}>Recruitment Drive Name</TableCell>

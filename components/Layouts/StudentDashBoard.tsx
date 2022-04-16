@@ -15,14 +15,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArticleIcon from '@mui/icons-material/Article';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { useRouter } from 'next/router'
 import dashboardstyles from '../../styles/Dashboard.module.css'
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import Image from 'next/image';
 
 const AccountStyle = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -100,9 +99,12 @@ const StudentDashBoard = ({ children }: { children: any }) => {
             padding='10px'
         >
             <Stack spacing={3}>
-                <div style={{ height: 50 }} />
+                <Stack direction="row" spacing={2} alignItems={"center"}>
+                    <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
+                </Stack>
+                <div style={{ height: 10 }} />
                 <AccountStyle>
-                    <Avatar src="/images/logo/spoLogo.png" alt="photoURL" />
+                    <Avatar src="" alt="photoURL" />
                     <Box sx={{ ml: 2 }}>
                         <h3 style={{ margin: 5 }}>Manas Gupta</h3>
                         <h4 style={{ margin: 5, fontWeight: 400 }}>Student</h4>
@@ -134,13 +136,21 @@ const StudentDashBoard = ({ children }: { children: any }) => {
 
     return (
         <div>
-            <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={0}>
-                <Grid item xs={2} lg={2} md={2} sm={12}>
+            <Grid 
+                container 
+                direction="row"
+                alignItems="flex-start"
+                justifyContent="center"
+                spacing={0}>
+                <Grid item xs={12} lg={2} md={12} sm={12}>
                     <div className={dashboardstyles.container} style={{ position: 'fixed', height: '100vh', padding: 20, borderRight: "#eeeeee 2px solid" }}>
                         <Stack spacing={3}>
-                            <div style={{ height: 50 }} />
+                            <Stack direction="row" spacing={2} alignItems={"center"}>
+                                <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
+                            </Stack>
+                            <div style={{ height: 20 }} />
                             <AccountStyle>
-                                <Avatar src="/images/logo/spoLogo.png" alt="photoURL" />
+                                <Avatar src="" alt="photoURL" />
                                 <Box sx={{ ml: 2 }}>
                                     <h3 style={{ margin: 5 }}>Manas Gupta</h3>
                                     <h4 style={{ margin: 5, fontWeight: 400 }}>Student</h4>
@@ -169,7 +179,13 @@ const StudentDashBoard = ({ children }: { children: any }) => {
                         </Stack>
                     </div>
                     <div className={dashboardstyles.mobileContainer}>
-                        <IconButton onClick={toggleDrawer('left', true)}><MenuIcon fontSize='large' /></IconButton>
+                        <Stack direction="row" spacing={3} alignItems="center" justifyContent="space-between">
+                            <IconButton onClick={toggleDrawer('left', true)}><MenuIcon fontSize='large' /></IconButton>
+                            <Stack direction="row" spacing={3}>
+                                <IconButton><NotificationImportantIcon fontSize='large' /></IconButton>
+                                <IconButton><Avatar src="" alt="photoURL"/></IconButton>
+                            </Stack>
+                        </Stack>
                         <Drawer
                             anchor={'left'}
                             open={state['left']}
@@ -181,7 +197,15 @@ const StudentDashBoard = ({ children }: { children: any }) => {
                 </Grid>
 
                 <Grid item xs={12} lg={10} md={12} sm={12}>
-                    {children}
+                    <Stack spacing={3}>
+                        <div className={dashboardstyles.mobileNav} style={{ marginTop: 30, padding: "0px 50px" }}>
+                            <Stack direction="row" spacing={2} alignItems={"center"} justifyContent="right">
+                                <IconButton><NotificationImportantIcon fontSize='large' /></IconButton>
+                                <IconButton><Avatar src="" alt="photoURL" /></IconButton>
+                            </Stack>
+                        </div>
+                        {children}
+                    </Stack>
                 </Grid>
             </Grid>
 
