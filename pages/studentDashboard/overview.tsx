@@ -37,7 +37,6 @@ const Overview = () => {
     <div className={styles.container}>
       <Meta title="Student Dashboard" />
       <Stack>
-        <div style={{ height: 50 }} />
         <h1>Dashboard</h1>
         <h2>Recruitment Cycle</h2>
 
