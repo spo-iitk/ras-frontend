@@ -9,5 +9,5 @@ const InternPolicy = () => {
   )
 }
 
-InternPolicy.layout = 'dashboard'
+InternPolicy.layout = 'studentDashboard'
 export default InternPolicy

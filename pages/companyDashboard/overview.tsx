@@ -11,16 +11,8 @@ import Paper from '@mui/material/Paper';
 import styled from '@emotion/styled';
 import { red, green } from '@mui/material/colors';
 import Button, { ButtonProps } from '@mui/material/Button';
-
-const InactiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  color: 'white',
-  borderRadius: 20,
-  padding: '0.5rem 1rem',
-  backgroundColor: red[500],
-  '&:hover': {
-    backgroundColor: red[500],
-  },
-}));
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Link from 'next/link';
 
 const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: 'white',
@@ -35,7 +27,7 @@ const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
 const Overview = () => {
   return (
     <div className={styles.container}>
-      <Meta title="Student Dashboard - Overview" />
+      <Meta title="Company Dashboard - Overview" />
       <Stack>
         <h1>Dashboard</h1>
         <h2>Recruitment Cycle</h2>
@@ -46,9 +38,7 @@ const Overview = () => {
               <TableRow>
                 <TableCell sx={{ fontSize: '1.2em', fontWeight: 600 }}>Recruitment Drive Name</TableCell>
                 <TableCell sx={{ fontSize: '1.2em', fontWeight: 600 }} >Type of Recruitment</TableCell>
-                <TableCell sx={{ fontSize: '1.2em', fontWeight: 600 }} >Start Date</TableCell>
-                <TableCell sx={{ fontSize: '1.2em', fontWeight: 600 }} >Status</TableCell>
-                <TableCell sx={{ fontSize: '1.2em', fontWeight: 600 }} >Remarks</TableCell>
+                <TableCell sx={{ fontSize: '1.2em', fontWeight: 600 }} >View Details</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -60,9 +50,14 @@ const Overview = () => {
                   <Typography variant='subtitle2' sx={{ fontSize: "0.8em" }}>Updated 1 min ago</Typography>
                 </TableCell>
                 <TableCell sx={{ fontSize: "1.001em" }}>Intern</TableCell>
-                <TableCell sx={{ fontSize: "1.001em" }}>May 26, 2022</TableCell>
-                <TableCell sx={{ fontSize: "1.001em" }}><InactiveButton>Inactive</InactiveButton></TableCell>
-                <TableCell sx={{ fontSize: "1.001em" }}><InactiveButton>Phase-I ended</InactiveButton></TableCell>
+                <TableCell sx={{ fontSize: "1.001em" }}>
+                  <Link href="internSeason/openings" passHref={true}>
+                    <ActiveButton>
+                      <Stack direction='row' alignContent='center' spacing={1}><div>View</div><ArrowForwardIcon />
+                      </Stack>
+                    </ActiveButton>
+                  </Link>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -72,5 +67,5 @@ const Overview = () => {
   )
 }
 
-Overview.layout = 'studentDashboard'
+Overview.layout = 'companyDashboard'
 export default Overview
