@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import { useRouter } from 'next/router';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -30,8 +31,12 @@ const SignUpStudent = () => {
     });
 
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const router=useRouter();
+    const handleOpen = () => {
+        setOpen(true);
+        setTimeout(() => router.push('/login'), 5000);
+    }
+    // const handleClose = () => setOpen(false);
 
     const handleChange = (prop: any) => (event: any) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -123,7 +128,7 @@ const SignUpStudent = () => {
             </Stack>
             <Modal
                 open={open}
-                onClose={handleClose}
+                // onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -135,6 +140,8 @@ const SignUpStudent = () => {
                         You have successfully registered for the IIT Kanpur Recruitment Portal.
                     </Typography>
                     <Typography>Contact your Student Coordinator for your login credentials.</Typography>
+                    <Typography>You will be redirected to the login page.</Typography>
+
                 </Box>
             </Modal>
         </div>
