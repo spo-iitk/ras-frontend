@@ -28,7 +28,7 @@ const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
 const Overview = () => {
   return (
     <div className={styles.container}>
-      <Meta title="Company Dashboard - Overview" />
+      <Meta title="Company Dashboard - Openings" />
       <Stack>
         <h1>Dashboard</h1>
         <h2>Intern Season</h2>

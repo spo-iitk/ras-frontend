@@ -1,18 +1,15 @@
-import { IconButton, Stack, Typography } from '@mui/material'
+import {Stack } from '@mui/material'
 import Meta from '../../../../components/Meta'
-import styles from '../../../..//styles/Home.module.css'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import styled from '@emotion/styled';
-import { red, green } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
 import Button, { ButtonProps } from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Link from 'next/link';
+import { TextField } from '@mui/material';
 
 const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: 'white',
@@ -27,33 +24,61 @@ const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
 
 const Overview = () => {
   return (
-    <div className={styles.container}>
-      <Meta title="Company Dashboard - Overview" />
-      <Stack>
-        <h1>Software engineering Intern</h1>
-        <h2>Proforma</h2>
-        <TableContainer>
-          <Table sx={{ width: 800, backgroundColor: '#ebebeb' }} aria-label="simple table">
-            <TableBody>
-              <TableRow
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row" sx={{ fontSize: "1.001em" }}>
-                  Name
-                </TableCell>
-                <TableCell sx={{ fontSize: "1.001em" }}>Intern</TableCell>
-              </TableRow>
-              <TableRow
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row" sx={{ fontSize: "1.001em" }}>
-                  Job Description
-                </TableCell>
-                <TableCell sx={{ fontSize: "1.001em" }}>Intern</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+    <div style={{ padding: "0 2rem" }}>
+      <Meta title="Software Intern - Proforma" />
+      <Stack spacing={2}>
+        <Stack direction={{ xs: "column", sm: 'row' }} alignItems={{ xs: "flex-start", md: 'center' }} justifyContent={'space-between'} spacing={2}>
+          <h1>Proforma</h1>
+        </Stack>
+        <Stack spacing={2} justifyContent="center" alignItems="center">
+          <TableContainer component={Paper} sx={{ minWidth: 300, maxWidth: 700 }}>
+            <Table sx={{ minWidth: 300, maxWidth: 700, backgroundColor: '#ebebeb' }} aria-label="simple table">
+              <TableBody>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Company Name</TableCell>
+                  <TableCell>
+                    <TextField
+                      variant="outlined"
+                      value={"Quadeye"}
+                      size="small"
+                      sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Role</TableCell>
+                  <TableCell>
+                  <TextField
+                      variant="outlined"
+                      value={"SDE Intern"}
+                      size="small"
+                      sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Tentative Job Location</TableCell>
+                  <TableCell>
+                  <TextField
+                      variant="outlined"
+                      value={"USA"}
+                      size="small"
+                      sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Job Description</TableCell>
+                  <TableCell>
+                  <TextField
+                      variant="outlined"
+                      value={"Decription"}
+                      size="small"
+                      multiline
+                      sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Stack>
       </Stack>
     </div>
   )
