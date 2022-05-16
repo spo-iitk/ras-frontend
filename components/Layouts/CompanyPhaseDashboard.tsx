@@ -56,7 +56,7 @@ const items: userItems[] = [
         avatar: <ArticleIcon />,
         name: 'Applications',
         id: 'applications'
-    },
+    }
 ]
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
@@ -146,6 +146,14 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                             <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
                         </ListItem>
                     </Link>
+                    <Link href={`companyDashboard/overview`} passHref={true} key='logout'>
+                        <ListItem sx={{ borderRadius: 5 }} button>
+                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
+                                <LogoutIcon />
+                            </ListItemAvatar>
+                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Back to Dashboard</h4></ListItemText>
+                        </ListItem>
+                    </Link>
                 </List>
             </Stack>
         </Box>
@@ -200,6 +208,14 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                                         <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
                                     </ListItem>
                                 </Link>
+                                <Link href={`/companyDashboard/overview`} passHref={true} key='logout'>
+                                    <ListItem sx={{ borderRadius: 5 }} button>
+                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
+                                            <LogoutIcon />
+                                        </ListItemAvatar>
+                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Back to Dashboard</h4></ListItemText>
+                                    </ListItem>
+                                </Link>
                             </List>
                         </Stack>
                     </div>
@@ -242,7 +258,7 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                 PaperProps={{
                     elevation: 0,
                     sx: {
-                        width:100,
+                        width: 100,
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
@@ -285,7 +301,7 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                 PaperProps={{
                     elevation: 0,
                     sx: {
-                        width:300,
+                        width: 300,
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
