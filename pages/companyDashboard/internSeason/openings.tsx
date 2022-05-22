@@ -8,29 +8,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import styled from '@emotion/styled';
-import { red, green } from '@mui/material/colors';
-import Button, { ButtonProps } from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
-
-const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  color: 'white',
-  borderRadius: 20,
-  padding: '0.5rem 1rem',
-  backgroundColor: green[500],
-  '&:hover': {
-    backgroundColor: green[500],
-  },
-  width: 100,
-}));
+import ActiveButton from '../../../components/Buttons/ActiveButton';
 
 const Overview = () => {
   return (
     <div className={styles.container}>
       <Meta title="Company Dashboard - Openings" />
       <Stack>
-        <h1>Dashboard</h1>
+        <h1>Openings</h1>
         <h2>Intern Season</h2>
 
         <TableContainer component={Paper}>
