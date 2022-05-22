@@ -1,0 +1,13 @@
+.container {
+    padding: 0 2rem;
+  }
+
+.datagrid{
+    width:1100px;
+}
+
+@media(max-width:1500px){
+    .datagrid{
+        width:90%;
+    }
+}
