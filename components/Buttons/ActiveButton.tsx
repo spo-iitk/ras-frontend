@@ -1,4 +1,4 @@
-import { red, green } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
 import Button, { ButtonProps } from '@mui/material/Button';
 import styled from '@emotion/styled';
 

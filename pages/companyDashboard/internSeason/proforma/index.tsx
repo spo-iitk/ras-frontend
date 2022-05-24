@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { green } from '@mui/material/colors';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { TextField } from '@mui/material';
+import StepperComp from '../../../../components/Stepper/stepperComp';
 
 const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: 'white',
@@ -30,7 +31,7 @@ const Overview = () => {
         <Stack direction={{ xs: "column", sm: 'row' }} alignItems={{ xs: "flex-start", md: 'center' }} justifyContent={'space-between'} spacing={2}>
           <h1>Proforma</h1>
         </Stack>
-        <Stack spacing={2} justifyContent="center" alignItems="center">
+        <Stack spacing={2} justifyContent="center" alignItems="center" sx={{paddingBottom: 10}}>
           <TableContainer component={Paper} sx={{ minWidth: 300, maxWidth: 700 }}>
             <Table sx={{ minWidth: 300, maxWidth: 700, backgroundColor: '#ebebeb' }} aria-label="simple table">
               <TableBody>
@@ -69,10 +70,59 @@ const Overview = () => {
                   <TableCell>
                   <TextField
                       variant="outlined"
+                      value={"Description"}
+                      size="small"
+                      multiline
+                      sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Cost To Company</TableCell>
+                  <TableCell>
+                  <TextField
+                      variant="outlined"
+                      value={"Description"}
+                      size="small"
+                      multiline
+                      sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Package Details</TableCell>
+                  <TableCell>
+                  <TextField
+                      variant="outlined"
                       value={"Decription"}
                       size="small"
                       multiline
                       sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Bond Details</TableCell>
+                  <TableCell>
+                  <TextField
+                      variant="outlined"
+                      value={"Decription"}
+                      size="small"
+                      multiline
+                      sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Medical Requirements</TableCell>
+                  <TableCell>
+                  <TextField
+                      variant="outlined"
+                      value={"Decription"}
+                      size="small"
+                      sx={{ m: 1, width: { xs: '18ch', sm: '27ch', lg: '35ch' }, padding: 0 }} />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align='left' component="th" scope="row" sx={{ fontSize: "1.01em", fontWeight: '600', paddingLeft: '7vw' }}>Hiring Process</TableCell>
+                  <TableCell>
+                  <StepperComp/>
                   </TableCell>
                 </TableRow>
               </TableBody>

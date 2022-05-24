@@ -2,12 +2,23 @@
     padding: 0 2rem;
   }
 
-.datagrid{
+.datagridApplications{
     width:1100px;
 }
 
+.datagridApplication{
+    width:1500px;
+}
+
 @media(max-width:1500px){
-    .datagrid{
+    .datagridApplications{
+        width:90%;
+    }
+}
+
+@media(max-width:1800px){
+
+    .datagridApplication{
         width:90%;
     }
 }

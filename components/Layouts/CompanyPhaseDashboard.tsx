@@ -113,12 +113,14 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                     <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                 </Stack>
                 <div style={{ height: 10 }} />
+                <Link href={`/companyDashboard/overview`} passHref={true} key='logout'>
                 <AccountStyle>
                     <Avatar src="" alt="photoURL" />
                     <Box sx={{ ml: 2 }}>
                         <h3 style={{ margin: 5 }}>QuadEye</h3>
                     </Box>
                 </AccountStyle>
+                </Link>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
                         <Link href={`/companyDashboard/internSeason/${item.id}`} passHref={true} key={item.id}>
@@ -175,12 +177,14 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                                 <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                             </Stack>
                             <div style={{ height: 20 }} />
+                            <Link href={`/companyDashboard/overview`} passHref={true} key='logout'>
                             <AccountStyle>
                                 <Avatar src="" alt="photoURL" />
                                 <Box sx={{ ml: 2 }}>
                                     <h3 style={{ margin: 5 }}>QuadEye</h3>
                                 </Box>
                             </AccountStyle>
+                            </Link>
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
                                     <Link href={`/companyDashboard/internSeason/${item.id}`} passHref={true} key={item.id}>

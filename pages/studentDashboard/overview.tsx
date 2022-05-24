@@ -8,29 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import styled from '@emotion/styled';
-import { red, green } from '@mui/material/colors';
-import Button, { ButtonProps } from '@mui/material/Button';
-
-const InactiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  color: 'white',
-  borderRadius: 20,
-  padding: '0.5rem 1rem',
-  backgroundColor: red[500],
-  '&:hover': {
-    backgroundColor: red[500],
-  },
-}));
-
-const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  color: 'white',
-  borderRadius: 20,
-  padding: '0.5rem 1rem',
-  backgroundColor: green[500],
-  '&:hover': {
-    backgroundColor: green[500],
-  },
-}));
+import InactiveButton from '../../components/Buttons/InactiveButton';
 
 const Overview = () => {
   return (

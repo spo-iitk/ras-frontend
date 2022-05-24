@@ -1,8 +1,9 @@
 import { Stack } from '@mui/material'
-import Meta from '../../../components/Meta'
-import styles from '../../..//styles/Applications.module.css'
+import Meta from '../../../../components/Meta'
+import styles from '../../../../styles/Applications.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import ActiveButton from '../../../components/Buttons/ActiveButton';
+import ActiveButton from '../../../../components/Buttons/ActiveButton';
+import Link from 'next/link';
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -32,7 +33,7 @@ const columns: GridColDef[] = [
       width: 200,
       align:'center',
       headerAlign:'center',
-      renderCell: (params) =>  <ActiveButton sx={{ height:30, width: '100%'}}>{params.value}</ActiveButton>
+      renderCell: (params) =>  <Link href="applications/application" passHref={true}><ActiveButton sx={{ height:30, width: '100%'}}>{params.value}</ActiveButton></Link>
     },
   ];
 
@@ -55,14 +56,11 @@ function Applications() {
       <Stack>
         <h1>Applications</h1>
         <h2>Intern Season</h2>
-        <div style={{ height: 500, margin: '0px auto' }} className={styles.datagrid}>
+        <div style={{ height: 500, margin: '0px auto' }} className={styles.datagridApplications}>
             <DataGrid
                 rows={rows}
                 columns={columns}
                 pageSize={7}
-                // rowsPerPageOptions={[7]}
-                // checkboxSelection
-                // disableSelectionOnClick
             />
         </div>
       </Stack>
