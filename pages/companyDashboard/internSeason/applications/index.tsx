@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material'
 import Meta from '../../../../components/Meta'
-import styles from '../../../../styles/Applications.module.css'
+import styles from '../../../../styles/internPhase.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import ActiveButton from '../../../../components/Buttons/ActiveButton';
 import Link from 'next/link';
@@ -52,7 +52,7 @@ const rows = [
 function Applications() {
   return (
     <div className={styles.container}>
-      <Meta title="Company Dashboard - Applications" />
+      <Meta title="Applications - QuadEye" />
       <Stack>
         <h1>Applications</h1>
         <h2>Intern Season</h2>
