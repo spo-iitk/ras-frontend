@@ -6,8 +6,55 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { Card, Grid, Stack } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 350,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};
+
+const columns: GridColDef[] = [
+  {
+    field: 'id',
+    headerName: 'ID',
+    width: 90,
+  },
+  {
+    field: 'eventName',
+    headerName: 'Event Name',
+    width: 400,
+  },
+  {
+    field: 'eventStartTime',
+    headerName: 'Start Time',
+    width: 200,
+  },
+  {
+    field: 'eventEndTime',
+    headerName: 'End Time',
+    width: 200,
+  },
+  {
+    field: 'eventLocation',
+    headerName: 'Location',
+    width: 200,
+  },
+];
+
+
 
 type Events={
+  id:string,
   companyName: string;
   eventName: string;
   eventDate: Date;
@@ -19,7 +66,8 @@ type Events={
 }
 
 const events:Events[]=[
-  {
+  { 
+    id:'1',
     companyName: 'Google',
     eventName: 'Google Summer of Code',
     eventDate: new Date(2022, 4, 29),
@@ -29,14 +77,43 @@ const events:Events[]=[
     eventDescription: 'Google Summer of Code is a program for students to learn about Google\'s software development process and to apply their skills to the real world. Students will work on a variety of projects, including web and mobile apps, games, and other software. The program is open to all students in the United States.',
     contact: 'https://www.google.com/summerofcode/'
   },
+  { 
+    id:'3',
+    companyName: 'Julia',
+    eventName: 'JUlia Summer of Code',
+    eventDate: new Date(2022, 4, 29),
+    eventStartTime: '9:00 AM',
+    eventEndTime: '5:00 PM',
+    eventLocation: 'Google Headquarters',
+    eventDescription: 'Google Summer of Code is a program for students to learn about Google\'s software development process and to apply their skills to the real world. Students will work on a variety of projects, including web and mobile apps, games, and other software. The program is open to all students in the United States.',
+    contact: 'https://www.google.com/summerofcode/'
+  },
+  { 
+    id:'2',
+    companyName: 'Apple',
+    eventName: 'Apple Conf',
+    eventDate: new Date(2022, 4, 30),
+    eventStartTime: '9:00 AM',
+    eventEndTime: '5:00 PM',
+    eventLocation: 'Apple Headquarters',
+    eventDescription: 'Conference o Apple products',
+    contact: 'https://www.google.com/summerofcode/'
+  },
 ]
 
 function Calendar() {
   const [value, setValue] = React.useState<Date | null>(new Date());
   const [activity, setActivity]=React.useState<Events[]>([]);
+  const [rows, setRows] = React.useState<Events[]>([]);
+  const [act, setAct]=React.useState<Events>();
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     setActivity(events.filter(e=>e['eventDate'].toDateString()===value?.toDateString()))
+    setRows(events.filter(e=>e['eventDate'].toDateString()===value?.toDateString()))
   },[value])
   return (
     <div className={styles.container}>
@@ -63,17 +140,44 @@ function Calendar() {
             <div style={{padding:'0px 15px'}}>
               <Stack alignItems={'flex-start'} justifyContent={'flex-start'}>
                 {activity.length>0?
-                (activity.map((e, index)=>(
-                  <div key={index}>
-                    <h2>{e.eventName}</h2>
-                    <h4 style={{fontWeight:300}}>Company: {e.companyName}</h4>
-                    <h4 style={{fontWeight:300}}>Date: {e.eventDate.toDateString()}</h4>
-                    <h4 style={{fontWeight:300}}>Timings: {e.eventStartTime} - {e.eventEndTime}</h4>
-                    <h4 style={{fontWeight:300}}>Venue: {e.eventLocation}</h4>
-                    <h4 style={{fontWeight:300}}>{e.eventDescription}</h4>
-                    <h4 style={{fontWeight:300}}>Contact: {e.contact}</h4>
+                (<div style={{ height: 300, margin: '0px auto' }} className={styles.datagridEvents}>
+                  <DataGrid
+                      rows={rows}
+                      columns={columns}
+                      pageSize={3}
+                      onCellClick={(e) => {
+                        handleOpen();
+                        setAct(activity.find((a)=>a.id===e.row.id))
+                      }}
+                  />
+                  <div>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <Typography variant="h4" id="modal-modal-title">
+                          {act?.eventName}
+                        </Typography>
+                        <Typography variant="subtitle1" id="modal-modal-description">
+                          {act?.eventDescription}
+                        </Typography>
+                        <Typography variant="subtitle1" id="modal-modal-description">
+                          {act?.eventLocation}
+                        </Typography>
+                        <Typography variant="subtitle1" id="modal-modal-description">
+                          {act?.eventStartTime} - {act?.eventEndTime}
+                        </Typography>
+                        <Typography variant="subtitle1" id="modal-modal-description">
+                          {act?.contact}
+                        </Typography>
+                      </Box>
+                    </Modal>
                   </div>
-                ))):
+                </div>
+            ):
                 <h2>No event scheduled</h2>
                 }
               </Stack>

@@ -11,3 +11,13 @@
         width:90%;
     }
 }
+
+.datagridEvents{
+    width:600px;
+}
+
+@media(max-width:1600px){
+    .datagridEvents{
+        width:100%;
+    }
+}
