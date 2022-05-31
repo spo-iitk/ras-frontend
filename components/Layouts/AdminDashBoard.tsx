@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { ListItemAvatar } from '@mui/material';
 import PieChartIcon from '@mui/icons-material/PieChart';
 import ArticleIcon from '@mui/icons-material/Article';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CallIcon from '@mui/icons-material/Call';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -19,7 +20,8 @@ import dashboardstyles from '../../styles/Dashboard.module.css'
 import Drawer from '@mui/material/Drawer';
 import Image from 'next/image';
 import { Menu, MenuItem } from '@mui/material'
-
+import GroupsIcon from '@mui/icons-material/Groups';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 const AccountStyle = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -45,23 +47,38 @@ const items: userItems[] = [
     {
         avatar: <PieChartIcon />,
         name: 'Overview',
-        id: 'overview'
+        id: 'rc'
     },
     {
-        avatar: <ArticleIcon />,
-        name: 'Intern Policy',
-        id: 'internpolicy'
+        avatar: <BarChartIcon />,
+        name: 'Maste Database (Company)',
+        id: 'company'
     },
     {
-        avatar: <ArticleIcon />,
-        name: 'Placement Policy',
-        id: 'placementpolicy'
+        avatar: <BarChartIcon />,
+        name: 'Maste Database (Student)',
+        id: 'student'
+    },
+    {
+        avatar: <GroupsIcon />,
+        name: 'Worklog',
+        id: 'worklog'
+    },
+    {
+        avatar: <ApartmentIcon />,
+        name: 'Allotted Companies',
+        id: 'allotedcompanies'
+    },
+    {
+        avatar: <ApartmentIcon />,
+        name: 'Allot Companies',
+        id: 'allotcompanies'
     },
 ]
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
-const CompanyDashboard = ({ children }: { children: any }) => {
+const AdminDashBoard = ({ children }: { children: any }) => {
     const { pathname } = useRouter()
     const match = (path: string) => (path == pathname ? true : false);
     const [state, setState] = React.useState({
@@ -113,39 +130,17 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                     <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                 </Stack>
                 <div style={{ height: 10 }} />
-                <AccountStyle>
-                    <Avatar src="" alt="photoURL" />
-                    <Box sx={{ ml: 2 }}>
-                        <h3 style={{ margin: 5 }}>QuadEye</h3>
-                    </Box>
-                </AccountStyle>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/companyDashboard/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/companyDashboard/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/companyDashboard/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/admin/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/companyDashboard/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/admin/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
-                    <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel="noreferrer">
-                        <ListItem sx={{ borderRadius: 5 }} button>
-                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                <CallIcon />
-                            </ListItemAvatar>
-                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Contact SPO</h4></ListItemText>
-                        </ListItem>
-                    </a>
-                    <Link href={`/login`} passHref={true} key='logout'>
-                        <ListItem sx={{ borderRadius: 5 }} button>
-                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                <LogoutIcon />
-                            </ListItemAvatar>
-                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
-                        </ListItem>
-                    </Link>
                 </List>
             </Stack>
         </Box>
@@ -161,45 +156,23 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                 spacing={0}>
                 <Grid item xs={12} lg={2} md={12} sm={12}>
                     <div className={dashboardstyles.container}
-                        style={{ position: 'fixed', height: '100vh', padding: 20, borderRight: "#eeeeee 2px solid", backgroundColor: "#2b2b2b" }}>
+                        style={{ position: 'fixed', height: '100vh', padding: 20, borderRight: "#eeeeee 2px solid", backgroundColor: "#2b2b2b", maxWidth:300 }}>
                         <Stack spacing={3}>
                             <Stack direction="row" spacing={2} alignItems={"center"}>
                                 <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                             </Stack>
-                            <div style={{ height: 20 }} />
-                            <AccountStyle>
-                                <Avatar src="" alt="photoURL" />
-                                <Box sx={{ ml: 2 }}>
-                                    <h3 style={{ margin: 5 }}>QuadEye</h3>
-                                </Box>
-                            </AccountStyle>
+                            <div style={{ height: 10 }} />
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/companyDashboard/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/companyDashboard/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/companyDashboard/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/companyDashboard/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/admin/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}
-                                <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel="noreferrer">
-                                    <ListItem sx={{ borderRadius: 5 }} button>
-                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                            <CallIcon />
-                                        </ListItemAvatar>
-                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Contact SPO</h4></ListItemText>
-                                    </ListItem>
-                                </a>
-                                <Link href={`/login`} passHref={true} key='logout'>
-                                    <ListItem sx={{ borderRadius: 5 }} button>
-                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                            <LogoutIcon />
-                                        </ListItemAvatar>
-                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
-                                    </ListItem>
-                                </Link>
                             </List>
                         </Stack>
                     </div>
@@ -270,9 +243,6 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Link href="/companyDashboard/profile">Profile</Link>
-                </MenuItem>
-                <MenuItem>
                     <Link href="/login">Logout</Link>
                 </MenuItem>
             </Menu>
@@ -320,4 +290,4 @@ const CompanyDashboard = ({ children }: { children: any }) => {
     )
 }
 
-export default CompanyDashboard
+export default AdminDashBoard
