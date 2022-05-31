@@ -60,8 +60,7 @@ const Attendance = () => {
     <div className={styles.container}>
       <Meta title="Attendance - Intern Season" />
       <Stack>
-        <h1>Dashboard</h1>
-        <h2>Recruitment Cycle</h2>
+        <h1>Attendance</h1>
         <div style={{ height: 500, margin: '0px auto' }} className={styles.datagridAttendance}>
             <DataGrid
                 rows={rows}
@@ -74,5 +73,5 @@ const Attendance = () => {
   )
 }
 
-Attendance.layout = 'studentDashboard'
+Attendance.layout = 'studentPhaseDashboard'
 export default Attendance
