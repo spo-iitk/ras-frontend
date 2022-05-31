@@ -13,6 +13,7 @@ import { ListItemAvatar } from '@mui/material';
 import PieChartIcon from '@mui/icons-material/PieChart';
 import FeedIcon from '@mui/icons-material/Feed';
 import ArticleIcon from '@mui/icons-material/Article';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CallIcon from '@mui/icons-material/Call';
@@ -77,6 +78,11 @@ const items: userItems[] = [
         avatar: <CalendarMonthIcon />,
         name: 'Calendar',
         id: 'calendar'
+    },
+    {
+        avatar: <AccountCircleIcon />,
+        name: 'Attendance',
+        id: 'attendance'
     },
     {
         avatar: <EqualizerIcon />,
