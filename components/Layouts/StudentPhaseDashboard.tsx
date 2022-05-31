@@ -154,12 +154,12 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
                 </AccountStyle>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/studentDashboard/internSeason/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/studentDashboard/internSeason/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/studentDashboard/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`/student/internSeason/${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/student/internSeason/${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/student/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/studentDashboard/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/student/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
@@ -209,12 +209,12 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
                             </AccountStyle>
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/studentDashboard/internSeason/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/studentDashboard/internSeason/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/studentDashboard/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`/student/internSeason/${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/student/internSeason/${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`/student/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/studentDashboard/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/student/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}
@@ -304,7 +304,7 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Link href="/studentDashboard/profile">Profile</Link>
+                    <Link href="/student/profile">Profile</Link>
                 </MenuItem>
                 <MenuItem>
                     <Link href="/login">Logout</Link>

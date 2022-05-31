@@ -61,7 +61,7 @@ const items: userItems[] = [
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
-const CompanyDashboard = ({ children }: { children: any }) => {
+const CompanyPhaseDashboard = ({ children }: { children: any }) => {
     const { pathname } = useRouter()
     const match = (path: string) => (path == pathname ? true : false);
     const [state, setState] = React.useState({
@@ -113,7 +113,7 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                     <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                 </Stack>
                 <div style={{ height: 10 }} />
-                <Link href={`/companyDashboard/overview`} passHref={true} key='logout'>
+                <Link href={`/company/overview`} passHref={true} key='logout'>
                 <AccountStyle>
                     <Avatar src="" alt="photoURL" />
                     <Box sx={{ ml: 2 }}>
@@ -123,12 +123,12 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                 </Link>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/companyDashboard/internSeason/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/companyDashboard/internSeason/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/companyDashboard/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`/company/internSeason/${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/internSeason/${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/companyDashboard/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
@@ -148,7 +148,7 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                             <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
                         </ListItem>
                     </Link>
-                    <Link href={`companyDashboard/overview`} passHref={true} key='logout'>
+                    <Link href={`company/overview`} passHref={true} key='logout'>
                         <ListItem sx={{ borderRadius: 5 }} button>
                             <ListItemAvatar sx={{ color: '#9e9e9e' }}>
                                 <LogoutIcon />
@@ -177,7 +177,7 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                                 <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                             </Stack>
                             <div style={{ height: 20 }} />
-                            <Link href={`/companyDashboard/overview`} passHref={true} key='logout'>
+                            <Link href={`/company/overview`} passHref={true} key='logout'>
                             <AccountStyle>
                                 <Avatar src="" alt="photoURL" />
                                 <Box sx={{ ml: 2 }}>
@@ -187,12 +187,12 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                             </Link>
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/companyDashboard/internSeason/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/companyDashboard/internSeason/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/companyDashboard/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`/company/internSeason/${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/internSeason/${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/companyDashboard/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}
@@ -212,7 +212,7 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                                         <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
                                     </ListItem>
                                 </Link>
-                                <Link href={`/companyDashboard/overview`} passHref={true} key='logout'>
+                                <Link href={`/company/overview`} passHref={true} key='logout'>
                                     <ListItem sx={{ borderRadius: 5 }} button>
                                         <ListItemAvatar sx={{ color: '#9e9e9e' }}>
                                             <LogoutIcon />
@@ -290,7 +290,7 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Link href="/companyDashboard/internSeason/profile">Profile</Link>
+                    <Link href="/company/internSeason/profile">Profile</Link>
                 </MenuItem>
                 <MenuItem>
                     <Link href="/login">Logout</Link>
@@ -340,4 +340,4 @@ const CompanyDashboard = ({ children }: { children: any }) => {
     )
 }
 
-export default CompanyDashboard
+export default CompanyPhaseDashboard;
