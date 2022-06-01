@@ -5,12 +5,12 @@ import { Box, Grid, Modal, Stack, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
 import ActiveButton from '/components/Buttons/ActiveButton';
 import styles from '/styles/Applications.module.css'
-import { style } from '@mui/system';
+import { color, style } from '@mui/system';
 //import Grid from "@mui/grid"
 const columns: GridColDef[] = [
   {
     field: 'id',
-    headerName: 'Resume Name',
+    headerName: 'ID',
     align: 'center',
     headerAlign: 'center',
     width: 200
@@ -45,16 +45,14 @@ const columns: GridColDef[] = [
     headerAlign: 'center',
     renderCell: (params) => <>
       <div>
-        <ActiveButton sx={{ height: 15, width: '100%' }}>{params.value.spo}</ActiveButton>
-        <br />
-        <ActiveButton sx={{ height: 15, width: '100%' }}>{params.value.other}</ActiveButton>
+        <ActiveButton sx={{ height: 30, width: '100%' }}>{params.value}</ActiveButton>
       </div>
     </>,
     width: 190
   }
 ];
 const rows = [
-  { id: 1, resumeLink: 'VIEW', uploadTime: '12:00AM 31 May 2022', comments: 'Hello World', status: { "spo": 'True', "other": "false" } }
+  { id: 1, resumeLink: 'VIEW', uploadTime: '12:00AM 31 May 2022', comments: 'Hello World', status: 'True' }
 ];
 
 function submitResume() {
@@ -103,7 +101,7 @@ function ManageResume() {
 
 
           />
-          <div style={divStyle}><Button style={boxbuttonStyle} variant="contained" onClick={submitResume}>Submit File</Button></div>
+          <div style={divStyle}><Button className="rounded-full" style={boxbuttonStyle} variant="contained" onClick={submitResume}>Submit File</Button></div>
         </Box>
       </Modal>
     </>
@@ -120,7 +118,6 @@ const boxStyle = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 }
@@ -128,12 +125,13 @@ const boxStyle = {
 const divStyle = {
   margin: "15px 0 auto 0",
   padding: "0",
-  width: "100%"
+  width: "100%",
 }
 
 const boxbuttonStyle = {
   width: "100%",
-  height: "40px"
+  height: "40px",
+
 }
 
 
@@ -163,5 +161,6 @@ const pStyle = {
 };
 const buttonStyle = {
   padding: "5px 0",
+  FontSize:"15px",
   margin: "0"
 };
