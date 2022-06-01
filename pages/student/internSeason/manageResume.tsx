@@ -152,14 +152,13 @@ const gridDiv = {
   margin:"0",
   padding:"0",
 };
+
 const pStyle = {
-  position: "relative",
   transform: "translate(88%, 100%)",
   margin: "7.5px 0 0 0",
   padding: "0",
   right: "0%",
   width: "100%",
-  
 };
 const buttonStyle = {
   padding: "5px 0",
