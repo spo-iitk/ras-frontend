@@ -5,22 +5,22 @@ import StudentDashBoard from './StudentDashBoard'
 import CompanyDashBoard from './CompanyDashBoard'
 import CompanyPhaseDashboard from './CompanyPhaseDashboard'
 import StudentPhaseDashboard from './StudentPhaseDashboard'
-
-const layouts = {
+import AdminDashBoard from './AdminDashBoard'
+const layouts:any = {
     'Navigation': Layout,
     'studentDashboard': StudentDashBoard,
     'none': Blank,
     'companyDashboard': CompanyDashBoard,
     'companyPhaseDashboard': CompanyPhaseDashboard,
     'studentPhaseDashboard': StudentPhaseDashboard,
-
+    'adminDashBoard': AdminDashBoard,
 }
 const Layout_wrapper = ({ children }: { children: any }) => {
     let layoutType:string=children.type.layout
     if(layoutType==undefined){
         layoutType='none'
     }
-    const Layout = layouts[layoutType as keyof ObjectType]
+    const Layout = layouts[layoutType]
     return (
              <Layout>{children}</Layout>
     )

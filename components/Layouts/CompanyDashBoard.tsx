@@ -61,7 +61,7 @@ const items: userItems[] = [
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
-const CompanyDashboard = ({ children }: { children: any }) => {
+const CompanyDashBoard = ({ children }: { children: any }) => {
     const { pathname } = useRouter()
     const match = (path: string) => (path == pathname ? true : false);
     const [state, setState] = React.useState({
@@ -121,12 +121,12 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                 </AccountStyle>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/companyDashboard/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/companyDashboard/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/companyDashboard/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`/company/${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/companyDashboard/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
@@ -175,12 +175,12 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                             </AccountStyle>
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/companyDashboard/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/companyDashboard/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/companyDashboard/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`/company/${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/companyDashboard/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}
@@ -270,7 +270,7 @@ const CompanyDashboard = ({ children }: { children: any }) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Link href="/companyDashboard/profile">Profile</Link>
+                    <Link href="/company/profile">Profile</Link>
                 </MenuItem>
                 <MenuItem>
                     <Link href="/login">Logout</Link>
@@ -320,4 +320,4 @@ const CompanyDashboard = ({ children }: { children: any }) => {
     )
 }
 
-export default CompanyDashboard
+export default CompanyDashBoard;

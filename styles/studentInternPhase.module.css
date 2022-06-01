@@ -1,0 +1,33 @@
+.container {
+    padding: 0 2rem;
+  }
+
+  .datagridOverView{
+    width:1300px;
+}
+
+@media(max-width:1600px){
+    .datagridOverView{
+        width:90%;
+    }
+}
+
+.datagridEvents{
+    width:600px;
+}
+
+@media(max-width:1600px){
+    .datagridEvents{
+        width:100%;
+    }
+}
+
+.datagridAttendance{
+    width:1400px;
+}
+
+@media(max-width:1800px){
+    .datagridAttendance{
+        width:100%;
+    }
+}
