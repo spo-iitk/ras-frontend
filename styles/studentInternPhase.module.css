@@ -21,3 +21,13 @@
         width:100%;
     }
 }
+
+.datagridAttendance{
+    width:1400px;
+}
+
+@media(max-width:1800px){
+    .datagridAttendance{
+        width:100%;
+    }
+}

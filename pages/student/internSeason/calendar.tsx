@@ -8,7 +8,6 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { Card, Grid, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
@@ -17,7 +16,10 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 350,
+  width:{
+    md: 500,
+    xs: 350,
+  },
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -37,12 +39,12 @@ const columns: GridColDef[] = [
   {
     field: 'eventStartTime',
     headerName: 'Start Time',
-    width: 200,
+    width: 100,
   },
   {
     field: 'eventEndTime',
     headerName: 'End Time',
-    width: 200,
+    width: 100,
   },
   {
     field: 'eventLocation',
@@ -80,7 +82,7 @@ const events:Events[]=[
   { 
     id:'3',
     companyName: 'Julia',
-    eventName: 'JUlia Summer of Code',
+    eventName: 'Julia Summer of Code',
     eventDate: new Date(2022, 4, 29),
     eventStartTime: '9:00 AM',
     eventEndTime: '5:00 PM',
@@ -154,24 +156,24 @@ function Calendar() {
                     <Modal
                       open={open}
                       onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
                     >
                       <Box sx={style}>
                         <Typography variant="h4" id="modal-modal-title">
                           {act?.eventName}
                         </Typography>
+                        <br/>
                         <Typography variant="subtitle1" id="modal-modal-description">
                           {act?.eventDescription}
                         </Typography>
+                        <br/>
                         <Typography variant="subtitle1" id="modal-modal-description">
-                          {act?.eventLocation}
+                          <b>Location:</b>   {act?.eventLocation}
                         </Typography>
                         <Typography variant="subtitle1" id="modal-modal-description">
-                          {act?.eventStartTime} - {act?.eventEndTime}
+                        <b>Time:</b>  {act?.eventStartTime} - {act?.eventEndTime}
                         </Typography>
                         <Typography variant="subtitle1" id="modal-modal-description">
-                          {act?.contact}
+                        <b>Contact:</b> {act?.contact}
                         </Typography>
                       </Box>
                     </Modal>
