@@ -3,9 +3,8 @@ import Meta from '../../../components/Meta'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Grid, Modal, Stack, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
-import ActiveButton from '/components/Buttons/ActiveButton';
 import styles from '/styles/internPhase.module.css'
-import { color, style } from '@mui/system';
+import ActiveButton from '../../../components/Buttons/ActiveButton';
 //import Grid from "@mui/grid"
 const columns: GridColDef[] = [
   {
@@ -95,7 +94,6 @@ function ManageResume() {
           <TextField
             name="upload-pdf"
             type="file"
-            required="true"
             aria-hidden="true"
             title=""
 
