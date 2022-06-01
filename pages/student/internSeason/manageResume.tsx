@@ -4,7 +4,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Grid, Modal, Stack, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
 import ActiveButton from '/components/Buttons/ActiveButton';
-import styles from '/styles/Applications.module.css'
+import styles from '/styles/internPhase.module.css'
 import { color, style } from '@mui/system';
 //import Grid from "@mui/grid"
 const columns: GridColDef[] = [
@@ -101,7 +101,7 @@ function ManageResume() {
 
 
           />
-          <div style={divStyle}><Button className="rounded-full" style={boxbuttonStyle} variant="contained" onClick={submitResume}>Submit File</Button></div>
+          <div style={divStyle}><Button style={boxbuttonStyle} variant="contained" onClick={submitResume}>Submit File</Button></div>
         </Box>
       </Modal>
     </>
@@ -118,6 +118,8 @@ const boxStyle = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
+  border:"white solid 2px",
+  borderRadius:"10px",
   boxShadow: 24,
   p: 4,
 }
@@ -131,6 +133,8 @@ const divStyle = {
 const boxbuttonStyle = {
   width: "100%",
   height: "40px",
+  border:"inherit solid 2px",
+  borderRadius:"10px",
 
 }
 
