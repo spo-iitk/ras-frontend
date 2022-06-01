@@ -1,18 +1,18 @@
 import React from 'react'
 import Meta from '../../../components/Meta'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Box, Grid, Modal, Stack, TextField, Typography } from '@mui/material'
+import { Box, Grid, IconButton, Modal, Stack, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
 import styles from '/styles/internPhase.module.css'
 import ActiveButton from '../../../components/Buttons/ActiveButton';
-//import Grid from "@mui/grid"
+import AddIcon from '@mui/icons-material/Add';
 const columns: GridColDef[] = [
   {
     field: 'id',
     headerName: 'ID',
     align: 'center',
     headerAlign: 'center',
-    width: 200
+    width: 100
   },
   {
     field: 'resumeLink',
@@ -66,14 +66,14 @@ function ManageResume() {
       <div className={styles.container}>
         <Meta title="Manage Resume - Intern Season" />
         <Stack>
-          <div style={{ height: 500, margin: '0px auto'}} className={styles.datagridApplication}>
+          <div style={{ height: 500, margin: '0px auto'}} className={styles.datagridResume}>
             <Grid container spacing={1}>
               <Grid item xs={6}>
                 <h1>Manage Resume</h1>
               </Grid>
               <Grid item xs={6} style={gridMain}>
                 <div>
-                  <p style={pStyle}><Button onClick={handleOpen} style={buttonStyle}><b>+</b></Button></p>
+                  <p style={pStyle}><IconButton onClick={handleOpen}><AddIcon/></IconButton></p>
                 </div>
               </Grid>
             </Grid>
@@ -96,8 +96,6 @@ function ManageResume() {
             type="file"
             aria-hidden="true"
             title=""
-
-
           />
           <div style={divStyle}><Button style={boxbuttonStyle} variant="contained" onClick={submitResume}>Submit File</Button></div>
         </Box>
@@ -163,5 +161,6 @@ const pStyle = {
 const buttonStyle = {
   padding: "5px 0",
   FontSize:"15px",
-  margin: "0"
+  margin: "0",
+  borderRadius:"50%",
 };
