@@ -1,26 +1,30 @@
-import { Stack, Typography } from '@mui/material'
+import { IconButton, Stack, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import Meta from '../../../../../components/Meta'
-import styles from '../../../../..//styles/PhaseOverview.module.css'
+import styles from '../../../../..//styles/adminPhase.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Link from 'next/link';
-import ActiveButton from '../../../../../components/Buttons/ActiveButton';
 const columns: GridColDef[] = [
   {
     field: 'id',
-    headerName: '',
-    width: 1100,
+    headerName: 'Id',
+    width: 100,
+  },
+  {
+    field: 'name',
+    headerName: 'Company Name',
+    width: 300,
   },
   {
     field: 'publishedDateAndTime',
     headerName: 'Published Date And Time',
-    width: 300,
+    width: 200,
   },
   
 ];
 
 const rows = [
-  { id:'Company Name : Title', publishedDateAndTime : 'May 26 2019' },
+  { id:1 , name:'Company Name : Title', publishedDateAndTime : 'May 26 2019' },
 ];
 
 const Index = () => {
@@ -37,9 +41,9 @@ const Index = () => {
           justifyContent="space-between"
         >
           <h2>Notices</h2>
-          <Link href='../:id/notice/new'><AddIcon/></Link>
+          <IconButton><Link href='../:id/notice/new' passHref={true}><AddIcon/></Link></IconButton>
         </Stack>
-        <div style={{ height: 600,width : 1400, margin: '0px auto' }} className={styles.datagridOverView}>
+        <div style={{ height: 500, margin: '0px auto' }} className={styles.datagridNotices}>
             <DataGrid
                 rows={rows}
                 columns={columns}
