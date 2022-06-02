@@ -1,0 +1,22 @@
+.container{
+    padding: 0 2rem;;
+}
+.datagridNotices{
+    width: 610px;
+}
+
+@media(max-width:800px){
+    .datagridNotices{
+        width:100%;
+    }
+}
+
+.datagridBranch{
+    width: 1150px;
+}
+
+@media(max-width:1400px){
+    .datagridBranch{
+        width:100%;
+    }
+}

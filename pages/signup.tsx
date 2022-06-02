@@ -1,13 +1,13 @@
 import React from 'react'
 import { Typography, Stack } from '@mui/material'
 import { FormControl, Button } from '@mui/material';
-import Meta from '../components/Meta';
+import Meta from '@components/Meta';
 import { useState } from 'react';
 import SignUpStudent from '../sections/signUpStudent';
 import SignUpRecruiter from '../sections/signUpRecruiter';
 import { Tab, Tabs } from '@mui/material';
 import Image from 'next/image';
-import formstyles from "../styles/Form.module.css";
+import formstyles from "@styles/Form.module.css";
 
 const SignUp = () => {
     const [role, setRole] = useState(0);

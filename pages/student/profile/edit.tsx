@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Button, ButtonProps } from '@mui/material';
 import { green, red } from '@mui/material/colors';
 import { TextField } from '@mui/material';
-import Meta from '../../../components/Meta';
+import Meta from '@components/Meta';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -65,7 +65,7 @@ const ProfileEdit = () => {
         <Stack direction={{ xs: "column", sm: 'row' }} alignItems={{ xs: "flex-start", md: 'center' }} justifyContent={'space-between'} spacing={2}>
           <h1>Edit Profile</h1>
           <Stack direction={"row"} alignItems={"center"} justifyContent="center" spacing={2}>
-            <Link href="/studentDashboard/profile" passHref={true}><SaveButton sx={{ width: 100 }}>Save</SaveButton></Link>
+            <Link href="/student/profile" passHref={true}><SaveButton sx={{ width: 100 }}>Save</SaveButton></Link>
             <InactiveButton sx={{ width: 150 }}>Not Verified</InactiveButton>
           </Stack>
         </Stack>

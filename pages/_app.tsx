@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import '@styles/globals.css'
 import type { AppProps } from 'next/app'
 import Layout_wrapper from '../components/Layouts/Layout_wrapper'
 

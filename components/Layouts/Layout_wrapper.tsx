@@ -1,11 +1,13 @@
 import React from 'react'
 import Blank from './Blank'
 import Layout from './Layout'
-import StudentDashBoard from './StudentDashBoard'
-import CompanyDashBoard from './CompanyDashBoard'
-import CompanyPhaseDashboard from './CompanyPhaseDashboard'
-import StudentPhaseDashboard from './StudentPhaseDashboard'
-import AdminDashBoard from './AdminDashBoard'
+import StudentDashBoard from './Student/StudentDashBoard'
+import CompanyDashBoard from './Company/CompanyDashBoard'
+import CompanyPhaseDashboard from './Company/CompanyPhaseDashboard'
+import StudentPhaseDashboard from './Student/StudentPhaseDashboard'
+import AdminDashBoard from './Admin/AdminDashBoard'
+import AdminPhaseDashBoard from './Admin/AdminPhaseDashBoard'
+
 const layouts:any = {
     'Navigation': Layout,
     'studentDashboard': StudentDashBoard,
@@ -14,6 +16,7 @@ const layouts:any = {
     'companyPhaseDashboard': CompanyPhaseDashboard,
     'studentPhaseDashboard': StudentPhaseDashboard,
     'adminDashBoard': AdminDashBoard,
+    'adminPhaseDashBoard': AdminPhaseDashBoard,
 }
 const Layout_wrapper = ({ children }: { children: any }) => {
     let layoutType:string=children.type.layout

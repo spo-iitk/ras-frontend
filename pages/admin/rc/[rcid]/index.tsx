@@ -8,4 +8,6 @@ function Index() {
   )
 }
 
+
+Index.layout="adminPhaseDashBoard";
 export default Index

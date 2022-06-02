@@ -4,12 +4,12 @@ import { InputAdornment } from '@mui/material';
 import { IconButton, FormControl, Button } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Meta from '../components/Meta';
+import Meta from '@components/Meta';
 import Checkbox from '@mui/material/Checkbox';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import formstyles from "../styles/Form.module.css";
+import formstyles from "@styles/Form.module.css";
 
 const Login = () => {
   const router = useRouter();

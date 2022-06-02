@@ -1,5 +1,5 @@
-{
-  "compilerOptions": {
+{ 
+    "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -13,8 +13,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": "./",
+    "paths": {
+      "@styles/*": ["styles/*"],
+      "@components/*": ["components/*"],
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
+  "exclude": ["node_modules", ".next", ".vercel", "out"]
 }
