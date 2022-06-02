@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '@/components/Header'
-import Meta from '@/components/Meta'
+import Header from '@components/Header'
+import Meta from '@components/Meta'
 import { Stack, FormControl, TextField, Typography, Button, OutlinedInput, InputLabel, IconButton, InputAdornment } from '@mui/material'
 import Link from 'next/link'
 import { useState } from 'react'
