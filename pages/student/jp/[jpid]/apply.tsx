@@ -46,6 +46,7 @@ const Apply = () => {
       }
     ]
   }
+
   const styles = {
     "& .MuiInputLabel-root": { color: "black" },
     "& .MuiOutlinedInput-root": {
@@ -53,6 +54,9 @@ const Apply = () => {
     },
     "& .MuiOutlinedInput-root.Mui-focused": {
       "& > fieldset": { borderColor: "black" },
+    },
+    '& label.Mui-focused': {
+      color: 'black',
     },
   };
   const [toggleStates, setToggleStates] = React.useState(() => [...Array(data.mcq.length).fill(false)]);
@@ -90,10 +94,11 @@ const Apply = () => {
           *Required
         </Typography>
         {data.text.map((d)=>(
-          <Box sx={{padding:"5px"}}>
+          <Box key={d.id} sx={{padding:"5px"}}>
           <Typography variant="subtitle1">{d.question}</Typography>
           <TextField
             sx={styles}
+            color="secondary"
             id="outlined-basic"
             label="Enter your answer"
             variant="outlined"
@@ -102,11 +107,11 @@ const Apply = () => {
           />
           </Box>
         ))}
-        {data.mcq.map((d)=>(
-          <Box sx={{padding:"5px"}}>
+        {data.mcq.map((d,i)=>(
+          <Box key={d.id} sx={{padding:"5px"}}>
           <Typography variant="subtitle1">{d.question}</Typography>
-          {d.Options.split(',').map((opt,i) =>(
-            <ToggleButton
+          {d.Options.split(',').map((opt,j) =>(
+            <ToggleButton key={j}
             sx={{justifyContent:"flex-start", border: "1.5px solid black" ,'&.Mui-selected, &.Mui-selected:hover':{backgroundColor:"#6CB4EE"}}}
             value={opt}
             selected={toggleStates[i]}

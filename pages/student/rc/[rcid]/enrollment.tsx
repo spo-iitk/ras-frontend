@@ -12,7 +12,7 @@ import Meta from "../../../../components/Meta";
 const Enrollment = () => {
   const data = 
   {
-    "title": "Enrollment Secition",
+    "title": "Enrollment Section",
     "text": [
       {
         "id": 15659,
@@ -46,6 +46,7 @@ const Enrollment = () => {
       }
     ]
   }
+
   const styles = {
     "& .MuiInputLabel-root": { color: "black" },
     "& .MuiOutlinedInput-root": {
@@ -54,9 +55,11 @@ const Enrollment = () => {
     "& .MuiOutlinedInput-root.Mui-focused": {
       "& > fieldset": { borderColor: "black" },
     },
+    '& label.Mui-focused': {
+      color: 'black',
+    },
   };
   const [toggleStates, setToggleStates] = React.useState(() => [...Array(data.mcq.length).fill(false)]);
-  const [i,setNext] = React.useState(0)
   const handleChange = (
     index: number
   ) => {
@@ -67,7 +70,7 @@ const Enrollment = () => {
 
   return (
     <div>
-      <Meta title="Student Dashboard - Enrollment Section" />
+      <Meta title="Student Dashboard - Enrollment" />
       <Grid
         container
         direction="column"
@@ -91,10 +94,11 @@ const Enrollment = () => {
           *Required
         </Typography>
         {data.text.map((d)=>(
-          <Box sx={{padding:"5px"}}>
+          <Box key={d.id} sx={{padding:"5px"}}>
           <Typography variant="subtitle1">{d.question}</Typography>
           <TextField
             sx={styles}
+            color="secondary"
             id="outlined-basic"
             label="Enter your answer"
             variant="outlined"
@@ -103,11 +107,11 @@ const Enrollment = () => {
           />
           </Box>
         ))}
-        {data.mcq.map((d)=>(
-          <Box sx={{padding:"5px"}}>
+        {data.mcq.map((d,i)=>(
+          <Box key={d.id} sx={{padding:"5px"}}>
           <Typography variant="subtitle1">{d.question}</Typography>
-          {d.Options.split(',').map((opt) =>(
-            <ToggleButton
+          {d.Options.split(',').map((opt,j) =>(
+            <ToggleButton key={j}
             sx={{justifyContent:"flex-start", border: "1.5px solid black" ,'&.Mui-selected, &.Mui-selected:hover':{backgroundColor:"#6CB4EE"}}}
             value={opt}
             selected={toggleStates[i]}
@@ -124,7 +128,6 @@ const Enrollment = () => {
           variant="contained"
           fullWidth
           sx={{
-            width:"100%",
             padding:"16.5px 14px",
             backgroundColor: "#170e0d",
             "&:hover": {
