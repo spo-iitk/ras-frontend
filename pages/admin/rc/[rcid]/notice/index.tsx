@@ -11,5 +11,5 @@ function Index() {
   )
 }
 
-Index.layout="adminDashBoard";
+Index.layout="adminPhaseDashBoard";
 export default Index
