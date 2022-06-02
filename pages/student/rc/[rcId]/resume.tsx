@@ -1,10 +1,10 @@
 import React from 'react'
-import Meta from '../../../components/Meta'
+import Meta from '../../../../components/Meta'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Grid, IconButton, Modal, Stack, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
 import styles from '/styles/internPhase.module.css'
-import ActiveButton from '../../../components/Buttons/ActiveButton';
+import ActiveButton from '../../../../components/Buttons/ActiveButton';
 import AddIcon from '@mui/icons-material/Add';
 const columns: GridColDef[] = [
   {
@@ -57,7 +57,7 @@ const rows = [
 function submitResume() {
   return 0;
 }
-function ManageResume() {
+function Resume() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -65,18 +65,18 @@ function ManageResume() {
     <>
       <div className={styles.container}>
         <Meta title="Manage Resume - Intern Season" />
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <h1>Manage Resume</h1>
+          </Grid>
+          <Grid item xs={6} style={gridMain}>
+            <div>
+              <p style={pStyle}><IconButton onClick={handleOpen}><AddIcon/></IconButton></p>
+            </div>
+          </Grid>
+        </Grid>
         <Stack>
           <div style={{ height: 500, margin: '0px auto'}} className={styles.datagridResume}>
-            <Grid container spacing={1}>
-              <Grid item xs={6}>
-                <h1>Manage Resume</h1>
-              </Grid>
-              <Grid item xs={6} style={gridMain}>
-                <div>
-                  <p style={pStyle}><IconButton onClick={handleOpen}><AddIcon/></IconButton></p>
-                </div>
-              </Grid>
-            </Grid>
             <DataGrid
               rows={rows}
               columns={columns}
@@ -103,8 +103,8 @@ function ManageResume() {
     </>
   )
 }
-ManageResume.layout = "studentPhaseDashboard"
-export default ManageResume
+Resume.layout = "studentPhaseDashboard"
+export default Resume
 
 
 const boxStyle = {

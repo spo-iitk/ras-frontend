@@ -15,7 +15,7 @@ import CallIcon from '@mui/icons-material/Call';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { useRouter } from 'next/router'
-import dashboardstyles from '../../styles/Dashboard.module.css'
+import dashboardstyles from '../../../styles/Dashboard.module.css'
 import Drawer from '@mui/material/Drawer';
 import Image from 'next/image';
 import { Menu, MenuItem } from '@mui/material'
@@ -44,24 +44,24 @@ interface userItems {
 const items: userItems[] = [
     {
         avatar: <PieChartIcon />,
-        name: 'Overview',
-        id: 'overview'
+        name: 'Your Openings',
+        id: 'openings',
     },
     {
         avatar: <ArticleIcon />,
-        name: 'Intern Policy',
-        id: 'internpolicy'
+        name: 'Create New Opening',
+        id: 'createopening'
     },
     {
         avatar: <ArticleIcon />,
-        name: 'Placement Policy',
-        id: 'placementpolicy'
-    },
+        name: 'Applications',
+        id: 'applications'
+    }
 ]
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
-const CompanyDashBoard = ({ children }: { children: any }) => {
+const CompanyPhaseDashboard = ({ children }: { children: any }) => {
     const { pathname } = useRouter()
     const match = (path: string) => (path == pathname ? true : false);
     const [state, setState] = React.useState({
@@ -113,20 +113,22 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                     <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                 </Stack>
                 <div style={{ height: 10 }} />
+                <Link href={`/company/overview`} passHref={true} key='logout'>
                 <AccountStyle>
                     <Avatar src="" alt="photoURL" />
                     <Box sx={{ ml: 2 }}>
                         <h3 style={{ margin: 5 }}>QuadEye</h3>
                     </Box>
                 </AccountStyle>
+                </Link>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/company/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`/company/internSeason/${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/internSeason/${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
@@ -144,6 +146,14 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                                 <LogoutIcon />
                             </ListItemAvatar>
                             <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
+                        </ListItem>
+                    </Link>
+                    <Link href={`company/overview`} passHref={true} key='logout'>
+                        <ListItem sx={{ borderRadius: 5 }} button>
+                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
+                                <LogoutIcon />
+                            </ListItemAvatar>
+                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Back to Dashboard</h4></ListItemText>
                         </ListItem>
                     </Link>
                 </List>
@@ -167,20 +177,22 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                                 <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                             </Stack>
                             <div style={{ height: 20 }} />
+                            <Link href={`/company/overview`} passHref={true} key='logout'>
                             <AccountStyle>
                                 <Avatar src="" alt="photoURL" />
                                 <Box sx={{ ml: 2 }}>
                                     <h3 style={{ margin: 5 }}>QuadEye</h3>
                                 </Box>
                             </AccountStyle>
+                            </Link>
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/company/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`/company/internSeason/${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/internSeason/${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}
@@ -198,6 +210,14 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                                             <LogoutIcon />
                                         </ListItemAvatar>
                                         <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
+                                    </ListItem>
+                                </Link>
+                                <Link href={`/company/overview`} passHref={true} key='logout'>
+                                    <ListItem sx={{ borderRadius: 5 }} button>
+                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
+                                            <LogoutIcon />
+                                        </ListItemAvatar>
+                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Back to Dashboard</h4></ListItemText>
                                     </ListItem>
                                 </Link>
                             </List>
@@ -242,7 +262,7 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                 PaperProps={{
                     elevation: 0,
                     sx: {
-                        width:100,
+                        width: 100,
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
@@ -270,7 +290,7 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Link href="/company/profile">Profile</Link>
+                    <Link href="/company/internSeason/profile">Profile</Link>
                 </MenuItem>
                 <MenuItem>
                     <Link href="/login">Logout</Link>
@@ -285,7 +305,7 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                 PaperProps={{
                     elevation: 0,
                     sx: {
-                        width:300,
+                        width: 300,
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
@@ -320,4 +340,4 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
     )
 }
 
-export default CompanyDashBoard;
+export default CompanyPhaseDashboard;

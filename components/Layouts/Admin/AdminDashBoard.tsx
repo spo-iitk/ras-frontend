@@ -10,16 +10,18 @@ import Link from 'next/link';
 import { ListItemAvatar } from '@mui/material';
 import PieChartIcon from '@mui/icons-material/PieChart';
 import ArticleIcon from '@mui/icons-material/Article';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CallIcon from '@mui/icons-material/Call';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { useRouter } from 'next/router'
-import dashboardstyles from '../../styles/Dashboard.module.css'
+import dashboardstyles from '../../../styles/Dashboard.module.css'
 import Drawer from '@mui/material/Drawer';
 import Image from 'next/image';
 import { Menu, MenuItem } from '@mui/material'
-
+import GroupsIcon from '@mui/icons-material/Groups';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 const AccountStyle = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -44,26 +46,41 @@ interface userItems {
 const items: userItems[] = [
     {
         avatar: <PieChartIcon />,
-        name: 'Your Openings',
-        id: 'openings',
+        name: 'Overview',
+        id: 'rc'
     },
     {
-        avatar: <ArticleIcon />,
-        name: 'Create New Opening',
-        id: 'createopening'
+        avatar: <BarChartIcon />,
+        name: 'Maste Database (Company)',
+        id: 'company'
     },
     {
-        avatar: <ArticleIcon />,
-        name: 'Applications',
-        id: 'applications'
-    }
+        avatar: <BarChartIcon />,
+        name: 'Maste Database (Student)',
+        id: 'student'
+    },
+    {
+        avatar: <GroupsIcon />,
+        name: 'Worklog',
+        id: 'worklog'
+    },
+    {
+        avatar: <ApartmentIcon />,
+        name: 'Allotted Companies',
+        id: 'allotedcompanies'
+    },
+    {
+        avatar: <ApartmentIcon />,
+        name: 'Allot Companies',
+        id: 'allotcompanies'
+    },
 ]
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
-const CompanyPhaseDashboard = ({ children }: { children: any }) => {
-    const { pathname } = useRouter()
-    const match = (path: string) => (path == pathname ? true : false);
+const AdminDashBoard = ({ children }: { children: any }) => {
+    const { asPath } = useRouter()
+    const match = (path: string) => (path == asPath ? true : false);
     const [state, setState] = React.useState({
         left: false,
     });
@@ -113,49 +130,17 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
                     <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                 </Stack>
                 <div style={{ height: 10 }} />
-                <Link href={`/company/overview`} passHref={true} key='logout'>
-                <AccountStyle>
-                    <Avatar src="" alt="photoURL" />
-                    <Box sx={{ ml: 2 }}>
-                        <h3 style={{ margin: 5 }}>QuadEye</h3>
-                    </Box>
-                </AccountStyle>
-                </Link>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/company/internSeason/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/internSeason/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/admin/${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/admin/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
-                    <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel="noreferrer">
-                        <ListItem sx={{ borderRadius: 5 }} button>
-                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                <CallIcon />
-                            </ListItemAvatar>
-                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Contact SPO</h4></ListItemText>
-                        </ListItem>
-                    </a>
-                    <Link href={`/login`} passHref={true} key='logout'>
-                        <ListItem sx={{ borderRadius: 5 }} button>
-                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                <LogoutIcon />
-                            </ListItemAvatar>
-                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
-                        </ListItem>
-                    </Link>
-                    <Link href={`company/overview`} passHref={true} key='logout'>
-                        <ListItem sx={{ borderRadius: 5 }} button>
-                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                <LogoutIcon />
-                            </ListItemAvatar>
-                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Back to Dashboard</h4></ListItemText>
-                        </ListItem>
-                    </Link>
                 </List>
             </Stack>
         </Box>
@@ -171,55 +156,23 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
                 spacing={0}>
                 <Grid item xs={12} lg={2} md={12} sm={12}>
                     <div className={dashboardstyles.container}
-                        style={{ position: 'fixed', height: '100vh', padding: 20, borderRight: "#eeeeee 2px solid", backgroundColor: "#2b2b2b" }}>
+                        style={{ position: 'fixed', height: '100vh', padding: 20, borderRight: "#eeeeee 2px solid", backgroundColor: "#2b2b2b", maxWidth:300 }}>
                         <Stack spacing={3}>
                             <Stack direction="row" spacing={2} alignItems={"center"}>
                                 <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                             </Stack>
-                            <div style={{ height: 20 }} />
-                            <Link href={`/company/overview`} passHref={true} key='logout'>
-                            <AccountStyle>
-                                <Avatar src="" alt="photoURL" />
-                                <Box sx={{ ml: 2 }}>
-                                    <h3 style={{ margin: 5 }}>QuadEye</h3>
-                                </Box>
-                            </AccountStyle>
-                            </Link>
+                            <div style={{ height: 10 }} />
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/company/internSeason/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/internSeason/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/admin/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}
-                                <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel="noreferrer">
-                                    <ListItem sx={{ borderRadius: 5 }} button>
-                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                            <CallIcon />
-                                        </ListItemAvatar>
-                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Contact SPO</h4></ListItemText>
-                                    </ListItem>
-                                </a>
-                                <Link href={`/login`} passHref={true} key='logout'>
-                                    <ListItem sx={{ borderRadius: 5 }} button>
-                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                            <LogoutIcon />
-                                        </ListItemAvatar>
-                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
-                                    </ListItem>
-                                </Link>
-                                <Link href={`/company/overview`} passHref={true} key='logout'>
-                                    <ListItem sx={{ borderRadius: 5 }} button>
-                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                            <LogoutIcon />
-                                        </ListItemAvatar>
-                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Back to Dashboard</h4></ListItemText>
-                                    </ListItem>
-                                </Link>
                             </List>
                         </Stack>
                     </div>
@@ -262,7 +215,7 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
                 PaperProps={{
                     elevation: 0,
                     sx: {
-                        width: 100,
+                        width:100,
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
@@ -290,9 +243,6 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Link href="/company/internSeason/profile">Profile</Link>
-                </MenuItem>
-                <MenuItem>
                     <Link href="/login">Logout</Link>
                 </MenuItem>
             </Menu>
@@ -305,7 +255,7 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
                 PaperProps={{
                     elevation: 0,
                     sx: {
-                        width: 300,
+                        width:300,
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                         mt: 1.5,
@@ -340,4 +290,4 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
     )
 }
 
-export default CompanyPhaseDashboard;
+export default AdminDashBoard

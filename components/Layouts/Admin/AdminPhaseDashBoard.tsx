@@ -1,32 +1,27 @@
 import { Grid, IconButton } from '@mui/material'
 import React from 'react'
 import { Avatar, Box } from '@mui/material';
-import { Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import { Stack } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Link from 'next/link';
 import { ListItemAvatar } from '@mui/material';
 import PieChartIcon from '@mui/icons-material/PieChart';
-import FeedIcon from '@mui/icons-material/Feed';
 import ArticleIcon from '@mui/icons-material/Article';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import LogoutIcon from '@mui/icons-material/Logout';
-import CallIcon from '@mui/icons-material/Call';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import MenuIcon from '@mui/icons-material/Menu';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { useRouter } from 'next/router'
-import dashboardstyles from '../../styles/Dashboard.module.css'
+import dashboardstyles from '../../../styles/Dashboard.module.css'
 import Drawer from '@mui/material/Drawer';
 import Image from 'next/image';
 import { Menu, MenuItem } from '@mui/material'
-
+import GroupsIcon from '@mui/icons-material/Groups';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 const AccountStyle = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -51,51 +46,46 @@ interface userItems {
 const items: userItems[] = [
     {
         avatar: <PieChartIcon />,
-        name: 'Notices',
-        id: 'notices'
+        name: 'Overview',
+        id: ''
     },
     {
         avatar: <ArticleIcon />,
-        name: 'Manage Resume',
-        id: 'manageResume'
+        name: 'Notices',
+        id: '/notice'
     },
     {
-        avatar: <TravelExploreIcon />,
-        name: 'Job Opening',
-        id: 'jobOpening'
+        avatar: <ApartmentIcon />,
+        name: 'Company',
+        id: '/company'
     },
     {
-        avatar: <FeedIcon />,
-        name: 'Your Applications',
-        id: 'applications'
+        avatar: <GroupsIcon />,
+        name: 'Students',
+        id: '/student'
     },
     {
-        avatar: <AssignmentIcon />,
-        name: 'Proforma',
-        id: 'proforma'
+        avatar: <BarChartIcon />,
+        name: 'Stats',
+        id: '/stats'
+    },
+    {
+        avatar: <ArticleIcon />,
+        name: 'Resume',
+        id: '/resume'
     },
     {
         avatar: <CalendarMonthIcon />,
         name: 'Calendar',
         id: 'calendar'
-    },
-    {
-        avatar: <AccountCircleIcon />,
-        name: 'Attendance',
-        id: 'attendance'
-    },
-    {
-        avatar: <EqualizerIcon />,
-        name: 'Stats',
-        id: 'stats'
-    },
+    }
 ]
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
-const StudentPhaseDashboard = ({ children }: { children: any }) => {
-    const { pathname } = useRouter()
-    const match = (path: string) => (path == pathname ? true : false);
+const AdminDashBoard = ({ children }: { children: any }) => {
+    const { asPath } = useRouter()
+    const match = (path: string) => (path == asPath ? true : false);
     const [state, setState] = React.useState({
         left: false,
     });
@@ -130,6 +120,10 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
     const handleNotificationClose = () => {
         setAnchorNotifEl(null);
     };
+
+    const router=useRouter()
+    const {rcid}=router.query;
+
     const list = (anchor: Anchor) => (
         <Box
             sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 300 }}
@@ -145,40 +139,17 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
                     <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                 </Stack>
                 <div style={{ height: 10 }} />
-                <AccountStyle>
-                    <Avatar src="" alt="photoURL" />
-                    <Box sx={{ ml: 2 }}>
-                        <h3 style={{ margin: 5 }}>Manas Gupta</h3>
-                        <h4 style={{ margin: 5, fontWeight: 400 }}>Student</h4>
-                    </Box>
-                </AccountStyle>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/student/internSeason/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/student/internSeason/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/student/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`/admin/rc/${rcid}${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/rc/${rcid}${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/student/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
-                    <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel="noreferrer">
-                        <ListItem sx={{ borderRadius: 5 }} button>
-                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                <CallIcon />
-                            </ListItemAvatar>
-                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Contact SPO</h4></ListItemText>
-                        </ListItem>
-                    </a>
-                    <Link href={`/login`} passHref={true} key='logout'>
-                        <ListItem sx={{ borderRadius: 5 }} button>
-                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                <LogoutIcon />
-                            </ListItemAvatar>
-                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
-                        </ListItem>
-                    </Link>
                 </List>
             </Stack>
         </Box>
@@ -199,41 +170,18 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
                             <Stack direction="row" spacing={2} alignItems={"center"}>
                                 <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                             </Stack>
-                            <div style={{ height: 20 }} />
-                            <AccountStyle>
-                                <Avatar src="" alt="photoURL" />
-                                <Box sx={{ ml: 2 }}>
-                                    <h3 style={{ margin: 5 }}>Manas Gupta</h3>
-                                    <h4 style={{ margin: 5, fontWeight: 400 }}>Student</h4>
-                                </Box>
-                            </AccountStyle>
+                            <div style={{ height: 10 }} />
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/student/internSeason/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/student/internSeason/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/student/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`/admin/rc/${rcid}${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/rc/${rcid}${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/student/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}
-                                <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel="noreferrer">
-                                    <ListItem sx={{ borderRadius: 5 }} button>
-                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                            <CallIcon />
-                                        </ListItemAvatar>
-                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Contact SPO</h4></ListItemText>
-                                    </ListItem>
-                                </a>
-                                <Link href={`/login`} passHref={true} key='logout'>
-                                    <ListItem sx={{ borderRadius: 5 }} button>
-                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
-                                            <LogoutIcon />
-                                        </ListItemAvatar>
-                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
-                                    </ListItem>
-                                </Link>
                             </List>
                         </Stack>
                     </div>
@@ -304,9 +252,6 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Link href="/student/profile">Profile</Link>
-                </MenuItem>
-                <MenuItem>
                     <Link href="/login">Logout</Link>
                 </MenuItem>
             </Menu>
@@ -354,4 +299,4 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
     )
 }
 
-export default StudentPhaseDashboard
+export default AdminDashBoard

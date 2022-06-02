@@ -1,8 +1,9 @@
 import { Stack } from '@mui/material'
-import Meta from '../../components/Meta'
-import styles from '../..//styles/studentInternPhase.module.css'
-import InactiveButton from '../../components/Buttons/InactiveButton';
+import Meta from '../../../components/Meta'
+import styles from '../../../styles/studentInternPhase.module.css'
+import InactiveButton from '../../../components/Buttons/InactiveButton';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { useRouter } from 'next/router';
 
 const columns: GridColDef[] = [
   {
@@ -50,6 +51,7 @@ const rows = [
 ];
 
 const Overview = () => {
+  const router = useRouter();
   return (
     <div className={styles.container}>
       <Meta title="Student Dashboard - Overview" />
@@ -61,6 +63,10 @@ const Overview = () => {
                 rows={rows}
                 columns={columns}
                 pageSize={7}
+                rowsPerPageOptions={[7]}
+                onCellClick={(e) => {
+                  router.push('rc/1/notices');
+                }}
             />
         </div>
       </Stack>
