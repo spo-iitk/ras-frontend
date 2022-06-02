@@ -1,5 +1,5 @@
 import {Stack } from '@mui/material'
-import Meta from '../../../../../components/Meta'
+import Meta from '@components/Meta'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { green } from '@mui/material/colors';
 import Button, { ButtonProps } from '@mui/material/Button';
 import { TextField } from '@mui/material';
-import StepperComp from '../../../../../components/Stepper/stepperComp';
+import StepperComp from '@components/Stepper/stepperComp';
 
 const ActiveButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: 'white',

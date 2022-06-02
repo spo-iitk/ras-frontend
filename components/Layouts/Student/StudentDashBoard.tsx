@@ -1,7 +1,6 @@
 import { Grid, IconButton } from '@mui/material'
 import React from 'react'
 import { Avatar, Box } from '@mui/material';
-import { Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import { Stack } from '@mui/material';
 import List from '@mui/material/List';
@@ -19,7 +18,7 @@ import CallIcon from '@mui/icons-material/Call';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { useRouter } from 'next/router'
-import dashboardstyles from '../../../styles/Dashboard.module.css'
+import dashboardstyles from '@styles/Dashboard.module.css'
 import Drawer from '@mui/material/Drawer';
 import Image from 'next/image';
 import { Menu, MenuItem } from '@mui/material'

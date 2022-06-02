@@ -1,12 +1,8 @@
-import { Grid, Stack } from '@mui/material'
-import Meta from '../../../../../components/Meta'
-import styles from '../../../../..//styles/adminPhase.module.css'
-import InactiveButton from '../../../../../components/Buttons/InactiveButton';
+import { Grid } from '@mui/material'
+import Meta from '@components/Meta'
+import styles from '@styles/adminPhase.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { BorderStyle } from '@mui/icons-material';
-import { flexbox, margin } from '@mui/system';
-import Button from '@mui/material/Button';
-import ActiveButton from '../../../../../components/Buttons/ActiveButton';
+import ActiveButton from '@components/Buttons/ActiveButton';
  
 const columns: GridColDef[] = [
   {

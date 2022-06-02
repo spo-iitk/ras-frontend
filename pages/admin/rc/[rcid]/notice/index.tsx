@@ -1,7 +1,7 @@
 import { IconButton, Stack, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
-import Meta from '../../../../../components/Meta'
-import styles from '../../../../..//styles/adminPhase.module.css'
+import Meta from '@components/Meta'
+import styles from '@styles/adminPhase.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Link from 'next/link';
 import { useRouter } from 'next/router'

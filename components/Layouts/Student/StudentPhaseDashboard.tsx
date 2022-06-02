@@ -21,7 +21,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { useRouter } from 'next/router'
-import dashboardstyles from '@/styles/Dashboard.module.css'
+import dashboardstyles from '@styles/Dashboard.module.css'
 import Drawer from '@mui/material/Drawer';
 import Image from 'next/image';
 import { Menu, MenuItem } from '@mui/material'

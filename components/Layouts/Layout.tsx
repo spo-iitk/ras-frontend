@@ -1,7 +1,7 @@
 import React from 'react'
-import Footer from '../Footer'
-import Header from '../Header'
-import Meta from "../Meta"
+import Footer from '@components/Footer'
+import Header from '@components/Header'
+import Meta from "@components/Meta"
 
 const Layout = ({children}:{children:any}) => {
   return (

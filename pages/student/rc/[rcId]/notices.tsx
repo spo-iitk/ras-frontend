@@ -1,5 +1,5 @@
 import React from 'react'
-import Meta from '../../../../components/Meta'
+import Meta from '@components/Meta'
 
 function Notices() {
   return (

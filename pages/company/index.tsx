@@ -1,9 +1,9 @@
 import { Stack, Typography } from '@mui/material'
-import Meta from '../../components/Meta'
-import styles from '../..//styles/PhaseOverview.module.css'
+import Meta from '@components/Meta'
+import styles from '@styles/PhaseOverview.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Link from 'next/link';
-import ActiveButton from '../../components/Buttons/ActiveButton';
+import ActiveButton from '@components/Buttons/ActiveButton';
 
 const columns: GridColDef[] = [
   {

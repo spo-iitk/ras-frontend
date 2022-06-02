@@ -1,8 +1,8 @@
 import React from 'react'
-import Meta from '../../../../components/Meta'
+import Meta from '@components/Meta'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Stack, Grid } from '@mui/material';
-import styles from "../../../../styles/studentInternPhase.module.css";
+import styles from "@styles/studentInternPhase.module.css";
 const columns: GridColDef[] = [
   {
     field: 'id',

@@ -1,5 +1,5 @@
 import React from 'react'
-import Meta from '../../../components/Meta'
+import Meta from '@components/Meta'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';

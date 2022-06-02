@@ -1,10 +1,10 @@
 import React from 'react'
-import Meta from '../../../../components/Meta'
+import Meta from '@components/Meta'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Grid, IconButton, Modal, Stack, TextField, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
 import styles from '/styles/internPhase.module.css'
-import ActiveButton from '../../../../components/Buttons/ActiveButton';
+import ActiveButton from '@components/Buttons/ActiveButton';
 import AddIcon from '@mui/icons-material/Add';
 const columns: GridColDef[] = [
   {

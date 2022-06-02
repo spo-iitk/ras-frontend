@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import Meta from '../../../../components/Meta'
-import styles from '../../../../styles/studentInternPhase.module.css'
+import Meta from '@components/Meta'
+import styles from '@styles/studentInternPhase.module.css'
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
