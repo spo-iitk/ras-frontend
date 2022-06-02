@@ -6,6 +6,8 @@ import CompanyDashBoard from './CompanyDashBoard'
 import CompanyPhaseDashboard from './CompanyPhaseDashboard'
 import StudentPhaseDashboard from './StudentPhaseDashboard'
 import AdminDashBoard from './AdminDashBoard'
+import AdminPhaseDashBoard from './AdminPhaseDashBoard'
+
 const layouts:any = {
     'Navigation': Layout,
     'studentDashboard': StudentDashBoard,
@@ -14,6 +16,7 @@ const layouts:any = {
     'companyPhaseDashboard': CompanyPhaseDashboard,
     'studentPhaseDashboard': StudentPhaseDashboard,
     'adminDashBoard': AdminDashBoard,
+    'adminPhaseDashBoard': AdminPhaseDashBoard,
 }
 const Layout_wrapper = ({ children }: { children: any }) => {
     let layoutType:string=children.type.layout
