@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Apply() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
-Apply.layout="studentPhaseDashboard"
-export default Apply
+Apply.layout = "studentPhaseDashboard";
+export default Apply;

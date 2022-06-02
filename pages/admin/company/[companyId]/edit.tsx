@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function Edit() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-Edit.layout="adminDashBoard"
-export default Edit
+Edit.layout = "adminDashBoard";
+export default Edit;

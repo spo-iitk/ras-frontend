@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function Unfreeze() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-Unfreeze.layout="adminDashBoard"
-export default Unfreeze
+Unfreeze.layout = "adminDashBoard";
+export default Unfreeze;

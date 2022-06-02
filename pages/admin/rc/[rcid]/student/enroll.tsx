@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Enroll() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-export default Enroll
+export default Enroll;

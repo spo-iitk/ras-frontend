@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function PastHire() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-PastHire.layout="adminDashBoard"
-export default PastHire
+PastHire.layout = "adminDashBoard";
+export default PastHire;

@@ -83,7 +83,7 @@ const items: userItems[] = [
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
-function StudentDashBoard({ children }: { children: any }) {
+function StudentDashBoard({ children }: { children: JSX.Element }) {
   const { pathname } = useRouter();
   const match = (path: string) => path === pathname;
   const [state, setState] = React.useState({

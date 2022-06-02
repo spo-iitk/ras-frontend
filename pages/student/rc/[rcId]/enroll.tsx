@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Enroll() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
-Enroll.layout="studentPhaseDashboard"
-export default Enroll
+Enroll.layout = "studentPhaseDashboard";
+export default Enroll;

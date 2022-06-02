@@ -1,6 +1,6 @@
 import React from "react";
 
-function Blank({ children }: { children: any }) {
+function Blank({ children }: { children: JSX.Element }) {
   return <div>{children}</div>;
 }
 

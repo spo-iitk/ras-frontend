@@ -1,32 +1,45 @@
-import React from 'react'
-import { TextField, Grid, InputLabel, OutlinedInput, Typography, Stack } from '@mui/material'
-import { InputAdornment } from '@mui/material';
-import { IconButton, FormControl, Button } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Meta from '@components/Meta';
-import Checkbox from '@mui/material/Checkbox';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import React from "react";
+import {
+  TextField,
+  InputLabel,
+  OutlinedInput,
+  Typography,
+  Stack,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  Button,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Meta from "@components/Meta";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import formstyles from "@styles/Form.module.css";
 
-const Login = () => {
+interface State {
+  showPassword: boolean;
+  password: string;
+}
+function Login() {
   const router = useRouter();
   const [values, setValues] = React.useState({
-    password: '',
+    password: "",
     showPassword: false,
   });
 
   const [checked, setChecked] = React.useState(true);
 
-  const handleCheck = (event: any) => {
+  const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
 
-  const handleChange = (prop: any) => (event: any) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  const handleChange =
+    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [prop]: event.target.value });
+    };
 
   const handleClickShowPassword = () => {
     setValues({
@@ -35,37 +48,58 @@ const Login = () => {
     });
   };
 
-  const handleMouseDownPassword = (event: any) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
 
   const onLogin = () => {
-    router.push('/studentDashboard/overview');
-  }
+    router.push("/studentDashboard/overview");
+  };
 
   return (
     <div>
-      <Meta title={'Login - Recruitment Automation System'} />
-      <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="center" alignItems="center" spacing={10}>
+      <Meta title="Login - Recruitment Automation System" />
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="center"
+        alignItems="center"
+        spacing={10}
+      >
         <div className={formstyles.image}>
-          <Image src={'/images/signin.png'} height={450} width={400} alt="loginPage" />
+          <Image
+            src="/images/signin.png"
+            height={450}
+            width={400}
+            alt="loginPage"
+          />
         </div>
-        <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ minHeight: "70vh" }}>
-          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+        <Stack
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          sx={{ minHeight: "70vh" }}
+        >
+          <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <h1>Welcome Back!</h1>
             <h2>Sign in to</h2>
-            <Typography variant='subtitle1' color="text.secondary">Recruitment Portal IIT Kanpur</Typography>
+            <Typography variant="subtitle1" color="text.secondary">
+              Recruitment Portal IIT Kanpur
+            </Typography>
           </FormControl>
-          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
+          <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField id="username" label="Username" variant="outlined" />
           </FormControl>
-          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
             <OutlinedInput
               id="password"
-              type={values.showPassword ? 'text' : 'password'}
+              type={values.showPassword ? "text" : "password"}
               value={values.password}
-              onChange={handleChange('password')}
+              onChange={handleChange("password")}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -81,30 +115,46 @@ const Login = () => {
               label="Password"
             />
           </FormControl>
-          <FormControl sx={{ m: 1, width: '37ch' }} variant="outlined">
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <FormControl sx={{ m: 1, width: "37ch" }} variant="outlined">
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Typography variant="subtitle2" color="text.secondary">
                 <Checkbox
                   size="small"
                   checked={checked}
                   onChange={handleCheck}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />Remember Me</Typography>
-              <Typography variant="subtitle2" color="text.secondary"><span style={{ color: "blue" }}><Link href="/forgotPass">Forgot password?</Link></span></Typography>
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+                Remember Me
+              </Typography>
+              <Typography variant="subtitle2" color="text.secondary">
+                <span style={{ color: "blue" }}>
+                  <Link href="/forgotPass">Forgot password?</Link>
+                </span>
+              </Typography>
             </Stack>
           </FormControl>
-          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-            <Button variant="contained" onClick={onLogin}>Sign In</Button>
+          <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
+            <Button variant="contained" onClick={onLogin}>
+              Sign In
+            </Button>
           </FormControl>
-          <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-            <Typography>Don&apos;t have an account? <span style={{ color: "blue" }}><Link href="/signup">Sign Up</Link></span></Typography>
+          <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
+            <Typography>
+              Don&apos;t have an account?{" "}
+              <span style={{ color: "blue" }}>
+                <Link href="/signup">Sign Up</Link>
+              </span>
+            </Typography>
           </FormControl>
         </Stack>
       </Stack>
-    </div >
-
-  )
+    </div>
+  );
 }
 
-Login.layout = 'Navigation'
-export default Login
+Login.layout = "Navigation";
+export default Login;

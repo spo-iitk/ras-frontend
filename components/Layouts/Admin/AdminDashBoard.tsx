@@ -70,7 +70,7 @@ const items: userItems[] = [
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
-function AdminDashBoard({ children }: { children: any }) {
+function AdminDashBoard({ children }: { children: JSX.Element }) {
   const { asPath } = useRouter();
   const match = (path: string) => path === asPath;
   const [state, setState] = React.useState({

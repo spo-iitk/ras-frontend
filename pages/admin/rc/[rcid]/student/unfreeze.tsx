@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Unfreeze() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-export default Unfreeze
+export default Unfreeze;

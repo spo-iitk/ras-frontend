@@ -8,7 +8,10 @@ import StudentPhaseDashboard from "./Student/StudentPhaseDashboard";
 import AdminDashBoard from "./Admin/AdminDashBoard";
 import AdminPhaseDashBoard from "./Admin/AdminPhaseDashBoard";
 
-const layouts: any = {
+interface layoutings {
+  [key: string]: React.ComponentType<{ children: JSX.Element }>;
+}
+const layouts: layoutings = {
   Navigation: Layout,
   studentDashboard: StudentDashBoard,
   none: Blank,
@@ -18,7 +21,7 @@ const layouts: any = {
   adminDashBoard: AdminDashBoard,
   adminPhaseDashBoard: AdminPhaseDashBoard,
 };
-function LayoutWrapper({ children }: { children: any }) {
+function LayoutWrapper({ children }: { children: JSX.Element }) {
   let layoutType: string = children.type.layout;
   if (layoutType === undefined) {
     layoutType = "none";
