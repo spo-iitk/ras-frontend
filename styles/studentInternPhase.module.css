@@ -31,3 +31,13 @@
         width:100%;
     }
 }
+
+.datagridStats{
+    width:1210px;
+}
+
+@media(max-width:1500px){
+    .datagridStats{
+        width:100%;
+    }
+}
