@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material'
-import Meta from '../../../../components/Meta'
-import styles from '../../../../styles/internPhase.module.css'
+import Meta from '../../../../../components/Meta'
+import styles from '../../../../../styles/internPhase.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import ActiveButton from '../../../../components/Buttons/ActiveButton';
+import ActiveButton from '../../../../../components/Buttons/ActiveButton';
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },

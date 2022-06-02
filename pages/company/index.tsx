@@ -28,7 +28,7 @@ const columns: GridColDef[] = [
     sortable: false,
     align:'center',
     headerAlign:'center',
-    renderCell: (params) =>  <Link href={`${params.row.recruitmentDriveName}/openings`} passHref={true}><ActiveButton sx={{ height:30, width: '100%'}}>{params.value}</ActiveButton></Link>
+    renderCell: (params) =>  <Link href={`company/rc/1`} passHref={true}><ActiveButton sx={{ height:30, width: '100%'}}>{params.value}</ActiveButton></Link>
   },
 ];
 

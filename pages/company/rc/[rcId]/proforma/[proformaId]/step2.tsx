@@ -1,6 +1,6 @@
 import React from 'react'
 import {Stack } from '@mui/material'
-import Meta from '../../../../components/Meta'
+import Meta from '../../../../../components/Meta'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,8 +8,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TextField } from '@mui/material';
-import ActiveButton from '../../../../components/Buttons/ActiveButton';
-import InactiveButton from '../../../../components/Buttons/InactiveButton';
+import ActiveButton from '../../../../../components/Buttons/ActiveButton';
+import InactiveButton from '../../../../../components/Buttons/InactiveButton';
 
 function Step2() {
   return (

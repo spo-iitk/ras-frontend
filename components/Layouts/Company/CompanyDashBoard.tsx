@@ -45,17 +45,17 @@ const items: userItems[] = [
     {
         avatar: <PieChartIcon />,
         name: 'Overview',
-        id: 'overview'
+        id: ''
     },
     {
         avatar: <ArticleIcon />,
         name: 'Intern Policy',
-        id: 'internpolicy'
+        id: '/internpolicy'
     },
     {
         avatar: <ArticleIcon />,
         name: 'Placement Policy',
-        id: 'placementpolicy'
+        id: '/placementpolicy'
     },
 ]
 
@@ -121,12 +121,12 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                 </AccountStyle>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/company/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`/company${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/company${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/company${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
@@ -175,12 +175,12 @@ const CompanyDashBoard = ({ children }: { children: any }) => {
                             </AccountStyle>
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/company/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`/company${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`/company${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}

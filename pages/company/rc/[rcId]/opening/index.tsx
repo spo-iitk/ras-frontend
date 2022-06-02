@@ -1,9 +1,12 @@
 import { Stack } from '@mui/material'
-import Meta from '../../../../components/Meta'
-import styles from '../../../../styles/internPhase.module.css'
+import Meta from '../../../../../components/Meta'
+import styles from '../../../../../styles/internPhase.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import ActiveButton from '../../../../components/Buttons/ActiveButton';
+import ActiveButton from '../../../../../components/Buttons/ActiveButton';
 import Link from 'next/link';
+
+const ROUTE_PATH="/company/rc/[rcId]/opening/[openingId]"
+const ROUTE_PATH_PROFORMA="/company/rc/[rcId]/proforma/[proformaId]"
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -24,7 +27,9 @@ const columns: GridColDef[] = [
       sortable: false,
       align:'center',
       headerAlign:'center',
-      renderCell: (params) =>  <ActiveButton sx={{ height:30, width: '100%'}}>{params.value}</ActiveButton>
+      renderCell: (params) =>  <Link href={{ pathname: ROUTE_PATH_PROFORMA, query:{ rcId: 1, proformaId: 1}}} passHref={true} >
+        <ActiveButton sx={{ height:30, width: '100%'}}>{params.value}</ActiveButton>
+        </Link>
     },
     {
       field: 'applicants',
@@ -33,7 +38,7 @@ const columns: GridColDef[] = [
       width: 200,
       align:'center',
       headerAlign:'center',
-      renderCell: (params) =>  <Link href="applications/application" passHref={true}><ActiveButton sx={{ height:30, width: '100%'}}>{params.value}</ActiveButton></Link>
+      renderCell: (params) =>  <Link href={{ pathname: ROUTE_PATH, query:{ rcId: 1, openingId: 1}}} passHref={true}><ActiveButton sx={{ height:30, width: '100%'}}>{params.value}</ActiveButton></Link>
     },
   ];
 

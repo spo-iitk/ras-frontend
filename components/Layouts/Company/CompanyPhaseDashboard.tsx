@@ -44,26 +44,26 @@ interface userItems {
 const items: userItems[] = [
     {
         avatar: <PieChartIcon />,
-        name: 'Your Openings',
-        id: 'openings',
+        name: 'Overview',
+        id: '',
     },
     {
         avatar: <ArticleIcon />,
         name: 'Create New Opening',
-        id: 'createopening'
+        id: '/proforma/new'
     },
     {
         avatar: <ArticleIcon />,
         name: 'Applications',
-        id: 'applications'
+        id: '/opening'
     }
 ]
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 const CompanyPhaseDashboard = ({ children }: { children: any }) => {
-    const { pathname } = useRouter()
-    const match = (path: string) => (path == pathname ? true : false);
+    const { asPath } = useRouter()
+    const match = (path: string) => (path == asPath ? true : false);
     const [state, setState] = React.useState({
         left: false,
     });
@@ -98,6 +98,9 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
     const handleNotificationClose = () => {
         setAnchorNotifEl(null);
     };
+
+    const router=useRouter();
+    const {rcId} = router.query;
     const list = (anchor: Anchor) => (
         <Box
             sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 300 }}
@@ -113,22 +116,20 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
                     <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                 </Stack>
                 <div style={{ height: 10 }} />
-                <Link href={`/company/overview`} passHref={true} key='logout'>
                 <AccountStyle>
                     <Avatar src="" alt="photoURL" />
                     <Box sx={{ ml: 2 }}>
                         <h3 style={{ margin: 5 }}>QuadEye</h3>
                     </Box>
                 </AccountStyle>
-                </Link>
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/company/internSeason/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/internSeason/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                        <Link href={`/company/rc/${rcId}${item.id}`} passHref={true} key={item.id}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/rc/${rcId}${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/company/rc/${rcId}${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/company/rc/${rcId}${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
@@ -177,22 +178,20 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
                                 <Image src="/images/logo/spoLogo.png" alt="logo" width={60} height={60} />
                             </Stack>
                             <div style={{ height: 20 }} />
-                            <Link href={`/company/overview`} passHref={true} key='logout'>
                             <AccountStyle>
                                 <Avatar src="" alt="photoURL" />
                                 <Box sx={{ ml: 2 }}>
                                     <h3 style={{ margin: 5 }}>QuadEye</h3>
                                 </Box>
                             </AccountStyle>
-                            </Link>
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/company/internSeason/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/internSeason/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                    <Link href={`/company/rc/${rcId}${item.id}`} passHref={true} key={item.id}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/company/rc/${rcId}${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`/company/rc/${rcId}${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company/internSeason/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/company/rc/${rcId}${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}
@@ -212,7 +211,7 @@ const CompanyPhaseDashboard = ({ children }: { children: any }) => {
                                         <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Logout</h4></ListItemText>
                                     </ListItem>
                                 </Link>
-                                <Link href={`/company/overview`} passHref={true} key='logout'>
+                                <Link href={`/company`} passHref={true} key='logout'>
                                     <ListItem sx={{ borderRadius: 5 }} button>
                                         <ListItemAvatar sx={{ color: '#9e9e9e' }}>
                                             <LogoutIcon />
