@@ -10,3 +10,13 @@
         width:100%;
     }
 }
+
+.datagridBranch{
+    width: 1150px;
+}
+
+@media(max-width:1400px){
+    .datagridBranch{
+        width:100%;
+    }
+}

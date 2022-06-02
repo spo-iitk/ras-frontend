@@ -65,13 +65,13 @@ function Resume() {
     <>
       <div className={styles.container}>
         <Meta title="Manage Resume - Intern Season" />
-        <Grid container spacing={1}>
+        <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>
             <h1>Manage Resume</h1>
           </Grid>
           <Grid item xs={6} style={gridMain}>
             <div>
-              <p style={pStyle}><IconButton onClick={handleOpen}><AddIcon/></IconButton></p>
+            <IconButton onClick={handleOpen}><AddIcon/></IconButton>
             </div>
           </Grid>
         </Grid>
@@ -137,11 +137,11 @@ const boxbuttonStyle = {
 
 const gridMain = {
   width: "100%",
-  padding: "0",
-  margin: "0",
-  alignContent: "right",
+  display: "flex",
   alignItems:"right",
+  justifyContent:"right",
 };
+
 const gridDiv = {
   alignContent: "right",
   alignItems:"right",

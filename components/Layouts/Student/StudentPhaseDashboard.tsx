@@ -1,7 +1,6 @@
 import { Grid, IconButton } from '@mui/material'
 import React from 'react'
 import { Avatar, Box } from '@mui/material';
-import { Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import { Stack } from '@mui/material';
 import List from '@mui/material/List';
@@ -22,7 +21,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { useRouter } from 'next/router'
-import dashboardstyles from '../../../styles/Dashboard.module.css'
+import dashboardstyles from '@/styles/Dashboard.module.css'
 import Drawer from '@mui/material/Drawer';
 import Image from 'next/image';
 import { Menu, MenuItem } from '@mui/material'
@@ -167,6 +166,14 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
                             </ListItem>
                         </Link>
                     ))}
+                    <Link href={`/student/rc`} passHref={true} key='logout'>
+                        <ListItem sx={{ borderRadius: 5 }} button>
+                            <ListItemAvatar sx={{ color: '#9e9e9e' }}>
+                                <LogoutIcon />
+                            </ListItemAvatar>
+                            <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Back to Dashboard</h4></ListItemText>
+                        </ListItem>
+                    </Link>
                     <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel="noreferrer">
                         <ListItem sx={{ borderRadius: 5 }} button>
                             <ListItemAvatar sx={{ color: '#9e9e9e' }}>
@@ -222,6 +229,14 @@ const StudentPhaseDashboard = ({ children }: { children: any }) => {
                                         </ListItem>
                                     </Link>
                                 ))}
+                                <Link href={`/student/rc`} passHref={true} key='logout'>
+                                    <ListItem sx={{ borderRadius: 5 }} button>
+                                        <ListItemAvatar sx={{ color: '#9e9e9e' }}>
+                                            <LogoutIcon />
+                                        </ListItemAvatar>
+                                        <ListItemText><h4 style={{ margin: 5, color: '#9e9e9e' }}>Back to Dashboard</h4></ListItemText>
+                                    </ListItem>
+                                </Link>
                                 <a href="https://spo.iitk.ac.in/about_us.html" target="_blank" rel="noreferrer">
                                     <ListItem sx={{ borderRadius: 5 }} button>
                                         <ListItemAvatar sx={{ color: '#9e9e9e' }}>
