@@ -52,6 +52,7 @@ const Index = () => {
                 rows={rows}
                 columns={columns}
                 pageSize={7}
+                rowsPerPageOptions={[7]}
             />
         </div>
       </Stack>

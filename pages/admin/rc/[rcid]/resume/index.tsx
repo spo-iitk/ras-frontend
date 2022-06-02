@@ -1,6 +1,6 @@
 import React from 'react'
-import Meta from '../../../../components/Meta';
-function Resume() {
+import Meta from '../../../../../components/Meta';
+function Index() {
   return (
     <div className="container">
       <Meta title="Resume - Admin"/>
@@ -10,5 +10,5 @@ function Resume() {
 }
 
 
-Resume.layout="adminPhaseDashBoard";
-export default Resume
+Index.layout="adminPhaseDashBoard";
+export default Index

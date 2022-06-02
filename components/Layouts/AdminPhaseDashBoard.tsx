@@ -141,7 +141,7 @@ const AdminDashBoard = ({ children }: { children: any }) => {
                 <div style={{ height: 10 }} />
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
-                        <Link href={`/admin/rc/${rcid}/${item.id}`} passHref={true} key={item.id}>
+                        <Link href={`/admin/rc/${rcid}${item.id}`} passHref={true} key={item.id}>
                             <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/rc/${rcid}${item.id}`) ? true : false}>
                                 <ListItemAvatar sx={{ color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
@@ -173,7 +173,7 @@ const AdminDashBoard = ({ children }: { children: any }) => {
                             <div style={{ height: 10 }} />
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
-                                    <Link href={`/admin/rc/${rcid}/${item.id}`} passHref={true} key={item.id}>
+                                    <Link href={`/admin/rc/${rcid}${item.id}`} passHref={true} key={item.id}>
                                         <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/rc/${rcid}${item.id}`) ? true : false}>
                                             <ListItemAvatar sx={{ color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
