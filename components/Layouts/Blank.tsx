@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const Blank = ({ children }: { children: any }) => {
-    return (
-        <div>
-            {children}
-        </div>
-    )
+function Blank({ children }: { children: any }) {
+  return <div>{children}</div>;
 }
 
-export default Blank
+export default Blank;

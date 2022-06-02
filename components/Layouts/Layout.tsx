@@ -1,17 +1,17 @@
-import React from 'react'
-import Footer from '@components/Footer'
-import Header from '@components/Header'
-import Meta from "@components/Meta"
+import React from "react";
+import Footer from "@components/Footer";
+import Header from "@components/Header";
+import Meta from "@components/Meta";
 
-const Layout = ({children}:{children:any}) => {
+function Layout({ children }: { children: any }) {
   return (
     <div>
-      <Meta/>
-      <Header/>
+      <Meta />
+      <Header />
       {children}
-      <Footer/>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;
