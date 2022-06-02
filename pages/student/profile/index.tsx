@@ -64,7 +64,7 @@ const Profile = () => {
         <Stack direction={{ xs: "column", sm: 'row'}} alignItems={{xs:"flex-start", md:'center'}} justifyContent={'space-between'} spacing={2}>
           <h1>Profile</h1>
           <Stack direction={"row"} alignItems={"center"} justifyContent="center" spacing={2}>
-            <Link href="/studentDashboard/profile/edit" passHref={true}><EditButton sx={{width:100}}>Edit</EditButton></Link>
+            <Link href="/student/profile/edit" passHref={true}><EditButton sx={{width:100}}>Edit</EditButton></Link>
             <InactiveButton sx={{width:150}}>Not Verified</InactiveButton>
           </Stack>
         </Stack>

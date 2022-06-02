@@ -7,7 +7,5 @@ function Index() {
     </div>
   )
 }
-
-
-Index.layout="adminPhaseDashBoard";
+Index.layout="adminDashBoard"
 export default Index
