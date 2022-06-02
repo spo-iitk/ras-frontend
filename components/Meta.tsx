@@ -9,7 +9,7 @@ const Meta = ({title, description, keywords}:{title:any, description: any, keywo
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
       </Head>
-    </div>
+    </div>  
   )
 }
 

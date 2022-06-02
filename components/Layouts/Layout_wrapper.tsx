@@ -22,7 +22,9 @@ const Layout_wrapper = ({ children }: { children: any }) => {
     }
     const Layout = layouts[layoutType]
     return (
-             <Layout>{children}</Layout>
+             <Layout>
+                 {children}
+            </Layout>
     )
 }
 
