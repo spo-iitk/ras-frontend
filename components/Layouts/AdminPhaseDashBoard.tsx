@@ -52,27 +52,27 @@ const items: userItems[] = [
     {
         avatar: <ArticleIcon />,
         name: 'Notices',
-        id: 'notice'
+        id: '/notice'
     },
     {
         avatar: <ApartmentIcon />,
         name: 'Company',
-        id: 'company'
+        id: '/company'
     },
     {
         avatar: <GroupsIcon />,
         name: 'Students',
-        id: 'students'
+        id: '/student'
     },
     {
         avatar: <BarChartIcon />,
         name: 'Stats',
-        id: 'stats'
+        id: '/stats'
     },
     {
         avatar: <ArticleIcon />,
         name: 'Resume',
-        id: 'resume'
+        id: '/resume'
     },
     {
         avatar: <CalendarMonthIcon />,
@@ -142,11 +142,11 @@ const AdminDashBoard = ({ children }: { children: any }) => {
                 <List sx={style} component="nav" aria-label="mailbox folders">
                     {items.map((item) => (
                         <Link href={`/admin/rc/${rcid}/${item.id}`} passHref={true} key={item.id}>
-                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/rc/${rcid}/${item.id}`) ? true : false}>
-                                <ListItemAvatar sx={{ color: match(`${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                            <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/rc/${rcid}${item.id}`) ? true : false}>
+                                <ListItemAvatar sx={{ color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                     {item.avatar}
                                 </ListItemAvatar>
-                                <ListItemText><h4 style={{ margin: 5, color: match(`/admin/rc/${rcid}/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                <ListItemText><h4 style={{ margin: 5, color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                             </ListItem>
                         </Link>
                     ))}
@@ -174,11 +174,11 @@ const AdminDashBoard = ({ children }: { children: any }) => {
                             <List sx={style} component="nav" aria-label="mailbox folders">
                                 {items.map((item) => (
                                     <Link href={`/admin/rc/${rcid}/${item.id}`} passHref={true} key={item.id}>
-                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/rc/${rcid}/${item.id}`) ? true : false}>
-                                            <ListItemAvatar sx={{ color: match(`${item.id}`) ? 'blue' : '#9e9e9e' }}>
+                                        <ListItem sx={{ borderRadius: 5 }} button selected={match(`/admin/rc/${rcid}${item.id}`) ? true : false}>
+                                            <ListItemAvatar sx={{ color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>
                                                 {item.avatar}
                                             </ListItemAvatar>
-                                            <ListItemText><h4 style={{ margin: 5, color: match(`/admin/rc/${rcid}/${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
+                                            <ListItemText><h4 style={{ margin: 5, color: match(`/admin/rc/${rcid}${item.id}`) ? 'blue' : '#9e9e9e' }}>{item.name}</h4></ListItemText>
                                         </ListItem>
                                     </Link>
                                 ))}

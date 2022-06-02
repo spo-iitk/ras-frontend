@@ -4,6 +4,8 @@ import Meta from '../../../../../components/Meta'
 import styles from '../../../../..//styles/adminPhase.module.css'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Link from 'next/link';
+import { useRouter } from 'next/router'
+
 const columns: GridColDef[] = [
   {
     field: 'id',
@@ -23,11 +25,13 @@ const columns: GridColDef[] = [
   
 ];
 
+const ROUTE_PATH_ID='../[rcid]/notice/new';
 const rows = [
   { id:1 , name:'Company Name : Title', publishedDateAndTime : 'May 26 2019' },
 ];
 
 const Index = () => {
+  const router = useRouter();
   return (
     <div className={styles.container}>
       <Meta title="Notices" />
@@ -41,7 +45,7 @@ const Index = () => {
           justifyContent="space-between"
         >
           <h2>Notices</h2>
-          <IconButton><Link href='../:id/notice/new' passHref={true}><AddIcon/></Link></IconButton>
+          <IconButton><Link href={{ pathname: ROUTE_PATH_ID, query: { rcid: router.query.rcid }}} passHref={true}><AddIcon/></Link></IconButton>
         </Stack>
         <div style={{ height: 500, margin: '0px auto' }} className={styles.datagridNotices}>
             <DataGrid
