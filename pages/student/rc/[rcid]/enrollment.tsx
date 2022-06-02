@@ -59,12 +59,13 @@ const Enrollment = () => {
       color: 'black',
     },
   };
-  const [toggleStates, setToggleStates] = React.useState(() => [...Array(data.mcq.length).fill(false)]);
+  const [toggleStates, setToggleStates] = React.useState(() => [...Array(data.mcq.length)].map((_,index)=>Array(data.mcq[index].Options.split(',').length).fill(false)))
   const handleChange = (
-    index: number
+    indexRow: number,
+    indexCol: number
   ) => {
     const newStates = [...toggleStates]
-    newStates[index]  =!newStates[index]
+    newStates[indexRow][indexCol]  =!newStates[indexRow][indexCol]
     setToggleStates(newStates);
   };
 
@@ -94,8 +95,8 @@ const Enrollment = () => {
           *Required
         </Typography>
         {data.text.map((d)=>(
-          <Box key={d.id} sx={{padding:"5px"}}>
-          <Typography variant="subtitle1">{d.question}</Typography>
+          <Box key={d.id} sx={{padding:"10px"}}>
+          <Typography variant="subtitle1" sx={{padding:"15px 0px"}}>{d.question}</Typography>
           <TextField
             sx={styles}
             color="secondary"
@@ -108,14 +109,14 @@ const Enrollment = () => {
           </Box>
         ))}
         {data.mcq.map((d,i)=>(
-          <Box key={d.id} sx={{padding:"5px"}}>
-          <Typography variant="subtitle1">{d.question}</Typography>
+          <Box key={d.id} sx={{padding:"10px"}}>
+          <Typography variant="subtitle1" sx={{padding:"15px 0px"}}>{d.question}</Typography>
           {d.Options.split(',').map((opt,j) =>(
             <ToggleButton key={j}
-            sx={{justifyContent:"flex-start", border: "1.5px solid black" ,'&.Mui-selected, &.Mui-selected:hover':{backgroundColor:"#6CB4EE"}}}
+            sx={{justifyContent:"flex-start", border: "1.5px solid black",'&.Mui-selected, &.Mui-selected:hover':{backgroundColor:"#6CB4EE"}}}
             value={opt}
-            selected={toggleStates[i]}
-            onClick={()=>handleChange(i)}
+            selected={toggleStates[i][j]}
+            onClick={()=>handleChange(i,j)}
             aria-label="left aligned"
             fullWidth
           >
