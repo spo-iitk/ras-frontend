@@ -1,22 +1,6 @@
-import { Stack, Grid, Paper, Card, CardActionArea, CardContent, CardMedia, Typography, List, ListItem, ListItemText } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Stack, Grid, Paper, Card, CardActionArea, CardContent, Typography, List, ListItem, ListItemText } from '@mui/material';
 import React from 'react'
-const columns: GridColDef[] = [
-  {
-    field: 'Name',
-    // headerName: 'ID',
-    align: 'center',
-    headerAlign: 'center',
-    width: 50
-  },
-  {
-    field: 'data',
-    // headerName: 'ID',
-    align: 'center',
-    headerAlign: 'center',
-    width: 50
-  }
-];
+
 const Notices = [
  {id :1, Name :"Company Name: Test Details", data: "4238" },
  {id :2, Name :"Company Name: Shortlisting For Interview", data: "4238" },
@@ -43,7 +27,7 @@ function Index() {
   return (
     <div>
     <Stack>
-    <h1>Internship 2022-23 Phase</h1>
+    <h1 style = {{marginLeft: "2rem"}}>Internship 2022-23 Phase</h1>
     <Grid container spacing = {2}>
       <Grid item xs = {3}>
       <Card sx={{ maxWidth: 345, margin: "2rem" }}>
@@ -108,23 +92,24 @@ function Index() {
     </Grid>
     <Grid container spacing={1}>
       <Grid item  xs={6}>
-       <Paper variant='outlined' elevation={1} sx= {{margin: '2rem'}}>
+       <Paper variant='elevation' elevation={5} sx= {{margin: '2rem'}}>
        <Grid container spacing={1}>
        <Grid item xs={6}>
-         <h3 style={{marginLeft: "0.5rem"}}>Notices</h3>
-         <h5 style={{marginLeft: "0.5rem", position: "relative", bottom: "1rem"}}>Posted by: SPO Team</h5>
+         <h3 style={{marginLeft: "3rem", marginTop: "1.5rem"}}>Notices</h3>
+         <h5 style={{marginLeft: "3rem", position: "relative", bottom: "1rem", marginTop: "1.5rem", borderBottom: "0px"}}>Posted by: SPO Team</h5>
        </Grid>
        <Grid item xs={6}>
-         <h5 style={{marginRight: "0.8rem",display: "flex", justifyContent: "flex-end", color:"blue"}}><a style= {{cursor : "pointer"}}>View all</a></h5>
+         <h5 style={{marginRight: "3.5rem",display: "flex", justifyContent: "flex-end", color:"blue", marginTop: "1.5rem"}}><a style= {{cursor : "pointer"}}>View all</a></h5>
        </Grid>
        </Grid>
-       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginLeft: "5 rem" }}>
+       <hr />
+       <List sx={{ width: '100%', maxWidth: 400, bgcolor: 'background.paper', marginLeft: "5 rem", padding: "2rem" }}>
        {Notices.map((value) => (
        <ListItem
         key={value.id}
         // disableGutters
         secondaryAction={
-        <h5 style={{color: "blue", position: "relative", left: "12rem"}}>
+        <h5 style={{color: "blue", position: "relative", left: "9rem", bottom: "10 rem"}}>
         {value.data}
         </h5>
       }
@@ -136,23 +121,24 @@ function Index() {
        </Paper>
       </Grid>
       <Grid item  xs={6}>
-      <Paper variant='outlined' elevation={1} sx= {{margin: '2rem'}}>
+      <Paper variant='elevation' elevation={5} sx= {{margin: '2rem'}}>
       <Grid container spacing={1}>
        <Grid item xs={6}>
-         <h3 style={{marginLeft: "0.5rem"}}>Recent Company Added</h3>
-         <h5 style={{marginLeft: "0.5rem", position: "relative", bottom: "1rem"}}>Posted by: SPO Team</h5>
+         <h3 style={{marginLeft: "3rem", marginTop: "1.5rem"}}>Recent Company Added</h3>
+         <h5 style={{marginLeft: "3rem", position: "relative", bottom: "1rem", marginTop: "1.5rem", borderBottom: "0px"}}>Posted by: SPO Team</h5>
        </Grid>
        <Grid item xs={6}>
-         <h5 style={{marginRight: "0.8rem",display: "flex", justifyContent: "flex-end", color:"blue"}}><a style= {{cursor : "pointer"}}>View all</a></h5>
+         <h5 style={{marginRight: "3.5rem",display: "flex", justifyContent: "flex-end", color:"blue", marginTop: "1.5rem"}}><a style= {{cursor : "pointer"}}>View all</a></h5>
        </Grid>
        </Grid>
-       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginLeft: "5 rem" }}>
+       <hr />
+       <List sx={{ width: '100%', maxWidth: 400, bgcolor: 'background.paper', marginLeft: "5 rem", padding: "2rem" }}>
        {RecCompany.map((value) => (
        <ListItem
         key={value.id}
         // disableGutters
         secondaryAction={
-        <h5 style={{color: "blue", position: "relative", left: "12rem"}}>
+        <h5 style={{color: "blue", position: "relative", left: "9rem", bottom: "10 rem"}}>
         {value.data}
         </h5>
       }
@@ -161,29 +147,31 @@ function Index() {
     </ListItem>
   ))}
 </List>
+<br />
       {/* <h1>1</h1> */}
       </Paper>
       </Grid>
     </Grid>
     <Grid container spacing={1}>
       <Grid item  xs={6}>
-      <Paper variant='outlined' elevation={1} sx= {{margin: '2rem'}}>
+      <Paper variant='elevation' elevation={5} sx= {{margin: '2rem'}}>
       <Grid container spacing={1}>
        <Grid item xs={6}>
-         <h3 style={{marginLeft: "0.5rem"}}>Events Scheduled</h3>
-         <h5 style={{marginLeft: "0.5rem", position: "relative", bottom: "1rem"}}>Posted by: SPO Team</h5>
+         <h3 style={{marginLeft: "3rem", marginTop: "1.5rem"}}>Events Scheduled</h3>
+         <h5 style={{marginLeft: "3rem", position: "relative", bottom: "1rem", marginTop: "1.5rem", borderBottom: "0px"}}>Posted by: SPO Team</h5>
        </Grid>
        <Grid item xs={6}>
-         <h5 style={{marginRight: "0.8rem",display: "flex", justifyContent: "flex-end", color:"blue"}}><a style= {{cursor : "pointer"}}>View all</a></h5>
+         <h5 style={{marginRight: "3.5rem",display: "flex", justifyContent: "flex-end", color:"blue", marginTop: "1.5rem"}}><a style= {{cursor : "pointer"}}>View all</a></h5>
        </Grid>
        </Grid>
-       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginLeft: "5 rem" }}>
+       <hr />
+       <List sx={{ width: '100%', maxWidth: 400, bgcolor: 'background.paper', marginLeft: "5 rem", padding: "2rem" }}>
        {EventSchd.map((value) => (
        <ListItem
         key={value.id}
         // disableGutters
         secondaryAction={
-        <h5 style={{color: "blue", position: "relative", left: "12rem"}}>
+        <h5 style={{color: "blue", position: "relative", left: "9rem", bottom: "10 rem"}}>
         {value.data}
         </h5>
       }
@@ -196,23 +184,24 @@ function Index() {
       </Paper>
     </Grid>
       <Grid item  xs={6}>
-      <Paper variant='outlined' elevation={1} sx= {{margin: '2rem'}}>
+      <Paper variant='elevation' elevation={5} sx= {{margin: '2rem'}}>
       <Grid container spacing={1}>
        <Grid item xs={6}>
-         <h3 style={{marginLeft: "0.5rem"}}>Events: Not Scheduled Yet</h3>
-         <h5 style={{marginLeft: "0.5rem", position: "relative", bottom: "1rem"}}>Posted by: SPO Team</h5>
+         <h3 style={{marginLeft: "3rem", marginTop: "1.5rem"}}>Events: Not Scheduled Yet</h3>
+         <h5 style={{marginLeft: "3rem", position: "relative", bottom: "1rem", marginTop: "1.5rem", borderBottom: "0px"}}>Posted by: SPO Team</h5>
        </Grid>
        <Grid item xs={6}>
-         <h5 style={{marginRight: "0.8rem",display: "flex", justifyContent: "flex-end", color:"blue"}}><a style= {{cursor : "pointer"}}>View all</a></h5>
+         <h5 style={{marginRight: "3.5rem",display: "flex", justifyContent: "flex-end", color:"blue", marginTop: "1.5rem"}}><a style= {{cursor : "pointer"}}>View all</a></h5>
        </Grid>
        </Grid>
-       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginLeft: "5 rem" }}>
+       <hr />
+       <List sx={{ width: '100%', maxWidth: 400, bgcolor: 'background.paper', marginLeft: "5 rem", padding: "2rem" }}>
        {EventSchd.map((value) => (
        <ListItem
         key={value.id}
         // disableGutters
         secondaryAction={
-        <h5 style={{color: "blue", position: "relative", left: "12rem"}}>
+        <h5 style={{color: "blue", position: "relative", left: "9rem", bottom: "10 rem"}}>
         {value.data}
         </h5>
       }
@@ -233,5 +222,4 @@ function Index() {
 
 Index.layout="adminPhaseDashBoard";
 export default Index
-
 
