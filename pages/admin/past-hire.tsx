@@ -1,50 +1,44 @@
 import React from 'react'
-// import Meta from '../../../components/Meta'
+import Meta from '@components/Meta'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Stack, Grid } from '@mui/material';
+import styles from '@styles/adminPhase.module.css'
 
 const columns: GridColDef[] = [
   {
+    field: 'id',
+    headerName: 'ID',
+    width: 100,
+  },
+  {
     field: 'Name',
     headerName: 'Name',
-    align: 'center',
-    headerAlign: 'center',
     width: 200
   },
   {
     field: 'Roll_no',
     headerName: 'Roll No.',
-    align: 'center',
-    headerAlign: 'center',
     width: 200
   },
   {
     field: 'Company_Name',
     headerName: 'Company Name',
-    align: 'center',
-    headerAlign: 'center',
     width: 200
   },
   {
     field: 'Designation',
     headerName: 'Designation',
-    align: 'center',
-    headerAlign: 'center',
     width: 200
   },
   {
     field: 'Program',
     headerName: 'Program',
-    align: 'center',
-    headerAlign: 'center',
     width: 200
   },
   {
     field: 'Branch',
     headerName: 'Branch',
-    align: 'center',
-    headerAlign: 'center',
-    width: 200
+    width: 100
   }
 ];
 const rows = [
@@ -52,14 +46,11 @@ const rows = [
 ];
 function PastHire() {
   return (
-    <div>
+    <div className={styles.container}>  
+    <Meta title="Past Hire - Admin" />
     <Stack>
-          <div style={{ height: 500, margin: '0px 2rem'}} >
-            <Grid container spacing={1}>
-              <Grid item xs={12} style={gridMain}>
-                <h1>Past Hires &gt; Student Wise</h1>
-              </Grid>
-              </Grid>
+          <h1>Past Hires &gt; Student Wise</h1>
+          <div style={{ height: 500, margin: '0px auto'}} className={styles.datagridPastHire}>
               <DataGrid
               rows={rows}
               columns={columns}
