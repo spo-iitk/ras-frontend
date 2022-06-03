@@ -25,7 +25,7 @@ function NewNotice() {
           direction='row'
         >
           <h2 style={{ marginRight: 185, marginLeft: 100 }}>MESSAGE</h2>
-          <TextField id="message" variant="filled" multiline maxRows={4} style={{ width: "700px" }} />
+          <TextField id="message" variant="filled" multiline rows={4} style={{ width: "700px",marginBottom:"20px" }} />
         </Stack>
         <Stack
           direction='row'
