@@ -1,5 +1,6 @@
 import { Stack, Grid, Paper, Card, CardActionArea, CardContent, Typography, List, ListItem, ListItemText } from '@mui/material';
 import React from 'react'
+import Meta from "@components/Meta";
 
 const Notices = [
  {id :1, Name :"Company Name: Test Details", data: "4238" },
@@ -26,8 +27,11 @@ const RecCompany = [
 function Index() {
   return (
     <div>
+      <Meta title="Admin Dashboard" />
     <Stack>
     <h1 style = {{marginLeft: "2rem"}}>Internship 2022-23 Phase</h1>
+    <h1 style = {{marginLeft: "2rem"}}>Internship 2022-23 Phase</h1>
+
     <Grid container spacing = {2}>
       <Grid item xs = {3}>
       <Card sx={{ maxWidth: 345, margin: "2rem" }}>

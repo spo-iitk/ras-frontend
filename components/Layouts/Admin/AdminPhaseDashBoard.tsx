@@ -77,7 +77,7 @@ const items: userItems[] = [
     {
         avatar: <CalendarMonthIcon />,
         name: 'Calendar',
-        id: 'calendar'
+        id: '/calendar'
     }
 ]
 
