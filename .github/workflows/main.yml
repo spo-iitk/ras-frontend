@@ -1,12 +1,15 @@
-name: Lint
-
-on: [push]
-
+on:
+  pull_request:
+    branches:
+      - main
 jobs:
-  eslint:
+  test:
+    name: Check Linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: stefanoeb/eslint-action@1.0.2
-        with:
-          files: pages/
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install Packages
+        run: npm i
+      - name: Lint Check
+        run: npm run lint
