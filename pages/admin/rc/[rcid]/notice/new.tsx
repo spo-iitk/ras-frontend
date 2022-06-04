@@ -1,8 +1,8 @@
 import React from 'react'
 import FormControl from '@mui/material/FormControl';
 import { Button, FormHelperText, Input, InputLabel, Stack, TextField } from '@mui/material';
-import ActiveButton from '../../../../../components/Buttons/ActiveButton';
-import InactiveButton from '../../../../../components/Buttons/InactiveButton';
+import ActiveButton from '@components/Buttons/ActiveButton';
+import InactiveButton from '@components/Buttons/InactiveButton';
 
 function NewNotice() {
   return (
