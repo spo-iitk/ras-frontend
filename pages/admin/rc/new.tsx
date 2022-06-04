@@ -2,10 +2,10 @@ import { FormControl, Stack } from '@mui/material'
 import React from 'react'
 import styled from '@emotion/styled';
 import { Button, ButtonProps } from '@mui/material';
-import ActiveButton from '../../../components/Buttons/ActiveButton';
+import ActiveButton from '@components/Buttons/ActiveButton';
 import { green, red } from '@mui/material/colors';
 import { TextField } from '@mui/material';
-import Meta from '../../../components/Meta';
+import Meta from '@components/Meta';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 
