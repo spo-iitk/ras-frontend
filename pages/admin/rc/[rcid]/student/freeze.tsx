@@ -6,7 +6,7 @@ import InactiveButton from '../../../../../components/Buttons/InactiveButton';
 
 
 const h1="FREEZE (GROUP)"
-function FREEZE() {
+function Freeze() {
   return (
     <div>
       <Stack
@@ -15,25 +15,25 @@ function FREEZE() {
         <h1>INTERNSHIP 2022-23 PHASE 1</h1>
       </Stack>
       <h1 style={{textAlign:'center'}}>{h1}</h1>
-      <FormControl>
+      <FormControl style={{display:"flex",justifyItems:'center'}}>
         <Stack
-          style={{alignItems:'center',marginRight: 100, marginLeft: 400}}
+          style={{alignItems:'center',margin:"auto"}}
         >
           <Typography>ENTER ROLL NUMBERS</Typography>
           <TextField id="rollNo" variant="filled" fullWidth style={{ width: "700px" }} />
           <Typography style={{textAlign:'center',marginTop:20,marginBottom:20}}>OR</Typography>
         </Stack>
         <Stack
-          style={{alignItems:'center',marginRight: 100, marginLeft: 400}}
+          style={{alignItems:'center',margin:"auto"}}
         >
           <Typography>ENTER EMAIL IDS</Typography>
           <TextField id="emailId" variant="filled" fullWidth style={{ width: "700px" }} />
         </Stack>
         <Stack
           direction='row'
-          style={{alignItems:'center',marginRight: 100, marginLeft: 400,marginTop:80,justifyContent:'space-between'}}
+          style={{alignItems:'center',marginTop:60,justifyContent:'space-evenly'}}
         >
-          <ActiveButton onClick={() => { location.href = '../notice' }}>FREEZE</ActiveButton>
+          <ActiveButton onClick={() => { location.href = '../notice' }}>Freeze</ActiveButton>
           <InactiveButton onClick={() => { location.href = '../notice/new' }}>RESET</InactiveButton>
         </Stack>
       </FormControl>
@@ -41,5 +41,5 @@ function FREEZE() {
   )
 }
 
-FREEZE.layout = 'adminPhaseDashBoard'
-export default FREEZE
+Freeze.layout = 'adminPhaseDashBoard'
+export default Freeze
