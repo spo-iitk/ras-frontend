@@ -1,0 +1,39 @@
+.head {
+    top: -8vh;
+}
+
+@media (max-width:600px) {
+    .container {
+        display: table;
+        text-align: center;
+        padding: 0 18%;
+        height: auto;
+        width: 20vw;
+        position: relative;
+        left: 23vw;
+        padding-inline: 5vw;
+        padding: auto;
+    }
+}
+
+@media (max-width:770px) {
+    .applications {
+        display: table;
+        text-align: center;
+        padding: 0 0%;
+        height: auto;
+    }
+    .main {
+        left: 13vw;
+        top: -5%;
+    }
+    .placement {
+        width: 40vw;
+    }
+}
+
+@media (max-width:1000px) {
+    .placement {
+        height: 30%
+    }
+}
