@@ -18,19 +18,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
-
+var clicked=[false,false,false,false,false,false,false]
 const EventsPage = () => {
+
+
   const [PopularStages, setPopularStages] = useState([])
 
   const addPrePlacementTalk = (i) => {
+    if(clicked[0]==false){
+      console.log("I am going on")
     setPopularStages([...PopularStages,{
       id:PopularStages.length,
-      value:[<div><Box className={styles.placement} component='form' name="PlacementTask"  justifyContent='center' sx={{
+      value:<Box className={styles.placement} component='form' name="ResumeShortlisting" justifyContent='center' sx={{
         '& .MuiTextField-root': { m: 1, width: '20ch' },
     backgroundColor:'rgb(213, 214, 230)',
     width:'25vw',
     position:'absolute',
-    margin:`calc(7% + ${i}*30%) 9%`,
+    margin:`calc(14vh + ${i}*70vh) 9%`,
     height:'65vh',
     display:'block'
   }}>
@@ -112,20 +116,22 @@ const EventsPage = () => {
     height:'10%',
     fontSize:'70%'
   }}>VIEW EVENT DETAILS</Button>
-  </Box></div>]
+  </Box>
     }
     ])
-  };
+  }
+clicked[0]=true;};
 
 const addResumeShortlisting=(i)=>{
+  if(clicked[1]==false){
   setPopularStages([...PopularStages,{
     id:PopularStages.length,
-    value:(<Box className={styles.placement} component='form' name="ResumeShortlisting" justifyContent='center' sx={{
+    value:<Box className={styles.placement} component='form' name="ResumeShortlisting" justifyContent='center' sx={{
       '& .MuiTextField-root': { m: 1, width: '20ch' },
   backgroundColor:'rgb(213, 214, 230)',
   width:'25vw',
   position:'absolute',
-  margin:`calc(7% + ${i}*30%) 9%`,
+  margin:`calc(14vh + ${i}*70vh) 9%`,
   height:'65vh',
   display:'block'
 }}>
@@ -207,20 +213,22 @@ width:'30%'}}
   height:'10%',
   fontSize:'70%'
 }}>VIEW EVENT DETAILS</Button>
-</Box>)
+</Box>
   }])
 
 }
+clicked[1]=true}
 
 const addGroupDiscussion=(i)=>{
+  if(clicked[2]==false){
   setPopularStages([...PopularStages,{
     id:PopularStages.length,
-    value:(<Box className={styles.placement} component='form' name="GroupDiscussion" justifyContent='center' sx={{
+    value:<Box className={styles.placement} component='form' name="GroupDiscussion" justifyContent='center' sx={{
       '& .MuiTextField-root': { m: 1, width: '20ch' },
   backgroundColor:'rgb(213, 214, 230)',
   width:'25vw',
   position:'absolute',
-  margin:`calc(7% + ${i}*30%) 9%`,
+  margin:`calc(14vh + ${i}*70vh) 9%`,
   height:'65vh',
   display:'block'
 }}>
@@ -302,10 +310,354 @@ width:'30%'}}
   height:'10%',
   fontSize:'70%'
 }}>VIEW EVENT DETAILS</Button>
-</Box>)
+</Box>
   }])
 
+  }
+clicked[2]=true};
+
+const addTechnicalTest = (i) => {
+  if(clicked[3]==false){
+    console.log("I am going on")
+  setPopularStages([...PopularStages,{
+    id:PopularStages.length,
+    value:<Box className={styles.placement} component='form' name="ResumeShortlisting" justifyContent='center' sx={{
+      '& .MuiTextField-root': { m: 1, width: '20ch' },
+  backgroundColor:'rgb(213, 214, 230)',
+  width:'25vw',
+  position:'absolute',
+  margin:`calc(14vh + ${i}*70vh) 9%`,
+  height:'25vh',
+  display:'block'
+}}>
+  <div style={{
+    display:'flex',
+    justifyContent:'center',
+    position:'relative',
+    left:'0'
+  }}>
+  <DvrIcon fontSize='large' sx={{
+    alignSelf:'center',
+    // margin:'0 12%',
+    position:'absolute',
+    left:'40%',
+    top:'2vh',
+    fontSize:'50px',
+  }}></DvrIcon>
+  <EditIcon sx={{
+    position:'absolute',
+    left:'2vw',
+    top:'2vh',
+    cursor:'pointer',
+    zIndex:'1'
+  }}></EditIcon>
+  <DeleteForeverIcon sx={{
+    position:'absolute',
+    right:'2%',
+    top:'2vh',
+    cursor:'pointer',
+    zIndex:'1'
+  }}></DeleteForeverIcon></div><br/><br/><br/>
+  <Typography variant='h6' fontWeight='bold' mx='6%' sx={{
+    textAlign:'center',
+    display:'block'
+  }}>Technical Test</Typography><br/>
+</Box>
+  }
+  ])
 }
+clicked[3]=true;};
+
+const addAptitudeTest=(i)=>{
+  if(clicked[4]==false){
+  setPopularStages([...PopularStages,{
+    id:PopularStages.length,
+    value:<Box className={styles.placement} component='form' name="GroupDiscussion" justifyContent='center' sx={{
+      '& .MuiTextField-root': { m: 1, width: '20ch' },
+  backgroundColor:'rgb(213, 214, 230)',
+  width:'25vw',
+  position:'absolute',
+  margin:`calc(14vh + ${i}*70vh) 9%`,
+  height:'65vh',
+  display:'block'
+}}>
+  <div style={{
+    display:'flex',
+    justifyContent:'center',
+    position:'relative',
+    left:'0'
+  }}>
+  <EventNoteIcon fontSize='large' sx={{
+    alignSelf:'center',
+    // margin:'0 12%',
+    position:'absolute',
+    left:'40%',
+    top:'2vh',
+    fontSize:'50px',
+  }}></EventNoteIcon>
+  <EditIcon sx={{
+    position:'absolute',
+    left:'2vw',
+    top:'2vh',
+    cursor:'pointer',
+    zIndex:'1'
+  }}></EditIcon>
+  <DeleteForeverIcon sx={{
+    position:'absolute',
+    right:'2%',
+    top:'2vh',
+    cursor:'pointer',
+    zIndex:'1'
+  }}></DeleteForeverIcon></div><br/><br/><br/>
+  <Typography variant='h6' fontWeight='bold' mx='6%' sx={{
+    textAlign:'center',
+    display:'block'
+  }}>Aptitude Test</Typography><br/>
+  <div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>Venue</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white'}}
+/></div>
+<div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>Start Time</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white',
+width:'30%'}}
+/></div>
+<div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>End Time</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white'}}
+/></div>
+<Button variant="contained" color='success' sx={{
+  margin:'0 20%',
+  borderRadius:'20px',
+  backgroundColor:'rgb(53, 203, 133)',
+  zIndex:'1',
+  width: '60%',
+  height:'10%',
+  fontSize:'70%'
+}}>VIEW EVENT DETAILS</Button>
+</Box>
+  }])
+
+  }
+clicked[4]=true};
+
+const addTechnicalInterview=(i)=>{
+  if(clicked[5]==false){
+  setPopularStages([...PopularStages,{
+    id:PopularStages.length,
+    value:<Box className={styles.placement} component='form' name="GroupDiscussion" justifyContent='center' sx={{
+      '& .MuiTextField-root': { m: 1, width: '20ch' },
+  backgroundColor:'rgb(213, 214, 230)',
+  width:'25vw',
+  position:'absolute',
+  margin:`calc(14vh + ${i}*70vh) 9%`,
+  height:'65vh',
+  display:'block'
+}}>
+  <div style={{
+    display:'flex',
+    justifyContent:'center',
+    position:'relative',
+    left:'0'
+  }}>
+  <GroupIcon fontSize='large' sx={{
+    alignSelf:'center',
+    // margin:'0 12%',
+    position:'absolute',
+    left:'40%',
+    top:'2vh',
+    fontSize:'50px',
+  }}></GroupIcon>
+  <EditIcon sx={{
+    position:'absolute',
+    left:'2vw',
+    top:'2vh',
+    cursor:'pointer',
+    zIndex:'1'
+  }}></EditIcon>
+  <DeleteForeverIcon sx={{
+    position:'absolute',
+    right:'2%',
+    top:'2vh',
+    cursor:'pointer',
+    zIndex:'1'
+  }}></DeleteForeverIcon></div><br/><br/><br/>
+  <Typography variant='h6' fontWeight='bold' mx='6%' sx={{
+    textAlign:'center',
+    display:'block'
+  }}>Technical Interview</Typography><br/>
+  <div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>Venue</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white'}}
+/></div>
+<div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>Start Time</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white',
+width:'30%'}}
+/></div>
+<div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>End Time</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white'}}
+/></div>
+<Button variant="contained" color='success' sx={{
+  margin:'0 20%',
+  borderRadius:'20px',
+  backgroundColor:'rgb(53, 203, 133)',
+  zIndex:'1',
+  width: '60%',
+  height:'10%',
+  fontSize:'70%'
+}}>VIEW EVENT DETAILS</Button>
+</Box>
+  }])
+
+  }
+clicked[5]=true};
+
+const addHRInterview=(i)=>{
+  if(clicked[6]==false){
+  setPopularStages([...PopularStages,{
+    id:PopularStages.length,
+    value:<Box className={styles.placement} component='form' name="GroupDiscussion" justifyContent='center' sx={{
+      '& .MuiTextField-root': { m: 1, width: '20ch' },
+  backgroundColor:'rgb(213, 214, 230)',
+  width:'25vw',
+  position:'absolute',
+  margin:`calc(14vh + ${i}*70vh) 9%`,
+  height:'65vh',
+  display:'block'
+}}>
+  <div style={{
+    display:'flex',
+    justifyContent:'center',
+    position:'relative',
+    left:'0'
+  }}>
+  <SiHandshake size='35px' style={{
+    alignSelf:'center',
+    // margin:'0 12%',
+    position:'absolute',
+    left:'42%',
+    top:'2vh',
+    fontSize:'50px',
+  }}/>
+  <EditIcon sx={{
+    position:'absolute',
+    left:'2vw',
+    top:'2vh',
+    cursor:'pointer',
+    zIndex:'1'
+  }}></EditIcon>
+  <DeleteForeverIcon sx={{
+    position:'absolute',
+    right:'2%',
+    top:'2vh',
+    cursor:'pointer',
+    zIndex:'1'
+  }}></DeleteForeverIcon></div><br/><br/><br/>
+  <Typography variant='h6' fontWeight='bold' mx='6%' sx={{
+    textAlign:'center',
+    display:'block'
+  }}>HR Interview</Typography><br/>
+  <div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>Venue</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white'}}
+/></div>
+<div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>Start Time</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white',
+width:'30%'}}
+/></div>
+<div style={{
+    display:'flex',
+    justifyContent:'space-between'
+  }}>
+    <Typography mt='5%' fontWeight='bold' mx='4%'>End Time</Typography>
+    <TextField
+  id="outlined-number"
+  type="text"
+  size="small"
+   sx={{zIndex:'1',
+  backgroundColor:'white'}}
+/></div>
+<Button variant="contained" color='success' sx={{
+  margin:'0 20%',
+  borderRadius:'20px',
+  backgroundColor:'rgb(53, 203, 133)',
+  zIndex:'1',
+  width: '60%',
+  height:'10%',
+  fontSize:'70%'
+}}>VIEW EVENT DETAILS</Button>
+</Box>
+  }])
+
+  }
+clicked[6]=true};
 
   return (
     <div style={{ padding: "0 2rem" }}>
@@ -438,7 +790,7 @@ width:'30%'}}
           }}></DvrIcon><Typography variant='subtitle1' fontWeight='bold' sx={{
             marginRight:'15%',
             marginLeft:'13%'
-          }}>Technical Test</Typography><AddCircleOutlineIcon fontSize='medium' sx={{
+          }}>Technical Test</Typography><AddCircleOutlineIcon onClick={()=>addTechnicalTest(PopularStages.length)} fontSize='medium' sx={{
             alignSelf:'center',
             position:'relative',
             left:'-2%',
@@ -463,7 +815,7 @@ width:'30%'}}
             width:'60%',
             marginRight:'5%',
             marginLeft:'10%'
-          }}>Aptitude Test</Typography><AddCircleOutlineIcon fontSize='medium' sx={{
+          }}>Aptitude Test</Typography><AddCircleOutlineIcon onClick={()=>addAptitudeTest(PopularStages.length)} fontSize='medium' sx={{
             alignSelf:'center',
             position:'relative',
             left:'-8%',
@@ -488,7 +840,7 @@ width:'30%'}}
             width:'60%',
             marginRight:'10%',
             marginLeft:'6%'
-          }}>Technical Interview</Typography><AddCircleOutlineIcon fontSize='medium' sx={{
+          }}>Technical Interview</Typography><AddCircleOutlineIcon onClick={()=>addTechnicalInterview(PopularStages.length)} fontSize='medium' sx={{
             alignSelf:'center',
             position:'relative',
             left:'-8%',
@@ -516,7 +868,7 @@ width:'30%'}}
           }}/></div><Typography variant='subtitle1' fontWeight='bold' sx={{
             marginRight:'20%',
             marginLeft:'14%'
-          }}>HR Interview</Typography><AddCircleOutlineIcon fontSize='medium' sx={{
+          }}>HR Interview</Typography><AddCircleOutlineIcon onClick={()=>addHRInterview(PopularStages.length)} fontSize='medium' sx={{
             alignSelf:'center',
             position:'relative',
             left:'0%',
