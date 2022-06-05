@@ -1,0 +1,37 @@
+.head {
+    top: -8vh;
+}
+
+@media (max-width:600px) {
+    .container {
+        display: table;
+        text-align: center;
+        padding: 0 18%;
+        height: auto;
+        width: 20vw;
+        position: relative;
+        left: 23vw;
+        padding-inline: 5vw;
+        padding: auto;
+    }
+}
+
+@media (max-width:770px) {
+    .applications {
+        display: table;
+        text-align: center;
+        padding: 0 0%;
+        height: auto;
+    }
+    .main {
+        left: 13vw;
+        top: -5%;
+    }
+}
+
+@media (max-width:1100px) {
+    .placement {
+        width: 40vw;
+        margin-left: 5%;
+    }
+}
