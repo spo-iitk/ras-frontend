@@ -8,7 +8,7 @@ import Meta from "@components/Meta";
 function Unfreeze() {
   return (
     <div className={styles.container}>
-      <Meta title="Add PPO-PIO - Admin" />
+      <Meta title="Unfreeze - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>
         <Card
