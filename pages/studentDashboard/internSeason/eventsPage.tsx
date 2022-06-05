@@ -22,9 +22,9 @@ var clicked=[false,false,false,false,false,false,false]
 const EventsPage = () => {
 
 
-  const [PopularStages, setPopularStages] = useState([])
+  const [PopularStages, setPopularStages] = useState<any[]>([])
 
-  const addPrePlacementTalk = (i) => {
+  const addPrePlacementTalk = (i:number) => {
     if(clicked[0]==false){
       console.log("I am going on")
     setPopularStages([...PopularStages,{
@@ -122,7 +122,7 @@ const EventsPage = () => {
   }
 clicked[0]=true;};
 
-const addResumeShortlisting=(i)=>{
+const addResumeShortlisting=(i:number)=>{
   if(clicked[1]==false){
   setPopularStages([...PopularStages,{
     id:PopularStages.length,
@@ -219,7 +219,7 @@ width:'30%'}}
 }
 clicked[1]=true}
 
-const addGroupDiscussion=(i)=>{
+const addGroupDiscussion=(i:number)=>{
   if(clicked[2]==false){
   setPopularStages([...PopularStages,{
     id:PopularStages.length,
@@ -316,7 +316,7 @@ width:'30%'}}
   }
 clicked[2]=true};
 
-const addTechnicalTest = (i) => {
+const addTechnicalTest = (i:number) => {
   if(clicked[3]==false){
     console.log("I am going on")
   setPopularStages([...PopularStages,{
@@ -368,7 +368,7 @@ const addTechnicalTest = (i) => {
 }
 clicked[3]=true;};
 
-const addAptitudeTest=(i)=>{
+const addAptitudeTest=(i:number)=>{
   if(clicked[4]==false){
   setPopularStages([...PopularStages,{
     id:PopularStages.length,
@@ -465,7 +465,7 @@ width:'30%'}}
   }
 clicked[4]=true};
 
-const addTechnicalInterview=(i)=>{
+const addTechnicalInterview=(i:number)=>{
   if(clicked[5]==false){
   setPopularStages([...PopularStages,{
     id:PopularStages.length,
@@ -562,7 +562,7 @@ width:'30%'}}
   }
 clicked[5]=true};
 
-const addHRInterview=(i)=>{
+const addHRInterview=(i:number)=>{
   if(clicked[6]==false){
   setPopularStages([...PopularStages,{
     id:PopularStages.length,
