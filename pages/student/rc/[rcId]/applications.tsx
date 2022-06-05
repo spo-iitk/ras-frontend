@@ -40,7 +40,6 @@ const applicationParams = {
 }
 function Applications() {
   return (
-    <>
       <div className={styles.container}>
         <Meta title="Applications - Intern Season" />
         <Grid container spacing={1} direction={{xs:'column', md:'row'}} alignItems={{xs:'flex-start', md:'center'}}>
@@ -61,8 +60,7 @@ function Applications() {
           </div>
         </Stack>
       </div>
-    </>
-  )
+        )
 }
 Applications.layout = "studentPhaseDashboard"
 export default Applications
