@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 
 const InactiveButton = styled(Button)<ButtonProps>(() => ({
   color: "white",
-  borderRadius: 20,
   padding: "0.5rem 1rem",
   backgroundColor: red[500],
   "&:hover": {
