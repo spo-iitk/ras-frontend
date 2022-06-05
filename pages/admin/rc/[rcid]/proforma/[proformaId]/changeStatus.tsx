@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function ChangeStatus() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-export default ChangeStatus
+export default ChangeStatus;

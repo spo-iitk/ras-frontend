@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function Freeze() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-Freeze.layout="adminDashBoard"
-export default Freeze
+Freeze.layout = "adminDashBoard";
+export default Freeze;

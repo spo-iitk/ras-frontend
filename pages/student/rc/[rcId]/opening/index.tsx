@@ -1,13 +1,13 @@
-import React from 'react'
-import Meta from '@components/Meta'
+import React from "react";
+import Meta from "@components/Meta";
 
 function Openings() {
   return (
     <div>
-        <Meta title="Openings - Intern Season" />
+      <Meta title="Openings - Intern Season" />
     </div>
-  )
+  );
 }
 
-Openings.layout="studentPhaseDashboard"
-export default Openings
+Openings.layout = "studentPhaseDashboard";
+export default Openings;

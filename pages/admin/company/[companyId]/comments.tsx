@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Comments() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
-Comments.layout="adminDashBoard"
-export default Comments
+Comments.layout = "adminDashBoard";
+export default Comments;

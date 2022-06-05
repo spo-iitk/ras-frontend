@@ -8,10 +8,10 @@ import {
   Box,
   FormControlLabel,
 } from "@mui/material";
-import styles from '@styles/internPhase.module.css'
+import styles from "@styles/internPhase.module.css";
 import Meta from "@components/Meta";
 
-const Enrollment = () => {
+function Enrollment() {
   const data = {
     title: "Enrollment Section",
     text: [
@@ -89,9 +89,9 @@ const Enrollment = () => {
           mt: "2%",
           minHeight: "70vh",
           width: "80vw",
-          maxWidth:700,
+          maxWidth: 700,
           justifyContent: "space-around",
-          padding: { md:"30px", xs:"20px"},
+          padding: { md: "30px", xs: "20px" },
           borderRadius: 2,
           boxShadow: 4,
           fontWeight: "light",
@@ -125,25 +125,21 @@ const Enrollment = () => {
               {d.question}
             </Typography>
             {d.Options.split(",").map((opt, j) => (
-                <FormControlLabel
-                  key={j}
-                  // sx={{justifyContent:"flex-start", border: "1.5px solid black",'&.Mui-selected, &.Mui-selected:hover':{backgroundColor:"#6CB4EE"}}}
-                  label={
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ padding: "15px 0px" }}
-                    >
-                      {opt}
-                    </Typography>
-                  }
-                  control={
-                    <Checkbox
-                      checked={toggleStates[i][j]}
-                      onChange={() => handleChange(i, j)}
-                    />
-                  }
-                />
-
+              <FormControlLabel
+                key=""
+                // sx={{justifyContent:"flex-start", border: "1.5px solid black",'&.Mui-selected, &.Mui-selected:hover':{backgroundColor:"#6CB4EE"}}}
+                label={
+                  <Typography variant="subtitle1" sx={{ padding: "15px 0px" }}>
+                    {opt}
+                  </Typography>
+                }
+                control={
+                  <Checkbox
+                    checked={toggleStates[i][j]}
+                    onChange={() => handleChange(i, j)}
+                  />
+                }
+              />
             ))}
           </Box>
         ))}
@@ -163,6 +159,6 @@ const Enrollment = () => {
       </Grid>
     </div>
   );
-};
+}
 Enrollment.layout = "studentDashboard";
 export default Enrollment;
