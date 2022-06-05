@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function ForceApply() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-export default ForceApply
+export default ForceApply;

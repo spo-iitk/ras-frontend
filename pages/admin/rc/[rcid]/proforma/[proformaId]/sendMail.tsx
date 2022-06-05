@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function SendMail() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-export default SendMail
+export default SendMail;

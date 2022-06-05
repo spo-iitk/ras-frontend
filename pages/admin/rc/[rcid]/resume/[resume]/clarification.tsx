@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Clarification() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
-Clarification.layout="adminPhaseDashBoard"
-export default Clarification
+Clarification.layout = "adminPhaseDashBoard";
+export default Clarification;

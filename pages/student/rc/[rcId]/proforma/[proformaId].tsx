@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function Proforma() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-Proforma.layout="studentPhaseDashboard"
-export default Proforma
+Proforma.layout = "studentPhaseDashboard";
+export default Proforma;

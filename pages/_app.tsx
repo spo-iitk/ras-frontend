@@ -1,13 +1,14 @@
-import '@styles/globals.css'
-import type { AppProps } from 'next/app'
-import Layout_wrapper from '../components/Layouts/Layout_wrapper'
+import React from "react";
+import "@styles/globals.css";
+import type { AppProps } from "next/app";
+import LayoutWrapper from "@components/Layouts/LayoutWrapper";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout_wrapper>
+    <LayoutWrapper>
       <Component {...pageProps} />
-    </Layout_wrapper>
-  )
+    </LayoutWrapper>
+  );
 }
 
-export default MyApp
+export default MyApp;
