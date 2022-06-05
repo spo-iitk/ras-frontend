@@ -1,42 +1,28 @@
 import React from 'react'
-import FormControl from '@mui/material/FormControl';
-import { Button, FormHelperText, Input, InputLabel, Stack, TextField, Typography } from '@mui/material';
-import ActiveButton from '../../../../../components/Buttons/ActiveButton';
-import InactiveButton from '../../../../../components/Buttons/InactiveButton';
-
-
-const h1="FREEZE (GROUP)"
+import { Card, Stack, TextField } from '@mui/material';
+import ActiveButton from '@components/Buttons/ActiveButton';
+import InactiveButton from '@components/Buttons/InactiveButton';
+import styles from "@styles/adminPhase.module.css"
+import Meta from '@components/Meta';
 function Freeze() {
   return (
-    <div>
-      <Stack
-        style={{textAlign:'left',marginBottom:150}} 
-      >
-        <h1>INTERNSHIP 2022-23 PHASE 1</h1>
-      </Stack>
-      <h1 style={{textAlign:'center'}}>{h1}</h1>
-      <FormControl style={{display:"flex",justifyItems:'center'}}>
-        <Stack
-          style={{alignItems:'center',margin:"auto"}}
-        >
-          <Typography>ENTER ROLL NUMBERS</Typography>
-          <TextField id="rollNo" variant="filled" fullWidth style={{ width: "700px" }} />
-          <Typography style={{textAlign:'center',marginTop:20,marginBottom:20}}>OR</Typography>
-        </Stack>
-        <Stack
-          style={{alignItems:'center',margin:"auto"}}
-        >
-          <Typography>ENTER EMAIL IDS</Typography>
-          <TextField id="emailId" variant="filled" fullWidth style={{ width: "700px" }} />
-        </Stack>
-        <Stack
-          direction='row'
-          style={{alignItems:'center',marginTop:60,justifyContent:'space-evenly'}}
-        >
-          <ActiveButton onClick={() => { location.href = '../notice' }}>Freeze</ActiveButton>
-          <InactiveButton onClick={() => { location.href = '../notice/new' }}>RESET</InactiveButton>
-        </Stack>
-      </FormControl>
+    <div className={styles.container}>
+      <Meta title="Add PPO-PIO - Admin" />
+      <h1 >Internship 2022-23 Phase 1</h1>
+      <div style={{marginTop:50}}>
+        <Card elevation={5} sx={{padding:3,  width:{xs:'330px', sm:'500px', margin: '0px auto'}}}>
+          <Stack spacing={3}>
+            <h1 >Freeze (Group)</h1>
+            <TextField label="Enter Roll Number" id="rollNum" variant="filled" />
+            <h2 style={{margin: '30px auto 10px auto'}}>OR</h2>
+            <TextField label="Enter Email Ids" id="emails" variant="filled" />
+            <Stack direction='row' spacing={2} style={{ justifyContent: "center" }} >
+              <ActiveButton sx={{ borderRadius: 5, fontSize: 16, width: '100%' }} onClick={() => { location.href = '../notice' }}>Freeze</ActiveButton>
+              <InactiveButton sx={{ borderRadius: 5, fontSize: 16, width: '100%' }} onClick={() => { location.href = '../notice/new' }}>Reset</InactiveButton>
+            </Stack>
+          </Stack>
+        </Card>
+      </div>
     </div>
   )
 }

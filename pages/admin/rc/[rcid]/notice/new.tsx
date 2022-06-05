@@ -1,56 +1,40 @@
 import React from 'react'
 import FormControl from '@mui/material/FormControl';
-import { Button, FormHelperText, Input, InputLabel, Stack, TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Button, Card, Typography, InputLabel, Stack, TextField } from '@mui/material';
 import ActiveButton from '@components/Buttons/ActiveButton';
 import InactiveButton from '@components/Buttons/InactiveButton';
+import styles from "@styles/adminPhase.module.css"
+import Meta from '@components/Meta';
 
+const Input = styled('input')({
+  display: 'none',
+});
 function NewNotice() {
   return (
-    <div>
-      <h1 style={{ textAlign: 'center' }}>ADD NOTICE</h1>
-      <FormControl>
-        <Stack
-          direction='row'
-        >
-          <h2 style={{ marginRight: 100, marginLeft: 100 }}>COMPANY NAME</h2>
-          <TextField id="companyName" variant="filled" fullWidth style={{ width: "700px" }} />
-        </Stack>
-        <Stack
-          direction='row'
-        >
-          <h2 style={{ marginRight: 192, marginLeft: 100 }}>SUBJECT</h2>
-          <TextField id="subject" variant="filled" fullWidth style={{ width: "700px" }} />
-        </Stack>
-        <Stack
-          direction='row'
-        >
-          <h2 style={{ marginRight: 185, marginLeft: 100 }}>MESSAGE</h2>
-          <TextField id="message" variant="filled" multiline rows={4} style={{ width: "700px",marginBottom:"20px" }} />
-        </Stack>
-        <Stack
-          direction='row'
-        >
-          <h2 style={{ marginRight: 135, marginLeft: 100 }}>ATTACHMENT</h2>
-          <Button
-            variant="contained"
-            component="label"
-            style={{width:"300px",backgroundColor:"gray"}}
-          >
-            Upload File
-            <input
-              type="file"
-              hidden
-            />
-          </Button>
-        </Stack>
-        <Stack
-          direction='row'
-          style={{marginTop:"140px",marginLeft:"100px",justifyContent:"space-between"}}
-        >
-          <ActiveButton onClick={()=>{location.href='../notice'}}>ADD</ActiveButton>
-          <InactiveButton onClick={()=>{location.href='../notice/new'}}>RESET</InactiveButton>
-        </Stack>
-      </FormControl>
+    <div className={styles.container}>
+      <Meta title="Add Notice - Admin" />
+      <h1 >Internship 2022-23 Phase 1</h1>
+      <div style={{ marginTop: 50 }}>
+        <Card elevation={5} sx={{ padding: 3, width: { xs: '330px', sm: '500px', margin: '0px auto' } }}>
+          <Stack spacing={3}>
+            <h1 >Add Notice</h1>
+            <TextField label="Company Name" id="selectCompany" variant="filled" />
+            <TextField label="Subject" id="selectActiveHR" variant="filled" />
+            <TextField variant="filled" multiline rows={3} placeholder="Write your notice here" label="Message" />
+            <label htmlFor="contained-button-file" style={{margin: '30px auto 10px auto'}}>
+              <Input accept="image/*" id="contained-button-file" multiple type="file" />
+              <Button variant="outlined" component="span" sx={{ width: "200px", borderRadius: 5 }}>
+                Upload
+              </Button>
+            </label>
+            <Stack direction='row' spacing={2} style={{ justifyContent: "center" }} >
+              <ActiveButton sx={{ borderRadius: 5, fontSize: 16, width: '100%' }} onClick={() => { location.href = '../notice' }}>Add</ActiveButton>
+              <InactiveButton sx={{ borderRadius: 5, fontSize: 16, width: '100%' }} onClick={() => { location.href = '../notice/new' }}>Reset</InactiveButton>
+            </Stack>
+          </Stack>
+        </Card>
+      </div>
     </div>
   )
 }

@@ -1,45 +1,30 @@
 import React from 'react'
 import FormControl from '@mui/material/FormControl';
-import { Button, FormHelperText, Input, InputLabel, Stack, TextField } from '@mui/material';
+import { Card, Stack, TextField } from '@mui/material';
 import ActiveButton from '@components/Buttons/ActiveButton';
 import InactiveButton from '@components/Buttons/InactiveButton';
-
+import Meta from '@components/Meta';
+import styles from "@styles/adminPhase.module.css"
 function Index() {
   return (
-    <div>
-      <Stack
-        style={{textAlign:'center',marginBottom:50}} 
-      >
-        <h1 >ADD PPO/PIO</h1>
-      </Stack>
-      <FormControl>
-        <Stack
-          style={{marginLeft:'350px'}}
-        >
-          <h2 style={{ marginRight: 96, textAlign:'left' }}>COMPANY NAME</h2>
-          <TextField id="companyName" variant="filled" fullWidth style={{ width: "700px" }} />
-        </Stack>
-        <Stack
-          style={{marginLeft:'350px'}}
-        >
-          <h2 style={{ marginRight: 96, textAlign:'left' }}>ENTER ROLL NUMBERS</h2>
-          <TextField id="rollNo" variant="filled" fullWidth style={{ width: "700px" }} />
-        </Stack>
-        <h2 style={{textAlign:"center"}}>OR</h2>
-        <Stack
-          style={{marginLeft:'350px'}}
-        >
-          <h2 style={{ marginRight: 96, textAlign:'left' }}>ENTER EMAIL IDS</h2>
-          <TextField id="emailId" variant="filled" fullWidth style={{ width: "700px" }} />
-        </Stack>
-        <Stack
-          direction='row'
-          style={{ marginTop: "140px", marginLeft: "350px", justifyContent: "space-between" }}
-        >
-          <ActiveButton onClick={() => { location.href = '../notice' }}>ADD</ActiveButton>
-          <InactiveButton onClick={() => { location.href = '../notice/new' }}>RESET</InactiveButton>
-        </Stack>
-      </FormControl>
+    <div className={styles.container}>
+      <Meta title="Add PPO-PIO - Admin" />
+      <h1 >Internship 2022-23 Phase 1</h1>
+      <div style={{marginTop:50}}>
+        <Card elevation={5} sx={{padding:3,  width:{xs:'330px', sm:'500px', margin: '0px auto'}}}>
+          <Stack spacing={3}>
+            <h1 >Add PPO/PIO</h1>
+            <TextField label="Company Name" id="companyName" variant="filled" />
+            <TextField label="Enter Roll Number" id="rollNum" variant="filled" />
+            <h2 style={{margin: '30px auto 10px auto'}}>OR</h2>
+            <TextField label="Enter Email Ids" id="emails" variant="filled" />
+            <Stack direction='row' spacing={2} style={{ justifyContent: "center" }} >
+              <ActiveButton sx={{ borderRadius: 5, fontSize: 16, width: '100%' }} onClick={() => { location.href = '../notice' }}>Add</ActiveButton>
+              <InactiveButton sx={{ borderRadius: 5, fontSize: 16, width: '100%' }} onClick={() => { location.href = '../notice/new' }}>Reset</InactiveButton>
+            </Stack>
+          </Stack>
+        </Card>
+      </div>
     </div>
   )
 }
