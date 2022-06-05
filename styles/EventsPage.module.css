@@ -27,13 +27,11 @@
         left: 13vw;
         top: -5%;
     }
-    .placement {
-        width: 40vw;
-    }
 }
 
-@media (max-width:1000px) {
+@media (max-width:1100px) {
     .placement {
-        height: 30%
+        width: 40vw;
+        margin-left: 5%;
     }
 }
