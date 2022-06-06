@@ -5,10 +5,10 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
-function forceApply() {
+function ShiftWaiting() {
   return (
     <div className={styles.container}>
-      <Meta title="forceApply - Admin" />
+      <Meta title="Shift to Waiting - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>
         <Card
@@ -19,7 +19,7 @@ function forceApply() {
           }}
         >
           <Stack spacing={3}>
-            <h1>Force Apply Students</h1>
+            <h1>Shift to Waiting (Group)</h1>
             <TextField
               label="Enter Roll Number"
               id="rollNum"
@@ -56,5 +56,5 @@ function forceApply() {
   );
 }
 
-forceApply.layout = "adminPhaseDashBoard";
-export default forceApply;
+ShiftWaiting.layout = "adminPhaseDashBoard";
+export default ShiftWaiting;
