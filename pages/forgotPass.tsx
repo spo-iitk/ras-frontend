@@ -10,35 +10,57 @@ import {
   InputLabel,
   IconButton,
   InputAdornment,
+  FormHelperText,
 } from "@mui/material";
-import Link from "next/link";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useForm } from "react-hook-form";
 
-interface State {
-  showPassword: boolean;
-  password: string;
-  confirmPassword: string;
-  showConfirmPassword: boolean;
-}
+// interface State {
+//   showPassword: boolean;
+//   password: string;
+//   confirmPassword: string;
+//   showConfirmPassword: boolean;
+// }
+
+type formInput = {
+  email: string;
+};
+
+type formPass = {
+  otp: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
 function ForgotPass() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<formInput>();
+
+  const {
+    register: registerNew,
+    handleSubmit: handleNew,
+    formState: { errors: errorsNew },
+    getValues: getValuesNew,
+  } = useForm<formPass>();
+
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSent = (data: formInput) => {
     setSent(true);
+    console.log(data);
+  };
+
+  const handleVerify = (data: formPass) => {
+    console.log(data);
   };
 
   const [values, setValues] = useState({
-    password: "",
     showPassword: false,
-    confirmPassword: "",
     showConfirmPassword: false,
   });
-
-  const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
-    };
 
   const handleClickShowPassword = (pass: string) => {
     if (pass === "password") {
@@ -77,17 +99,31 @@ function ForgotPass() {
             </Typography>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <TextField id="otp" label="OTP" variant="outlined" />
+            <TextField
+              id="otp"
+              label="OTP"
+              variant="outlined"
+              type="number"
+              {...registerNew("otp", {
+                required: true,
+                value: "",
+              })}
+              error={!!errorsNew.otp}
+              helperText={errorsNew.otp && "Enter valid IITK email Id"}
+            />
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
+            <InputLabel
+              htmlFor="outlined-adornment-password"
+              error={!!errorsNew.newPassword}
+            >
               New Password
             </InputLabel>
             <OutlinedInput
               id="password"
               type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
+              {...registerNew("newPassword", { required: true })}
+              error={!!errorsNew.newPassword}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -104,14 +140,23 @@ function ForgotPass() {
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
+            <InputLabel
+              htmlFor="outlined-adornment-password"
+              error={!!errorsNew.confirmNewPassword}
+            >
               Confirm New Password
             </InputLabel>
             <OutlinedInput
               id="confirmPassword"
               type={values.showConfirmPassword ? "text" : "password"}
-              value={values.confirmPassword}
-              onChange={handleChange("confirmPassword")}
+              {...registerNew("confirmNewPassword", {
+                required: true,
+                validate: {
+                  sameAsPassword: (value) =>
+                    value === getValuesNew("newPassword"),
+                },
+              })}
+              error={!!errorsNew.confirmNewPassword}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -130,9 +175,14 @@ function ForgotPass() {
               }
               label="Confirm Password"
             />
+            {errorsNew.confirmNewPassword && (
+              <FormHelperText error={!!errorsNew.confirmNewPassword}>
+                Passwords don't match
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button variant="contained" onClick={handleNew(handleVerify)}>
               Confirm
             </Button>
           </FormControl>
@@ -140,7 +190,13 @@ function ForgotPass() {
             <Typography>
               Facing any issues?{" "}
               <span style={{ color: "blue" }}>
-                <Link href="/signup">Contact</Link>
+                <a
+                  href="https://spo.iitk.ac.in/about_us.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Contact
+                </a>
               </span>
             </Typography>
           </FormControl>
@@ -159,10 +215,20 @@ function ForgotPass() {
             </Typography>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <TextField id="email" label="Registered Email" variant="outlined" />
+            <TextField
+              id="email"
+              label="Registered Email"
+              variant="outlined"
+              {...register("email", {
+                required: true,
+                pattern: /^[^@]+@iitk\.ac\.in$/,
+              })}
+              error={!!errors.email}
+              helperText={errors.email && "Enter valid IITK email Id"}
+            />
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button variant="contained" onClick={handleSubmit(handleSent)}>
               Send Verification Code
             </Button>
           </FormControl>

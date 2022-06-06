@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   TextField,
   InputLabel,
@@ -9,6 +9,7 @@ import {
   IconButton,
   FormControl,
   Button,
+  FormHelperText,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -16,30 +17,35 @@ import Meta from "@components/Meta";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import formstyles from "@styles/Form.module.css";
+import { useForm } from "react-hook-form";
 
-interface State {
-  showPassword: boolean;
+type FormInput = {
+  username: string;
   password: string;
-}
+  rememberMe?: boolean;
+};
 function Login() {
-  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+  } = useForm<FormInput>();
+
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false,
   });
 
-  const [checked, setChecked] = React.useState(true);
-
-  const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
-
-  const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
-    };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({
+        username: "",
+        password: "",
+      });
+    }
+  }, [reset, isSubmitSuccessful]);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -54,8 +60,8 @@ function Login() {
     event.preventDefault();
   };
 
-  const onLogin = () => {
-    router.push("/studentDashboard/overview");
+  const onLogin = (data: FormInput) => {
+    console.log(data);
   };
 
   return (
@@ -89,17 +95,24 @@ function Login() {
             </Typography>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <TextField id="username" label="Username" variant="outlined" />
+            <TextField
+              id="username"
+              label="Username"
+              variant="outlined"
+              error={!!errors.username}
+              helperText={errors.username ? "Incorrect username" : ""}
+              {...register("username", { required: true })}
+            />
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
+            <InputLabel htmlFor="password" error={!!errors.password}>
               Password
             </InputLabel>
             <OutlinedInput
               id="password"
+              error={!!errors.password}
               type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
+              {...register("password", { required: true })}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -114,6 +127,11 @@ function Login() {
               }
               label="Password"
             />
+            {errors.password && (
+              <FormHelperText error={!!errors.password}>
+                Incorrect password
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl sx={{ m: 1, width: "37ch" }} variant="outlined">
             <Stack
@@ -124,8 +142,7 @@ function Login() {
               <Typography variant="subtitle2" color="text.secondary">
                 <Checkbox
                   size="small"
-                  checked={checked}
-                  onChange={handleCheck}
+                  {...register("rememberMe")}
                   inputProps={{ "aria-label": "controlled" }}
                 />
                 Remember Me
@@ -138,7 +155,7 @@ function Login() {
             </Stack>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button variant="contained" onClick={onLogin}>
+            <Button variant="contained" onClick={handleSubmit(onLogin)}>
               Sign In
             </Button>
           </FormControl>
