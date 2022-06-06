@@ -9,9 +9,9 @@ import Paper from "@mui/material/Paper";
 import { IconButton } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
-import styles from "../../../../../../styles/adminPhase.module.css";
-import ActiveButton from "../../../../../../components/Buttons/ActiveButton";
-import Meta from "../../../../../../components/Meta";
+import Meta from "@components/Meta";
+import styles from "@styles/adminPhase.module.css";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 const info = [
   {
