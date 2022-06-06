@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function NewRC() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-export default NewRC
+export default NewRC;

@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function ProformaNew() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
-ProformaNew.layout="companyPhaseDashboard"
-export default ProformaNew
+ProformaNew.layout = "companyPhaseDashboard";
+export default ProformaNew;

@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Event() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-export default Event
+export default Event;

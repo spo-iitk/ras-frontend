@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function Opening() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-Opening.layout="studentPhaseDashboard"
-export default Opening
+Opening.layout = "studentPhaseDashboard";
+export default Opening;

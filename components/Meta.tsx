@@ -1,6 +1,17 @@
-import React from 'react'
-import Head from 'next/head'
-const Meta = ({title, description, keywords}:{title:any, description: any, keywords:any}) => {
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/default-props-match-prop-types */
+import React from "react";
+import Head from "next/head";
+
+function Meta({
+  title,
+  description,
+  keywords,
+}: {
+  title: string;
+  description: string;
+  keywords: string;
+}) {
   return (
     <div>
       <Head>
@@ -10,13 +21,13 @@ const Meta = ({title, description, keywords}:{title:any, description: any, keywo
         <meta name="keywords" content={keywords} />
       </Head>
     </div>
-  )
+  );
 }
 
 Meta.defaultProps = {
-    title: 'Recruitment Automation System',
-    description: '',
-    keywords: 'automation, recuitment, systrem',
-}
+  title: "Recruitment Automation System",
+  description: "",
+  keywords: "automation, recuitment, systrem",
+};
 
-export default Meta
+export default Meta;

@@ -41,3 +41,14 @@
         width:100%;
     }
 }
+
+.datagridOpening{
+    width:1400px;
+}
+
+@media(max-width:1750px){
+    .datagridOpening{
+        width:100%;
+    }
+}
+

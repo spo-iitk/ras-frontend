@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function Index() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-Index.layout = 'companyPhaseDashboard'
-export default Index
+Index.layout = "companyPhaseDashboard";
+export default Index;
