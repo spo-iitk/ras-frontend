@@ -106,5 +106,5 @@ function Question() {
     </div>
   )
 }
-Question.layout="adminDashBoard";
+Question.layout="adminPhaseDashBoard";
 export default Question
