@@ -90,7 +90,7 @@ function RecruitmentCycle() {
             <ActiveButton
               sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
               onClick={() => {
-                console.log("Hello");
+                console.log("Clicked");
               }}
             >
               Create Recruitment Cycle
