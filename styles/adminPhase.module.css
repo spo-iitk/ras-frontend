@@ -30,3 +30,13 @@
         width:100%;
     }
 }
+
+.datagridCompany{
+    width: 1130px;
+}
+
+@media(max-width:1300px){
+    .datagridCompany{
+        width:100%;
+    }
+}

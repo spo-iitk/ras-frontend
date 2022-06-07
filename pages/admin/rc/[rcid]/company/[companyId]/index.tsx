@@ -1,17 +1,11 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { IconButton } from "@mui/material";
+import { Card, IconButton, Stack, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
 import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
-import ActiveButton from "@components/Buttons/ActiveButton";
 
 const info = [
   {
@@ -33,6 +27,11 @@ const info = [
 ];
 
 const columns: GridColDef[] = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+  },
   {
     field: "designation",
     headerName: "Designation",
@@ -77,33 +76,39 @@ const ButtonContainer = {
 };
 function Index() {
   return (
-    <div style={{ textAlign: "center", padding: "1rem" }}>
+    <div className={styles.container}>
       <Meta title="Company Dashboard" />
       <h1>COMPANY NAME</h1>
-      <div style={ButtonContainer}>
-        <ActiveButton>VIEW COMPANY HISTORY</ActiveButton>
-        <ActiveButton>CONTACT DETAILS</ActiveButton>
-        <ActiveButton>PAST HIRES</ActiveButton>
-        <ActiveButton>ADD PPO/PIIO</ActiveButton>
-      </div>
       <br />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TableCell sx={{ p: 2, fontWeight: 600, fontSize: "1.5rem" }}>
-                Active Contact HR Details
-              </TableCell>
-            </TableRow>
+      <br />
+      <Stack
+        spacing={5}
+        justifyContent="center"
+        alignItems="center"
+        direction={{ xs: "column", md: "row" }}
+      >
+        <Card
+          elevation={5}
+          sx={{ width: { xs: "300px", md: "500px" }, padding: 4 }}
+        >
+          <Grid container>
             {info.map((item) => (
-              <TableRow key={item.field}>
-                <TableCell>{item.field}</TableCell>
-                <TableCell>{item.value}</TableCell>
-              </TableRow>
+              <Grid item xs={12} md={6} key="">
+                <h3>{item.field}</h3>
+                <Typography variant="body1">{item.value}</Typography>
+              </Grid>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </Grid>
+        </Card>
+        <div style={ButtonContainer}>
+          <Stack spacing={2} direction="column">
+            <Button variant="outlined">VIEW COMPANY HISTORY</Button>
+            <Button variant="outlined">CONTACT DETAILS</Button>
+            <Button variant="outlined">PAST HIRES</Button>
+            <Button variant="outlined">ADD PPO/PIIO</Button>
+          </Stack>
+        </div>
+      </Stack>
       <br />
       <br />
       <Grid container spacing={2} component={Paper}>
@@ -115,23 +120,23 @@ function Index() {
             </IconButton>
           </div>
         </Grid>
-        <Grid
-          item
-          xs={11}
-          style={{ height: 500, margin: "20px auto" }}
-          className={styles.datagridBranch}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
+        <Grid item xs={12}>
+          <div
+            className={styles.datagridCompany}
+            style={{ height: 500, margin: "20px auto" }}
+          >
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={7}
+              rowsPerPageOptions={[7]}
+            />
+          </div>
         </Grid>
       </Grid>
     </div>
   );
 }
 
-Index.layout = "studentDashboard";
+Index.layout = "adminPhaseDashBoard";
 export default Index;

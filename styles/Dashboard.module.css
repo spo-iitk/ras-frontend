@@ -1,9 +1,9 @@
-.mobileContainer{
-    display:none;
-}
-
 .container{
     width: 300px;
+}
+
+.menuIcon{
+    display: none;
 }
 
 @media(max-width: 1750px){
@@ -12,24 +12,14 @@
     }
 }
 
-@media(max-width: 1300px){
-    .container{
-        width: 200px;
-    }
-}
 
-@media(max-width: 1200px){
+@media(max-width: 1536px){
     .container{
         display:none;
     }
 
-    .mobileNav{
-        display: none;
-    }
-
-    .mobileContainer{
-        padding: 20px;
-        display:block;
+    .menuIcon{
+        display: block;
     }
 }
 

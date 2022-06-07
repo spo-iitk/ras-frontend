@@ -215,7 +215,7 @@ function CompanyPhaseDashboard({ children }: { children: JSX.Element }) {
         justifyContent="center"
         spacing={0}
       >
-        <Grid item xs={12} lg={2} md={12} sm={12}>
+        <Grid item xs={12} xl={2}>
           <div
             className={dashboardstyles.container}
             style={{
@@ -319,36 +319,9 @@ function CompanyPhaseDashboard({ children }: { children: JSX.Element }) {
               </List>
             </Stack>
           </div>
-          <div className={dashboardstyles.mobileContainer}>
-            <Stack
-              direction="row"
-              spacing={3}
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <IconButton onClick={toggleDrawer("left", true)}>
-                <MenuIcon fontSize="large" />
-              </IconButton>
-              <Stack direction="row" spacing={3}>
-                <IconButton onClick={handleNotifClick}>
-                  <NotificationImportantIcon fontSize="large" />
-                </IconButton>
-                <IconButton onClick={handleClick}>
-                  <Avatar src="" alt="photoURL" />
-                </IconButton>
-              </Stack>
-            </Stack>
-            <Drawer
-              anchor="left"
-              open={state.left}
-              onClose={toggleDrawer("left", false)}
-            >
-              {list("left")}
-            </Drawer>
-          </div>
         </Grid>
 
-        <Grid item xs={12} lg={10} md={12} sm={12}>
+        <Grid item xs={12} xl={10}>
           <Stack spacing={3}>
             <div
               className={dashboardstyles.mobileNav}
@@ -356,17 +329,32 @@ function CompanyPhaseDashboard({ children }: { children: JSX.Element }) {
             >
               <Stack
                 direction="row"
-                spacing={2}
+                spacing={3}
                 alignItems="center"
-                justifyContent="right"
+                justifyContent={{ xl: "right", xs: "space-between" }}
               >
-                <IconButton onClick={handleNotifClick}>
-                  <NotificationImportantIcon fontSize="large" />
+                <IconButton
+                  onClick={toggleDrawer("left", true)}
+                  className={dashboardstyles.menuIcon}
+                >
+                  <MenuIcon fontSize="large" />
                 </IconButton>
-                <IconButton onClick={handleClick}>
-                  <Avatar src="" alt="photoURL" />
-                </IconButton>
+                <Stack direction="row" spacing={3}>
+                  <IconButton onClick={handleNotifClick}>
+                    <NotificationImportantIcon fontSize="large" />
+                  </IconButton>
+                  <IconButton onClick={handleClick}>
+                    <Avatar src="" alt="photoURL" />
+                  </IconButton>
+                </Stack>
               </Stack>
+              <Drawer
+                anchor="left"
+                open={state.left}
+                onClose={toggleDrawer("left", false)}
+              >
+                {list("left")}
+              </Drawer>
             </div>
             {children}
           </Stack>
