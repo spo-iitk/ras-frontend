@@ -11,7 +11,7 @@ import styles from "@styles/adminPhase.module.css";
 function RecruitmentCycle() {
   return (
     <div className={styles.container}>
-      <Meta title="Student Dashboard - Create New Recruitment Cycle" />
+      <Meta title="Create New Recruitment Cycle - Admin" />
       <div style={{ marginTop: 50 }}>
         <Card
           elevation={5}
@@ -102,5 +102,5 @@ function RecruitmentCycle() {
   );
 }
 
-RecruitmentCycle.layout = "studentDashboard";
+RecruitmentCycle.layout = "adminPhaseDashBoard";
 export default RecruitmentCycle;
