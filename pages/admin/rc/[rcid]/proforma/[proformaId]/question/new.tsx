@@ -22,7 +22,7 @@ function NewQuestion() {
   }
   return (
     <div>
-      <Paper variant='elevation' elevation={5} sx = {{margin: "2rem auto", width: "50rem"}}>
+      <Paper variant='elevation' elevation={7} sx = {{margin: "2rem auto", width: "50rem"}}>
       <Stack justifyContent= "center">
       <Grid container spacing = {1} justifyContent = "center" alignContent = "center">
       <Grid item xs = {5} sx = {{marginLeft: "2 rem", alignText: "right"}}>
