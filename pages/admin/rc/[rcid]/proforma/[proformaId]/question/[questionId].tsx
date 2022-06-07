@@ -16,7 +16,7 @@ function Question() {
   ]
   return (
     <div>
-    <Paper variant='elevation' elevation={7} sx = {{margin: "2rem auto", width: "50rem"}}>
+    <Paper variant='elevation' elevation={8} sx = {{margin: "2rem auto", width: "50rem"}}>
     <Stack justifyContent= "center">
     <h2 style={{textAlign: "center"}}>VIEW CUSTOM QUESTION</h2>
     <TableContainer>
