@@ -74,10 +74,18 @@ function RecruitmentCycle() {
                   <MenuItem value={20}>Fill in the blanks</MenuItem>
                 </Select>
               </FormControl>
-              <TextField label="Question" variant="standard" />
-              <TextField label="Option 1" variant="standard" />
-              <TextField label="Option 2" variant="standard" />
-              <TextField label="Option 3" variant="standard" />
+              <FormControl sx={{ m: 1 }}>
+                <TextField label="Question" variant="standard" />
+              </FormControl>
+              <FormControl sx={{ m: 1 }}>
+                <TextField label="Option 1" variant="standard" />
+              </FormControl>
+              <FormControl sx={{ m: 1 }}>
+                <TextField label="Option 2" variant="standard" />
+              </FormControl>
+              <FormControl sx={{ m: 1 }}>
+                <TextField label="Option 3" variant="standard" />
+              </FormControl>
             </FormControl>
             <ActiveButton
               sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
