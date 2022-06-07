@@ -2,10 +2,6 @@
     width: 300px;
 }
 
-.menuIcon{
-    display: none;
-}
-
 @media(max-width: 1750px){
     .container{
         width: 250px;
@@ -16,10 +12,6 @@
 @media(max-width: 1536px){
     .container{
         display:none;
-    }
-
-    .menuIcon{
-        display: block;
     }
 }
 

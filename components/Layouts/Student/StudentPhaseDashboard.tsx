@@ -369,7 +369,7 @@ function StudentPhaseDashboard({ children }: { children: JSX.Element }) {
               >
                 <IconButton
                   onClick={toggleDrawer("left", true)}
-                  className={dashboardstyles.menuIcon}
+                  sx={{ display: { xs: "block", xl: "none" } }}
                 >
                   <MenuIcon fontSize="large" />
                 </IconButton>
