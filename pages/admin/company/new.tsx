@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function New() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-New.layout="adminDashBoard"
-export default New
+New.layout = "adminDashBoard";
+export default New;

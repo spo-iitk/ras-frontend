@@ -1,12 +1,8 @@
-import React from 'react'
+import React from "react";
 
 function Details() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
 
-Details.layout="adminDashBoard"
-export default Details
+Details.layout = "adminDashBoard";
+export default Details;

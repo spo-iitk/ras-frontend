@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function calendarDate() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
-calendarDate.layout="adminPhaseDashBoard"
-export default calendarDate
+calendarDate.layout = "adminPhaseDashBoard";
+export default calendarDate;

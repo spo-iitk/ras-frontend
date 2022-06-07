@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function Bulk() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <div />;
 }
-Bulk.layout="adminPhaseDashBoard"
-export default Bulk
+Bulk.layout = "adminPhaseDashBoard";
+export default Bulk;
