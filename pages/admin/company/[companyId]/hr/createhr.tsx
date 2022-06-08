@@ -4,12 +4,12 @@ import ActiveButton from "@components/Buttons/ActiveButton";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
-function New() {
+function CreateHr() {
   return (
     <div className={styles.container}>
-      <Meta title="Add Company - Admin" />
+      <Meta title="Create HR Account - Admin" />
       <h1>Dashboard</h1>
-      <div style={{ marginTop: 50 }}>
+      <div style={{ marginTop: 50, marginBottom: 50 }}>
         <Card
           elevation={5}
           sx={{
@@ -19,27 +19,21 @@ function New() {
         >
           <Stack spacing={4}>
             <Stack sx={{ justifyContent: "space-around" }} direction="row">
-              <h1>Add Company</h1>
-              <ActiveButton
-                sx={{ borderRadius: 5, height: "50%", my: "auto" }}
-                onClick={() => {
-                  console.log("Bulk Upload");
-                }}
-              >
-                Bulk Upload
-              </ActiveButton>
+              <h1>Create HR Account</h1>
             </Stack>
             <TextField
               label="Company Name"
               id="companyname"
               variant="standard"
             />
-            <TextField label="Tags" id="tags" variant="standard" />
-            <TextField label="Website" id="website" variant="standard" />
+            <TextField label="Name" id="name" variant="standard" />
+            <TextField label="Contact Number" id="contact" variant="standard" />
+            <TextField label="Email ID" id="Email ID" variant="standard" />
+            <TextField label="User Name" id="username" variant="standard" />
             <TextField
-              multiline
-              label="Description"
-              id="description"
+              label="Password"
+              id="password"
+              type="password"
               variant="standard"
             />
             <Stack direction="row" sx={{ justifyContent: "center" }}>
@@ -53,7 +47,7 @@ function New() {
                   console.log("Hello");
                 }}
               >
-                Add Company
+                Add HR
               </ActiveButton>
             </Stack>
           </Stack>
@@ -63,5 +57,5 @@ function New() {
   );
 }
 
-New.layout = "adminPhaseDashBoard";
-export default New;
+CreateHr.layout = "adminPhaseDashBoard";
+export default CreateHr;
