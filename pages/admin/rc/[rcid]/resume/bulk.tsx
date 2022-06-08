@@ -26,7 +26,11 @@ function Bulk() {
               variant="standard"
             />
             <h2 style={{ margin: "30px auto 10px auto" }}>OR</h2>
-            <TextField label="Message (If Any)" id="message" variant="standard" />
+            <TextField
+              label="Message (If Any)"
+              id="message"
+              variant="standard"
+            />
             <Stack
               direction="row"
               spacing={2}
