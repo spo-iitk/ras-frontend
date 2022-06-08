@@ -1,32 +1,28 @@
+import styled from "@emotion/styled";
+import CallIcon from "@mui/icons-material/Call";
+import LogoutIcon from "@mui/icons-material/Logout";
+import MenuIcon from "@mui/icons-material/Menu";
+import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 import {
-  Grid,
-  IconButton,
   Avatar,
   Box,
-  Stack,
+  Grid,
+  IconButton,
   ListItemAvatar,
   Menu,
   MenuItem,
+  Stack,
 } from "@mui/material";
-import React from "react";
-import styled from "@emotion/styled";
+import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import Link from "next/link";
-import PieChartIcon from "@mui/icons-material/PieChart";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ArticleIcon from "@mui/icons-material/Article";
-import TravelExploreIcon from "@mui/icons-material/TravelExplore";
-import LogoutIcon from "@mui/icons-material/Logout";
-import CallIcon from "@mui/icons-material/Call";
-import MenuIcon from "@mui/icons-material/Menu";
-import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
-import { useRouter } from "next/router";
 import dashboardstyles from "@styles/Dashboard.module.css";
-import Drawer from "@mui/material/Drawer";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
+import { fields } from "./LayoutWrapper";
 
 const AccountStyle = styled("div")(() => ({
   display: "flex",
@@ -43,52 +39,24 @@ const style = {
   bgcolor: "#2b2b2b",
 };
 
-interface userItems {
-  avatar: JSX.Element;
-  name: string;
-  id: string;
-}
-const items: userItems[] = [
-  {
-    avatar: <PieChartIcon />,
-    name: "Overview",
-    id: "rc",
-  },
-  {
-    avatar: <AccountCircleIcon />,
-    name: "Profile",
-    id: "profile",
-  },
-  {
-    avatar: <TravelExploreIcon />,
-    name: "Recruitment Portal",
-    id: "recruitmentportal",
-  },
-  {
-    avatar: <LightbulbIcon />,
-    name: "Placements Insight",
-    id: "placementinsights",
-  },
-  {
-    avatar: <ArticleIcon />,
-    name: "Intern Policy",
-    id: "internpolicy",
-  },
-  {
-    avatar: <ArticleIcon />,
-    name: "Placement Policy",
-    id: "placementpolicy",
-  },
-];
-
 type Anchor = "top" | "left" | "bottom" | "right";
 
-function StudentDashBoard({ children }: { children: JSX.Element }) {
-  const { pathname } = useRouter();
-  const match = (path: string) => path === pathname;
+function MasterLayout({
+  children,
+  items,
+}: {
+  children: JSX.Element;
+  // eslint-disable-next-line react/require-default-props
+  items?: fields;
+}) {
+  const { asPath } = useRouter();
+  const match = (path: string) => path === asPath;
   const [state, setState] = React.useState({
     left: false,
   });
+  console.log(items?.route);
+  console.log(asPath);
+
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -142,24 +110,33 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
           />
         </Stack>
         <div style={{ height: 10 }} />
-        <AccountStyle>
-          <Avatar src="" alt="photoURL" />
-          <Box sx={{ ml: 2 }}>
-            <h3 style={{ margin: 5 }}>Manas Gupta</h3>
-            <h4 style={{ margin: 5, fontWeight: 400 }}>Student</h4>
-          </Box>
-        </AccountStyle>
+        {items?.isUser ? (
+          <AccountStyle>
+            <Avatar src="" alt="photoURL" />
+            <Box sx={{ ml: 2 }}>
+              <h3 style={{ margin: 5 }}>{items.userInfo.name}</h3>
+              <h4 style={{ margin: 5, fontWeight: 400 }}>
+                {items.userInfo.id}
+              </h4>
+            </Box>
+          </AccountStyle>
+        ) : (
+          <div />
+        )}
+
         <List sx={style} component="nav" aria-label="mailbox folders">
-          {items.map((item) => (
-            <Link href={`/student/${item.id}`} passHref key={item.id}>
+          {items?.userData.map((item) => (
+            <Link href={`${items.route}${item.id}`} passHref key={item.id}>
               <ListItem
                 sx={{ borderRadius: 5 }}
                 button
-                selected={!!match(`/student/${item.id}`)}
+                selected={!!match(`${items.route}${item.id}`)}
               >
                 <ListItemAvatar
                   sx={{
-                    color: match(`/student/${item.id}`) ? "blue" : "#9e9e9e",
+                    color: match(`${items.route}${item.id}`)
+                      ? "blue"
+                      : "#9e9e9e",
                   }}
                 >
                   {item.avatar}
@@ -168,7 +145,9 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
                   <h4
                     style={{
                       margin: 5,
-                      color: match(`/student/${item.id}`) ? "blue" : "#9e9e9e",
+                      color: match(`${items.route}${item.id}`)
+                        ? "blue"
+                        : "#9e9e9e",
                     }}
                   >
                     {item.name}
@@ -177,6 +156,22 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
               </ListItem>
             </Link>
           ))}
+          {items?.moveBack ? (
+            <Link href={`${items.moveTo}`} passHref>
+              <ListItem sx={{ borderRadius: 5 }} button>
+                <ListItemAvatar sx={{ color: "#9e9e9e" }}>
+                  <LogoutIcon />
+                </ListItemAvatar>
+                <ListItemText>
+                  <h4 style={{ margin: 5, color: "#9e9e9e" }}>
+                    Back to Dashboard
+                  </h4>
+                </ListItemText>
+              </ListItem>
+            </Link>
+          ) : (
+            <div />
+          )}
           <a
             href="https://spo.iitk.ac.in/about_us.html"
             target="_blank"
@@ -236,24 +231,34 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
                 />
               </Stack>
               <div style={{ height: 20 }} />
-              <AccountStyle>
-                <Avatar src="" alt="photoURL" />
-                <Box sx={{ ml: 2 }}>
-                  <h3 style={{ margin: 5 }}>Manas Gupta</h3>
-                  <h4 style={{ margin: 5, fontWeight: 400 }}>Student</h4>
-                </Box>
-              </AccountStyle>
+              {items?.isUser ? (
+                <AccountStyle>
+                  <Avatar src="" alt="photoURL" />
+                  <Box sx={{ ml: 2 }}>
+                    <h3 style={{ margin: 5 }}>{items.userInfo.name}</h3>
+                    <h4 style={{ margin: 5, fontWeight: 400 }}>
+                      {items.userInfo.id}
+                    </h4>
+                  </Box>
+                </AccountStyle>
+              ) : (
+                <div />
+              )}
               <List sx={style} component="nav" aria-label="mailbox folders">
-                {items.map((item) => (
-                  <Link href={`/student/${item.id}`} passHref key={item.id}>
+                {items?.userData.map((item) => (
+                  <Link
+                    href={`${items.route}${item.id}`}
+                    passHref
+                    key={item.id}
+                  >
                     <ListItem
                       sx={{ borderRadius: 5 }}
                       button
-                      selected={!!match(`/student/${item.id}`)}
+                      selected={!!match(`${items.route}${item.id}`)}
                     >
                       <ListItemAvatar
                         sx={{
-                          color: match(`/student/${item.id}`)
+                          color: match(`${items.route}${item.id}`)
                             ? "blue"
                             : "#9e9e9e",
                         }}
@@ -264,7 +269,7 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
                         <h4
                           style={{
                             margin: 5,
-                            color: match(`/student/${item.id}`)
+                            color: match(`${items.route}${item.id}`)
                               ? "blue"
                               : "#9e9e9e",
                           }}
@@ -275,6 +280,22 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
                     </ListItem>
                   </Link>
                 ))}
+                {items?.moveBack ? (
+                  <Link href={`${items.moveTo}`} passHref>
+                    <ListItem sx={{ borderRadius: 5 }} button>
+                      <ListItemAvatar sx={{ color: "#9e9e9e" }}>
+                        <LogoutIcon />
+                      </ListItemAvatar>
+                      <ListItemText>
+                        <h4 style={{ margin: 5, color: "#9e9e9e" }}>
+                          Back to Dashboard
+                        </h4>
+                      </ListItemText>
+                    </ListItem>
+                  </Link>
+                ) : (
+                  <div />
+                )}
                 <a
                   href="https://spo.iitk.ac.in/about_us.html"
                   target="_blank"
@@ -406,4 +427,4 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
   );
 }
 
-export default StudentDashBoard;
+export default MasterLayout;
