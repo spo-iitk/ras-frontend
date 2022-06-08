@@ -20,11 +20,7 @@ function Clarification() {
         >
           <Stack spacing={3}>
             <h1>Ask Clarification</h1>
-            <TextField
-              label="Message"
-              id="message"
-              variant="filled"
-            />
+            <TextField label="Message" id="message" variant="filled" />
             <h2 style={{ margin: "30px auto 10px auto" }}>OR</h2>
             <TextField label="POC Details" id="pocdetails" variant="filled" />
             <Stack

@@ -53,13 +53,13 @@ const columns: GridColDef[] = [
 
 const rows = [
   {
-    id:1,
+    id: 1,
     name: "Student 1",
-    rollno :"180021",
+    rollno: "180021",
     companyname: "Google",
     designation: "Software Dev",
-    program:"BTech",
-    branch:"ME"
+    program: "BTech",
+    branch: "ME",
   },
 ];
 
