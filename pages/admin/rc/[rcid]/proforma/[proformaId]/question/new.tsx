@@ -41,7 +41,7 @@ function NewQuestion() {
       {/* <TableCell>
       <h3 style = {{marginLeft: "5rem"}}>Question Type</h3>
       </TableCell> */}
-      <TableCell align='center'>
+      <TableCell align='center' style={{borderBottom: "none"}}>
       <div style = {{width: "30rem", marginLeft: "4vw"}}>
       <TextField
           id="qtype"
@@ -64,7 +64,7 @@ function NewQuestion() {
       {/* <TableCell>
       <h3 style = {{marginLeft: "5rem"}}>Question</h3>
       </TableCell> */}
-      <TableCell>
+      <TableCell style={{borderBottom: "none"}}>
       <div style = {{width: "30rem",marginLeft: "4vw"}}>
       <TextField
           id="quest"
@@ -86,7 +86,7 @@ function NewQuestion() {
           {/* <TableCell>
           <h3 style = {{marginLeft: "5rem"}}> {value.data} </h3>
           </TableCell>   */}
-          <TableCell>
+          <TableCell style={{borderBottom: "none"}}>
       <div style = {{width: "20rem", marginLeft: "4vw"}}>
       <TextField
           id="outlined-select-currency"
@@ -108,7 +108,7 @@ function NewQuestion() {
           {/* <TableCell>
           <h3 style = {{marginLeft: "5rem"}}>{value.data} </h3>
           </TableCell>   */}
-          <TableCell>
+          <TableCell style={{borderBottom: "none"}}>
       <div style = {{width: "20rem", marginLeft:"4vw"}}>
       <TextField
           id="outlined-select-currency"
@@ -122,7 +122,7 @@ function NewQuestion() {
         />
         </div>
       </TableCell>
-      <TableCell>
+      <TableCell style={{borderBottom: "none"}}>
       <IconButton sx = {{border: "2px blue solid", display:"relative", right: "2vw "}}><AddIcon/></IconButton>
       </TableCell>
       </TableRow>
