@@ -39,7 +39,7 @@ function SignUpRecruiter() {
   } = useForm<formInput>();
   const [open, setOpen] = React.useState(false);
   const handleOpen = (data: formInput) => {
-    console.log(open);
+    console.log(data);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
