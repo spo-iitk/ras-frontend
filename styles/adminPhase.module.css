@@ -1,5 +1,5 @@
 .container{
-    padding: 0 1rem;;
+    padding: 0 1.5rem;;
 }
 .datagridNotices{
     width: 610px;
@@ -27,6 +27,36 @@
 
 @media(max-width:1400px){
     .datagridPastHire{
+        width:100%;
+    }
+}
+
+.datagridCompany{
+    width: 1130px;
+}
+
+@media(max-width:1300px){
+    .datagridCompany{
+        width:100%;
+    }
+}
+
+.datagridMasterCompany{
+    width: 1000px;
+}
+
+@media(max-width:1000px){
+    .datagridMasterCompany{
+        width:100%;
+    }
+}
+
+.datagridStats{
+    width: 1150px;
+}
+
+@media(max-width:1200px){
+    .datagridStats{
         width:100%;
     }
 }

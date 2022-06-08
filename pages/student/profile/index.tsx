@@ -1,16 +1,8 @@
-import React from "react";
 import Meta from "@components/Meta";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableRow from "@mui/material/TableRow";
-import { Stack } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import styled from "@emotion/styled";
-import { green, red } from "@mui/material/colors";
-import Button, { ButtonProps } from "@mui/material/Button";
+import { Card, Grid, Stack, TextField } from "@mui/material";
+import Button from "@mui/material/Button";
 import Link from "next/link";
+import React from "react";
 
 const info = [
   {
@@ -35,26 +27,6 @@ const info = [
   },
 ];
 
-const InactiveButton = styled(Button)<ButtonProps>(() => ({
-  color: "white",
-  borderRadius: 20,
-  padding: "0.5rem 1rem",
-  backgroundColor: red[500],
-  "&:hover": {
-    backgroundColor: red[700],
-  },
-}));
-
-const EditButton = styled(Button)<ButtonProps>(() => ({
-  color: "white",
-  borderRadius: 20,
-  padding: "0.5rem 1rem",
-  backgroundColor: green[500],
-  "&:hover": {
-    backgroundColor: green[600],
-  },
-}));
-
 function Profile() {
   return (
     <div style={{ padding: "0 2rem" }}>
@@ -74,46 +46,33 @@ function Profile() {
             spacing={2}
           >
             <Link href="/student/profile/edit" passHref>
-              <EditButton sx={{ width: 100 }}>Edit</EditButton>
+              <Button variant="contained" sx={{ width: 100 }}>
+                Edit
+              </Button>
             </Link>
-            <InactiveButton sx={{ width: 150 }}>Not Verified</InactiveButton>
+            <Button variant="contained" sx={{ width: 150 }}>
+              Not Verified
+            </Button>
           </Stack>
         </Stack>
-        <Stack spacing={2} justifyContent="center" alignItems="center">
-          <TableContainer
-            component={Paper}
-            sx={{ minWidth: 300, maxWidth: 700 }}
+        <Stack justifyContent="center">
+          <Card
+            elevation={5}
+            sx={{
+              padding: 3,
+              borderRadius: "10px",
+              width: { xs: "330px", sm: "600px", margin: "0px auto" },
+            }}
           >
-            <Table
-              sx={{ minWidth: 300, maxWidth: 700, backgroundColor: "#ebebeb" }}
-              aria-label="simple table"
-            >
-              <TableBody>
-                {info.map((item) => (
-                  <TableRow
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    key=""
-                  >
-                    <TableCell
-                      align="left"
-                      component="th"
-                      scope="row"
-                      sx={{
-                        fontSize: "1.01em",
-                        fontWeight: "600",
-                        paddingLeft: "7vw",
-                      }}
-                    >
-                      {item.field}
-                    </TableCell>
-                    <TableCell align="left" sx={{ fontSize: "1.01em" }}>
-                      {item.value}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+            <Grid container spacing={2}>
+              {info.map((item) => (
+                <Grid item xs={12} sm={6} key={item.field}>
+                  <p>{item.field}</p>
+                  <TextField value={item.value} disabled variant="standard" />
+                </Grid>
+              ))}
+            </Grid>
+          </Card>
         </Stack>
       </Stack>
     </div>

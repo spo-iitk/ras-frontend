@@ -215,7 +215,7 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
         justifyContent="center"
         spacing={0}
       >
-        <Grid item xs={12} lg={2} md={12} sm={12}>
+        <Grid item xs={12} xl={2}>
           <div
             className={dashboardstyles.container}
             style={{
@@ -304,54 +304,42 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
               </List>
             </Stack>
           </div>
-          <div className={dashboardstyles.mobileContainer}>
-            <Stack
-              direction="row"
-              spacing={3}
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <IconButton onClick={toggleDrawer("left", true)}>
-                <MenuIcon fontSize="large" />
-              </IconButton>
-              <Stack direction="row" spacing={3}>
-                <IconButton onClick={handleNotifClick}>
-                  <NotificationImportantIcon fontSize="large" />
-                </IconButton>
-                <IconButton onClick={handleClick}>
-                  <Avatar src="" alt="photoURL" />
-                </IconButton>
-              </Stack>
-            </Stack>
-            <Drawer
-              anchor="left"
-              open={state.left}
-              onClose={toggleDrawer("left", false)}
-            >
-              {list("left")}
-            </Drawer>
-          </div>
         </Grid>
 
-        <Grid item xs={12} lg={10} md={12} sm={12}>
+        <Grid item xs={12} xl={10}>
           <Stack spacing={3}>
             <div
               className={dashboardstyles.mobileNav}
-              style={{ marginTop: 30, padding: "0px 50px" }}
+              style={{ marginTop: 30, padding: "0px 15px" }}
             >
               <Stack
                 direction="row"
-                spacing={2}
+                spacing={3}
                 alignItems="center"
-                justifyContent="right"
+                justifyContent={{ xl: "right", xs: "space-between" }}
               >
-                <IconButton onClick={handleNotifClick}>
-                  <NotificationImportantIcon fontSize="large" />
+                <IconButton
+                  onClick={toggleDrawer("left", true)}
+                  sx={{ display: { xs: "block", xl: "none" } }}
+                >
+                  <MenuIcon fontSize="large" />
                 </IconButton>
-                <IconButton onClick={handleClick}>
-                  <Avatar src="" alt="photoURL" />
-                </IconButton>
+                <Stack direction="row" spacing={3}>
+                  <IconButton onClick={handleNotifClick}>
+                    <NotificationImportantIcon fontSize="large" />
+                  </IconButton>
+                  <IconButton onClick={handleClick}>
+                    <Avatar src="" alt="photoURL" />
+                  </IconButton>
+                </Stack>
               </Stack>
+              <Drawer
+                anchor="left"
+                open={state.left}
+                onClose={toggleDrawer("left", false)}
+              >
+                {list("left")}
+              </Drawer>
             </div>
             {children}
           </Stack>
@@ -375,18 +363,6 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
               height: 32,
               ml: -0.5,
               mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
             },
           },
         }}
@@ -418,18 +394,6 @@ function StudentDashBoard({ children }: { children: JSX.Element }) {
               height: 32,
               ml: -0.5,
               mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
             },
           },
         }}
