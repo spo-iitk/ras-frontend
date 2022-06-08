@@ -10,7 +10,6 @@ import Link from "next/link";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 
 const style = {
   position: "absolute" as const,
