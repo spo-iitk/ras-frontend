@@ -81,7 +81,7 @@ function Students() {
       </Grid>
       <div
         style={{ height: 500, margin: "20px auto" }}
-        className={styles.datagridBranch}
+        className={styles.datagridStats}
       >
         <DataGrid
           rows={rows}
