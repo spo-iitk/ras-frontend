@@ -290,7 +290,7 @@ function CompanyDashBoard({ children }: { children: JSX.Element }) {
           <Stack spacing={3}>
             <div
               className={dashboardstyles.mobileNav}
-              style={{ marginTop: 30, padding: "0px 50px" }}
+              style={{ marginTop: 30, padding: "0px 15px" }}
             >
               <Stack
                 direction="row"
@@ -344,18 +344,6 @@ function CompanyDashBoard({ children }: { children: JSX.Element }) {
               ml: -0.5,
               mr: 1,
             },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
           },
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
@@ -386,18 +374,6 @@ function CompanyDashBoard({ children }: { children: JSX.Element }) {
               height: 32,
               ml: -0.5,
               mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
             },
           },
         }}
