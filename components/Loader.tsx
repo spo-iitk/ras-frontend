@@ -1,15 +1,26 @@
+
 import loaderStyles from "../styles/Loader.module.css";
 
-export default function Loader()
+function Loader()
 {
     return (
-        <div className={loaderStyles.loaderContainer}>
-            <div className={loaderStyles.loading}>
-	            <div></div>
-	            <div></div>
-	            <div></div>
-	            <div></div>
-            </div>
+      <div className={loaderStyles.card}>
+        <div className={loaderStyles.p32}>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.titleLine} ${loaderStyles.end}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.titleLine} ${loaderStyles.end}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.titleLine} `}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
+            <div className={`${loaderStyles.shimmerBG} ${loaderStyles.contentLine} ${loaderStyles.mt24}`}></div>
         </div>
+      </div>
     )
 }
+Loader.layout = "studentPhaseDashboard";
+export default Loader;

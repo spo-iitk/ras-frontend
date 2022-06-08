@@ -1,50 +1,66 @@
-.loaderContainer{
-    position: absolute;
-    top:0;
-    margin: 0;
-    padding:0;
-    height: 100%;
-    width:100%;
-    background: white;
-}
-.loading {
-	display: inline-block;
-	position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-	width: 70px;
-	height: 70px;
-	border-radius: 50%;
-	background: radial-gradient(circle, transparent 21px, #2c3e50 21px);
-}
-.loading div {
-	box-sizing: border-box;
-	display: block;
-	position: absolute;
-	width: 64px;
-	height: 64px;
-	margin: 3px;
-	border: 8px solid #1976d2;
-	border-radius: 50%;
-	animation: loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-	border-color: #1976d2 transparent transparent transparent;
-}
-.loading div:nth-child(1) {
-	animation-delay: -0.45s;
-
-
-}
-.loading div:nth-child(2) {
-	animation-delay: -0.3s;
-}
-.loading div:nth-child(3) {
-	animation-delay: -0.15s;
-}
-@keyframes loading {
-	to {
-		transform: rotate(360deg);
-        display: inline-block;
+.card {
+	position: relative;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+	background-color: #FFF;
+	border-radius: 6px;
+	height: 500px;
+	overflow: hidden;
+	max-width: 95%;
+	margin: 40px auto;
+  }
+  .card .shimmerBG {
+	-webkit-animation-duration: 2.2s;
+			animation-duration: 2.2s;
+	-webkit-animation-fill-mode: forwards;
+			animation-fill-mode: forwards;
+	-webkit-animation-iteration-count: infinite;
+			animation-iteration-count: infinite;
+	-webkit-animation-name: shimmer;
+			animation-name: shimmer;
+	-webkit-animation-timing-function: linear;
+			animation-timing-function: linear;
+	background: #ddd;
+	background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+	background-size: 1200px 100%;
+  }
+  @-webkit-keyframes shimmer {
+	0% {
+	  background-position: -100% 0;
 	}
-}
-
+	100% {
+	  background-position: 100% 0;
+	}
+  }
+  @keyframes shimmer {
+	0% {
+	  background-position: -1200px 0;
+	}
+	100% {
+	  background-position: 1200px 0;
+	}
+  }
+  .card .media {
+	height: 200px;
+  }
+  .card .p32 {
+	padding: 32px;
+  }
+  .card .titleLine {
+	height: 24px;
+	width: 100%;
+	margin-bottom: 12px;
+	border-radius: 20px;
+  }
+  .card .contentLine {
+	height: 8px;
+	width: 100%;
+	margin-bottom: 16px;
+	border-radius: 8px;
+  }
+  .card .end {
+	width: 40%;
+  }
+  
+  .mt24 {
+	margin-top: 24px;
+  }

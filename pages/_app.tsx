@@ -17,10 +17,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
   return (
     <>
-    {loading && <Loader/>}
-    <LayoutWrapper>
+      {loading && <LayoutWrapper>
+          <Loader />
+        </LayoutWrapper>}
+
+    {!loading && <LayoutWrapper>
       <Component {...pageProps} />
-    </LayoutWrapper>
+    </LayoutWrapper>}
     </>
   );
 }
