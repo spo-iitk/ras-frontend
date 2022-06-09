@@ -1,194 +1,72 @@
+import Meta from "@components/Meta";
 import {
-  Stack,
-  Grid,
-  IconButton,
-  Paper,
-  TextField,
+  Card,
+  FormControl,
+  InputLabel,
   MenuItem,
-  Button,
+  Select,
+  Stack,
+  TextField,
+  IconButton,
 } from "@mui/material";
+import styles from "@styles/adminPhase.module.css";
+import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import React from "react";
 
-const options = [
-  { id: 1, data: "Option-1" },
-  { id: 2, data: "Option-2" },
-  { id: 3, data: "Option-3" },
-];
-const qtype = [
-  { id: 1, data: "Type-1" },
-  { id: 2, data: "Type-2" },
-  { id: 3, data: "Type-3" },
-];
 function NewQuestion() {
-  const { length } = options;
+  const [optionVal, setOptionVal] = useState([0]);
 
-  const [value, setValue] = React.useState("");
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-    console.log(value);
-  };
   return (
-    <div>
-      <Paper
-        variant="elevation"
-        elevation={8}
-        sx={{ margin: "2rem auto", width: "45vw" }}
-      >
-        <Stack justifyContent="center" spacing={3}>
-          <Grid
-            container
-            spacing={3}
-            justifyContent="center"
-            alignContent="center"
-          >
-            <Grid item xs={6} sx={{ marginLeft: "2 rem", alignText: "center" }}>
-              <h2>ADD CUSTOM QUESTION</h2>
-            </Grid>
-            <Grid item xs={1} sx={{ alignItems: "right", marginTop: "1rem" }}>
-              <div>
-                <IconButton>
-                  <AddIcon />
-                </IconButton>
-              </div>
-            </Grid>
-          </Grid>
+    <div className={styles.container}>
+      <Meta title="Question - Admin" />
+      <h1>Internship 2022-23 Phase 1</h1>
+      <div style={{ marginTop: 50 }}>
+        <Card
+          elevation={5}
+          sx={{
+            padding: 4,
+            width: { xs: "330px", sm: "500px", margin: "0px auto" },
+          }}
+        >
+          <Stack spacing={3}>
+            <h1>View Custom Question</h1>
+            <br />
 
-          <Grid
-            container
-            spacing={3}
-            justifyContent="center"
-            alignContent="center"
-          >
-            <Grid item xs={12}>
-              <div style={{ width: "30rem", marginLeft: "4vw" }}>
-                <TextField
-                  id="qtype"
-                  required
-                  select
-                  label="Select Question Type"
-                  onChange={handleChange}
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  variant="standard"
-                >
-                  {qtype.map((val) => (
-                    <MenuItem value={val.data} key="q1">
-                      {val.data}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </Grid>
+            <FormControl sx={{ m: 1 }}>
+              <InputLabel id="Type-of-Ques">Type of Question</InputLabel>
+              <Select labelId="Type-of-Ques" variant="standard">
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>MCQ</MenuItem>
+                <MenuItem value={20}>Fill in the blanks</MenuItem>
+              </Select>
+            </FormControl>
 
-            <Grid item xs={12}>
-              <div style={{ width: "30rem", marginLeft: "4vw" }}>
-                <TextField
-                  id="quest"
-                  required
-                  // select
-                  label="Enter Question"
-                  onChange={handleChange}
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  multiline
-                  variant="standard"
-                />
-              </div>
-            </Grid>
+            <FormControl sx={{ m: 1 }}>
+              <TextField label="Question" variant="standard" />
+            </FormControl>
 
-            {options.map((val, i) => {
-              if (i < length - 1)
-                return (
-                  <Grid item xs={12}>
-                    <div style={{ width: "20rem", marginLeft: "4vw" }}>
-                      <TextField
-                        id="outlined-select-currency"
-                        // select
-                        required
-                        label="Enter Option"
-                        onChange={handleChange}
-                        sx={{ marginLeft: "5 rem" }}
-                        fullWidth
-                        multiline
-                        variant="standard"
-                      />
-                    </div>
-                  </Grid>
-                );
-              return (
-                <Grid
-                  container
-                  spacing={3}
-                  justifyContent="left  "
-                  alignContent="left"
-                  key="loprow"
-                >
-                  <Grid item xs={1}>
-                    <div
-                      style={{
-                        width: "20rem",
-                        marginLeft: "5.5vw",
-                        marginTop: "1vw",
-                      }}
-                    >
-                      <TextField
-                        id="outlined-select-currency"
-                        // select
-                        label="Enter Option"
-                        onChange={handleChange}
-                        sx={{ marginLeft: "5 rem" }}
-                        fullWidth
-                        multiline
-                        variant="standard"
-                      />
-                    </div>
-                  </Grid>
-                  <Grid item xs={1}>
-                    <IconButton
-                      sx={{
-                        border: "2px black solid",
-                        position: "relative",
-                        left: "25vw ",
-                        top: "1.5vw",
-                      }}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              );
-            })}
-          </Grid>
-          <Grid
-            container
-            spacing={1}
-            justifyContent="center"
-            alignContent="center"
-          >
-            <Grid item xs={8}>
-              <Button
-                variant="contained"
-                fullWidth
-                sx={{
-                  padding: "16.5px 14px",
-                  marginBottom: "2rem",
-                  backgroundColor: "#170e0d",
-                  "&:hover": {
-                    backgroundColor: "black",
-                  },
+            {optionVal.map((i) => (
+              <FormControl sx={{ m: 1 }} key={i}>
+                <TextField label="Option" variant="standard" />
+              </FormControl>
+            ))}
+
+            <Stack spacing={3} justifyContent="center" alignItems="center">
+              <IconButton
+                sx={{ width: 40 }}
+                onClick={() => {
+                  const newOptionVal = [...optionVal, 0];
+                  setOptionVal(newOptionVal);
                 }}
               >
-                Submit
-              </Button>
-              {/* <ActiveButton sx={{ width: "max-content", margin: "0.5rem 0" }}>
-                Add Question
-              </ActiveButton> */}
-            </Grid>
-          </Grid>
-        </Stack>
-      </Paper>
+                <AddIcon />
+              </IconButton>
+            </Stack>
+          </Stack>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -1,114 +1,68 @@
+import Meta from "@components/Meta";
+import {
+  Card,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+} from "@mui/material";
+import styles from "@styles/adminPhase.module.css";
 import React from "react";
-import { Stack, Paper, TextField, Grid } from "@mui/material";
 
 function Question() {
   const options = [
-    { id: 1, data: "Option-1" },
-    { id: 2, data: "Option-2" },
-    { id: 3, data: "Option-3" },
+    { id: 1, label: "Option-1" },
+    { id: 2, label: "Option-2" },
+    { id: 3, label: "Option-3" },
   ];
-  const qtype = [{ id: 1, data: "Type-1" }];
-  const quest = [{ id: 1, data: "Quest -1" }];
+  const qtype = [{ id: 1, label: "Question Type" }];
+  const quest = [{ id: 1, label: "Question" }];
   return (
-    <div>
-      <Paper
-        variant="elevation"
-        elevation={8}
-        sx={{ margin: "2rem auto", width: "50rem" }}
-      >
-        <Stack justifyContent="center" spacing={1}>
-          <h2 style={{ textAlign: "center" }}>VIEW CUSTOM QUESTION</h2>
-          {qtype.map((value, i) => (
-            <Grid
-              container
-              spacing={1}
-              justifyContent="center"
-              alignContent="center"
-              key="qtgrid"
-            >
-              <Grid item xs={12}>
-                <h3 style={{ marginLeft: "3.5rem" }}>Question Type</h3>
-              </Grid>
-              <Grid item xs={12}>
-                <div style={{ width: "80%", marginLeft: "4vw" }}>
-                  <TextField
-                    id={`qtype${i}`}
-                    // select
-                    defaultValue={value.data}
-                    inputProps={{ readOnly: true }}
-                    // label="Question Type"
-                    // onChange={handleChange}
-                    sx={{ marginLeft: "5 rem" }}
-                    fullWidth
-                    variant="standard"
-                  />
-                </div>
-              </Grid>
-            </Grid>
-          ))}
-          {quest.map((value, i) => (
-            <Grid
-              container
-              spacing={1}
-              justifyContent="center"
-              alignContent="center"
-              key="qgrid"
-            >
-              <Grid item xs={12}>
-                <h3 style={{ marginLeft: "3.5rem" }}>Question</h3>
-              </Grid>
-              <Grid item xs={12}>
-                <div style={{ width: "80%", marginLeft: "4vw" }}>
-                  <TextField
-                    id={`quest${i}`}
-                    // select
-                    inputProps={{ readOnly: true }}
-                    // label="Question"
-                    defaultValue={value.data}
-                    // onChange={handleChange}
-                    sx={{ marginLeft: "5 rem" }}
-                    fullWidth
-                    multiline
-                    variant="standard"
-                  />
-                </div>
-              </Grid>
-            </Grid>
-          ))}
-          {options.map((value, i) => (
-            <Grid
-              container
-              spacing={1}
-              justifyContent="center"
-              alignContent="center"
-              key="opgrid"
-              sx={{ marginBottom: "1vw" }}
-            >
-              <Grid item xs={12}>
-                <h3 style={{ marginLeft: "3.5rem" }}> {value.data} </h3>
-              </Grid>
-              <Grid item xs={12}>
-                <div style={{ width: "40%", marginLeft: "4vw" }}>
-                  <TextField
-                    id={`opt${i}`}
-                    // select
-                    required
-                    defaultValue={value.data}
-                    label=""
-                    inputProps={{ readOnly: true }}
-                    // onChange={handleChange}
-                    sx={{ marginLeft: "5 rem" }}
-                    fullWidth
-                    multiline
-                    variant="standard"
-                  />
-                </div>
-              </Grid>
-            </Grid>
-          ))}
-          <br />
-        </Stack>
-      </Paper>
+    <div className={styles.container}>
+      <Meta title="Question - Admin" />
+      <h1>Internship 2022-23 Phase 1</h1>
+      <div style={{ marginTop: 50 }}>
+        <Card
+          elevation={5}
+          sx={{
+            padding: 4,
+            width: { xs: "330px", sm: "500px", margin: "0px auto" },
+          }}
+        >
+          <Stack spacing={3}>
+            <h1>View Custom Question</h1>
+            <br />
+            {qtype.map((item) => (
+              <FormControl sx={{ m: 1 }} key={item.id}>
+                <InputLabel id="Type-of-Ques">Type of Question</InputLabel>
+                <Select
+                  labelId="Type-of-Ques"
+                  label={item.label}
+                  variant="standard"
+                >
+                  <MenuItem value="">None</MenuItem>
+                  <MenuItem value={10}>MCQ</MenuItem>
+                  <MenuItem value={20}>Fill in the blanks</MenuItem>
+                </Select>
+              </FormControl>
+            ))}
+
+            {quest.map((item) => (
+              <FormControl sx={{ m: 1 }} key={item.id}>
+                <TextField label={item.label} variant="standard" />
+              </FormControl>
+            ))}
+
+            {options.map((option) => (
+              <FormControl sx={{ m: 1 }} key={option.id}>
+                <TextField label={option.label} variant="standard" />
+              </FormControl>
+            ))}
+          </Stack>
+        </Card>
+      </div>
     </div>
   );
 }

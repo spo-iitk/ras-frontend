@@ -69,6 +69,11 @@ const items: userItems[] = [
     id: "/resume",
   },
   {
+    avatar: <BarChartIcon />,
+    name: "Attendance",
+    id: "/attendance",
+  },
+  {
     avatar: <CalendarMonthIcon />,
     name: "Calendar",
     id: "/calendar",

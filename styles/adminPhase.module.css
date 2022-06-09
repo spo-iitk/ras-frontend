@@ -60,3 +60,23 @@
         width:100%;
     }
 }
+
+.datagridAttendance{
+    width: 1410px;
+}
+
+@media(max-width:1200px){
+    .datagridAttendance{
+        width:100%;
+    }
+}
+
+.datagridResume{
+    width: 1310px;
+}
+
+@media(max-width:1200px){
+    .datagridResume{
+        width:100%;
+    }
+}

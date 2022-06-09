@@ -112,13 +112,15 @@ function Index() {
             </Stack>
           </div>
         </Grid>
-        <div style={{ height: 500, margin: "0px auto" }}>
+        <div
+          style={{ height: 500, margin: "0px auto" }}
+          className={styles.datagridResume}
+        >
           <DataGrid
             rows={rows}
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}
-            sx={{ minWidth: 1350 }}
           />
         </div>
       </Grid>
@@ -126,5 +128,5 @@ function Index() {
   );
 }
 
-Index.layout = "adminDashBoard";
+Index.layout = "adminPhaseDashBoard";
 export default Index;

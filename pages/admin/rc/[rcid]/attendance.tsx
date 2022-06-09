@@ -11,6 +11,11 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 
 const columns: GridColDef[] = [
   {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+  },
+  {
     field: "CompanyName",
     headerName: "Company Name",
     width: 200,
@@ -56,7 +61,6 @@ const columns: GridColDef[] = [
             </IconButton>
           </Stack>
         );
-      // if (cellValues.row.ViewStudentsWiseDetails === "REJECTED")
       return (
         <Stack
           direction="row"
@@ -100,10 +104,14 @@ const rows = [
 function Index() {
   return (
     <div className={styles.container}>
-      <Meta title="Resume Dashboard" />
+      <Meta title="Attendance" />
       <Grid container alignItems="center">
         <Grid item xs={12}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <h1>Manage Attendance</h1>
             <Stack direction="row" spacing={3}>
               <IconButton>
@@ -113,15 +121,17 @@ function Index() {
                 <MoreVertIcon />
               </IconButton>
             </Stack>
-          </div>
+          </Stack>
         </Grid>
-        <div style={{ height: 500, margin: "0px auto" }}>
+        <div
+          style={{ height: 500, margin: "0px auto" }}
+          className={styles.datagridAttendance}
+        >
           <DataGrid
             rows={rows}
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}
-            sx={{ minWidth: 1350 }}
           />
         </div>
       </Grid>
@@ -129,5 +139,5 @@ function Index() {
   );
 }
 
-Index.layout = "adminDashBoard";
+Index.layout = "adminPhaseDashBoard";
 export default Index;
