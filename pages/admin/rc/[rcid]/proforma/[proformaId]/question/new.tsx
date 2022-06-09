@@ -5,15 +5,10 @@ import {
   Paper,
   TextField,
   MenuItem,
-  TableContainer,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
+  Button,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
-import ActiveButton from "@components/Buttons/ActiveButton";
 
 const options = [
   { id: 1, data: "Option-1" },
@@ -41,10 +36,10 @@ function NewQuestion() {
         elevation={8}
         sx={{ margin: "2rem auto", width: "45vw" }}
       >
-        <Stack justifyContent="center">
+        <Stack justifyContent="center" spacing={3}>
           <Grid
             container
-            spacing={1}
+            spacing={3}
             justifyContent="center"
             alignContent="center"
           >
@@ -59,45 +54,60 @@ function NewQuestion() {
               </div>
             </Grid>
           </Grid>
-          <TableContainer>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  {/* <TableCell>
-      <h3 style = {{marginLeft: "5rem"}}>Question Type</h3>
-      </TableCell> */}
-                  <TableCell align="center" style={{ borderBottom: "none" }}>
-                    <div style={{ width: "30rem", marginLeft: "4vw" }}>
+
+          <Grid
+            container
+            spacing={3}
+            justifyContent="center"
+            alignContent="center"
+          >
+            <Grid item xs={12}>
+              <div style={{ width: "30rem", marginLeft: "4vw" }}>
+                <TextField
+                  id="qtype"
+                  required
+                  select
+                  label="Select Question Type"
+                  onChange={handleChange}
+                  sx={{ marginLeft: "5 rem" }}
+                  fullWidth
+                  variant="standard"
+                >
+                  {qtype.map((val) => (
+                    <MenuItem value={val.data} key="q1">
+                      {val.data}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </Grid>
+
+            <Grid item xs={12}>
+              <div style={{ width: "30rem", marginLeft: "4vw" }}>
+                <TextField
+                  id="quest"
+                  required
+                  // select
+                  label="Enter Question"
+                  onChange={handleChange}
+                  sx={{ marginLeft: "5 rem" }}
+                  fullWidth
+                  multiline
+                  variant="standard"
+                />
+              </div>
+            </Grid>
+
+            {options.map((val, i) => {
+              if (i < length - 1)
+                return (
+                  <Grid item xs={12}>
+                    <div style={{ width: "20rem", marginLeft: "4vw" }}>
                       <TextField
-                        id="qtype"
-                        required
-                        select
-                        label="Select Question Type"
-                        onChange={handleChange}
-                        sx={{ marginLeft: "5 rem" }}
-                        fullWidth
-                        variant="standard"
-                      >
-                        {qtype.map((val) => (
-                          <MenuItem value={val.data} key="q1">
-                            {val.data}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </div>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  {/* <TableCell>
-      <h3 style = {{marginLeft: "5rem"}}>Question</h3>
-      </TableCell> */}
-                  <TableCell style={{ borderBottom: "none" }}>
-                    <div style={{ width: "30rem", marginLeft: "4vw" }}>
-                      <TextField
-                        id="quest"
-                        required
+                        id="outlined-select-currency"
                         // select
-                        label="Enter Question"
+                        required
+                        label="Enter Option"
                         onChange={handleChange}
                         sx={{ marginLeft: "5 rem" }}
                         fullWidth
@@ -105,78 +115,76 @@ function NewQuestion() {
                         variant="standard"
                       />
                     </div>
-                  </TableCell>
-                </TableRow>
-                {options.map((val, i) => {
-                  if (i < length - 1)
-                    return (
-                      <TableRow>
-                        {/* <TableCell>
-          <h3 style = {{marginLeft: "5rem"}}> {value.data} </h3>
-          </TableCell>   */}
-                        <TableCell style={{ borderBottom: "none" }}>
-                          <div style={{ width: "20rem", marginLeft: "4vw" }}>
-                            <TextField
-                              id="outlined-select-currency"
-                              // select
-                              required
-                              label="Enter Option"
-                              onChange={handleChange}
-                              sx={{ marginLeft: "5 rem" }}
-                              fullWidth
-                              multiline
-                              variant="standard"
-                            />
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  return (
-                    <TableRow key="loprow">
-                      {/* <TableCell>
-          <h3 style = {{marginLeft: "5rem"}}>{value.data} </h3>
-          </TableCell>   */}
-                      <TableCell style={{ borderBottom: "none" }}>
-                        <div style={{ width: "20rem", marginLeft: "4vw" }}>
-                          <TextField
-                            id="outlined-select-currency"
-                            // select
-                            label="Enter Option"
-                            onChange={handleChange}
-                            sx={{ marginLeft: "5 rem" }}
-                            fullWidth
-                            multiline
-                            variant="standard"
-                          />
-                        </div>
-                      </TableCell>
-                      <TableCell style={{ borderBottom: "none" }}>
-                        <IconButton
-                          sx={{
-                            border: "2px blue solid",
-                            display: "relative",
-                            right: "2vw ",
-                          }}
-                        >
-                          <AddIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                  </Grid>
+                );
+              return (
+                <Grid
+                  container
+                  spacing={3}
+                  justifyContent="left  "
+                  alignContent="left"
+                  key="loprow"
+                >
+                  <Grid item xs={1}>
+                    <div
+                      style={{
+                        width: "20rem",
+                        marginLeft: "5.5vw",
+                        marginTop: "1vw",
+                      }}
+                    >
+                      <TextField
+                        id="outlined-select-currency"
+                        // select
+                        label="Enter Option"
+                        onChange={handleChange}
+                        sx={{ marginLeft: "5 rem" }}
+                        fullWidth
+                        multiline
+                        variant="standard"
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={1}>
+                    <IconButton
+                      sx={{
+                        border: "2px black solid",
+                        position: "relative",
+                        left: "25vw ",
+                        top: "1.5vw",
+                      }}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              );
+            })}
+          </Grid>
           <Grid
             container
             spacing={1}
             justifyContent="center"
             alignContent="center"
           >
-            <Grid item xs={3}>
-              <ActiveButton sx={{ width: "max-content", margin: "0.5rem 0" }}>
+            <Grid item xs={8}>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{
+                  padding: "16.5px 14px",
+                  marginBottom: "2rem",
+                  backgroundColor: "#170e0d",
+                  "&:hover": {
+                    backgroundColor: "black",
+                  },
+                }}
+              >
+                Submit
+              </Button>
+              {/* <ActiveButton sx={{ width: "max-content", margin: "0.5rem 0" }}>
                 Add Question
-              </ActiveButton>
+              </ActiveButton> */}
             </Grid>
           </Grid>
         </Stack>

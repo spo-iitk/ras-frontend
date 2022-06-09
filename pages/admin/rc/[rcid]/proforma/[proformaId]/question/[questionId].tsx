@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Stack,
-  Paper,
-  TextField,
-  TableContainer,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@mui/material";
+import { Stack, Paper, TextField, Grid } from "@mui/material";
 
 function Question() {
   const options = [
@@ -25,83 +16,97 @@ function Question() {
         elevation={8}
         sx={{ margin: "2rem auto", width: "50rem" }}
       >
-        <Stack justifyContent="center">
+        <Stack justifyContent="center" spacing={1}>
           <h2 style={{ textAlign: "center" }}>VIEW CUSTOM QUESTION</h2>
-          <TableContainer>
-            <Table>
-              <TableBody>
-                {qtype.map((value, i) => (
-                  <TableRow key="qtrow">
-                    <TableCell>
-                      <h3 style={{ marginLeft: "5rem" }}>Question Type</h3>
-                    </TableCell>
-                    <TableCell>
-                      <div style={{ width: "30rem" }}>
-                        <TextField
-                          id={`qtype${i}`}
-                          // select
-                          defaultValue={value.data}
-                          inputProps={{ readOnly: true }}
-                          // label="Question Type"
-                          // onChange={handleChange}
-                          sx={{ marginLeft: "5 rem" }}
-                          fullWidth
-                        />
-                        {/* {qtype.map((value) => (
-            <MenuItem value = {value.data}>{value.data}</MenuItem>
-            ))} */}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {quest.map((value, i) => (
-                  <TableRow key="qrow">
-                    <TableCell>
-                      <h3 style={{ marginLeft: "5rem" }}>Question</h3>
-                    </TableCell>
-                    <TableCell>
-                      <div style={{ width: "30rem" }}>
-                        <TextField
-                          id={`quest${i}`}
-                          // select
-                          inputProps={{ readOnly: true }}
-                          // label="Question"
-                          defaultValue={value.data}
-                          // onChange={handleChange}
-                          sx={{ marginLeft: "5 rem" }}
-                          fullWidth
-                          multiline
-                        />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {options.map((value, i) => (
-                  <TableRow key="oprow">
-                    <TableCell>
-                      <h3 style={{ marginLeft: "5rem" }}> {value.data} </h3>
-                    </TableCell>
-                    <TableCell>
-                      <div style={{ width: "15rem" }}>
-                        <TextField
-                          id={`opt${i}`}
-                          // select
-                          required
-                          defaultValue={value.data}
-                          label=""
-                          inputProps={{ readOnly: true }}
-                          // onChange={handleChange}
-                          sx={{ marginLeft: "5 rem" }}
-                          fullWidth
-                          multiline
-                        />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          {qtype.map((value, i) => (
+            <Grid
+              container
+              spacing={1}
+              justifyContent="center"
+              alignContent="center"
+              key="qtgrid"
+            >
+              <Grid item xs={12}>
+                <h3 style={{ marginLeft: "3.5rem" }}>Question Type</h3>
+              </Grid>
+              <Grid item xs={12}>
+                <div style={{ width: "80%", marginLeft: "4vw" }}>
+                  <TextField
+                    id={`qtype${i}`}
+                    // select
+                    defaultValue={value.data}
+                    inputProps={{ readOnly: true }}
+                    // label="Question Type"
+                    // onChange={handleChange}
+                    sx={{ marginLeft: "5 rem" }}
+                    fullWidth
+                    variant="standard"
+                  />
+                </div>
+              </Grid>
+            </Grid>
+          ))}
+          {quest.map((value, i) => (
+            <Grid
+              container
+              spacing={1}
+              justifyContent="center"
+              alignContent="center"
+              key="qgrid"
+            >
+              <Grid item xs={12}>
+                <h3 style={{ marginLeft: "3.5rem" }}>Question</h3>
+              </Grid>
+              <Grid item xs={12}>
+                <div style={{ width: "80%", marginLeft: "4vw" }}>
+                  <TextField
+                    id={`quest${i}`}
+                    // select
+                    inputProps={{ readOnly: true }}
+                    // label="Question"
+                    defaultValue={value.data}
+                    // onChange={handleChange}
+                    sx={{ marginLeft: "5 rem" }}
+                    fullWidth
+                    multiline
+                    variant="standard"
+                  />
+                </div>
+              </Grid>
+            </Grid>
+          ))}
+          {options.map((value, i) => (
+            <Grid
+              container
+              spacing={1}
+              justifyContent="center"
+              alignContent="center"
+              key="opgrid"
+              sx={{ marginBottom: "1vw" }}
+            >
+              <Grid item xs={12}>
+                <h3 style={{ marginLeft: "3.5rem" }}> {value.data} </h3>
+              </Grid>
+              <Grid item xs={12}>
+                <div style={{ width: "40%", marginLeft: "4vw" }}>
+                  <TextField
+                    id={`opt${i}`}
+                    // select
+                    required
+                    defaultValue={value.data}
+                    label=""
+                    inputProps={{ readOnly: true }}
+                    // onChange={handleChange}
+                    sx={{ marginLeft: "5 rem" }}
+                    fullWidth
+                    multiline
+                    variant="standard"
+                  />
+                </div>
+              </Grid>
+            </Grid>
+          ))}
+          <br />
         </Stack>
       </Paper>
     </div>
