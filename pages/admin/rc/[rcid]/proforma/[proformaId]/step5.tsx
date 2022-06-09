@@ -1,9 +1,14 @@
-import React from "react";
-import { Grid, MenuItem, Stack, TextField } from "@mui/material";
 import Meta from "@components/Meta";
-import Paper from "@mui/material/Paper";
-import ActiveButton from "@components/Buttons/ActiveButton";
-import InactiveButton from "@components/Buttons/InactiveButton";
+import {
+  Button,
+  Card,
+  FormControl,
+  MenuItem,
+  Stack,
+  TextField,
+} from "@mui/material";
+import styles from "@styles/adminPhase.module.css";
+import React from "react";
 
 const hrtype = [
   { id: 1, data: "HR1" },
@@ -11,157 +16,69 @@ const hrtype = [
   { id: 1, data: "HR3" },
 ];
 function Step5() {
-  const [value, setValue] = React.useState("");
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-    console.log(value);
-  };
   return (
-    <div>
+    <div className={styles.container}>
       <Meta title="Step 5/5 - Additional Information" />
-      <h1 style={{ marginBottom: "2rem" }}>Internship 2022-23 Phase 1</h1>
-      <Paper
-        variant="elevation"
-        elevation={8}
-        sx={{ margin: "2rem auto", width: "58vw" }}
+      <h1>Internship 2022-23 Phase 1</h1>
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "330px", sm: "600px", margin: "0px auto" },
+        }}
       >
-        <Stack justifyContent="center">
-          <h2 style={{ textAlign: "left", marginLeft: "2rem" }}>
-            Step 5/5 (Additional Information)
-          </h2>
-          <Grid
-            container
-            spacing={4}
+        <Stack spacing={3}>
+          <h1>Step 5/5 : Additional Information</h1>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Additional Eligibility Criteria</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              minRows={3}
+              variant="standard"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Message for Placement Coordinator</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              minRows={5}
+              variant="standard"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Select Active HR</p>
+            <TextField id="hrtype" required select fullWidth variant="standard">
+              <MenuItem value="">Select</MenuItem>
+              {hrtype.map((val) => (
+                <MenuItem value={val.data} key="q1">
+                  {val.data}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+          <Stack
+            spacing={3}
+            direction="row"
             justifyContent="center"
-            alignContent="center"
+            alignItems="center"
           >
-            <Grid
-              item
-              xs={4}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <h3 style={{ marginLeft: "2rem", textAlign: "center" }}>
-                Additional Eligibilty Criteria
-              </h3>
-            </Grid>
-            <Grid item xs={8}>
-              <div style={{ width: "30vw", marginLeft: "4vw" }}>
-                <TextField
-                  id="AddEligCrit"
-                  required
-                  label="Enter Company Name"
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  multiline
-                  variant="standard"
-                />
-              </div>
-            </Grid>
-            <Grid
-              item
-              xs={4}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              <h3 style={{ marginLeft: "2rem", textAlign: "center" }}>
-                Message for Placement Coordinator
-              </h3>
-            </Grid>
-            <Grid item xs={8}>
-              <div style={{ width: "30vw", marginLeft: "4vw" }}>
-                <TextField
-                  id="Msg"
-                  required
-                  label="Enter Package Details"
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  multiline
-                  variant="standard"
-                />
-              </div>
-            </Grid>
-            <Grid
-              item
-              xs={4}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <h3 style={{ marginLeft: "2rem", textAlign: "center" }}>
-                Select Active HR
-              </h3>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                position: "relative",
-                right: "1.5vw",
-              }}
-            >
-              {/* <FormControlLabel
-            label = ""
-            control={<Checkbox checked = {bond} onChange = {handleChange} />}
-            /> */}
-              {/* <div style={{ width: "30rem", marginLeft: "4vw" }}>
-                <TextField
-                  id="Cname"
-                  required
-                  // select
-                  label="Enter Company Name"
-                //   onChange={handleChange}
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  multiline
-                  variant="standard"
-                />
-              </div> */}
-              <div style={{ width: "30vw", marginLeft: "4vw" }}>
-                <TextField
-                  id="hrtype"
-                  required
-                  select
-                  label="Select HR Type"
-                  onChange={handleChange}
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  variant="standard"
-                >
-                  {hrtype.map((val) => (
-                    <MenuItem value={val.data} key="q1">
-                      {val.data}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                marginBottom: "1.5rem",
-              }}
-            >
-              <ActiveButton sx={{ width: 100 }}>Submit</ActiveButton>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                marginBottom: "1.5rem",
-              }}
-            >
-              <InactiveButton sx={{ width: 100 }}>Reset</InactiveButton>
-            </Grid>
-          </Grid>
+            <Button variant="contained" sx={{ width: "50%" }}>
+              Submit
+            </Button>
+            <Button variant="contained" sx={{ width: "50%" }}>
+              Reset
+            </Button>
+          </Stack>
         </Stack>
-      </Paper>
+      </Card>
     </div>
   );
 }

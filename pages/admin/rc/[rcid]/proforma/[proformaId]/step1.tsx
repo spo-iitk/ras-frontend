@@ -1,145 +1,82 @@
-import React from "react";
-import { Grid, Stack, TextField } from "@mui/material";
 import Meta from "@components/Meta";
-import Paper from "@mui/material/Paper";
-import ActiveButton from "@components/Buttons/ActiveButton";
-import InactiveButton from "@components/Buttons/InactiveButton";
+import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
+import styles from "@styles/adminPhase.module.css";
+import React from "react";
 
 function Step1() {
   return (
-    <div>
+    <div className={styles.container}>
       <Meta title="Step 1/5 - Basic Details" />
-      <h1 style={{ marginBottom: "2rem" }}>Internship 2022-23 Phase 1</h1>
-      <Paper
-        variant="elevation"
-        elevation={8}
-        sx={{ margin: "2rem auto", width: "58vw" }}
+      <h1>Internship 2022-23 Phase 1</h1>
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "330px", sm: "600px", margin: "0px auto" },
+        }}
       >
-        <Stack justifyContent="center">
-          <h2 style={{ textAlign: "left", marginLeft: "2rem" }}>
-            Step 1/5 (Basic Details)
-          </h2>
-          <Grid
-            container
-            spacing={4}
+        <Stack spacing={3}>
+          <h1>Step 1/5 : Basic Details</h1>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Company Name</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Nature of Business</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Job Description</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              minRows={4}
+              variant="standard"
+            />
+          </FormControl>
+          <Stack
+            spacing={3}
+            direction="row"
             justifyContent="center"
-            alignContent="center"
+            alignItems="center"
           >
-            <Grid
-              item
-              xs={4}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <h3 style={{ marginLeft: "2rem", textAlign: "center" }}>
-                Company Name
-              </h3>
-            </Grid>
-            <Grid item xs={8}>
-              <div style={{ width: "30rem", marginLeft: "4vw" }}>
-                <TextField
-                  id="Cname"
-                  required
-                  label="Enter Company Name"
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  multiline
-                  variant="standard"
-                />
-              </div>
-            </Grid>
-            <Grid
-              item
-              xs={4}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <h3 style={{ marginLeft: "2rem", textAlign: "center" }}>
-                Nature of Business
-              </h3>
-            </Grid>
-            <Grid item xs={8}>
-              <div style={{ width: "30rem", marginLeft: "4vw" }}>
-                <TextField
-                  id="NoB"
-                  required
-                  label="Enter Nature of Business"
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  multiline
-                  variant="standard"
-                />
-              </div>
-            </Grid>
-            <Grid
-              item
-              xs={4}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <h3 style={{ marginLeft: "2rem", textAlign: "center" }}>
-                Tentative Job Location
-              </h3>
-            </Grid>
-            <Grid item xs={8}>
-              <div style={{ width: "30rem", marginLeft: "4vw" }}>
-                <TextField
-                  id="TJobL"
-                  required
-                  label="Enter Tentative Job Location"
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  multiline
-                  variant="standard"
-                />
-              </div>
-            </Grid>
-            <Grid
-              item
-              xs={4}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <h3 style={{ marginLeft: "2rem", textAlign: "center" }}>
-                Job Description
-              </h3>
-            </Grid>
-            <Grid item xs={8}>
-              <div style={{ width: "30rem", marginLeft: "4vw" }}>
-                <TextField
-                  id="JD"
-                  required
-                  label="Enter Job Description"
-                  sx={{ marginLeft: "5 rem" }}
-                  fullWidth
-                  multiline
-                  variant="standard"
-                />
-              </div>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                marginBottom: "1.5rem",
-              }}
-            >
-              <ActiveButton sx={{ width: 100 }}>Next</ActiveButton>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                marginBottom: "1.5rem",
-              }}
-            >
-              <InactiveButton sx={{ width: 100 }}>Reset</InactiveButton>
-            </Grid>
-          </Grid>
+            <Button variant="contained" sx={{ width: "50%" }}>
+              Next
+            </Button>
+            <Button variant="contained" sx={{ width: "50%" }}>
+              Reset
+            </Button>
+          </Stack>
         </Stack>
-      </Paper>
+      </Card>
     </div>
   );
 }
