@@ -1,57 +1,103 @@
-import React from 'react'
-import Meta from '@components/Meta'
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Box, Grid, IconButton, Modal, Stack, TextField, Typography } from '@mui/material'
-import Button from '@mui/material/Button';
-import styles from '/styles/internPhase.module.css'
-import ActiveButton from '@components/Buttons/ActiveButton';
-import AddIcon from '@mui/icons-material/Add';
+import React from "react";
+import Meta from "@components/Meta";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Box, Grid, IconButton, Modal, Stack, TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import styles from "@styles/internPhase.module.css";
+import ActiveButton from "@components/Buttons/ActiveButton";
+import AddIcon from "@mui/icons-material/Add";
+
+const boxStyle = {
+  position: "absolute" as const,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "white solid 2px",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+};
+
+const divStyle = {
+  margin: "15px 0 auto 0",
+  padding: "0",
+  width: "100%",
+};
+
+const boxbuttonStyle = {
+  width: "100%",
+  height: "40px",
+  border: "inherit solid 2px",
+  borderRadius: "10px",
+};
+
+const gridMain = {
+  width: "100%",
+  display: "flex",
+  alignItems: "right",
+  justifyContent: "right",
+};
+
 const columns: GridColDef[] = [
   {
-    field: 'id',
-    headerName: 'ID',
-    align: 'center',
-    headerAlign: 'center',
-    width: 100
+    field: "id",
+    headerName: "ID",
+    align: "center",
+    headerAlign: "center",
+    width: 100,
   },
   {
-    field: 'resumeLink',
-    headerName: 'Resume Link',
+    field: "resumeLink",
+    headerName: "Resume Link",
     sortable: false,
-    align: 'center',
-    headerAlign: 'center',
-    renderCell: (params) => <ActiveButton sx={{ height: 30, width: '100%' }}>{params.value}</ActiveButton>,
-    width: 200
+    align: "center",
+    headerAlign: "center",
+    renderCell: (params) => (
+      <ActiveButton sx={{ height: 30, width: "100%" }}>
+        {params.value}
+      </ActiveButton>
+    ),
+    width: 200,
   },
   {
-    field: 'uploadTime',
-    headerName: 'Upload Time',
-    align: 'center',
-    headerAlign: 'center',
-    width: 200
+    field: "uploadTime",
+    headerName: "Upload Time",
+    align: "center",
+    headerAlign: "center",
+    width: 200,
   },
   {
-    field: 'comments',
-    headerName: 'Comments from SPO',
-    align: 'center',
-    headerAlign: 'center',
-    width: 300
+    field: "comments",
+    headerName: "Comments from SPO",
+    align: "center",
+    headerAlign: "center",
+    width: 300,
   },
   {
-    field: 'status',
-    headerName: 'Verification Status',
-    align: 'center',
-    headerAlign: 'center',
-    renderCell: (params) => <>
+    field: "status",
+    headerName: "Verification Status",
+    align: "center",
+    headerAlign: "center",
+    renderCell: (params) => (
       <div>
-        <ActiveButton sx={{ height: 30, width: '100%' }}>{params.value}</ActiveButton>
+        <ActiveButton sx={{ height: 30, width: "100%" }}>
+          {params.value}
+        </ActiveButton>
       </div>
-    </>,
-    width: 190
-  }
+    ),
+    width: 190,
+  },
 ];
 const rows = [
-  { id: 1, resumeLink: 'VIEW', uploadTime: '12:00AM 31 May 2022', comments: 'Hello World', status: 'True' }
+  {
+    id: 1,
+    resumeLink: "VIEW",
+    uploadTime: "12:00AM 31 May 2022",
+    comments: "Hello World",
+    status: "True",
+  },
 ];
 
 function submitResume() {
@@ -71,96 +117,45 @@ function Resume() {
           </Grid>
           <Grid item xs={6} style={gridMain}>
             <div>
-            <IconButton onClick={handleOpen}><AddIcon/></IconButton>
+              <IconButton onClick={handleOpen}>
+                <AddIcon />
+              </IconButton>
             </div>
           </Grid>
         </Grid>
         <Stack>
-          <div style={{ height: 500, margin: '0px auto'}} className={styles.datagridResume}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={7}
-            />
+          <div
+            style={{ height: 500, margin: "0px auto" }}
+            className={styles.datagridResume}
+          >
+            <DataGrid rows={rows} columns={columns} pageSize={7} />
           </div>
         </Stack>
       </div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-      >
+      <Modal open={open} onClose={handleClose}>
         <Box sx={boxStyle}>
-          <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>Upload Resume</h1>
+          <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
+            Upload Resume
+          </h1>
           <TextField
             name="upload-pdf"
             type="file"
             aria-hidden="true"
             title=""
           />
-          <div style={divStyle}><Button style={boxbuttonStyle} variant="contained" onClick={submitResume}>Submit File</Button></div>
+          <div style={divStyle}>
+            <Button
+              style={boxbuttonStyle}
+              variant="contained"
+              onClick={submitResume}
+            >
+              Submit File
+            </Button>
+          </div>
         </Box>
       </Modal>
     </>
-  )
+  );
 }
-Resume.layout = "studentPhaseDashboard"
-export default Resume
-
-
-const boxStyle = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border:"white solid 2px",
-  borderRadius:"10px",
-  boxShadow: 24,
-  p: 4,
-}
-
-const divStyle = {
-  margin: "15px 0 auto 0",
-  padding: "0",
-  width: "100%",
-}
-
-const boxbuttonStyle = {
-  width: "100%",
-  height: "40px",
-  border:"inherit solid 2px",
-  borderRadius:"10px",
-
-}
-
-
-const gridMain = {
-  width: "100%",
-  display: "flex",
-  alignItems:"right",
-  justifyContent:"right",
-};
-
-const gridDiv = {
-  alignContent: "right",
-  alignItems:"right",
-  width:"100%",
-  height:"100%",
-  margin:"0",
-  padding:"0",
-};
-
-const pStyle = {
-  transform: "translate(88%, 100%)",
-  margin: "7.5px 0 0 0",
-  padding: "0",
-  right: "0%",
-  width: "100%",
-};
-const buttonStyle = {
-  padding: "5px 0",
-  FontSize:"15px",
-  margin: "0",
-  borderRadius:"50%",
-};
+Resume.layout = "studentPhaseDashboard";
+export default Resume;
