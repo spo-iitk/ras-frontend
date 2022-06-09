@@ -54,8 +54,6 @@ function MasterLayout({
   const [state, setState] = React.useState({
     left: false,
   });
-  console.log(items?.route);
-  console.log(asPath);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>

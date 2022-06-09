@@ -65,6 +65,9 @@ const layouts: layoutings = {
 
 function LayoutWrapper({ children }: { children: JSX.Element }) {
   let layoutType: string = children.type.layout;
+  if (!layoutType) {
+    layoutType = "none";
+  }
   const Layouter = layouts[layoutType];
   const Id = Ids[layoutType];
 
