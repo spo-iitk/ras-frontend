@@ -14,10 +14,16 @@ import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import ActiveButton from "@components/Buttons/ActiveButton";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const CompanyTags = ["Software", "Non-Core"];
 
 const HRcotactDetailsColumns: GridColDef[] = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 150,
+  },
   {
     field: "HRname",
     headerName: "HR Name",
@@ -65,6 +71,11 @@ const HRcotactDetailsRows = [
 
 const PastHireColumns: GridColDef[] = [
   {
+    field: "id",
+    headerName: "ID",
+    width: 150,
+  },
+  {
     field: "RecruitmentDrive",
     headerName: "Recruitment Drive",
     width: 375,
@@ -109,6 +120,11 @@ const PastHireRows = [
 ];
 
 const CompanyHistoryColumns: GridColDef[] = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 150,
+  },
   {
     field: "RecruitmentDrive",
     headerName: "Recruitment Drive",
@@ -155,7 +171,7 @@ function Index() {
         elevation={2}
         sx={{
           padding: 3,
-          width: { xs: "30%", sm: "100%", margin: "0px auto" },
+          width: { sm: "100%", margin: "0px auto" },
         }}
       >
         <Stack marginLeft="2em">
@@ -174,7 +190,6 @@ function Index() {
             sx={{
               padding: 3,
               width: {
-                xs: "30%",
                 sm: "100%",
                 margin: "0px auto",
               },
@@ -218,18 +233,16 @@ function Index() {
         elevation={2}
         sx={{
           padding: 3,
-          width: { xs: "30%", sm: "100%", margin: "0px auto" },
+          width: { sm: "100%", margin: "0px auto" },
         }}
       >
         <Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
+          <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>HR Contact Details</h1>
             <Stack direction="row" spacing={3}>
-              <ActiveButton>DOWNLOAD EXCEL</ActiveButton>
+              <IconButton>
+                <DownloadIcon />
+              </IconButton>
               <IconButton>
                 <AddIcon />
               </IconButton>
@@ -251,17 +264,17 @@ function Index() {
         elevation={2}
         sx={{
           padding: 3,
-          width: { xs: "30%", sm: "100%", margin: "0px auto" },
+          width: { sm: "100%", margin: "0px auto" },
         }}
       >
         <Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
+          <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>Past Hires</h1>
-            <ActiveButton>DOWNLOAD EXCEL</ActiveButton>
+            <Stack direction="row" spacing={3}>
+              <IconButton>
+                <DownloadIcon />
+              </IconButton>
+            </Stack>
           </Stack>
           <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
             <DataGrid
@@ -279,18 +292,16 @@ function Index() {
         elevation={2}
         sx={{
           padding: 3,
-          width: { xs: "30%", sm: "100%", margin: "0px auto" },
+          width: { sm: "100%", margin: "0px auto" },
         }}
       >
         <Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
+          <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>Comapny History</h1>
             <Stack direction="row" spacing={3}>
-              <ActiveButton>DOWNLOAD EXCEL</ActiveButton>
+              <IconButton>
+                <DownloadIcon />
+              </IconButton>
               <IconButton>
                 <AddIcon />
               </IconButton>
