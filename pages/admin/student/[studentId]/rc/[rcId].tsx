@@ -1,18 +1,23 @@
-import React from "react";
-import styles from "@styles/internPhase.module.css";
+import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 import { Box, Button, Grid, Modal, Stack, TextField } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import ActiveButton from "@components/Buttons/ActiveButton";
-import InactiveButton from "@components/Buttons/InactiveButton";
+import styles from "@styles/internPhase.module.css";
+import * as React from "react";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-const sideTextStyle = {
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr",
-  alignItems: "flex-end",
-  fontSize: "small",
-  width: "100%",
-};
+// const sideTextStyle = {
+//   display: "grid",
+//   gridTemplateColumns: "1fr 1fr",
+//   alignItems: "flex-end",
+//   fontSize: "small",
+//   width: "100%",
+// };
 
 const boxStyle = {
   position: "absolute" as const,
@@ -45,24 +50,28 @@ const boxTextField = {
 };
 const boxPStyle = {
   alignSelf: "center",
-  marginLeft: "50%",
-  transform: "translate(-10%,0)",
 };
+
 const columns: GridColDef[] = [
+  {
+    field: "id",
+    headerName: "Id",
+    width: 100,
+  },
   {
     field: "name",
     headerName: "Student Name",
     width: 250,
   },
   {
-    field: "id",
+    field: "rollNo",
     headerName: "Roll Number",
-    width: 250,
+    width: 150,
   },
   {
     field: "program",
     headerName: "Program",
-    width: 100,
+    width: 150,
   },
   {
     field: "dept",
@@ -78,7 +87,7 @@ const columns: GridColDef[] = [
     field: "details",
     headerName: "View Details",
     sortable: false,
-    width: 200,
+    width: 150,
     renderCell: (params) => (
       <ActiveButton
         sx={{ width: "100%" }}
@@ -86,14 +95,15 @@ const columns: GridColDef[] = [
           window.location.href = params.value;
         }}
       >
-        Click Here
+        View
       </ActiveButton>
     ),
   },
 ];
 const rows = [
   {
-    id: 211105,
+    id: 1,
+    rollNo: 211105,
     name: "Tejas Ahuja",
     program: "BTECH",
     dept: "EE",
@@ -108,48 +118,91 @@ function submitUnfreeze() {
   return 0;
 }
 function RcStudent() {
+  const [value, setValue] = React.useState<Date | null>(new Date());
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const [openFreeze, setOpenFreeze] = React.useState(false);
-  const handleOpenFreeze = () => setOpenFreeze(true);
+  const handleOpenFreeze = () => {
+    setOpenFreeze(true);
+    handleClose();
+  };
   const handleCloseFreeze = () => setOpenFreeze(false);
   const [openUnfreeze, setOpenUnfreeze] = React.useState(false);
-  const handleOpenUnfreeze = () => setOpenUnfreeze(true);
+  const handleOpenUnfreeze = () => {
+    setOpenUnfreeze(true);
+    handleClose();
+  };
   const handleCloseUnfreeze = () => setOpenUnfreeze(false);
   return (
     <>
       <div className={styles.container}>
-        <Meta title="ADMIN || Master Database (Student)" />
-        <Grid
-          container
+        <Meta title="Master Database (Student) - Admin" />
+        <Stack
           spacing={1}
-          direction={{ xs: "column", md: "row" }}
-          alignItems={{ xs: "flex-start", md: "center" }}
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
         >
           <Grid item xs={8} md={6}>
             <h1>Master Database (Students)</h1>
           </Grid>
-          <div style={sideTextStyle}>
-            <Grid
-              item
-              xs={8}
-              md={6}
-              style={{ width: "100%", margin: "0 0 0 47%", right: 0 }}
+          <div>
+            <Button
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
             >
-              <ActiveButton sx={{ width: "100%" }} onClick={handleOpenUnfreeze}>
-                UNFREEZE
-              </ActiveButton>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-              md={6}
-              style={{ width: "100%", margin: "0 47% 0 0", right: 0 }}
+              <MoreVertIcon />
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                  ml: -2,
+                  "& .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <InactiveButton sx={{ width: "100%" }} onClick={handleOpenFreeze}>
-                FREEZE
-              </InactiveButton>
-            </Grid>
+              <MenuItem onClick={handleOpenFreeze}>Freeze</MenuItem>
+              <MenuItem onClick={handleOpenUnfreeze}>Unfreeze</MenuItem>
+            </Menu>
           </div>
-        </Grid>
+        </Stack>
         <Stack>
           <div
             style={{ height: 500, margin: "10px auto" }}
@@ -161,92 +214,112 @@ function RcStudent() {
       </div>
       <Modal open={openFreeze} onClose={handleCloseFreeze}>
         <Box sx={boxStyle}>
-          <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
-            Freeze Profiles
-          </h1>
-          <TextField
-            name="rollNumber"
-            type="text"
-            aria-hidden="true"
-            title=""
-            label="Enter Roll Number"
-            style={boxTextField}
-          />
-          <p style={boxPStyle}>
-            <b>OR</b>
-          </p>
-          <TextField
-            name="emailID"
-            type="email"
-            aria-hidden="true"
-            title=""
-            label="Enter Email ID"
-            style={boxTextField}
-          />
-          <p style={boxPStyle}>
-            <b>OR</b>
-          </p>
-          <TextField
-            style={boxTextField}
-            name="gradYear"
-            type="month"
-            aria-hidden="true"
-            label="Enter Graduation Year"
-          />
-          <div style={divStyle}>
-            <Button
-              style={boxbuttonStyle}
-              variant="contained"
-              onClick={submitFreeze}
-            >
-              Submit Data
-            </Button>
-          </div>
+          <Stack>
+            <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
+              Freeze Profiles
+            </h1>
+            <TextField
+              name="rollNumber"
+              type="text"
+              aria-hidden="true"
+              title=""
+              label="Enter Roll Number"
+              style={boxTextField}
+            />
+            <p style={boxPStyle}>
+              <b>OR</b>
+            </p>
+            <TextField
+              name="emailID"
+              type="email"
+              aria-hidden="true"
+              title=""
+              label="Enter Email ID"
+              style={boxTextField}
+            />
+            <p style={boxPStyle}>
+              <b>OR</b>
+            </p>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                views={["year", "month"]}
+                label="Year and Month"
+                minDate={new Date("2012-03-01")}
+                maxDate={new Date("2023-06-01")}
+                value={value}
+                onChange={(newValue) => {
+                  setValue(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} helperText={null} />
+                )}
+              />
+            </LocalizationProvider>
+            <div style={divStyle}>
+              <Button
+                style={boxbuttonStyle}
+                variant="contained"
+                onClick={submitFreeze}
+              >
+                Submit Data
+              </Button>
+            </div>
+          </Stack>
         </Box>
       </Modal>
       <Modal open={openUnfreeze} onClose={handleCloseUnfreeze}>
         <Box sx={boxStyle}>
-          <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
-            Unfreeze Profiles
-          </h1>
-          <TextField
-            name="rollNumber"
-            type="text"
-            aria-hidden="true"
-            title=""
-            label="Enter Roll Number"
-            style={boxTextField}
-          />
-          <p style={boxPStyle}>
-            <b>OR</b>
-          </p>
-          <TextField
-            name="emailID"
-            type="email"
-            aria-hidden="true"
-            title=""
-            label="Enter Email ID"
-            style={boxTextField}
-          />
-          <p style={boxPStyle}>
-            <b>OR</b>
-          </p>
-          <TextField
-            style={boxTextField}
-            name="gradYear"
-            type="month"
-            aria-hidden="true"
-            label="Enter Graduation Year"
-          />
-          <div style={divStyle}>
-            <Button
-              style={boxbuttonStyle}
-              variant="contained"
-              onClick={submitUnfreeze}
-            >
-              Submit Data
-            </Button>
-          </div>
+          <Stack>
+            <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
+              Unfreeze Profiles
+            </h1>
+            <TextField
+              name="rollNumber"
+              type="text"
+              aria-hidden="true"
+              title=""
+              label="Enter Roll Number"
+              style={boxTextField}
+            />
+            <p style={boxPStyle}>
+              <b>OR</b>
+            </p>
+            <TextField
+              name="emailID"
+              type="email"
+              aria-hidden="true"
+              title=""
+              label="Enter Email ID"
+              style={boxTextField}
+            />
+            <p style={boxPStyle}>
+              <b>OR</b>
+            </p>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                views={["year", "month"]}
+                label="Year and Month"
+                minDate={new Date("2012-03-01")}
+                maxDate={new Date("2023-06-01")}
+                value={value}
+                onChange={(newValue) => {
+                  setValue(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} helperText={null} />
+                )}
+              />
+            </LocalizationProvider>
+            <div style={divStyle}>
+              <Button
+                style={boxbuttonStyle}
+                variant="contained"
+                onClick={submitUnfreeze}
+              >
+                Submit Data
+              </Button>
+            </div>
+          </Stack>
         </Box>
       </Modal>
     </>
