@@ -1,13 +1,15 @@
-import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Grid from "@mui/material/Grid";
-import { IconButton, Stack } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import styles from "@styles/adminPhase.module.css";
 import ActiveButton from "@components/Buttons/ActiveButton";
-import Meta from "@components/Meta";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import InactiveButton from "@components/Buttons/InactiveButton";
+import Meta from "@components/Meta";
+import ResumeClarification from "@components/Modals/resumeClarification";
+import AddIcon from "@mui/icons-material/Add";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { IconButton, Modal, Stack } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import styles from "@styles/adminPhase.module.css";
+import * as React from "react";
+import { useState } from "react";
 
 const columns: GridColDef[] = [
   { field: "resumeid", headerName: "Resume ID", width: 200 },
@@ -30,9 +32,29 @@ const columns: GridColDef[] = [
     field: "AskClarification",
     headerName: "Ask Clarification",
     width: 200,
-    renderCell: () => (
-      <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
-    ),
+    renderCell: (params) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [openNew, setOpenNew] = useState(false);
+      const handleOpenNew = () => {
+        setOpenNew(true);
+      };
+      const handleCloseNew = () => {
+        setOpenNew(false);
+      };
+      return (
+        <div>
+          <Modal open={openNew} onClose={handleCloseNew}>
+            <ResumeClarification
+              handleCloseNew={handleCloseNew}
+              resumeId={params.row.resumeid}
+            />
+          </Modal>
+          <ActiveButton sx={{ height: 30 }} onClick={handleOpenNew}>
+            CLICK HERE
+          </ActiveButton>
+        </div>
+      );
+    },
   },
   {
     field: "Status",

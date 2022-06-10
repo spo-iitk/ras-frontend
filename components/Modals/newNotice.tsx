@@ -104,5 +104,4 @@ function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
   );
 }
 
-NewNotice.layout = "adminPhaseDashBoard";
 export default NewNotice;
