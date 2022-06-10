@@ -99,9 +99,14 @@ function Index() {
     <div className={styles.container}>
       <Meta title="Resume Dashboard" />
       <Grid container alignItems="center">
+        <h1>Internship 2022-23 Phase 1</h1>
         <Grid item xs={12}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h1>Resume</h1>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <h2>Resume</h2>
             <Stack direction="row" spacing={3}>
               <IconButton>
                 <AddIcon />
@@ -110,7 +115,7 @@ function Index() {
                 <MoreVertIcon />
               </IconButton>
             </Stack>
-          </div>
+          </Stack>
         </Grid>
         <div
           style={{ height: 500, margin: "0px auto" }}

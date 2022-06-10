@@ -106,13 +106,14 @@ function Index() {
     <div className={styles.container}>
       <Meta title="Attendance" />
       <Grid container alignItems="center">
+        <h1>Internship 2022-23 Phase 1</h1>
         <Grid item xs={12}>
           <Stack
             direction="row"
             alignItems="center"
             justifyContent="space-between"
           >
-            <h1>Manage Attendance</h1>
+            <h2>Manage Attendance</h2>
             <Stack direction="row" spacing={3}>
               <IconButton>
                 <AddIcon />
