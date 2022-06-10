@@ -81,5 +81,5 @@ function Step1() {
   );
 }
 
-Step1.layout = "companyPhaseDashboard";
+Step1.layout = "adminPhaseDashBoard";
 export default Step1;

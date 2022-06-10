@@ -1,135 +1,84 @@
-import React from "react";
-import { Stack, TextField } from "@mui/material";
 import Meta from "@components/Meta";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import ActiveButton from "@components/Buttons/ActiveButton";
-import InactiveButton from "@components/Buttons/InactiveButton";
+import {
+  Button,
+  Card,
+  FormControl,
+  MenuItem,
+  Stack,
+  TextField,
+} from "@mui/material";
+import styles from "@styles/adminPhase.module.css";
+import React from "react";
 
+const hrtype = [
+  { id: 1, data: "HR1" },
+  { id: 1, data: "HR2" },
+  { id: 1, data: "HR3" },
+];
 function Step5() {
   return (
-    <div style={{ padding: "0 2rem" }}>
-      <Meta title="Step 5/5 - New Opening" />
-      <Stack spacing={2}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          alignItems={{ xs: "flex-start", md: "center" }}
-          justifyContent="space-between"
-          spacing={2}
-        >
-          <h1>Proforma</h1>
-        </Stack>
-        <Stack
-          spacing={2}
-          justifyContent="center"
-          alignItems="center"
-          sx={{ paddingBottom: 10 }}
-        >
-          <h2>Step 5/5 Basic Details</h2>
-          <TableContainer
-            component={Paper}
-            sx={{ minWidth: 330, maxWidth: 700 }}
+    <div className={styles.container}>
+      <Meta title="Step 5/5 - Additional Information" />
+      <h1>Internship 2022-23 Phase 1</h1>
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "330px", sm: "600px", margin: "0px auto" },
+        }}
+      >
+        <Stack spacing={3}>
+          <h1>Step 5/5 : Additional Information</h1>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Additional Eligibility Criteria</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              minRows={3}
+              variant="standard"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Message for Placement Coordinator</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              minRows={5}
+              variant="standard"
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Select Active HR</p>
+            <TextField id="hrtype" required select fullWidth variant="standard">
+              <MenuItem value="">Select</MenuItem>
+              {hrtype.map((val) => (
+                <MenuItem value={val.data} key="q1">
+                  {val.data}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+          <Stack
+            spacing={3}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
           >
-            <Table
-              sx={{ minWidth: 300, maxWidth: 700, backgroundColor: "#ebebeb" }}
-              aria-label="simple table"
-            >
-              <TableBody>
-                <TableRow>
-                  <TableCell
-                    align="left"
-                    component="th"
-                    scope="row"
-                    sx={{
-                      fontSize: "1.01em",
-                      fontWeight: "600",
-                      paddingLeft: "7vw",
-                    }}
-                  >
-                    Additional Eligibility Criteria
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      variant="outlined"
-                      value="Quadeye"
-                      size="small"
-                      sx={{
-                        m: 1,
-                        width: { xs: "18ch", sm: "27ch", lg: "35ch" },
-                        padding: 0,
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell
-                    align="left"
-                    component="th"
-                    scope="row"
-                    sx={{
-                      fontSize: "1.01em",
-                      fontWeight: "600",
-                      paddingLeft: "7vw",
-                    }}
-                  >
-                    Message for Placement Coordinator
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      variant="outlined"
-                      value="SDE Intern"
-                      size="small"
-                      sx={{
-                        m: 1,
-                        width: { xs: "18ch", sm: "27ch", lg: "35ch" },
-                        padding: 0,
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell
-                    align="left"
-                    component="th"
-                    scope="row"
-                    sx={{
-                      fontSize: "1.01em",
-                      fontWeight: "600",
-                      paddingLeft: "7vw",
-                    }}
-                  >
-                    Select Active HR
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      variant="outlined"
-                      value="USA"
-                      size="small"
-                      sx={{
-                        m: 1,
-                        width: { xs: "18ch", sm: "27ch", lg: "35ch" },
-                        padding: 0,
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="center">
-                    <ActiveButton sx={{ width: 100 }}>Next</ActiveButton>
-                  </TableCell>
-                  <TableCell align="center">
-                    <InactiveButton sx={{ width: 100 }}>Reset</InactiveButton>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+            <Button variant="contained" sx={{ width: "50%" }}>
+              Submit
+            </Button>
+            <Button variant="contained" sx={{ width: "50%" }}>
+              Reset
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
+      </Card>
     </div>
   );
 }

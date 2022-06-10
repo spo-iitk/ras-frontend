@@ -103,5 +103,5 @@ function Step3() {
   );
 }
 
-Step3.layout = "companyPhaseDashboard";
+Step3.layout = "adminPhaseDashBoard";
 export default Step3;

@@ -1,15 +1,8 @@
 import Meta from "@components/Meta";
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import FeedIcon from "@mui/icons-material/Feed";
-import GroupsIcon from "@mui/icons-material/Groups";
-import HandshakeIcon from "@mui/icons-material/Handshake";
-import MonitorIcon from "@mui/icons-material/Monitor";
-import PeopleIcon from "@mui/icons-material/People";
-import ScreenshotMonitorIcon from "@mui/icons-material/ScreenshotMonitor";
 import {
   Card,
   Drawer,
@@ -34,6 +27,7 @@ import Typography from "@mui/material/Typography";
 import styles from "@styles/internPhase.module.css";
 import * as React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import iconMap from "@components/Utils/IconMap";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -76,17 +70,6 @@ function Step4() {
     setActiveStep(0);
   };
 
-  const iconMap: { [key: string]: React.ReactElement } = {
-    Applications: <AssignmentIcon fontSize="large" />,
-    "Pre-Placement Talk": <MonitorIcon fontSize="large" />,
-    "Resume Shortlisting": <FeedIcon fontSize="large" />,
-    "Group Discussion": <GroupsIcon fontSize="large" />,
-    "Technical Test": <ScreenshotMonitorIcon fontSize="large" />,
-    "Aptitude Test": <AssignmentIcon fontSize="large" />,
-    "Technical Interview": <PeopleIcon fontSize="large" />,
-    "HR Interview": <HandshakeIcon fontSize="large" />,
-    Other: <AttachFileIcon fontSize="large" />,
-  };
   const tiles = [
     {
       label: "Pre-Placement Talk",
@@ -216,7 +199,7 @@ function Step4() {
                             {iconMap[getValues(`fieldArray.${index}.label`)]}
                             {!iconMap[
                               getValues(`fieldArray.${index}.label`)
-                            ] && <AttachFileIcon />}
+                            ] && <AttachFileIcon fontSize="large" />}
                             <TextField
                               variant="standard"
                               disabled={
