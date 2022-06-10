@@ -67,7 +67,7 @@ const rows = [
   },
 ];
 
-function RcStudent() {
+function Index() {
   const router = useRouter();
   return (
     <div className={styles.container}>
@@ -109,5 +109,5 @@ function RcStudent() {
   );
 }
 
-RcStudent.layout = "adminDashBoard";
-export default RcStudent;
+Index.layout = "adminDashBoard";
+export default Index;
