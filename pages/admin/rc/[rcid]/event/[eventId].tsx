@@ -82,134 +82,81 @@ function Event() {
         elevation={5}
         sx={{
           padding: 3,
-          width: { xs: "500px", sm: "900px", margin: "0px auto" },
+          width: { xs: "330px", md: "500px", margin: "0px auto" },
         }}
       >
         <Stack spacing={3}>
           <h1>View Event Details</h1>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Company Name</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "40vw" }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Name</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "40vw" }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Date</p>
             <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "40vw" }}
-              fullWidth
-              multiline
+              id="date"
+              type="date"
               variant="standard"
+              defaultValue={new Date().toISOString().split("T")[0]}
+              sx={{ width: 220 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Start Time</p>
             <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "40vw" }}
-              fullWidth
-              multiline
+              id="time"
+              type="time"
+              defaultValue="00:00"
               variant="standard"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                step: 300, // 5 min
+              }}
+              sx={{ width: 150 }}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event End Time</p>
             <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "40vw" }}
-              fullWidth
-              multiline
+              id="time"
+              type="time"
+              defaultValue="00:00"
               variant="standard"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                step: 300, // 5 min
+              }}
+              sx={{ width: 150 }}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Venue</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "40vw" }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Description</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "40vw" }}
-              fullWidth
-              multiline
-              minRows={4}
-              variant="standard"
-            />
+            <TextField id="Cname" multiline minRows={4} variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Main POC</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "40vw" }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>COCO POCS</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{
-                marginLeft: "5 rem",
-                width: "30vw",
-                marginBottom: "0.8rem",
-              }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
-            <TextField
-              id="Cname"
-              required
-              sx={{
-                marginLeft: "5 rem",
-                width: "30vw",
-                marginBottom: "0.8rem",
-              }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem", width: "30vw" }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
+            <p style={{ fontWeight: 300 }}>COCO POCs</p>
+            <TextField id="Cname" multiline variant="standard" />
+            <TextField id="Cname" multiline variant="standard" />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
         </Stack>
       </Card>
@@ -220,7 +167,7 @@ function Event() {
         elevation={5}
         sx={{
           padding: 3,
-          width: { xs: "500px", sm: "900px", margin: "0px auto" },
+          width: { xs: "100%", md: "900px", margin: "0px auto" },
         }}
       >
         <h1>Manage Attendance</h1>
