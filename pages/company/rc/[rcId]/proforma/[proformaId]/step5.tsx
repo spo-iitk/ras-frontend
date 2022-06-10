@@ -9,6 +9,10 @@ import {
 } from "@mui/material";
 import styles from "@styles/adminPhase.module.css";
 import React from "react";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+
+const ROUTE = "/company/rc/[rcId]";
 
 const hrtype = [
   { id: 1, data: "HR1" },
@@ -16,6 +20,26 @@ const hrtype = [
   { id: 1, data: "HR3" },
 ];
 function Step5() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const router = useRouter();
+  const { rcId } = router.query;
+  const handleNext = (data: any) => {
+    console.log(data);
+    reset({
+      eligibilityCriteria: "",
+      message: "",
+      activeHR: "",
+    });
+    router.push({
+      pathname: ROUTE,
+      query: { rcId },
+    });
+  };
   return (
     <div className={styles.container}>
       <Meta title="Step 5/5 - Additional Information" />
@@ -39,6 +63,11 @@ function Step5() {
               multiline
               minRows={3}
               variant="standard"
+              error={errors.eligibilityCriteria}
+              helperText={
+                errors.eligibilityCriteria && "This field is required!"
+              }
+              {...register("eligibilityCriteria", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -51,11 +80,23 @@ function Step5() {
               multiline
               minRows={5}
               variant="standard"
+              error={errors.message}
+              helperText={errors.message && "This field is required!"}
+              {...register("message", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Select Active HR</p>
-            <TextField id="hrtype" required select fullWidth variant="standard">
+            <TextField
+              id="hrtype"
+              required
+              select
+              fullWidth
+              variant="standard"
+              error={errors.activeHR}
+              helperText={errors.activeHR && "This field is required!"}
+              {...register("activeHR", { required: true })}
+            >
               <MenuItem value="">Select</MenuItem>
               {hrtype.map((val) => (
                 <MenuItem value={val.data} key="q1">
@@ -70,7 +111,11 @@ function Step5() {
             justifyContent="center"
             alignItems="center"
           >
-            <Button variant="contained" sx={{ width: "50%" }}>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={handleSubmit(handleNext)}
+            >
               Submit
             </Button>
             <Button variant="contained" sx={{ width: "50%" }}>

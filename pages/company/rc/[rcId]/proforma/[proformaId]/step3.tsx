@@ -9,12 +9,34 @@ import {
   TextField,
 } from "@mui/material";
 import styles from "@styles/adminPhase.module.css";
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+
+const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step4";
 
 function Step3() {
-  const [bond, setBond] = useState(false);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBond(event.target.checked);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const router = useRouter();
+  const { rcId } = router.query;
+  const handleNext = (data: any) => {
+    console.log(data);
+    reset({
+      costToCompany: "",
+      packageDetails: "",
+      bond: "false",
+      bondDetails: "",
+      medicalRequirements: "",
+    });
+    router.push({
+      pathname: ROUTE,
+      query: { rcId, proformaId: 1 },
+    });
   };
   return (
     <div className={styles.container}>
@@ -33,11 +55,13 @@ function Step3() {
             <p style={{ fontWeight: 300 }}>Cost to Company</p>
             <TextField
               id="Cname"
-              required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
               variant="standard"
+              error={errors.costToCompany}
+              helperText={errors.costToCompany && "This field is required"}
+              {...register("costToCompany", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -49,6 +73,9 @@ function Step3() {
               fullWidth
               multiline
               variant="standard"
+              error={errors.packageDetails}
+              helperText={errors.packageDetails && "This field is required"}
+              {...register("packageDetails", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -56,7 +83,7 @@ function Step3() {
               <p style={{ fontWeight: 300 }}>Bond</p>
               <FormControlLabel
                 label=""
-                control={<Checkbox checked={bond} onChange={handleChange} />}
+                control={<Checkbox {...register("bond")} />}
               />
             </Stack>
           </FormControl>
@@ -70,6 +97,9 @@ function Step3() {
               multiline
               minRows={3}
               variant="standard"
+              error={errors.bondDetails}
+              helperText={errors.bondDetails && "This field is required"}
+              {...register("bondDetails", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -82,6 +112,11 @@ function Step3() {
               multiline
               minRows={4}
               variant="standard"
+              error={errors.medicalRequirements}
+              helperText={
+                errors.medicalRequirements && "This field is required"
+              }
+              {...register("medicalRequirements", { required: true })}
             />
           </FormControl>
           <Stack
@@ -90,7 +125,11 @@ function Step3() {
             justifyContent="center"
             alignItems="center"
           >
-            <Button variant="contained" sx={{ width: "50%" }}>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={handleSubmit(handleNext)}
+            >
               Next
             </Button>
             <Button variant="contained" sx={{ width: "50%" }}>

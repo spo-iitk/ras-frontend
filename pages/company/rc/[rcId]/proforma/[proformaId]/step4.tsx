@@ -28,6 +28,9 @@ import styles from "@styles/internPhase.module.css";
 import * as React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import iconMap from "@components/Utils/IconMap";
+import { useRouter } from "next/router";
+
+const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -46,6 +49,8 @@ const textFieldSX = {
 };
 
 function Step4() {
+  const router = useRouter();
+  const { rcId } = router.query;
   const { register, handleSubmit, control, reset, getValues } = useForm({
     defaultValues: {
       fieldArray: [{ label: "Applications", duration: "NA" }],
@@ -315,7 +320,13 @@ function Step4() {
           <Button
             variant="contained"
             sx={{ width: { xs: "50%", md: "20%" } }}
-            onClick={handleSubmit((data) => console.log(data))}
+            onClick={handleSubmit((data) => {
+              console.log(data);
+              router.push({
+                pathname: ROUTE,
+                query: { rcId, proformaId: 1 },
+              });
+            })}
           >
             Next
           </Button>

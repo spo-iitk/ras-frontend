@@ -9,8 +9,22 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import InactiveButton from "@components/Buttons/InactiveButton";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+
+const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step3";
 
 function Step2() {
+  const { handleSubmit } = useForm();
+  const router = useRouter();
+  const { rcId } = router.query;
+  const handleNext = (data: any) => {
+    console.log(data);
+    router.push({
+      pathname: ROUTE,
+      query: { rcId, proformaId: 1 },
+    });
+  };
   return (
     <div style={{ padding: "0 2rem" }}>
       <Meta title="Step 2/5 - New Opening" />
@@ -41,7 +55,12 @@ function Step2() {
               <TableBody>
                 <TableRow>
                   <TableCell align="center">
-                    <ActiveButton sx={{ width: 100 }}>Next</ActiveButton>
+                    <ActiveButton
+                      sx={{ width: 100 }}
+                      onClick={handleSubmit(handleNext)}
+                    >
+                      Next
+                    </ActiveButton>
                   </TableCell>
                   <TableCell align="center">
                     <InactiveButton sx={{ width: 100 }}>Reset</InactiveButton>
