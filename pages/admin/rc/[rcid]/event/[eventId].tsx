@@ -6,6 +6,10 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import styles from "@styles/adminPhase.module.css";
 import React from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 const columns: GridColDef[] = [
   {
@@ -73,6 +77,10 @@ const rows = [
 ];
 
 function Event() {
+  const [date, setDate] = React.useState<Date | null>(new Date());
+  const [startTime, setStartTime] = React.useState<Date | null>(new Date());
+  const [endTime, setEndTime] = React.useState<Date | null>(new Date());
+
   return (
     <div className={styles.container}>
       <Meta title="Event Details" />
@@ -97,48 +105,42 @@ function Event() {
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Date</p>
-            <TextField
-              id="date"
-              type="date"
-              variant="standard"
-              defaultValue={new Date().toISOString().split("T")[0]}
-              sx={{ width: 220 }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="Basic example"
+                value={date}
+                onChange={(newValue) => {
+                  setDate(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Start Time</p>
-            <TextField
-              id="time"
-              type="time"
-              defaultValue="00:00"
-              variant="standard"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-              sx={{ width: 150 }}
-            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <TimePicker
+                label="Basic example"
+                value={startTime}
+                onChange={(newValue) => {
+                  setStartTime(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event End Time</p>
-            <TextField
-              id="time"
-              type="time"
-              defaultValue="00:00"
-              variant="standard"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                step: 300, // 5 min
-              }}
-              sx={{ width: 150 }}
-            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <TimePicker
+                label="Basic example"
+                value={endTime}
+                onChange={(newValue) => {
+                  setEndTime(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Venue</p>
@@ -186,5 +188,5 @@ function Event() {
   );
 }
 
-Event.layout = "companyPhaseDashboard";
+Event.layout = "adminPhaseDashBoard";
 export default Event;
