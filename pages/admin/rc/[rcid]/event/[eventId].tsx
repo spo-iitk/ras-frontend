@@ -1,7 +1,7 @@
 import ActiveButton from "@components/Buttons/ActiveButton";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import Meta from "@components/Meta";
-import { Button, Card, FormControl, IconButton, Stack, TextField } from "@mui/material";
+import { Card, FormControl, IconButton, Stack, TextField } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import styles from "@styles/adminPhase.module.css";
 import React from "react";
@@ -23,39 +23,39 @@ const columns: GridColDef[] = [
     headerName: "Status",
     width: 250,
     renderCell: (params) => {
-      if (params.row.Status ===  "Present")
-      return(
-      <Stack
+      if (params.row.Status === "Present")
+        return (
+          <Stack
             direction="row"
             alignItems="center"
             width="100%"
             justifyContent="space-between"
           >
-      <ActiveButton sx={{ height: 30, width: "60%" }}>
-        {params.row.Status}
-      </ActiveButton>
-      <IconButton>
+            <ActiveButton sx={{ height: 30, width: "60%" }}>
+              {params.row.Status}
+            </ActiveButton>
+            <IconButton>
               <MoreVertIcon />
-      </IconButton>
-      </Stack>
+            </IconButton>
+          </Stack>
+        );
+      return (
+        <Stack
+          direction="row"
+          alignItems="center"
+          width="100%"
+          justifyContent="space-between"
+        >
+          <InactiveButton sx={{ height: 30, width: "60%" }}>
+            {params.row.Status}
+          </InactiveButton>
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
+        </Stack>
       );
-      return(
-      <Stack
-            direction="row"
-            alignItems="center"
-            width="100%"
-            justifyContent="space-between"
-          >
-      <InactiveButton sx={{ height: 30, width: "60%" }}>
-        {params.row.Status}
-      </InactiveButton>
-      <IconButton>
-              <MoreVertIcon />
-      </IconButton>
-      </Stack>
-      );
-    }
-  }
+    },
+  },
 ];
 const rows = [
   {
@@ -76,8 +76,8 @@ function Event() {
   return (
     <div className={styles.container}>
       <Meta title="Event Details" />
-      <h1 style = {{marginBottom: "4rem"}}>Internship 2022-23 Phase 1</h1>
-      
+      <h1 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h1>
+
       <Card
         elevation={5}
         sx={{
@@ -92,7 +92,7 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem" ,width: "40vw"}}
+              sx={{ marginLeft: "5 rem", width: "40vw" }}
               fullWidth
               multiline
               variant="standard"
@@ -103,7 +103,7 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem" ,width: "40vw"}}
+              sx={{ marginLeft: "5 rem", width: "40vw" }}
               fullWidth
               multiline
               variant="standard"
@@ -114,7 +114,7 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem",width: "40vw" }}
+              sx={{ marginLeft: "5 rem", width: "40vw" }}
               fullWidth
               multiline
               variant="standard"
@@ -125,7 +125,7 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem" ,width: "40vw"}}
+              sx={{ marginLeft: "5 rem", width: "40vw" }}
               fullWidth
               multiline
               variant="standard"
@@ -136,7 +136,7 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem",width: "40vw" }}
+              sx={{ marginLeft: "5 rem", width: "40vw" }}
               fullWidth
               multiline
               variant="standard"
@@ -147,7 +147,7 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem",width: "40vw" }}
+              sx={{ marginLeft: "5 rem", width: "40vw" }}
               fullWidth
               multiline
               variant="standard"
@@ -158,7 +158,7 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem",width: "40vw" }}
+              sx={{ marginLeft: "5 rem", width: "40vw" }}
               fullWidth
               multiline
               minRows={4}
@@ -170,18 +170,22 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem",width: "40vw" }}
+              sx={{ marginLeft: "5 rem", width: "40vw" }}
               fullWidth
               multiline
               variant="standard"
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300}}>COCO POCS</p>
+            <p style={{ fontWeight: 300 }}>COCO POCS</p>
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem", width: "30vw", marginBottom: "0.8rem"  }}
+              sx={{
+                marginLeft: "5 rem",
+                width: "30vw",
+                marginBottom: "0.8rem",
+              }}
               fullWidth
               multiline
               variant="standard"
@@ -189,7 +193,11 @@ function Event() {
             <TextField
               id="Cname"
               required
-              sx={{ marginLeft: "5 rem", width: "30vw", marginBottom: "0.8rem" }}
+              sx={{
+                marginLeft: "5 rem",
+                width: "30vw",
+                marginBottom: "0.8rem",
+              }}
               fullWidth
               multiline
               variant="standard"
@@ -209,15 +217,14 @@ function Event() {
       <br />
       <br />
       <Card
-      elevation={5}
-      sx={{
-        padding: 3,
-        width: { xs: "500px", sm: "900px", margin: "0px auto" },
-      }}>
-      <h1>Manage Attendance</h1>
-      <div
-          style={{ height: 500, margin: "0px auto" }}
-        >
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "500px", sm: "900px", margin: "0px auto" },
+        }}
+      >
+        <h1>Manage Attendance</h1>
+        <div style={{ height: 500, margin: "0px auto" }}>
           <DataGrid
             rows={rows}
             columns={columns}
