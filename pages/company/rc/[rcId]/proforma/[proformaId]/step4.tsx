@@ -214,9 +214,15 @@ function Step4() {
                             alignItems="center"
                           >
                             {iconMap[getValues(`fieldArray.${index}.label`)]}
+                            {!iconMap[
+                              getValues(`fieldArray.${index}.label`)
+                            ] && <AttachFileIcon />}
                             <TextField
                               variant="standard"
-                              disabled={`fieldArray.${index}.label` !== "Other"}
+                              disabled={
+                                getValues(`fieldArray.${index}.label`) !==
+                                "Other"
+                              }
                               sx={textFieldSX}
                               {...register(`fieldArray.${index}.label`)}
                             />
