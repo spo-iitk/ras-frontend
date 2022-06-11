@@ -148,5 +148,5 @@ function Index() {
   );
 }
 
-Index.layout = "adminPhaseDashBoard";
+Index.layout = "studentPhaseDashboard";
 export default Index;
