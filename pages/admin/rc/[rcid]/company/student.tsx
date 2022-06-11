@@ -1,7 +1,102 @@
 import React from "react";
+import { Stack, Grid, IconButton } from "@mui/material";
+import Meta from "@components/Meta";
+import styles from "@styles/adminPhase.module.css";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import ActiveButton from "@components/Buttons/ActiveButton";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+
+const gridMain = {
+  width: "100%",
+  display: "flex",
+  alignItems: "right",
+  justifyContent: "right",
+};
+
+const columns: GridColDef[] = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 90,
+  },
+  {
+    field: "company",
+    headerName: "Company",
+    width: 300,
+  },
+  {
+    field: "registered_on",
+    headerName: "Registered on",
+    width: 300,
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "viewdetails",
+    headerName: "View Details",
+    width: 400,
+    sortable: false,
+    align: "center",
+    headerAlign: "center",
+    renderCell: () => (
+      <ActiveButton sx={{ height: 30, width: "50%" }}>Click</ActiveButton>
+    ),
+  },
+];
+
+const rows = [
+  {
+    id: "1",
+    company: "Company 1",
+    registered_on: "June 10th,2022",
+    viewdetails: "",
+  },
+  {
+    id: "2",
+    company: "Company 2",
+    registered_on: "June 15th,2022",
+    viewdetails: "",
+  },
+];
 
 function CompanyStudent() {
-  return <div />;
+  return (
+    <div className={styles.container}>
+      <Meta title="Student Dashboard - CompanyStudent" />
+      <Stack>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <h1>Company</h1>
+          </Grid>
+          <Grid item xs={12} md={6} style={gridMain}>
+            <div>
+              <ActiveButton sx={{ width: "max-content" }}>
+                DOWNLOAD EXCEL
+              </ActiveButton>
+              <IconButton>
+                <AddBoxIcon
+                  sx={{
+                    width: "max-content",
+                    color: "#9FA2B4",
+                    fontSize: "55px",
+                  }}
+                />
+              </IconButton>
+            </div>
+          </Grid>
+        </Grid>
+        <div style={{ height: 500, margin: "auto", width: "1090px" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={7}
+            rowsPerPageOptions={[7]}
+          />
+        </div>
+      </Stack>
+    </div>
+  );
 }
 
+CompanyStudent.layout = "adminPhaseDashBoard";
 export default CompanyStudent;
