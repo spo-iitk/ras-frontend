@@ -113,7 +113,18 @@ function ProformaNew() {
             >
               Next
             </Button>
-            <Button variant="contained" sx={{ width: "50%" }}>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={() =>
+                reset({
+                  companyName: "",
+                  natureOfBusiness: "",
+                  tentativeJobLocation: "",
+                  jobDescription: "",
+                })
+              }
+            >
               Reset
             </Button>
           </Stack>
