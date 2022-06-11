@@ -156,18 +156,12 @@ function CompanyAll() {
                 }}
               >
                 <Stack direction="column">
-                  <ActiveButton sx={{ borderRadius: 0 }}>
-                    Enroll Students
-                  </ActiveButton>
-                  <ActiveButton sx={{ borderRadius: 0 }}>Excel</ActiveButton>
+                  <Button sx={buttonstyle}>Enroll Students</Button>
+                  <Button sx={buttonstyle}>Excel</Button>
                   <Button sx={buttonstyle}>Excel (All)</Button>
                   <Button sx={buttonstyle}>Excel (Active)</Button>
-                  <InactiveButton sx={{ borderRadius: 0 }}>
-                    Freeze (Group)
-                  </InactiveButton>
-                  <ActiveButton sx={{ borderRadius: 0 }}>
-                    Unfreeze (Group)
-                  </ActiveButton>
+                  <Button sx={buttonstyle}>Freeze (Group)</Button>
+                  <Button sx={buttonstyle}>Unfreeze (Group)</Button>
                 </Stack>
               </Popover>
               <Popover
@@ -180,15 +174,9 @@ function CompanyAll() {
                 }}
               >
                 <Stack direction="column">
-                  <ActiveButton sx={{ borderRadius: 0 }}>
-                    View Profile
-                  </ActiveButton>
-                  <ActiveButton sx={{ borderRadius: 0 }}>
-                    See History
-                  </ActiveButton>
-                  <InactiveButton sx={{ borderRadius: 0 }}>
-                    Freeze/Unfreeze
-                  </InactiveButton>
+                  <Button sx={buttonstyle}>View Profile</Button>
+                  <Button sx={buttonstyle}>See History</Button>
+                  <Button sx={buttonstyle}>Freeze/Unfreeze</Button>
                 </Stack>
               </Popover>
             </div>
