@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack } from "@mui/material";
 import Meta from "@components/Meta";
-import styles from "@styles/studentInternPhase.module.css";
+import styles from "@styles/adminPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
@@ -59,9 +59,9 @@ function Index() {
       <Meta title="Student Dashboard - Index" />
       <Stack>
         <h1>Dashboard</h1>
-        <h2 style={{ margin: "40px 120px" }}>Recruitment Cycle</h2>
+        <h2>Recruitment Cycle</h2>
         <div
-          style={{ height: 500, width: 1200, margin: "0px auto" }}
+          style={{ height: 500, margin: "0px auto" }}
           className={styles.datagridIndex}
         >
           <DataGrid
@@ -70,7 +70,7 @@ function Index() {
             pageSize={7}
             rowsPerPageOptions={[7]}
             onCellClick={() => {
-              router.push("rc/1/notices");
+              router.push("rc/1");
             }}
           />
         </div>
@@ -79,5 +79,5 @@ function Index() {
   );
 }
 
-Index.layout = "studentDashboard";
+Index.layout = "adminDashBoard";
 export default Index;

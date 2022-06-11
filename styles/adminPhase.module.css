@@ -80,3 +80,13 @@
         width:100%;
     }
 }
+
+.datagridIndex{
+    width: 1110px;
+}
+
+@media(max-width:1150px){
+    .datagridIndex{
+        width:100%;
+    }
+}
