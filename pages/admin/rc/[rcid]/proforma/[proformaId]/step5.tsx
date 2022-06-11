@@ -83,5 +83,5 @@ function Step5() {
   );
 }
 
-Step5.layout = "companyPhaseDashboard";
+Step5.layout = "adminPhaseDashBoard";
 export default Step5;

@@ -1,11 +1,10 @@
-import React from "react";
-import { IconButton, Stack } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
+import NewNotice from "@components/Modals/newNotice";
+import AddIcon from "@mui/icons-material/Add";
+import { IconButton, Modal, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import styles from "@styles/adminPhase.module.css";
+import * as React from "react";
 
 const columns: GridColDef[] = [
   {
@@ -25,13 +24,19 @@ const columns: GridColDef[] = [
   },
 ];
 
-const ROUTE_PATH_ID = "../[rcid]/notice/new";
 const rows = [
   { id: 1, name: "Company Name : Title", publishedDateAndTime: "May 26 2019" },
 ];
 
 function Index() {
-  const router = useRouter();
+  const [openNew, setOpenNew] = React.useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+
   return (
     <div className={styles.container}>
       <Meta title="Notices" />
@@ -39,23 +44,15 @@ function Index() {
         <h1>Internship 2022-23 Phase 1</h1>
         <Stack
           direction="row"
-          marginRight={5}
-          marginLeft={5}
-          alignItems="left"
+          alignItems="center"
           justifyContent="space-between"
         >
           <h2>Notices</h2>
-          <IconButton>
-            <Link
-              href={{
-                pathname: ROUTE_PATH_ID,
-                query: { rcid: router.query.rcid },
-              }}
-              passHref
-            >
+          <Stack direction="row" spacing={3}>
+            <IconButton onClick={handleOpenNew}>
               <AddIcon />
-            </Link>
-          </IconButton>
+            </IconButton>
+          </Stack>
         </Stack>
         <div
           style={{ height: 500, margin: "0px auto" }}
@@ -69,6 +66,9 @@ function Index() {
           />
         </div>
       </Stack>
+      <Modal open={openNew} onClose={handleCloseNew}>
+        <NewNotice handleCloseNew={handleCloseNew} />
+      </Modal>
     </div>
   );
 }

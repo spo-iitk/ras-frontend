@@ -39,32 +39,32 @@ const items: userItems[] = [
   {
     avatar: <PieChartIcon />,
     name: "Overview",
-    id: "rc",
+    id: "/rc",
   },
   {
     avatar: <BarChartIcon />,
     name: "Maste Database (Company)",
-    id: "company",
+    id: "/company",
   },
   {
     avatar: <BarChartIcon />,
     name: "Maste Database (Student)",
-    id: "student",
+    id: "/student",
   },
   {
     avatar: <GroupsIcon />,
     name: "Worklog",
-    id: "worklog",
+    id: "/worklog",
   },
   {
     avatar: <ApartmentIcon />,
     name: "Allotted Companies",
-    id: "allotedcompanies",
+    id: "/allotedcompanies",
   },
   {
     avatar: <ApartmentIcon />,
     name: "Allot Companies",
-    id: "allotcompanies",
+    id: "/allotcompanies",
   },
 ];
 
@@ -131,15 +131,15 @@ function AdminDashBoard({ children }: { children: JSX.Element }) {
         <div style={{ height: 10 }} />
         <List sx={style} component="nav" aria-label="mailbox folders">
           {items.map((item) => (
-            <Link href={`${item.id}`} passHref key={item.id}>
+            <Link href={`/admin${item.id}`} passHref key={item.id}>
               <ListItem
                 sx={{ borderRadius: 5 }}
                 button
-                selected={!!match(`/admin/${item.id}`)}
+                selected={!!match(`/admin${item.id}`)}
               >
                 <ListItemAvatar
                   sx={{
-                    color: match(`/admin/${item.id}`) ? "blue" : "#9e9e9e",
+                    color: match(`/admin${item.id}`) ? "blue" : "#9e9e9e",
                   }}
                 >
                   {item.avatar}
@@ -148,7 +148,7 @@ function AdminDashBoard({ children }: { children: JSX.Element }) {
                   <h4
                     style={{
                       margin: 5,
-                      color: match(`/admin/${item.id}`) ? "blue" : "#9e9e9e",
+                      color: match(`/admin${item.id}`) ? "blue" : "#9e9e9e",
                     }}
                   >
                     {item.name}
@@ -195,14 +195,16 @@ function AdminDashBoard({ children }: { children: JSX.Element }) {
               <div style={{ height: 10 }} />
               <List sx={style} component="nav" aria-label="mailbox folders">
                 {items.map((item) => (
-                  <Link href={`${item.id}`} passHref key={item.id}>
+                  <Link href={`/admin${item.id}`} passHref key={item.id}>
                     <ListItem
                       sx={{ borderRadius: 5 }}
                       button
-                      selected={!!match(`/admin/${item.id}`)}
+                      selected={!!match(`/admin${item.id}`)}
                     >
                       <ListItemAvatar
-                        sx={{ color: match(`${item.id}`) ? "blue" : "#9e9e9e" }}
+                        sx={{
+                          color: match(`/admin${item.id}`) ? "blue" : "#9e9e9e",
+                        }}
                       >
                         {item.avatar}
                       </ListItemAvatar>
@@ -210,7 +212,7 @@ function AdminDashBoard({ children }: { children: JSX.Element }) {
                         <h4
                           style={{
                             margin: 5,
-                            color: match(`/admin/${item.id}`)
+                            color: match(`/admin${item.id}`)
                               ? "blue"
                               : "#9e9e9e",
                           }}

@@ -1,15 +1,8 @@
+import Meta from "@components/Meta";
 import AddIcon from "@mui/icons-material/Add";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
-import FeedIcon from "@mui/icons-material/Feed";
-import GroupsIcon from "@mui/icons-material/Groups";
-import HandshakeIcon from "@mui/icons-material/Handshake";
-import MonitorIcon from "@mui/icons-material/Monitor";
-import PeopleIcon from "@mui/icons-material/People";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import ScreenshotMonitorIcon from "@mui/icons-material/ScreenshotMonitor";
 import {
   Card,
   Drawer,
@@ -33,7 +26,11 @@ import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import styles from "@styles/internPhase.module.css";
 import * as React from "react";
-import Meta from "@components/Meta";
+import { useFieldArray, useForm } from "react-hook-form";
+import iconMap from "@components/Utils/IconMap";
+import { useRouter } from "next/router";
+
+const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -42,15 +39,28 @@ const style = {
   maxWidth: 360,
 };
 
+const textFieldColor = "#000000";
+const textFieldSX = {
+  input: {
+    "-webkit-text-fill-color": `${textFieldColor} !important`,
+    color: `${textFieldColor} !important`,
+    fontWeight: "bold",
+  },
+};
+
 function Step4() {
-  const stepping = [
-    {
-      label: "Applications",
-      icon: <DocumentScannerIcon fontSize="large" />,
-      duration: "NA",
+  const router = useRouter();
+  const { rcId } = router.query;
+  const { register, handleSubmit, control, reset, getValues } = useForm({
+    defaultValues: {
+      fieldArray: [{ label: "Applications", duration: "NA" }],
     },
-  ];
-  const [steps, setSteps] = React.useState(stepping);
+  });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "fieldArray",
+  });
+
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -69,66 +79,41 @@ function Step4() {
     {
       label: "Pre-Placement Talk",
       duration: "0",
-      icon: <MonitorIcon fontSize="large" />,
     },
     {
       label: "Resume Shortlisting",
       duration: "0",
-      icon: <FeedIcon fontSize="large" />,
     },
     {
       label: "Group Discussion",
       duration: "0",
-      icon: <GroupsIcon fontSize="large" />,
     },
     {
       label: "Technical Test",
       duration: "0",
-      icon: <ScreenshotMonitorIcon fontSize="large" />,
     },
     {
       label: "Aptitude Test",
       duration: "0",
-      icon: <AssignmentIcon fontSize="large" />,
     },
     {
       label: "Technical Interview",
       duration: "0",
-      icon: <PeopleIcon fontSize="large" />,
     },
     {
       label: "HR Interview",
       duration: "0",
-      icon: <HandshakeIcon fontSize="large" />,
     },
     {
       label: "Other",
       duration: "0",
-      icon: <AttachFileIcon fontSize="large" />,
     },
   ];
-
-  const handleSubmit = (id: number) => {
-    setSteps([
-      ...steps,
-      {
-        label: tiles[id].label,
-        icon: tiles[id].icon,
-        duration: tiles[id].duration,
-      },
-    ]);
-    setActiveStep(steps.length);
-  };
-
-  const handleDelete = (index: number) => {
-    const newSteps = steps.filter((_, i) => i !== index);
-    setSteps(newSteps);
-    setActiveStep(index - 1);
-  };
 
   const [state, setState] = React.useState({
     bottom: false,
   });
+
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -142,6 +127,19 @@ function Step4() {
 
       setState({ ...state, [anchor]: open });
     };
+
+  const handleAdd = (id: number) => {
+    append({
+      label: tiles[id].label,
+      duration: tiles[id].duration,
+    });
+    setActiveStep(fields.length);
+  };
+
+  const handleDelete = (index: number) => {
+    remove(index);
+    setActiveStep(index - 1);
+  };
 
   const list = (anchor: Anchor) => (
     <Box
@@ -158,12 +156,12 @@ function Step4() {
           {tiles.map((tile, index) => (
             <ListItemButton
               onClick={() => {
-                handleSubmit(index);
+                handleAdd(index);
               }}
               key={tile.label}
             >
               <ListItem sx={{ borderRadius: 5 }} button>
-                <ListItemAvatar sx={{}}>{tile.icon}</ListItemAvatar>
+                <ListItemAvatar sx={{}}>{iconMap[tile.label]}</ListItemAvatar>
                 <ListItemText>
                   <h4>{tile.label}</h4>
                 </ListItemText>
@@ -188,8 +186,8 @@ function Step4() {
         >
           <div>
             <Stepper activeStep={activeStep} orientation="vertical">
-              {steps.map((step, index) => (
-                <Step key={step.label}>
+              {fields.map((step, index) => (
+                <Step key={step.id}>
                   <StepLabel>
                     <Card sx={{ padding: 2, width: "300px" }}>
                       <Stack spacing={3}>
@@ -203,16 +201,19 @@ function Step4() {
                             spacing={2}
                             alignItems="center"
                           >
-                            <div>{step.icon}</div>
-
-                            {step.label === "Other" ? (
-                              <TextField
-                                variant="standard"
-                                label="Event Name"
-                              />
-                            ) : (
-                              <div>{step.label}</div>
-                            )}
+                            {iconMap[getValues(`fieldArray.${index}.label`)]}
+                            {!iconMap[
+                              getValues(`fieldArray.${index}.label`)
+                            ] && <AttachFileIcon fontSize="large" />}
+                            <TextField
+                              variant="standard"
+                              disabled={
+                                getValues(`fieldArray.${index}.label`) !==
+                                "Other"
+                              }
+                              sx={textFieldSX}
+                              {...register(`fieldArray.${index}.label`)}
+                            />
                           </Stack>
                           {index === activeStep ? (
                             <IconButton
@@ -226,9 +227,10 @@ function Step4() {
                         <FormControl sx={{ mt: 1 }}>
                           <TextField
                             label="Duration"
-                            defaultValue={step.duration}
+                            defaultValue="0"
                             disabled={index === 0}
                             variant="outlined"
+                            {...register(`fieldArray.${index}.duration`)}
                           />
                         </FormControl>
                       </Stack>
@@ -242,7 +244,7 @@ function Step4() {
                           onClick={handleNext}
                           sx={{ mt: 1, mr: 1 }}
                         >
-                          {index === steps.length - 1 ? "Finish" : "Continue"}
+                          {index === fields.length - 1 ? "Finish" : "Continue"}
                         </Button>
                         <Button
                           disabled={index === 0}
@@ -257,7 +259,7 @@ function Step4() {
                 </Step>
               ))}
             </Stepper>
-            {activeStep === steps.length && (
+            {activeStep === fields.length && (
               <Paper square elevation={0} sx={{ p: 3 }}>
                 <Typography>
                   All steps completed - you&apos;re finished
@@ -271,7 +273,7 @@ function Step4() {
           <div>
             <Stack spacing={3} sx={{ display: { xs: "none", md: "block" } }}>
               {tiles.map((tile, index) => (
-                <Card sx={{ padding: 3, width: "350px" }} key="">
+                <Card sx={{ padding: 3, width: "350px" }} key={tile.label}>
                   <Stack
                     spacing={3}
                     alignItems="center"
@@ -280,14 +282,14 @@ function Step4() {
                   >
                     <div>
                       <Stack direction="row" spacing={3} alignItems="center">
-                        {tile.icon}
+                        {iconMap[tile.label]}
                         <Typography variant="subtitle1" fontWeight={600}>
                           {tile.label}
                         </Typography>
                       </Stack>
                     </div>
                     <div>
-                      <IconButton onClick={() => handleSubmit(index)}>
+                      <IconButton onClick={() => handleAdd(index)}>
                         <AddIcon />
                       </IconButton>
                     </div>
@@ -315,10 +317,28 @@ function Step4() {
           {list("left")}
         </Drawer>
         <Stack spacing={3} justifyContent="center" direction="row">
-          <Button variant="contained" sx={{ width: { xs: "50%", md: "20%" } }}>
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "50%", md: "20%" } }}
+            onClick={handleSubmit((data) => {
+              console.log(data);
+              router.push({
+                pathname: ROUTE,
+                query: { rcId, proformaId: 1 },
+              });
+            })}
+          >
             Next
           </Button>
-          <Button variant="contained" sx={{ width: { xs: "50%", md: "20%" } }}>
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "50%", md: "20%" } }}
+            onClick={() =>
+              reset({
+                fieldArray: [{ label: "Applications", duration: "NA" }],
+              })
+            }
+          >
             Reset
           </Button>
         </Stack>

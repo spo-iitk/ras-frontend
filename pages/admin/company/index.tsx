@@ -7,6 +7,7 @@ import styles from "@styles/adminPhase.module.css";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Link from "next/link";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
@@ -24,14 +25,16 @@ const columns: GridColDef[] = [
     field: "ViewDetails",
     headerName: "View Details",
     width: 200,
-    renderCell: () => (
+    renderCell: (params) => (
       <Stack
         direction="row"
         alignItems="center"
         width="100%"
         justifyContent="space-between"
       >
-        <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
+        <Link href={`/admin/company/${params.row.id}`}>
+          <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
+        </Link>
         <IconButton>
           <MoreVertIcon />
         </IconButton>

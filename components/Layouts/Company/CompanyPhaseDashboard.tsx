@@ -189,7 +189,7 @@ function CompanyPhaseDashboard({ children }: { children: JSX.Element }) {
               </ListItemText>
             </ListItem>
           </Link>
-          <Link href="company/overview" passHref key="logout">
+          <Link href="company/overview" passHref key="back">
             <ListItem sx={{ borderRadius: 5 }} button>
               <ListItemAvatar sx={{ color: "#9e9e9e" }}>
                 <LogoutIcon />
@@ -304,7 +304,7 @@ function CompanyPhaseDashboard({ children }: { children: JSX.Element }) {
                     </ListItemText>
                   </ListItem>
                 </Link>
-                <Link href="/company" passHref key="logout">
+                <Link href="/company" passHref key="back">
                   <ListItem sx={{ borderRadius: 5 }} button>
                     <ListItemAvatar sx={{ color: "#9e9e9e" }}>
                       <LogoutIcon />
