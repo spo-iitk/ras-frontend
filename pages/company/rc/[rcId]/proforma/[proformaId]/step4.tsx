@@ -51,11 +51,7 @@ const textFieldSX = {
 function Step4() {
   const router = useRouter();
   const { rcId } = router.query;
-  const { register, handleSubmit, control, reset, getValues } = useForm({
-    defaultValues: {
-      fieldArray: [{ label: "Applications", duration: "NA" }],
-    },
-  });
+  const { register, handleSubmit, control, reset, getValues } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "fieldArray",
@@ -133,12 +129,12 @@ function Step4() {
       label: tiles[id].label,
       duration: tiles[id].duration,
     });
-    setActiveStep(fields.length);
+    setActiveStep(fields.length + 1);
   };
 
   const handleDelete = (index: number) => {
     remove(index);
-    setActiveStep(index - 1);
+    setActiveStep(index);
   };
 
   const list = (anchor: Anchor) => (
@@ -186,6 +182,50 @@ function Step4() {
         >
           <div>
             <Stepper activeStep={activeStep} orientation="vertical">
+              <Step>
+                <StepLabel>
+                  <Card sx={{ padding: 2, width: "300px" }}>
+                    <Stack spacing={3}>
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Stack direction="row" spacing={2} alignItems="center">
+                          {iconMap.Applications}
+
+                          <TextField
+                            variant="standard"
+                            disabled
+                            value="Applications"
+                            sx={textFieldSX}
+                          />
+                        </Stack>
+                      </Stack>
+                    </Stack>
+                  </Card>
+                </StepLabel>
+                <StepContent>
+                  <Box sx={{ mb: 2 }}>
+                    <div>
+                      <Button
+                        variant="contained"
+                        onClick={handleNext}
+                        sx={{ mt: 1, mr: 1 }}
+                      >
+                        Continue
+                      </Button>
+                      <Button
+                        disabled
+                        onClick={handleBack}
+                        sx={{ mt: 1, mr: 1 }}
+                      >
+                        Back
+                      </Button>
+                    </div>
+                  </Box>
+                </StepContent>
+              </Step>
               {fields.map((step, index) => (
                 <Step key={step.id}>
                   <StepLabel>
@@ -215,11 +255,8 @@ function Step4() {
                               {...register(`fieldArray.${index}.label`)}
                             />
                           </Stack>
-                          {index === activeStep ? (
-                            <IconButton
-                              onClick={() => handleDelete(index)}
-                              disabled={index === 0}
-                            >
+                          {index === activeStep - 1 ? (
+                            <IconButton onClick={() => handleDelete(index)}>
                               <DeleteForeverIcon />
                             </IconButton>
                           ) : null}
@@ -246,11 +283,7 @@ function Step4() {
                         >
                           {index === fields.length - 1 ? "Finish" : "Continue"}
                         </Button>
-                        <Button
-                          disabled={index === 0}
-                          onClick={handleBack}
-                          sx={{ mt: 1, mr: 1 }}
-                        >
+                        <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
                           Back
                         </Button>
                       </div>
@@ -259,7 +292,7 @@ function Step4() {
                 </Step>
               ))}
             </Stepper>
-            {activeStep === fields.length && (
+            {activeStep === fields.length + 1 && (
               <Paper square elevation={0} sx={{ p: 3 }}>
                 <Typography>
                   All steps completed - you&apos;re finished
@@ -335,7 +368,7 @@ function Step4() {
             sx={{ width: { xs: "50%", md: "20%" } }}
             onClick={() =>
               reset({
-                fieldArray: [{ label: "Applications", duration: "NA" }],
+                fieldArray: [],
               })
             }
           >
