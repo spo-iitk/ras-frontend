@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { signup } from "@callbacks/auth";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import {
   Button,
@@ -61,6 +62,7 @@ function SignUpPasswordSection({
     setEmailOtpStatus(false);
     setRollnoOtpStatus(false);
     console.log(info);
+    await signup(info);
   };
 
   const handleClickShowPassword = (pass: string) => {

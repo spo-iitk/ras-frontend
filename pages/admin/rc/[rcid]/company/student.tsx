@@ -4,7 +4,10 @@ import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import ActiveButton from "@components/Buttons/ActiveButton";
-import AddBoxIcon from "@mui/icons-material/AddBox";
+import AddIcon from "@mui/icons-material/Add";
+import DownloadIcon from "@mui/icons-material/Download";
+import Tooltip from "@mui/material/Tooltip";
+import Zoom from "@mui/material/Zoom";
 
 const gridMain = {
   width: "100%",
@@ -65,27 +68,26 @@ function CompanyStudent() {
       <Meta title="Student Dashboard - CompanyStudent" />
       <Stack>
         <Grid container spacing={1} alignItems="center">
-          <Grid item xs={12} md={6}>
+          <Grid item xs={6}>
             <h1>Company</h1>
           </Grid>
-          <Grid item xs={12} md={6} style={gridMain}>
+          <Grid item xs={6} style={gridMain}>
             <div>
-              <ActiveButton sx={{ width: "max-content" }}>
-                DOWNLOAD EXCEL
-              </ActiveButton>
+              <Tooltip TransitionComponent={Zoom} title="Download Excel">
+                <IconButton>
+                  <DownloadIcon />
+                </IconButton>
+              </Tooltip>
               <IconButton>
-                <AddBoxIcon
-                  sx={{
-                    width: "max-content",
-                    color: "#9FA2B4",
-                    fontSize: "55px",
-                  }}
-                />
+                <AddIcon />
               </IconButton>
             </div>
           </Grid>
         </Grid>
-        <div style={{ height: 500, margin: "auto", width: "1090px" }}>
+        <div
+          style={{ height: 500, margin: "0px auto" }}
+          className={styles.datagridCompanyStudent}
+        >
           <DataGrid
             rows={rows}
             columns={columns}

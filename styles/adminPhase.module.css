@@ -90,3 +90,23 @@
         width:100%;
     }
 }
+
+.datagridCompanyStudent{
+    width:1200px;
+}
+
+@media(max-width:1250px){
+    .datagridCompanyAll{
+        width:100%;
+    }
+}
+
+.datagridCompanyStudent{
+    width:1100px;
+}
+
+@media(max-width:1150px){
+    .datagridCompanyStudent{
+        width:100%;
+    }
+}

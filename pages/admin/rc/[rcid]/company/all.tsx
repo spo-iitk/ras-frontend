@@ -49,54 +49,54 @@ function CompanyAll() {
       field: "rollno",
       headerName: "Roll No",
       width: 200,
-      align: "center",
-      headerAlign: "center",
     },
     {
       field: "program",
       headerName: "Program",
       width: 200,
-      align: "center",
-      headerAlign: "center",
     },
     {
       field: "department",
       headerName: "Department",
       width: 200,
-      align: "center",
-      headerAlign: "center",
     },
     {
       field: "status",
       headerName: "Status",
       width: 300,
       sortable: false,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) =>
-        params.value === "Active" ? (
-          <ActiveButton sx={{ height: 30, width: "50%" }}>Active</ActiveButton>
-        ) : (
-          <InactiveButton sx={{ height: 30, width: "50%" }}>
-            Inactive
-          </InactiveButton>
-        ),
-    },
-    {
-      field: "popbutton",
-      headerName: "",
-      width: 50,
-      align: "center",
+
       renderCell: (params) => (
-        <IconButton id={params.value} onClick={handleClick2}>
-          <MoreVertOutlinedIcon
-            sx={{
-              width: "max-content",
-              color: "#9FA2B4",
-              fontSize: "20px",
-            }}
-          />
-        </IconButton>
+        <Stack
+          spacing={2}
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          width="100%"
+        >
+          <div>
+            {params.value === "Active" ? (
+              <ActiveButton sx={{ height: 30, width: "150px" }}>
+                Active
+              </ActiveButton>
+            ) : (
+              <InactiveButton sx={{ height: 30, width: "150px" }}>
+                Inactive
+              </InactiveButton>
+            )}
+          </div>
+          <div>
+            <IconButton id={params.value} onClick={handleClick2}>
+              <MoreVertOutlinedIcon
+                sx={{
+                  width: "max-content",
+                  color: "#9FA2B4",
+                  fontSize: "20px",
+                }}
+              />
+            </IconButton>
+          </div>
+        </Stack>
       ),
     },
   ];
@@ -132,19 +132,13 @@ function CompanyAll() {
       <Meta title="Student Dashboard - CompanyStudent" />
       <Stack>
         <Grid container spacing={1} alignItems="center">
-          <Grid item xs={12} md={6}>
+          <Grid item xs={6}>
             <h1>Company</h1>
           </Grid>
-          <Grid item xs={12} md={6} style={gridMain}>
+          <Grid item xs={6} style={gridMain}>
             <div>
               <IconButton onClick={handleClick1}>
-                <MoreVertOutlinedIcon
-                  sx={{
-                    width: "max-content",
-                    color: "#9FA2B4",
-                    fontSize: "40px",
-                  }}
-                />
+                <MoreVertOutlinedIcon />
               </IconButton>
               <Popover
                 open={open1}
@@ -182,7 +176,13 @@ function CompanyAll() {
             </div>
           </Grid>
         </Grid>
-        <div style={{ height: 500, margin: "auto", width: "1240px" }}>
+        <div
+          style={{
+            height: 500,
+            margin: "0px auto",
+          }}
+          className={styles.datagridCompanyAll}
+        >
           <DataGrid
             rows={rows}
             columns={columns}

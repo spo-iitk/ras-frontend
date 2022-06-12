@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://placement.iitk.ac.in";
 
 const AUTH_URL = `${BASE_URL}/api/auth`;
 
