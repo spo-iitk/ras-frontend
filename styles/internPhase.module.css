@@ -46,10 +46,10 @@
 }
 
 .datagridProforma{
-    width:1000px;
+    width:1010px;
 }
 
-@media(max-width:1300px){
+@media(max-width:1050px){
     .datagridProforma{
         width:100%;
     }

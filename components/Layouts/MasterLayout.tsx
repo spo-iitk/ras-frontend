@@ -194,18 +194,6 @@ function MasterLayout({
               </ListItemText>
             </ListItem>
           </Link>
-          <Link href="company/overview" passHref key="back">
-            <ListItem sx={{ borderRadius: 5 }} button>
-              <ListItemAvatar sx={{ color: "#9e9e9e" }}>
-                <LogoutIcon />
-              </ListItemAvatar>
-              <ListItemText>
-                <h4 style={{ margin: 5, color: "#9e9e9e" }}>
-                  Back to Dashboard
-                </h4>
-              </ListItemText>
-            </ListItem>
-          </Link>
         </List>
       </Stack>
     </Box>
@@ -329,18 +317,6 @@ function MasterLayout({
                     </ListItemAvatar>
                     <ListItemText>
                       <h4 style={{ margin: 5, color: "#9e9e9e" }}>Logout</h4>
-                    </ListItemText>
-                  </ListItem>
-                </Link>
-                <Link href="/company" passHref key="back">
-                  <ListItem sx={{ borderRadius: 5 }} button>
-                    <ListItemAvatar sx={{ color: "#9e9e9e" }}>
-                      <LogoutIcon />
-                    </ListItemAvatar>
-                    <ListItemText>
-                      <h4 style={{ margin: 5, color: "#9e9e9e" }}>
-                        Back to Dashboard
-                      </h4>
                     </ListItemText>
                   </ListItem>
                 </Link>
