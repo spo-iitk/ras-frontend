@@ -27,6 +27,11 @@ const info = [
     disabled: false,
   },
   {
+    field: "IITK Roll No.",
+    value: "Enter your IITK Roll No.",
+    disabled: false,
+  },
+  {
     field: "Preference",
     value: "Select your Preference",
     disabled: false,
@@ -212,7 +217,7 @@ function Profile() {
                 width: { xs: "330px", sm: "600px", margin: "0px auto" },
               }}
             >
-              <Grid container spacing={2}>
+              <Grid container spacing={5} sx={{ padding: 3 }}>
                 {/* <form onSubmit = {handleSubmit(onSubmit)}> */}
                 {info.map((item) => (
                   <Grid item xs={12} sm={6} key={item.field}>
@@ -220,7 +225,9 @@ function Profile() {
                     <TextField
                       fullWidth
                       label={item.value}
+                      disabled
                       id="standard-basic"
+                      variant="standard"
                       {...register(item.field, { required: true })}
                     />
                   </Grid>

@@ -27,6 +27,11 @@ const info = [
     disabled: false,
   },
   {
+    field: "IITK Roll No.",
+    value: "Enter your IITK Roll No.",
+    disabled: true,
+  },
+  {
     field: "Preference",
     value: "Select your Preference",
     disabled: false,
@@ -54,7 +59,7 @@ const info = [
   {
     field: "IITK Email",
     value: "Your IITK email",
-    disabled: false,
+    disabled: true,
   },
   {
     field: "Personal Email",
@@ -212,14 +217,16 @@ function ProfileEdit() {
                 width: { xs: "330px", sm: "600px", margin: "0px auto" },
               }}
             >
-              <Grid container spacing={2}>
+              <Grid container spacing={5} sx={{ padding: 3 }}>
                 {info.map((item) => (
                   <Grid item xs={12} sm={6} key={item.field}>
                     <p>{item.field}</p>
                     <TextField
                       fullWidth
                       label={item.value}
+                      disabled={item.disabled}
                       id="standard-basic"
+                      variant="standard"
                       {...register(item.field, { required: true })}
                     />
                   </Grid>
