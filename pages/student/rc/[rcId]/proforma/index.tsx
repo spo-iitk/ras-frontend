@@ -1,89 +1,72 @@
-import React from "react";
-import { IconButton, Stack } from "@mui/material";
 import Meta from "@components/Meta";
-import styles from "@styles/internPhase.module.css";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Link from "next/link";
-import ActiveButton from "@components/Buttons/ActiveButton";
+import { Button, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import styles from "@styles/internPhase.module.css";
+import Link from "next/link";
+import React from "react";
 
-const ROUTE_PATH = "/student/rc/[rcId]/proforma/[proformaId]";
+const BASE_ROUTE = "/student/rc/[rcId]/proforma";
 const columns: GridColDef[] = [
   {
     field: "id",
-    headerName: "ID",
-    width: 90,
+    headerName: "Id",
+    width: 100,
   },
   {
-    field: "companyName",
+    field: "name",
     headerName: "Company Name",
     width: 300,
   },
   {
-    field: "roleName",
-    headerName: "Role Name",
-    width: 300,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 100,
-    sortable: false,
-  },
-  {
-    field: "proforma",
-    headerName: "View Proforma",
+    field: "role",
+    headerName: "Role",
     width: 200,
-    sortable: false,
-    align: "center",
-    headerAlign: "center",
-    renderCell: (params) => (
-      <Link
-        href={{ pathname: ROUTE_PATH, query: { rcId: 1, proformaId: 1 } }}
-        passHref
-      >
-        <ActiveButton sx={{ height: 30, width: "100%" }}>
-          {params.value}
-        </ActiveButton>
-      </Link>
-    ),
   },
   {
-    field: "delete",
-    headerName: "Delete",
-    width: 100,
-    sortable: false,
-    align: "center",
-    headerAlign: "center",
-    renderCell: () => (
-      <IconButton>
-        <DeleteIcon />
-      </IconButton>
+    field: "applicationDeadline",
+    headerName: "Application Deadline",
+    width: 200,
+  },
+  {
+    field: "Actions",
+    headerName: "Actions",
+    width: 200,
+    renderCell: (rowdata) => (
+      <Link
+        href={{
+          pathname: `${BASE_ROUTE}/${rowdata.id}`,
+          query: {
+            rcId: 1,
+          },
+        }}
+      >
+        <Button variant="contained" color="primary">
+          View Proforma
+        </Button>
+      </Link>
     ),
   },
 ];
 
 const rows = [
   {
-    id: "1",
-    companyName: "Optiver",
-    roleName: "Software Intern",
-    status: "Open",
-    proforma: "View",
-    delete: "Delete",
+    id: 1,
+    name: "Company Name : Title",
+    role: "Role1",
+    applicationDeadline: "May 26 2019",
   },
 ];
 
-function Proformas() {
+function Proforma() {
   return (
     <div className={styles.container}>
-      <Meta title="Proformas - QuadEye" />
+      <Meta title="Proforma - Intern Season" />
       <Stack>
-        <h1>Internship Recruitment Drive 2022-23</h1>
+        <h1>Internship 2022-23 Phase 1</h1>
         <h2>Proforma</h2>
         <div
           style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridOpenings}
+          className={styles.datagridProforma}
         >
           <DataGrid
             rows={rows}
@@ -97,5 +80,5 @@ function Proformas() {
   );
 }
 
-Proformas.layout = "studentPhaseDashboard";
-export default Proformas;
+Proforma.layout = "studentPhaseDashboard";
+export default Proforma;

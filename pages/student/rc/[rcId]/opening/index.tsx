@@ -112,7 +112,7 @@ function Openings() {
     <div className={styles.container}>
       <Meta title="Openings - Intern Season" />
       <Stack>
-        <h1>Attendance</h1>
+        <h1>Job Openings</h1>
         <div
           style={{ height: 500, margin: "0px auto" }}
           className={styles.datagridOpening}
