@@ -1,15 +1,11 @@
-import React, { useEffect } from "react";
-import {
-  TextField,
-  Typography,
-  Stack,
-  FormControl,
-  Button,
-} from "@mui/material";
+import React from "react";
+import { TextField, Typography, Stack, FormControl } from "@mui/material";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
+import { signupCompany } from "@callbacks/auth";
+import { LoadingButton } from "@mui/lab";
 
 const style = {
   position: "absolute" as const,
@@ -23,50 +19,52 @@ const style = {
 };
 
 type formInput = {
-  companyname: string;
+  company_name: string;
   name: string;
   designation: string;
   email: string;
-  contact: string;
+  phone: string;
 };
 
 function SignUpRecruiter() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     reset,
   } = useForm<formInput>();
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (data: formInput) => {
-    console.log(data);
-    setOpen(true);
-  };
-  const handleClose = () => setOpen(false);
+  const [loading, setLoading] = React.useState(false);
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
+  const handleOpen = async (data: formInput) => {
+    console.log(data);
+    setLoading(true);
+    const response = await signupCompany(data);
+    if (response.Status === 200) {
+      setOpen(true);
+      setLoading(false);
       reset({
-        companyname: "",
+        company_name: "",
         name: "",
         designation: "",
         email: "",
-        contact: "",
+        phone: "",
       });
     }
-  }, [reset, isSubmitSuccessful]);
+  };
+  const handleClose = () => setOpen(false);
 
   return (
     <div>
       <Stack justifyContent="center" alignItems="center" spacing={2}>
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
           <TextField
-            id="companyName"
+            id="company_name"
             label="Company Name"
             variant="outlined"
-            {...register("companyname", { required: true })}
-            error={!!errors.companyname}
-            helperText={errors.companyname ? "Company name is required!" : ""}
+            {...register("company_name", { required: true })}
+            error={!!errors.company_name}
+            helperText={errors.company_name ? "Company name is required!" : ""}
           />
         </FormControl>
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
@@ -101,21 +99,23 @@ function SignUpRecruiter() {
         </FormControl>
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
           <TextField
-            id="Contact Number"
+            id="phone Number"
             label="Contact Number"
             variant="outlined"
             type="tel"
-            {...register("contact", { required: true, pattern: /^[0-9]{10}$/ })}
-            error={!!errors.contact}
-            helperText={
-              errors.contact ? "Valid Contact Number is required!" : ""
-            }
+            {...register("phone", { required: true, pattern: /^[0-9]{10}$/ })}
+            error={!!errors.phone}
+            helperText={errors.phone ? "Valid Contact Number is required!" : ""}
           />
         </FormControl>
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-          <Button variant="contained" onClick={handleSubmit(handleOpen)}>
+          <LoadingButton
+            loading={loading}
+            variant="contained"
+            onClick={handleSubmit(handleOpen)}
+          >
             Sign Up
-          </Button>
+          </LoadingButton>
         </FormControl>
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
           <Typography>
@@ -141,7 +141,7 @@ function SignUpRecruiter() {
             Portal.
           </Typography>
           <Typography>
-            Contact your Student Coordinator for your login credentials.
+            phone your Student Coordinator for your login credentials.
           </Typography>
         </Box>
       </Modal>

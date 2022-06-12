@@ -1,6 +1,6 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Grid, Stack } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 import styles from "@styles/internPhase.module.css";
 import Meta from "@components/Meta";
 
@@ -29,13 +29,24 @@ const columns: GridColDef[] = [
   {
     field: "deadline",
     headerName: "Application Deadline",
-    width: 270,
+    width: 200,
   },
   {
     field: "resume",
     headerName: "Applied Resume",
     sortable: false,
-    width: 270,
+    width: 200,
+  },
+  {
+    field: "withdraw",
+    headerName: "Actions",
+    sortable: false,
+    width: 200,
+    renderCell: () => (
+      <Button variant="contained" color="primary" sx={{ width: "100%" }}>
+        Withdraw
+      </Button>
+    ),
   },
 ];
 const rows = [

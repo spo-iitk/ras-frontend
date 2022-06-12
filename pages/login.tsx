@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   InputLabel,
@@ -8,7 +8,6 @@ import {
   InputAdornment,
   IconButton,
   FormControl,
-  Button,
   FormHelperText,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
@@ -19,33 +18,27 @@ import Link from "next/link";
 import Image from "next/image";
 import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
+import { login } from "@callbacks/auth";
+import { LoadingButton } from "@mui/lab";
 
 type FormInput = {
-  username: string;
+  user_id: string;
   password: string;
-  rememberMe?: boolean;
+  remember_me: boolean;
 };
 function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     reset,
   } = useForm<FormInput>();
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset({
-        username: "",
-        password: "",
-      });
-    }
-  }, [reset, isSubmitSuccessful]);
+  const [loading, setLoading] = useState(false);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -60,8 +53,16 @@ function Login() {
     event.preventDefault();
   };
 
-  const onLogin = (data: FormInput) => {
-    console.log(data);
+  const onLogin = async (data: FormInput) => {
+    setLoading(true);
+    const response = await login(data);
+    if (response.Status === 200) {
+      reset({
+        user_id: "",
+        password: "",
+      });
+    }
+    setLoading(false);
   };
 
   return (
@@ -96,12 +97,15 @@ function Login() {
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
-              id="username"
-              label="Username"
+              id="Email ID"
+              label="Email Id"
               variant="outlined"
-              error={!!errors.username}
-              helperText={errors.username ? "Incorrect username" : ""}
-              {...register("username", { required: true })}
+              error={!!errors.user_id}
+              helperText={errors.user_id ? "Incorrect Email ID" : ""}
+              {...register("user_id", {
+                required: true,
+                pattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+              })}
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
@@ -142,7 +146,7 @@ function Login() {
               <Typography variant="subtitle2" color="text.secondary">
                 <Checkbox
                   size="small"
-                  {...register("rememberMe")}
+                  {...register("remember_me")}
                   inputProps={{ "aria-label": "controlled" }}
                 />
                 Remember Me
@@ -155,9 +159,13 @@ function Login() {
             </Stack>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button variant="contained" onClick={handleSubmit(onLogin)}>
+            <LoadingButton
+              loading={loading}
+              variant="contained"
+              onClick={handleSubmit(onLogin)}
+            >
               Sign In
-            </Button>
+            </LoadingButton>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <Typography>

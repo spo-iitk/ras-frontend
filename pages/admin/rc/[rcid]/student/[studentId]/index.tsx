@@ -1,37 +1,86 @@
+import Meta from "@components/Meta";
+import {
+  Button,
+  Card,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import styles from "@styles/adminPhase.module.css";
 import React from "react";
-import { Stack, Card, TextField, Typography, Box } from "@mui/material";
-import ActiveButton from "@components/Buttons/ActiveButton";
-import InactiveButton from "@components/Buttons/InactiveButton";
-import Link from "next/link";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const questions = [
   {
-    question: "demo que",
-    answer: "demo ans",
-    id: "demo id",
+    question: "What do you like about working at the company?",
+    answer: "Nothing",
+    id: "1",
   },
   {
-    question: "demo que",
-    answer: "demo ans",
-    id: "demo id",
+    question: "What do you think of the company's culture?",
+    answer: "Nothing",
+    id: "2",
   },
   {
-    question: "demo que",
-    answer: "demo ans",
-    id: "demo id",
+    question: "Whatt are you looking for in a job?",
+    answer: "Nothing",
+    id: "3",
   },
 ];
 
 const studentData = [
   {
-    studentName: "XYZ",
-    emailId: "XYZ",
-    contactNumber: "XYZ",
+    field: "Name",
+    value: "XYZ",
+  },
+  {
+    field: "Email",
+    value: "XYZ",
+  },
+  {
+    field: "Phone",
+    value: "XYZ",
   },
 ];
 
-const applicationStatus = [
+const cols: GridColDef[] = [
   {
+    field: "id",
+    headerName: "Id",
+  },
+  {
+    field: "companyName",
+    headerName: "Company Name",
+    width: 200,
+  },
+  {
+    field: "role",
+    headerName: "Role",
+    width: 200,
+  },
+  {
+    field: "resume",
+    headerName: "Resume",
+    width: 200,
+  },
+  {
+    field: "appliedOn",
+    headerName: "Applied On",
+    width: 200,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 200,
+  },
+];
+
+const rows = [
+  {
+    id: "1",
     companyName: "company Name",
     role: "role",
     resume: "#",
@@ -39,201 +88,146 @@ const applicationStatus = [
     status: "waiting",
   },
 ];
+
 function Index() {
   return (
-    <div>
-      <Card
-        elevation={5}
-        sx={{
-          padding: 5,
-          width: {
-            lg: "1200px",
-            md: "900px",
-            xs: "330px",
-            sm: "500px",
-            margin: "0px auto",
-          },
-        }}
-      >
-        {studentData.map((student) => (
-          <Box
-            display="grid"
-            gridTemplateColumns="repeat(12, 1fr)"
-            gap={2}
-            key=""
-          >
-            <Box gridColumn="span 6">
-              <h2>Student Profile</h2>
-            </Box>
-            <Box gridColumn="span 3">
-              <ActiveButton
-                sx={{ borderRadius: 5, fontSize: 10, width: "100%" }}
-                onClick={() => {
-                  console.log("Hello");
-                }}
-              >
-                View Student History
-              </ActiveButton>
-            </Box>
-            <Box gridColumn="span 3">
-              <ActiveButton
-                sx={{ borderRadius: 5, fontSize: 10, width: "100%" }}
-                onClick={() => {
-                  console.log("Hello");
-                }}
-              >
-                View Profile
-              </ActiveButton>
-            </Box>
-            <Box gridColumn="span 6">
-              <Typography>Student Profile Name</Typography>
-            </Box>
-            <Box gridColumn="span 6">
-              <Typography>{student.studentName}</Typography>
-            </Box>
-            <Box gridColumn="span 6">
-              <Typography>Email ID</Typography>
-            </Box>
-            <Box gridColumn="span 6">
-              <Typography>{student.emailId}</Typography>
-            </Box>
-            <Box gridColumn="span 6">
-              <Typography>SEmail ID</Typography>
-            </Box>
-            <Box gridColumn="span 6">
-              <Typography>{student.contactNumber}</Typography>
-            </Box>
-          </Box>
-        ))}
-      </Card>
-      <Card
-        elevation={5}
-        sx={{
-          padding: 2,
-          width: {
-            lg: "1200px",
-            md: "900px",
-            xs: "330px",
-            sm: "500px",
-            margin: "40px auto",
-          },
-        }}
-      >
-        <h1>Enrollment Section Verification</h1>
-
-        {questions.map((que) => (
-          <Box
-            display="grid"
-            gridTemplateColumns="repeat(12, 1fr)"
-            gap={2}
-            rowGap={2}
-            key=""
-          >
-            <Box gridColumn="span 6">
-              <Typography>{que.question}</Typography>
-            </Box>
-            <Box gridColumn="span 3">
-              <ActiveButton
-                sx={{ borderRadius: 5, fontSize: 16 }}
-                onClick={() => {
-                  console.log("Hello");
-                }}
-              >
-                Verify
-              </ActiveButton>
-            </Box>
-            <Box gridColumn="span 3">
-              <InactiveButton
-                sx={{ borderRadius: 5, fontSize: 16 }}
-                onClick={() => {
-                  console.log("Hello");
-                }}
-              >
-                Ask To Resubmit
-              </InactiveButton>
-            </Box>
-            <Box gridColumn="span 12">
-              <TextField
-                id={que.id}
-                value={que.answer}
-                variant="outlined"
-                fullWidth
-                style={{ margin: "20px auto 20px" }}
-              />
-            </Box>
-          </Box>
-        ))}
-      </Card>
-      <Card
-        elevation={5}
-        sx={{
-          padding: 2,
-          width: {
-            lg: "1200px",
-            md: "900px",
-            xs: "330px",
-            sm: "500px",
-            margin: "40px auto",
-          },
-        }}
-      >
-        <Stack>
-          <h1>Application Status - Name of Recruitment Drive</h1>
-          <Stack
-            direction="row"
-            style={{ justifyContent: "space-between", marginBottom: "40px" }}
-          >
-            <Typography>Name (Roll no)</Typography>
-            <ActiveButton>Downlad Excel</ActiveButton>
+    <div className={styles.container}>
+      <Meta title="Student Details - Admin" />
+      <Stack spacing={2} alignItems="center">
+        <Card
+          elevation={5}
+          sx={{
+            padding: 3,
+            width: {
+              md: "800px",
+              xs: "100%",
+            },
+          }}
+        >
+          <Stack spacing={2} justifyContent="center">
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={8}>
+                <h1>Student Details</h1>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Button size="small" variant="outlined" sx={{ width: "100%" }}>
+                  View Profile
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  {studentData.map((student) => (
+                    <Grid item xs={6}>
+                      <p>{student.field}</p>
+                      <TextField
+                        value={student.value}
+                        variant="standard"
+                        disabled
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
+            </Grid>
           </Stack>
-        </Stack>
-        <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
-          <Box gridColumn="span 3">
-            <Typography>Company Name</Typography>
-          </Box>
-          <Box gridColumn="span 2">
-            <Typography>Role</Typography>
-          </Box>
-          <Box gridColumn="span 2">
-            <Typography>Resume</Typography>
-          </Box>
-          <Box gridColumn="span 3">
-            <Typography>Applied on</Typography>
-          </Box>
-          <Box gridColumn="span 2">
-            <Typography>Status</Typography>
-          </Box>
-        </Box>
-        {applicationStatus.map((as) => (
-          <Box
-            display="grid"
-            gridTemplateColumns="repeat(12, 1fr)"
-            gap={2}
-            key=""
-          >
-            <Box gridColumn="span 3">
-              <Typography>{as.companyName}</Typography>
-            </Box>
-            <Box gridColumn="span 2">
-              <Typography>{as.role}</Typography>
-            </Box>
-            <Box gridColumn="span 2">
-              <ActiveButton>
-                <Link href={as.resume}>Link</Link>
-              </ActiveButton>
-            </Box>
-            <Box gridColumn="span 3">
-              <Typography>{as.appliedOn}</Typography>
-            </Box>
-            <Box gridColumn="span 2">
-              <ActiveButton>Status</ActiveButton>
-            </Box>
-          </Box>
-        ))}
-      </Card>
+        </Card>
+        <Card
+          elevation={5}
+          sx={{
+            padding: 3,
+            width: {
+              md: "800px",
+              xs: "100%",
+            },
+          }}
+        >
+          {" "}
+          <Stack spacing={2}>
+            <h1>Enrollment Section Verification</h1>
+            <Stack spacing={8}>
+              {questions.map((que) => (
+                <div>
+                  <Grid
+                    container
+                    spacing={2}
+                    key={que.id}
+                    justifyItems="center"
+                    alignItems="flex-start"
+                  >
+                    <Grid item xs={12} md={6}>
+                      <Stack spacing={4}>
+                        <Typography variant="subtitle1" fontWeight={500}>
+                          {que.question}
+                        </Typography>
+                        <TextField
+                          disabled
+                          multiline
+                          variant="standard"
+                          value={que.answer}
+                        />
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Grid
+                        container
+                        spacing={3}
+                        justifyItems="center"
+                        alignItems="center"
+                      >
+                        <Grid item xs={6}>
+                          <Button variant="outlined" sx={{ width: "100%" }}>
+                            Verify
+                          </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Button variant="outlined" sx={{ width: "100%" }}>
+                            Ask to resubmit
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </div>
+              ))}
+            </Stack>
+          </Stack>
+        </Card>
+        <Card
+          elevation={5}
+          sx={{
+            padding: 3,
+            width: {
+              md: "800px",
+              xs: "100%",
+            },
+          }}
+        >
+          <Stack>
+            <h1>Application Status - Name of Recruitment Drive</h1>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography variant="body2">Name (Roll no)</Typography>
+              <IconButton>
+                <DownloadIcon />
+              </IconButton>
+            </Stack>
+          </Stack>
+          <div style={{ height: 500, margin: "0px auto" }}>
+            <DataGrid
+              rows={rows}
+              columns={cols}
+              pageSize={7}
+              rowsPerPageOptions={[7]}
+            />
+          </div>
+        </Card>
+      </Stack>
     </div>
   );
 }
 
-Index.layout = "adminPhaseDashBoard";
+Index.layout = "adminDashBoard";
 export default Index;
