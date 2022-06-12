@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { signup } from "@callbacks/auth";
+import { signupStudent } from "@callbacks/auth";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -49,7 +49,7 @@ function SignUpPasswordSection({
     const user_info = { ...data, ...info };
     setInfo(user_info);
     setLoading(true);
-    const response = await signup(user_info);
+    const response = await signupStudent(user_info);
     if (response.Status === 200) {
       resetFirst({
         name: "",

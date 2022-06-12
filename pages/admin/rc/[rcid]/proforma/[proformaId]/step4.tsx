@@ -265,7 +265,6 @@ function Step4() {
                           <TextField
                             label="Duration"
                             defaultValue="0"
-                            disabled={index === 0}
                             variant="outlined"
                             {...register(`fieldArray.${index}.duration`)}
                           />
