@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 import axios from "axios";
-import AUTH_URL from "./constants";
+import { AUTH_URL } from "./constants";
 
 type login_params = {
   user_id: string;
@@ -18,6 +18,7 @@ type signup_params = {
 
 export const login = async (data: login_params) => {
   console.log(data);
+  console.log(AUTH_URL);
   axios
     .post(`${AUTH_URL}/login`, { params: data })
     .then((res) => console.log(res.data?.status))

@@ -1,6 +1,9 @@
-import { Button, Collapse, FormControl, Stack, TextField } from "@mui/material";
+import { Alert, Collapse, FormControl, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { otp } from "@callbacks/auth";
+import Snackbar from "@mui/material/Snackbar";
 import SignUpRollNoSection from "./signUpRollNoSection";
 
 type inputType1 = {
@@ -17,11 +20,27 @@ function SignUpStudent() {
   } = useForm<inputType1>();
 
   const [emailOtpStatus, setEmailOtpStatus] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({});
+  const [open, setOpen] = useState(false);
 
-  const handleEmailOtpStatus = (data: inputType1) => {
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleEmailOtpStatus = async (data: inputType1) => {
+    setLoading(true);
+    await otp(data.user_id);
     setEmailOtpStatus(true);
+    setOpen(true);
+    setLoading(false);
     setInfo({ ...data, ...info });
   };
 
@@ -55,13 +74,14 @@ function SignUpStudent() {
         </FormControl>
         {!emailOtpStatus && (
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button
+            <LoadingButton
+              loading={loading}
               variant="contained"
               color="primary"
               onClick={handleSubmit(handleEmailOtpStatus)}
             >
               Next
-            </Button>
+            </LoadingButton>
           </FormControl>
         )}
         <Collapse in={emailOtpStatus}>
@@ -72,6 +92,20 @@ function SignUpStudent() {
             setEmailOtpStatus={setEmailOtpStatus}
           />
         </Collapse>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert
+            severity="success"
+            sx={{ minWidth: "330px" }}
+            onClose={handleClose}
+          >
+            OTP sent
+          </Alert>
+        </Snackbar>
       </Stack>
     </div>
   );

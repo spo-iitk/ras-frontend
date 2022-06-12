@@ -1,6 +1,9 @@
-import { Button, Collapse, FormControl, Stack, TextField } from "@mui/material";
+import { Alert, Collapse, FormControl, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { otp } from "@callbacks/auth";
+import Snackbar from "@mui/material/Snackbar";
 import SignUpPasswordSection from "./signUpPasswordSection";
 
 type inputType2 = {
@@ -14,7 +17,6 @@ function SignUpRollNoSection({
   resetFirst,
   setEmailOtpStatus,
 }: any) {
-  const [rollnoOtpStatus, setRollnoOtpStatus] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,10 +24,30 @@ function SignUpRollNoSection({
     reset,
   } = useForm<inputType2>();
 
-  const handleRollnoOtpStatus = (data: inputType2) => {
+  const [rollnoOtpStatus, setRollnoOtpStatus] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleRollnoOtpStatus = async (data: inputType2) => {
+    setLoading(true);
+    await otp(data.roll_no);
+    setOpen(true);
+    setLoading(false);
     setRollnoOtpStatus(true);
     setInfo({ ...data, ...info });
   };
+
   return (
     <Stack>
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
@@ -59,13 +81,14 @@ function SignUpRollNoSection({
       </FormControl>
       {!rollnoOtpStatus && (
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-          <Button
+          <LoadingButton
+            loading={loading}
             variant="contained"
             color="primary"
             onClick={handleSubmit(handleRollnoOtpStatus)}
           >
             Next
-          </Button>
+          </LoadingButton>
         </FormControl>
       )}
       <Collapse in={rollnoOtpStatus}>
@@ -78,6 +101,20 @@ function SignUpRollNoSection({
           setRollnoOtpStatus={setRollnoOtpStatus}
         />
       </Collapse>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          severity="success"
+          sx={{ minWidth: "330px" }}
+          onClose={handleClose}
+        >
+          OTP sent
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 }
