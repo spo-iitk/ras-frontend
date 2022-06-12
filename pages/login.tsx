@@ -9,6 +9,8 @@ import {
   IconButton,
   FormControl,
   FormHelperText,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -18,28 +20,26 @@ import Link from "next/link";
 import Image from "next/image";
 import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
-import { login } from "@callbacks/auth";
+import { login, login_params } from "@callbacks/auth";
 import { LoadingButton } from "@mui/lab";
 
-type FormInput = {
-  user_id: string;
-  password: string;
-  remember_me: boolean;
-};
 function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormInput>();
+  } = useForm<login_params>();
 
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
   const [loading, setLoading] = useState(false);
-
+  const [fail, setFail] = useState(false);
+  const [failMessage, setFailMessage] = useState(
+    "Login failed. Please try again."
+  );
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -53,7 +53,7 @@ function Login() {
     event.preventDefault();
   };
 
-  const onLogin = async (data: FormInput) => {
+  const onLogin = async (data: login_params) => {
     setLoading(true);
     const response = await login(data);
     if (response.Status === 200) {
@@ -61,8 +61,19 @@ function Login() {
         user_id: "",
         password: "",
       });
+    } else {
+      setFailMessage(response.Message);
+      setFail(true);
     }
     setLoading(false);
+  };
+
+  const handleFail = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setFail(false);
   };
 
   return (
@@ -177,6 +188,16 @@ function Login() {
           </FormControl>
         </Stack>
       </Stack>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={fail}
+        autoHideDuration={6000}
+        onClose={handleFail}
+      >
+        <Alert severity="error" sx={{ minWidth: "330px" }} onClose={handleFail}>
+          {failMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
