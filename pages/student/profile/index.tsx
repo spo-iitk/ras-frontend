@@ -3,7 +3,6 @@ import { Card, Grid, Stack, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import React from "react";
-import { useForm } from "react-hook-form";
 
 const info = [
   {
@@ -174,12 +173,6 @@ const info = [
 ];
 
 function Profile() {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
-    console.log("RESULT", data);
-    alert(JSON.stringify(data));
-  };
-
   return (
     <div style={{ padding: "0 2rem" }}>
       <Meta title="Student Dashboard - Profile" />
@@ -207,42 +200,39 @@ function Profile() {
             </Button>
           </Stack>
         </Stack>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack justifyContent="center">
-            <Card
-              elevation={5}
-              sx={{
-                padding: 3,
-                borderRadius: "10px",
-                width: { xs: "330px", sm: "600px", margin: "0px auto" },
-              }}
-            >
-              <Grid container spacing={5} sx={{ padding: 3 }}>
-                {/* <form onSubmit = {handleSubmit(onSubmit)}> */}
-                {info.map((item) => (
-                  <Grid item xs={12} sm={6} key={item.field}>
-                    <p>{item.field}</p>
-                    <TextField
-                      fullWidth
-                      label={item.value}
-                      disabled
-                      id="standard-basic"
-                      variant="standard"
-                      {...register(item.field, { required: true })}
-                    />
-                  </Grid>
-                ))}
+        <Stack justifyContent="center">
+          <Card
+            elevation={5}
+            sx={{
+              padding: 3,
+              borderRadius: "10px",
+              width: { xs: "330px", sm: "600px", margin: "0px auto" },
+            }}
+          >
+            <Grid container spacing={5} sx={{ padding: 3 }}>
+              {/* <form onSubmit = {handleSubmit(onSubmit)}> */}
+              {info.map((item) => (
+                <Grid item xs={12} sm={6} key={item.field}>
+                  <p>{item.field}</p>
+                  <TextField
+                    fullWidth
+                    label={item.value}
+                    disabled
+                    id="standard-basic"
+                    variant="standard"
+                  />
+                </Grid>
+              ))}
 
-                {/* </form> */}
-              </Grid>
-            </Card>
-          </Stack>
-          <Stack alignItems="center" sx={{ padding: 3 }}>
-            <Button type="submit" variant="contained">
-              Submit
-            </Button>
-          </Stack>
-        </form>
+              {/* </form> */}
+            </Grid>
+          </Card>
+        </Stack>
+        <Stack alignItems="center" sx={{ padding: 3 }}>
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
+        </Stack>
       </Stack>
     </div>
   );

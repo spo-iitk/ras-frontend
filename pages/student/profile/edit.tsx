@@ -227,7 +227,7 @@ function ProfileEdit() {
                       disabled={item.disabled}
                       id="standard-basic"
                       variant="standard"
-                      {...register(item.field, { required: true })}
+                      {...register(item.field, { required: !item.disabled })}
                     />
                   </Grid>
                 ))}
