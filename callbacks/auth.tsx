@@ -20,26 +20,32 @@ interface signup_params {
 interface Response {
   Payload: any;
   Status: any;
+  Message: any;
   Token?: any;
 }
 
 const login = async (data: login_params): Promise<Response> => {
+  console.log(data);
   let payload;
   let status;
+  let message;
   await axios
-    .post(`${AUTH_URL}/login`, { params: data })
+    .post(`${AUTH_URL}/login`, data)
     .then((res) => {
       payload = res.data;
       status = res?.status;
+      message = res?.data?.status;
     })
     .catch((err) => {
-      payload = err?.response?.data.error;
+      payload = err?.response?.data?.error;
       status = err?.response?.status;
+      message = err?.response?.status;
     });
 
   const response: Response = {
     Payload: payload,
     Status: status,
+    Message: message,
   };
 
   return response;
@@ -48,19 +54,24 @@ const login = async (data: login_params): Promise<Response> => {
 const signup = async (data: signup_params): Promise<Response> => {
   let payload;
   let status;
+  let message;
   await axios
-    .post(`${AUTH_URL}/signup`, { params: data })
+    .post(`${AUTH_URL}/signup`, data)
     .then((res) => {
       payload = res.data;
       status = res?.status;
+      message = res?.data?.status;
     })
     .catch((err) => {
-      payload = err?.response?.data.error;
+      payload = err?.response?.data?.error;
       status = err?.response?.status;
+      message = err?.response?.status;
     });
+
   const response: Response = {
     Payload: payload,
     Status: status,
+    Message: message,
   };
 
   return response;
@@ -69,19 +80,24 @@ const signup = async (data: signup_params): Promise<Response> => {
 const otp = async (user_id: string): Promise<Response> => {
   let payload;
   let status;
+  let message;
   await axios
     .post(`${AUTH_URL}/otp`, { user_id })
     .then((res) => {
       payload = res.data;
       status = res?.status;
+      message = res?.data?.status;
     })
     .catch((err) => {
-      payload = err?.response?.data.error;
+      payload = err?.response?.data?.error;
       status = err?.response?.status;
+      message = err?.response?.status;
     });
+
   const response: Response = {
     Payload: payload,
     Status: status,
+    Message: message,
   };
 
   return response;

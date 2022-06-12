@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { signup } from "@callbacks/auth";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
-  Button,
   FormControl,
   FormHelperText,
   IconButton,
@@ -43,26 +43,31 @@ function SignUpPasswordSection({
     showPassword: false,
     showConfirmPassword: false,
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (data: inputType3) => {
-    await setInfo({ ...data, ...info });
-    resetFirst({
-      name: "",
-      user_id: "",
-    });
-    resetSecond({
-      email_otp: "",
-      roll_no: "",
-    });
-    reset({
-      password: "",
-      confirmPassword: "",
-      roll_no_otp: "",
-    });
-    setEmailOtpStatus(false);
-    setRollnoOtpStatus(false);
-    console.log(info);
-    await signup(info);
+    const user_info = { ...data, ...info };
+    setInfo(user_info);
+    setLoading(true);
+    const response = await signup(user_info);
+    if (response.Status === 200) {
+      resetFirst({
+        name: "",
+        user_id: "",
+      });
+      resetSecond({
+        email_otp: "",
+        roll_no: "",
+      });
+      reset({
+        password: "",
+        confirmPassword: "",
+        roll_no_otp: "",
+      });
+      setEmailOtpStatus(false);
+      setRollnoOtpStatus(false);
+    }
+    setLoading(false);
   };
 
   const handleClickShowPassword = (pass: string) => {
@@ -173,9 +178,13 @@ function SignUpPasswordSection({
         )}
       </FormControl>
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-        <Button variant="contained" onClick={handleSubmit(handleSignUp)}>
+        <LoadingButton
+          loading={loading}
+          variant="contained"
+          onClick={handleSubmit(handleSignUp)}
+        >
           Sign Up
-        </Button>
+        </LoadingButton>
       </FormControl>
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
         <Typography>

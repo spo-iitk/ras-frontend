@@ -8,7 +8,7 @@ import SignUpPasswordSection from "./signUpPasswordSection";
 
 type inputType2 = {
   roll_no: string;
-  email_otp: string;
+  user_otp: string;
 };
 
 function SignUpRollNoSection({
@@ -41,11 +41,13 @@ function SignUpRollNoSection({
 
   const handleRollnoOtpStatus = async (data: inputType2) => {
     setLoading(true);
-    await otp(data.roll_no);
-    setOpen(true);
+    const response = await otp(`${data.roll_no}@iitk.ac.in`);
+    if (response.Status === 200) {
+      setOpen(true);
+      setRollnoOtpStatus(true);
+      setInfo({ ...data, ...info });
+    }
     setLoading(false);
-    setRollnoOtpStatus(true);
-    setInfo({ ...data, ...info });
   };
 
   return (
@@ -55,12 +57,12 @@ function SignUpRollNoSection({
           id="userOTP"
           label="OTP"
           variant="outlined"
-          {...register("email_otp", {
+          {...register("user_otp", {
             required: true,
           })}
           disabled={rollnoOtpStatus}
-          error={!!errors.email_otp}
-          helperText={errors.email_otp ? "OTP is required!" : ""}
+          error={!!errors.user_otp}
+          helperText={errors.user_otp ? "OTP is required!" : ""}
         />
       </FormControl>
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">

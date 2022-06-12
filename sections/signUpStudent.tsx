@@ -37,11 +37,13 @@ function SignUpStudent() {
 
   const handleEmailOtpStatus = async (data: inputType1) => {
     setLoading(true);
-    await otp(data.user_id);
-    setEmailOtpStatus(true);
-    setOpen(true);
+    const response = await otp(data.user_id);
+    if (response.Status === 200) {
+      setEmailOtpStatus(true);
+      setOpen(true);
+      setInfo({ ...data, ...info });
+    }
     setLoading(false);
-    setInfo({ ...data, ...info });
   };
 
   return (

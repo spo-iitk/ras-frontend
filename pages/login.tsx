@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   InputLabel,
@@ -8,7 +8,6 @@ import {
   InputAdornment,
   IconButton,
   FormControl,
-  Button,
   FormHelperText,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
@@ -20,6 +19,7 @@ import Image from "next/image";
 import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
 import { login } from "@callbacks/auth";
+import { LoadingButton } from "@mui/lab";
 
 type FormInput = {
   user_id: string;
@@ -30,23 +30,15 @@ function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     reset,
   } = useForm<FormInput>();
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset({
-        user_id: "",
-        password: "",
-      });
-    }
-  }, [reset, isSubmitSuccessful]);
+  const [loading, setLoading] = useState(false);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -62,7 +54,15 @@ function Login() {
   };
 
   const onLogin = async (data: FormInput) => {
-    await login(data);
+    setLoading(true);
+    const response = await login(data);
+    if (response.Status === 200) {
+      reset({
+        user_id: "",
+        password: "",
+      });
+    }
+    setLoading(false);
   };
 
   return (
@@ -104,7 +104,7 @@ function Login() {
               helperText={errors.user_id ? "Incorrect Email ID" : ""}
               {...register("user_id", {
                 required: true,
-                pattern: /^[^@]+@iitk\.ac\.in$/,
+                pattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
               })}
             />
           </FormControl>
@@ -159,9 +159,13 @@ function Login() {
             </Stack>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button variant="contained" onClick={handleSubmit(onLogin)}>
+            <LoadingButton
+              loading={loading}
+              variant="contained"
+              onClick={handleSubmit(onLogin)}
+            >
               Sign In
-            </Button>
+            </LoadingButton>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <Typography>
