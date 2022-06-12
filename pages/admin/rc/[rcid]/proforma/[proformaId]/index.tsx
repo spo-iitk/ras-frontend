@@ -1,148 +1,151 @@
-import Meta from "@components/Meta";
-import StepperComp from "@components/Stepper/stepperComp";
-import { Card, Grid, Stack, TextField } from "@mui/material";
+import { Button, Card, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { Branches, program } from "@components/Utils/matrixUtils";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
+import styles from "@styles/adminPhase.module.css";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-const textFieldColor = "#ff0000";
-const textFieldSX = {
-  input: {
-    "-webkit-text-fill-color": `${textFieldColor} !important`,
-    color: `${textFieldColor} !important`,
-    fontWeight: "bold",
-  },
-};
-
-const info = [
+const columns: GridColDef[] = [
   {
-    label: "Company Name",
-    value: "Paradime",
+    field: "id",
+    headerName: "Id",
+    width: 100,
   },
   {
-    label: "Nature of Business",
-    value: "FrontEnd Engineer",
+    field: "name",
+    headerName: "Student Name",
+    width: 300,
   },
   {
-    label: "Tentative Job Location",
-    value: "London",
+    field: "rollNo",
+    headerName: "Roll No",
+    width: 150,
   },
   {
-    label: "Job Description",
-    value: "Product Engineer in FrontEnd",
+    field: "link",
+    headerName: "Link To Resume",
+    width: 200,
   },
   {
-    label: "Cost to Company",
-    value: "Not to be told",
-  },
-  {
-    label: "Package Details",
-    value: "Enough Money",
-  },
-  {
-    label: "Bond Details",
-    value: "Yes",
-  },
-  {
-    label: "Medical Requirements",
-    value: "None",
+    field: "status",
+    headerName: "Status",
+    width: 250,
   },
 ];
 
-const data = Array(138).fill(0);
-
+const rows = [
+  {
+    id: 1,
+    name: "Student Name ",
+    rollNo: "123456",
+    link: "Idk",
+    status: "IDC",
+  },
+];
 function Index() {
   return (
-    <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title="Software Intern - Proforma" />
-      <h1>Proforma</h1>
+    <div className={styles.container}>
+      <h1>Intenship 2022-23 Phase 1</h1>
       <Card
         elevation={5}
         sx={{
           padding: 3,
-          width: { xs: "320px", sm: "800px", margin: "0px auto" },
+          width: { xs: "330px", sm: "500px", md: "1500px", margin: "0px auto" },
         }}
       >
-        <Stack spacing={2}>
-          <Grid container spacing={2}>
-            {info.map((item) => (
-              <Grid
-                item
-                xs={12}
-                md={item.label === "Eligibility" ? 12 : 6}
-                key={item.label}
-              >
-                <h3>{item.label}</h3>
-                <TextField
-                  multiline
-                  fullWidth
-                  value={item.value}
-                  variant="standard"
-                  disabled
-                  sx={textFieldSX}
-                />
-              </Grid>
-            ))}
-            <Grid item xs={12}>
-              <h3>Eligibility</h3>
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center" sx={{ fontWeight: 600 }}>
-                        Program
-                      </TableCell>
-                      {Branches.map((branch: string) => (
-                        <TableCell key={branch} align="center">
-                          {branch}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {Array(6)
-                      .fill(0)
-                      .map((_, i) => (
-                        <TableRow>
-                          <TableCell
-                            component="th"
-                            scope="row"
-                            align="center"
-                            sx={{ fontWeight: 600 }}
-                          >
-                            {program[i]}
-                          </TableCell>
-                          {Array(22)
-                            .fill(0)
-                            .map((__, j) => (
-                              <TableCell align="center">
-                                {data[i * 22 + j] ? (
-                                  <CheckIcon fontSize="small" color="success" />
-                                ) : (
-                                  <CloseIcon fontSize="small" color="error" />
-                                )}
-                              </TableCell>
-                            ))}
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Grid>
-            <Grid item xs={12}>
-              <h3>Hiring Process</h3>
-              <StepperComp />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={3} sm={6}>
+            <Button sx={{ width: "280px" }} variant="contained">
+              View IP
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={3} sm={6}>
+            <Button sx={{ width: "280px" }} variant="contained">
+              Update IP
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={3} sm={6}>
+            <Button sx={{ width: "280px" }} variant="contained">
+              Accept IP
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={3} sm={6}>
+            <Button sx={{ width: "280px" }} variant="contained">
+              View / Add Custom Questions
+            </Button>
+          </Grid>
+        </Grid>
+      </Card>
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: {
+            xs: "330px",
+            sm: "500px",
+            md: "1500px",
+            margin: "50px auto",
+          },
+        }}
+      >
+        <Grid container spacing={5} alignItems="center" justifyItems="center">
+          <Grid item xs={12} md={9}>
+            <Grid container>
+              <Stack>
+                <h2>Student Data</h2>
+                <div
+                  style={{ height: 500, margin: "0px auto" }}
+                  className={styles.datagridNotices}
+                >
+                  <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSize={7}
+                    rowsPerPageOptions={[7]}
+                  />
+                </div>
+              </Stack>
             </Grid>
           </Grid>
-        </Stack>
+          <Grid item xs={12} md={3}>
+            <Grid container spacing={2}>
+              <Grid item>
+                <Button variant="contained" sx={{ width: "280px" }}>
+                  {" "}
+                  Show /Hide Details To Company
+                </Button>
+              </Grid>
+              <Grid item>
+                <Stack>
+                  <Typography>Status</Typography>
+                  <Typography>If Accepted:Yes/No</Typography>
+                </Stack>
+              </Grid>
+              <Grid item>
+                <Stack>
+                  <Typography>Application Allowed:Yes/No</Typography>
+                  <Typography>Deadline:IDK</Typography>
+                </Stack>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" sx={{ width: "280px" }}>
+                  {" "}
+                  Change/Set Deadline
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" sx={{ width: "280px" }}>
+                  {" "}
+                  Send Reminder
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" sx={{ width: "280px" }}>
+                  {" "}
+                  Send Customised Email
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Card>
     </div>
   );
