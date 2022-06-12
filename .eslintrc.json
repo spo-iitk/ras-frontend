@@ -39,6 +39,7 @@
     "import/extensions": "off",
     "react/prop-types": "off",
     "jsx-a11y/anchor-is-valid": "off",
+    "react/jsx-key": "off",
     "react/jsx-props-no-spreading": ["error", { "custom": "ignore" }],
     "prettier/prettier": "error",
     "react/no-unescaped-entities": "off",

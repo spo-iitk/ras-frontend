@@ -3,26 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "next lint --fix && next dev",
+    "build": "next lint --fix && next build",
+    "start": "next lint --fix && next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "pre-commit": "next lint"
+    "pre-commit": "husky",
+    "lint:fix": "next lint --fix --ext .ts,.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.1",
+    "@mui/lab": "^5.0.0-alpha.85",
     "@mui/material": "^5.6.1",
     "@mui/x-data-grid": "^5.11.1",
     "@mui/x-date-pickers": "^5.0.0-alpha.4",
     "@types/date-fns": "^2.6.0",
+    "axios": "^0.27.2",
     "date-fns": "^2.28.0",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "react-hook-form": "^7.31.3"
+    "react-hook-form": "^7.31.3",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.1.6",

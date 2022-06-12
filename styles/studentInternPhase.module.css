@@ -52,3 +52,13 @@
     }
 }
 
+.datagridNotices{
+    width: 610px;
+}
+
+@media(max-width:800px){
+    .datagridNotices{
+        width:100%;
+    }
+}
+

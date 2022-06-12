@@ -76,7 +76,12 @@ function Application() {
           style={{ height: 500, margin: "0px auto" }}
           className={styles.datagridApplication}
         >
-          <DataGrid rows={rows} columns={columns} pageSize={7} />
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={7}
+            rowsPerPageOptions={[7]}
+          />
         </div>
       </Stack>
     </div>

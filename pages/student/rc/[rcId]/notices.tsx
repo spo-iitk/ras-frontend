@@ -1,7 +1,7 @@
 import Meta from "@components/Meta";
 import { Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import styles from "@styles/adminPhase.module.css";
+import styles from "@styles/studentInternPhase.module.css";
 import React from "react";
 
 const columns: GridColDef[] = [
@@ -29,10 +29,16 @@ const rows = [
 function Notices() {
   return (
     <div className={styles.container}>
-      <Meta title="Notices - Intern Season" />
+      <Meta title="Notices" />
       <Stack>
         <h1>Internship 2022-23 Phase 1</h1>
-        <h2>Notices</h2>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <h2>Notices</h2>
+        </Stack>
         <div
           style={{ height: 500, margin: "0px auto" }}
           className={styles.datagridNotices}

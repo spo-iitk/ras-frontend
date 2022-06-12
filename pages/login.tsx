@@ -19,11 +19,12 @@ import Link from "next/link";
 import Image from "next/image";
 import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
+import { login } from "@callbacks/auth";
 
 type FormInput = {
-  username: string;
+  user_id: string;
   password: string;
-  rememberMe?: boolean;
+  remember_me: boolean;
 };
 function Login() {
   const {
@@ -41,7 +42,7 @@ function Login() {
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset({
-        username: "",
+        user_id: "",
         password: "",
       });
     }
@@ -60,8 +61,8 @@ function Login() {
     event.preventDefault();
   };
 
-  const onLogin = (data: FormInput) => {
-    console.log(data);
+  const onLogin = async (data: FormInput) => {
+    await login(data);
   };
 
   return (
@@ -96,12 +97,15 @@ function Login() {
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
-              id="username"
-              label="Username"
+              id="Email ID"
+              label="Email Id"
               variant="outlined"
-              error={!!errors.username}
-              helperText={errors.username ? "Incorrect username" : ""}
-              {...register("username", { required: true })}
+              error={!!errors.user_id}
+              helperText={errors.user_id ? "Incorrect Email ID" : ""}
+              {...register("user_id", {
+                required: true,
+                pattern: /^[^@]+@iitk\.ac\.in$/,
+              })}
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
@@ -142,7 +146,7 @@ function Login() {
               <Typography variant="subtitle2" color="text.secondary">
                 <Checkbox
                   size="small"
-                  {...register("rememberMe")}
+                  {...register("remember_me")}
                   inputProps={{ "aria-label": "controlled" }}
                 />
                 Remember Me
