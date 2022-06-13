@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
+import { admin_getrc } from "@callbacks/admin_rc";
 
 const columns: GridColDef[] = [
   {
@@ -54,6 +55,16 @@ const rows = [
 
 function Index() {
   const router = useRouter();
+  const [setRc] = useState();
+
+  useEffect(() => {
+    const response = async () => {
+      const some_var = await admin_getrc();
+      console.log(some_var);
+    };
+    response();
+  }, [setRc]);
+
   return (
     <div className={styles.container}>
       <Meta title="Student Dashboard - Index" />
