@@ -4,6 +4,15 @@
 import axios from "axios";
 import { AUTH_URL } from "./constants";
 
+interface verif_param {
+  user_id: string;
+}
+interface fin_verif_param {
+  user_id: string;
+  otp: string;
+  new_password: string;
+  confirm_newPassword: string;
+}
 interface login_params {
   user_id: string;
   password: string;
@@ -23,7 +32,54 @@ interface Response {
   Message: any;
   Token?: any;
 }
-
+const SendVerif = async (data: verif_param): Promise<Response> => {
+   console.log(data);
+   let payload;
+   let status;
+   let message;
+   await axios
+   .post(`${AUTH_URL}/otp`, data)
+   .then ((res) => {
+      payload = res.data;
+      status = res?.status;
+      message = res?.data?.status;
+   })
+   .catch((err) => {
+      payload = err?.response?.data?.error;
+      status = err?.response?.status;
+      message = err?.response?.status;
+   });
+   const response: Response = {
+    Payload: payload,
+    Status: status,
+    Message: message,
+   };
+    return response;
+};
+const FinVerif = async (data: fin_verif_param): Promise<Response> => {
+    console.log(data);
+    let payload;
+    let status;
+    let message;
+    await axios
+    .post(`${AUTH_URL}/reset-password`, data)
+    .then ((res) => {
+        payload = res.data;
+        status = res?.status;
+        message = res?.data?.status;
+    })
+    .catch((err) => {
+        payload = err?.response?.data?.error;
+        status = err?.response?.status;
+        message = err?.response?.status;
+    });
+    const response: Response = {
+        Payload: payload,
+        Status: status,
+        Message: message,
+    };
+    return response;
+};
 const login = async (data: login_params): Promise<Response> => {
   console.log(data);
   let payload;
@@ -103,5 +159,5 @@ const otp = async (user_id: string): Promise<Response> => {
   return response;
 };
 
-export { login, signup, otp };
-export type { login_params, signup_params, Response };
+export { login, signup, otp, SendVerif, FinVerif };
+export type { login_params, signup_params, Response, verif_param, fin_verif_param };
