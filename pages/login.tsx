@@ -59,7 +59,12 @@ function Login() {
     const data1: LoginOptions = {
       ...data,
     };
-    const response1 = await LoginRequest.post(data1);
+    const response1 = await LoginRequest.post(data1).catch((err) => {
+      setLoading(false);
+      setFail(true);
+      setFailMessage(err.message?.error);
+    });
+
     localStorage.setItem("token", response1?.token || "");
     const response = await login(data);
     if (response.Status === 200) {
