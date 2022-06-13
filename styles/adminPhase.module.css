@@ -110,3 +110,13 @@
         width:100%;
     }
 }
+
+.datagridProformaSection{
+    width: 850px;
+}
+
+@media(max-width:1000px){
+    .datagridProformaSection{
+        width:100%;
+    }
+}

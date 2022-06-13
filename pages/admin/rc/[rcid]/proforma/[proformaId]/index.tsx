@@ -1,7 +1,8 @@
-import { Button, Card, Grid, Stack, Typography } from "@mui/material";
+import { Button, Card, Grid, Stack } from "@mui/material";
 import React from "react";
 import styles from "@styles/adminPhase.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import Meta from "@components/Meta";
 
 const columns: GridColDef[] = [
   {
@@ -12,7 +13,7 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Student Name",
-    width: 300,
+    width: 250,
   },
   {
     field: "rollNo",
@@ -27,7 +28,7 @@ const columns: GridColDef[] = [
   {
     field: "status",
     headerName: "Status",
-    width: 250,
+    width: 150,
   },
 ];
 
@@ -43,107 +44,94 @@ const rows = [
 function Index() {
   return (
     <div className={styles.container}>
+      <Meta title="Proforma" />
       <h1>Intenship 2022-23 Phase 1</h1>
-      <Card
-        elevation={5}
-        sx={{
-          padding: 3,
-          width: { xs: "330px", sm: "500px", md: "1500px", margin: "0px auto" },
-        }}
+      <Stack
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        direction={{ lg: "row", xs: "column" }}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={3} sm={6}>
-            <Button sx={{ width: "280px" }} variant="contained">
-              View IP
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={3} sm={6}>
-            <Button sx={{ width: "280px" }} variant="contained">
-              Update IP
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={3} sm={6}>
-            <Button sx={{ width: "280px" }} variant="contained">
-              Accept IP
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={3} sm={6}>
-            <Button sx={{ width: "280px" }} variant="contained">
-              View / Add Custom Questions
-            </Button>
-          </Grid>
-        </Grid>
-      </Card>
+        <Stack spacing={3} direction={{ sm: "row", xs: "column" }}>
+          <Button sx={{ width: { xs: "280px" } }} variant="contained">
+            View IP
+          </Button>
+          <Button sx={{ width: { xs: "280px" } }} variant="contained">
+            Update IP
+          </Button>
+        </Stack>
+        <Stack spacing={3} direction={{ sm: "row", xs: "column" }}>
+          <Button sx={{ width: { xs: "280px" } }} variant="contained">
+            Accept IP
+          </Button>
+
+          <Button sx={{ width: { xs: "280px" } }} variant="contained">
+            View / Add Custom Questions
+          </Button>
+        </Stack>
+      </Stack>
       <Card
         elevation={5}
         sx={{
           padding: 3,
-          width: {
-            xs: "330px",
-            sm: "500px",
-            md: "1500px",
-            margin: "50px auto",
-          },
+          margin: "50px auto",
         }}
       >
         <Grid container spacing={5} alignItems="center" justifyItems="center">
-          <Grid item xs={12} md={9}>
-            <Grid container>
-              <Stack>
-                <h2>Student Data</h2>
-                <div
-                  style={{ height: 500, margin: "0px auto" }}
-                  className={styles.datagridNotices}
-                >
-                  <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    pageSize={7}
-                    rowsPerPageOptions={[7]}
-                  />
-                </div>
-              </Stack>
-            </Grid>
+          <Grid item xs={12} lg={9}>
+            <Stack>
+              <h2>Student Data</h2>
+              <div
+                style={{ height: 500, margin: "0px auto" }}
+                className={styles.datagridProformaSection}
+              >
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={7}
+                  rowsPerPageOptions={[7]}
+                />
+              </div>
+            </Stack>
           </Grid>
-          <Grid item xs={12} md={3}>
-            <Grid container spacing={2}>
-              <Grid item>
-                <Button variant="contained" sx={{ width: "280px" }}>
-                  {" "}
+          <Grid item xs={12} lg={3}>
+            <Stack
+              spacing={2}
+              direction={{ xs: "column", md: "row", lg: "column" }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Stack spacing={3}>
+                <Button
+                  variant="contained"
+                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
+                >
                   Show /Hide Details To Company
                 </Button>
-              </Grid>
-              <Grid item>
-                <Stack>
-                  <Typography>Status</Typography>
-                  <Typography>If Accepted:Yes/No</Typography>
-                </Stack>
-              </Grid>
-              <Grid item>
-                <Stack>
-                  <Typography>Application Allowed:Yes/No</Typography>
-                  <Typography>Deadline:IDK</Typography>
-                </Stack>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" sx={{ width: "280px" }}>
-                  {" "}
+
+                <Button
+                  variant="contained"
+                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
+                >
                   Change/Set Deadline
                 </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" sx={{ width: "280px" }}>
-                  {" "}
+              </Stack>
+              <Stack spacing={3}>
+                <Button
+                  variant="contained"
+                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
+                >
                   Send Reminder
                 </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" sx={{ width: "280px" }}>
-                  {" "}
+
+                <Button
+                  variant="contained"
+                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
+                >
                   Send Customised Email
                 </Button>
-              </Grid>
-            </Grid>
+              </Stack>
+            </Stack>
           </Grid>
         </Grid>
       </Card>
