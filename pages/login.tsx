@@ -22,6 +22,7 @@ import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
 import { login, login_params } from "@callbacks/auth";
 import { LoadingButton } from "@mui/lab";
+import LoginRequest, { LoginOptions } from "@callbacks/auth/auth";
 
 function Login() {
   const {
@@ -55,6 +56,11 @@ function Login() {
 
   const onLogin = async (data: login_params) => {
     setLoading(true);
+    const data1: LoginOptions = {
+      ...data,
+    };
+    const response1 = await LoginRequest.post(data1);
+    localStorage.setItem("token", response1?.token || "");
     const response = await login(data);
     if (response.Status === 200) {
       reset({
