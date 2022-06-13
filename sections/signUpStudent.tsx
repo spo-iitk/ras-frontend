@@ -23,6 +23,7 @@ function SignUpStudent() {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({});
   const [open, setOpen] = useState(false);
+  const [fail, setFail] = useState(false);
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -42,8 +43,18 @@ function SignUpStudent() {
       setEmailOtpStatus(true);
       setOpen(true);
       setInfo({ ...data, ...info });
+    } else {
+      setFail(true);
     }
     setLoading(false);
+  };
+
+  const handleFail = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setFail(false);
   };
 
   return (
@@ -106,6 +117,20 @@ function SignUpStudent() {
             onClose={handleClose}
           >
             OTP sent
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={fail}
+          autoHideDuration={6000}
+          onClose={handleFail}
+        >
+          <Alert
+            severity="error"
+            sx={{ minWidth: "330px" }}
+            onClose={handleFail}
+          >
+            Failed to send OTP. Please try again.
           </Alert>
         </Snackbar>
       </Stack>

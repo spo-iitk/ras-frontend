@@ -3,31 +3,183 @@ import { Button, Stack, TextField, Card, Grid } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import styles from "@styles/Home.module.css";
+import { useForm } from "react-hook-form";
 
 const info = [
   {
     field: "Name",
-    value: "Manas Gupta",
+    value: "Enter your Name",
     disabled: true,
   },
   {
-    field: "Roll No.",
-    value: "200554",
+    field: "Program",
+    value: "Select your Program",
     disabled: true,
   },
   {
-    field: "Name",
-    value: "Manas Gupta",
+    field: "Department",
+    value: "Select your Department",
     disabled: true,
   },
   {
-    field: "Roll No.",
-    value: "200554",
+    field: "Specialisation",
+    value: "Enter your Specialisation",
+    disabled: false,
+  },
+  {
+    field: "IITK Roll No.",
+    value: "Enter your IITK Roll No.",
+    disabled: true,
+  },
+  {
+    field: "Preference",
+    value: "Select your Preference",
+    disabled: false,
+  },
+  {
+    field: "Gender",
+    value: "Select your Gender",
+    disabled: false,
+  },
+  {
+    field: "Disability",
+    value: "Select your Disability Status",
+    disabled: false,
+  },
+  {
+    field: "DOB",
+    value: "Enter your Date of Birth",
+    disabled: false,
+  },
+  {
+    field: "Expected Graduation Year",
+    value: "Select your Graduation Year",
+    disabled: false,
+  },
+  {
+    field: "IITK Email",
+    value: "Your IITK email",
+    disabled: true,
+  },
+  {
+    field: "Personal Email",
+    value: "Enter your Personal Email",
+    disabled: false,
+  },
+  {
+    field: "Contact Number",
+    value: "Enter your Contact Number",
+    disabled: false,
+  },
+  {
+    field: "Alternate Contact Numer",
+    value: "Enter your Alternate Contact Number",
+    disabled: false,
+  },
+  {
+    field: "Whatsapp Number",
+    value: "Enter your Whatsapp Number",
+    disabled: false,
+  },
+  {
+    field: "Current CPI",
+    value: "Enter your Current CPI",
+    disabled: false,
+  },
+  {
+    field: "UG CPI(on for PG Students)",
+    value: "Enter your UG CPI",
+    disabled: false,
+  },
+  {
+    field: "10th Board",
+    value: "Enter your 10th Board Name",
+    disabled: false,
+  },
+  {
+    field: "10th Board Year",
+    value: "Enter your 10th Board Year",
+    disabled: false,
+  },
+  {
+    field: "10th Marks",
+    value: "Enter your 10th Marks",
+    disabled: false,
+  },
+  {
+    field: "12th Board",
+    value: "Enter your 12th Board",
+    disabled: false,
+  },
+  {
+    field: "12th Board",
+    value: "Enter your 12th Board Name",
+    disabled: false,
+  },
+  {
+    field: "12th Board Year",
+    value: "Enter your 12th Board Year",
+    disabled: false,
+  },
+  {
+    field: "12th Board Marks",
+    value: "Enter your 12th Board Marks",
+    disabled: false,
+  },
+  {
+    field: "12th Board Year",
+    value: "Enter your 12th Board Year",
+    disabled: false,
+  },
+  {
+    field: "Entrance Exam",
+    value: "Enter your Entrance Exam",
+    disabled: false,
+  },
+  {
+    field: "Entrance Exam Rank",
+    value: "Enter your Entrance Exam Rank",
+    disabled: false,
+  },
+  {
+    field: "Category",
+    value: "Enter your Category",
+    disabled: false,
+  },
+  {
+    field: "Category Rank",
+    value: "Enter your Category Rank",
+    disabled: false,
+  },
+  {
+    field: "Current Address",
+    value: "Enter your Current Address",
+    disabled: false,
+  },
+  {
+    field: "Permanent Address",
+    value: "Enter your Permanent Address",
+    disabled: false,
+  },
+  {
+    field: "Friends Name",
+    value: "Enter your Friends Name",
+    disabled: false,
+  },
+  {
+    field: "Friends Contact Details",
+    value: "Enter your Friends Contace Details",
     disabled: false,
   },
 ];
 
 function ProfileEdit() {
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data: any) => {
+    console.log("RESULT", data);
+    alert(JSON.stringify(data));
+  };
+
   return (
     <div className={styles.container}>
       <Meta title="Student Dashboard - Edit Profile" />
@@ -55,29 +207,39 @@ function ProfileEdit() {
             </Button>
           </Stack>
         </Stack>
-        <Stack justifyContent="center">
-          <Card
-            elevation={5}
-            sx={{
-              padding: 3,
-              borderRadius: "10px",
-              width: { xs: "330px", sm: "600px", margin: "0px auto" },
-            }}
-          >
-            <Grid container spacing={2}>
-              {info.map((item) => (
-                <Grid item xs={12} sm={6} key={item.field}>
-                  <p>{item.field}</p>
-                  <TextField
-                    value={item.value}
-                    disabled={item.disabled}
-                    variant="standard"
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Card>
-        </Stack>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack justifyContent="center">
+            <Card
+              elevation={5}
+              sx={{
+                padding: 3,
+                borderRadius: "10px",
+                width: { xs: "330px", sm: "600px", margin: "0px auto" },
+              }}
+            >
+              <Grid container spacing={5} sx={{ padding: 3 }}>
+                {info.map((item) => (
+                  <Grid item xs={12} sm={6} key={item.field}>
+                    <p>{item.field}</p>
+                    <TextField
+                      fullWidth
+                      label={item.value}
+                      disabled={item.disabled}
+                      id="standard-basic"
+                      variant="standard"
+                      {...register(item.field, { required: !item.disabled })}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Card>
+          </Stack>
+          <Stack alignItems="center" sx={{ padding: 3 }}>
+            <Button type="submit" variant="contained">
+              Submit
+            </Button>
+          </Stack>
+        </form>
       </Stack>
     </div>
   );

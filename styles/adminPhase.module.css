@@ -91,7 +91,7 @@
     }
 }
 
-.datagridCompanyStudent{
+.datagridCompanyAll{
     width:1200px;
 }
 
@@ -107,6 +107,16 @@
 
 @media(max-width:1150px){
     .datagridCompanyStudent{
+        width:100%;
+    }
+}
+
+.datagridProformaSection{
+    width: 850px;
+}
+
+@media(max-width:1000px){
+    .datagridProformaSection{
         width:100%;
     }
 }

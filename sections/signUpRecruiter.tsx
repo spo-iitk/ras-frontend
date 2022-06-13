@@ -1,5 +1,12 @@
-import React from "react";
-import { TextField, Typography, Stack, FormControl } from "@mui/material";
+import React, { useState } from "react";
+import {
+  TextField,
+  Typography,
+  Stack,
+  FormControl,
+  Alert,
+  Snackbar,
+} from "@mui/material";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -35,9 +42,9 @@ function SignUpRecruiter() {
   } = useForm<formInput>();
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [fail, setFail] = useState(false);
 
   const handleOpen = async (data: formInput) => {
-    console.log(data);
     setLoading(true);
     const response = await signupCompany(data);
     if (response.Status === 200) {
@@ -50,8 +57,20 @@ function SignUpRecruiter() {
         email: "",
         phone: "",
       });
+    } else {
+      setFail(true);
     }
+    setLoading(false);
   };
+
+  const handleFail = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setFail(false);
+  };
+
   const handleClose = () => setOpen(false);
 
   return (
@@ -145,6 +164,16 @@ function SignUpRecruiter() {
           </Typography>
         </Box>
       </Modal>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={fail}
+        autoHideDuration={6000}
+        onClose={handleFail}
+      >
+        <Alert severity="error" sx={{ minWidth: "330px" }} onClose={handleFail}>
+          Failed to send OTP. Please try again.
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

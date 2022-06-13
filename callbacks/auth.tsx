@@ -47,7 +47,7 @@ const login = async (data: login_params): Promise<Response> => {
     .catch((err) => {
       payload = err?.response?.data?.error;
       status = err?.response?.status;
-      message = err?.response?.status;
+      message = err?.response?.data?.error;
     });
 
   const response: Response = {
