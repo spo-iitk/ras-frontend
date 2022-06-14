@@ -9,7 +9,6 @@ const sideTextStyle = {
   flexDirection: "column",
   alignItems: "flex-end",
 };
-
 const columns: GridColDef[] = [
   {
     field: "id",
