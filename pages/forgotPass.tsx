@@ -15,7 +15,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
-import { SendVerif, FinVerif } from "@callbacks/auth";
+import { otp, forgotPass } from "@callbacks/auth";
 import { useRouter } from "next/router";
 
 // interface State {
@@ -27,9 +27,6 @@ import { useRouter } from "next/router";
 
 type formInput = {
   user_id: string;
-  otp: string;
-  new_password: string;
-  confirm_newPassword: string;
 };
 
 type formPass = {
@@ -50,6 +47,7 @@ function ForgotPass() {
     handleSubmit: handleNew,
     formState: { errors: errorsNew },
     getValues: getValuesNew,
+    reset: resetNew,
   } = useForm<formPass>();
 
   const ROUTE = "/login";
@@ -60,7 +58,7 @@ function ForgotPass() {
   const handleSent = async (data: formInput) => {
     setUid({ ...uid, ...data });
     // setLoading(true);
-    const response = await SendVerif(data);
+    const response = await otp(data.user_id);
     if (response.Status === 200) {
       reset({
         user_id: "",
@@ -72,10 +70,10 @@ function ForgotPass() {
   };
   const handleVerify = async (data: formPass) => {
     const newInfo = { ...data, ...uid };
-    const response = await FinVerif(newInfo);
+    const response = await forgotPass(newInfo);
     console.log(response);
     if (response.Status === 200) {
-      reset({
+      resetNew({
         new_password: "",
         otp: "",
         confirm_newPassword: "",
@@ -176,6 +174,11 @@ function ForgotPass() {
               }
               label="Password"
             />
+            {errorsNew.new_password && (
+              <FormHelperText error={!!errorsNew.new_password}>
+                {errorsNew.new_password.message}
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <InputLabel
@@ -216,11 +219,6 @@ function ForgotPass() {
             {errorsNew.confirm_newPassword && (
               <FormHelperText error={!!errorsNew.confirm_newPassword}>
                 Passwords don't match
-              </FormHelperText>
-            )}
-            {errorsNew.new_password && (
-              <FormHelperText error={!!errorsNew.new_password}>
-                {errorsNew.new_password.message}
               </FormHelperText>
             )}
           </FormControl>

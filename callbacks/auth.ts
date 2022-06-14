@@ -7,7 +7,7 @@ interface verif_param {
   user_id: string;
 }
 
-interface fin_verif_param {
+interface forgot_pass_param {
   user_id: string;
   otp: string;
   new_password: string;
@@ -41,32 +41,32 @@ interface signupCompany_params {
   designation: string;
 }
 
-const SendVerif = async (data: verif_param): Promise<Response> => {
-  console.log(data);
-  let payload;
-  let status;
-  let message;
-  await axios
-  .post(`${AUTH_URL}/otp`, data)
-  .then ((res) => {
-     payload = res.data;
-     status = res?.status;
-     message = res?.data?.status;
-  })
-  .catch((err) => {
-     payload = err?.response?.data?.error;
-     status = err?.response?.status;
-     message = err?.response?.status;
-  });
-  const response: Response = {
-   Payload: payload,
-   Status: status,
-   Message: message,
-  };
-   return response;
-};
+// const SendVerif = async (data: verif_param): Promise<Response> => {
+//   console.log(data);
+//   let payload;
+//   let status;
+//   let message;
+//   await axios
+//   .post(`${AUTH_URL}/otp`, data)
+//   .then ((res) => {
+//      payload = res.data;
+//      status = res?.status;
+//      message = res?.data?.status;
+//   })
+//   .catch((err) => {
+//      payload = err?.response?.data?.error;
+//      status = err?.response?.status;
+//      message = err?.response?.status;
+//   });
+//   const response: Response = {
+//    Payload: payload,
+//    Status: status,
+//    Message: message,
+//   };
+//    return response;
+// };
 
-const FinVerif = async (data: fin_verif_param): Promise<Response> => {
+const forgotPass = async (data: forgot_pass_param): Promise<Response> => {
   console.log(data);
   let payload;
   let status;
@@ -196,12 +196,12 @@ const signupCompany = async (data: signupCompany_params): Promise<Response> => {
   return response;
 };
 
-export { login, signupStudent, signupCompany, otp, FinVerif, SendVerif };
+export { login, signupStudent, signupCompany, otp, forgotPass};
 export type {
   login_params,
   signupStudent_params,
   Response,
   signupCompany_params,
   verif_param,
-  fin_verif_param,
+  forgot_pass_param,
 };
