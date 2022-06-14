@@ -1,27 +1,34 @@
 import React, { useState } from "react";
 import {
-  TextField,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-  Stack,
-  InputAdornment,
-  IconButton,
+  Alert,
   FormControl,
   FormHelperText,
-  Alert,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Snackbar,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Meta from "@components/Meta";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
 import Image from "next/image";
-import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
-import { login, login_params } from "@callbacks/auth";
 import { LoadingButton } from "@mui/lab";
+import { AxiosError } from "axios";
+import { useRouter } from "next/router";
+
+import loginRequest, {
+  LoginParams,
+  LoginResponse,
+} from "@callbacks/auth/login";
+import { ErrorResponse, SERVER_ERROR } from "@callbacks/constants";
+import formstyles from "@styles/Form.module.css";
+import Meta from "@components/Meta";
 
 function Login() {
   const {
@@ -29,7 +36,7 @@ function Login() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<login_params>();
+  } = useForm<LoginParams>();
 
   const [values, setValues] = useState({
     password: "",
@@ -53,17 +60,41 @@ function Login() {
     event.preventDefault();
   };
 
-  const onLogin = async (data: login_params) => {
+  const router = useRouter();
+  const onLogin = async (data: LoginParams) => {
     setLoading(true);
-    const response = await login(data);
-    if (response.Status === 200) {
+    const response = await loginRequest
+      .post(data)
+      .catch((err: AxiosError<ErrorResponse>) => {
+        const message = err.response?.data?.error || SERVER_ERROR;
+        setFailMessage(message);
+        setFail(true);
+        const x: LoginResponse = { user_id: "", token: "", role_id: 0 };
+        return x;
+      });
+    if (response.token !== "") {
+      sessionStorage.setItem("token", response.token);
       reset({
         user_id: "",
         password: "",
       });
-    } else {
-      setFailMessage(response.Message);
-      setFail(true);
+      switch (response.role_id) {
+        case 1:
+          router.push("/student");
+          break;
+        case 2:
+          router.push("/company");
+          break;
+        case 100:
+          router.push("/admin");
+          break;
+        case 101:
+          router.push("/admin");
+          break;
+        default:
+          router.push("/404");
+          break;
+      }
     }
     setLoading(false);
   };
@@ -72,7 +103,6 @@ function Login() {
     if (reason === "clickaway") {
       return;
     }
-
     setFail(false);
   };
 
