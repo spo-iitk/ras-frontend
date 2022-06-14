@@ -3,6 +3,7 @@
 /* eslint-disable camelcase */
 import axios from "axios";
 import { AUTH_URL } from "./constants";
+
 interface verif_param {
   user_id: string;
 }
@@ -72,21 +73,21 @@ const forgotPass = async (data: forgot_pass_param): Promise<Response> => {
   let status;
   let message;
   await axios
-  .post(`${AUTH_URL}/reset-password`, data)
-  .then ((res) => {
+    .post(`${AUTH_URL}/reset-password`, data)
+    .then((res) => {
       payload = res.data;
       status = res?.status;
       message = res?.data?.status;
-  })
-  .catch((err) => {
+    })
+    .catch((err) => {
       payload = err?.response?.data?.error;
       status = err?.response?.status;
       message = err?.response?.status;
-  });
+    });
   const response: Response = {
-      Payload: payload,
-      Status: status,
-      Message: message,
+    Payload: payload,
+    Status: status,
+    Message: message,
   };
   return response;
 };
@@ -196,7 +197,7 @@ const signupCompany = async (data: signupCompany_params): Promise<Response> => {
   return response;
 };
 
-export { login, signupStudent, signupCompany, otp, forgotPass};
+export { login, signupStudent, signupCompany, otp, forgotPass };
 export type {
   login_params,
   signupStudent_params,
