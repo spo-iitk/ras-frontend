@@ -7,6 +7,19 @@ export const program = [
   "PhD",
 ];
 
+export const programExpanded = [
+  "BT",
+  "BS",
+  "Double Major",
+  "MT",
+  "MS",
+  "MSc (Research)",
+  "Dual",
+  "MDes",
+  "MBA",
+  "PhD",
+];
+
 export const Branches = [
   "AE",
   "BSBE",
@@ -32,4 +45,4 @@ export const Branches = [
   "STATS",
 ];
 
-export default { program, Branches };
+export default { program, Branches, programExpanded };

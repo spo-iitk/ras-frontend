@@ -4,12 +4,7 @@
 import axios from "axios";
 import { AUTH_URL } from "./constants";
 
-interface login_params {
-  user_id: string;
-  password: string;
-  remember_me: boolean;
-}
-interface signup_params {
+interface signupStudent_params {
   user_id: string;
   password: string;
   name: string;
@@ -24,34 +19,15 @@ interface Response {
   Token?: any;
 }
 
-const login = async (data: login_params): Promise<Response> => {
-  console.log(data);
-  let payload;
-  let status;
-  let message;
-  await axios
-    .post(`${AUTH_URL}/login`, data)
-    .then((res) => {
-      payload = res.data;
-      status = res?.status;
-      message = res?.data?.status;
-    })
-    .catch((err) => {
-      payload = err?.response?.data?.error;
-      status = err?.response?.status;
-      message = err?.response?.status;
-    });
+interface signupCompany_params {
+  company_name: string;
+  name: string;
+  phone: string;
+  email: string;
+  designation: string;
+}
 
-  const response: Response = {
-    Payload: payload,
-    Status: status,
-    Message: message,
-  };
-
-  return response;
-};
-
-const signup = async (data: signup_params): Promise<Response> => {
+const signupStudent = async (data: signupStudent_params): Promise<Response> => {
   let payload;
   let status;
   let message;
@@ -103,5 +79,31 @@ const otp = async (user_id: string): Promise<Response> => {
   return response;
 };
 
-export { login, signup, otp };
-export type { login_params, signup_params, Response };
+const signupCompany = async (data: signupCompany_params): Promise<Response> => {
+  let payload;
+  let status;
+  let message;
+  await axios
+    .post(`${AUTH_URL}/company-signup`, data)
+    .then((res) => {
+      payload = res.data;
+      status = res?.status;
+      message = res?.data?.status;
+    })
+    .catch((err) => {
+      payload = err?.response?.data?.error;
+      status = err?.response?.status;
+      message = err?.response?.status;
+    });
+
+  const response: Response = {
+    Payload: payload,
+    Status: status,
+    Message: message,
+  };
+
+  return response;
+};
+
+export { signupStudent, signupCompany, otp };
+export type { signupStudent_params, Response, signupCompany_params };

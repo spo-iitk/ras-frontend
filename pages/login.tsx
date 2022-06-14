@@ -1,45 +1,52 @@
 import React, { useState } from "react";
 import {
-  TextField,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-  Stack,
-  InputAdornment,
-  IconButton,
+  Alert,
   FormControl,
   FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Snackbar,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Meta from "@components/Meta";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
 import Image from "next/image";
-import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
-import { login } from "@callbacks/auth";
 import { LoadingButton } from "@mui/lab";
+import { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
-type FormInput = {
-  user_id: string;
-  password: string;
-  remember_me: boolean;
-};
+import loginRequest, {
+  LoginParams,
+  LoginResponse,
+} from "@callbacks/auth/login";
+import { ErrorResponse, SERVER_ERROR } from "@callbacks/constants";
+import formstyles from "@styles/Form.module.css";
+import Meta from "@components/Meta";
+
 function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormInput>();
+  } = useForm<LoginParams>();
 
   const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
   const [loading, setLoading] = useState(false);
-
+  const [fail, setFail] = useState(false);
+  const [failMessage, setFailMessage] = useState(
+    "Login failed. Please try again."
+  );
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -53,16 +60,50 @@ function Login() {
     event.preventDefault();
   };
 
-  const onLogin = async (data: FormInput) => {
+  const router = useRouter();
+  const onLogin = async (data: LoginParams) => {
     setLoading(true);
-    const response = await login(data);
-    if (response.Status === 200) {
+    const response = await loginRequest
+      .post(data)
+      .catch((err: AxiosError<ErrorResponse>) => {
+        const message = err.response?.data?.error || SERVER_ERROR;
+        setFailMessage(message);
+        setFail(true);
+        const x: LoginResponse = { user_id: "", token: "", role_id: 0 };
+        return x;
+      });
+    if (response.token !== "") {
+      sessionStorage.setItem("token", response.token);
       reset({
         user_id: "",
         password: "",
       });
+      switch (response.role_id) {
+        case 1:
+          router.push("/student");
+          break;
+        case 2:
+          router.push("/company");
+          break;
+        case 100:
+          router.push("/admin");
+          break;
+        case 101:
+          router.push("/admin");
+          break;
+        default:
+          router.push("/404");
+          break;
+      }
     }
     setLoading(false);
+  };
+
+  const handleFail = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setFail(false);
   };
 
   return (
@@ -177,6 +218,16 @@ function Login() {
           </FormControl>
         </Stack>
       </Stack>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={fail}
+        autoHideDuration={6000}
+        onClose={handleFail}
+      >
+        <Alert severity="error" sx={{ minWidth: "330px" }} onClose={handleFail}>
+          {failMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

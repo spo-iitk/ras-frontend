@@ -1,6 +1,5 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Paper from "@mui/material/Paper";
 import { Card, IconButton, Stack, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -70,70 +69,80 @@ const rows = [
   },
 ];
 
-const ButtonContainer = {
-  display: "flex",
-  justifyContent: "space-around",
-};
 function Index() {
   return (
     <div className={styles.container}>
       <Meta title="Company Dashboard" />
       <h1>COMPANY NAME</h1>
-      <br />
-      <br />
-      <Stack
-        spacing={5}
-        justifyContent="center"
-        alignItems="center"
-        direction={{ xs: "column", md: "row" }}
-      >
-        <Card
-          elevation={5}
-          sx={{ width: { xs: "300px", md: "500px" }, padding: 4 }}
+
+      <Stack spacing={5} justifyContent="center" alignItems="center">
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+          direction={{ lg: "row", xs: "column" }}
         >
-          <Grid container>
-            {info.map((item) => (
-              <Grid item xs={12} md={6} key="">
-                <h3>{item.field}</h3>
-                <Typography variant="body1">{item.value}</Typography>
-              </Grid>
-            ))}
-          </Grid>
-        </Card>
-        <div style={ButtonContainer}>
-          <Stack spacing={2} direction="column">
-            <Button variant="outlined">VIEW COMPANY HISTORY</Button>
-            <Button variant="outlined">CONTACT DETAILS</Button>
-            <Button variant="outlined">PAST HIRES</Button>
-            <Button variant="outlined">ADD PPO/PIIO</Button>
+          <Stack spacing={2} direction={{ sm: "row", xs: "column" }}>
+            <Button sx={{ width: { xs: "280px" } }} variant="contained">
+              View Company History
+            </Button>
+            <Button sx={{ width: { xs: "280px" } }} variant="contained">
+              CONTACT DETAILS
+            </Button>
           </Stack>
+          <Stack spacing={2} direction={{ sm: "row", xs: "column" }}>
+            <Button sx={{ width: { xs: "280px" } }} variant="contained">
+              Past Hires
+            </Button>
+
+            <Button sx={{ width: { xs: "280px" } }} variant="contained">
+              ADD PPO/PIIO
+            </Button>
+          </Stack>
+        </Stack>
+        <div>
+          <Card
+            elevation={5}
+            sx={{ width: { xs: "300px", md: "500px" }, padding: 4 }}
+          >
+            <Grid container>
+              {info.map((item) => (
+                <Grid item xs={12} md={6} key="">
+                  <h3>{item.field}</h3>
+                  <Typography variant="body1">{item.value}</Typography>
+                </Grid>
+              ))}
+            </Grid>
+          </Card>
         </div>
       </Stack>
       <br />
       <br />
-      <Grid container spacing={2} component={Paper}>
-        <Grid item xs={11}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h2>Internship Roles</h2>
+      <Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <h2>Internship Roles</h2>
+          <Stack direction="row" spacing={3}>
             <IconButton>
               <AddIcon />
             </IconButton>
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <div
-            className={styles.datagridCompany}
-            style={{ height: 500, margin: "20px auto" }}
-          >
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={7}
-              rowsPerPageOptions={[7]}
-            />
-          </div>
-        </Grid>
-      </Grid>
+          </Stack>
+        </Stack>
+        <div
+          className={styles.datagridCompany}
+          style={{ height: 500, margin: "20px auto" }}
+        >
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={7}
+            rowsPerPageOptions={[7]}
+          />
+        </div>
+      </Stack>
     </div>
   );
 }

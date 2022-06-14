@@ -1,5 +1,5 @@
 import Meta from "@components/Meta";
-import { program, Branches } from "@components/Utils/matrixUtils";
+import { programExpanded, Branches } from "@components/Utils/matrixUtils";
 import { Button, Card, IconButton, Stack } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
@@ -17,7 +17,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step3";
 
 function Step2() {
-  const [val, setVal] = useState(Array(138).fill(0));
+  const [val, setVal] = useState(Array(220).fill(0));
   const { handleSubmit } = useForm();
   const router = useRouter();
   const { rcId } = router.query;
@@ -45,7 +45,7 @@ function Step2() {
     let j = 0;
     setVal(
       val.map((value, index) => {
-        if (index === 6 * j + i) {
+        if (index === 10 * j + i) {
           if (value !== -1) {
             j += 1;
             return 1;
@@ -60,7 +60,7 @@ function Step2() {
   const handleCheck = (i: number, j: number) => {
     setVal(
       val.map((value, index) => {
-        if (index === i * 6 + j) {
+        if (index === i * 10 + j) {
           if (value === 0) {
             return 1;
           }
@@ -78,7 +78,7 @@ function Step2() {
     let j = 0;
     setVal(
       val.map((value, index) => {
-        if (index === 6 * i + j && index < 6 * (i + 1)) {
+        if (index === 10 * i + j && index < 10 * (i + 1)) {
           if (value !== -1) {
             j += 1;
             return 1;
@@ -92,7 +92,7 @@ function Step2() {
   };
 
   const handleReset = () => {
-    setVal(Array(138).fill(0));
+    setVal(Array(220).fill(0));
   };
 
   return (
@@ -142,7 +142,7 @@ function Step2() {
                   <TableCell align="center" sx={{ fontWeight: 600 }}>
                     Program
                   </TableCell>
-                  {program.map((prog: string, k: number) => (
+                  {programExpanded.map((prog: string, k: number) => (
                     <TableCell key={prog} align="center" width={300}>
                       <Button onClick={() => handleProgramWise(k)}>
                         {prog}
@@ -166,13 +166,13 @@ function Step2() {
                           {Branches[i]}
                         </Button>
                       </TableCell>
-                      {Array(6)
+                      {Array(10)
                         .fill(0)
                         .map((__, j) => (
                           <TableCell align="center">
                             <Checkbox
-                              disabled={val[6 * i + j] === -1}
-                              checked={val[6 * i + j] === 1}
+                              disabled={val[10 * i + j] === -1}
+                              checked={val[10 * i + j] === 1}
                               onChange={() => handleCheck(i, j)}
                             />
                           </TableCell>
