@@ -1,33 +1,34 @@
 import React, { useState } from "react";
 import {
-  TextField,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-  Stack,
-  InputAdornment,
-  IconButton,
+  Alert,
   FormControl,
   FormHelperText,
-  Alert,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Snackbar,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Meta from "@components/Meta";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "next/link";
 import Image from "next/image";
-import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
+import { AxiosError } from "axios";
+import { useRouter } from "next/router";
+
 import LoginRequest, {
   LoginParams,
   LoginResponse,
 } from "@callbacks/auth/login";
-import { AxiosError } from "axios";
-import { SERVER_ERROR, ErrorResponse } from "@callbacks/constants";
-import { useRouter } from "next/router";
+import { ErrorResponse, SERVER_ERROR } from "@callbacks/constants";
+import formstyles from "@styles/Form.module.css";
+import Meta from "@components/Meta";
 
 function Login() {
   const {
@@ -77,7 +78,6 @@ function Login() {
         user_id: "",
         password: "",
       });
-      console.log(response.role_id);
       switch (response.role_id) {
         case 1:
           router.push("/student");

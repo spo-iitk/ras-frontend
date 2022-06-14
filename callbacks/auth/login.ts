@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+
 import { AUTH_URL, SERVER_ERROR } from "../constants";
 
 export interface LoginParams {
@@ -33,7 +34,6 @@ const LoginRequest = {
         LoginParams
       >("/login", body)
       .then(responseBody),
-  // .catch(errorResponseBody),
 };
 
 export default LoginRequest;
