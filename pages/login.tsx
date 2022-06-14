@@ -20,9 +20,14 @@ import Link from "next/link";
 import Image from "next/image";
 import formstyles from "@styles/Form.module.css";
 import { useForm } from "react-hook-form";
-import { login, login_params } from "@callbacks/auth";
 import { LoadingButton } from "@mui/lab";
-import LoginRequest, { LoginOptions } from "@callbacks/auth/auth";
+import LoginRequest, {
+  LoginParams,
+  LoginResponse,
+} from "@callbacks/auth/login";
+import { AxiosError } from "axios";
+import { SERVER_ERROR, ErrorResponse } from "@callbacks/constants";
+import { useRouter } from "next/router";
 
 function Login() {
   const {
@@ -30,7 +35,7 @@ function Login() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<login_params>();
+  } = useForm<LoginParams>();
 
   const [values, setValues] = useState({
     password: "",
@@ -54,27 +59,42 @@ function Login() {
     event.preventDefault();
   };
 
-  const onLogin = async (data: login_params) => {
+  const router = useRouter();
+  const onLogin = async (data: LoginParams) => {
     setLoading(true);
-    const data1: LoginOptions = {
-      ...data,
-    };
-    const response1 = await LoginRequest.post(data1).catch((err) => {
-      setLoading(false);
-      setFail(true);
-      setFailMessage(err.message?.error);
-    });
-
-    localStorage.setItem("token", response1?.token || "");
-    const response = await login(data);
-    if (response.Status === 200) {
+    const response = await LoginRequest.post(data).catch(
+      (err: AxiosError<ErrorResponse>) => {
+        const message = err.response?.data?.error || SERVER_ERROR;
+        setFailMessage(message);
+        setFail(true);
+        const x: LoginResponse = { user_id: "", token: "", role_id: 0 };
+        return x;
+      }
+    );
+    if (response.token !== "") {
+      sessionStorage.setItem("token", response.token);
       reset({
         user_id: "",
         password: "",
       });
-    } else {
-      setFailMessage(response.Message);
-      setFail(true);
+      console.log(response.role_id);
+      switch (response.role_id) {
+        case 1:
+          router.push("/student");
+          break;
+        case 2:
+          router.push("/company");
+          break;
+        case 100:
+          router.push("/admin");
+          break;
+        case 101:
+          router.push("/admin");
+          break;
+        default:
+          router.push("/404");
+          break;
+      }
     }
     setLoading(false);
   };
@@ -83,7 +103,6 @@ function Login() {
     if (reason === "clickaway") {
       return;
     }
-
     setFail(false);
   };
 
