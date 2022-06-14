@@ -1,6 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 
-import { STUDENT_URL, SERVER_ERROR, setConfig } from "../constants";
+import {
+  STUDENT_URL,
+  SERVER_ERROR,
+  setConfig,
+  StatusResponse,
+} from "../constants";
 
 export interface Student {
   ID: number;
@@ -46,9 +51,17 @@ const instance = axios.create({
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
-const StudentRequest = {
+const studentRequest = {
   get: (token: string) =>
     instance.get<Student>("", setConfig(token)).then(responseBody),
+  update: (token: string, body: Student) =>
+    instance
+      .put<StatusResponse, AxiosResponse<StatusResponse, Student>, Student>(
+        "",
+        body,
+        setConfig(token)
+      )
+      .then(responseBody),
 };
 
-export default StudentRequest;
+export default studentRequest;

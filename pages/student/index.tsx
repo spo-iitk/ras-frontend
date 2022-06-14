@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import Meta from "@components/Meta";
-import StudentRequest, { Student } from "@callbacks/student/student";
+import studentRequest, { Student } from "@callbacks/student/student";
 
 function RecruitmentPortal() {
   useEffect(() => {
     const fetch = async () => {
       const token = sessionStorage.getItem("token") || "";
-      const student = await StudentRequest.get(token).catch((err) => {
+      const student = await studentRequest.get(token).catch((err) => {
         console.log(err);
         return { ID: 0 } as Student;
       });

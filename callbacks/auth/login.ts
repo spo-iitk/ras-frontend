@@ -25,7 +25,7 @@ const authInstance = axios.create({
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
-const LoginRequest = {
+const loginRequest = {
   post: (body: LoginParams) =>
     authInstance
       .post<
@@ -36,4 +36,4 @@ const LoginRequest = {
       .then(responseBody),
 };
 
-export default LoginRequest;
+export default loginRequest;

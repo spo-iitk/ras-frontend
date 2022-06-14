@@ -17,6 +17,10 @@ export interface ErrorResponse {
   error: string;
 }
 
+export interface StatusResponse {
+  status: string;
+}
+
 export const setConfig = (token: string) => ({
   headers: {
     Authorization: `Bearer ${token}`,

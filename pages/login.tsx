@@ -22,7 +22,7 @@ import { LoadingButton } from "@mui/lab";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 
-import LoginRequest, {
+import loginRequest, {
   LoginParams,
   LoginResponse,
 } from "@callbacks/auth/login";
@@ -63,15 +63,15 @@ function Login() {
   const router = useRouter();
   const onLogin = async (data: LoginParams) => {
     setLoading(true);
-    const response = await LoginRequest.post(data).catch(
-      (err: AxiosError<ErrorResponse>) => {
+    const response = await loginRequest
+      .post(data)
+      .catch((err: AxiosError<ErrorResponse>) => {
         const message = err.response?.data?.error || SERVER_ERROR;
         setFailMessage(message);
         setFail(true);
         const x: LoginResponse = { user_id: "", token: "", role_id: 0 };
         return x;
-      }
-    );
+      });
     if (response.token !== "") {
       sessionStorage.setItem("token", response.token);
       reset({
