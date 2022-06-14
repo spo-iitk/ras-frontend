@@ -20,9 +20,6 @@ const authInstance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
-// let token = sessionStorage.getItem("token");
-// authInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
-
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const loginRequest = {
