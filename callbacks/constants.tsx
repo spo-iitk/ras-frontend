@@ -16,3 +16,9 @@ export const SERVER_ERROR = "Aw, Snap! Server maybe down.";
 export interface ErrorResponse {
   error: string;
 }
+
+export const setConfig = (token: string) => ({
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
