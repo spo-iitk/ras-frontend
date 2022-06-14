@@ -64,7 +64,7 @@ function Index() {
       setApp(app_res);
     };
     fetch();
-  }, []);
+  }, [rid]);
 
   return (
     <div className={styles.container}>
