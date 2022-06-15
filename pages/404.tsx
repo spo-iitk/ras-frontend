@@ -34,11 +34,7 @@ function Custom404() {
           you&apos;ve mistyped the URL? Be sure to check your spelling.
         </Typography>
         <Image src="/images/404.png" width={250} height={300} alt="error 404" />
-        <CustomButton
-          variant="contained"
-          color="primary"
-          href="/studentDashboard/overview"
-        >
+        <CustomButton variant="contained" color="primary" href="/">
           Go To Home
         </CustomButton>
       </Stack>
