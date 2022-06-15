@@ -1,13 +1,11 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
-import { IconButton, Stack } from "@mui/material";
+import { Button, IconButton, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import styles from "@styles/adminPhase.module.css";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import InactiveButton from "@components/Buttons/InactiveButton";
 
 const columns: GridColDef[] = [
   {
@@ -53,9 +51,9 @@ const columns: GridColDef[] = [
             width="100%"
             justifyContent="space-between"
           >
-            <ActiveButton sx={{ height: 30 }}>
+            <Button sx={{ height: 30 }}>
               {cellValues.row.ViewStudentsWiseDetails}
-            </ActiveButton>
+            </Button>
             <IconButton>
               <MoreVertIcon />
             </IconButton>
@@ -68,9 +66,9 @@ const columns: GridColDef[] = [
           width="100%"
           justifyContent="space-between"
         >
-          <InactiveButton sx={{ height: 30 }}>
+          <Button sx={{ height: 30 }}>
             {cellValues.row.ViewStudentsWiseDetails}
-          </InactiveButton>
+          </Button>
           <IconButton>
             <MoreVertIcon />
           </IconButton>
