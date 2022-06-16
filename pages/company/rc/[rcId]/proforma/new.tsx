@@ -4,6 +4,18 @@ import styles from "@styles/adminPhase.module.css";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import MUIRichTextEditor from "mui-rte";
+import { ThemeProvider } from "@mui/styles";
+import { createTheme } from "@mui/material/styles";
+import { blue } from "@mui/material/colors";
+
+const myTheme = createTheme({
+  palette: {
+    primary: {
+      main: blue[500],
+    },
+  },
+});
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
 function ProformaNew() {
@@ -87,18 +99,11 @@ function ProformaNew() {
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Job Description</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              minRows={4}
-              variant="standard"
-              error={errors.jobDescription}
-              helperText={errors.jobDescription && "This field is required"}
-              {...register("jobDescription", { required: true })}
-            />
+            <div style={{ marginBottom: 100 }}>
+              <ThemeProvider theme={myTheme}>
+                <MUIRichTextEditor />
+              </ThemeProvider>
+            </div>
           </FormControl>
           <Stack
             spacing={3}

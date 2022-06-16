@@ -15,6 +15,8 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
+import { otp, forgotPass } from "@callbacks/auth";
+import { useRouter } from "next/router";
 
 // interface State {
 //   showPassword: boolean;
@@ -24,19 +26,20 @@ import { useForm } from "react-hook-form";
 // }
 
 type formInput = {
-  email: string;
+  user_id: string;
 };
 
 type formPass = {
   otp: string;
-  newPassword: string;
-  confirmNewPassword: string;
+  new_password: string;
+  confirm_newPassword: string;
 };
 function ForgotPass() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<formInput>();
 
   const {
@@ -44,16 +47,43 @@ function ForgotPass() {
     handleSubmit: handleNew,
     formState: { errors: errorsNew },
     getValues: getValuesNew,
+    reset: resetNew,
   } = useForm<formPass>();
 
+  const ROUTE = "/login";
+  const router = useRouter();
+  // const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
-
-  const handleSent = (data: formInput) => {
-    setSent(true);
+  const [uid, setUid] = useState({ user_id: "" });
+  const handleSent = async (data: formInput) => {
+    setUid({ ...uid, ...data });
+    // setLoading(true);
+    const response = await otp(data.user_id);
+    if (response.Status === 200) {
+      reset({
+        user_id: "",
+      });
+      setSent(true);
+    }
+    // setLoading(false);
     console.log(data);
   };
+  const handleVerify = async (data: formPass) => {
+    const newInfo = { ...data, ...uid };
+    const response = await forgotPass(newInfo);
+    console.log(response);
+    if (response.Status === 200) {
+      resetNew({
+        new_password: "",
+        otp: "",
+        confirm_newPassword: "",
+      });
+      router.push({
+        pathname: ROUTE,
+      });
 
-  const handleVerify = (data: formPass) => {
+      // setSent(true);
+    }
     console.log(data);
   };
 
@@ -103,7 +133,6 @@ function ForgotPass() {
               id="otp"
               label="OTP"
               variant="outlined"
-              type="number"
               {...registerNew("otp", {
                 required: true,
                 value: "",
@@ -115,15 +144,22 @@ function ForgotPass() {
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <InputLabel
               htmlFor="outlined-adornment-password"
-              error={!!errorsNew.newPassword}
+              error={!!errorsNew.new_password}
             >
               New Password
             </InputLabel>
             <OutlinedInput
               id="password"
               type={values.showPassword ? "text" : "password"}
-              {...registerNew("newPassword", { required: true })}
-              error={!!errorsNew.newPassword}
+              {...registerNew("new_password", {
+                required: true,
+                minLength: {
+                  value: 8,
+                  message:
+                    "Use 8 or more characters with a mix of letters, numbers & symbols",
+                },
+              })}
+              error={!!errorsNew.new_password}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -138,25 +174,30 @@ function ForgotPass() {
               }
               label="Password"
             />
+            {errorsNew.new_password && (
+              <FormHelperText error={!!errorsNew.new_password}>
+                {errorsNew.new_password.message}
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <InputLabel
               htmlFor="outlined-adornment-password"
-              error={!!errorsNew.confirmNewPassword}
+              error={!!errorsNew.confirm_newPassword}
             >
               Confirm New Password
             </InputLabel>
             <OutlinedInput
               id="confirmPassword"
               type={values.showConfirmPassword ? "text" : "password"}
-              {...registerNew("confirmNewPassword", {
+              {...registerNew("confirm_newPassword", {
                 required: true,
                 validate: {
                   sameAsPassword: (value) =>
-                    value === getValuesNew("newPassword"),
+                    value === getValuesNew("new_password"),
                 },
               })}
-              error={!!errorsNew.confirmNewPassword}
+              error={!!errorsNew.confirm_newPassword}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -175,8 +216,8 @@ function ForgotPass() {
               }
               label="Confirm Password"
             />
-            {errorsNew.confirmNewPassword && (
-              <FormHelperText error={!!errorsNew.confirmNewPassword}>
+            {errorsNew.confirm_newPassword && (
+              <FormHelperText error={!!errorsNew.confirm_newPassword}>
                 Passwords don't match
               </FormHelperText>
             )}
@@ -219,12 +260,12 @@ function ForgotPass() {
               id="email"
               label="Registered Email"
               variant="outlined"
-              {...register("email", {
+              {...register("user_id", {
                 required: true,
                 pattern: /^[^@]+@iitk\.ac\.in$/,
               })}
-              error={!!errors.email}
-              helperText={errors.email && "Enter valid IITK email Id"}
+              error={!!errors.user_id}
+              helperText={errors.user_id && "Enter valid IITK email Id"}
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
@@ -240,3 +281,10 @@ function ForgotPass() {
 
 ForgotPass.layout = "Navigation";
 export default ForgotPass;
+// function reset(arg0: { user_id: string }) {
+//   throw new Error("Function not implemented.");
+// }
+
+// function FinVerif(data: formPass) {
+//   throw new Error("Function not implemented.");
+// }
