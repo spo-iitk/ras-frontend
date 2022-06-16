@@ -8,20 +8,34 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import styles from "@styles/adminPhase.module.css";
 import { useForm } from "react-hook-form";
-import { submit, NewRCParams } from "@callbacks/admin_rc";
+import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import router from "next/router";
+import { AxiosError } from "axios";
+import {
+  ErrorResponse,
+  SERVER_ERROR,
+  StatusResponse,
+} from "@callbacks/constants";
 
 function RecruitmentCycle() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<NewRCParams>();
-  const onSubmit = async (data: NewRCParams) => {
-    const response = await submit(data);
-    console.log(data);
-    if (response.Status === 200) {
-      router.push("addquestions");
+  } = useForm<RC>();
+  const onSubmit = async (data: RC) => {
+    const token = sessionStorage.getItem("token") || "";
+    const response = await rcRequest
+      .post(token, data)
+      .catch((err: AxiosError<ErrorResponse>) => {
+        const message = err.response?.data?.error || SERVER_ERROR;
+        console.log(message);
+        // setFailMessage(message);
+        // setFail(true);
+        return { status: "" } as StatusResponse;
+      });
+    if (response.status !== "") {
+      router.push("question");
     }
     console.log(response);
   };
@@ -64,16 +78,16 @@ function RecruitmentCycle() {
             </FormControl>
             <FormControl sx={{ m: 1 }}>
               <InputLabel id="Types-of-Recruitment">
-                {errors.Type
+                {errors.type
                   ? "Type of Recruitment (Required Field)"
                   : "Type of Recruitment"}
               </InputLabel>
               <Select
                 labelId="Types-of-Recruitment"
                 label="Select Type of Recruitment"
-                error={!!errors.Type}
+                error={!!errors.type}
                 variant="standard"
-                {...register("Type", {
+                {...register("type", {
                   required: true,
                 })}
               >
@@ -96,9 +110,24 @@ function RecruitmentCycle() {
                 })}
               >
                 <MenuItem value="">None</MenuItem>
-                <MenuItem value="Phase - 1">Phase - 1</MenuItem>
-                <MenuItem value="Phase - 2">Phase - 2</MenuItem>
+                <MenuItem value="Phase 1">Phase - 1</MenuItem>
+                <MenuItem value="Phase 2">Phase - 2</MenuItem>
               </Select>
+            </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <TextField
+                type="date"
+                helperText="Select Start Date"
+                error={!!errors.start_date}
+                {...register("start_date", {
+                  required: true,
+                  setValueAs: (date) => {
+                    const d = new Date(date);
+                    const epoch = d.getTime();
+                    return epoch;
+                  },
+                })}
+              />
             </FormControl>
             <FormControl>
               <h3 style={{ margin: "10px 0px" }}>Policies</h3>
@@ -107,10 +136,12 @@ function RecruitmentCycle() {
                 helperText={
                   errors.application_count_cap ? "Required Field" : ""
                 }
+                type="number"
                 error={!!errors.application_count_cap}
                 variant="standard"
                 {...register("application_count_cap", {
                   required: true,
+                  setValueAs: (v) => parseInt(v, 10),
                 })}
               />
             </FormControl>
