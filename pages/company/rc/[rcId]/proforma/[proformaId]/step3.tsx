@@ -9,9 +9,10 @@ import {
   TextField,
 } from "@mui/material";
 import styles from "@styles/adminPhase.module.css";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "next/router";
+import RichText from "@components/Editor/RichText";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step4";
 
@@ -21,14 +22,17 @@ function Step3() {
     handleSubmit,
     reset,
     formState: { errors },
+    control,
   } = useForm();
   const router = useRouter();
   const { rcId } = router.query;
+  const [ctc, changeCTC] = useState("");
+  const [pkgDetails, changePkg] = useState("");
+
   const handleNext = (data: any) => {
-    console.log(data);
+    const info = { ...data, ...changePkg, ...changeCTC };
+    console.log(info);
     reset({
-      costToCompany: "",
-      packageDetails: "",
       bond: "false",
       bondDetails: "",
       medicalRequirements: "",
@@ -38,6 +42,7 @@ function Step3() {
       query: { rcId, proformaId: 1 },
     });
   };
+
   return (
     <div className={styles.container}>
       <Meta title="Step 3/5 - Package Details" />
@@ -53,29 +58,18 @@ function Step3() {
           <h1>Step 3/5 : Package Details</h1>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Cost to Company</p>
-            <TextField
-              id="Cname"
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              variant="standard"
-              error={errors.costToCompany}
-              helperText={errors.costToCompany && "This field is required"}
-              {...register("costToCompany", { required: true })}
+            <RichText
+              value={ctc}
+              onChange={changeCTC}
+              style={{ minHeight: 200 }}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Package Details</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              variant="standard"
-              error={errors.packageDetails}
-              helperText={errors.packageDetails && "This field is required"}
-              {...register("packageDetails", { required: true })}
+            <RichText
+              value={pkgDetails}
+              onChange={changePkg}
+              style={{ minHeight: 200 }}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -92,6 +86,7 @@ function Step3() {
             <TextField
               id="Cname"
               required
+              disabled={useWatch({ control, name: "bond" }) !== true}
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
@@ -99,7 +94,9 @@ function Step3() {
               variant="standard"
               error={errors.bondDetails}
               helperText={errors.bondDetails && "This field is required"}
-              {...register("bondDetails", { required: true })}
+              {...register("bondDetails", {
+                required: useWatch({ control, name: "bond" }) === true,
+              })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
