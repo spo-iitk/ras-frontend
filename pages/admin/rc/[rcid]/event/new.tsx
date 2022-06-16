@@ -25,26 +25,25 @@ function Event() {
         }}
       >
         <Stack spacing={3}>
-          <h1>View Event Details</h1>
+          <h1>Add Event Details</h1>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Company Name</p>
-            <TextField disabled id="Cname" multiline variant="standard" />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Name</p>
-            <TextField disabled id="Cname" multiline variant="standard" />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Date</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
-                disabled
                 label="Basic example"
                 value={date}
                 onChange={(newValue) => {
                   setDate(newValue);
                 }}
-                renderInput={(params) => <TextField disabled {...params} />}
+                renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
           </FormControl>
@@ -52,13 +51,12 @@ function Event() {
             <p style={{ fontWeight: 300 }}>Event Start Time</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <TimePicker
-                disabled
                 label="Basic example"
                 value={startTime}
                 onChange={(newValue) => {
                   setStartTime(newValue);
                 }}
-                renderInput={(params) => <TextField disabled {...params} />}
+                renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
           </FormControl>
@@ -66,43 +64,30 @@ function Event() {
             <p style={{ fontWeight: 300 }}>Event End Time</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <TimePicker
-                disabled
                 label="Basic example"
                 value={endTime}
                 onChange={(newValue) => {
                   setEndTime(newValue);
                 }}
-                renderInput={(params) => <TextField disabled {...params} />}
+                renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Venue</p>
-            <TextField disabled id="Cname" multiline variant="standard" />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Description</p>
-            <TextField
-              disabled
-              id="Cname"
-              multiline
-              minRows={4}
-              variant="standard"
-            />
+            <TextField id="Cname" multiline minRows={4} variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Main POC</p>
-            <TextField disabled id="Cname" multiline variant="standard" />
+            <TextField id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>COCO POCs</p>
-            <TextField
-              disabled
-              id="Cname"
-              minRows={3}
-              multiline
-              variant="standard"
-            />
+            <TextField id="Cname" minRows={3} multiline variant="standard" />
           </FormControl>
         </Stack>
       </Card>
