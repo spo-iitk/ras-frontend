@@ -1,34 +1,33 @@
-import React, { useState } from "react";
+import loginRequest, {
+  LoginParams,
+  LoginResponse,
+} from "@callbacks/auth/login";
+import { ErrorResponse, SERVER_ERROR } from "@callbacks/constants";
+import Meta from "@components/Meta";
+import { showNotification } from "@mantine/notifications";
+import CloseIcon from "@mui/icons-material/Close";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { LoadingButton } from "@mui/lab";
 import {
-  Alert,
   FormControl,
   FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Snackbar,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "next/link";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { LoadingButton } from "@mui/lab";
-import { AxiosError } from "axios";
-import { useRouter } from "next/router";
-
-import loginRequest, {
-  LoginParams,
-  LoginResponse,
-} from "@callbacks/auth/login";
-import { ErrorResponse, SERVER_ERROR } from "@callbacks/constants";
 import formstyles from "@styles/Form.module.css";
-import Meta from "@components/Meta";
+import { AxiosError } from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 function Login() {
   const {
@@ -43,10 +42,8 @@ function Login() {
     showPassword: false,
   });
   const [loading, setLoading] = useState(false);
-  const [fail, setFail] = useState(false);
-  const [failMessage, setFailMessage] = useState(
-    "Login failed. Please try again."
-  );
+  const [failMessage, setFailMessage] = useState("Try again.");
+
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -68,7 +65,12 @@ function Login() {
       .catch((err: AxiosError<ErrorResponse>) => {
         const message = err.response?.data?.error || SERVER_ERROR;
         setFailMessage(message);
-        setFail(true);
+        showNotification({
+          title: "Login Failed!",
+          message: failMessage,
+          color: "red",
+          icon: <CloseIcon />,
+        });
         const x: LoginResponse = { user_id: "", token: "", role_id: 0 };
         return x;
       });
@@ -97,13 +99,6 @@ function Login() {
       }
     }
     setLoading(false);
-  };
-
-  const handleFail = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setFail(false);
   };
 
   return (
@@ -218,16 +213,6 @@ function Login() {
           </FormControl>
         </Stack>
       </Stack>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        open={fail}
-        autoHideDuration={6000}
-        onClose={handleFail}
-      >
-        <Alert severity="error" sx={{ minWidth: "330px" }} onClose={handleFail}>
-          {failMessage}
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

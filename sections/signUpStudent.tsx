@@ -1,9 +1,11 @@
-import { Alert, Collapse, FormControl, Stack, TextField } from "@mui/material";
+import { otp } from "@callbacks/auth";
+import { showNotification } from "@mantine/notifications";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Collapse, FormControl, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { otp } from "@callbacks/auth";
-import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckIcon from "@mui/icons-material/Check";
 import SignUpRollNoSection from "./signUpRollNoSection";
 
 type inputType1 = {
@@ -22,39 +24,28 @@ function SignUpStudent() {
   const [emailOtpStatus, setEmailOtpStatus] = useState(false);
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({});
-  const [open, setOpen] = useState(false);
-  const [fail, setFail] = useState(false);
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   const handleEmailOtpStatus = async (data: inputType1) => {
     setLoading(true);
     const response = await otp(data.user_id);
     if (response.Status === 200) {
       setEmailOtpStatus(true);
-      setOpen(true);
       setInfo({ ...data, ...info });
+      showNotification({
+        title: "OTP Sent!",
+        message: "An OTP has ben sent to your IITK email!",
+        color: "green",
+        icon: <CheckIcon />,
+      });
     } else {
-      setFail(true);
+      showNotification({
+        title: "Error!",
+        message: "Failed to send OTP to your mail!",
+        color: "red",
+        icon: <CloseIcon />,
+      });
     }
     setLoading(false);
-  };
-
-  const handleFail = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setFail(false);
   };
 
   return (
@@ -105,34 +96,6 @@ function SignUpStudent() {
             setEmailOtpStatus={setEmailOtpStatus}
           />
         </Collapse>
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-        >
-          <Alert
-            severity="success"
-            sx={{ minWidth: "330px" }}
-            onClose={handleClose}
-          >
-            OTP sent
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          open={fail}
-          autoHideDuration={6000}
-          onClose={handleFail}
-        >
-          <Alert
-            severity="error"
-            sx={{ minWidth: "330px" }}
-            onClose={handleFail}
-          >
-            Failed to send OTP. Please try again.
-          </Alert>
-        </Snackbar>
       </Stack>
     </div>
   );

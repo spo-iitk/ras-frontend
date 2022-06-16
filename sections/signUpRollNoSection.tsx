@@ -1,9 +1,11 @@
-import { Alert, Collapse, FormControl, Stack, TextField } from "@mui/material";
+import { Collapse, FormControl, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { otp } from "@callbacks/auth";
-import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckIcon from "@mui/icons-material/Check";
+import { showNotification } from "@mantine/notifications";
 import SignUpPasswordSection from "./signUpPasswordSection";
 
 type inputType2 = {
@@ -26,39 +28,29 @@ function SignUpRollNoSection({
 
   const [rollnoOtpStatus, setRollnoOtpStatus] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [fail, setFail] = useState(false);
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   const handleRollnoOtpStatus = async (data: inputType2) => {
     setLoading(true);
     const response = await otp(`${data.roll_no}@iitk.ac.in`);
     if (response.Status === 200) {
-      setOpen(true);
       setRollnoOtpStatus(true);
       setInfo({ ...data, ...info });
+      showNotification({
+        title: "OTP Sent!",
+        message:
+          "An OTP has ben sent to your IITK email <your-rollNo>@iitk.ac.in!",
+        color: "green",
+        icon: <CheckIcon />,
+      });
     } else {
-      setFail(true);
+      showNotification({
+        title: "Error!",
+        message: "Failed to send OTP to your mail!",
+        color: "red",
+        icon: <CloseIcon />,
+      });
     }
     setLoading(false);
-  };
-
-  const handleFail = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setFail(false);
   };
 
   return (
@@ -114,30 +106,6 @@ function SignUpRollNoSection({
           setRollnoOtpStatus={setRollnoOtpStatus}
         />
       </Collapse>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert
-          severity="success"
-          sx={{ minWidth: "330px" }}
-          onClose={handleClose}
-        >
-          OTP sent
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        open={fail}
-        autoHideDuration={6000}
-        onClose={handleFail}
-      >
-        <Alert severity="error" sx={{ minWidth: "330px" }} onClose={handleFail}>
-          Failed to send OTP. Please try again.
-        </Alert>
-      </Snackbar>
     </Stack>
   );
 }
