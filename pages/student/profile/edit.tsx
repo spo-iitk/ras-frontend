@@ -202,11 +202,11 @@ function ProfileEdit() {
     console.log("RESULT", data);
     alert(JSON.stringify(data));
   };
-<<<<<<< HEAD
+
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
-=======
-  const [StudentData, setStudentData] = useState({ ID: 0 } as Student);
->>>>>>> 4567b5d7f38a8c0b67816a55e56fc4e8c0f6c41d
+
+
+
   useEffect(() => {
     const fetch = async () => {
       const token = sessionStorage.getItem("token") || "";
