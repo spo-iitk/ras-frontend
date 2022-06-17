@@ -1,5 +1,12 @@
 import React, { Suspense, useState } from "react";
-import { FormControl, Stack, Tab, Tabs, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  FormControl,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
@@ -70,11 +77,11 @@ function SignUp() {
             </Tabs>
           </FormControl>
           {role === 0 ? (
-            <Suspense fallback={<div>Loading... Please wait!</div>}>
+            <Suspense fallback={<CircularProgress />}>
               <SignUpStudent />
             </Suspense>
           ) : (
-            <Suspense fallback={<div>Loading... Please wait!</div>}>
+            <Suspense fallback={<CircularProgress />}>
               <SignUpRecruiter />
             </Suspense>
           )}

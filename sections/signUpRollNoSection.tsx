@@ -1,4 +1,10 @@
-import { Collapse, FormControl, Stack, TextField } from "@mui/material";
+import {
+  CircularProgress,
+  Collapse,
+  FormControl,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React, { Suspense, useState } from "react";
 import {
   FieldError,
@@ -103,7 +109,7 @@ function SignUpRollNoSection({
         </FormControl>
       )}
       <Collapse in={rollnoStatus}>
-        <Suspense fallback={<div>Loading... Please wait!</div>}>
+        <Suspense fallback={<CircularProgress />}>
           <SignUpPasswordSection
             register={register}
             handleSubmit={handleSubmit}

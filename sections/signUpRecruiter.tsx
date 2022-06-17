@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import {
+  Alert,
+  FormControl,
+  Snackbar,
+  Stack,
   TextField,
   Typography,
-  Stack,
-  FormControl,
-  Alert,
-  Snackbar,
 } from "@mui/material";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
-import { signupCompany } from "@callbacks/auth";
 import { LoadingButton } from "@mui/lab";
+
+import { signupCompany } from "@callbacks/auth";
 
 const style = {
   position: "absolute" as const,

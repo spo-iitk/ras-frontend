@@ -1,5 +1,11 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Collapse, FormControl, Stack, TextField } from "@mui/material";
+import {
+  CircularProgress,
+  Collapse,
+  FormControl,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React, { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
@@ -81,7 +87,7 @@ function SignUpStudent() {
         )}
 
         <Collapse in={emailStatus}>
-          <Suspense fallback={<div>Loading... Please wait!</div>}>
+          <Suspense fallback={<CircularProgress />}>
             <SignUpRollNoSection
               register={register}
               handleSubmit={handleSubmit}
