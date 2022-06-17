@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 import axios from "axios";
+
 import { AUTH_URL } from "./constants";
 
 interface verif_param {

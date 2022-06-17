@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 
 import {
-  STUDENT_URL,
   SERVER_ERROR,
-  setConfig,
+  STUDENT_URL,
   StatusResponse,
+  setConfig,
 } from "../constants";
 
 export interface Student {

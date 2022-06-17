@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import formstyles from "@styles/Form.module.css";
 import Meta from "@components/Meta";
 import loginRequest, { LoginParams } from "@callbacks/auth/login";
+import useStore from "@store/store";
 
 function Login() {
   const {
@@ -36,6 +37,7 @@ function Login() {
     showPassword: false,
   });
   const [loading, setLoading] = useState(false);
+  const { setToken } = useStore();
 
   const handleClickShowPassword = () => {
     setValues({
@@ -55,7 +57,7 @@ function Login() {
     setLoading(true);
     const response = await loginRequest.post(data);
     if (response.token !== "") {
-      sessionStorage.setItem("token", response.token);
+      setToken(response.token);
       reset({
         user_id: "",
         password: "",
