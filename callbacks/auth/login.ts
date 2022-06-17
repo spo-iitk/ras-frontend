@@ -1,6 +1,7 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { AUTH_URL, SERVER_ERROR } from "../constants";
+import { AUTH_URL, ErrorResponse, SERVER_ERROR } from "../constants";
+import { errorNotification } from "../notifcation";
 
 export interface LoginParams {
   user_id: string;
@@ -30,7 +31,11 @@ const loginRequest = {
         AxiosResponse<LoginResponse, LoginParams>,
         LoginParams
       >("/login", body)
-      .then(responseBody),
+      .then(responseBody)
+      .catch((err: AxiosError<ErrorResponse>) => {
+        errorNotification("Login Failed", err.response?.data?.error);
+        return { user_id: "", token: "", role_id: 0 } as LoginResponse;
+      }),
 };
 
 export default loginRequest;

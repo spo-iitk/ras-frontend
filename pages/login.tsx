@@ -1,5 +1,3 @@
-import { showNotification } from "@mantine/notifications";
-import CloseIcon from "@mui/icons-material/Close";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
@@ -15,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -24,11 +21,7 @@ import { useForm } from "react-hook-form";
 
 import formstyles from "@styles/Form.module.css";
 import Meta from "@components/Meta";
-import { ErrorResponse, SERVER_ERROR } from "@callbacks/constants";
-import loginRequest, {
-  LoginParams,
-  LoginResponse,
-} from "@callbacks/auth/login";
+import loginRequest, { LoginParams } from "@callbacks/auth/login";
 
 function Login() {
   const {
@@ -43,7 +36,6 @@ function Login() {
     showPassword: false,
   });
   const [loading, setLoading] = useState(false);
-  const [failMessage, setFailMessage] = useState("Try again.");
 
   const handleClickShowPassword = () => {
     setValues({
@@ -61,20 +53,7 @@ function Login() {
   const router = useRouter();
   const onLogin = async (data: LoginParams) => {
     setLoading(true);
-    const response = await loginRequest
-      .post(data)
-      .catch((err: AxiosError<ErrorResponse>) => {
-        const message = err.response?.data?.error || SERVER_ERROR;
-        setFailMessage(message);
-        showNotification({
-          title: "Login Failed!",
-          message: failMessage,
-          color: "red",
-          icon: <CloseIcon />,
-        });
-        const x: LoginResponse = { user_id: "", token: "", role_id: 0 };
-        return x;
-      });
+    const response = await loginRequest.post(data);
     if (response.token !== "") {
       sessionStorage.setItem("token", response.token);
       reset({
