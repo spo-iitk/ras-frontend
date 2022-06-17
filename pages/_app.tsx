@@ -3,9 +3,10 @@ import "@styles/globals.css";
 import type { AppProps } from "next/app";
 import { NotificationsProvider } from "@mantine/notifications";
 import { ThemeProvider } from "@mui/material";
-import theme from "../theme/theme";
 
 import LayoutWrapper from "@components/Layouts/LayoutWrapper";
+
+import theme from "../theme/theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
