@@ -17,12 +17,14 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import dashboardstyles from "@styles/Dashboard.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+
 import theme from "@components/theme/theme";
+import dashboardstyles from "@styles/Dashboard.module.css";
+
 import { fields } from "./LayoutWrapper";
 
 const AccountStyle = styled("div")(() => ({

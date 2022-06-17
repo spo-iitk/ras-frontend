@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import Meta from "@components/Meta";
-import styles from "@styles/studentInternPhase.module.css";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -10,6 +8,9 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+
+import styles from "@styles/studentInternPhase.module.css";
+import Meta from "@components/Meta";
 
 const style = {
   position: "absolute" as const,

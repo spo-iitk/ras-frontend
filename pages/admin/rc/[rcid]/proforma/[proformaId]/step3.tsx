@@ -1,4 +1,3 @@
-import Meta from "@components/Meta";
 import {
   Button,
   Card,
@@ -8,8 +7,10 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import styles from "@styles/adminPhase.module.css";
 import React, { useState } from "react";
+
+import Meta from "@components/Meta";
+import styles from "@styles/adminPhase.module.css";
 
 function Step3() {
   const [bond, setBond] = useState(false);

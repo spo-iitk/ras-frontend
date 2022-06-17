@@ -1,9 +1,3 @@
-import loginRequest, {
-  LoginParams,
-  LoginResponse,
-} from "@callbacks/auth/login";
-import { ErrorResponse, SERVER_ERROR } from "@callbacks/constants";
-import Meta from "@components/Meta";
 import { showNotification } from "@mantine/notifications";
 import CloseIcon from "@mui/icons-material/Close";
 import Visibility from "@mui/icons-material/Visibility";
@@ -21,13 +15,20 @@ import {
   Typography,
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import formstyles from "@styles/Form.module.css";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+
+import formstyles from "@styles/Form.module.css";
+import Meta from "@components/Meta";
+import { ErrorResponse, SERVER_ERROR } from "@callbacks/constants";
+import loginRequest, {
+  LoginParams,
+  LoginResponse,
+} from "@callbacks/auth/login";
 
 function Login() {
   const {

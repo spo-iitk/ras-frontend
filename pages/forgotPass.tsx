@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import Meta from "@components/Meta";
 import {
-  Stack,
-  FormControl,
-  TextField,
-  Typography,
   Button,
-  OutlinedInput,
-  InputLabel,
+  FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
-  FormHelperText,
+  InputLabel,
+  OutlinedInput,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
-import { otp, forgotPass } from "@callbacks/auth";
 import { useRouter } from "next/router";
+
+import { forgotPass, otp } from "@callbacks/auth";
+import Meta from "@components/Meta";
 
 // interface State {
 //   showPassword: boolean;
