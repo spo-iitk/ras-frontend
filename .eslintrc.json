@@ -17,6 +17,7 @@
     "airbnb",
     "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
+    "plugin:@next/next/recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -24,17 +25,23 @@
     "prettier"
   ],
   "rules": {
-    "jsx-a11y/label-has-associated-control": ["error", {
-      "required": {
-        "some": ["nesting", "id"]
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
       }
-    }],
-    "jsx-a11y/label-has-for": ["error", {
-      "required": {
-        "some": ["nesting", "id"]
+    ],
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
       }
-    }],
-    "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
+    ],
+    "no-unused-vars": [2, { "vars": "all", "args": "after-used" }],
     "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "import/extensions": "off",
     "react/prop-types": "off",
@@ -51,12 +58,36 @@
     "@typescript-eslint/no-use-before-define": [
       "error",
       { "functions": false, "classes": false, "variables": true }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "external",
+          "builtin",
+          "internal",
+          ["parent", "sibling", "index"]
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "eol-last": 1,
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+    "import/default": "off",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
+      }
     ]
   },
   "settings": {
     "import/resolver": {
       "typescript": {
-        "directory": "."
+        "project": "."
       },
       "babel-module": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
