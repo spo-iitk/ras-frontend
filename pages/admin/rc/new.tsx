@@ -103,5 +103,5 @@ function RecruitmentCycle() {
   );
 }
 
-RecruitmentCycle.layout = "adminPhaseDashBoard";
+RecruitmentCycle.layout = "adminDashBoard";
 export default RecruitmentCycle;

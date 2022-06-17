@@ -28,12 +28,12 @@ function AddCompany() {
             <TextField
               label="Select Company"
               id="selectCompany"
-              variant="filled"
+              variant="standard"
             />
             <TextField
               label="Select Active HR"
               id="selectActiveHR"
-              variant="filled"
+              variant="standard"
             />
             <Stack
               direction="row"
