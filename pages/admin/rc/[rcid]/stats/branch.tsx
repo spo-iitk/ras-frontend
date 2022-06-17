@@ -1,8 +1,9 @@
 import React from "react";
 import { Grid } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
 import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 
 const gridMain = {

@@ -1,4 +1,3 @@
-import Meta from "@components/Meta";
 import {
   Button,
   Card,
@@ -9,9 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import styles from "@styles/adminPhase.module.css";
 import React from "react";
 import DownloadIcon from "@mui/icons-material/Download";
+
+import styles from "@styles/adminPhase.module.css";
+import Meta from "@components/Meta";
 
 const questions = [
   {

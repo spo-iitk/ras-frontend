@@ -1,8 +1,9 @@
-import Meta from "@components/Meta";
 import { Card, Grid, Stack, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import React from "react";
+
+import Meta from "@components/Meta";
 
 const info = [
   {

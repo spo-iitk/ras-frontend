@@ -1,11 +1,12 @@
-import Meta from "@components/Meta";
 import { Card, FormControl, Stack, TextField } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import styles from "@styles/adminPhase.module.css";
 import React from "react";
+
+import styles from "@styles/adminPhase.module.css";
+import Meta from "@components/Meta";
 
 function Event() {
   const [date, setDate] = React.useState<Date | null>(new Date());

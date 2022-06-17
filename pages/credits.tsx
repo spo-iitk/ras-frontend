@@ -1,6 +1,7 @@
-import Meta from "@components/Meta";
 import { Avatar, Stack } from "@mui/material";
 import React from "react";
+
+import Meta from "@components/Meta";
 
 function Credits() {
   return (

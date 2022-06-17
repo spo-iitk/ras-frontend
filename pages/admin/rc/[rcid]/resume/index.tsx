@@ -1,15 +1,16 @@
-import ActiveButton from "@components/Buttons/ActiveButton";
-import InactiveButton from "@components/Buttons/InactiveButton";
-import Meta from "@components/Meta";
-import ResumeClarification from "@components/Modals/resumeClarification";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IconButton, Modal, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import styles from "@styles/adminPhase.module.css";
 import * as React from "react";
 import { useState } from "react";
+
+import styles from "@styles/adminPhase.module.css";
+import ResumeClarification from "@components/Modals/resumeClarification";
+import Meta from "@components/Meta";
+import InactiveButton from "@components/Buttons/InactiveButton";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 const columns: GridColDef[] = [
   { field: "resumeid", headerName: "Resume ID", width: 200 },

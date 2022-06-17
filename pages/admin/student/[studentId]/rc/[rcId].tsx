@@ -1,15 +1,16 @@
-import ActiveButton from "@components/Buttons/ActiveButton";
-import Meta from "@components/Meta";
 import { Box, Button, Grid, Modal, Stack, TextField } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import styles from "@styles/internPhase.module.css";
 import * as React from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+
+import styles from "@styles/internPhase.module.css";
+import Meta from "@components/Meta";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 // const sideTextStyle = {
 //   display: "grid",

@@ -1,4 +1,3 @@
-import iconMap from "@components/Utils/IconMap";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { Card, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -10,6 +9,8 @@ import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
+
+import iconMap from "@components/Utils/IconMap";
 
 const steps = [
   {
