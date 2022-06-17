@@ -16,76 +16,52 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import { forgotPass, otp } from "@callbacks/auth";
 import Meta from "@components/Meta";
+import otpRequest, { OTPParams } from "@callbacks/auth/otp";
+import resetPassRequest, { ResetPassParams } from "@callbacks/auth/resetpass";
 
-// interface State {
-//   showPassword: boolean;
-//   password: string;
-//   confirmPassword: string;
-//   showConfirmPassword: boolean;
-// }
-
-type formInput = {
-  user_id: string;
-};
-
-type formPass = {
-  otp: string;
-  new_password: string;
-  confirm_newPassword: string;
-};
 function ForgotPass() {
+  const {
+    register: registerOTP,
+    handleSubmit: handleOTPSubmit,
+    formState: { errors: errorsOTP },
+    reset: resetOTP,
+  } = useForm<OTPParams>();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    getValues,
     reset,
-  } = useForm<formInput>();
+  } = useForm<ResetPassParams>();
 
-  const {
-    register: registerNew,
-    handleSubmit: handleNew,
-    formState: { errors: errorsNew },
-    getValues: getValuesNew,
-    reset: resetNew,
-  } = useForm<formPass>();
-
-  const ROUTE = "/login";
   const router = useRouter();
-  // const [loading, setLoading] = useState(false);
+
   const [sent, setSent] = useState(false);
-  const [uid, setUid] = useState({ user_id: "" });
-  const handleSent = async (data: formInput) => {
-    setUid({ ...uid, ...data });
-    // setLoading(true);
-    const response = await otp(data.user_id);
-    if (response.Status === 200) {
-      reset({
+  const handleSendOTP = async (data: OTPParams) => {
+    setValue("user_id", data.user_id);
+    const response = await otpRequest.post(data);
+    if (response) {
+      resetOTP({
         user_id: "",
       });
       setSent(true);
     }
-    // setLoading(false);
-    console.log(data);
   };
-  const handleVerify = async (data: formPass) => {
-    const newInfo = { ...data, ...uid };
-    const response = await forgotPass(newInfo);
-    console.log(response);
-    if (response.Status === 200) {
-      resetNew({
+
+  const handleResetPassword = async (data: ResetPassParams) => {
+    const response = await resetPassRequest.post(data);
+    if (response) {
+      reset({
+        user_id: "",
         new_password: "",
         otp: "",
-        confirm_newPassword: "",
+        confirm_password: "",
       });
-      router.push({
-        pathname: ROUTE,
-      });
-
-      // setSent(true);
+      router.push("/login");
     }
-    console.log(data);
   };
 
   const [values, setValues] = useState({
@@ -129,30 +105,34 @@ function ForgotPass() {
               OTP has been sent to registered email Id
             </Typography>
           </FormControl>
+
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
               id="otp"
               label="OTP"
               variant="outlined"
-              {...registerNew("otp", {
-                required: true,
+              {...register("otp", {
                 value: "",
+                required: true,
+                maxLength: 6,
+                minLength: 6,
               })}
-              error={!!errorsNew.otp}
-              helperText={errorsNew.otp && "Enter valid IITK email Id"}
+              error={!!errors.otp}
+              helperText={errors.otp && "Enter valid 6 digit OTP"}
             />
           </FormControl>
+
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <InputLabel
               htmlFor="outlined-adornment-password"
-              error={!!errorsNew.new_password}
+              error={!!errors.new_password}
             >
               New Password
             </InputLabel>
             <OutlinedInput
               id="password"
               type={values.showPassword ? "text" : "password"}
-              {...registerNew("new_password", {
+              {...register("new_password", {
                 required: true,
                 minLength: {
                   value: 8,
@@ -160,7 +140,7 @@ function ForgotPass() {
                     "Use 8 or more characters with a mix of letters, numbers & symbols",
                 },
               })}
-              error={!!errorsNew.new_password}
+              error={!!errors.new_password}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -175,30 +155,31 @@ function ForgotPass() {
               }
               label="Password"
             />
-            {errorsNew.new_password && (
-              <FormHelperText error={!!errorsNew.new_password}>
-                {errorsNew.new_password.message}
+            {errors.new_password && (
+              <FormHelperText error={!!errors.new_password}>
+                {errors.new_password.message}
               </FormHelperText>
             )}
           </FormControl>
+
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <InputLabel
               htmlFor="outlined-adornment-password"
-              error={!!errorsNew.confirm_newPassword}
+              error={!!errors.confirm_password}
             >
               Confirm New Password
             </InputLabel>
             <OutlinedInput
               id="confirmPassword"
               type={values.showConfirmPassword ? "text" : "password"}
-              {...registerNew("confirm_newPassword", {
+              {...register("confirm_password", {
                 required: true,
                 validate: {
-                  sameAsPassword: (value) =>
-                    value === getValuesNew("new_password"),
+                  sameAsPassword: (value: string) =>
+                    value === getValues("new_password"),
                 },
               })}
-              error={!!errorsNew.confirm_newPassword}
+              error={!!errors.confirm_password}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -217,23 +198,28 @@ function ForgotPass() {
               }
               label="Confirm Password"
             />
-            {errorsNew.confirm_newPassword && (
-              <FormHelperText error={!!errorsNew.confirm_newPassword}>
+            {errors.confirm_password && (
+              <FormHelperText error={!!errors.confirm_password}>
                 Passwords don't match
               </FormHelperText>
             )}
           </FormControl>
+
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button variant="contained" onClick={handleNew(handleVerify)}>
+            <Button
+              variant="contained"
+              onClick={handleSubmit(handleResetPassword)}
+            >
               Confirm
             </Button>
           </FormControl>
+
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <Typography>
               Facing any issues?{" "}
               <span style={{ color: "blue" }}>
                 <a
-                  href="https://spo.iitk.ac.in/about_us.html"
+                  href="https://spo.iitk.ac.in/contact"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -256,21 +242,26 @@ function ForgotPass() {
               Recruitment Portal IIT Kanpur
             </Typography>
           </FormControl>
+
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
               id="email"
               label="Registered Email"
               variant="outlined"
-              {...register("user_id", {
+              {...registerOTP("user_id", {
                 required: true,
                 pattern: /^[^@]+@iitk\.ac\.in$/,
               })}
-              error={!!errors.user_id}
-              helperText={errors.user_id && "Enter valid IITK email Id"}
+              error={!!errorsOTP.user_id}
+              helperText={errorsOTP.user_id && "Enter valid IITK email Id"}
             />
           </FormControl>
+
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button variant="contained" onClick={handleSubmit(handleSent)}>
+            <Button
+              variant="contained"
+              onClick={handleOTPSubmit(handleSendOTP)}
+            >
               Send Verification Code
             </Button>
           </FormControl>
@@ -282,10 +273,3 @@ function ForgotPass() {
 
 ForgotPass.layout = "Navigation";
 export default ForgotPass;
-// function reset(arg0: { user_id: string }) {
-//   throw new Error("Function not implemented.");
-// }
-
-// function FinVerif(data: formPass) {
-//   throw new Error("Function not implemented.");
-// }

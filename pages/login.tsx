@@ -169,7 +169,7 @@ function Login() {
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
                 <span style={{ color: "blue" }}>
-                  <Link href="/forgotPass">Forgot password?</Link>
+                  <Link href="/reset-password">Forgot password?</Link>
                 </span>
               </Typography>
             </Stack>

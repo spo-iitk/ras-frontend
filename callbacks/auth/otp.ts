@@ -1,12 +1,22 @@
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
-import authInstance from ".";
-import { ErrorType, StatusResponse } from "../constants";
+import {
+  AUTH_URL,
+  ErrorType,
+  SERVER_ERROR,
+  StatusResponse,
+} from "../constants";
 import { errorNotification, pushNotification } from "../notifcation";
 
 export interface OTPParams {
   user_id: string;
 }
+
+const authInstance = axios.create({
+  baseURL: AUTH_URL,
+  timeout: 15000,
+  timeoutErrorMessage: SERVER_ERROR,
+});
 
 const otpRequest = {
   post: (body: OTPParams) =>

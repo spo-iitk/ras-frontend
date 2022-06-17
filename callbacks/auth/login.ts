@@ -1,7 +1,6 @@
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
-import authInstance from ".";
-import { ErrorType, responseBody } from "../constants";
+import { AUTH_URL, ErrorType, SERVER_ERROR, responseBody } from "../constants";
 import { errorNotification } from "../notifcation";
 
 export interface LoginParams {
@@ -15,6 +14,12 @@ export interface LoginResponse {
   role_id: number;
   user_id: string;
 }
+
+const authInstance = axios.create({
+  baseURL: AUTH_URL,
+  timeout: 15000,
+  timeoutErrorMessage: SERVER_ERROR,
+});
 
 const loginRequest = {
   post: (body: LoginParams) =>
