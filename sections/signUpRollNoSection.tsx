@@ -52,6 +52,7 @@ function SignUpRollNoSection({
   const [loading, setLoading] = useState(false);
 
   const handleRollnoOtpSubmit = async (data: OTPParams) => {
+    setValue("roll_no", data.user_id.split("@")[0]);
     setLoading(true);
     const response = await otpRequest.post(data);
     setRollnoStatus(response);
@@ -79,15 +80,9 @@ function SignUpRollNoSection({
           id="rollNo"
           label="Roll Number"
           variant="outlined"
-          type="number"
           {...registerOTP("user_id", {
             required: true,
-            minLength: 6,
-            maxLength: 8,
-            setValueAs: (value: string) => {
-              setValue("roll_no", value);
-              return `${value}@iitk.ac.in`;
-            },
+            setValueAs: (v) => `${v}@iitk.ac.in`,
           })}
           disabled={rollnoStatus}
           error={!!errorsOTP.user_id}
