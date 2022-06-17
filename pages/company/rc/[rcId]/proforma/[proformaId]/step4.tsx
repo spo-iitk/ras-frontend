@@ -1,4 +1,3 @@
-import Meta from "@components/Meta";
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -24,11 +23,13 @@ import StepContent from "@mui/material/StepContent";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import styles from "@styles/internPhase.module.css";
 import * as React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import iconMap from "@components/Utils/IconMap";
 import { useRouter } from "next/router";
+
+import iconMap from "@components/Utils/IconMap";
+import styles from "@styles/internPhase.module.css";
+import Meta from "@components/Meta";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
 

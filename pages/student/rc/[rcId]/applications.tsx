@@ -1,6 +1,7 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Grid, Stack } from "@mui/material";
+
 import styles from "@styles/internPhase.module.css";
 import Meta from "@components/Meta";
 

@@ -1,7 +1,8 @@
-import Meta from "@components/Meta";
 import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
-import styles from "@styles/adminPhase.module.css";
 import React from "react";
+
+import Meta from "@components/Meta";
+import styles from "@styles/adminPhase.module.css";
 
 function Step1() {
   return (

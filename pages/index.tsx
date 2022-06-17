@@ -1,6 +1,7 @@
-import whoami, { WhoamiResponse } from "@callbacks/auth/whoami";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+
+import whoami, { WhoamiResponse } from "@callbacks/auth/whoami";
 
 function Index() {
   const router = useRouter();

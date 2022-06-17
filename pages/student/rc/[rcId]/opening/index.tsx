@@ -1,13 +1,14 @@
 import React from "react";
-import Meta from "@components/Meta";
 import { Stack } from "@mui/material";
-import styles from "@styles/studentInternPhase.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Link from "next/link";
+
+import ActiveButton from "@components/Buttons/ActiveButton";
+import styles from "@styles/studentInternPhase.module.css";
+import Meta from "@components/Meta";
 
 const ROUTE_PREFIX = "/student/rc/[rcId]/proforma/[proformaId]";
 const handleChange = (event: SelectChangeEvent, setAge: any) => {

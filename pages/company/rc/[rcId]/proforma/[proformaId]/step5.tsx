@@ -1,4 +1,3 @@
-import Meta from "@components/Meta";
 import {
   Button,
   Card,
@@ -7,10 +6,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import styles from "@styles/adminPhase.module.css";
 import React from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+
+import styles from "@styles/adminPhase.module.css";
+import Meta from "@components/Meta";
 
 const ROUTE = "/company/rc/[rcId]";
 

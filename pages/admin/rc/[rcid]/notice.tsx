@@ -1,10 +1,11 @@
-import Meta from "@components/Meta";
-import NewNotice from "@components/Modals/newNotice";
 import AddIcon from "@mui/icons-material/Add";
 import { IconButton, Modal, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import styles from "@styles/adminPhase.module.css";
 import * as React from "react";
+
+import styles from "@styles/adminPhase.module.css";
+import NewNotice from "@components/Modals/newNotice";
+import Meta from "@components/Meta";
 
 const columns: GridColDef[] = [
   {

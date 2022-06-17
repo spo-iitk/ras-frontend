@@ -1,10 +1,11 @@
 import React from "react";
 import "@styles/globals.css";
 import type { AppProps } from "next/app";
-import LayoutWrapper from "@components/Layouts/LayoutWrapper";
 import { NotificationsProvider } from "@mantine/notifications";
 import { ThemeProvider } from "@mui/material";
 import theme from "../theme/theme";
+
+import LayoutWrapper from "@components/Layouts/LayoutWrapper";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

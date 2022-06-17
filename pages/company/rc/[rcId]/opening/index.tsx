@@ -1,10 +1,11 @@
 import React from "react";
 import { Stack } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import Link from "next/link";
+
 import Meta from "@components/Meta";
 import styles from "@styles/internPhase.module.css";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import ActiveButton from "@components/Buttons/ActiveButton";
-import Link from "next/link";
 
 const ROUTE_PATH = "/company/rc/[rcId]/opening/[openingId]";
 const ROUTE_PATH_PROFORMA = "/company/rc/[rcId]/proforma/[proformaId]";

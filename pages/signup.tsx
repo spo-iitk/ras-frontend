@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Typography, Stack, FormControl, Tab, Tabs } from "@mui/material";
-import Meta from "@components/Meta";
+import { FormControl, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Image from "next/image";
+
+import Meta from "@components/Meta";
 import formstyles from "@styles/Form.module.css";
+
 import SignUpRecruiter from "../sections/signUpRecruiter";
 import SignUpStudent from "../sections/signUpStudent";
 

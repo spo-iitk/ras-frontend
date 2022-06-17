@@ -13,6 +13,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import { styled } from "@mui/material/styles";
+
 import footerStyles from "../styles/Footer.module.css";
 
 const Accordion = styled((props: AccordionProps) => (
