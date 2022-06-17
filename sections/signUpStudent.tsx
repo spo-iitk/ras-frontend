@@ -1,50 +1,39 @@
-import { otp } from "@callbacks/auth";
-import { showNotification } from "@mantine/notifications";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Collapse, FormControl, Stack, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
-import CloseIcon from "@mui/icons-material/Close";
-import CheckIcon from "@mui/icons-material/Check";
-import SignUpRollNoSection from "./signUpRollNoSection";
+import dynamic from "next/dynamic";
 
-type inputType1 = {
-  name: string;
-  user_id: string;
-};
+import { SignUpStudentParams } from "@callbacks/auth/signupStudent";
+import otpRequest, { OTPParams } from "@callbacks/auth/otp";
+
+const SignUpRollNoSection = dynamic(() => import("./signUpRollNoSection"), {
+  suspense: true,
+});
 
 function SignUpStudent() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-  } = useForm<inputType1>();
+    setValue,
+    getValues,
+  } = useForm<SignUpStudentParams>();
 
-  const [emailOtpStatus, setEmailOtpStatus] = useState(false);
+  const {
+    register: registerOTP,
+    handleSubmit: handleSubmitOTP,
+    formState: { errors: errorsOTP },
+  } = useForm<OTPParams>();
+
+  const [emailStatus, setEmailStatus] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [info, setInfo] = useState({});
 
-  const handleEmailOtpStatus = async (data: inputType1) => {
+  const handleEmailOtpSubmit = async (data: OTPParams) => {
+    setValue("user_id", data.user_id);
     setLoading(true);
-    const response = await otp(data.user_id);
-    if (response.Status === 200) {
-      setEmailOtpStatus(true);
-      setInfo({ ...data, ...info });
-      showNotification({
-        title: "OTP Sent!",
-        message: "An OTP has ben sent to your IITK email!",
-        color: "green",
-        icon: <CheckIcon />,
-      });
-    } else {
-      showNotification({
-        title: "Error!",
-        message: "Failed to send OTP to your mail!",
-        color: "red",
-        icon: <CloseIcon />,
-      });
-    }
+    const response = await otpRequest.post(data);
+    setEmailStatus(response);
     setLoading(false);
   };
 
@@ -56,45 +45,51 @@ function SignUpStudent() {
             id="name"
             label="Name"
             variant="outlined"
-            disabled={emailOtpStatus}
+            disabled={emailStatus}
             {...register("name", { required: true })}
             error={!!errors.name}
             helperText={errors.name ? "Name is required!" : ""}
           />
         </FormControl>
+
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
           <TextField
             id="user_id"
-            label="IITK Email Id"
+            label="IITK Email ID"
             variant="outlined"
-            disabled={emailOtpStatus}
-            {...register("user_id", {
+            disabled={emailStatus}
+            {...registerOTP("user_id", {
               required: true,
               pattern: /^[^@]+@iitk\.ac\.in$/,
             })}
-            error={!!errors.user_id}
-            helperText={errors.user_id ? "Invalid IITK Email Id" : ""}
+            error={!!errorsOTP.user_id}
+            helperText={errorsOTP.user_id ? "Invalid IITK Email ID" : ""}
           />
         </FormControl>
-        {!emailOtpStatus && (
+
+        {!emailStatus && (
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <LoadingButton
               loading={loading}
               variant="contained"
               color="primary"
-              onClick={handleSubmit(handleEmailOtpStatus)}
+              onClick={handleSubmitOTP(handleEmailOtpSubmit)}
             >
               Next
             </LoadingButton>
           </FormControl>
         )}
-        <Collapse in={emailOtpStatus}>
-          <SignUpRollNoSection
-            info={info}
-            setInfo={setInfo}
-            resetFirst={reset}
-            setEmailOtpStatus={setEmailOtpStatus}
-          />
+
+        <Collapse in={emailStatus}>
+          <Suspense fallback={<div>Loading... Please wait!</div>}>
+            <SignUpRollNoSection
+              register={register}
+              handleSubmit={handleSubmit}
+              setValue={setValue}
+              errors={errors}
+              getValues={getValues}
+            />
+          </Suspense>
         </Collapse>
       </Stack>
     </div>

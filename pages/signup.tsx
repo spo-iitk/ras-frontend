@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { FormControl, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import Meta from "@components/Meta";
 import formstyles from "@styles/Form.module.css";
 
-import SignUpRecruiter from "../sections/signUpRecruiter";
-import SignUpStudent from "../sections/signUpStudent";
+const SignUpRecruiter = dynamic(() => import("../sections/signUpRecruiter"), {
+  suspense: true,
+});
+const SignUpStudent = dynamic(() => import("../sections/signUpStudent"), {
+  suspense: true,
+});
 
 function SignUp() {
   const [role, setRole] = useState(0);
@@ -64,7 +69,15 @@ function SignUp() {
               <Tab label="Recruiter" {...a11yProps(1)} />
             </Tabs>
           </FormControl>
-          {role === 0 ? <SignUpStudent /> : <SignUpRecruiter />}
+          {role === 0 ? (
+            <Suspense fallback={<div>Loading... Please wait!</div>}>
+              <SignUpStudent />
+            </Suspense>
+          ) : (
+            <Suspense fallback={<div>Loading... Please wait!</div>}>
+              <SignUpRecruiter />
+            </Suspense>
+          )}
         </Stack>
       </Stack>
     </div>

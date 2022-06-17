@@ -1,19 +1,22 @@
 import axios, { AxiosResponse } from "axios";
 
-import { AUTH_URL, SERVER_ERROR } from "../constants";
+import { errorNotification, successNotification } from "@callbacks/notifcation";
+
+import {
+  AUTH_URL,
+  ErrorType,
+  SERVER_ERROR,
+  StatusResponse,
+} from "../constants";
 
 export interface SignUpStudentParams {
   user_id: string;
   password: string;
   name: string;
-  otp: string;
   roll_no: string;
-}
-
-export interface SignUpResponse {
-  token: string;
-  role_id: number;
-  user_id: string;
+  user_otp: string;
+  roll_no_otp: string;
+  confirm_password: string;
 }
 
 const authInstance = axios.create({
@@ -22,17 +25,25 @@ const authInstance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
-const responseBody = <T>(response: AxiosResponse<T>) => response.data;
-
 const studentSignUpRequest = {
   post: (body: SignUpStudentParams) =>
     authInstance
       .post<
-        SignUpResponse,
-        AxiosResponse<SignUpResponse, SignUpStudentParams>,
+        StatusResponse,
+        AxiosResponse<StatusResponse, SignUpStudentParams>,
         SignUpStudentParams
       >("/signup", body)
-      .then(responseBody),
+      .then((res) => {
+        successNotification("Registered on RAS", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "SignUp Failed",
+          err.response?.data.error || err.message
+        );
+        return false;
+      }),
 };
 
 export default studentSignUpRequest;

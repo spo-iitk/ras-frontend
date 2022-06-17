@@ -1,55 +1,61 @@
 import { Collapse, FormControl, Stack, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { Suspense, useState } from "react";
+import {
+  FieldError,
+  UseFormGetValues,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormSetValue,
+  useForm,
+} from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { otp } from "@callbacks/auth";
-import CloseIcon from "@mui/icons-material/Close";
-import CheckIcon from "@mui/icons-material/Check";
-import { showNotification } from "@mantine/notifications";
-import SignUpPasswordSection from "./signUpPasswordSection";
+import dynamic from "next/dynamic";
 
-type inputType2 = {
-  roll_no: string;
-  user_otp: string;
-};
+import { SignUpStudentParams } from "@callbacks/auth/signupStudent";
+import otpRequest, { OTPParams } from "@callbacks/auth/otp";
+
+const SignUpPasswordSection = dynamic(() => import("./signUpPasswordSection"), {
+  suspense: true,
+});
+
+interface Error {
+  user_id?: FieldError | undefined;
+  password?: FieldError | undefined;
+  name?: FieldError | undefined;
+  roll_no?: FieldError | undefined;
+  user_otp?: FieldError | undefined;
+  roll_no_otp?: FieldError | undefined;
+}
+
+interface Params {
+  register: UseFormRegister<SignUpStudentParams>;
+  handleSubmit: UseFormHandleSubmit<SignUpStudentParams>;
+  setValue: UseFormSetValue<SignUpStudentParams>;
+  errors: Error;
+  getValues: UseFormGetValues<SignUpStudentParams>;
+}
 
 function SignUpRollNoSection({
-  info,
-  setInfo,
-  resetFirst,
-  setEmailOtpStatus,
-}: any) {
+  register,
+  handleSubmit,
+  setValue,
+  errors,
+  getValues,
+}: Params) {
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<inputType2>();
+    register: registerOTP,
+    handleSubmit: handleSubmitOTP,
+    formState: { errors: errorsOTP },
+  } = useForm<OTPParams>();
 
-  const [rollnoOtpStatus, setRollnoOtpStatus] = useState(false);
+  const [rollnoStatus, setRollnoStatus] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleRollnoOtpStatus = async (data: inputType2) => {
+  const handleRollnoOtpSubmit = async (data: OTPParams) => {
+    setValue("roll_no", data.user_id.split("@")[0]);
     setLoading(true);
-    const response = await otp(`${data.roll_no}@iitk.ac.in`);
-    if (response.Status === 200) {
-      setRollnoOtpStatus(true);
-      setInfo({ ...data, ...info });
-      showNotification({
-        title: "OTP Sent!",
-        message:
-          "An OTP has ben sent to your IITK email <your-rollNo>@iitk.ac.in!",
-        color: "green",
-        icon: <CheckIcon />,
-      });
-    } else {
-      showNotification({
-        title: "Error!",
-        message: "Failed to send OTP to your mail!",
-        color: "red",
-        icon: <CloseIcon />,
-      });
-    }
+    const response = await otpRequest.post(data);
+    setRollnoStatus(response);
     setLoading(false);
   };
 
@@ -63,48 +69,48 @@ function SignUpRollNoSection({
           {...register("user_otp", {
             required: true,
           })}
-          disabled={rollnoOtpStatus}
+          disabled={rollnoStatus}
           error={!!errors.user_otp}
           helperText={errors.user_otp ? "OTP is required!" : ""}
         />
       </FormControl>
+
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
         <TextField
           id="rollNo"
           label="Roll Number"
           variant="outlined"
-          type="number"
-          {...register("roll_no", {
+          {...registerOTP("user_id", {
             required: true,
-            minLength: 6,
-            maxLength: 8,
+            setValueAs: (v) => `${v}@iitk.ac.in`,
           })}
-          disabled={rollnoOtpStatus}
-          error={!!errors.roll_no}
-          helperText={errors.roll_no ? "Valid Roll No. is required!" : ""}
+          disabled={rollnoStatus}
+          error={!!errorsOTP.user_id}
+          helperText={errorsOTP.user_id ? "Valid Roll No. is required!" : ""}
         />
       </FormControl>
-      {!rollnoOtpStatus && (
+
+      {!rollnoStatus && (
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
           <LoadingButton
             loading={loading}
             variant="contained"
             color="primary"
-            onClick={handleSubmit(handleRollnoOtpStatus)}
+            onClick={handleSubmitOTP(handleRollnoOtpSubmit)}
           >
             Next
           </LoadingButton>
         </FormControl>
       )}
-      <Collapse in={rollnoOtpStatus}>
-        <SignUpPasswordSection
-          info={info}
-          setInfo={setInfo}
-          resetSecond={reset}
-          resetFirst={resetFirst}
-          setEmailOtpStatus={setEmailOtpStatus}
-          setRollnoOtpStatus={setRollnoOtpStatus}
-        />
+      <Collapse in={rollnoStatus}>
+        <Suspense fallback={<div>Loading... Please wait!</div>}>
+          <SignUpPasswordSection
+            register={register}
+            handleSubmit={handleSubmit}
+            errors={errors}
+            getValues={getValues}
+          />
+        </Suspense>
       </Collapse>
     </Stack>
   );
