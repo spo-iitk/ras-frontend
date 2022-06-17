@@ -1,5 +1,5 @@
 import { Collapse, FormControl, Stack, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import {
   FieldError,
   UseFormGetValues,
@@ -9,11 +9,14 @@ import {
   useForm,
 } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
+import dynamic from "next/dynamic";
 
 import { SignUpStudentParams } from "@callbacks/auth/signupStudent";
 import otpRequest, { OTPParams } from "@callbacks/auth/otp";
 
-import SignUpPasswordSection from "./signUpPasswordSection";
+const SignUpPasswordSection = dynamic(() => import("./signUpPasswordSection"), {
+  suspense: true,
+});
 
 interface Error {
   user_id?: FieldError | undefined;
@@ -105,12 +108,14 @@ function SignUpRollNoSection({
         </FormControl>
       )}
       <Collapse in={rollnoStatus}>
-        <SignUpPasswordSection
-          register={register}
-          handleSubmit={handleSubmit}
-          errors={errors}
-          getValues={getValues}
-        />
+        <Suspense fallback={<div>Loading... Please wait!</div>}>
+          <SignUpPasswordSection
+            register={register}
+            handleSubmit={handleSubmit}
+            errors={errors}
+            getValues={getValues}
+          />
+        </Suspense>
       </Collapse>
     </Stack>
   );
