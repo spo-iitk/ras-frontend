@@ -22,12 +22,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import theme from "@components/theme/theme";
 import { fields } from "./LayoutWrapper";
 
 const AccountStyle = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
-  backgroundColor: "#616161",
+  backgroundColor: theme.palette.primary.main,
   color: "white",
   borderRadius: "1em",
   padding: "15px 15px",
@@ -36,7 +37,7 @@ const AccountStyle = styled("div")(() => ({
 const style = {
   width: "100%",
   maxWidth: 360,
-  bgcolor: "#2b2b2b",
+  bgcolor: theme.palette.primary.dark,
 };
 
 type Anchor = "top" | "left" | "bottom" | "right";
@@ -90,12 +91,14 @@ function MasterLayout({
   };
   const list = (anchor: Anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300 }}
+      sx={{
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 300,
+        backgroundColor: theme.palette.primary.dark,
+      }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
       padding="10px"
-      bgcolor="#2b2b2b"
       height="300vh"
     >
       <Stack spacing={3}>
@@ -133,8 +136,8 @@ function MasterLayout({
                 <ListItemAvatar
                   sx={{
                     color: match(`${items.route}${item.id}`)
-                      ? "blue"
-                      : "#9e9e9e",
+                      ? theme.palette.secondary.light
+                      : "white",
                   }}
                 >
                   {item.avatar}
@@ -144,8 +147,8 @@ function MasterLayout({
                     style={{
                       margin: 5,
                       color: match(`${items.route}${item.id}`)
-                        ? "blue"
-                        : "#9e9e9e",
+                        ? theme.palette.secondary.light
+                        : "white",
                     }}
                   >
                     {item.name}
@@ -157,11 +160,11 @@ function MasterLayout({
           {items?.moveBack ? (
             <Link href={`${items.moveTo}`} passHref>
               <ListItem sx={{ borderRadius: 5 }} button>
-                <ListItemAvatar sx={{ color: "#9e9e9e" }}>
+                <ListItemAvatar sx={{ color: "white" }}>
                   <LogoutIcon />
                 </ListItemAvatar>
                 <ListItemText>
-                  <h4 style={{ margin: 5, color: "#9e9e9e" }}>
+                  <h4 style={{ margin: 5, color: "white" }}>
                     Back to Dashboard
                   </h4>
                 </ListItemText>
@@ -176,21 +179,21 @@ function MasterLayout({
             rel="noreferrer"
           >
             <ListItem sx={{ borderRadius: 5 }} button>
-              <ListItemAvatar sx={{ color: "#9e9e9e" }}>
+              <ListItemAvatar sx={{ color: "white" }}>
                 <CallIcon />
               </ListItemAvatar>
               <ListItemText>
-                <h4 style={{ margin: 5, color: "#9e9e9e" }}>Contact SPO</h4>
+                <h4 style={{ margin: 5, color: "white" }}>Contact SPO</h4>
               </ListItemText>
             </ListItem>
           </a>
           <Link href="/login" passHref key="logout">
             <ListItem sx={{ borderRadius: 5 }} button>
-              <ListItemAvatar sx={{ color: "#9e9e9e" }}>
+              <ListItemAvatar sx={{ color: "white" }}>
                 <LogoutIcon />
               </ListItemAvatar>
               <ListItemText>
-                <h4 style={{ margin: 5, color: "#9e9e9e" }}>Logout</h4>
+                <h4 style={{ margin: 5, color: "white" }}>Logout</h4>
               </ListItemText>
             </ListItem>
           </Link>
@@ -215,8 +218,7 @@ function MasterLayout({
               position: "fixed",
               height: "100vh",
               padding: 20,
-              borderRight: "#eeeeee 2px solid",
-              backgroundColor: "#2b2b2b",
+              backgroundColor: theme.palette.primary.dark,
             }}
           >
             <Stack spacing={3}>
@@ -257,8 +259,8 @@ function MasterLayout({
                       <ListItemAvatar
                         sx={{
                           color: match(`${items.route}${item.id}`)
-                            ? "blue"
-                            : "#9e9e9e",
+                            ? theme.palette.secondary.light
+                            : "white",
                         }}
                       >
                         {item.avatar}
@@ -268,8 +270,8 @@ function MasterLayout({
                           style={{
                             margin: 5,
                             color: match(`${items.route}${item.id}`)
-                              ? "blue"
-                              : "#9e9e9e",
+                              ? theme.palette.secondary.light
+                              : "white",
                           }}
                         >
                           {item.name}
@@ -281,11 +283,11 @@ function MasterLayout({
                 {items?.moveBack ? (
                   <Link href={`${items.moveTo}`} passHref>
                     <ListItem sx={{ borderRadius: 5 }} button>
-                      <ListItemAvatar sx={{ color: "#9e9e9e" }}>
+                      <ListItemAvatar sx={{ color: "white" }}>
                         <LogoutIcon />
                       </ListItemAvatar>
                       <ListItemText>
-                        <h4 style={{ margin: 5, color: "#9e9e9e" }}>
+                        <h4 style={{ margin: 5, color: "white" }}>
                           Back to Dashboard
                         </h4>
                       </ListItemText>
@@ -300,23 +302,21 @@ function MasterLayout({
                   rel="noreferrer"
                 >
                   <ListItem sx={{ borderRadius: 5 }} button>
-                    <ListItemAvatar sx={{ color: "#9e9e9e" }}>
+                    <ListItemAvatar sx={{ color: "white" }}>
                       <CallIcon />
                     </ListItemAvatar>
                     <ListItemText>
-                      <h4 style={{ margin: 5, color: "#9e9e9e" }}>
-                        Contact SPO
-                      </h4>
+                      <h4 style={{ margin: 5, color: "white" }}>Contact SPO</h4>
                     </ListItemText>
                   </ListItem>
                 </a>
                 <Link href="/login" passHref key="logout">
                   <ListItem sx={{ borderRadius: 5 }} button>
-                    <ListItemAvatar sx={{ color: "#9e9e9e" }}>
+                    <ListItemAvatar sx={{ color: "white" }}>
                       <LogoutIcon />
                     </ListItemAvatar>
                     <ListItemText>
-                      <h4 style={{ margin: 5, color: "#9e9e9e" }}>Logout</h4>
+                      <h4 style={{ margin: 5, color: "white" }}>Logout</h4>
                     </ListItemText>
                   </ListItem>
                 </Link>
