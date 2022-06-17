@@ -17,6 +17,7 @@
     "@mantine/core": "^4.2.9",
     "@mantine/hooks": "^4.2.9",
     "@mantine/rte": "^4.2.9",
+    "@mantine/notifications": "^4.2.9",
     "@mui/icons-material": "^5.6.1",
     "@mui/lab": "^5.0.0-alpha.85",
     "@mui/material": "^5.6.1",

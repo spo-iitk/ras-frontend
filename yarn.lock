@@ -288,6 +288,12 @@
     "@modulz/radix-icons" "^4.0.0"
     quill-mention "^3.0.8"
     react-quill "2.0.0-beta.4"
+"@mantine/notifications@^4.2.9":
+  version "4.2.9"
+  resolved "https://registry.yarnpkg.com/@mantine/notifications/-/notifications-4.2.9.tgz#b25b84e7beaefe190893f5c749e3aac1c3a9a5fc"
+  integrity sha512-t19JCCBmJl9/vXlE4vLiz9WqssvNL50MFgJ30MwI+Rc36xO3PnvY3LX3hULKmqOtOlVdTcWz2RwbPkVjM8/c7A==
+  dependencies:
+    react-transition-group "^4.4.2"
 
 "@mantine/styles@4.2.9":
   version "4.2.9"
@@ -300,6 +306,7 @@
     "@emotion/utils" "1.0.0"
     clsx "^1.1.1"
     csstype "3.0.9"
+
 
 "@modulz/radix-icons@^4.0.0":
   version "4.0.0"
@@ -2856,6 +2863,7 @@ react-popper@^2.2.5:
   dependencies:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
+
 
 react-quill@2.0.0-beta.4:
   version "2.0.0-beta.4"
