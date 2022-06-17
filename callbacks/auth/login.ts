@@ -1,6 +1,7 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 
-import { AUTH_URL, ErrorResponse, SERVER_ERROR } from "../constants";
+import authInstance from ".";
+import { ErrorType, responseBody } from "../constants";
 import { errorNotification } from "../notifcation";
 
 export interface LoginParams {
@@ -15,14 +16,6 @@ export interface LoginResponse {
   user_id: string;
 }
 
-const authInstance = axios.create({
-  baseURL: AUTH_URL,
-  timeout: 15000,
-  timeoutErrorMessage: SERVER_ERROR,
-});
-
-const responseBody = <T>(response: AxiosResponse<T>) => response.data;
-
 const loginRequest = {
   post: (body: LoginParams) =>
     authInstance
@@ -32,7 +25,7 @@ const loginRequest = {
         LoginParams
       >("/login", body)
       .then(responseBody)
-      .catch((err: AxiosError<ErrorResponse>) => {
+      .catch((err: ErrorType) => {
         errorNotification("Login Failed", err.response?.data?.error);
         return { user_id: "", token: "", role_id: 0 } as LoginResponse;
       }),
