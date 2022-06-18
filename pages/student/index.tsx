@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
 
 function RecruitmentPortal() {
+  const router = useRouter();
+
   useEffect(() => {
     const fetch = async () => {
       const token = sessionStorage.getItem("token") || "";
@@ -16,6 +19,7 @@ function RecruitmentPortal() {
       }
     };
     fetch();
+    router.push("student/rc");
   });
 
   return (
