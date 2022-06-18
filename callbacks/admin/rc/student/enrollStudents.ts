@@ -28,13 +28,13 @@ const postEmails = {
         setConfig(token)
       )
       .then((res) => {
-        successNotification("Students Enrolled successfully", res.data.status);
+        successNotification("Enrolled Students", res.data.status);
         return true;
       })
       .catch((err: ErrorType) => {
         errorNotification(
-          "Failed to Enroll Students",
-          err.response?.data?.error
+          "Could not fetch data",
+          err.response?.data.error || err.message
         );
         return false;
       }),
