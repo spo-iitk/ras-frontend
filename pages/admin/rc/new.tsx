@@ -6,17 +6,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { useForm } from "react-hook-form";
 import router from "next/router";
-import { AxiosError } from "axios";
 
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import styles from "@styles/adminPhase.module.css";
 import rcRequest, { RC } from "@callbacks/admin/rc/rc";
-import {
-  ErrorResponse,
-  SERVER_ERROR,
-  StatusResponse,
-} from "@callbacks/constants";
+import useStore from "@store/store";
 
 function RecruitmentCycle() {
   const {
@@ -24,18 +19,10 @@ function RecruitmentCycle() {
     handleSubmit,
     formState: { errors },
   } = useForm<RC>();
+  const { token } = useStore();
   const onSubmit = async (data: RC) => {
-    const token = sessionStorage.getItem("token") || "";
-    const response = await rcRequest
-      .post(token, data)
-      .catch((err: AxiosError<ErrorResponse>) => {
-        const message = err.response?.data?.error || SERVER_ERROR;
-        console.log(message);
-        // setFailMessage(message);
-        // setFail(true);
-        return { status: "" } as StatusResponse;
-      });
-    if (response.status !== "") {
+    const response = await rcRequest.post(token, data);
+    if (response) {
       router.push("question");
     }
     console.log(response);

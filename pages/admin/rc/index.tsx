@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IconButton, Stack } from "@mui/material";
+import { IconButton, Link, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,6 +9,7 @@ import styles from "@styles/adminPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
+import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
@@ -67,14 +68,12 @@ let rows: RC[] = [];
 function Index() {
   const router = useRouter();
   const [row, setRow] = useState<RC[]>(rows);
+  const { token, setRCName, setRcId } = useStore();
   useEffect(() => {
     const getRC = async () => {
-      const token = sessionStorage.getItem("token") || "";
-      const response = await rcRequest.getAll(token).catch((err) => {
-        console.log(err);
-        return [] as RC[];
-      });
+      const response = await rcRequest.getAll(token);
       rows = response;
+      // console.log(rows);
       for (let i = 0; i < response.length; i += 1) {
         rows[i].id = response[i].ID;
         rows[i].name = `${response[i].type} ${response[i].phase}`;
@@ -85,7 +84,7 @@ function Index() {
       setRow(rows);
     };
     getRC();
-  }, []);
+  }, [token]);
   return (
     <div className={styles.container}>
       <Meta title="Student Dashboard - Index" />
@@ -102,7 +101,9 @@ function Index() {
           </div>
           <div>
             <IconButton>
-              <AddIcon />
+              <Link href="/admin/rc/new">
+                <AddIcon />
+              </Link>
             </IconButton>
           </div>
         </Stack>
@@ -115,8 +116,12 @@ function Index() {
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}
-            onCellClick={() => {
-              router.push(`rc/ {row.id}`);
+            onCellClick={(params) => {
+              setRcId(params.row.ID);
+              setRCName(
+                `${params.row.type} ${params.row.academic_year} ${params.row.phase}`
+              );
+              router.push(`rc/${params.row.ID}`);
             }}
           />
         </div>

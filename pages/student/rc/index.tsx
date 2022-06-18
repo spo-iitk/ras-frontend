@@ -9,6 +9,7 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import { errorNotification } from "@callbacks/notifcation";
+import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
@@ -61,22 +62,21 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows: RC[] = [];
+let rows: RC[] = [];
 function Overview() {
   const router = useRouter();
   const [row, setRow] = useState<RC[]>(rows);
+  const { token } = useStore();
   useEffect(() => {
     const getRC = async () => {
-      const token = sessionStorage.getItem("token") || "";
       const response = await rcRequest.getAll(token).catch((err) => {
         errorNotification(
-          "ERROR",
+          "Error",
           err?.response.data.message || "Unable to fetch student data"
         );
         return [] as RC[];
       });
       rows = response;
-      console.log(response);
       for (let i = 0; i < response.length; i += 1) {
         rows[i].id = response[i].ID;
         rows[i].name = `${response[i].type} ${response[i].phase}`;
@@ -87,7 +87,7 @@ function Overview() {
       setRow(rows);
     };
     getRC();
-  }, []);
+  }, [token]);
   return (
     <div className={styles.container}>
       <Meta title="Student Dashboard - Overview" />
@@ -104,7 +104,7 @@ function Overview() {
             pageSize={7}
             rowsPerPageOptions={[7]}
             onCellClick={() => {
-              router.push(`rc/{row.id}/notices`);
+              router.push(`rc/{row.data.id}/notices`);
             }}
           />
         </div>
