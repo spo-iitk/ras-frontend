@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import addCompanyRequest, {
   AddCompanyParams,
-} from "@callbacks/admin/company/adminCompany";
+} from "@callbacks/admin/company/company";
 import useStore from "@store/store";
 
 const boxStyle = {

@@ -41,3 +41,6 @@ const addCompanyRequest = {
 };
 
 export default addCompanyRequest;
+
+// get compnay, edit company, bulk add company
+// delete
