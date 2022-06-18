@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import { STUDENT_URL, SERVER_ERROR, setConfig } from "../../constants";
+
+import { SERVER_ERROR, STUDENT_URL, setConfig } from "../../constants";
 
 export interface RC {
   ID: number;

@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from "axios";
+
 import {
   ADMIN_RC_URL,
   SERVER_ERROR,
-  setConfig,
   StatusResponse,
+  setConfig,
 } from "../../constants";
 
 export interface RC {

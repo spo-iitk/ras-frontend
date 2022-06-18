@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
-import { DataGrid, DataGrid, GridColDef, GridColDef } from "@mui/x-data-grid";
-import { useRouter, useRouter } from "next/router";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
 import styles from "@styles/studentInternPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
+import { errorNotification } from "@callbacks/notifcation";
 
 const columns: GridColDef[] = [
   {
@@ -68,7 +69,10 @@ function Overview() {
     const getRC = async () => {
       const token = sessionStorage.getItem("token") || "";
       const response = await rcRequest.getAll(token).catch((err) => {
-        console.log(err);
+        errorNotification(
+          "ERROR",
+          err?.response.data.message || "Unable to fetch student data"
+        );
         return [] as RC[];
       });
       rows = response;
