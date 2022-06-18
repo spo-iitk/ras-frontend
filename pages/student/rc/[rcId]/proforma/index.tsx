@@ -1,9 +1,10 @@
-import Meta from "@components/Meta";
 import { Button, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import styles from "@styles/internPhase.module.css";
 import Link from "next/link";
 import React from "react";
+
+import styles from "@styles/internPhase.module.css";
+import Meta from "@components/Meta";
 
 const BASE_ROUTE = "/student/rc/[rcId]/proforma";
 const columns: GridColDef[] = [

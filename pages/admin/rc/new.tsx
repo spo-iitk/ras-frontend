@@ -1,16 +1,17 @@
 import { Card, Stack, TextField } from "@mui/material";
 import React from "react";
-import ActiveButton from "@components/Buttons/ActiveButton";
-import Meta from "@components/Meta";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import styles from "@styles/adminPhase.module.css";
 import { useForm } from "react-hook-form";
-import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import router from "next/router";
 import { AxiosError } from "axios";
+
+import Meta from "@components/Meta";
+import ActiveButton from "@components/Buttons/ActiveButton";
+import styles from "@styles/adminPhase.module.css";
+import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import {
   ErrorResponse,
   SERVER_ERROR,
@@ -158,5 +159,5 @@ function RecruitmentCycle() {
   );
 }
 
-RecruitmentCycle.layout = "adminPhaseDashBoard";
+RecruitmentCycle.layout = "adminDashBoard";
 export default RecruitmentCycle;

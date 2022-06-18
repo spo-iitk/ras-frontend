@@ -1,4 +1,3 @@
-import Meta from "@components/Meta";
 import {
   Button,
   Card,
@@ -7,8 +6,10 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import styles from "@styles/adminPhase.module.css";
 import React from "react";
+
+import Meta from "@components/Meta";
+import styles from "@styles/adminPhase.module.css";
 
 const hrtype = [
   { id: 1, data: "HR1" },

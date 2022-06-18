@@ -1,23 +1,20 @@
-import whoami, { WhoamiResponse } from "@callbacks/auth/whoami";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
+import whoami from "@callbacks/auth/whoami";
+import useStore from "store/store";
+
 function Index() {
   const router = useRouter();
+  const { token, setToken } = useStore();
   useEffect(() => {
     const checklogin = async () => {
-      const token = sessionStorage.getItem("token");
-      if (token === null) {
+      if (token === "") {
         router.push("/login");
         return;
       }
 
-      const res = await whoami.get(token).catch(() => {
-        router.push("/login");
-        sessionStorage.removeItem("token");
-        return { user_id: "", role_id: 0 } as WhoamiResponse;
-      });
-
+      const res = await whoami.get(token);
       switch (res.role_id) {
         case 1:
           router.push("/student");
@@ -32,11 +29,12 @@ function Index() {
           router.push("/admin");
           break;
         default:
+          setToken("");
           router.push("/login");
       }
     };
     checklogin();
-  }, [router]);
+  }, [router, setToken, token]);
 
   return <div />;
 }

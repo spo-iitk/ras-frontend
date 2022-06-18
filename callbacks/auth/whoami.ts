@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
-import { AUTH_URL, SERVER_ERROR, setConfig } from "../constants";
+import { errorNotification } from "@callbacks/notifcation";
+
+import { AUTH_URL, ErrorType, SERVER_ERROR, setConfig } from "../constants";
 
 export interface WhoamiResponse {
   role_id: number;
@@ -19,7 +21,14 @@ const whoami = {
   get: (token: string) =>
     authInstance
       .get<WhoamiResponse>("/whoami", setConfig(token))
-      .then(responseBody),
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Unauthorized",
+          err.response?.data.error || err.message
+        );
+        return { user_id: "", role_id: 0 } as WhoamiResponse;
+      }),
 };
 
 export default whoami;

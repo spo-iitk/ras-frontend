@@ -1,13 +1,14 @@
 import React from "react";
 import {
-  TextField,
-  Checkbox,
-  Typography,
-  Grid,
-  Button,
   Box,
+  Button,
+  Checkbox,
   FormControlLabel,
+  Grid,
+  TextField,
+  Typography,
 } from "@mui/material";
+
 import styles from "@styles/internPhase.module.css";
 import Meta from "@components/Meta";
 

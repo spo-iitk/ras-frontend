@@ -1,6 +1,4 @@
-/* eslint-disable camelcase */
-import { signupStudent } from "@callbacks/auth";
-import { VisibilityOff, Visibility } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   FormControl,
@@ -15,57 +13,54 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import {
+  FieldError,
+  UseFormGetValues,
+  UseFormHandleSubmit,
+  UseFormRegister,
+} from "react-hook-form";
+import { useRouter } from "next/router";
 
-type inputType3 = {
-  password: string;
-  roll_no_otp: string;
-  confirmPassword: string;
-};
+import studentSignUpRequest, {
+  SignUpStudentParams,
+} from "@callbacks/auth/signupStudent";
+
+interface Error {
+  user_id?: FieldError | undefined;
+  password?: FieldError | undefined;
+  name?: FieldError | undefined;
+  roll_no?: FieldError | undefined;
+  user_otp?: FieldError | undefined;
+  roll_no_otp?: FieldError | undefined;
+  confirm_password?: FieldError | undefined;
+}
+
+interface Params {
+  register: UseFormRegister<SignUpStudentParams>;
+  handleSubmit: UseFormHandleSubmit<SignUpStudentParams>;
+  errors: Error;
+  getValues: UseFormGetValues<SignUpStudentParams>;
+}
 
 function SignUpPasswordSection({
-  info,
-  setInfo,
-  resetFirst,
-  resetSecond,
-  setEmailOtpStatus,
-  setRollnoOtpStatus,
-}: any) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    getValues,
-    reset,
-  } = useForm<inputType3>();
-
+  register,
+  handleSubmit,
+  errors,
+  getValues,
+}: Params) {
   const [values, setValues] = useState({
     showPassword: false,
     showConfirmPassword: false,
   });
-  const [loading, setLoading] = useState(false);
 
-  const handleSignUp = async (data: inputType3) => {
-    const user_info = { ...data, ...info };
-    setInfo(user_info);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSignUp = async (data: SignUpStudentParams) => {
     setLoading(true);
-    const response = await signupStudent(user_info);
-    if (response.Status === 200) {
-      resetFirst({
-        name: "",
-        user_id: "",
-      });
-      resetSecond({
-        email_otp: "",
-        roll_no: "",
-      });
-      reset({
-        password: "",
-        confirmPassword: "",
-        roll_no_otp: "",
-      });
-      setEmailOtpStatus(false);
-      setRollnoOtpStatus(false);
+    const response = await studentSignUpRequest.post(data);
+    if (response) {
+      router.push("/login");
     }
     setLoading(false);
   };
@@ -99,9 +94,16 @@ function SignUpPasswordSection({
           variant="outlined"
           {...register("roll_no_otp", {
             required: true,
+            validate: {
+              sameAsUserOTP: (value) => value !== getValues("user_otp"),
+            },
           })}
           error={!!errors.roll_no_otp}
-          helperText={errors.roll_no_otp ? "OTP is required!" : ""}
+          helperText={
+            errors.roll_no_otp
+              ? "OTP is required and is not same as before!"
+              : ""
+          }
         />
       </FormControl>
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
@@ -139,15 +141,15 @@ function SignUpPasswordSection({
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
         <InputLabel
           htmlFor="outlined-adornment-password"
-          error={!!errors.confirmPassword}
+          error={!!errors.confirm_password}
         >
           Confirm Password
         </InputLabel>
         <OutlinedInput
           id="confirmPassword"
-          error={!!errors.confirmPassword}
+          error={!!errors.confirm_password}
           type={values.showConfirmPassword ? "text" : "password"}
-          {...register("confirmPassword", {
+          {...register("confirm_password", {
             required: true,
             validate: {
               sameAsPassword: (value) => value === getValues("password"),
@@ -171,8 +173,8 @@ function SignUpPasswordSection({
           }
           label="Confirm Password"
         />
-        {errors.confirmPassword && (
-          <FormHelperText error={!!errors.confirmPassword}>
+        {errors.confirm_password && (
+          <FormHelperText error={!!errors.confirm_password}>
             Passowords don't match
           </FormHelperText>
         )}
