@@ -6,6 +6,7 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 const columns: GridColDef[] = [
   {
@@ -29,16 +30,23 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
-    field: "status",
+    field: "is_active",
     headerName: "Status",
     width: 200,
     sortable: false,
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <InactiveButton sx={{ height: 30, width: "100%" }}>
-        {params.value}
-      </InactiveButton>
+      <>
+        {!params.value && (
+          <InactiveButton sx={{ height: 30, width: "100%" }}>
+            INACTIVE
+          </InactiveButton>
+        )}
+        {params.value && (
+          <ActiveButton sx={{ height: 30, width: "100%" }}>ACTIVE</ActiveButton>
+        )}
+      </>
     ),
   },
   {
@@ -48,11 +56,6 @@ const columns: GridColDef[] = [
     sortable: false,
     align: "center",
     headerAlign: "center",
-    renderCell: (params) => (
-      <InactiveButton sx={{ height: 30, width: "100%" }}>
-        {params.value}
-      </InactiveButton>
-    ),
   },
 ];
 
@@ -68,6 +71,7 @@ function Overview() {
         return [] as RC[];
       });
       rows = response;
+      console.log(response);
       for (let i = 0; i < response.length; i += 1) {
         rows[i].id = response[i].ID;
         rows[i].name = `${response[i].type} ${response[i].phase}`;

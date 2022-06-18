@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ADMIN_RC_URL, SERVER_ERROR, setConfig } from "../../constants";
+import { STUDENT_URL, SERVER_ERROR, setConfig } from "../../constants";
 
 export interface RC {
   ID: number;
@@ -12,7 +12,7 @@ export interface RC {
 }
 
 const instance = axios.create({
-  baseURL: ADMIN_RC_URL,
+  baseURL: STUDENT_URL,
   timeout: 15000,
   timeoutErrorMessage: SERVER_ERROR,
 });
@@ -21,6 +21,6 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const rcRequest = {
   getAll: (token: string) =>
-    instance.get<RC[]>("/student", setConfig(token)).then(responseBody),
+    instance.get<RC[]>("", setConfig(token)).then(responseBody),
 };
 export default rcRequest;
