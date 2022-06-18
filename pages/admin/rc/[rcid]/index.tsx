@@ -52,19 +52,13 @@ function Index() {
   const { token } = useStore();
   useEffect(() => {
     const fetch = async () => {
-      const comapny_res = await countData
-        .getRC(token, rid)
-        .catch(
-          (err) => ({ registered_student: 0, registered_company: 0 } as RCCount)
-        );
-      const app_res = await countData
-        .getApplications(token, rid)
-        .catch((err) => ({ roles: 0, ppo_pio: 0 } as APPCount));
+      const comapny_res = await countData.getRC(token, rid);
+      const app_res = await countData.getApplications(token, rid);
       setData(comapny_res);
       setApp(app_res);
     };
     fetch();
-  }, [rid]);
+  }, [rid, token]);
 
   return (
     <div className={styles.container}>
