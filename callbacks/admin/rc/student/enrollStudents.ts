@@ -28,7 +28,7 @@ const postEmails = {
         setConfig(token)
       )
       .then((res) => {
-        successNotification("Enrolled students", res.data.status);
+        successNotification("Enrolled Students", res.data.status);
         return true;
       })
       .catch((err: ErrorType) => {
