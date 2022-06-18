@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import create from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface StateType {
   role: number;
@@ -16,18 +17,25 @@ export interface StateType {
   setName: (name: string) => void;
 }
 
-const useStore = create<StateType>()((set) => ({
-  role: 0,
-  setRole: (role: number) => set({ role }),
-  rcId: 0,
-  setRcId: (rcId: number) => set({ rcId }),
-  rcName: "",
-  setRCName: (rcName: string) => set({ rcName }),
-  userID: "",
-  setUserID: (userID: string) => set({ userID }),
-  token: "",
-  setToken: (token: string) => set({ token }),
-  name: "",
-  setName: (name: string) => set({ name }),
-}));
+const useStore = create<StateType>()(
+  persist(
+    (set, get) => ({
+      role: 0 || get()?.role,
+      setRole: (role: number) => set({ role }),
+      rcId: 0 || get()?.rcId,
+      setRcId: (rcId: number) => set({ rcId }),
+      rcName: "" || get()?.rcName,
+      setRCName: (rcName: string) => set({ rcName }),
+      userID: "" || get()?.userID,
+      setUserID: (userID: string) => set({ userID }),
+      token: "" || get()?.token,
+      setToken: (token: string) => set({ token }),
+      name: "" || get()?.name,
+      setName: (name: string) => set({ name }),
+    }),
+    {
+      name: "store",
+    }
+  )
+);
 export default useStore;
