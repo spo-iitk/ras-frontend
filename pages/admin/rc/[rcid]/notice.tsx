@@ -2,34 +2,55 @@ import AddIcon from "@mui/icons-material/Add";
 import { IconButton, Modal, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
+import { useRouter } from "next/router";
 
 import styles from "@styles/adminPhase.module.css";
 import NewNotice from "@components/Modals/newNotice";
 import Meta from "@components/Meta";
+import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
+import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "Id",
     width: 100,
   },
   {
-    field: "name",
+    field: "title",
     headerName: "Company Name",
     width: 300,
   },
   {
-    field: "publishedDateAndTime",
+    field: "CreatedAt",
     headerName: "Published Date And Time",
+    valueGetter: ({ value }) => value && new Date(value),
     width: 200,
   },
 ];
 
-const rows = [
-  { id: 1, name: "Company Name : Title", publishedDateAndTime: "May 26 2019" },
-];
-
+// const rows = [
+//   { id: 1, name: "Company Name : Title", publishedDateAndTime: "May 26 2019" },
+// ];
 function Index() {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const [notices, setNotice] = React.useState<NoticeParams[]>([
+    {
+      ID: 0,
+      recruitment_cycle_id: 0,
+      title: "I",
+      description: "",
+      tags: "",
+      attachment: "",
+      created_by: "",
+      createdAt: "",
+      last_reminder_at: 0,
+    },
+  ]);
+
   const [openNew, setOpenNew] = React.useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
@@ -37,6 +58,16 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
+  React.useEffect(() => {
+    const fetch = async () => {
+      if (rid === undefined || rid === "") return;
+      // const token = sessionStorage.getItem("token") || "";
+      const notice: NoticeParams[] = await NoticeReq.getAll(token, rid);
+
+      setNotice(notice);
+    };
+    fetch();
+  }, [rid, token]);
 
   return (
     <div className={styles.container}>
@@ -60,7 +91,8 @@ function Index() {
           className={styles.datagridNotices}
         >
           <DataGrid
-            rows={rows}
+            rows={notices}
+            getRowId={(row: NoticeParams) => row.ID}
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}
@@ -68,7 +100,7 @@ function Index() {
         </div>
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <NewNotice handleCloseNew={handleCloseNew} />
+        <NewNotice handleCloseNew={handleCloseNew} setNotice={setNotice} />
       </Modal>
     </div>
   );

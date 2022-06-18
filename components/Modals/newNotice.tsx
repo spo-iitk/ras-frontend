@@ -1,7 +1,16 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { useForm } from "react-hook-form";
+
+// import { useRouter } from "next/router";
+// import useStore from "@store/store";
+import NoticeReq, {
+  NoticeParams,
+  NoticeResponse,
+} from "@callbacks/admin/rc/notice";
+import useStore from "@store/store";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -21,16 +30,49 @@ const Input = styled("input")({
   display: "none",
 });
 
-function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
+// type formInput = {
+//   companyName: string;
+//   subject: string;
+//   message: string;
+
+// };
+function NewNotice({
+  handleCloseNew,
+  setNotice,
+}: {
+  handleCloseNew: () => void;
+  setNotice: React.Dispatch<React.SetStateAction<NoticeParams[]>>;
+}) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm<NoticeResponse>();
+  const ext = { tags: "", recruitment_cycle_id: Number(rid) };
+  const handleNewNotice = (data: NoticeResponse) => {
+    const newNotice = async () => {
+      const finData = { ...data, ...ext };
+      // const token = sessionStorage.getItem("token") || "";
+      const response = await NoticeReq.post(token, rid, finData).then(() => {
+        const fetch = async () => {
+          if (rid === undefined || rid === "") return;
+          // const token = sessionStorage.getItem("token") || "";
+          const Newnotice: NoticeParams[] = await NoticeReq.getAll(token, rid);
 
-  const handleNewNotice = (data: any) => {
-    console.log(data);
+          setNotice(Newnotice);
+        };
+        fetch();
+      });
+
+      console.log(response);
+    };
+    newNotice();
+    // console.log(data);
     reset();
     handleCloseNew();
   };
@@ -43,16 +85,16 @@ function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
           label="Company Name"
           id="selectCompany"
           variant="standard"
-          error={errors.companyName}
-          helperText={errors.companyName && "Company Name is required"}
-          {...register("companyName", { required: true })}
+          error={!!errors.title}
+          helperText={errors.title && "Company Name is required"}
+          {...register("title", { required: true })}
         />
         <TextField
           label="Subject"
           id="selectActiveHR"
           variant="standard"
           {...register("subject", { required: true })}
-          error={errors.subject}
+          error={!!errors.subject}
           helperText={errors.subject && "Subject is required"}
         />
         <TextField
@@ -61,9 +103,9 @@ function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
           rows={3}
           placeholder="Write your notice here"
           label="Message"
-          {...register("message", { required: true })}
-          error={errors.message}
-          helperText={errors.message && "Message is required"}
+          {...register("description", { required: true })}
+          error={!!errors.description}
+          helperText={errors.description && "Message is required"}
         />
         <label
           htmlFor="contained-button-file"
@@ -94,7 +136,7 @@ function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
           <Button
             variant="contained"
             sx={{ width: "100%" }}
-            onClick={() => reset({ companyName: "", subject: "", message: "" })}
+            onClick={() => reset({ title: "", subject: "", description: "" })}
           >
             Reset
           </Button>

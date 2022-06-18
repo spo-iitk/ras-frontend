@@ -58,6 +58,7 @@ function Login() {
     const response = await loginRequest.post(data);
     if (response.token !== "") {
       setToken(response.token);
+      sessionStorage.setItem("token", response.token);
       reset({
         user_id: "",
         password: "",
