@@ -16,20 +16,6 @@ export interface StateType {
   setRCName: (rcName: string) => void;
   setName: (name: string) => void;
 }
-// const useStore = create<StateType>()((set) => ({
-//   role: 0,
-//   setRole: (role: number) => set({ role }),
-//   rcId: 0,
-//   setRcId: (rcId: number) => set({ rcId }),
-//   rcName: "",
-//   setRCName: (rcName: string) => set({ rcName }),
-//   userID: "",
-//   setUserID: (userID: string) => set({ userID }),
-//   token: "",
-//   setToken: (token: string) => set({ token }),
-//   name: "",
-//   setName: (name: string) => set({ name }),
-// }));
 
 const useStore = create<StateType>()(
   persist(
@@ -52,5 +38,4 @@ const useStore = create<StateType>()(
     }
   )
 );
-
 export default useStore;
