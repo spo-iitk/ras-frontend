@@ -4,7 +4,9 @@ import styles from "@styles/adminPhase.module.css";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+// eslint-disable-next-line import/no-unresolved
 import MUIRichTextEditor from "mui-rte";
+// eslint-disable-next-line import/no-unresolved
 import { ThemeProvider } from "@mui/styles";
 import { createTheme } from "@mui/material/styles";
 import { blue } from "@mui/material/colors";
