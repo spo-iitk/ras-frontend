@@ -1,10 +1,12 @@
 import React from "react";
-import { Stack } from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useRouter } from "next/router";
+import AddIcon from "@mui/icons-material/Add";
+
 import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useRouter } from "next/router";
 
 const columns: GridColDef[] = [
   {
@@ -59,7 +61,21 @@ function Index() {
       <Meta title="Student Dashboard - Index" />
       <Stack>
         <h1>Dashboard</h1>
-        <h2>Recruitment Cycle</h2>
+        <Stack
+          spacing={3}
+          justifyContent="space-between"
+          alignItems="center"
+          direction="row"
+        >
+          <div>
+            <h2>Recruitment Cycle</h2>
+          </div>
+          <div>
+            <IconButton>
+              <AddIcon />
+            </IconButton>
+          </div>
+        </Stack>
         <div
           style={{ height: 500, margin: "0px auto" }}
           className={styles.datagridIndex}

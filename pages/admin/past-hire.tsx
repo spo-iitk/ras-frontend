@@ -1,7 +1,8 @@
 import React from "react";
-import Meta from "@components/Meta";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Stack } from "@mui/material";
+
+import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
 
 const columns: GridColDef[] = [

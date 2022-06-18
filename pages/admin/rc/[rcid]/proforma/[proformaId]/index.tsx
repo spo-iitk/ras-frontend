@@ -1,7 +1,8 @@
 import { Button, Card, Grid, Stack } from "@mui/material";
 import React from "react";
-import styles from "@styles/adminPhase.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 const columns: GridColDef[] = [

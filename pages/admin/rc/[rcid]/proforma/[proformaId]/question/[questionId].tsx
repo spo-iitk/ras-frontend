@@ -1,4 +1,3 @@
-import Meta from "@components/Meta";
 import {
   Card,
   FormControl,
@@ -8,8 +7,10 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import styles from "@styles/adminPhase.module.css";
 import React from "react";
+
+import Meta from "@components/Meta";
+import styles from "@styles/adminPhase.module.css";
 
 function Question() {
   const options = [

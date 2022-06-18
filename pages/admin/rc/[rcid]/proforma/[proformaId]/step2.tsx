@@ -1,5 +1,3 @@
-import Meta from "@components/Meta";
-import { programExpanded, Branches } from "@components/Utils/matrixUtils";
 import { Button, Card, IconButton, Stack } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
@@ -13,6 +11,9 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+import { Branches, programExpanded } from "@components/Utils/matrixUtils";
+import Meta from "@components/Meta";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step3";
 

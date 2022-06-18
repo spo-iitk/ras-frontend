@@ -1,8 +1,9 @@
-import { Button, Stack, Typography, ButtonProps } from "@mui/material";
+import { Button, ButtonProps, Stack, Typography } from "@mui/material";
 import React from "react";
 import styled from "@emotion/styled";
 import { blue } from "@mui/material/colors";
 import Image from "next/image";
+
 import Meta from "@components/Meta";
 
 const CustomButton = styled(Button)<ButtonProps>(() => ({
@@ -34,11 +35,7 @@ function Custom404() {
           you&apos;ve mistyped the URL? Be sure to check your spelling.
         </Typography>
         <Image src="/images/404.png" width={250} height={300} alt="error 404" />
-        <CustomButton
-          variant="contained"
-          color="primary"
-          href="/studentDashboard/overview"
-        >
+        <CustomButton variant="contained" color="primary" href="/">
           Go To Home
         </CustomButton>
       </Stack>

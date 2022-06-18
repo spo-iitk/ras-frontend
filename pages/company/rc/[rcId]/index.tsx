@@ -1,11 +1,12 @@
 import React from "react";
 import { IconButton, Stack } from "@mui/material";
-import Meta from "@components/Meta";
-import styles from "@styles/internPhase.module.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+import Meta from "@components/Meta";
+import styles from "@styles/internPhase.module.css";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 const ROUTE_PATH = "/company/rc/[rcId]/proforma/[proformaId]";
 const columns: GridColDef[] = [

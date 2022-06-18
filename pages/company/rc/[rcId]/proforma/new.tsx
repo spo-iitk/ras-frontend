@@ -1,9 +1,11 @@
-import Meta from "@components/Meta";
 import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
-import styles from "@styles/adminPhase.module.css";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+
+import styles from "@styles/adminPhase.module.css";
+import Meta from "@components/Meta";
+import RichTextEditor from "@components/Editor/RichText";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
 function ProformaNew() {
@@ -28,6 +30,10 @@ function ProformaNew() {
       query: { rcId, proformaId: 1 },
     });
   };
+  const initialValue =
+    "<p>Your initial <b>html value</b> or an empty string to init editor without value</p>";
+
+  const [value, onChange] = useState(initialValue);
   return (
     <div className={styles.container}>
       <Meta title="Step 1/5 - Basic Details" />
@@ -87,17 +93,10 @@ function ProformaNew() {
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Job Description</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              minRows={4}
-              variant="standard"
-              error={errors.jobDescription}
-              helperText={errors.jobDescription && "This field is required"}
-              {...register("jobDescription", { required: true })}
+            <RichTextEditor
+              value={value}
+              onChange={onChange}
+              style={{ minHeight: 200 }}
             />
           </FormControl>
           <Stack

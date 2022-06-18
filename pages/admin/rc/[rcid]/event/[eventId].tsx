@@ -1,80 +1,12 @@
-import ActiveButton from "@components/Buttons/ActiveButton";
-import InactiveButton from "@components/Buttons/InactiveButton";
-import Meta from "@components/Meta";
-import { Card, FormControl, IconButton, Stack, TextField } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import styles from "@styles/adminPhase.module.css";
-import React from "react";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Card, FormControl, Stack, TextField } from "@mui/material";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import React from "react";
 
-const columns: GridColDef[] = [
-  {
-    field: "Name",
-    headerName: "Student Name",
-    width: 300,
-  },
-  {
-    field: "Roll_no",
-    headerName: "Roll No.",
-    width: 280,
-  },
-  {
-    field: "Status",
-    headerName: "Status",
-    width: 250,
-    renderCell: (params) => {
-      if (params.row.Status === "Present")
-        return (
-          <Stack
-            direction="row"
-            alignItems="center"
-            width="100%"
-            justifyContent="space-between"
-          >
-            <ActiveButton sx={{ height: 30, width: "60%" }}>
-              {params.row.Status}
-            </ActiveButton>
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          </Stack>
-        );
-      return (
-        <Stack
-          direction="row"
-          alignItems="center"
-          width="100%"
-          justifyContent="space-between"
-        >
-          <InactiveButton sx={{ height: 30, width: "60%" }}>
-            {params.row.Status}
-          </InactiveButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </Stack>
-      );
-    },
-  },
-];
-const rows = [
-  {
-    id: 1,
-    Name: "Student 1",
-    Roll_no: "78462",
-    Status: "Present",
-  },
-  {
-    id: 2,
-    Name: "Student 2",
-    Roll_no: "78463",
-    Status: "Absent",
-  },
-];
+import styles from "@styles/adminPhase.module.css";
+import Meta from "@components/Meta";
 
 function Event() {
   const [date, setDate] = React.useState<Date | null>(new Date());
@@ -97,22 +29,23 @@ function Event() {
           <h1>View Event Details</h1>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Company Name</p>
-            <TextField id="Cname" multiline variant="standard" />
+            <TextField disabled id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Name</p>
-            <TextField id="Cname" multiline variant="standard" />
+            <TextField disabled id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Date</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
+                disabled
                 label="Basic example"
                 value={date}
                 onChange={(newValue) => {
                   setDate(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => <TextField disabled {...params} />}
               />
             </LocalizationProvider>
           </FormControl>
@@ -120,12 +53,13 @@ function Event() {
             <p style={{ fontWeight: 300 }}>Event Start Time</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <TimePicker
+                disabled
                 label="Basic example"
                 value={startTime}
                 onChange={(newValue) => {
                   setStartTime(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => <TextField disabled {...params} />}
               />
             </LocalizationProvider>
           </FormControl>
@@ -133,56 +67,46 @@ function Event() {
             <p style={{ fontWeight: 300 }}>Event End Time</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <TimePicker
+                disabled
                 label="Basic example"
                 value={endTime}
                 onChange={(newValue) => {
                   setEndTime(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => <TextField disabled {...params} />}
               />
             </LocalizationProvider>
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Venue</p>
-            <TextField id="Cname" multiline variant="standard" />
+            <TextField disabled id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Description</p>
-            <TextField id="Cname" multiline minRows={4} variant="standard" />
+            <TextField
+              disabled
+              id="Cname"
+              multiline
+              minRows={4}
+              variant="standard"
+            />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Main POC</p>
-            <TextField id="Cname" multiline variant="standard" />
+            <TextField disabled id="Cname" multiline variant="standard" />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>COCO POCs</p>
-            <TextField id="Cname" multiline variant="standard" />
-            <TextField id="Cname" multiline variant="standard" />
-            <TextField id="Cname" multiline variant="standard" />
+            <TextField
+              disabled
+              id="Cname"
+              minRows={3}
+              multiline
+              variant="standard"
+            />
           </FormControl>
         </Stack>
       </Card>
-      <br />
-      <br />
-      <br />
-      <Card
-        elevation={5}
-        sx={{
-          padding: 3,
-          width: { xs: "100%", md: "900px", margin: "0px auto" },
-        }}
-      >
-        <h1>Manage Attendance</h1>
-        <div style={{ height: 500, margin: "0px auto" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
-      </Card>
-      <br />
       <br />
     </div>
   );

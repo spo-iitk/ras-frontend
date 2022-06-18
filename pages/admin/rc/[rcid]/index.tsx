@@ -1,15 +1,18 @@
 import {
-  Stack,
-  Grid,
+  Button,
   Card,
   CardContent,
-  Typography,
+  Grid,
   List,
-  Button,
+  Stack,
+  Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+
 import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
+import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
 
 const Notices = [
   { id: 1, Name: "Company Name: Test Details", data: "4238" },
@@ -36,6 +39,34 @@ const EventNotSchd = [
   { id: 2, Name: "Company Name: Test", data: "4238" },
 ];
 function Index() {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const [rcdata, setData] = React.useState<RCCount>({
+    registered_student: 0,
+    registered_company: 0,
+  });
+  const [appdata, setApp] = React.useState<APPCount>({ roles: 0, ppo_pio: 0 });
+
+  useEffect(() => {
+    const fetch = async () => {
+      const token = sessionStorage.getItem("token") || "";
+      const comapny_res = await countData.getRC(token, rid).catch((err) => {
+        console.log(err);
+        return { registered_student: 0, registered_company: 0 } as RCCount;
+      });
+      const app_res = await countData
+        .getApplications(token, rid)
+        .catch((err) => {
+          console.log(err);
+          return { roles: 0, ppo_pio: 0 } as APPCount;
+        });
+      setData(comapny_res);
+      setApp(app_res);
+    };
+    fetch();
+  }, [rid]);
+
   return (
     <div className={styles.container}>
       <Meta title="Admin Dashboard" />
@@ -73,7 +104,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "3rem" },
                   }}
                 >
-                  800
+                  {rcdata.registered_company}
                 </Typography>
               </CardContent>
             </Card>
@@ -109,7 +140,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "3rem" },
                   }}
                 >
-                  350
+                  {appdata.ppo_pio}
                 </Typography>
               </CardContent>
             </Card>
@@ -145,7 +176,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "3rem" },
                   }}
                 >
-                  43
+                  {rcdata.registered_company}
                 </Typography>
               </CardContent>
             </Card>
@@ -181,7 +212,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "3rem" },
                   }}
                 >
-                  105
+                  {appdata.roles}
                 </Typography>
               </CardContent>
             </Card>

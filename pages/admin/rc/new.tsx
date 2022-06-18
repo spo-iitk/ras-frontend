@@ -1,11 +1,12 @@
 import { Card, Stack, TextField } from "@mui/material";
 import React from "react";
-import ActiveButton from "@components/Buttons/ActiveButton";
-import Meta from "@components/Meta";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+
+import Meta from "@components/Meta";
+import ActiveButton from "@components/Buttons/ActiveButton";
 import styles from "@styles/adminPhase.module.css";
 
 function RecruitmentCycle() {
@@ -102,5 +103,5 @@ function RecruitmentCycle() {
   );
 }
 
-RecruitmentCycle.layout = "adminPhaseDashBoard";
+RecruitmentCycle.layout = "adminDashBoard";
 export default RecruitmentCycle;

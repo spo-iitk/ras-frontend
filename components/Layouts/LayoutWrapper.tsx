@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ApartmentIcon from "@mui/icons-material/Apartment";
+
 import Blank from "./Blank";
 import Layout from "./Layout";
 import MasterLayout from "./MasterLayout";
@@ -304,6 +305,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           avatar: <BarChartIcon />,
           name: "Stats",
           id: "/stats",
+        },
+        {
+          avatar: <AccountCircleIcon />,
+          name: "Attendance",
+          id: "/attendance",
         },
         {
           avatar: <ArticleIcon />,

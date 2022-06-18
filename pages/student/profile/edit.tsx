@@ -1,9 +1,10 @@
-import Meta from "@components/Meta";
-import { Button, Stack, TextField, Card, Grid } from "@mui/material";
+import { Button, Card, Grid, Stack, TextField } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import styles from "@styles/Home.module.css";
 import { useForm } from "react-hook-form";
+
+import styles from "@styles/Home.module.css";
+import Meta from "@components/Meta";
 
 const info = [
   {

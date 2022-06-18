@@ -1,20 +1,21 @@
 import React from "react";
-import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 import {
-  Grid,
-  Stack,
   Card,
-  IconButton,
   FormControl,
+  Grid,
+  IconButton,
+  Stack,
   TextField,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import DownloadIcon from "@mui/icons-material/Download";
+
+import ActiveButton from "@components/Buttons/ActiveButton";
+import styles from "@styles/adminPhase.module.css";
+import Meta from "@components/Meta";
 
 const CompanyTags = ["Software", "Non-Core"];
 

@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Typography,
-  Stack,
-  FormControl,
-  Alert,
-  Snackbar,
-} from "@mui/material";
+import { FormControl, Stack, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
-import { signupCompany } from "@callbacks/auth";
 import { LoadingButton } from "@mui/lab";
+
+import companySignUpRequest, {
+  SignUpCompanyParams,
+} from "@callbacks/auth/signupCompany";
 
 const style = {
   position: "absolute" as const,
@@ -25,31 +21,21 @@ const style = {
   p: 4,
 };
 
-type formInput = {
-  company_name: string;
-  name: string;
-  designation: string;
-  email: string;
-  phone: string;
-};
-
 function SignUpRecruiter() {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<formInput>();
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [fail, setFail] = useState(false);
+  } = useForm<SignUpCompanyParams>();
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleOpen = async (data: formInput) => {
+  const handleOpen = async (data: SignUpCompanyParams) => {
     setLoading(true);
-    const response = await signupCompany(data);
-    if (response.Status === 200) {
+    const response = await companySignUpRequest.post(data);
+    if (response) {
       setOpen(true);
-      setLoading(false);
       reset({
         company_name: "",
         name: "",
@@ -57,20 +43,9 @@ function SignUpRecruiter() {
         email: "",
         phone: "",
       });
-    } else {
-      setFail(true);
     }
     setLoading(false);
   };
-
-  const handleFail = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setFail(false);
-  };
-
   const handleClose = () => setOpen(false);
 
   return (
@@ -164,16 +139,6 @@ function SignUpRecruiter() {
           </Typography>
         </Box>
       </Modal>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        open={fail}
-        autoHideDuration={6000}
-        onClose={handleFail}
-      >
-        <Alert severity="error" sx={{ minWidth: "330px" }} onClose={handleFail}>
-          Failed to send OTP. Please try again.
-        </Alert>
-      </Snackbar>
     </div>
   );
 }
