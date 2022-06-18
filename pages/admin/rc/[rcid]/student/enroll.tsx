@@ -31,10 +31,12 @@ function Enroll() {
       email: [...data.email.split(",")],
     };
 
-    const response = await postEmails
-      .post(token, rid, tosend)
-      .then(() => reset({ email: "" }))
-      .catch(() => ({ email: [] } as Emails));
+    const response = await postEmails.post(token, rid, tosend);
+    if (response) {
+      reset({
+        email: "",
+      });
+    }
   };
 
   return (
@@ -73,7 +75,9 @@ function Enroll() {
               <InactiveButton
                 sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
                 onClick={() => {
-                  console.log("Hello");
+                  reset({
+                    email: "",
+                  });
                 }}
               >
                 Reset
