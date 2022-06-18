@@ -15,6 +15,7 @@ export interface StateType {
   setRCName: (rcName: string) => void;
   setName: (name: string) => void;
 }
+
 const useStore = create<StateType>()((set) => ({
   role: 0,
   setRole: (role: number) => set({ role }),
