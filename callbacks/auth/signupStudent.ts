@@ -40,7 +40,7 @@ const studentSignUpRequest = {
       .catch((err: ErrorType) => {
         errorNotification(
           "SignUp Failed",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return false;
       }),

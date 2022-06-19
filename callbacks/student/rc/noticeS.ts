@@ -26,7 +26,7 @@ const NoticeSReq = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Error in fetching data",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
 
         return [] as NoticeParams[];

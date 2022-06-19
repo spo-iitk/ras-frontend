@@ -34,7 +34,7 @@ const postEmails = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Could not fetch data",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return false;
       }),

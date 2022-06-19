@@ -40,7 +40,7 @@ const countData = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Could not fetch data",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return { registered_student: 0, registered_company: 0 } as RCCount;
       }),
@@ -51,7 +51,7 @@ const countData = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Could not fetch data",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return { roles: 0, ppo_pio: 0 } as APPCount;
       }),

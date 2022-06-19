@@ -39,7 +39,7 @@ const companySignUpRequest = {
       .catch((err: ErrorType) => {
         errorNotification(
           "SignUp request Failed",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return false;
       }),
