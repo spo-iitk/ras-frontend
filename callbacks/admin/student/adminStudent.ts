@@ -3,8 +3,8 @@ import axios, { AxiosResponse } from "axios";
 import {
   ADMIN_STUDENT_URL,
   SERVER_ERROR,
-  setConfig,
   StatusResponse,
+  setConfig,
 } from "@callbacks/constants";
 
 export interface Student {

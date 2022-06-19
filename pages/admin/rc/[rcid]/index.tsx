@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
 import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
+import useStore from "@store/store";
 
 const Notices = [
   { id: 1, Name: "Company Name: Test Details", data: "4238" },
@@ -47,31 +48,22 @@ function Index() {
     registered_company: 0,
   });
   const [appdata, setApp] = React.useState<APPCount>({ roles: 0, ppo_pio: 0 });
-
+  const { token, rcName } = useStore();
   useEffect(() => {
     const fetch = async () => {
-      const token = sessionStorage.getItem("token") || "";
-      const comapny_res = await countData.getRC(token, rid).catch((err) => {
-        console.log(err);
-        return { registered_student: 0, registered_company: 0 } as RCCount;
-      });
-      const app_res = await countData
-        .getApplications(token, rid)
-        .catch((err) => {
-          console.log(err);
-          return { roles: 0, ppo_pio: 0 } as APPCount;
-        });
+      const comapny_res = await countData.getRC(token, rid);
+      const app_res = await countData.getApplications(token, rid);
       setData(comapny_res);
       setApp(app_res);
     };
     fetch();
-  }, [rid]);
+  }, [rid, token]);
 
   return (
     <div className={styles.container}>
       <Meta title="Admin Dashboard" />
       <Stack>
-        <h1>Internship 2022-23 Phase</h1>
+        <h1>{rcName}</h1>
 
         <Grid container justifyContent="space-evenly" spacing={2}>
           <Grid item xs={6} md={3} sx={{ padding: 0 }}>

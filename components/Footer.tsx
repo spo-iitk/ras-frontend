@@ -14,6 +14,8 @@ import Typography from "@mui/material/Typography";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import { styled } from "@mui/material/styles";
 
+import theme from "@components/theme/theme";
+
 import footerStyles from "../styles/Footer.module.css";
 
 const Accordion = styled((props: AccordionProps) => (
@@ -34,8 +36,8 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     }
     {...props}
   />
-))(({ theme }) => ({
-  backgroundColor: "black",
+))(() => ({
+  backgroundColor: theme.palette.primary.dark,
   color: "white",
   flexDirection: "row-reverse",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
@@ -46,10 +48,10 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
   },
 }));
 
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+const AccordionDetails = styled(MuiAccordionDetails)(() => ({
   padding: theme.spacing(2),
   borderTop: "1px solid rgba(0, 0, 0, .125)",
-  backgroundColor: "#1f2120",
+  backgroundColor: theme.palette.primary.main,
   color: "white",
   fontSize: "0.8rem",
 }));
@@ -63,7 +65,13 @@ function Footer() {
     };
 
   return (
-    <div style={{ backgroundColor: "black", color: "white", marginTop: 30 }}>
+    <div
+      style={{
+        backgroundColor: theme.palette.primary.dark,
+        color: "white",
+        marginTop: 30,
+      }}
+    >
       <div className={footerStyles.footer}>
         <Stack justifyContent="center" alignItems="center" spacing={10}>
           <Grid

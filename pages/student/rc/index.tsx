@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
@@ -6,6 +6,10 @@ import { useRouter } from "next/router";
 import Meta from "@components/Meta";
 import styles from "@styles/studentInternPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
+import rcRequest, { RC } from "@callbacks/student/rc/rc";
+import ActiveButton from "@components/Buttons/ActiveButton";
+import { errorNotification } from "@callbacks/notifcation";
+import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
@@ -14,7 +18,7 @@ const columns: GridColDef[] = [
     width: 90,
   },
   {
-    field: "recruitmentDriveName",
+    field: "name",
     headerName: "Recruitment Drive Name",
     width: 400,
   },
@@ -29,16 +33,23 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
-    field: "status",
+    field: "is_active",
     headerName: "Status",
     width: 200,
     sortable: false,
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <InactiveButton sx={{ height: 30, width: "100%" }}>
-        {params.value}
-      </InactiveButton>
+      <>
+        {!params.value && (
+          <InactiveButton sx={{ height: 30, width: "100%" }}>
+            INACTIVE
+          </InactiveButton>
+        )}
+        {params.value && (
+          <ActiveButton sx={{ height: 30, width: "100%" }}>ACTIVE</ActiveButton>
+        )}
+      </>
     ),
   },
   {
@@ -48,27 +59,35 @@ const columns: GridColDef[] = [
     sortable: false,
     align: "center",
     headerAlign: "center",
-    renderCell: (params) => (
-      <InactiveButton sx={{ height: 30, width: "100%" }}>
-        {params.value}
-      </InactiveButton>
-    ),
   },
 ];
 
-const rows = [
-  {
-    id: "1",
-    recruitmentDriveName: "internSeason",
-    type: "Intern",
-    date: "May 26, 2022",
-    status: "Inactive",
-    remarks: "Phase-I ended",
-  },
-];
-
+let rows: RC[] = [];
 function Overview() {
   const router = useRouter();
+  const [row, setRow] = useState<RC[]>(rows);
+  const { token } = useStore();
+  useEffect(() => {
+    const getRC = async () => {
+      const response = await rcRequest.getAll(token).catch((err) => {
+        errorNotification(
+          "Error",
+          err?.response.data.message || "Unable to fetch student data"
+        );
+        return [] as RC[];
+      });
+      rows = response;
+      for (let i = 0; i < response.length; i += 1) {
+        rows[i].id = response[i].ID;
+        rows[i].name = `${response[i].type} ${response[i].phase}`;
+        rows[i].start_date = new Date(
+          response[i].start_date
+        ).toLocaleDateString();
+      }
+      setRow(rows);
+    };
+    getRC();
+  }, [token]);
   return (
     <div className={styles.container}>
       <Meta title="Student Dashboard - Overview" />
@@ -80,12 +99,12 @@ function Overview() {
           className={styles.datagridOverView}
         >
           <DataGrid
-            rows={rows}
+            rows={row}
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}
             onCellClick={() => {
-              router.push("rc/1/notices");
+              router.push(`rc/{row.data.id}/notices`);
             }}
           />
         </div>

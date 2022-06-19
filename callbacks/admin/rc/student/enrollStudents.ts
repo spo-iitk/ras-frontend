@@ -2,10 +2,12 @@ import axios, { AxiosResponse } from "axios";
 
 import {
   ADMIN_RC_URL,
+  ErrorType,
   SERVER_ERROR,
-  setConfig,
   StatusResponse,
+  setConfig,
 } from "@callbacks/constants";
+import { errorNotification, successNotification } from "@callbacks/notifcation";
 
 export interface Emails {
   email: string[];
@@ -17,8 +19,6 @@ const instance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
-const responseBody = <T>(response: AxiosResponse<T>) => response.data;
-
 const postEmails = {
   post: (token: string, rcid: string, body: Emails) =>
     instance
@@ -27,7 +27,17 @@ const postEmails = {
         body,
         setConfig(token)
       )
-      .then(responseBody),
+      .then((res) => {
+        successNotification("Enrolled Students", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Could not fetch data",
+          err.response?.data.error || err.message
+        );
+        return false;
+      }),
 };
 
 export default postEmails;

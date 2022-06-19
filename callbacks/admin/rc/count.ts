@@ -1,11 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 
+import { errorNotification } from "@callbacks/notifcation";
 import {
-  ADMIN_RC_URL,
   ADMIN_APPLICATION_URL,
+  ADMIN_RC_URL,
+  ErrorType,
   SERVER_ERROR,
   setConfig,
-} from "../../constants";
+} from "@callbacks/constants";
 
 export interface RCCount {
   registered_student: number;
@@ -34,11 +36,25 @@ const countData = {
   getRC: (token: string, rcid: string) =>
     companyinstance
       .get<RCCount>(`/${rcid}/count`, setConfig(token))
-      .then(responseBody),
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Could not fetch data",
+          err.response?.data.error || err.message
+        );
+        return { registered_student: 0, registered_company: 0 } as RCCount;
+      }),
   getApplications: (token: string, rcid: string) =>
     appinstance
       .get<APPCount>(`/rc/${rcid}/count`, setConfig(token))
-      .then(responseBody),
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Could not fetch data",
+          err.response?.data.error || err.message
+        );
+        return { roles: 0, ppo_pio: 0 } as APPCount;
+      }),
 };
 
 export default countData;

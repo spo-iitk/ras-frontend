@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 
+import { errorNotification, successNotification } from "@callbacks/notifcation";
+
 import {
+  ErrorType,
   SERVER_ERROR,
   STUDENT_URL,
   StatusResponse,
@@ -53,7 +56,16 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const studentRequest = {
   get: (token: string) =>
-    instance.get<Student>("", setConfig(token)).then(responseBody),
+    instance
+      .get<Student>("", setConfig(token))
+      .then(responseBody)
+      .catch((err) => {
+        errorNotification(
+          "Failed to get data",
+          err.response?.data.message || err.message
+        );
+        return { ID: 0 } as Student;
+      }),
   update: (token: string, body: Student) =>
     instance
       .put<StatusResponse, AxiosResponse<StatusResponse, Student>, Student>(
@@ -61,7 +73,17 @@ const studentRequest = {
         body,
         setConfig(token)
       )
-      .then(responseBody),
+      .then((res) => {
+        successNotification("Data upadated Successfully", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Failed to update data",
+          err.response?.data.error || err.message
+        );
+        return false;
+      }),
 };
 
 export default studentRequest;
