@@ -58,6 +58,11 @@ const columns: GridColDef[] = [
     width: 300,
   },
   {
+    field: "description",
+    headerName: "Description",
+    width: 300,
+  },
+  {
     field: "CreatedAt",
     headerName: "Published Date And Time",
     valueGetter: ({ value }) =>
