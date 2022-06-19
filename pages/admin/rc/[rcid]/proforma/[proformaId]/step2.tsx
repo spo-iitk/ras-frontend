@@ -8,33 +8,42 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import RemoveIcon from "@mui/icons-material/Remove";
 
-import { Branches, programExpanded } from "@components/Utils/matrixUtils";
+import {
+  Branches,
+  matrix,
+  programExpanded,
+} from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step3";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step3";
 
 function Step2() {
-  const [val, setVal] = useState(Array(220).fill(0));
-  const { handleSubmit } = useForm();
-  const router = useRouter();
-  const { rcId } = router.query;
+  const [val, setVal] = useState(matrix);
+  const [arr] = useState(Array.from(new Array(12).keys()));
 
-  const handleNext = (data: any) => {
-    console.log(data);
+  const router = useRouter();
+  const { rcid } = router.query;
+
+  const handleNext = () => {
+    let res = "";
+    for (let i = 0; i < val.length; i += 1) {
+      res += `${val[i]}`;
+    }
+    console.log(res);
     router.push({
       pathname: ROUTE,
-      query: { rcId, proformaId: 1 },
+      query: { rcid, proformaId: 1 },
     });
   };
 
   const handleCheckAll = () => {
     setVal(
       val.map((value) => {
-        if (value !== -1) {
+        if (value !== 2) {
           return 1;
         }
         return value;
@@ -46,8 +55,8 @@ function Step2() {
     let j = 0;
     setVal(
       val.map((value, index) => {
-        if (index === 10 * j + i) {
-          if (value !== -1) {
+        if (index === 15 * j + i) {
+          if (value !== 2) {
             j += 1;
             return 1;
           }
@@ -58,10 +67,11 @@ function Step2() {
       })
     );
   };
+
   const handleCheck = (i: number, j: number) => {
     setVal(
       val.map((value, index) => {
-        if (index === i * 10 + j) {
+        if (index === i * 15 + j) {
           if (value === 0) {
             return 1;
           }
@@ -79,8 +89,8 @@ function Step2() {
     let j = 0;
     setVal(
       val.map((value, index) => {
-        if (index === 10 * i + j && index < 10 * (i + 1)) {
-          if (value !== -1) {
+        if (index === 15 * i + j && index < 15 * (i + 1)) {
+          if (value !== 2) {
             j += 1;
             return 1;
           }
@@ -93,7 +103,7 @@ function Step2() {
   };
 
   const handleReset = () => {
-    setVal(Array(220).fill(0));
+    setVal(matrix);
   };
 
   return (
@@ -140,42 +150,52 @@ function Step2() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
                     Program
                   </TableCell>
-                  {programExpanded.map((prog: string, k: number) => (
-                    <TableCell key={prog} align="center" width={300}>
-                      <Button onClick={() => handleProgramWise(k)}>
-                        {prog}
+                  {arr.map((i) => (
+                    <TableCell
+                      align="center"
+                      width={100}
+                      sx={{ fontWeight: 600 }}
+                    >
+                      <Button onClick={() => handleProgramWise(i)}>
+                        {programExpanded[i]}
                       </Button>
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Array(22)
+                {Array(24)
                   .fill(0)
                   .map((_, i) => (
                     <TableRow>
                       <TableCell
                         component="th"
                         scope="row"
-                        align="center"
                         sx={{ fontWeight: 600 }}
                       >
                         <Button onClick={() => handleBranchWise(i)}>
                           {Branches[i]}
                         </Button>
                       </TableCell>
-                      {Array(10)
+                      {Array(12)
                         .fill(0)
                         .map((__, j) => (
-                          <TableCell align="center">
-                            <Checkbox
-                              disabled={val[10 * i + j] === -1}
-                              checked={val[10 * i + j] === 1}
-                              onChange={() => handleCheck(i, j)}
-                            />
+                          <TableCell width={100} align="center">
+                            {matrix[15 * i + j] === 2 ? (
+                              <RemoveIcon />
+                            ) : (
+                              <Checkbox
+                                checked={val[15 * i + j] === 1}
+                                onClick={() => handleCheck(i, j)}
+                              />
+                            )}
                           </TableCell>
                         ))}
                     </TableRow>
@@ -191,7 +211,7 @@ function Step2() {
             <Button
               variant="contained"
               sx={{ width: "100%" }}
-              onClick={handleSubmit(handleNext)}
+              onClick={handleNext}
             >
               Next
             </Button>
