@@ -48,8 +48,7 @@ function Index() {
     registered_company: 0,
   });
   const [appdata, setApp] = React.useState<APPCount>({ roles: 0, ppo_pio: 0 });
-
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   useEffect(() => {
     const fetch = async () => {
       const comapny_res = await countData.getRC(token, rid);
@@ -64,7 +63,7 @@ function Index() {
     <div className={styles.container}>
       <Meta title="Admin Dashboard" />
       <Stack>
-        <h1>Internship 2022-23 Phase</h1>
+        <h1>{rcName}</h1>
 
         <Grid container justifyContent="space-evenly" spacing={2}>
           <Grid item xs={6} md={3} sx={{ padding: 0 }}>

@@ -1,5 +1,5 @@
-import React from "react";
-import { IconButton, Stack } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { IconButton, Link, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
@@ -7,6 +7,9 @@ import AddIcon from "@mui/icons-material/Add";
 import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
+import rcRequest, { RC } from "@callbacks/admin/rc/rc";
+import ActiveButton from "@components/Buttons/ActiveButton";
+import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
@@ -15,47 +18,73 @@ const columns: GridColDef[] = [
     width: 90,
   },
   {
-    field: "recruitmentDriveName",
+    field: "name",
     headerName: "Recruitment Drive Name",
-    width: 400,
+    width: 200,
+  },
+  {
+    field: "academic_year",
+    headerName: "Session",
+    width: 100,
   },
   {
     field: "type",
     headerName: "Type of Recruitment",
+    width: 175,
+  },
+  {
+    field: "phase",
+    headerName: "Recruitment Phase",
     width: 200,
   },
   {
-    field: "date",
+    field: "start_date",
     headerName: "Start Date",
-    width: 200,
+    width: 150,
   },
   {
-    field: "status",
+    field: "is_active",
     headerName: "Status",
     width: 200,
     sortable: false,
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <InactiveButton sx={{ height: 30, width: "100%" }}>
-        {params.value}
-      </InactiveButton>
+      <>
+        {!params.value && (
+          <InactiveButton sx={{ height: 30, width: "100%" }}>
+            INACTIVE
+          </InactiveButton>
+        )}
+        {params.value && (
+          <ActiveButton sx={{ height: 30, width: "100%" }}>ACTIVE</ActiveButton>
+        )}
+      </>
     ),
   },
 ];
 
-const rows = [
-  {
-    id: "1",
-    recruitmentDriveName: "internSeason",
-    type: "Intern",
-    date: "May 26, 2022",
-    status: "Inactive",
-  },
-];
-
+let rows: RC[] = [];
 function Index() {
   const router = useRouter();
+  const [row, setRow] = useState<RC[]>(rows);
+  const { token, setRCName, setRcId } = useStore();
+  useEffect(() => {
+    const getRC = async () => {
+      const response = await rcRequest.getAll(token);
+      rows = response;
+      // console.log(rows);
+      for (let i = 0; i < response.length; i += 1) {
+        rows[i].id = response[i].ID;
+        rows[i].name = `${response[i].type} ${response[i].phase}`;
+        rows[i].start_date = new Date(
+          response[i].start_date
+        ).toLocaleDateString();
+      }
+      setRow(rows);
+    };
+    getRC();
+  }, [token]);
   return (
     <div className={styles.container}>
       <Meta title="Student Dashboard - Index" />
@@ -72,7 +101,9 @@ function Index() {
           </div>
           <div>
             <IconButton>
-              <AddIcon />
+              <Link href="/admin/rc/new">
+                <AddIcon />
+              </Link>
             </IconButton>
           </div>
         </Stack>
@@ -81,12 +112,16 @@ function Index() {
           className={styles.datagridIndex}
         >
           <DataGrid
-            rows={rows}
+            rows={row}
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}
-            onCellClick={() => {
-              router.push("rc/1");
+            onCellClick={(params) => {
+              setRcId(params.row.ID);
+              setRCName(
+                `${params.row.type} ${params.row.academic_year} ${params.row.phase}`
+              );
+              router.push(`rc/${params.row.ID}`);
             }}
           />
         </div>
