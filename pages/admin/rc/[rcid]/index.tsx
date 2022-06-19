@@ -16,12 +16,6 @@ import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
 import useStore from "@store/store";
 import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
 
-// const Notices = [
-//   { id: 1, Name: "Company Name: Test Details", data: "4238" },
-//   { id: 2, Name: "Company Name: Shortlisting For Interview", data: "4238" },
-//   { id: 3, Name: "Company Name: Test Details", data: "4238" },
-//   { id: 4, Name: "Company Name: Test Details", data: "4238" },
-// ];
 const RecCompany = [
   { id: 1, Name: "Company Name: Registered", data: "4238" },
   { id: 1, Name: "Company Name: Registered", data: "4238" },

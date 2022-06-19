@@ -37,15 +37,3 @@ const NoticeSReq = {
 };
 
 export default NoticeSReq;
-    // get: (token: string, rcid: string) =>
-    // instance.get<NoticeParams>(`/${rcid}/notice`, setConfig(token)).then(responseBody),
-    // post: (token: string, rcid: string, notice: NoticeResponse) =>
-    // instance.post<NoticeResponse>(`/${rcid}/notice`, notice, setConfig(token)).then(responseBody).then((res)=> {
-    //   successNotification("Notice created successfully", "");
-    //   return true;
-    // }).catch((err) => {
-    //   errorNotification(
-    //     "Error in creating notice",
-    //     err?.response.data.message || err.message
-    //   )
-    // } ),

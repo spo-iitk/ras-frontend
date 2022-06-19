@@ -27,11 +27,6 @@ const columns: GridColDef[] = [
     width: 200,
   },
 ];
-
-// const rows = [
-//   { id: 1, name: "Company Name : Title", publishedDateAndTime: "May 26 2019" },
-// ];
-
 function Notices() {
   const router = useRouter();
   const { rcid } = router.query;
@@ -53,7 +48,6 @@ function Notices() {
   React.useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
-      // const token = sessionStorage.getItem("token") || "";
       const notice: NoticeParams[] = await NoticeSReq.getSAll(token, rid);
       setNotice(notice);
     };

@@ -4,8 +4,6 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 
-// import { useRouter } from "next/router";
-// import useStore from "@store/store";
 import NoticeReq, {
   NoticeParams,
   NoticeResponse,
@@ -30,12 +28,6 @@ const Input = styled("input")({
   display: "none",
 });
 
-// type formInput = {
-//   companyName: string;
-//   subject: string;
-//   message: string;
-
-// };
 function NewNotice({
   handleCloseNew,
   setNotice,
@@ -57,11 +49,9 @@ function NewNotice({
   const handleNewNotice = (data: NoticeResponse) => {
     const newNotice = async () => {
       const finData = { ...data, ...ext };
-      // const token = sessionStorage.getItem("token") || "";
       const response = await NoticeReq.post(token, rid, finData).then(() => {
         const fetch = async () => {
           if (rid === undefined || rid === "") return;
-          // const token = sessionStorage.getItem("token") || "";
           const Newnotice: NoticeParams[] = await NoticeReq.getAll(token, rid);
 
           setNotice(Newnotice);
@@ -72,7 +62,6 @@ function NewNotice({
       console.log(response);
     };
     newNotice();
-    // console.log(data);
     reset();
     handleCloseNew();
   };
