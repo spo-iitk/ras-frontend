@@ -44,6 +44,7 @@ export interface Student {
   friend_name: string;
   friend_phone: string;
   is_editable: string;
+  is_verified: boolean;
 }
 
 const instance = axios.create({

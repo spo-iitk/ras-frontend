@@ -1,83 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
-import { Button, IconButton, Stack } from "@mui/material";
+import { Button, IconButton, Popover, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
-
-const columns: GridColDef[] = [
-  {
-    field: "id",
-    headerName: "ID",
-    width: 100,
-  },
-  {
-    field: "CompanyName",
-    headerName: "Company Name",
-    width: 200,
-  },
-  {
-    field: "EventName",
-    headerName: "Event Name",
-    width: 200,
-  },
-  {
-    field: "StartTime",
-    headerName: "Start Time",
-    width: 200,
-  },
-  {
-    field: "EndTime",
-    headerName: "End Time",
-    width: 200,
-  },
-  {
-    field: "Venue",
-    headerName: "Venue",
-    width: 200,
-  },
-  {
-    field: "ViewStudentsWiseDetails",
-    headerName: "View Students' wise details",
-    width: 300,
-    renderCell: (cellValues) => {
-      if (cellValues.row.ViewStudentsWiseDetails === "CLICK HERE")
-        return (
-          <Stack
-            direction="row"
-            alignItems="center"
-            width="100%"
-            justifyContent="space-between"
-          >
-            <Button sx={{ height: 30 }}>
-              {cellValues.row.ViewStudentsWiseDetails}
-            </Button>
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          </Stack>
-        );
-      return (
-        <Stack
-          direction="row"
-          alignItems="center"
-          width="100%"
-          justifyContent="space-between"
-        >
-          <Button sx={{ height: 30 }}>
-            {cellValues.row.ViewStudentsWiseDetails}
-          </Button>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </Stack>
-      );
-    },
-  },
-];
 
 const rows = [
   {
@@ -100,7 +29,91 @@ const rows = [
   },
 ];
 
+const buttonstyle = {
+  borderRadius: 0,
+  color: "black",
+  background: "white",
+  "&:hover": { backgroundColor: "#cfd4d1" },
+};
+
 function Index() {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 100,
+    },
+    {
+      field: "CompanyName",
+      headerName: "Company Name",
+      width: 200,
+    },
+    {
+      field: "EventName",
+      headerName: "Event Name",
+      width: 200,
+    },
+    {
+      field: "StartTime",
+      headerName: "Start Time",
+      width: 200,
+    },
+    {
+      field: "EndTime",
+      headerName: "End Time",
+      width: 200,
+    },
+    {
+      field: "Venue",
+      headerName: "Venue",
+      width: 200,
+    },
+    {
+      field: "ViewStudentsWiseDetails",
+      headerName: "View Students' wise details",
+      width: 300,
+      renderCell: (cellValues) => (
+        <Stack
+          direction="row"
+          alignItems="center"
+          width="100%"
+          justifyContent="space-between"
+        >
+          <Button sx={{ height: 30 }}>
+            {cellValues.row.ViewStudentsWiseDetails}
+          </Button>
+          <IconButton onClick={handleClick}>
+            <MoreVertIcon />
+          </IconButton>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+          >
+            <Stack direction="column">
+              <Button sx={buttonstyle}>View Profile</Button>
+              <Button sx={buttonstyle}>See History</Button>
+              <Button sx={buttonstyle}>Freeze/Unfreeze</Button>
+            </Stack>
+          </Popover>
+        </Stack>
+      ),
+    },
+  ];
   return (
     <div className={styles.container}>
       <Meta title="Attendance" />
