@@ -46,8 +46,8 @@ function Step3() {
       console.log(res);
       reset({
         bond: "false",
-        bondDetails: "",
-        medicalRequirements: "",
+        bond_details: "",
+        medical_requirements: "",
       });
       changeCTC("");
       changePkg("");
