@@ -14,6 +14,8 @@ import { useRouter } from "next/router";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import RichText from "@components/Editor/RichText";
+import useStore from "@store/store";
+import newProforma from "@callbacks/company/jpnew";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step4";
 
@@ -27,20 +29,32 @@ function Step3() {
   } = useForm();
   const router = useRouter();
   const { rcId } = router.query;
+  const rid = (rcId || "").toString();
+
+  const { token } = useStore();
   const [ctc, changeCTC] = useState("");
   const [pkgDetails, changePkg] = useState("");
 
-  const handleNext = (data: any) => {
-    const info = { ...data, ...changePkg, ...changeCTC };
+  const handleNext = async (data: any) => {
+    const info = {
+      ...data,
+      package_details: pkgDetails,
+      cost_to_company: ctc,
+    };
     console.log(info);
-    reset({
-      bond: "false",
-      bondDetails: "",
-      medicalRequirements: "",
-    });
-    router.push({
-      pathname: ROUTE,
-      query: { rcId, proformaId: 1 },
+    await newProforma.postStep3(token, rid, info).then((res) => {
+      console.log(res);
+      reset({
+        bond: "false",
+        bondDetails: "",
+        medicalRequirements: "",
+      });
+      changeCTC("");
+      changePkg("");
+      router.push({
+        pathname: ROUTE,
+        query: { rcId, proformaId: 1 },
+      });
     });
   };
 
@@ -95,7 +109,7 @@ function Step3() {
               variant="standard"
               error={errors.bondDetails}
               helperText={errors.bondDetails && "This field is required"}
-              {...register("bondDetails", {
+              {...register("bond_details", {
                 required: useWatch({ control, name: "bond" }) === true,
               })}
             />
@@ -114,7 +128,7 @@ function Step3() {
               helperText={
                 errors.medicalRequirements && "This field is required"
               }
-              {...register("medicalRequirements", { required: true })}
+              {...register("medical_requirements", { required: true })}
             />
           </FormControl>
           <Stack

@@ -6,9 +6,13 @@ import { useRouter } from "next/router";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import RichTextEditor from "@components/Editor/RichText";
+import newProforma from "@callbacks/company/jpnew";
+import useStore from "@store/store";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
 function ProformaNew() {
+  const [value, onChange] = useState("");
+  const { token } = useStore();
   const {
     register,
     handleSubmit,
@@ -17,23 +21,25 @@ function ProformaNew() {
   } = useForm();
   const router = useRouter();
   const { rcId } = router.query;
-  const handleNext = (data: any) => {
-    console.log(data);
-    reset({
-      companyName: "",
-      natureOfBusiness: "",
-      tentativeJobLocation: "",
-      jobDescription: "",
-    });
-    router.push({
-      pathname: ROUTE,
-      query: { rcId, proformaId: 1 },
+  const rid = (rcId || "").toString();
+
+  const handleNext = async (data: any) => {
+    const tosend = await { ...data, job_description: value };
+    await newProforma.postStep1(token, rid, tosend).then((res) => {
+      console.log(res);
+      reset({
+        company_name: "",
+        nature_of_business: "",
+        tentative_job_location: "",
+      });
+      onChange("");
+      router.push({
+        pathname: ROUTE,
+        query: { rcId, proformaId: 1 },
+      });
     });
   };
-  const initialValue =
-    "<p>Your initial <b>html value</b> or an empty string to init editor without value</p>";
 
-  const [value, onChange] = useState(initialValue);
   return (
     <div className={styles.container}>
       <Meta title="Step 1/5 - Basic Details" />
@@ -58,7 +64,7 @@ function ProformaNew() {
               variant="standard"
               error={errors.companyName}
               helperText={errors.companyName && "This field is required"}
-              {...register("companyName", { required: true })}
+              {...register("company_name", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -72,7 +78,7 @@ function ProformaNew() {
               variant="standard"
               error={errors.natureOfBusiness}
               helperText={errors.natureOfBusiness && "This field is required"}
-              {...register("natureOfBusiness", { required: true })}
+              {...register("nature_of_business", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -88,7 +94,7 @@ function ProformaNew() {
               helperText={
                 errors.tentativeJobLocation && "This field is required"
               }
-              {...register("tentativeJobLocation", { required: true })}
+              {...register("tentative_job_location", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -115,14 +121,14 @@ function ProformaNew() {
             <Button
               variant="contained"
               sx={{ width: "50%" }}
-              onClick={() =>
+              onClick={() => {
                 reset({
-                  companyName: "",
-                  natureOfBusiness: "",
-                  tentativeJobLocation: "",
-                  jobDescription: "",
-                })
-              }
+                  company_name: "",
+                  nature_of_business: "",
+                  tentative_job_location: "",
+                });
+                onChange("");
+              }}
             >
               Reset
             </Button>

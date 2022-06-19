@@ -12,6 +12,8 @@ import { useForm } from "react-hook-form";
 
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
+import useStore from "@store/store";
+import newProforma from "@callbacks/company/jpnew";
 
 const ROUTE = "/company/rc/[rcId]";
 
@@ -29,16 +31,21 @@ function Step5() {
   } = useForm();
   const router = useRouter();
   const { rcId } = router.query;
-  const handleNext = (data: any) => {
+  const rid = (rcId || "").toString();
+  const { token } = useStore();
+  const handleNext = async (data: any) => {
     console.log(data);
-    reset({
-      eligibilityCriteria: "",
-      message: "",
-      activeHR: "",
-    });
-    router.push({
-      pathname: ROUTE,
-      query: { rcId },
+    await newProforma.postStep5(token, rid, data).then((res) => {
+      console.log(res);
+      reset({
+        eligibility_riteria: "",
+        message: "",
+        active_HR: "",
+      });
+      router.push({
+        pathname: ROUTE,
+        query: { rcId },
+      });
     });
   };
   return (
@@ -68,7 +75,7 @@ function Step5() {
               helperText={
                 errors.eligibilityCriteria && "This field is required!"
               }
-              {...register("eligibilityCriteria", { required: true })}
+              {...register("eligibility_criteria", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -96,7 +103,7 @@ function Step5() {
               variant="standard"
               error={errors.activeHR}
               helperText={errors.activeHR && "This field is required!"}
-              {...register("activeHR", { required: true })}
+              {...register("active_HR", { required: true })}
             >
               <MenuItem value="">Select</MenuItem>
               {hrtype.map((val) => (
@@ -119,7 +126,17 @@ function Step5() {
             >
               Submit
             </Button>
-            <Button variant="contained" sx={{ width: "50%" }}>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={() => {
+                reset({
+                  eligibility_riteria: "",
+                  message: "",
+                  active_HR: "",
+                });
+              }}
+            >
               Reset
             </Button>
           </Stack>
