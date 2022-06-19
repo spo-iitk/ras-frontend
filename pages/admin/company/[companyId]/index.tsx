@@ -14,6 +14,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useRouter } from "next/router";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
 import styles from "@styles/adminPhase.module.css";
@@ -24,6 +25,22 @@ import addCompanyRequest, {
 } from "@callbacks/admin/company/company";
 import useStore from "@store/store";
 import AddHRMD from "@components/Modals/AddHRAdminMD";
+import EditCompanyMD from "@components/Modals/EditCompanyAdminMD";
+import InactiveButton from "@components/Buttons/InactiveButton";
+
+function DeleteHRdetail(props: { id: string }) {
+  const { token } = useStore();
+  const { id } = props;
+  return (
+    <IconButton
+      onClick={() => {
+        addCompanyRequest.deleteHR(token, id);
+      }}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+}
 
 const HRcotactDetailsColumns: GridColDef[] = [
   {
@@ -50,6 +67,12 @@ const HRcotactDetailsColumns: GridColDef[] = [
     field: "designation",
     headerName: "Designation",
     width: 250,
+  },
+  {
+    field: "deleteHR",
+    headerName: "",
+    width: 250,
+    renderCell: (cellValue) => <DeleteHRdetail id={cellValue.id.toString()} />,
   },
 ];
 const PastHireColumns: GridColDef[] = [
@@ -150,20 +173,34 @@ function Index() {
   const { token } = useStore();
   const router = useRouter();
   const companyId = router.query.companyId?.toString() || "";
-  const [CompanyData, setCompanyData] = useState<Company>();
+  const [CompanyData, setCompanyData] = useState<Company>({
+    id: 0,
+    ID: 0,
+    name: "",
+    tags: "",
+    website: "",
+    description: "",
+  });
   useEffect(() => {
     const fetchCompanyDetails = async () => {
       let response = await addCompanyRequest.get(token, companyId);
       setCompanyData(response);
     };
-    fetchCompanyDetails();
-  }, [companyId, token]);
+    if (router.isReady) fetchCompanyDetails();
+  }, [companyId, router.isReady, token]);
   const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
   };
   const handleCloseNew = () => {
     setOpenNew(false);
+  };
+  const [openEditComp, setOpenEditComp] = useState(false);
+  const handleOpenEditComp = () => {
+    setOpenEditComp(true);
+  };
+  const handleCloseEditComp = () => {
+    setOpenEditComp(false);
   };
   const [HRcontactRows, setHRcontactRows] = useState<HR[]>([]);
   useEffect(() => {
@@ -178,6 +215,12 @@ function Index() {
       fetchHRDetails();
     }
   }, [companyId, router.isReady, token]);
+  const deleteCompany = () => {
+    const delCompany = async () => {
+      await addCompanyRequest.delete(token, companyId);
+    };
+    delCompany();
+  };
   return (
     <div className={styles.container}>
       <Meta title="Master Company Dashboard" />
@@ -195,9 +238,18 @@ function Index() {
             justifyContent="space-between"
           >
             <h1>Company Profile</h1>
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
+            <Stack spacing={1} direction="row">
+              <ActiveButton onClick={handleOpenEditComp}>EDIT</ActiveButton>
+              <InactiveButton onClick={deleteCompany}>DELETE</InactiveButton>
+            </Stack>
+            <Modal open={openEditComp} onClose={handleCloseEditComp}>
+              <EditCompanyMD
+                handleCloseNew={handleCloseNew}
+                setCompanyData={setCompanyData}
+                companyData={CompanyData}
+                companyID={companyId}
+              />
+            </Modal>
           </Stack>
           <Grid
             container
@@ -249,9 +301,12 @@ function Index() {
         }}
       >
         <Stack>
-          <Stack direction={{ sm: "row", xs: "column" }}>
-            <h1>HR Contact Details</h1>
+          <Stack
+            direction={{ sm: "row", xs: "column" }}
+            justifyContent="space-between"
+          >
             <Stack direction="row" spacing={3}>
+              <h1>HR Contact Details</h1>
               <IconButton onClick={handleOpenNew}>
                 <AddIcon />
               </IconButton>
