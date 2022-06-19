@@ -198,22 +198,15 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   ];
 
 function Profile() {
-  // let Students : Student = {ID: 0} as Student;
-
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
   const { token } = useStore();
 
   useEffect(() => {
     const fetch = async () => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const student = await studentRequest.get(token).catch((err) => {
-        console.log(err);
-        return { ID: 0 } as Student;
-      });
-      if (student.ID !== 0) {
-        console.log(student);
-        // Students = student;
-      }
+      const student = await studentRequest
+        .get(token)
+        .catch(() => ({ ID: 0 } as Student));
       setStudentData(student);
     };
     fetch();
@@ -259,13 +252,11 @@ function Profile() {
             }}
           >
             <Grid container spacing={5} sx={{ padding: 3 }}>
-              {/* <form onSubmit = {handleSubmit(onSubmit)}> */}
               {info.map((item) => (
                 <Grid item xs={12} sm={6} key={item.field}>
                   <p>{item.field}</p>
                   <TextField
                     fullWidth
-                    // label={item.value}
                     disabled
                     id="standard-basic"
                     variant="standard"
@@ -277,7 +268,6 @@ function Profile() {
                   />
                 </Grid>
               ))}
-              {/* </form> */}
             </Grid>
           </Card>
         </Stack>

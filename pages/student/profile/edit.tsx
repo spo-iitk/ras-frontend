@@ -2,6 +2,7 @@ import { Button, Card, Grid, Stack, TextField } from "@mui/material";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 import styles from "@styles/Home.module.css";
 import Meta from "@components/Meta";
@@ -220,17 +221,12 @@ function ProfileEdit() {
   });
 
   const { token } = useStore();
-
+  const router = useRouter();
   useEffect(() => {
     const fetch = async () => {
-      const student = await studentRequest.get(token).catch((err) => {
-        console.log(err);
-        return { ID: 0 } as Student;
-      });
-      if (student.ID !== 0) {
-        console.log(student);
-        // Students = student;
-      }
+      const student = await studentRequest
+        .get(token)
+        .catch(() => ({ ID: 0 } as Student));
       setStudentData(student);
       reset(student);
     };
@@ -270,7 +266,9 @@ function ProfileEdit() {
         <form
           onSubmit={handleSubmit(async (data: Student) => {
             const response = await studentRequest.update(token, data);
-            console.log("updated", response);
+            if (response) {
+              router.push("/student/profile");
+            }
           })}
         >
           <Stack justifyContent="center">
