@@ -53,7 +53,7 @@ function NewNotice({
     formState: { errors },
     reset,
   } = useForm<NoticeResponse>();
-  const ext = { tags: "", recruitment_cycle_id: Number(rid) };
+  const ext = { tags: "quant", recruitment_cycle_id: Number(rid) };
   const handleNewNotice = (data: NoticeResponse) => {
     const newNotice = async () => {
       const finData = { ...data, ...ext };

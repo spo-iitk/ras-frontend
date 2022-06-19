@@ -11,7 +11,7 @@ export interface NoticeParams {
   tags: string;
   attachment: string;
   created_by: string;
-  createdAt: string;
+  CreatedAt: string;
   last_reminder_at: number;
 }
  export interface NoticeResponse {
@@ -47,7 +47,7 @@ const NoticeReq = {
             description: "",
             attachment: "",
             created_by: "",
-            createdAt: "",
+            CreatedAt: "",
             last_reminder_at: 0,
           },
         ] as NoticeParams[];
@@ -56,7 +56,7 @@ const NoticeReq = {
     get: (token: string, rcid: string) =>
     instance.get<NoticeParams>(`/${rcid}/notice`, setConfig(token)).then(responseBody),
     post: (token: string, rcid: string, notice: NoticeResponse) =>
-    instance.post<NoticeResponse>(`${rcid}/notice`, notice, setConfig(token)).then(responseBody).then((res)=> {
+    instance.post<NoticeResponse>(`/${rcid}/notice`, notice, setConfig(token)).then(responseBody).then((res)=> {
       successNotification("Notice created successfully", "");
       return true;
     }).catch((err) => {
