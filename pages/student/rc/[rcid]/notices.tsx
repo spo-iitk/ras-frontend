@@ -21,6 +21,11 @@ const columns: GridColDef[] = [
     width: 300,
   },
   {
+    field: "description",
+    headerName: "Description",
+    width: 300,
+  },
+  {
     field: "CreatedAt",
     valueGetter: ({ value }) =>
       value &&
@@ -36,19 +41,7 @@ function Notices() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const [notices, setNotice] = React.useState<NoticeParams[]>([
-    {
-      ID: 0,
-      recruitment_cycle_id: 0,
-      title: "I",
-      description: "",
-      tags: "",
-      attachment: "",
-      created_by: "",
-      CreatedAt: "",
-      last_reminder_at: 0,
-    },
-  ]);
+  const [notices, setNotice] = React.useState<NoticeParams[]>([]);
   React.useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
@@ -71,11 +64,7 @@ function Notices() {
           <h2>Notices</h2>
         </Stack>
 
-        <DataGrid
-          rows={notices}
-          getRowId={(row: any) => row.ID}
-          columns={columns}
-        />
+        <DataGrid rows={notices} getRowId={(row) => row.ID} columns={columns} />
       </Stack>
     </div>
   );

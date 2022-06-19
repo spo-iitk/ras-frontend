@@ -25,7 +25,7 @@ const whoami = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Unauthorized",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return { user_id: "", role_id: 0 } as WhoamiResponse;
       }),
