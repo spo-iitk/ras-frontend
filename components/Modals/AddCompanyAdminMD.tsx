@@ -2,9 +2,7 @@ import React from "react";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import addCompanyRequest, {
-  AddCompanyParams,
-} from "@callbacks/admin/company/company";
+import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
 import useStore from "@store/store";
 
 const boxStyle = {
@@ -27,9 +25,9 @@ function AddCompanyMD({ handleCloseNew }: { handleCloseNew: () => void }) {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<AddCompanyParams>();
+  } = useForm<Company>();
   const { token } = useStore();
-  const onSubmit = async (data: AddCompanyParams) => {
+  const onSubmit = async (data: Company) => {
     const response = await addCompanyRequest.post(data, token);
     if (response) {
       reset({
