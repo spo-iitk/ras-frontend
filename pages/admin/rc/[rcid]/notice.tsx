@@ -3,6 +3,8 @@ import { IconButton, Modal, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
 import { useRouter } from "next/router";
+import DeleteIcon from "@mui/icons-material/Delete";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import styles from "@styles/adminPhase.module.css";
 import NewNotice from "@components/Modals/newNotice";
@@ -10,6 +12,40 @@ import Meta from "@components/Meta";
 import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
 
+function DeleteNotice(props: { id: string }) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const { id } = props;
+  return (
+    <IconButton
+      onClick={() => {
+        if (rid === undefined || rid === "") return;
+        NoticeReq.delete(token, rid, id);
+      }}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+}
+function NotifyNotice(props: { id: string }) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const { id } = props;
+  return (
+    <IconButton
+      onClick={() => {
+        if (rid === undefined || rid === "") return;
+        NoticeReq.notify(token, rid, id);
+      }}
+    >
+      <NotificationsIcon />
+    </IconButton>
+  );
+}
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -31,13 +67,42 @@ const columns: GridColDef[] = [
       ).toLocaleTimeString()}`,
     width: 200,
   },
+  {
+    field: "button1",
+    headerName: "",
+    renderCell: (params) => <DeleteNotice id={params.row.ID} />,
+    width: 50,
+    align: "center",
+  },
+  {
+    field: "button2",
+    headerName: "",
+    renderCell: (params) => <NotifyNotice id={params.row.ID} />,
+    width: 50,
+    align: "center",
+  },
+  // {
+  //   field: "button2",
+  //   headerName: "",
+  //   renderCell: () => (
+  //     <IconButton
+  //       onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
+  //         const { id } = e.currentTarget;
+  //         await NoticeReq.notif(token, id);
+  //       }}
+  //     >
+  //       <NotificationsIcon />
+  //     </IconButton>
+  //   ),
+  //   width: 50,
+  //   align: "center",
+  // },
 ];
-
 function Index() {
+  const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const { token } = useStore();
   const [notices, setNotice] = React.useState<NoticeParams[]>([
     {
       ID: 0,
