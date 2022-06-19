@@ -240,8 +240,12 @@ function Profile() {
                 Edit
               </Button>
             </Link>
-            <Button variant="contained" sx={{ width: 150 }}>
-              Not Verified
+            <Button
+              variant="contained"
+              sx={{ width: 150 }}
+              color={StudentData.is_verified ? "success" : "error"}
+            >
+              {StudentData.is_verified === true ? "Verified" : "Not Verified"}
             </Button>
           </Stack>
         </Stack>
@@ -265,19 +269,17 @@ function Profile() {
                     disabled
                     id="standard-basic"
                     variant="standard"
-                    value={StudentData[item.api_id as keyof Student]}
+                    value={
+                      item.api_id === "dob"
+                        ? new Date(StudentData.dob).toLocaleDateString()
+                        : StudentData[item.api_id as keyof Student]
+                    }
                   />
                 </Grid>
               ))}
-
               {/* </form> */}
             </Grid>
           </Card>
-        </Stack>
-        <Stack alignItems="center" sx={{ padding: 3 }}>
-          <Button type="submit" variant="contained">
-            Submit
-          </Button>
         </Stack>
       </Stack>
     </div>

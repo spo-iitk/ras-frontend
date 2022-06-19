@@ -258,8 +258,12 @@ function ProfileEdit() {
                 Save
               </Button>
             </Link>
-            <Button variant="contained" sx={{ width: 150 }}>
-              Not Verified
+            <Button
+              variant="contained"
+              sx={{ width: 150 }}
+              color={StudentData.is_verified ? "success" : "error"}
+            >
+              {StudentData.is_verified === true ? "Verified" : "Not Verified"}
             </Button>
           </Stack>
         </Stack>
@@ -295,6 +299,10 @@ function ProfileEdit() {
                       id="standard-basic"
                       variant="standard"
                       disabled={item.disabled}
+                      multiline={
+                        item.api_id === "current_address" ||
+                        item.api_id === "permanent_address"
+                      }
                       {...register(item.api_id, {
                         setValueAs: (v) => {
                           if (item.api_id === "dob") {
