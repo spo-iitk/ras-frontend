@@ -18,7 +18,15 @@ export interface Company {
   website: string;
   description: string;
 }
-
+export interface HR {
+  company_id: number;
+  id: number;
+  ID: number;
+  name: string;
+  email: string;
+  phone: string;
+  designation: string;
+}
 const adminCompanyInstance = axios.create({
   baseURL: ADMIN_COMPANY_URL,
   timeout: 15000,
@@ -48,7 +56,7 @@ const addCompanyRequest = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Error in fetching data",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return [] as Company[];
       }),
@@ -80,6 +88,32 @@ const addCompanyRequest = {
           err.response?.data.error || err.message
         );
         return false;
+      }),
+  addHR: (body: HR, token: string) =>
+    adminCompanyInstance
+      .post<StatusResponse, AxiosResponse<StatusResponse, HR>, HR>(
+        "/hr",
+        body,
+        setConfig(token)
+      )
+      .then((res) => {
+        successNotification("HR Registered", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification("HR Registration Failed", err.response?.data?.error);
+        return false;
+      }),
+  getAllHR: (token: string, company_id: string) =>
+    adminCompanyInstance
+      .get<HR[]>(`/${company_id}/hr`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching HR Data",
+          err.response?.data?.error || err.message
+        );
+        return [] as HR[];
       }),
 };
 

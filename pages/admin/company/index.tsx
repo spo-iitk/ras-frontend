@@ -46,22 +46,20 @@ const columns: GridColDef[] = [
     ),
   },
 ];
-let rows: Company[] = [];
 
 function Index() {
   const { token } = useStore();
-  const [row, setRow] = useState<Company[]>(rows);
+  const [row, setRow] = useState<Company[]>([]);
   useEffect(() => {
     const getCompanydata = async () => {
-      const response = await addCompanyRequest.getall(token);
-      rows = response;
+      let response = await addCompanyRequest.getall(token);
       for (let i = 0; i < response.length; i += 1) {
-        rows[i].id = response[i].ID;
+        response[i].id = response[i].ID;
       }
-      setRow(rows);
+      setRow(response);
     };
     getCompanydata();
-  }, [row, token]);
+  }, [token]);
   const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
@@ -75,17 +73,6 @@ function Index() {
       <Meta title="Master Company Database" />
       <Grid container alignItems="center">
         <Grid item xs={12}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h1>Master Database (Company)</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
-            </Stack>
-          </div>
           <Stack
             spacing={3}
             justifyContent="space-between"
@@ -93,7 +80,7 @@ function Index() {
             alignItems="center"
           >
             <div>
-              <h1>Master Database (Comapny)</h1>
+              <h1>Master Database (Company)</h1>
             </div>
             <div>
               <Stack direction="row" spacing={3}>

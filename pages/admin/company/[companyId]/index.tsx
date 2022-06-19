@@ -4,6 +4,7 @@ import {
   FormControl,
   Grid,
   IconButton,
+  Modal,
   Stack,
   TextField,
 } from "@mui/material";
@@ -17,8 +18,12 @@ import { useRouter } from "next/router";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
-import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
+import addCompanyRequest, {
+  Company,
+  HR,
+} from "@callbacks/admin/company/company";
 import useStore from "@store/store";
+import AddHRMD from "@components/Modals/AddHRAdminMD";
 
 const HRcotactDetailsColumns: GridColDef[] = [
   {
@@ -27,50 +32,26 @@ const HRcotactDetailsColumns: GridColDef[] = [
     width: 150,
   },
   {
-    field: "HRname",
+    field: "name",
     headerName: "HR Name",
-    width: 400,
+    width: 200,
   },
   {
-    field: "HRemail",
+    field: "email",
     headerName: "HR E-mail",
-    width: 400,
+    width: 200,
   },
   {
-    field: "HRcontact",
+    field: "phone",
     headerName: "HR Contact",
-    width: 475,
-    renderCell: (cellValues) => (
-      <Stack
-        direction="row"
-        alignItems="center"
-        width="100%"
-        justifyContent="space-between"
-      >
-        <span>{cellValues.row.HRcontact}</span>
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
-      </Stack>
-    ),
-  },
-];
-
-const HRcotactDetailsRows = [
-  {
-    id: 1,
-    HRname: "Name 1",
-    HRemail: "Name1@examples.com",
-    HRcontact: "7007152156",
+    width: 250,
   },
   {
-    id: 2,
-    HRname: "Name 2",
-    HRemail: "Name2@examples.com",
-    HRcontact: "7007152156",
+    field: "designation",
+    headerName: "Designation",
+    width: 250,
   },
 ];
-
 const PastHireColumns: GridColDef[] = [
   {
     field: "id",
@@ -168,7 +149,7 @@ const CompanyHistoryRows = [
 function Index() {
   const { token } = useStore();
   const router = useRouter();
-  const companyId = router.query.companyId?.toString();
+  const companyId = router.query.companyId?.toString() || "";
   const [CompanyData, setCompanyData] = useState<Company>();
   useEffect(() => {
     const fetchCompanyDetails = async () => {
@@ -177,6 +158,26 @@ function Index() {
     };
     fetchCompanyDetails();
   }, [companyId, token]);
+  const [openNew, setOpenNew] = useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+  const [HRcontactRows, setHRcontactRows] = useState<HR[]>([]);
+  useEffect(() => {
+    const fetchHRDetails = async () => {
+      let response = await addCompanyRequest.getAllHR(token, companyId);
+      for (let i = 0; i < response.length; i += 1) {
+        response[i].id = response[i].ID;
+      }
+      setHRcontactRows(response);
+    };
+    if (router.isReady) {
+      fetchHRDetails();
+    }
+  }, [companyId, router.isReady, token]);
   return (
     <div className={styles.container}>
       <Meta title="Master Company Dashboard" />
@@ -251,23 +252,23 @@ function Index() {
           <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>HR Contact Details</h1>
             <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-              <IconButton>
+              <IconButton onClick={handleOpenNew}>
                 <AddIcon />
               </IconButton>
             </Stack>
           </Stack>
           <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
             <DataGrid
-              rows={HRcotactDetailsRows}
+              rows={HRcontactRows}
               columns={HRcotactDetailsColumns}
               pageSize={7}
               rowsPerPageOptions={[7]}
             />
           </div>
         </Stack>
+        <Modal open={openNew} onClose={handleCloseNew}>
+          <AddHRMD handleCloseNew={handleCloseNew} />
+        </Modal>
       </Card>
       <br />
       <br />
