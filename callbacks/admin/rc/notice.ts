@@ -39,18 +39,7 @@ const NoticeReq = {
         err.response?.data.error || err.message
       );
     
-    return [
-          {
-            ID: -1,
-            recruitment_cycle_id: 0,
-            title: "",
-            description: "",
-            attachment: "",
-            created_by: "",
-            CreatedAt: "",
-            last_reminder_at: 0,
-          },
-        ] as NoticeParams[];
+    return [] as NoticeParams[];
       }
     ),
     get: (token: string, rcid: string) =>
