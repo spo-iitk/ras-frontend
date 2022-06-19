@@ -74,7 +74,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
 
   const router = useRouter();
   const { rcId, rcid } = router.query;
-  const something: fields[] = [
+  const dashbboard_items: fields[] = [
     {
       route: `/student`,
       isUser: true,
@@ -114,7 +114,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       ],
     },
     {
-      route: `/student/rc/${rcId}`,
+      route: `/student/rc/${rcid}`,
       isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
@@ -320,7 +320,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
     },
   ];
 
-  return <Layouter items={something[Id]}>{children}</Layouter>;
+  return <Layouter items={dashbboard_items[Id]}>{children}</Layouter>;
 }
 
 export default LayoutWrapper;

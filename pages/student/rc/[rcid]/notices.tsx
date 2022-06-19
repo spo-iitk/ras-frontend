@@ -1,9 +1,9 @@
 import { Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import { useRouter } from "next/router";
 
-import styles from "@styles/studentInternPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
@@ -59,7 +59,7 @@ function Notices() {
   }, [rid, token]);
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Notices" />
       <Stack>
         <h1>Internship 2022-23 Phase 1</h1>
@@ -70,18 +70,12 @@ function Notices() {
         >
           <h2>Notices</h2>
         </Stack>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridNotices}
-        >
-          <DataGrid
-            rows={notices}
-            getRowId={(row: NoticeParams) => row.ID}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid
+          rows={notices}
+          getRowId={(row: any) => row.ID}
+          columns={columns}
+        />
       </Stack>
     </div>
   );
