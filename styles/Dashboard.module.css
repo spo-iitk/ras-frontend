@@ -1,5 +1,20 @@
 .container{
     width: 300px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+
+.container::-webkit-scrollbar { 
+    display: none;
+}
+
+.drawer{
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+
+.drawer::-webkit-scrollbar { 
+    display: none;
 }
 
 @media(max-width: 1750px){

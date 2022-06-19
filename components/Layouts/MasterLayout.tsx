@@ -92,116 +92,123 @@ function MasterLayout({
     setAnchorNotifEl(null);
   };
   const list = (anchor: Anchor) => (
-    <Box
-      sx={{
-        width: anchor === "top" || anchor === "bottom" ? "auto" : 300,
-        backgroundColor: theme.palette.primary.dark,
+    <div
+      className={dashboardstyles.drawer}
+      style={{
+        height: "100vh",
+        overflowY: "auto",
       }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-      padding="10px"
-      height="300vh"
     >
-      <Stack spacing={3}>
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Image
-            src="/images/logo/spoLogo.png"
-            alt="logo"
-            width={60}
-            height={60}
-          />
-        </Stack>
-        <div style={{ height: 10 }} />
-        {items?.isUser ? (
-          <AccountStyle>
-            <Avatar src="" alt="photoURL" />
-            <Box sx={{ ml: 2 }}>
-              <h3 style={{ margin: 5 }}>{items.userInfo.name}</h3>
-              <h4 style={{ margin: 5, fontWeight: 400 }}>
-                {items.userInfo.id}
-              </h4>
-            </Box>
-          </AccountStyle>
-        ) : (
-          <div />
-        )}
+      <Box
+        sx={{
+          width: anchor === "top" || anchor === "bottom" ? "auto" : 300,
+          backgroundColor: theme.palette.primary.dark,
+        }}
+        role="presentation"
+        onClick={toggleDrawer(anchor, false)}
+        onKeyDown={toggleDrawer(anchor, false)}
+        padding="10px"
+      >
+        <Stack spacing={3}>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Image
+              src="/images/logo/spoLogo.png"
+              alt="logo"
+              width={60}
+              height={60}
+            />
+          </Stack>
+          <div style={{ height: 10 }} />
+          {items?.isUser ? (
+            <AccountStyle>
+              <Avatar src="" alt="photoURL" />
+              <Box sx={{ ml: 2 }}>
+                <h3 style={{ margin: 5 }}>{items.userInfo.name}</h3>
+                <h4 style={{ margin: 5, fontWeight: 400 }}>
+                  {items.userInfo.id}
+                </h4>
+              </Box>
+            </AccountStyle>
+          ) : (
+            <div />
+          )}
 
-        <List sx={style} component="nav" aria-label="mailbox folders">
-          {items?.userData.map((item) => (
-            <Link href={`${items.route}${item.id}`} passHref key={item.id}>
-              <ListItem
-                sx={{ borderRadius: 5 }}
-                button
-                selected={!!match(`${items.route}${item.id}`)}
-              >
-                <ListItemAvatar
-                  sx={{
-                    color: match(`${items.route}${item.id}`)
-                      ? theme.palette.secondary.light
-                      : "white",
-                  }}
+          <List sx={style} component="nav" aria-label="mailbox folders">
+            {items?.userData.map((item) => (
+              <Link href={`${items.route}${item.id}`} passHref key={item.id}>
+                <ListItem
+                  sx={{ borderRadius: 5 }}
+                  button
+                  selected={!!match(`${items.route}${item.id}`)}
                 >
-                  {item.avatar}
-                </ListItemAvatar>
-                <ListItemText>
-                  <h4
-                    style={{
-                      margin: 5,
+                  <ListItemAvatar
+                    sx={{
                       color: match(`${items.route}${item.id}`)
                         ? theme.palette.secondary.light
                         : "white",
                     }}
                   >
-                    {item.name}
-                  </h4>
+                    {item.avatar}
+                  </ListItemAvatar>
+                  <ListItemText>
+                    <h4
+                      style={{
+                        margin: 5,
+                        color: match(`${items.route}${item.id}`)
+                          ? theme.palette.secondary.light
+                          : "white",
+                      }}
+                    >
+                      {item.name}
+                    </h4>
+                  </ListItemText>
+                </ListItem>
+              </Link>
+            ))}
+            {items?.moveBack ? (
+              <Link href={`${items.moveTo}`} passHref>
+                <ListItem sx={{ borderRadius: 5 }} button>
+                  <ListItemAvatar sx={{ color: "white" }}>
+                    <LogoutIcon />
+                  </ListItemAvatar>
+                  <ListItemText>
+                    <h4 style={{ margin: 5, color: "white" }}>
+                      Back to Dashboard
+                    </h4>
+                  </ListItemText>
+                </ListItem>
+              </Link>
+            ) : (
+              <div />
+            )}
+            <a
+              href="https://spo.iitk.ac.in/about_us.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <ListItem sx={{ borderRadius: 5 }} button>
+                <ListItemAvatar sx={{ color: "white" }}>
+                  <CallIcon />
+                </ListItemAvatar>
+                <ListItemText>
+                  <h4 style={{ margin: 5, color: "white" }}>Contact SPO</h4>
                 </ListItemText>
               </ListItem>
-            </Link>
-          ))}
-          {items?.moveBack ? (
-            <Link href={`${items.moveTo}`} passHref>
+            </a>
+            <Link href="/login" passHref key="logout">
               <ListItem sx={{ borderRadius: 5 }} button>
                 <ListItemAvatar sx={{ color: "white" }}>
                   <LogoutIcon />
                 </ListItemAvatar>
                 <ListItemText>
-                  <h4 style={{ margin: 5, color: "white" }}>
-                    Back to Dashboard
-                  </h4>
+                  <h4 style={{ margin: 5, color: "white" }}>Logout</h4>
                 </ListItemText>
               </ListItem>
             </Link>
-          ) : (
-            <div />
-          )}
-          <a
-            href="https://spo.iitk.ac.in/about_us.html"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <ListItem sx={{ borderRadius: 5 }} button>
-              <ListItemAvatar sx={{ color: "white" }}>
-                <CallIcon />
-              </ListItemAvatar>
-              <ListItemText>
-                <h4 style={{ margin: 5, color: "white" }}>Contact SPO</h4>
-              </ListItemText>
-            </ListItem>
-          </a>
-          <Link href="/login" passHref key="logout">
-            <ListItem sx={{ borderRadius: 5 }} button>
-              <ListItemAvatar sx={{ color: "white" }}>
-                <LogoutIcon />
-              </ListItemAvatar>
-              <ListItemText>
-                <h4 style={{ margin: 5, color: "white" }}>Logout</h4>
-              </ListItemText>
-            </ListItem>
-          </Link>
-        </List>
-      </Stack>
-    </Box>
+          </List>
+        </Stack>
+      </Box>
+    </div>
   );
 
   return (
@@ -213,7 +220,7 @@ function MasterLayout({
         justifyContent="center"
         spacing={0}
       >
-        <Grid item xs={12} xl={2}>
+        <Grid item xs={12} xl={2} sx={{ overflow: "hidden" }}>
           <div
             className={dashboardstyles.container}
             style={{
@@ -221,6 +228,7 @@ function MasterLayout({
               height: "100vh",
               padding: 20,
               backgroundColor: theme.palette.primary.dark,
+              overflowY: "auto",
             }}
           >
             <Stack spacing={3}>

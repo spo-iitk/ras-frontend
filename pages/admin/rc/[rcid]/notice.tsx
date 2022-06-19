@@ -2,34 +2,121 @@ import AddIcon from "@mui/icons-material/Add";
 import { IconButton, Modal, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
+import { useRouter } from "next/router";
+import DeleteIcon from "@mui/icons-material/Delete";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import styles from "@styles/adminPhase.module.css";
 import NewNotice from "@components/Modals/newNotice";
 import Meta from "@components/Meta";
+import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
+import useStore from "@store/store";
 
+function DeleteNotice(props: { id: string }) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const { id } = props;
+  return (
+    <IconButton
+      onClick={() => {
+        if (rid === undefined || rid === "") return;
+        NoticeReq.delete(token, rid, id);
+      }}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+}
+function NotifyNotice(props: { id: string }) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const { id } = props;
+  return (
+    <IconButton
+      onClick={() => {
+        if (rid === undefined || rid === "") return;
+        NoticeReq.notify(token, rid, id);
+      }}
+    >
+      <NotificationsIcon />
+    </IconButton>
+  );
+}
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "Id",
     width: 100,
   },
   {
-    field: "name",
+    field: "title",
     headerName: "Company Name",
     width: 300,
   },
   {
-    field: "publishedDateAndTime",
+    field: "CreatedAt",
     headerName: "Published Date And Time",
+    valueGetter: ({ value }) =>
+      value &&
+      `${new Date(value).toLocaleDateString()} ${new Date(
+        value
+      ).toLocaleTimeString()}`,
     width: 200,
   },
+  {
+    field: "button1",
+    headerName: "",
+    renderCell: (params) => <DeleteNotice id={params.row.ID} />,
+    width: 50,
+    align: "center",
+  },
+  {
+    field: "button2",
+    headerName: "",
+    renderCell: (params) => <NotifyNotice id={params.row.ID} />,
+    width: 50,
+    align: "center",
+  },
+  // {
+  //   field: "button2",
+  //   headerName: "",
+  //   renderCell: () => (
+  //     <IconButton
+  //       onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
+  //         const { id } = e.currentTarget;
+  //         await NoticeReq.notif(token, id);
+  //       }}
+  //     >
+  //       <NotificationsIcon />
+  //     </IconButton>
+  //   ),
+  //   width: 50,
+  //   align: "center",
+  // },
 ];
-
-const rows = [
-  { id: 1, name: "Company Name : Title", publishedDateAndTime: "May 26 2019" },
-];
-
 function Index() {
+  const { token } = useStore();
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const [notices, setNotice] = React.useState<NoticeParams[]>([
+    {
+      ID: 0,
+      recruitment_cycle_id: 0,
+      title: "I",
+      description: "",
+      tags: "",
+      attachment: "",
+      created_by: "",
+      CreatedAt: "",
+      last_reminder_at: 0,
+    },
+  ]);
+
   const [openNew, setOpenNew] = React.useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
@@ -37,6 +124,15 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
+  React.useEffect(() => {
+    const fetch = async () => {
+      if (rid === undefined || rid === "") return;
+      const notice: NoticeParams[] = await NoticeReq.getAll(token, rid);
+
+      setNotice(notice);
+    };
+    fetch();
+  }, [rid, token]);
 
   return (
     <div className={styles.container}>
@@ -60,7 +156,8 @@ function Index() {
           className={styles.datagridNotices}
         >
           <DataGrid
-            rows={rows}
+            rows={notices}
+            getRowId={(row: NoticeParams) => row.ID}
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}
@@ -68,7 +165,7 @@ function Index() {
         </div>
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <NewNotice handleCloseNew={handleCloseNew} />
+        <NewNotice handleCloseNew={handleCloseNew} setNotice={setNotice} />
       </Modal>
     </div>
   );

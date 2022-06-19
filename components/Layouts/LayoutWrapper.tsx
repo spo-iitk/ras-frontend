@@ -97,11 +97,6 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/profile",
         },
         {
-          avatar: <TravelExploreIcon />,
-          name: "Recruitment Portal",
-          id: "/recruitmentportal",
-        },
-        {
           avatar: <LightbulbIcon />,
           name: "Placements Insight",
           id: "/placementinsights",
@@ -245,12 +240,12 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         },
         {
           avatar: <BarChartIcon />,
-          name: "Maste Database (Company)",
+          name: "Master Database (Company)",
           id: "/company",
         },
         {
           avatar: <BarChartIcon />,
-          name: "Maste Database (Student)",
+          name: "Master Database (Student)",
           id: "/student",
         },
         {

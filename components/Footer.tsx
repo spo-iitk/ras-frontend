@@ -70,6 +70,7 @@ function Footer() {
         backgroundColor: theme.palette.primary.dark,
         color: "white",
         marginTop: 30,
+        padding: "30px 0px",
       }}
     >
       <div className={footerStyles.footer}>
