@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   FormControl,
@@ -12,12 +12,13 @@ import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import DownloadIcon from "@mui/icons-material/Download";
+import { useRouter } from "next/router";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
-
-const CompanyTags = ["Software", "Non-Core"];
+import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
+import useStore from "@store/store";
 
 const HRcotactDetailsColumns: GridColDef[] = [
   {
@@ -165,6 +166,17 @@ const CompanyHistoryRows = [
   },
 ];
 function Index() {
+  const { token } = useStore();
+  const router = useRouter();
+  const companyId = router.query.companyId?.toString();
+  const [CompanyData, setCompanyData] = useState<Company>();
+  useEffect(() => {
+    const fetchCompanyDetails = async () => {
+      let response = await addCompanyRequest.get(token, companyId);
+      setCompanyData(response);
+    };
+    fetchCompanyDetails();
+  }, [companyId, token]);
   return (
     <div className={styles.container}>
       <Meta title="Master Company Dashboard" />
@@ -181,7 +193,7 @@ function Index() {
             alignItems="center"
             justifyContent="space-between"
           >
-            <h1>Comapny Profile</h1>
+            <h1>Company Profile</h1>
             <IconButton>
               <MoreVertIcon />
             </IconButton>
@@ -198,32 +210,30 @@ function Index() {
             }}
           >
             <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Comapny Name
+              Company Name
             </Grid>
             <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              XYZ
+              {CompanyData?.name}
             </Grid>
             <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
               Tags
             </Grid>
             <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              {CompanyTags.map((tag) => (
-                <span key="tag">{tag} | </span>
-              ))}
+              <span key="tag">{CompanyData?.tags}</span>
             </Grid>
             <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
               Website
             </Grid>
             <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
               <Link href="#">
-                <a>https://xyz.com</a>
+                <a>{CompanyData?.website}</a>
               </Link>
             </Grid>
             <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Desription
+              Description
             </Grid>
             <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Lorememisi
+              {CompanyData?.description}
             </Grid>
           </Grid>
         </Stack>
