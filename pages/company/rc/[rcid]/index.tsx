@@ -2,10 +2,10 @@ import React from "react";
 import { IconButton, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/internPhase.module.css";
 import ActiveButton from "@components/Buttons/ActiveButton";
 
 const ROUTE_PATH = "/company/rc/[rcId]/proforma/[proformaId]";
@@ -71,22 +71,13 @@ const rows = [
 
 function Overview() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Overview - QuadEye" />
       <Stack>
         <h1>Internship Recruitment Drive 2022-23</h1>
         <h2>Overview</h2>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridOpenings}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

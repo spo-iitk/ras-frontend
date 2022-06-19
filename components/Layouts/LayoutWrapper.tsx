@@ -73,7 +73,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
   const Id = Ids[layoutType];
 
   const router = useRouter();
-  const { rcId, rcid } = router.query;
+  const { rcid } = router.query;
   const dashbboard_items: fields[] = [
     {
       route: `/student`,
@@ -195,7 +195,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       ],
     },
     {
-      route: `/company/rc/${rcId}`,
+      route: `/company/rc/${rcid}`,
       isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
