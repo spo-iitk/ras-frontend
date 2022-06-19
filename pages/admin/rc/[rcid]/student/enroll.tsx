@@ -8,6 +8,7 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import postEmails, { Emails } from "@callbacks/admin/rc/student/enrollStudents";
+import useStore from "@store/store";
 
 interface EnrollForm {
   email: string;
@@ -24,19 +25,18 @@ function Enroll() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
 
+  const { token } = useStore();
   const onSubmit = async (data: EnrollForm) => {
-    console.log(data);
-    const token = sessionStorage.getItem("token") || "";
     const tosend: Emails = {
       email: [...data.email.split(",")],
     };
-    console.log(tosend);
 
-    const response = await postEmails
-      .post(token, rid, tosend)
-      .then(() => reset({ email: "" }))
-      .catch(() => ({ email: [] } as Emails));
-    console.log(response);
+    const response = await postEmails.post(token, rid, tosend);
+    if (response) {
+      reset({
+        email: "",
+      });
+    }
   };
 
   return (
@@ -75,7 +75,9 @@ function Enroll() {
               <InactiveButton
                 sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
                 onClick={() => {
-                  console.log("Hello");
+                  reset({
+                    email: "",
+                  });
                 }}
               >
                 Reset

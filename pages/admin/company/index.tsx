@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
-import { IconButton, Stack } from "@mui/material";
+import { IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
 import useStore from "@store/store";
+import AddCompanyMD from "@components/Modals/AddCompanyAdminMD";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
@@ -61,6 +62,14 @@ function Index() {
     };
     getCompanydata();
   }, [row, token]);
+  const [openNew, setOpenNew] = useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+
   return (
     <div className={styles.container}>
       <Meta title="Master Company Database" />
@@ -77,6 +86,26 @@ function Index() {
               </IconButton>
             </Stack>
           </div>
+          <Stack
+            spacing={3}
+            justifyContent="space-between"
+            direction="row"
+            alignItems="center"
+          >
+            <div>
+              <h1>Master Database (Comapny)</h1>
+            </div>
+            <div>
+              <Stack direction="row" spacing={3}>
+                <IconButton onClick={handleOpenNew}>
+                  <AddIcon />
+                </IconButton>
+                <IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+              </Stack>
+            </div>
+          </Stack>
         </Grid>
         <div
           className={styles.datagridMasterCompany}
@@ -90,6 +119,9 @@ function Index() {
           />
         </div>
       </Grid>
+      <Modal open={openNew} onClose={handleCloseNew}>
+        <AddCompanyMD handleCloseNew={handleCloseNew} />
+      </Modal>
     </div>
   );
 }
