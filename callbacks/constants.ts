@@ -9,7 +9,6 @@ export const STUDENT_URL = `${BASE_URL}/api/student`;
 export const COMPANY_URL = `${BASE_URL}/api/company`;
 
 export const ADMIN_RC_URL = `${BASE_URL}/api/admin/rc`;
-export const STUDENT_RC_URL = `${BASE_URL}/api/student/rc`;
 export const ADMIN_STUDENT_URL = `${BASE_URL}/api/admin/student`;
 export const ADMIN_COMPANY_URL = `${BASE_URL}/api/admin/company`;
 export const ADMIN_APPLICATION_URL = `${BASE_URL}/api/admin/application`;

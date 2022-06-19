@@ -24,7 +24,11 @@ const columns: GridColDef[] = [
   {
     field: "CreatedAt",
     headerName: "Published Date And Time",
-    valueGetter: ({ value }) => value && new Date(value),
+    valueGetter: ({ value }) =>
+      value &&
+      `${new Date(value).toLocaleDateString()} ${new Date(
+        value
+      ).toLocaleTimeString()}`,
     width: 200,
   },
 ];
