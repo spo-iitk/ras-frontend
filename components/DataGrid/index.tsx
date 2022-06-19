@@ -1,8 +1,24 @@
 import * as React from "react";
-import { DataGrid, GridRowHeightParams, GridToolbar } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRowHeightParams,
+  GridToolbar,
+} from "@mui/x-data-grid";
 
-function Index({ rows, cols }: any) {
+interface params {
+  rows: any[];
+  columns: GridColDef[];
+}
+
+function Index({ rows, columns }: params) {
   const [pageSize, setPageSize] = React.useState<number>(10);
+
+  const cols = columns.map((col) => ({
+    ...col,
+    flex: 1,
+    minWidth: 200,
+  }));
 
   return (
     <div style={{ height: 500, width: "100%" }}>
@@ -10,6 +26,13 @@ function Index({ rows, cols }: any) {
         rows={rows}
         columns={cols}
         components={{ Toolbar: GridToolbar }}
+        componentsProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
+        }}
+        disableDensitySelector
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[10, 25, 50, 100]}
