@@ -10,7 +10,7 @@ import {
 } from "@callbacks/constants";
 
 export interface Step1Params {
-  companyn_ame: string;
+  company_name: string;
   job_description: string;
   nature_of_business: string;
   tentative_job_location: string;
@@ -53,7 +53,7 @@ const newProforma = {
       }),
   postStep3: (token: string, rid: string, body: Step3Params) =>
     instance
-      .post<
+      .put<
         StatusResponse,
         AxiosResponse<StatusResponse, Step3Params>,
         Step3Params
@@ -68,7 +68,7 @@ const newProforma = {
       }),
   postStep5: (token: string, rid: string, body: Step5Params) =>
     instance
-      .post<
+      .put<
         StatusResponse,
         AxiosResponse<StatusResponse, Step5Params>,
         Step5Params
