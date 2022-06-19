@@ -30,12 +30,13 @@ function Step5() {
     formState: { errors },
   } = useForm();
   const router = useRouter();
-  const { rcId } = router.query;
+  const { rcId, proformaId } = router.query;
   const rid = (rcId || "").toString();
+  const pid = (proformaId || "").toString();
   const { token } = useStore();
   const handleNext = async (data: any) => {
     console.log(data);
-    await newProforma.postStep5(token, rid, data).then((res) => {
+    await newProforma.postStep5(token, rid, pid, data).then((res) => {
       console.log(res);
       reset({
         eligibility_riteria: "",

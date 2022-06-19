@@ -28,9 +28,9 @@ function Step3() {
     control,
   } = useForm();
   const router = useRouter();
-  const { rcId } = router.query;
+  const { rcId, proformaId } = router.query;
   const rid = (rcId || "").toString();
-
+  const pid = (proformaId || "").toString();
   const { token } = useStore();
   const [ctc, changeCTC] = useState("");
   const [pkgDetails, changePkg] = useState("");
@@ -42,7 +42,7 @@ function Step3() {
       cost_to_company: ctc,
     };
     console.log(info);
-    await newProforma.postStep3(token, rid, info).then((res) => {
+    await newProforma.postStep3(token, rid, pid, info).then((res) => {
       console.log(res);
       reset({
         bond: "false",

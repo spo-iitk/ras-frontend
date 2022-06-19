@@ -51,13 +51,13 @@ const newProforma = {
         errorNotification("Submission Failed", err.response?.data?.error);
         return false;
       }),
-  postStep3: (token: string, rid: string, body: Step3Params) =>
+  postStep3: (token: string, rid: string, pid: string, body: Step3Params) =>
     instance
       .put<
         StatusResponse,
         AxiosResponse<StatusResponse, Step3Params>,
         Step3Params
-      >(`/application/rc/${rid}/proforma`, body, setConfig(token))
+      >(`/application/rc/${rid}/proforma/${pid}`, body, setConfig(token))
       .then((res) => {
         successNotification("Submitted", res.data.status);
         return true;
@@ -66,13 +66,13 @@ const newProforma = {
         errorNotification("Submission Failed", err.response?.data?.error);
         return false;
       }),
-  postStep5: (token: string, rid: string, body: Step5Params) =>
+  postStep5: (token: string, rid: string, pid: string, body: Step5Params) =>
     instance
       .put<
         StatusResponse,
         AxiosResponse<StatusResponse, Step5Params>,
         Step5Params
-      >(`/application/rc/${rid}/proforma`, body, setConfig(token))
+      >(`/application/rc/${rid}/proforma/${pid}`, body, setConfig(token))
       .then((res) => {
         successNotification("Submitted", res.data.status);
         return true;
