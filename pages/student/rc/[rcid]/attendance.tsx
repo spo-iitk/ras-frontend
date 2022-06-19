@@ -1,11 +1,11 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 
 import Meta from "@components/Meta";
-import styles from "@styles/studentInternPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import ActiveButton from "@components/Buttons/ActiveButton";
+import DataGrid from "@components/DataGrid";
 
 const columns: GridColDef[] = [
   {
@@ -76,16 +76,12 @@ const rows = [
 
 function Attendance() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Attendance - Intern Season" />
       <Stack>
         <h1>Attendance</h1>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridAttendance}
-        >
-          <DataGrid rows={rows} columns={columns} pageSize={7} />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

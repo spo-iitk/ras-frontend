@@ -1,13 +1,13 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Link from "next/link";
 
+import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/studentInternPhase.module.css";
 import Meta from "@components/Meta";
 
 const ROUTE_PREFIX = "/student/rc/[rcId]/proforma/[proformaId]";
@@ -110,16 +110,11 @@ function Openings() {
   ];
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Openings - Intern Season" />
       <Stack>
         <h1>Job Openings</h1>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridOpening}
-        >
-          <DataGrid rows={rows} columns={columns} pageSize={7} />
-        </div>
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

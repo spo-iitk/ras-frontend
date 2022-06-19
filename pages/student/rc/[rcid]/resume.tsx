@@ -1,10 +1,10 @@
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { Box, Grid, IconButton, Modal, Stack, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 
-import styles from "@styles/internPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 
@@ -110,7 +110,7 @@ function Resume() {
   const handleClose = () => setOpen(false);
   return (
     <>
-      <div className={styles.container}>
+      <div className="container">
         <Meta title="Manage Resume - Intern Season" />
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>
@@ -125,12 +125,7 @@ function Resume() {
           </Grid>
         </Grid>
         <Stack>
-          <div
-            style={{ height: 500, margin: "0px auto" }}
-            className={styles.datagridResume}
-          >
-            <DataGrid rows={rows} columns={columns} pageSize={7} />
-          </div>
+          <DataGrid rows={rows} columns={columns} />
         </Stack>
       </div>
       <Modal open={open} onClose={handleClose}>
