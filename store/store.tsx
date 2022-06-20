@@ -2,7 +2,7 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
-export interface StateType {
+interface StateType {
   role: number;
   token: string;
   userID: string;

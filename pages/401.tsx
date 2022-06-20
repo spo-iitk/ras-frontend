@@ -19,10 +19,10 @@ const CustomButton = styled(Button)<ButtonProps>(() => ({
   fontSize: 18,
 }));
 
-function Custom404() {
+function Custom401() {
   return (
     <div>
-      <Meta title="Page Not Found" />
+      <Meta title="Unauthorized" />
       <Stack
         spacing={4}
         justifyContent="center"
@@ -30,12 +30,12 @@ function Custom404() {
         sx={{ padding: "10px 30px", marginTop: 4 }}
       >
         <h1> Unauthorized!</h1>
-        <Typography variant="subtitle1" sx={{ color: "#757575" }}>
+        <Typography variant="h5" sx={{ color: "#757575" }}>
           Sorry, you're not authorized to view the page. Perhaps you&apos;ve
           mistyped the URL? Be sure to check your spelling. or you may not have
           logged in.
         </Typography>
-        <Image src="/images/404.png" width={250} height={300} alt="error 404" />
+        <Image src="/images/401.png" width={600} height={550} alt="error 404" />
         <CustomButton variant="contained" color="primary" href="/">
           Go To Home
         </CustomButton>
@@ -44,5 +44,5 @@ function Custom404() {
   );
 }
 
-Custom404.layout = "none";
-export default Custom404;
+Custom401.layout = "Navigation";
+export default Custom401;

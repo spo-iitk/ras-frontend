@@ -24,6 +24,7 @@ import React from "react";
 
 import theme from "@components/theme/theme";
 import dashboardstyles from "@styles/Dashboard.module.css";
+import useStore from "@store/store";
 
 import { fields } from "./LayoutWrapper";
 
@@ -76,7 +77,7 @@ function MasterLayout({
   const [anchorNotifEl, setAnchorNotifEl] = React.useState<null | HTMLElement>(
     null
   );
-
+  const { setToken } = useStore();
   const open = Boolean(anchorEl);
   const notifOpen = Boolean(anchorNotifEl);
   const handleNotifClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -192,7 +193,11 @@ function MasterLayout({
             </ListItem>
           </a>
           <Link href="/login" passHref key="logout">
-            <ListItem sx={{ borderRadius: 5 }} button>
+            <ListItem
+              sx={{ borderRadius: 5 }}
+              button
+              onClick={() => setToken("")}
+            >
               <ListItemAvatar sx={{ color: "white" }}>
                 <LogoutIcon />
               </ListItemAvatar>
@@ -316,7 +321,11 @@ function MasterLayout({
                   </ListItem>
                 </a>
                 <Link href="/login" passHref key="logout">
-                  <ListItem sx={{ borderRadius: 5 }} button>
+                  <ListItem
+                    sx={{ borderRadius: 5 }}
+                    button
+                    onClick={() => setToken("")}
+                  >
                     <ListItemAvatar sx={{ color: "white" }}>
                       <LogoutIcon />
                     </ListItemAvatar>
@@ -396,7 +405,7 @@ function MasterLayout({
         <MenuItem>
           <Link href="/student/profile">Profile</Link>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => setToken("")}>
           <Link href="/login">Logout</Link>
         </MenuItem>
       </Menu>

@@ -30,11 +30,11 @@ function Custom404() {
         sx={{ padding: "10px 30px", marginTop: 4 }}
       >
         <h1> Sorry, page not found!</h1>
-        <Typography variant="subtitle1" sx={{ color: "#757575" }}>
+        <Typography variant="h5" sx={{ color: "#757575" }}>
           Sorry, we couldn&apos;t find the page you&apos;re looking for. Perhaps
           you&apos;ve mistyped the URL? Be sure to check your spelling.
         </Typography>
-        <Image src="/images/404.png" width={250} height={300} alt="error 404" />
+        <Image src="/images/404.png" width={600} height={550} alt="error 404" />
         <CustomButton variant="contained" color="primary" href="/">
           Go To Home
         </CustomButton>
@@ -43,5 +43,5 @@ function Custom404() {
   );
 }
 
-Custom404.layout = "none";
+Custom404.layout = "Navigation";
 export default Custom404;
