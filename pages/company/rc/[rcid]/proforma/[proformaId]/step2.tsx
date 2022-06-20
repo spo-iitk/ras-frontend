@@ -8,92 +8,81 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import RemoveIcon from "@mui/icons-material/Remove";
 
-import { Branches, program } from "@components/Utils/matrixUtils";
+import {
+  Branches,
+  func,
+  programExpanded,
+  programType,
+} from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step3";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step3";
 
 function Step2() {
-  const [val, setVal] = useState(Array(138).fill(0));
-  const { handleSubmit } = useForm();
+  const [str, setStr] = useState(new Array(100 + 1).join("0"));
   const router = useRouter();
-  const { rcId } = router.query;
+  const { rcid } = router.query;
 
-  const handleNext = (data: any) => {
-    console.log(data);
+  const handleNext = () => {
     router.push({
       pathname: ROUTE,
-      query: { rcId, proformaId: 1 },
+      query: { rcid, proformaId: 1 },
     });
   };
 
   const handleCheckAll = () => {
-    setVal(
-      val.map((value) => {
-        if (value !== -1) {
-          return 1;
-        }
-        return value;
-      })
-    );
-  };
-
-  const handleProgramWise = (i: number) => {
-    let j = 0;
-    setVal(
-      val.map((value, index) => {
-        if (index === 6 * j + i) {
-          if (value !== -1) {
-            j += 1;
-            return 1;
-          }
-          j += 1;
-          return value;
-        }
-        return value;
-      })
-    );
-  };
-  const handleCheck = (i: number, j: number) => {
-    setVal(
-      val.map((value, index) => {
-        if (index === i * 6 + j) {
-          if (value === 0) {
-            return 1;
-          }
-          if (value === 1) {
-            return 0;
-          }
-          return value;
-        }
-        return value;
-      })
-    );
-  };
-
-  const handleBranchWise = (i: number) => {
-    let j = 0;
-    setVal(
-      val.map((value, index) => {
-        if (index === 6 * i + j && index < 6 * (i + 1)) {
-          if (value !== -1) {
-            j += 1;
-            return 1;
-          }
-          j += 1;
-          return value;
-        }
-        return value;
-      })
-    );
+    setStr(new Array(100 + 1).join("1"));
   };
 
   const handleReset = () => {
-    setVal(Array(138).fill(0));
+    setStr(new Array(100 + 1).join("0"));
+  };
+
+  const handleProgramWise = (programName: string[]) => {
+    let newStr = str;
+    Branches.forEach((branch) => {
+      programName.forEach((program) => {
+        const idx =
+          func[branch as keyof typeof func][program as keyof programType];
+        if (idx !== -1) {
+          newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+        }
+      });
+    });
+    setStr(newStr);
+    console.log(newStr);
+  };
+
+  const handleBranchWise = (branchName: string) => {
+    let newStr = str;
+    programExpanded.forEach((programName) => {
+      const idx =
+        func[branchName as keyof typeof func][programName as keyof programType];
+      if (idx !== -1) {
+        newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+      }
+    });
+    setStr(newStr);
+  };
+
+  const handleCheck = (branch: string, program: string[]) => {
+    let newStr = str;
+    program.forEach((programName) => {
+      const idx =
+        func[branch as keyof typeof func][programName as keyof programType];
+      if (idx !== -1) {
+        if (str[idx] === "1") {
+          newStr = `${str.substring(0, idx)}0${str.substring(idx + 1)}`;
+        } else {
+          newStr = `${str.substring(0, idx)}1${str.substring(idx + 1)}`;
+        }
+      }
+    });
+    setStr(newStr);
   };
 
   return (
@@ -140,46 +129,188 @@ function Step2() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
                     Program
                   </TableCell>
-                  {program.map((prog: string, k: number) => (
-                    <TableCell key={prog} align="center" width={300}>
-                      <Button onClick={() => handleProgramWise(k)}>
-                        {prog}
-                      </Button>
-                    </TableCell>
-                  ))}
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    <Button
+                      onClick={() =>
+                        handleProgramWise(["BT", "BS", "DoubleMajor"])
+                      }
+                    >
+                      BT / BS / Double Major
+                    </Button>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    <Button
+                      onClick={() => handleProgramWise(["MT", "MSc", "MSR"])}
+                    >
+                      MT / MSc /MSR
+                    </Button>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    <Button
+                      onClick={() =>
+                        handleProgramWise(["DualA", "DualB", "DualC"])
+                      }
+                    >
+                      Dual
+                    </Button>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    <Button onClick={() => handleProgramWise(["MDes"])}>
+                      MDes
+                    </Button>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    <Button onClick={() => handleProgramWise(["MBA"])}>
+                      MBA
+                    </Button>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    <Button onClick={() => handleProgramWise(["PhD"])}>
+                      PhD
+                    </Button>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Array(22)
-                  .fill(0)
-                  .map((_, i) => (
-                    <TableRow>
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                        sx={{ fontWeight: 600 }}
-                      >
-                        <Button onClick={() => handleBranchWise(i)}>
-                          {Branches[i]}
-                        </Button>
-                      </TableCell>
-                      {Array(6)
-                        .fill(0)
-                        .map((__, j) => (
-                          <TableCell align="center">
-                            <Checkbox
-                              disabled={val[6 * i + j] === -1}
-                              checked={val[6 * i + j] === 1}
-                              onChange={() => handleCheck(i, j)}
-                            />
-                          </TableCell>
-                        ))}
-                    </TableRow>
-                  ))}
+                {Branches.map((branch) => (
+                  <TableRow>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      sx={{ fontWeight: 600 }}
+                    >
+                      <Button onClick={() => handleBranchWise(branch)}>
+                        {branch}
+                      </Button>
+                    </TableCell>
+                    <TableCell width={100} align="center">
+                      {func[branch as keyof typeof func].BT === -1 &&
+                      func[branch as keyof typeof func].BS === -1 &&
+                      func[branch as keyof typeof func].DoubleMajor === -1 ? (
+                        <RemoveIcon />
+                      ) : (
+                        <Checkbox
+                          checked={
+                            str[func[branch as keyof typeof func].BT] === "1" ||
+                            str[func[branch as keyof typeof func].BS] === "1" ||
+                            str[
+                              func[branch as keyof typeof func].DoubleMajor
+                            ] === "1"
+                          }
+                          onClick={() =>
+                            handleCheck(branch, ["BT", "BS", "DoubleMajor"])
+                          }
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell width={100} align="center">
+                      {func[branch as keyof typeof func].MT === -1 &&
+                      func[branch as keyof typeof func].MSc === -1 &&
+                      func[branch as keyof typeof func].MSR === -1 ? (
+                        <RemoveIcon />
+                      ) : (
+                        <Checkbox
+                          checked={
+                            str[func[branch as keyof typeof func].MT] === "1" ||
+                            str[func[branch as keyof typeof func].MSc] ===
+                              "1" ||
+                            str[func[branch as keyof typeof func].MSR] === "1"
+                          }
+                          onClick={() =>
+                            handleCheck(branch, ["MT", "MSc", "MSR"])
+                          }
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell width={100} align="center">
+                      {func[branch as keyof typeof func].DualA === -1 &&
+                      func[branch as keyof typeof func].DualB === -1 &&
+                      func[branch as keyof typeof func].DualC === -1 ? (
+                        <RemoveIcon />
+                      ) : (
+                        <Checkbox
+                          checked={
+                            str[func[branch as keyof typeof func].DualA] ===
+                              "1" ||
+                            str[func[branch as keyof typeof func].DualB] ===
+                              "1" ||
+                            str[func[branch as keyof typeof func].DualC] === "1"
+                          }
+                          onClick={() =>
+                            handleCheck(branch, ["DualA", "DualB", "DualC"])
+                          }
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell width={100} align="center">
+                      {func[branch as keyof typeof func].MDes === -1 ? (
+                        <RemoveIcon />
+                      ) : (
+                        <Checkbox
+                          checked={
+                            str[func[branch as keyof typeof func].MDes] === "1"
+                          }
+                          onClick={() => handleCheck(branch, ["MDes"])}
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell width={100} align="center">
+                      {func[branch as keyof typeof func].MBA === -1 ? (
+                        <RemoveIcon />
+                      ) : (
+                        <Checkbox
+                          checked={
+                            str[func[branch as keyof typeof func].MBA] === "1"
+                          }
+                          onClick={() => handleCheck(branch, ["MBA"])}
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell width={100} align="center">
+                      {func[branch as keyof typeof func].PhD === -1 ? (
+                        <RemoveIcon />
+                      ) : (
+                        <Checkbox
+                          checked={
+                            str[func[branch as keyof typeof func].PhD] === "1"
+                          }
+                          onClick={() => handleCheck(branch, ["PhD"])}
+                        />
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -191,7 +322,7 @@ function Step2() {
             <Button
               variant="contained"
               sx={{ width: "100%" }}
-              onClick={handleSubmit(handleNext)}
+              onClick={handleNext}
             >
               Next
             </Button>
@@ -209,5 +340,5 @@ function Step2() {
   );
 }
 
-Step2.layout = "companyPhaseDashboard";
+Step2.layout = "adminPhaseDashBoard";
 export default Step2;

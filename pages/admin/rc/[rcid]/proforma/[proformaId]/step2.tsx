@@ -20,7 +20,7 @@ import {
 } from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
 
-const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step3";
+const ROUTE = "/admin/rc/[rcid]/proforma/[proformaId]/step3";
 
 function Step2() {
   const [str, setStr] = useState(new Array(100 + 1).join("0"));

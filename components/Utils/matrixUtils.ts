@@ -1,4 +1,4 @@
-export const program = [
+export const programCondensed = [
   "BT/BS/Double Major",
   "MT/MSc/MSR",
   "Dual",
@@ -499,4 +499,4 @@ const rev = {
   94: "MSR-SEE",
 };
 
-export default { programExpanded, Branches, program, rev, func };
+export default { programExpanded, Branches, programCondensed, rev, func };
