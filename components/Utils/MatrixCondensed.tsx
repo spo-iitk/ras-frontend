@@ -11,7 +11,7 @@ import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { Branches, program } from "@components/Utils/matrixUtils";
+import { Branches, programCondensed } from "@components/Utils/matrixUtils";
 
 function MatrixCondensed({ data }: any) {
   return (
@@ -22,7 +22,7 @@ function MatrixCondensed({ data }: any) {
             <TableCell align="center" sx={{ fontWeight: 600 }}>
               Program
             </TableCell>
-            {program.map((prog: string) => (
+            {programCondensed.map((prog: string) => (
               <TableCell
                 key={prog}
                 align="center"
