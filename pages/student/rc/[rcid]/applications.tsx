@@ -1,8 +1,8 @@
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { Button, Grid, Stack } from "@mui/material";
 
-import styles from "@styles/internPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 
 const sideTextStyle = {
@@ -70,7 +70,7 @@ const applicationParams = {
 };
 function Applications() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Applications - Intern Season" />
       <Grid
         container
@@ -86,12 +86,7 @@ function Applications() {
         </Grid>
       </Grid>
       <Stack>
-        <div
-          style={{ height: 500, margin: "10px auto" }}
-          className={styles.datagridApplications}
-        >
-          <DataGrid rows={rows} columns={columns} pageSize={7} />
-        </div>
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

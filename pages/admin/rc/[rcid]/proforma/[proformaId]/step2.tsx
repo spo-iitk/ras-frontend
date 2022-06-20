@@ -8,94 +8,74 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import RemoveIcon from "@mui/icons-material/Remove";
 
-import { Branches, programExpanded } from "@components/Utils/matrixUtils";
+import {
+  Branches,
+  func,
+  programExpanded,
+  programType,
+} from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step3";
+const ROUTE = "/admin/rc/[rcid]/proforma/[proformaId]/step3";
 
 function Step2() {
-  const [val, setVal] = useState(Array(220).fill(0));
-  const { handleSubmit } = useForm();
+  const [str, setStr] = useState(new Array(100 + 1).join("0"));
   const router = useRouter();
-  const { rcId } = router.query;
+  const { rcid } = router.query;
 
-  const handleNext = (data: any) => {
-    console.log(data);
+  const handleNext = () => {
     router.push({
       pathname: ROUTE,
-      query: { rcId, proformaId: 1 },
+      query: { rcid, proformaId: 1 },
     });
   };
 
   const handleCheckAll = () => {
-    setVal(
-      val.map((value) => {
-        if (value !== -1) {
-          return 1;
-        }
-        return value;
-      })
-    );
-  };
-
-  const handleProgramWise = (i: number) => {
-    let j = 0;
-    setVal(
-      val.map((value, index) => {
-        if (index === 10 * j + i) {
-          if (value !== -1) {
-            j += 1;
-            return 1;
-          }
-          j += 1;
-          return value;
-        }
-        return value;
-      })
-    );
-  };
-  const handleCheck = (i: number, j: number) => {
-    setVal(
-      val.map((value, index) => {
-        if (index === i * 10 + j) {
-          if (value === 0) {
-            return 1;
-          }
-          if (value === 1) {
-            return 0;
-          }
-          return value;
-        }
-        return value;
-      })
-    );
-  };
-
-  const handleBranchWise = (i: number) => {
-    let j = 0;
-    setVal(
-      val.map((value, index) => {
-        if (index === 10 * i + j && index < 10 * (i + 1)) {
-          if (value !== -1) {
-            j += 1;
-            return 1;
-          }
-          j += 1;
-          return value;
-        }
-        return value;
-      })
-    );
+    setStr(new Array(100 + 1).join("1"));
   };
 
   const handleReset = () => {
-    setVal(Array(220).fill(0));
+    setStr(new Array(100 + 1).join("0"));
   };
 
+  const handleProgramWise = (programName: string) => {
+    let newStr = str;
+    Branches.forEach((branch) => {
+      const idx =
+        func[branch as keyof typeof func][programName as keyof programType];
+      if (idx !== -1) {
+        newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+      }
+    });
+    setStr(newStr);
+  };
+
+  const handleBranchWise = (branchName: string) => {
+    let newStr = str;
+    programExpanded.forEach((programName) => {
+      const idx =
+        func[branchName as keyof typeof func][programName as keyof programType];
+      if (idx !== -1) {
+        newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+      }
+    });
+    setStr(newStr);
+  };
+
+  const handleCheck = (branch: string, program: string) => {
+    const idx = func[branch as keyof typeof func][program as keyof programType];
+    let newStr = str;
+    if (str[idx] === "1") {
+      newStr = `${str.substring(0, idx)}0${str.substring(idx + 1)}`;
+    } else {
+      newStr = `${str.substring(0, idx)}1${str.substring(idx + 1)}`;
+    }
+    setStr(newStr);
+  };
   return (
     <div style={{ padding: "0 2rem" }}>
       <Meta title="Step 2/5 - New Opening" />
@@ -140,46 +120,60 @@ function Step2() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
                     Program
                   </TableCell>
-                  {programExpanded.map((prog: string, k: number) => (
-                    <TableCell key={prog} align="center" width={300}>
-                      <Button onClick={() => handleProgramWise(k)}>
-                        {prog}
+                  {programExpanded.map((program) => (
+                    <TableCell
+                      align="center"
+                      width={100}
+                      sx={{ fontWeight: 600 }}
+                    >
+                      <Button onClick={() => handleProgramWise(program)}>
+                        {program}
                       </Button>
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Array(22)
-                  .fill(0)
-                  .map((_, i) => (
-                    <TableRow>
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        align="center"
-                        sx={{ fontWeight: 600 }}
-                      >
-                        <Button onClick={() => handleBranchWise(i)}>
-                          {Branches[i]}
-                        </Button>
+                {Branches.map((branch) => (
+                  <TableRow>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      sx={{ fontWeight: 600 }}
+                    >
+                      <Button onClick={() => handleBranchWise(branch)}>
+                        {branch}
+                      </Button>
+                    </TableCell>
+                    {programExpanded.map((program) => (
+                      <TableCell width={100} align="center">
+                        {func[branch as keyof typeof func][
+                          program as keyof programType
+                        ] === -1 ? (
+                          <RemoveIcon />
+                        ) : (
+                          <Checkbox
+                            checked={
+                              str[
+                                func[branch as keyof typeof func][
+                                  program as keyof programType
+                                ]
+                              ] === "1"
+                            }
+                            onClick={() => handleCheck(branch, program)}
+                          />
+                        )}
                       </TableCell>
-                      {Array(10)
-                        .fill(0)
-                        .map((__, j) => (
-                          <TableCell align="center">
-                            <Checkbox
-                              disabled={val[10 * i + j] === -1}
-                              checked={val[10 * i + j] === 1}
-                              onChange={() => handleCheck(i, j)}
-                            />
-                          </TableCell>
-                        ))}
-                    </TableRow>
-                  ))}
+                    ))}
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -191,7 +185,7 @@ function Step2() {
             <Button
               variant="contained"
               sx={{ width: "100%" }}
-              onClick={handleSubmit(handleNext)}
+              onClick={handleNext}
             >
               Next
             </Button>
@@ -209,5 +203,5 @@ function Step2() {
   );
 }
 
-Step2.layout = "companyPhaseDashboard";
+Step2.layout = "adminPhaseDashBoard";
 export default Step2;

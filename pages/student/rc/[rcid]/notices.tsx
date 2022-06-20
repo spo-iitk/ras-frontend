@@ -1,9 +1,9 @@
 import { Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import { useRouter } from "next/router";
 
-import styles from "@styles/studentInternPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
@@ -18,6 +18,11 @@ const columns: GridColDef[] = [
   {
     field: "title",
     headerName: "Company Name",
+    width: 300,
+  },
+  {
+    field: "description",
+    headerName: "Description",
     width: 300,
   },
   {
@@ -36,19 +41,7 @@ function Notices() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const [notices, setNotice] = React.useState<NoticeParams[]>([
-    {
-      ID: 0,
-      recruitment_cycle_id: 0,
-      title: "I",
-      description: "",
-      tags: "",
-      attachment: "",
-      created_by: "",
-      CreatedAt: "",
-      last_reminder_at: 0,
-    },
-  ]);
+  const [notices, setNotice] = React.useState<NoticeParams[]>([]);
   React.useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
@@ -59,7 +52,7 @@ function Notices() {
   }, [rid, token]);
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Notices" />
       <Stack>
         <h1>Internship 2022-23 Phase 1</h1>
@@ -70,18 +63,8 @@ function Notices() {
         >
           <h2>Notices</h2>
         </Stack>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridNotices}
-        >
-          <DataGrid
-            rows={notices}
-            getRowId={(row: NoticeParams) => row.ID}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={notices} getRowId={(row) => row.ID} columns={columns} />
       </Stack>
     </div>
   );

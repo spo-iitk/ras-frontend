@@ -35,7 +35,7 @@ const rcRequest = {
       .get<RC[]>("", setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
-        errorNotification("Error", err.response?.data.error || err.message);
+        errorNotification("Error", err.response?.data?.error || err.message);
         return [] as RC[];
       }),
 };

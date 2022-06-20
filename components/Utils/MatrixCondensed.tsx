@@ -11,7 +11,7 @@ import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { Branches, program } from "./matrixUtils";
+import { Branches, program } from "@components/Utils/matrixUtils";
 
 function MatrixCondensed({ data }: any) {
   return (

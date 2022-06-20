@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
 import { IconButton, Modal, Stack } from "@mui/material";
@@ -9,22 +9,24 @@ import Link from "next/link";
 import styles from "@styles/adminPhase.module.css";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
+import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
+import useStore from "@store/store";
 import AddCompanyMD from "@components/Modals/AddCompanyAdminMD";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
   {
-    field: "CompanyName",
+    field: "name",
     headerName: "Company Name",
     width: 300,
   },
   {
-    field: "Tags",
+    field: "tags",
     headerName: "Tags",
     width: 400,
   },
   {
-    field: "ViewDetails",
+    field: "website",
     headerName: "View Details",
     width: 200,
     renderCell: (params) => (
@@ -37,30 +39,24 @@ const columns: GridColDef[] = [
         <Link href={`/admin/company/${params.row.id}`}>
           <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
         </Link>
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
       </Stack>
     ),
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    CompanyName: "Company 1",
-    Tags: "Core,PSU,Analytics,Software,Startup,Noncore",
-    ViewDetails: "Click Here",
-  },
-  {
-    id: 2,
-    CompanyName: "Company 1",
-    Tags: "Core,PSU,Analytics,Software,Startup,Noncore",
-    ViewDetails: "Click Here",
-  },
-];
-
 function Index() {
+  const { token } = useStore();
+  const [row, setRow] = useState<Company[]>([]);
+  useEffect(() => {
+    const getCompanydata = async () => {
+      let response = await addCompanyRequest.getall(token);
+      for (let i = 0; i < response.length; i += 1) {
+        response[i].id = response[i].ID;
+      }
+      setRow(response);
+    };
+    getCompanydata();
+  }, [token]);
   const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
@@ -81,7 +77,7 @@ function Index() {
             alignItems="center"
           >
             <div>
-              <h1>Master Database (Comapny)</h1>
+              <h1>Master Database (Company)</h1>
             </div>
             <div>
               <Stack direction="row" spacing={3}>
@@ -100,7 +96,7 @@ function Index() {
           style={{ height: 500, margin: "0px auto" }}
         >
           <DataGrid
-            rows={rows}
+            rows={row}
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}

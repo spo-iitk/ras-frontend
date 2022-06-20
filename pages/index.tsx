@@ -33,8 +33,8 @@ function Index() {
           router.push("/login");
       }
     };
-    checklogin();
-  }, [router, setToken, token]);
+    if (router.isReady) checklogin();
+  }, [router, setToken, token, router.isReady]);
 
   return <div />;
 }

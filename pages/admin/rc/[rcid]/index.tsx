@@ -64,16 +64,14 @@ function Index() {
       setData(comapny_res);
       setApp(app_res);
     };
-    fetch();
+    if (rid !== "") fetch();
     const fetchNotice = async () => {
-      if (rid === undefined || rid === "") return;
-      // const token = sessionStorage.getItem("token") || "";
       const notice: NoticeParams[] = await NoticeReq.getAll(token, rid);
-
       setNotice(notice);
     };
-    fetchNotice();
+    if (rid !== "") fetchNotice();
   }, [rid, token]);
+
   const handleClick = () => {
     router.push(`/admin/rc/${rid}/notice`);
   };

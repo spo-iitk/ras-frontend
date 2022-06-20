@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/studentInternPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
@@ -89,25 +89,19 @@ function Overview() {
     getRC();
   }, [token]);
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Student Dashboard - Overview" />
       <Stack>
         <h1>Dashboard</h1>
         <h2>Recruitment Cycle</h2>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridOverView}
-        >
-          <DataGrid
-            rows={row}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-            onCellClick={() => {
-              router.push(`rc/{row.data.id}/notices`);
-            }}
-          />
-        </div>
+
+        <DataGrid
+          rows={row}
+          columns={columns}
+          onCellClick={() => {
+            router.push(`rc/{row.data.id}/notices`);
+          }}
+        />
       </Stack>
     </div>
   );
