@@ -362,7 +362,10 @@ function Step4() {
               let push = 1;
               for (let i = 0; i < fieldArray.length; i += 1) {
                 console.log(fieldArray[i]);
-                fieldArray[i].proforma_id = parseInt(proformaId, 10);
+                fieldArray[i].proforma_id = parseInt(
+                  (proformaId || "").toString(),
+                  10
+                );
                 fieldArray[i].sequence = 5 * (i + 1);
                 // eslint-disable-next-line no-loop-func
                 // eslint-disable-next-line no-await-in-loop
