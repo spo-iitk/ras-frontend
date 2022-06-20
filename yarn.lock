@@ -177,7 +177,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.3.1", "@babel/runtime@^7.8.3":
+"@babel/runtime@^7.18.3", "@babel/runtime@^7.3.1", "@babel/runtime@^7.8.3":
   version "7.18.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.3.tgz#c7b654b57f6f63cf7f8b418ac9ca04408c4579f4"
   integrity sha512-38Y8f7YUhce/K7RMwTp7m0uCumpv9hZkitCbBClqQIow1qSbCvGkcegKOXpEWCQLfWmevgRiWokZ1GkpfhbZug==
@@ -944,6 +944,14 @@
   version "1.0.8"
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.0.8.tgz"
   integrity sha512-ZK5v4bJwgXldAUA8r3q9YKfCwOqoHTK/ZqRjSeRXQrBXWouoPnS4MQtgC4AXGiiBuUu5wxrRgTlv0ktmM4P1Aw==
+
+"@tanem/react-nprogress@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@tanem/react-nprogress/-/react-nprogress-5.0.4.tgz#22280b9f3b347d5d9b810c51842b6f6373ab0961"
+  integrity sha512-EtY/CCOJRBxWZwSOR+VD6mTFrOcXPcKQt/Y1DwiBOLD0hEky1YVaPWfs5ewgwDtMqhnzvjkKmjX8pb3p2il08w==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    hoist-non-react-statics "^3.3.2"
 
 "@types/date-fns@^2.6.0":
   version "2.6.0"
