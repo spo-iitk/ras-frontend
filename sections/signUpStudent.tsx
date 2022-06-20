@@ -5,10 +5,12 @@ import {
   FormControl,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 import { SignUpStudentParams } from "@callbacks/auth/signupStudent";
 import otpRequest, { OTPParams } from "@callbacks/auth/otp";
@@ -97,6 +99,14 @@ function SignUpStudent() {
             />
           </Suspense>
         </Collapse>
+        <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
+          <Typography>
+            Already have an account?{" "}
+            <span style={{ color: "blue" }}>
+              <Link href="/login">Sign In</Link>
+            </span>
+          </Typography>
+        </FormControl>
       </Stack>
     </div>
   );

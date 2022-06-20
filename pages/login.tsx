@@ -95,9 +95,9 @@ function Login() {
       >
         <div className={formstyles.image}>
           <Image
-            src="/images/signin.png"
-            height={450}
-            width={400}
+            src="/images/signin.gif"
+            height={550}
+            width={500}
             alt="loginPage"
           />
         </div>
