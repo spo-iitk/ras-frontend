@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  Box,
+  Button,
   Card,
   FormControl,
   Grid,
@@ -10,10 +12,12 @@ import {
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
 import styles from "@styles/adminPhase.module.css";
@@ -24,12 +28,96 @@ import addCompanyRequest, {
 } from "@callbacks/admin/company/company";
 import useStore from "@store/store";
 import AddHRMD from "@components/Modals/AddHRAdminMD";
+import HRAuth, { HRAuthResponse } from "@callbacks/auth/hrauth";
 
+const boxStyle = {
+  position: "absolute" as const,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { xs: "330px", md: "500px" },
+  bgcolor: "background.paper",
+  border: "white solid 2px",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+  alignItems: "center",
+};
+function DeleteHR(props: { id: string }) {
+  const { token } = useStore();
+  const { id } = props;
+  return (
+    <IconButton
+      onClick={() => {
+        addCompanyRequest.deleteHR(token, id);
+      }}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+}
+function AuthHR(props: { id: string; name: string }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<HRAuthResponse>();
+  const { token } = useStore();
+  const det = props;
+  const handleAuthHR = (data: HRAuthResponse) => {
+    const authHR = async () => {
+      const finData = { ...data, user_id: det.id, name: det.name };
+      const response = await HRAuth.post(token, finData);
+      if (response) {
+        reset({ password: "" });
+      }
+    };
+    authHR();
+  };
+  const [openAuthHR, setOpenAuthHR] = useState(false);
+  const handleOpenAuthHR = () => {
+    setOpenAuthHR(true);
+  };
+  const handleCloseAuthHR = () => {
+    setOpenAuthHR(false);
+  };
+  return (
+    <div>
+      <ActiveButton sx={{ height: 30 }} onClick={handleOpenAuthHR}>
+        Auth HR
+      </ActiveButton>
+      <Modal open={openAuthHR} onClose={handleCloseAuthHR}>
+        <Box sx={boxStyle}>
+          <Stack spacing={3}>
+            <h1>Enter Password</h1>
+            <TextField
+              label="Enter Password"
+              id="password"
+              type="password"
+              variant="standard"
+              {...register("password", { required: true })}
+              error={!!errors.password}
+              helperText={errors.password && "Password is required"}
+            />
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              onClick={handleSubmit(handleAuthHR)}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
+    </div>
+  );
+}
 const HRcotactDetailsColumns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    width: 150,
+    width: 125,
   },
   {
     field: "name",
@@ -50,6 +138,21 @@ const HRcotactDetailsColumns: GridColDef[] = [
     field: "designation",
     headerName: "Designation",
     width: 250,
+  },
+  {
+    field: "button1",
+    headerName: "",
+    renderCell: (params) => <DeleteHR id={params.row.ID} />,
+    width: 50,
+    align: "center",
+  },
+  {
+    field: "button2",
+    headerName: "",
+    renderCell: (params) => (
+      <AuthHR id={params.row.email} name={params.row.name} />
+    ),
+    width: 100,
   },
 ];
 const PastHireColumns: GridColDef[] = [

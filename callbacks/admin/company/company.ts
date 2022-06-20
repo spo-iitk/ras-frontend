@@ -115,6 +115,19 @@ const addCompanyRequest = {
         );
         return [] as HR[];
       }),
+  deleteHR: (token: string, hrid: string) =>
+    adminCompanyInstance
+      .delete(`/hr/${hrid}`, setConfig(token))
+      .then(() => {
+        successNotification("HR deleted successfully", "");
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in deleting HR",
+          err.response?.data?.error || err.message
+        );
+      }),
 };
 
 export default addCompanyRequest;

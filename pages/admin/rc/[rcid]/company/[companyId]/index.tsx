@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Card, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
+// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
 import styles from "@styles/adminPhase.module.css";
+import AddPPO from "@components/Modals/addPPO";
+import useStore from "@store/store";
+// import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
+import addCompanyRequestRC, { CompanyRC } from "@callbacks/admin/rc/company";
 
 const info = [
   {
@@ -71,10 +84,39 @@ const rows = [
 ];
 
 function Index() {
+  const router = useRouter();
+  const CID = router.query.companyId;
+  const ID = (CID || "").toString();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const [openNew, setOpenNew] = useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+  const { token } = useStore();
+  const [row, setRow] = useState<CompanyRC>({
+    company_id: 0,
+    company_name: "",
+    recruitment_cycle_id: 0,
+    hr1: "",
+    hr2: "",
+    hr3: "",
+    comments: "",
+  });
+  useEffect(() => {
+    const getCompanydata = async () => {
+      let response = await addCompanyRequestRC.get(token, rid, ID);
+      setRow(response);
+    };
+    getCompanydata();
+  }, [token, rid, ID]);
   return (
     <div className={styles.container}>
       <Meta title="Company Dashboard" />
-      <h1>COMPANY NAME</h1>
+      <h1>{row.company_name}</h1>
 
       <Stack spacing={5} justifyContent="center" alignItems="center">
         <Stack
@@ -83,22 +125,29 @@ function Index() {
           spacing={2}
           direction={{ lg: "row", xs: "column" }}
         >
-          <Stack spacing={2} direction={{ sm: "row", xs: "column" }}>
+          {/* <Stack spacing={2} direction={{ sm: "row", xs: "column" }}>
             <Button sx={{ width: { xs: "280px" } }} variant="contained">
               View Company History
             </Button>
             <Button sx={{ width: { xs: "280px" } }} variant="contained">
               CONTACT DETAILS
             </Button>
-          </Stack>
+          </Stack> */}
           <Stack spacing={2} direction={{ sm: "row", xs: "column" }}>
             <Button sx={{ width: { xs: "280px" } }} variant="contained">
-              Past Hires
+              Go to Company Master DB
             </Button>
 
-            <Button sx={{ width: { xs: "280px" } }} variant="contained">
+            <Button
+              sx={{ width: { xs: "280px" } }}
+              variant="contained"
+              onClick={handleOpenNew}
+            >
               ADD PPO/PIIO
             </Button>
+            <Modal open={openNew} onClose={handleCloseNew}>
+              <AddPPO handleCloseNew={handleCloseNew} cname={row.name} />
+            </Modal>
           </Stack>
         </Stack>
         <div>
