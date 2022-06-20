@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, IconButton, Modal, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -6,13 +6,16 @@ import DownloadIcon from "@mui/icons-material/Download";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import AddCompany from "@components/Modals/AddCompanyAdmin";
+import useStore from "@store/store";
+import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
 
-const BASE_ROUTE = "/admin/rc/[rcid]/company";
+const BASE_ROUTE = "/admin/rc";
 
 const gridMain = {
   width: "100%",
@@ -23,18 +26,23 @@ const gridMain = {
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
     width: 90,
   },
   {
-    field: "company",
+    field: "company_name",
     headerName: "Company",
     width: 300,
   },
   {
-    field: "registered_on",
+    field: "CreatedAt",
     headerName: "Registered on",
+    valueGetter: ({ value }) =>
+      value &&
+      `${new Date(value).toLocaleDateString()} ${new Date(
+        value
+      ).toLocaleTimeString()}`,
     width: 300,
     align: "center",
     headerAlign: "center",
@@ -49,31 +57,12 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <Link
         href={{
-          pathname: `${BASE_ROUTE}/[companyId]`,
-          query: {
-            rcid: params.row.id,
-            companyId: "1",
-          },
+          pathname: `${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.ID}`,
         }}
       >
         <ActiveButton sx={{ height: 30, width: "50%" }}>Click</ActiveButton>
       </Link>
     ),
-  },
-];
-
-const rows = [
-  {
-    id: "1",
-    company: "Company 1",
-    registered_on: "June 10th,2022",
-    viewdetails: "",
-  },
-  {
-    id: "2",
-    company: "Company 2",
-    registered_on: "June 15th,2022",
-    viewdetails: "",
   },
 ];
 
@@ -85,6 +74,19 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const [rows, setRow] = useState<CompanyRc[]>([]);
+  useEffect(() => {
+    const getCompanydata = async () => {
+      if (rid === undefined || rid === "") return;
+      let response = await requestCompany.getall(token, rid);
+      setRow(response);
+    };
+    if (rid !== "") getCompanydata();
+  }, [token, rid]);
   return (
     <div className={styles.container}>
       <Meta title="Company - Admin" />
@@ -113,6 +115,7 @@ function Index() {
         >
           <DataGrid
             rows={rows}
+            getRowId={(row) => row.ID}
             columns={columns}
             pageSize={7}
             rowsPerPageOptions={[7]}
