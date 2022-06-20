@@ -1,10 +1,10 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/internPhase.module.css";
 import ActiveButton from "@components/Buttons/ActiveButton";
 
 const ROUTE_PATH = "/company/rc/[rcId]/opening/[openingId]";
@@ -131,22 +131,12 @@ const rows = [
 
 function Applications() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Applications - QuadEye" />
       <Stack>
         <h1>Applications</h1>
         <h2>Intern Season</h2>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridApplications}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

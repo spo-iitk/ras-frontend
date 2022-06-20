@@ -1,10 +1,10 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/PhaseOverview.module.css";
 import ActiveButton from "@components/Buttons/ActiveButton";
 
 const columns: GridColDef[] = [
@@ -51,17 +51,13 @@ const rows = [
 
 function Overview() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Company Dashboard - Overview" />
       <Stack>
         <h1>Dashboard</h1>
         <h2>Recruitment Cycle</h2>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridOverView}
-        >
-          <DataGrid rows={rows} columns={columns} pageSize={7} />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

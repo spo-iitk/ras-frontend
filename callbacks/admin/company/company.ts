@@ -67,7 +67,7 @@ const addCompanyRequest = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Error in fetching data",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return { ID: 0 } as Company;
       }),
@@ -85,7 +85,7 @@ const addCompanyRequest = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Failed to update",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return false;
       }),

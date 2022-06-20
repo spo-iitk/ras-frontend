@@ -81,7 +81,7 @@ const studentRequest = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Failed to update data",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
         return false;
       }),

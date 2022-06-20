@@ -44,7 +44,7 @@ const NoticeReq = {
       .catch((err: ErrorType) => {
         errorNotification(
           "Error in fetching data",
-          err.response?.data.error || err.message
+          err.response?.data?.error || err.message
         );
 
         return [] as NoticeParams[];
@@ -74,8 +74,11 @@ const NoticeReq = {
         successNotification("Notice deleted successfully", "");
         return true;
       })
-      .catch((err) => {
-        errorNotification("Error in deleting notice", err.message);
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in deleting notice",
+          err.response?.data?.error || err.message
+        );
       }),
   notify: (token: string, rcid: string, nid: string) =>
     instance
@@ -84,10 +87,10 @@ const NoticeReq = {
         successNotification("Notification sent successfully", "");
         return true;
       })
-      .catch((err) => {
+      .catch((err: ErrorType) => {
         errorNotification(
           "Error in sending notification",
-          err?.response.data.message || err.message
+          err?.response?.data?.error || err.message
         );
       }),
 };

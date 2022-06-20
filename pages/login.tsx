@@ -37,7 +37,7 @@ function Login() {
     showPassword: false,
   });
   const [loading, setLoading] = useState(false);
-  const { setToken } = useStore();
+  const { setToken, setRole } = useStore();
 
   const handleClickShowPassword = () => {
     setValues({
@@ -58,6 +58,7 @@ function Login() {
     const response = await loginRequest.post(data);
     if (response.token !== "") {
       setToken(response.token);
+      setRole(response.role_id);
       reset({
         user_id: "",
         password: "",

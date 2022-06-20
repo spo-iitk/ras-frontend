@@ -1,9 +1,9 @@
 import { Button, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 import React from "react";
 
-import styles from "@styles/internPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 
 const BASE_ROUTE = "/student/rc/[rcId]/proforma";
@@ -60,22 +60,12 @@ const rows = [
 
 function Proforma() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Proforma - Intern Season" />
       <Stack>
         <h1>Internship 2022-23 Phase 1</h1>
         <h2>Proforma</h2>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridProforma}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );
