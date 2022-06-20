@@ -51,7 +51,9 @@ const textFieldSX = {
 
 function Step4() {
   const router = useRouter();
-  const { rcId } = router.query;
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaId || "").toString();
   const { register, handleSubmit, control, reset, getValues } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -353,11 +355,12 @@ function Step4() {
           <Button
             variant="contained"
             sx={{ width: { xs: "50%", md: "20%" } }}
+            disabled={!router.isReady || rid === "" || pid === ""}
             onClick={handleSubmit((data) => {
               console.log(data);
               router.push({
                 pathname: ROUTE,
-                query: { rcId, proformaId: 1 },
+                query: { rcId: rid, proformaId: pid },
               });
             })}
           >

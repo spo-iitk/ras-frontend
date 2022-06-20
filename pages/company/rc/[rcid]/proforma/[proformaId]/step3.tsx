@@ -7,7 +7,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "next/router";
 
@@ -15,7 +15,7 @@ import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import RichText from "@components/Editor/RichText";
 import useStore from "@store/store";
-import newProforma from "@callbacks/company/jpnew";
+import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step4";
 
@@ -26,26 +26,34 @@ function Step3() {
     reset,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm<ProformaParams>();
   const router = useRouter();
-  const { rcId, proformaId } = router.query;
-  const rid = (rcId || "").toString();
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
   const pid = (proformaId || "").toString();
   const { token } = useStore();
   const [ctc, changeCTC] = useState("");
   const [pkgDetails, changePkg] = useState("");
+  const [fetchData, setFetch] = useState<ProformaParams>();
+  useEffect(() => {
+    const getStep1 = async () => {
+      const data = await proformaRequest.get(token, rid, pid);
+      setFetch(data);
+    };
+    getStep1();
+  }, [rid, pid, token]);
 
-  const handleNext = async (data: any) => {
+  const handleNext = async (data: ProformaParams) => {
     const info = {
       ...data,
+      ID: parseInt(pid, 10),
       package_details: pkgDetails,
       cost_to_company: ctc,
     };
-    console.log(info);
-    await newProforma.postStep3(token, rid, pid, info).then((res) => {
-      console.log(res);
+    const response = await proformaRequest.put(token, rid, info);
+    if (response) {
       reset({
-        bond: "false",
+        bond: false,
         bond_details: "",
         medical_requirements: "",
       });
@@ -53,10 +61,17 @@ function Step3() {
       changePkg("");
       router.push({
         pathname: ROUTE,
-        query: { rcId, proformaId: 1 },
+        query: { rcId: rid, proformaId: pid },
       });
-    });
+    }
   };
+  useEffect(() => {
+    const getStep3 = async () => {
+      const data = await proformaRequest.get(token, rid, pid);
+      setFetch(data);
+    };
+    getStep3();
+  }, [rid, pid, token]);
 
   return (
     <div className={styles.container}>
@@ -74,7 +89,7 @@ function Step3() {
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Cost to Company</p>
             <RichText
-              value={ctc}
+              value={!fetchData ? ctc : fetchData.cost_to_company}
               onChange={changeCTC}
               style={{ minHeight: 200 }}
             />
@@ -82,7 +97,7 @@ function Step3() {
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Package Details</p>
             <RichText
-              value={pkgDetails}
+              value={!fetchData ? ctc : fetchData.package_details}
               onChange={changePkg}
               style={{ minHeight: 200 }}
             />
@@ -107,8 +122,9 @@ function Step3() {
               multiline
               minRows={3}
               variant="standard"
-              error={errors.bondDetails}
-              helperText={errors.bondDetails && "This field is required"}
+              value={value={!fetchData ? ctc : fetchData.cost_to_company}}
+              error={!!errors.bond_details}
+              helperText={errors.bond_details && "This field is required"}
               {...register("bond_details", {
                 required: useWatch({ control, name: "bond" }) === true,
               })}
@@ -124,9 +140,9 @@ function Step3() {
               multiline
               minRows={4}
               variant="standard"
-              error={errors.medicalRequirements}
+              error={!!errors.medical_requirements}
               helperText={
-                errors.medicalRequirements && "This field is required"
+                errors.medical_requirements && "This field is required"
               }
               {...register("medical_requirements", { required: true })}
             />
@@ -140,6 +156,7 @@ function Step3() {
             <Button
               variant="contained"
               sx={{ width: "50%" }}
+              disabled={!router.isReady || rid === "" || pid === ""}
               onClick={handleSubmit(handleNext)}
             >
               Next

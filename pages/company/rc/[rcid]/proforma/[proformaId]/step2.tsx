@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RemoveIcon from "@mui/icons-material/Remove";
 
@@ -19,18 +19,37 @@ import {
   programType,
 } from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
+import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
+import useStore from "@store/store";
 
 const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step3";
 
 function Step2() {
   const [str, setStr] = useState(new Array(100 + 1).join("0"));
   const router = useRouter();
-  const { rcid } = router.query;
-
-  const handleNext = () => {
-    router.push({
-      pathname: ROUTE,
-      query: { rcid, proformaId: 1 },
+  const { token } = useStore();
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaId || "").toString();
+  const [fetchData, setFetch] = useState<ProformaParams>();
+  useEffect(() => {
+    const getStep1 = async () => {
+      const data = await proformaRequest.get(token, rid, pid);
+      setFetch(data);
+    };
+    getStep1();
+  }, [rid, pid, token]);
+  const handleNext = async () => {
+    const info = {
+      ...fetchData,
+      ID: parseInt(pid, 10),
+    } as ProformaParams;
+    console.log(info);
+    await proformaRequest.put(token, rid, info).then(() => {
+      router.push({
+        pathname: ROUTE,
+        query: { rcid: rid, proformaId: pid },
+      });
     });
   };
 
@@ -322,6 +341,7 @@ function Step2() {
             <Button
               variant="contained"
               sx={{ width: "100%" }}
+              disabled={!router.isReady || rid === "" || pid === ""}
               onClick={handleNext}
             >
               Next
@@ -340,5 +360,5 @@ function Step2() {
   );
 }
 
-Step2.layout = "adminPhaseDashBoard";
+Step2.layout = "companyPhaseDashboard";
 export default Step2;

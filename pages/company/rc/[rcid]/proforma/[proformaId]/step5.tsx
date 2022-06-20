@@ -6,14 +6,14 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
-import newProforma from "@callbacks/company/jpnew";
+import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
 
 const ROUTE = "/company/rc/[rcId]";
 
@@ -28,27 +28,38 @@ function Step5() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<ProformaParams>();
   const router = useRouter();
-  const { rcId, proformaId } = router.query;
-  const rid = (rcId || "").toString();
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
   const pid = (proformaId || "").toString();
   const { token } = useStore();
-  const handleNext = async (data: any) => {
-    console.log(data);
-    await newProforma.postStep5(token, rid, pid, data).then((res) => {
-      console.log(res);
+  const handleNext = async (data: ProformaParams) => {
+    const info = {
+      ...data,
+      ID: parseInt(pid, 10),
+    };
+    await proformaRequest.put(token, rid, info).then(() => {
       reset({
-        eligibility_riteria: "",
+        eligibility_criteria: "",
         message: "",
         active_HR: "",
       });
       router.push({
         pathname: ROUTE,
-        query: { rcId },
+        query: { rcId: rid },
       });
     });
   };
+  useEffect(() => {
+    const getStep5 = async () => {
+      const data = await proformaRequest.get(token, rid, pid);
+      console.log(data);
+      //   setStep1(data);
+    };
+    getStep5();
+  }, [rid, pid, token]);
+
   return (
     <div className={styles.container}>
       <Meta title="Step 5/5 - Additional Information" />
@@ -72,9 +83,9 @@ function Step5() {
               multiline
               minRows={3}
               variant="standard"
-              error={errors.eligibilityCriteria}
+              error={!!errors.eligibility_criteria}
               helperText={
-                errors.eligibilityCriteria && "This field is required!"
+                errors.eligibility_criteria && "This field is required!"
               }
               {...register("eligibility_criteria", { required: true })}
             />
@@ -89,7 +100,7 @@ function Step5() {
               multiline
               minRows={5}
               variant="standard"
-              error={errors.message}
+              error={!!errors.message}
               helperText={errors.message && "This field is required!"}
               {...register("message", { required: true })}
             />
@@ -102,8 +113,8 @@ function Step5() {
               select
               fullWidth
               variant="standard"
-              error={errors.activeHR}
-              helperText={errors.activeHR && "This field is required!"}
+              error={!!errors.active_HR}
+              helperText={errors.active_HR && "This field is required!"}
               {...register("active_HR", { required: true })}
             >
               <MenuItem value="">Select</MenuItem>
@@ -123,6 +134,7 @@ function Step5() {
             <Button
               variant="contained"
               sx={{ width: "50%" }}
+              disabled={!router.isReady || rid === ""}
               onClick={handleSubmit(handleNext)}
             >
               Submit
@@ -132,7 +144,7 @@ function Step5() {
               sx={{ width: "50%" }}
               onClick={() => {
                 reset({
-                  eligibility_riteria: "",
+                  eligibility_criteria: "",
                   message: "",
                   active_HR: "",
                 });
