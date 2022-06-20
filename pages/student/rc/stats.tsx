@@ -1,9 +1,9 @@
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { Stack } from "@mui/material";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/studentInternPhase.module.css";
 
 const columns: GridColDef[] = [
   {
@@ -56,21 +56,12 @@ const rows = [
 
 function Stats() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Statistics - Intern Season" />
       <Stack>
         <h1>Stats</h1>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridStats}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );
