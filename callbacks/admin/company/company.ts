@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+// import { showNotification } from "@mantine/notifications";
 
 import {
   ADMIN_COMPANY_URL,
@@ -58,6 +59,7 @@ const addCompanyRequest = {
           "Error in fetching data",
           err.response?.data?.error || err.message
         );
+        console.log(err);
         return [] as Company[];
       }),
   get: (token: string, cid: string) =>
@@ -69,6 +71,7 @@ const addCompanyRequest = {
           "Error in fetching data",
           err.response?.data?.error || err.message
         );
+        console.log(err);
         return { ID: 0 } as Company;
       }),
   update: (token: string, body: Company) =>
@@ -87,6 +90,7 @@ const addCompanyRequest = {
           "Failed to update",
           err.response?.data?.error || err.message
         );
+        console.log(err);
         return false;
       }),
   addHR: (body: HR, token: string) =>
@@ -115,6 +119,36 @@ const addCompanyRequest = {
         );
         return [] as HR[];
       }),
+  delete: (token: string, cid: string) => {
+    adminCompanyInstance
+      .delete(`${cid}`, setConfig(token))
+      .then((res) => {
+        successNotification("Company deleted", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in deleting company",
+          err.response?.data?.error || err.message
+        );
+        return false;
+      });
+  },
+  deleteHR: (token: string, hrid: string) => {
+    adminCompanyInstance
+      .delete(`/hr/${hrid}`, setConfig(token))
+      .then((res) => {
+        successNotification("HR deleted", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in deleting HR",
+          err.response?.data?.error || err.message
+        );
+        return false;
+      });
+  },
 };
 
 export default addCompanyRequest;

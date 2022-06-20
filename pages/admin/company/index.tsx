@@ -39,9 +39,6 @@ const columns: GridColDef[] = [
         <Link href={`/admin/company/${params.row.id}`}>
           <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
         </Link>
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
       </Stack>
     ),
   },
