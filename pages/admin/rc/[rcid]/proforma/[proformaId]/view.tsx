@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { Branches, program } from "@components/Utils/matrixUtils";
+import { Branches, programCondensed } from "@components/Utils/matrixUtils";
 import StepperComp from "@components/Stepper/stepperComp";
 import Meta from "@components/Meta";
 
@@ -119,7 +119,7 @@ function View() {
                             align="center"
                             sx={{ fontWeight: 600 }}
                           >
-                            {program[i]}
+                            {programCondensed[i]}
                           </TableCell>
                           {Array(22)
                             .fill(0)
