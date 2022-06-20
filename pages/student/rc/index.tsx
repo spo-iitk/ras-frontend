@@ -8,7 +8,6 @@ import Meta from "@components/Meta";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
-import { errorNotification } from "@callbacks/notifcation";
 import useStore from "@store/store";
 
 const columns: GridColDef[] = [
@@ -69,13 +68,8 @@ function Overview() {
   const { token } = useStore();
   useEffect(() => {
     const getRC = async () => {
-      const response = await rcRequest.getAll(token).catch((err) => {
-        errorNotification(
-          "Error",
-          err?.response.data.message || "Unable to fetch student data"
-        );
-        return [] as RC[];
-      });
+      const response = await rcRequest.getAll(token);
+      console.log(response);
       rows = response;
       for (let i = 0; i < response.length; i += 1) {
         rows[i].id = response[i].ID;
