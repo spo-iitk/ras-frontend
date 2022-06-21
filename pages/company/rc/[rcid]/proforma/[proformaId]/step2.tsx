@@ -31,21 +31,19 @@ function Step2() {
   const { rcid, proformaId } = router.query;
   const rid = (rcid || "").toString();
   const pid = (proformaId || "").toString();
-  const [fetchData, setFetch] = useState<ProformaParams>();
   useEffect(() => {
     if (!(rid && pid)) return;
     const getStep2 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
-      setFetch(data);
+      if (data.eligibility.length > 90) setStr(data.eligibility);
     };
     getStep2();
   }, [rid, pid, token]);
   const handleNext = async () => {
     const info = {
-      ...fetchData,
+      eligibility: str,
       ID: parseInt(pid, 10),
     } as ProformaParams;
-    console.log(info);
     await proformaRequest.put(token, rid, info).then(() => {
       router.push({
         pathname: ROUTE,
@@ -74,7 +72,6 @@ function Step2() {
       });
     });
     setStr(newStr);
-    console.log(newStr);
   };
 
   const handleBranchWise = (branchName: string) => {

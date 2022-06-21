@@ -27,7 +27,7 @@ function Step5() {
   const [fetchData, setFetch] = useState<ProformaParams>({
     ID: 0,
   } as ProformaParams);
-  const [HRdata, setHR] = useState<HR>({ hr1: "", hr2: "", hr3: "" });
+  const [HRdata, setHR] = useState<HR>({ name: "", hr1: "", hr2: "", hr3: "" });
   const {
     register,
     handleSubmit,
@@ -93,7 +93,7 @@ function Step5() {
               helperText={
                 errors.additional_eligibility && "This field is required!"
               }
-              {...register("additional_eligibility", { required: true })}
+              {...register("additional_eligibility")}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -110,7 +110,7 @@ function Step5() {
               helperText={
                 errors.message_for_cordinator && "This field is required!"
               }
-              {...register("message_for_cordinator", { required: true })}
+              {...register("message_for_cordinator")}
             />
           </FormControl>
 

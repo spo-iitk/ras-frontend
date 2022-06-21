@@ -147,7 +147,7 @@ function Step3() {
               helperText={
                 errors.medical_requirements && "This field is required"
               }
-              {...register("medical_requirements", { required: true })}
+              {...register("medical_requirements")}
             />
           </FormControl>
           <Stack

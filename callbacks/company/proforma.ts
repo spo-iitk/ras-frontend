@@ -14,6 +14,7 @@ export interface ProformaParams {
   CreatedAt: string;
   UpdatedAt: string;
   company_name: string;
+  eligibility: string;
   job_description: string;
   nature_of_business: string;
   tentative_job_location: string;

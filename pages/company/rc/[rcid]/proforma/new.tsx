@@ -16,13 +16,15 @@ const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
 
 function ProformaNew() {
   const [value, onChange] = useState("");
-  const { token } = useStore();
+  const { token, name } = useStore();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ProformaParams>();
+  } = useForm<ProformaParams>({
+    defaultValues: { company_name: name },
+  });
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
@@ -66,14 +68,13 @@ function ProformaNew() {
             <p style={{ fontWeight: 300 }}>Company Name</p>
             <TextField
               id="Cname"
+              disabled
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
               variant="standard"
-              error={!!errors.company_name}
-              helperText={errors.company_name && "This field is required"}
-              {...register("company_name", { required: true })}
+              {...register("company_name")}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>

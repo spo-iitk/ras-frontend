@@ -33,7 +33,7 @@ import Meta from "@components/Meta";
 import proformaRequestStep4 from "@callbacks/company/rc/proforma/step4";
 import useStore from "@store/store";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step5";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -79,35 +79,35 @@ function Step4() {
   const tiles = [
     {
       label: "Pre-Placement Talk",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Resume Shortlisting",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Group Discussion",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Technical Test",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Aptitude Test",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Technical Interview",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "HR Interview",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Other",
-      duration: "0",
+      duration: "0 Min",
     },
   ];
 
