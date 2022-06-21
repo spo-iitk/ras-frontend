@@ -1,18 +1,13 @@
-import { Card, Stack, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Checkbox from "@mui/material/Checkbox";
+import AddIcon from "@mui/icons-material/Add";
+import { IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
+import UpdateQuestion, { QuestionType } from "@callbacks/admin/addquestion";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import ActiveButton from "@components/Buttons/ActiveButton";
-import UpdateQuestion, { QuestionType } from "@callbacks/admin/addquestion";
+import AddRCQuestion from "@components/Modals/AddRCQuestion";
 import useStore from "@store/store";
 
 const columns: GridColDef[] = [
@@ -44,113 +39,62 @@ const columns: GridColDef[] = [
 ];
 
 function RecruitmentCycle() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    reset,
-  } = useForm<QuestionType>();
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const [Ques, setQues] = useState<QuestionType[]>([]);
-  const { token, rcId } = useStore();
-
+  const { token } = useStore();
+  const [loading, setLoading] = useState(true);
   const getQuestions = async () => {
     if (rid === undefined || rid === "") return;
     const questions = await UpdateQuestion.get(token, rid);
     setQues(questions);
-    console.log(Ques);
+    setLoading(false);
   };
 
   useEffect(() => {
-    getQuestions();
+    if (router.isReady) getQuestions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router]);
 
-  const onSubmit = (data: QuestionType) => {
-    setValue("recruitment_cycle_id", rcId);
-    const postQuestion = async () => {
-      if (rid === undefined || rid === "") return;
-      const response = await UpdateQuestion.post(data, token, rid);
-      if (response) {
-        reset({
-          question: "",
-          mandatory: false,
-          options: "",
-          type: "",
-        });
-      }
-    };
-    postQuestion();
-    getQuestions();
+  const [openNew, setOpenNew] = React.useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
   };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+
   return (
     <div className="container">
       <Meta title="Create New Recruitment Cycle - Admin" />
       <Stack>
-        <h1>RECRUITMENT CYCLE</h1>
+        <Stack
+          spacing={3}
+          justifyContent="space-between"
+          alignItems="center"
+          direction="row"
+        >
+          <h1>RECRUITMENT CYCLE</h1>
+          <div>
+            <IconButton onClick={handleOpenNew}>
+              <AddIcon />
+            </IconButton>
+          </div>
+        </Stack>
         <DataGrid
           rows={Ques}
           getRowId={(row: any) => row.ID}
           columns={columns}
+          loading={loading}
         />
-        <Card
-          sx={{
-            padding: 3,
-            width: { xs: "330px", sm: "500px", margin: "0px auto" },
-          }}
-        >
-          <Stack spacing={3}>
-            <FormControl onSubmit={handleSubmit(onSubmit)}>
-              <h2 style={{ margin: "10px 0px" }}>Additional Questions</h2>
-              <FormControl sx={{ m: 1 }}>
-                <InputLabel id="Type-of-Ques">Type of Question</InputLabel>
-                <Select
-                  labelId="Type-of-Ques"
-                  label="Type of Question"
-                  variant="standard"
-                  {...register("type")}
-                >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="MCQ">MCQ</MenuItem>
-                  <MenuItem value="Fill in the blanks">
-                    Fill in the blanks
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl sx={{ m: 1 }}>
-                <TextField
-                  label="Question"
-                  variant="standard"
-                  {...register("question", { required: true })}
-                  helperText={errors.question ? "Required Field" : ""}
-                  error={errors.question?.type === "required"}
-                />
-              </FormControl>
-              <FormControl sx={{ m: 1 }}>
-                <TextField
-                  label="Options (csv)"
-                  variant="standard"
-                  {...register("options")}
-                />
-              </FormControl>
-              <FormControl sx={{ m: 1 }}>
-                <Typography>
-                  <Checkbox {...register("mandatory")} />
-                  Mandatory
-                </Typography>
-              </FormControl>
-            </FormControl>
-            <ActiveButton
-              sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
-              onClick={handleSubmit(onSubmit)}
-            >
-              ADD QUESTION
-            </ActiveButton>
-          </Stack>
-        </Card>
+
+        <Modal open={openNew} onClose={handleCloseNew}>
+          <AddRCQuestion
+            getQuestions={getQuestions}
+            handleCloseNew={handleCloseNew}
+          />
+        </Modal>
       </Stack>
     </div>
   );

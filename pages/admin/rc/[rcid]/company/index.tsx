@@ -76,11 +76,14 @@ function Index() {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const [rows, setRow] = useState<CompanyRc[]>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
       let response = await requestCompany.getall(token, rid);
       setRow(response);
+      setLoading(false);
     };
     if (rid !== "") getCompanydata();
   }, [token, rid]);
@@ -102,7 +105,12 @@ function Index() {
           </Grid>
         </Grid>
 
-        <DataGrid rows={rows} getRowId={(row) => row.ID} columns={columns} />
+        <DataGrid
+          rows={rows}
+          getRowId={(row) => row.ID}
+          columns={columns}
+          loading={loading}
+        />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
         <AddCompany handleCloseNew={handleCloseNew} />

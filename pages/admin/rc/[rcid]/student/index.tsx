@@ -61,6 +61,7 @@ function Index() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
+  const [loading, setLoading] = React.useState(true);
   useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
@@ -86,6 +87,7 @@ function Index() {
               type: student.type,
             }))
           );
+          setLoading(false);
         })
         .catch((err) => {
           errorNotification(
@@ -100,7 +102,7 @@ function Index() {
     <div className="container">
       <Meta title="Students" />
       <h2>Students</h2>
-      <DataGrid rows={rows} columns={columns} />
+      <DataGrid rows={rows} columns={columns} loading={loading} />
     </div>
   );
 }
