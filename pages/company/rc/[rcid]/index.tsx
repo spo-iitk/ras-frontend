@@ -11,6 +11,7 @@ import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
+import InactiveButton from "@components/Buttons/InactiveButton";
 
 const ROUTE_PATH = "/company/rc/[rcid]/proforma/[proformaId]";
 const columns: GridColDef[] = [
@@ -70,25 +71,33 @@ const columns: GridColDef[] = [
     sortable: false,
     align: "center",
     headerAlign: "center",
-    renderCell: (params) => (
-      <>
-        <DeleteProforma id={params.row.ID} />
-        <Link
-          href={{
-            pathname: `${ROUTE_PATH}/step1`,
-            query: {
-              rcid: params.row.recruitment_cycle_id,
-              proformaId: params.row.ID,
-            },
-          }}
-          passHref
-        >
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-        </Link>
-      </>
-    ),
+    renderCell: (params) => {
+      if (params.row?.is_approved?.Valid)
+        return (
+          <InactiveButton sx={{ height: 30, width: "100%" }}>
+            Cannot edit
+          </InactiveButton>
+        );
+      return (
+        <>
+          <DeleteProforma id={params.row.ID} />
+          <Link
+            href={{
+              pathname: `${ROUTE_PATH}/step1`,
+              query: {
+                rcid: params.row.recruitment_cycle_id,
+                proformaId: params.row.ID,
+              },
+            }}
+            passHref
+          >
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+          </Link>
+        </>
+      );
+    },
   },
 ];
 
