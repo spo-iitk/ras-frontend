@@ -12,7 +12,6 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
-import DownloadIcon from "@mui/icons-material/Download";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -335,14 +334,7 @@ function Index() {
         }}
       >
         <Stack>
-          <Stack direction={{ sm: "row", xs: "column" }}>
-            <h1>Past Hires</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-            </Stack>
-          </Stack>
+          <h1>Past Hires</h1>
           <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
             <DataGrid
               rows={PastHireRows}
@@ -365,14 +357,10 @@ function Index() {
         <Stack>
           <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>Comapny History</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-            </Stack>
+
+            <IconButton>
+              <AddIcon />
+            </IconButton>
           </Stack>
           <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
             <DataGrid
