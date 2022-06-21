@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Grid, IconButton, Modal, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import AddCompany from "@components/Modals/AddCompanyAdmin";
 import useStore from "@store/store";
@@ -85,8 +85,8 @@ function Index() {
     if (rid !== "") getCompanydata();
   }, [token, rid]);
   return (
-    <div className={styles.container}>
-      <Meta title="Company - Admin" />
+    <div className="container">
+      <Meta title="Company" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Stack>
         <Grid container spacing={1} alignItems="center">
@@ -101,18 +101,8 @@ function Index() {
             </div>
           </Grid>
         </Grid>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridCompanyStudent}
-        >
-          <DataGrid
-            rows={rows}
-            getRowId={(row) => row.ID}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={rows} getRowId={(row) => row.ID} columns={columns} />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
         <AddCompany handleCloseNew={handleCloseNew} />

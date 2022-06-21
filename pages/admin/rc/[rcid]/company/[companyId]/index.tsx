@@ -1,11 +1,11 @@
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { Button, Card, IconButton, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 
 const info = [
   {
@@ -72,7 +72,7 @@ const rows = [
 
 function Index() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Company Dashboard" />
       <h1>COMPANY NAME</h1>
 
@@ -132,17 +132,8 @@ function Index() {
             </IconButton>
           </Stack>
         </Stack>
-        <div
-          className={styles.datagridCompany}
-          style={{ height: 500, margin: "20px auto" }}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

@@ -1,11 +1,12 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
+import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
-import styles from "@styles/adminPhase.module.css";
 import getStudents, { Student } from "@callbacks/admin/rc/student/getStudents";
 import { errorNotification } from "@callbacks/notifcation";
+import Meta from "@components/Meta";
 
 const columns: GridColDef[] = [
   {
@@ -96,16 +97,10 @@ function Index() {
     fetch();
   }, [rid, token]);
   return (
-    <div className={styles.container}>
+    <div className="container">
+      <Meta title="Students" />
       <h2>Students</h2>
-      <div style={{ height: 600, margin: "20px auto", width: 1200 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={7}
-          rowsPerPageOptions={[7]}
-        />
-      </div>
+      <DataGrid rows={rows} columns={columns} />
     </div>
   );
 }

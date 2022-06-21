@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { IconButton, Link, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
@@ -13,7 +13,7 @@ import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
     width: 90,
   },
@@ -83,7 +83,7 @@ function Index() {
     getRC();
   }, [token]);
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Student Dashboard - Index" />
       <Stack>
         <h1>Dashboard</h1>
@@ -104,25 +104,19 @@ function Index() {
             </IconButton>
           </div>
         </Stack>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridIndex}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            getRowId={(row) => row.ID}
-            rowsPerPageOptions={[7]}
-            onCellClick={(params) => {
-              setRcId(params.row.ID);
-              setRCName(
-                `${params.row.type} ${params.row.academic_year} ${params.row.phase}`
-              );
-              router.push(`rc/${params.row.ID}`);
-            }}
-          />
-        </div>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          getRowId={(row) => row.ID}
+          onCellClick={(params) => {
+            setRcId(params.row.ID);
+            setRCName(
+              `${params.row.type} ${params.row.academic_year} ${params.row.phase}`
+            );
+            router.push(`rc/${params.row.ID}`);
+          }}
+        />
       </Stack>
     </div>
   );
