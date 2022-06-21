@@ -30,6 +30,8 @@ import { useRouter } from "next/router";
 import iconMap from "@components/Utils/IconMap";
 import styles from "@styles/internPhase.module.css";
 import Meta from "@components/Meta";
+import proformaRequestStep4 from "@callbacks/company/rc/proforma/step4";
+import useStore from "@store/store";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
 
@@ -54,12 +56,12 @@ function Step4() {
   const { rcid, proformaId } = router.query;
   const rid = (rcid || "").toString();
   const pid = (proformaId || "").toString();
+  const { token } = useStore();
   const { register, handleSubmit, control, reset, getValues } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "fieldArray",
   });
-
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -356,12 +358,30 @@ function Step4() {
             variant="contained"
             sx={{ width: { xs: "50%", md: "20%" } }}
             disabled={!router.isReady || rid === "" || pid === ""}
-            onClick={handleSubmit((data) => {
-              console.log(data);
-              router.push({
-                pathname: ROUTE,
-                query: { rcId: rid, proformaId: pid },
-              });
+            onClick={handleSubmit(async (data) => {
+              const { fieldArray } = data;
+              let push = 1;
+              for (let i = 0; i < fieldArray.length; i += 1) {
+                fieldArray[i].proforma_id = parseInt(pid, 10);
+                fieldArray[i].sequence = 5 * (i + 1);
+                // eslint-disable-next-line no-loop-func
+                // eslint-disable-next-line no-await-in-loop
+                let response = await proformaRequestStep4.post(
+                  token,
+                  fieldArray[i],
+                  (rcid || "").toString()
+                );
+                if (!response) {
+                  push = 0;
+                  break;
+                }
+              }
+              if (push) {
+                router.push({
+                  pathname: ROUTE,
+                  query: { rcid, proformaId },
+                });
+              }
             })}
           >
             Next
