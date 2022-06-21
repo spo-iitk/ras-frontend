@@ -9,7 +9,7 @@ import { LoadingButton } from "@mui/lab";
 import companySignUpRequest, {
   SignUpCompanyParams,
 } from "@callbacks/auth/signupCompany";
-import theme from "@components/Theme";
+import theme from "@components/theme/theme";
 
 const style = {
   position: "absolute" as const,

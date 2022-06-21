@@ -31,7 +31,7 @@ import { fields } from "./LayoutWrapper";
 const AccountStyle = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
-  backgroundColor: "#F5B798",
+  backgroundColor: theme.palette.secondary.main,
   color: "black",
   borderRadius: "1em",
   padding: "15px 15px",

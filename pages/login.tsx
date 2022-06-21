@@ -23,7 +23,7 @@ import formstyles from "@styles/Form.module.css";
 import Meta from "@components/Meta";
 import loginRequest, { LoginParams } from "@callbacks/auth/login";
 import useStore from "@store/store";
-import theme from "@components/Theme";
+import theme from "@components/theme/theme";
 
 function Login() {
   const {

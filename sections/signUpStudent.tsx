@@ -14,7 +14,7 @@ import Link from "next/link";
 
 import { SignUpStudentParams } from "@callbacks/auth/signupStudent";
 import otpRequest, { OTPParams } from "@callbacks/auth/otp";
-import theme from "@components/Theme";
+import theme from "@components/theme/theme";
 
 const SignUpRollNoSection = dynamic(() => import("./signUpRollNoSection"), {
   suspense: true,
