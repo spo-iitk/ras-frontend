@@ -50,7 +50,7 @@ const rows = [
 function Stats() {
   return (
     <div className="container">
-      <Meta title="Statistics - Intern Season" />
+      <Meta title="Statistics " />
       <Stack>
         <h1>Stats</h1>
         <DataGrid rows={rows} columns={columns} />

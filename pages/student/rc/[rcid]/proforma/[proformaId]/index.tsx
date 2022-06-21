@@ -54,7 +54,7 @@ const data = new Array(100 + 1).join("0");
 function Index() {
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title="Software Intern - Proforma" />
+      <Meta title="Company - Proforma" />
       <h1>Proforma</h1>
       <Card
         elevation={5}

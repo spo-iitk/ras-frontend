@@ -106,7 +106,7 @@ function Resume() {
   return (
     <>
       <div className="container">
-        <Meta title="Manage Resume - Intern Season" />
+        <Meta title="Manage Resume " />
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>
             <h1>Manage Resume</h1>

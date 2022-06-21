@@ -10,7 +10,7 @@ import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 
-const ROUTE_PREFIX = "/student/rc/[rcId]/proforma/[proformaId]";
+const ROUTE_PREFIX = "/student/rc/[rcid]";
 const handleChange = (event: SelectChangeEvent, setAge: any) => {
   setAge(event.target.value);
 };
@@ -40,9 +40,9 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <Link
         href={{
-          pathname: `${ROUTE_PREFIX}`,
+          pathname: `${ROUTE_PREFIX}/proforma/[proformaId]`,
           query: {
-            rcId: 1,
+            rcid: 1,
             proformaId: 1,
           },
         }}
@@ -89,7 +89,17 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <ActiveButton sx={{ width: "100%" }}>{params.value}</ActiveButton>
+      <Link
+        href={{
+          pathname: `${ROUTE_PREFIX}/opening/[openingId]/apply`,
+          query: {
+            rcid: 1,
+            openingId: 1,
+          },
+        }}
+      >
+        <ActiveButton sx={{ width: "100%" }}>{params.value}</ActiveButton>
+      </Link>
     ),
   },
 ];
@@ -111,7 +121,7 @@ function Openings() {
 
   return (
     <div className="container">
-      <Meta title="Openings - Intern Season" />
+      <Meta title="Openings" />
       <Stack>
         <h1>Job Openings</h1>
         <DataGrid rows={rows} columns={columns} />

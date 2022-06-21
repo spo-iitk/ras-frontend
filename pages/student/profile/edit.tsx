@@ -234,7 +234,7 @@ function ProfileEdit() {
   }, [token, reset]);
   return (
     <div className={styles.container}>
-      <Meta title="Student Dashboard - Edit Profile" />
+      <Meta title="Edit Profile - Student Dashboard " />
       <Stack spacing={2}>
         <Stack
           direction={{ xs: "column", sm: "row" }}

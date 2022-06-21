@@ -111,7 +111,7 @@ function Calendar() {
   return (
     <div className={styles.container}>
       <h1>Calender</h1>
-      <Meta title="Calendar - Intern Season" />
+      <Meta title="Calendar" />
       <Card>
         <Grid
           container

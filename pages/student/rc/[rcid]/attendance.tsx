@@ -77,7 +77,7 @@ const rows = [
 function Attendance() {
   return (
     <div className="container">
-      <Meta title="Attendance - Intern Season" />
+      <Meta title="Attendance " />
       <Stack>
         <h1>Attendance</h1>
 

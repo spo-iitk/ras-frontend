@@ -161,5 +161,5 @@ function Apply() {
     </div>
   );
 }
-Apply.layout = "studentDashboard";
+Apply.layout = "studentPhaseDashboard";
 export default Apply;

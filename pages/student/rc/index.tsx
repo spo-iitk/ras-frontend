@@ -71,7 +71,7 @@ function Overview() {
   }, [token]);
   return (
     <div className="container">
-      <Meta title="Student Dashboard - Overview" />
+      <Meta title="Overview - Student Dashboard " />
       <Stack>
         <h1>Dashboard</h1>
         <h2>Recruitment Cycle</h2>
