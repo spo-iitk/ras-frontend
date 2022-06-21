@@ -9,7 +9,7 @@ import {
 } from "@callbacks/constants";
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 
-export interface ProformaStep4 {
+export interface Event {
   duration: number;
   label: string;
   proforma_id: number;
