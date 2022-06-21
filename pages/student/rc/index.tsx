@@ -8,7 +8,6 @@ import Meta from "@components/Meta";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
-import { errorNotification } from "@callbacks/notifcation";
 import useStore from "@store/store";
 
 const columns: GridColDef[] = [
@@ -62,29 +61,21 @@ const columns: GridColDef[] = [
   },
 ];
 
-let rows: RC[] = [];
 function Overview() {
   const router = useRouter();
-  const [row, setRow] = useState<RC[]>(rows);
+  const [rows, setRows] = useState<RC[]>([]);
   const { token } = useStore();
   useEffect(() => {
     const getRC = async () => {
-      const response = await rcRequest.getAll(token).catch((err) => {
-        errorNotification(
-          "Error",
-          err?.response.data.message || "Unable to fetch student data"
-        );
-        return [] as RC[];
-      });
-      rows = response;
+      const response = await rcRequest.getAll(token);
+      // console.log(response);
       for (let i = 0; i < response.length; i += 1) {
-        rows[i].id = response[i].ID;
-        rows[i].name = `${response[i].type} ${response[i].phase}`;
-        rows[i].start_date = new Date(
+        response[i].name = `${response[i].type} ${response[i].phase}`;
+        response[i].start_date = new Date(
           response[i].start_date
         ).toLocaleDateString();
       }
-      setRow(rows);
+      setRows(response);
     };
     getRC();
   }, [token]);
@@ -96,7 +87,8 @@ function Overview() {
         <h2>Recruitment Cycle</h2>
 
         <DataGrid
-          rows={row}
+          rows={rows}
+          getRowId={(row) => row.ID}
           columns={columns}
           onCellClick={() => {
             router.push(`rc/{row.data.id}/notices`);

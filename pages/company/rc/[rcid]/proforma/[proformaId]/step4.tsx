@@ -30,6 +30,8 @@ import { useRouter } from "next/router";
 import iconMap from "@components/Utils/IconMap";
 import styles from "@styles/internPhase.module.css";
 import Meta from "@components/Meta";
+import proformaRequestStep4 from "@callbacks/company/rc/proforma/step4";
+import useStore from "@store/store";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
 
@@ -54,12 +56,12 @@ function Step4() {
   const { rcid, proformaId } = router.query;
   const rid = (rcid || "").toString();
   const pid = (proformaId || "").toString();
+
   const { register, handleSubmit, control, reset, getValues } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "fieldArray",
   });
-
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
