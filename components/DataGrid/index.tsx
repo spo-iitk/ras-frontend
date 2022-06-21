@@ -55,9 +55,16 @@ interface paramsType {
   ) => void;
   // eslint-disable-next-line no-unused-vars
   getRowId?: (row: any) => string;
+  loading?: boolean;
 }
 
-function Index({ rows, columns, onCellClick, getRowId }: paramsType) {
+function Index({
+  rows,
+  columns,
+  onCellClick,
+  getRowId,
+  loading = false,
+}: paramsType) {
   const [pageSize, setPageSize] = React.useState<number>(10);
 
   const cols = columns.map((col) => ({
@@ -96,6 +103,7 @@ function Index({ rows, columns, onCellClick, getRowId }: paramsType) {
         onCellClick={onCellClick}
         getRowId={getRowId}
         sx={{ padding: 2, minHeight: rows.length > 0 ? 0 : 500 }}
+        loading={loading}
       />
     </div>
   );

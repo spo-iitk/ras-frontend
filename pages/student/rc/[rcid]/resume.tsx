@@ -47,7 +47,6 @@ const columns: GridColDef[] = [
     headerName: "ID",
     align: "center",
     headerAlign: "center",
-    width: 100,
   },
   {
     field: "resumeLink",
@@ -60,21 +59,18 @@ const columns: GridColDef[] = [
         {params.value}
       </ActiveButton>
     ),
-    width: 200,
   },
   {
     field: "uploadTime",
     headerName: "Upload Time",
     align: "center",
     headerAlign: "center",
-    width: 200,
   },
   {
     field: "comments",
     headerName: "Comments from SPO",
     align: "center",
     headerAlign: "center",
-    width: 300,
   },
   {
     field: "status",
@@ -88,7 +84,6 @@ const columns: GridColDef[] = [
         </ActiveButton>
       </div>
     ),
-    width: 190,
   },
 ];
 const rows = [

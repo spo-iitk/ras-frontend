@@ -13,17 +13,14 @@ const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "Id",
-    width: 100,
   },
   {
     field: "title",
     headerName: "Company Name",
-    width: 300,
   },
   {
     field: "description",
     headerName: "Description",
-    width: 300,
   },
   {
     field: "CreatedAt",
@@ -33,7 +30,6 @@ const columns: GridColDef[] = [
         value
       ).toLocaleTimeString()}`,
     headerName: "Published Date And Time",
-    width: 200,
   },
 ];
 function Notices() {
@@ -42,11 +38,13 @@ function Notices() {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const [notices, setNotice] = React.useState<NoticeParams[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
   React.useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
       const notice: NoticeParams[] = await NoticeSReq.getSAll(token, rid);
       setNotice(notice);
+      setLoading(false);
     };
     fetch();
   }, [rid, token]);
@@ -64,7 +62,12 @@ function Notices() {
           <h2>Notices</h2>
         </Stack>
 
-        <DataGrid rows={notices} getRowId={(row) => row.ID} columns={columns} />
+        <DataGrid
+          rows={notices}
+          getRowId={(row) => row.ID}
+          columns={columns}
+          loading={loading}
+        />
       </Stack>
     </div>
   );

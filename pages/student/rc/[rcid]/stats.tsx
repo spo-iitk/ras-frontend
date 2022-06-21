@@ -9,37 +9,30 @@ const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "Id",
-    width: 100,
   },
   {
     field: "Name",
     headerName: "Name",
-    width: 200,
   },
   {
     field: "Roll_no",
     headerName: "Roll No.",
-    width: 200,
   },
   {
     field: "Company_Name",
     headerName: "Company Name",
-    width: 200,
   },
   {
     field: "Designation",
     headerName: "Designation",
-    width: 200,
   },
   {
     field: "Program",
     headerName: "Program",
-    width: 200,
   },
   {
     field: "Branch",
     headerName: "Branch",
-    width: 100,
   },
 ];
 const rows = [

@@ -12,29 +12,21 @@ import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
-    width: 90,
   },
   {
     field: "name",
     headerName: "Recruitment Drive Name",
-    width: 400,
   },
   {
     field: "type",
     headerName: "Type of Recruitment",
-    width: 200,
-  },
-  {
-    field: "date",
-    headerName: "Start Date",
-    width: 200,
   },
   {
     field: "is_active",
     headerName: "Status",
-    width: 200,
+
     sortable: false,
     align: "center",
     headerAlign: "center",
@@ -51,24 +43,18 @@ const columns: GridColDef[] = [
       </>
     ),
   },
-  {
-    field: "remarks",
-    headerName: "Remarks",
-    width: 200,
-    sortable: false,
-    align: "center",
-    headerAlign: "center",
-  },
 ];
 
 function Overview() {
   const router = useRouter();
   const [rows, setRows] = useState<RC[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const { token } = useStore();
   useEffect(() => {
     const getRC = async () => {
       const response = await rcRequest.getAll(token);
-      // console.log(response);
+      console.log(response);
+      setLoading(false);
       for (let i = 0; i < response.length; i += 1) {
         response[i].name = `${response[i].type} ${response[i].phase}`;
         response[i].start_date = new Date(
@@ -90,8 +76,9 @@ function Overview() {
           rows={rows}
           getRowId={(row) => row.ID}
           columns={columns}
-          onCellClick={() => {
-            router.push(`rc/{row.data.id}/notices`);
+          loading={loading}
+          onCellClick={(row) => {
+            router.push(`rc/${row.id}/notices`);
           }}
         />
       </Stack>
