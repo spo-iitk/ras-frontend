@@ -20,13 +20,6 @@ import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step4";
 
 function Step3() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-    control,
-  } = useForm<ProformaParams>();
   const router = useRouter();
   const { rcid, proformaId } = router.query;
   const rid = (rcid || "").toString();
@@ -34,17 +27,18 @@ function Step3() {
   const { token } = useStore();
   const [ctc, changeCTC] = useState("");
   const [pkgDetails, changePkg] = useState("");
-  const [fetchData, setFetch] = useState<ProformaParams>();
-  useEffect(() => {
-    if (!(rid && pid)) return;
-
-    const getStep3 = async () => {
-      const data = await proformaRequest.get(token, rid, pid);
-      setFetch(data);
-    };
-    getStep3();
-  }, [rid, pid, token]);
-
+  const [fetchData, setFetch] = useState<ProformaParams>({
+    ID: 0,
+  } as ProformaParams);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    control,
+  } = useForm<ProformaParams>({
+    defaultValues: fetchData,
+  });
   const handleNext = async (data: ProformaParams) => {
     const info = {
       ...data,
@@ -67,13 +61,17 @@ function Step3() {
       });
     }
   };
+
   useEffect(() => {
     const getStep3 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
       setFetch(data);
+      reset(data);
+      changeCTC(data.cost_to_company);
+      changePkg(data.package_details);
     };
-    getStep3();
-  }, [rid, pid, token]);
+    if (rid && pid) getStep3();
+  }, [rid, pid, token, reset]);
 
   return (
     <div className={styles.container}>
@@ -88,22 +86,26 @@ function Step3() {
       >
         <Stack spacing={3}>
           <h1>Step 3/5 : Package Details</h1>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Cost to Company</p>
-            <RichText
-              value={!fetchData ? ctc : fetchData.cost_to_company}
-              onChange={changeCTC}
-              style={{ minHeight: 200 }}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Package Details</p>
-            <RichText
-              value={!fetchData ? ctc : fetchData.package_details}
-              onChange={changePkg}
-              style={{ minHeight: 200 }}
-            />
-          </FormControl>
+          {fetchData.ID !== 0 && (
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Cost to Company</p>
+              <RichText
+                value={fetchData.cost_to_company}
+                onChange={changeCTC}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+          )}
+          {fetchData.ID !== 0 && (
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Package Details</p>
+              <RichText
+                value={fetchData.package_details}
+                onChange={changePkg}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+          )}
           <FormControl sx={{ m: 1 }}>
             <Stack direction="row" spacing={3}>
               <p style={{ fontWeight: 300 }}>Bond</p>
@@ -124,7 +126,6 @@ function Step3() {
               multiline
               minRows={3}
               variant="standard"
-              value={!fetchData ? ctc : fetchData.cost_to_company}
               error={!!errors.bond_details}
               helperText={errors.bond_details && "This field is required"}
               {...register("bond_details", {

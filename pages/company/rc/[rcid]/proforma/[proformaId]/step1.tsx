@@ -13,26 +13,31 @@ const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
 function ProformaNew() {
   const [value, onChange] = useState("");
   const { token } = useStore();
+  const router = useRouter();
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaId || "").toString();
+  const [fetchData, setFetch] = useState<ProformaParams>({
+    ID: 0,
+  } as ProformaParams);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ProformaParams>();
-  const router = useRouter();
-  const { rcid, proformaId } = router.query;
-  const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
-  const [fetchData, setFetch] = useState<ProformaParams>();
-
+  } = useForm<ProformaParams>({
+    defaultValues: fetchData,
+  });
   useEffect(() => {
     if (!(rid && pid)) return;
     const getStep1 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
       setFetch(data);
+      onChange(data.job_description);
+      reset(data);
     };
     getStep1();
-  }, [rid, pid, token]);
+  }, [rid, pid, token, reset]);
 
   const handleNext = async (data: ProformaParams) => {
     const info: ProformaParams = {
@@ -72,7 +77,6 @@ function ProformaNew() {
             <p style={{ fontWeight: 300 }}>Company Name</p>
             <TextField
               id="Cname"
-              value={fetchData?.company_name}
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
@@ -87,7 +91,6 @@ function ProformaNew() {
             <p style={{ fontWeight: 300 }}>Nature of Business</p>
             <TextField
               id="Cname"
-              value={fetchData?.nature_of_business}
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
@@ -102,7 +105,6 @@ function ProformaNew() {
             <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
             <TextField
               id="Cname"
-              value={fetchData?.tentative_job_location}
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
@@ -115,14 +117,17 @@ function ProformaNew() {
               {...register("tentative_job_location", { required: true })}
             />
           </FormControl>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Job Description</p>
-            <RichTextEditor
-              value={!fetchData ? value : fetchData.job_description}
-              onChange={onChange}
-              style={{ minHeight: 200 }}
-            />
-          </FormControl>
+          {fetchData.ID !== 0 && (
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Job Description</p>
+              <RichTextEditor
+                value={fetchData.job_description}
+                onChange={onChange}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+          )}
+
           <Stack
             spacing={3}
             direction="row"

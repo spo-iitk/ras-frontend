@@ -23,9 +23,9 @@ export interface ProformaParams {
   bond: boolean;
   bond_details: string;
   medical_requirements: string;
-  eligibility_criteria: string;
-  message: string;
-  active_HR: string;
+  additional_eligibility: string;
+  message_for_cordinator: string;
+  active_hr_id: string;
 }
 
 export interface NewProformaResponse {
