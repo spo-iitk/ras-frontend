@@ -9,7 +9,7 @@ import {
 } from "@callbacks/constants";
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 
-export interface ProformaStep4 {
+export interface Event {
   duration: number;
   label: string;
   proforma_id: number;
@@ -22,12 +22,12 @@ const instance = axios.create({
 });
 
 const proformaRequestStep4 = {
-  post: (token: string, body: ProformaStep4, rcid: string) =>
+  post: (token: string, body: Event, rcid: string) =>
     instance
       .post<
         StatusResponse,
-        AxiosResponse<StatusResponse, ProformaStep4>,
-        ProformaStep4
+        AxiosResponse<StatusResponse, Event>,
+        Event
       >(`/application/rc/${rcid}/event`, body, setConfig(token))
       .then((res) => {
         successNotification("Step 4 Submitted", res?.data.status);

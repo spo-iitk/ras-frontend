@@ -10,7 +10,6 @@ import {
 } from "../../constants";
 
 export interface RC {
-  id: number;
   ID: number;
   is_active: boolean;
   academic_year: string;
