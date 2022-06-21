@@ -1,25 +1,16 @@
 import axios, { AxiosResponse } from "axios";
 
-import { errorNotification } from "@callbacks/notifcation";
-
 import {
   ErrorType,
   SERVER_ERROR,
   STUDENT_URL,
   setConfig,
-} from "../../constants";
+} from "@callbacks/constants";
+import { errorNotification } from "@callbacks/notifcation";
 
-export interface RC {
-  ID: number;
-  is_active: boolean;
-  academic_year: string;
-  type: string;
-  start_date: string;
-  name: string;
-  phase: string;
-  application_count_cap: number;
+export interface events {
+  id: number;
 }
-
 const instance = axios.create({
   baseURL: STUDENT_URL,
   timeout: 15000,
@@ -28,14 +19,16 @@ const instance = axios.create({
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
-const rcRequest = {
+const eventsRequest = {
   getAll: (token: string) =>
     instance
-      .get<RC[]>("/rc", setConfig(token))
+      .get("/events", setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
-        return [] as RC[];
+        return [] as events[];
       }),
 };
-export default rcRequest;
+export default eventsRequest;
+
+// Haven't implemented this request, yet

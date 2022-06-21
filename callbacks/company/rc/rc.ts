@@ -1,27 +1,25 @@
 import axios, { AxiosResponse } from "axios";
 
-import { errorNotification } from "@callbacks/notifcation";
-
 import {
+  COMPANY_URL,
   ErrorType,
   SERVER_ERROR,
-  STUDENT_URL,
   setConfig,
-} from "../../constants";
+} from "@callbacks/constants";
+import { errorNotification } from "@callbacks/notifcation";
 
 export interface RC {
   ID: number;
   is_active: boolean;
   academic_year: string;
   type: string;
-  start_date: string;
   name: string;
   phase: string;
   application_count_cap: number;
 }
 
 const instance = axios.create({
-  baseURL: STUDENT_URL,
+  baseURL: COMPANY_URL,
   timeout: 15000,
   timeoutErrorMessage: SERVER_ERROR,
 });
@@ -38,4 +36,5 @@ const rcRequest = {
         return [] as RC[];
       }),
 };
+
 export default rcRequest;
