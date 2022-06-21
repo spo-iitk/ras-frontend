@@ -86,22 +86,6 @@ const columns: GridColDef[] = [
     width: 50,
     align: "center",
   },
-  // {
-  //   field: "button2",
-  //   headerName: "",
-  //   renderCell: () => (
-  //     <IconButton
-  //       onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
-  //         const { id } = e.currentTarget;
-  //         await NoticeReq.notif(token, id);
-  //       }}
-  //     >
-  //       <NotificationsIcon />
-  //     </IconButton>
-  //   ),
-  //   width: 50,
-  //   align: "center",
-  // },
 ];
 function Index() {
   const { token, rcName } = useStore();
