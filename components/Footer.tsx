@@ -140,8 +140,17 @@ function Footer() {
               <Stack direction="column" justifyContent="center" spacing={2}>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <HomeIcon />
-                  Student Placement Office, 109, Outreach Building, IIT Kanpur,
-                  Kanpur- 208016, Uttar Pradesh, India
+                  <div>
+                    <Typography variant="body1">
+                      Student Placement Office
+                    </Typography>
+                    <Typography variant="body1">
+                      109, Outreach Building, IIT Kanpur
+                    </Typography>
+                    <Typography variant="body1">
+                      Kanpur- 208016, Uttar Pradesh, India
+                    </Typography>
+                  </div>
                 </Stack>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <PublicIcon />
