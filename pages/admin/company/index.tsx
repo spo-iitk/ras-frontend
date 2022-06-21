@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
 import { IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
@@ -14,21 +14,19 @@ import useStore from "@store/store";
 import AddCompanyMD from "@components/Modals/AddCompanyAdminMD";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 100 },
+  { field: "id", headerName: "ID" },
   {
     field: "name",
     headerName: "Company Name",
-    width: 300,
   },
   {
     field: "tags",
     headerName: "Tags",
-    width: 400,
   },
   {
     field: "website",
     headerName: "View Details",
-    width: 200,
+
     renderCell: (params) => (
       <Stack
         direction="row"
@@ -66,8 +64,8 @@ function Index() {
   };
 
   return (
-    <div className={styles.container}>
-      <Meta title="Master Company Database" />
+    <div className="container">
+      <Meta title="Master Company Database - Admin" />
       <Grid container alignItems="center">
         <Grid item xs={12}>
           <Stack
@@ -91,17 +89,8 @@ function Index() {
             </div>
           </Stack>
         </Grid>
-        <div
-          className={styles.datagridMasterCompany}
-          style={{ height: 500, margin: "0px auto" }}
-        >
-          <DataGrid
-            rows={row}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={row} columns={columns} />
       </Grid>
       <Modal open={openNew} onClose={handleCloseNew}>
         <AddCompanyMD handleCloseNew={handleCloseNew} />
