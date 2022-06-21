@@ -28,7 +28,7 @@ function Step5() {
     formState: { errors },
   } = useForm();
   const router = useRouter();
-  const { rcId } = router.query;
+  const { rcid } = router.query;
   const handleNext = (data: any) => {
     console.log(data);
     reset({
@@ -38,7 +38,7 @@ function Step5() {
     });
     router.push({
       pathname: ROUTE,
-      query: { rcId },
+      query: { rcId: rcid },
     });
   };
   return (

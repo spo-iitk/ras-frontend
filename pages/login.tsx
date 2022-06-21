@@ -78,7 +78,7 @@ function Login() {
           router.push("/admin");
           break;
         default:
-          router.push("/404");
+          router.push("/401");
           break;
       }
     }
@@ -118,7 +118,7 @@ function Login() {
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
               id="Email ID"
-              label="Email Id"
+              label="Email ID"
               variant="outlined"
               error={!!errors.user_id}
               helperText={errors.user_id ? "Incorrect Email ID" : ""}
