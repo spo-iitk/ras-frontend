@@ -1,45 +1,70 @@
 import {
+  Autocomplete,
   Button,
   Card,
   FormControl,
-  MenuItem,
   Stack,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 import Meta from "@components/Meta";
+import useStore from "@store/store";
+import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
+import companyRequest, { HR } from "@callbacks/company/company";
 
 const ROUTE = "/company/rc/[rcId]";
 
-const hrtype = [
-  { id: 1, data: "HR1" },
-  { id: 1, data: "HR2" },
-  { id: 1, data: "HR3" },
-];
 function Step5() {
+  const router = useRouter();
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaId || "").toString();
+  const { token } = useStore();
+  const [fetchData, setFetch] = useState<ProformaType>({
+    ID: 0,
+  } as ProformaType);
+  const [HRdata, setHR] = useState<HR>({ name: "", hr1: "", hr2: "", hr3: "" });
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
-  const router = useRouter();
-  const { rcid } = router.query;
-  const handleNext = (data: any) => {
-    console.log(data);
-    reset({
-      eligibilityCriteria: "",
-      message: "",
-      activeHR: "",
-    });
-    router.push({
-      pathname: ROUTE,
-      query: { rcId: rcid },
-    });
+  } = useForm<ProformaType>({
+    defaultValues: fetchData,
+  });
+  const handleNext = async (data: ProformaType) => {
+    const info = {
+      ...data,
+      ID: parseInt(pid, 10),
+    };
+    const res = await proformaRequest.put(token, rid, info);
+    if (res) {
+      reset({
+        additional_eligibility: "",
+        message_for_cordinator: "",
+        active_hr_id: "",
+      });
+      router.push({
+        pathname: ROUTE,
+        query: { rcId: rid },
+      });
+    }
   };
+  useEffect(() => {
+    if (!(rid && pid)) return;
+    const getStep5 = async () => {
+      const data = await proformaRequest.get(token, rid, pid);
+      const hr = await companyRequest.getHR(token, rid);
+      setHR(hr);
+      setFetch(data);
+      reset(data);
+    };
+    getStep5();
+  }, [rid, pid, token, reset]);
+
   return (
     <div className="container">
       <Meta title="Step 5/5 - Additional Information" />
@@ -63,11 +88,11 @@ function Step5() {
               multiline
               minRows={3}
               variant="standard"
-              error={errors.eligibilityCriteria}
+              error={!!errors.additional_eligibility}
               helperText={
-                errors.eligibilityCriteria && "This field is required!"
+                errors.additional_eligibility && "This field is required!"
               }
-              {...register("eligibilityCriteria", { required: true })}
+              {...register("additional_eligibility")}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -80,31 +105,46 @@ function Step5() {
               multiline
               minRows={5}
               variant="standard"
-              error={errors.message}
-              helperText={errors.message && "This field is required!"}
-              {...register("message", { required: true })}
+              error={!!errors.message_for_cordinator}
+              helperText={
+                errors.message_for_cordinator && "This field is required!"
+              }
+              {...register("message_for_cordinator")}
             />
           </FormControl>
+
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Select Active HR</p>
-            <TextField
-              id="hrtype"
-              required
-              select
-              fullWidth
-              variant="standard"
-              error={errors.activeHR}
-              helperText={errors.activeHR && "This field is required!"}
-              {...register("activeHR", { required: true })}
-            >
-              <MenuItem value="">Select</MenuItem>
-              {hrtype.map((val) => (
-                <MenuItem value={val.data} key="q1">
-                  {val.data}
-                </MenuItem>
-              ))}
-            </TextField>
+            <Autocomplete
+              disablePortal
+              id="select-active-hr"
+              options={[
+                {
+                  id: 1,
+                  label: HRdata.hr1,
+                },
+                {
+                  id: 2,
+                  label: HRdata.hr2,
+                },
+                {
+                  id: 3,
+                  label: HRdata.hr3,
+                },
+              ]}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  variant="standard"
+                  error={!!errors.active_hr_id}
+                  helperText={errors.active_hr_id && "This field is required!"}
+                  {...register("active_hr_id", { required: true })}
+                />
+              )}
+            />
           </FormControl>
+
           <Stack
             spacing={3}
             direction="row"
@@ -114,11 +154,22 @@ function Step5() {
             <Button
               variant="contained"
               sx={{ width: "50%" }}
+              disabled={!router.isReady || rid === ""}
               onClick={handleSubmit(handleNext)}
             >
               Submit
             </Button>
-            <Button variant="contained" sx={{ width: "50%" }}>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={() => {
+                reset({
+                  additional_eligibility: "",
+                  message_for_cordinator: "",
+                  active_hr_id: "",
+                });
+              }}
+            >
               Reset
             </Button>
           </Stack>

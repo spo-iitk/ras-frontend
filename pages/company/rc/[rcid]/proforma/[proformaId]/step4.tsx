@@ -32,7 +32,7 @@ import Meta from "@components/Meta";
 import proformaRequestStep4 from "@callbacks/company/rc/proforma/step4";
 import useStore from "@store/store";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step5";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -52,7 +52,9 @@ const textFieldSX = {
 
 function Step4() {
   const router = useRouter();
-  const { rcid } = router.query;
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaId || "").toString();
   const { token } = useStore();
   const { register, handleSubmit, control, reset, getValues } = useForm();
   const { fields, append, remove } = useFieldArray({
@@ -76,35 +78,35 @@ function Step4() {
   const tiles = [
     {
       label: "Pre-Placement Talk",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Resume Shortlisting",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Group Discussion",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Technical Test",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Aptitude Test",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Technical Interview",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "HR Interview",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Other",
-      duration: "0",
+      duration: "0 Min",
     },
   ];
 
@@ -354,17 +356,12 @@ function Step4() {
           <Button
             variant="contained"
             sx={{ width: { xs: "50%", md: "20%" } }}
+            disabled={!router.isReady || rid === "" || pid === ""}
             onClick={handleSubmit(async (data) => {
-              console.log(data);
               const { fieldArray } = data;
-              const { proformaId } = router.query;
               let push = 1;
               for (let i = 0; i < fieldArray.length; i += 1) {
-                console.log(fieldArray[i]);
-                fieldArray[i].proforma_id = parseInt(
-                  (proformaId || "").toString(),
-                  10
-                );
+                fieldArray[i].proforma_id = parseInt(pid, 10);
                 fieldArray[i].sequence = 5 * (i + 1);
                 // eslint-disable-next-line no-loop-func
                 // eslint-disable-next-line no-await-in-loop
