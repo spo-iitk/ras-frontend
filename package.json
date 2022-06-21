@@ -12,7 +12,6 @@
     "lint:fix": "next lint --fix --ext .ts,.tsx"
   },
   "dependencies": {
-    "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mantine/core": "^4.2.9",
     "@mantine/hooks": "^4.2.9",
