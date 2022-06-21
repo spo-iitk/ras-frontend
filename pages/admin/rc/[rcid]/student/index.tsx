@@ -1,11 +1,32 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import React, { useEffect } from "react";
+import { GridColDef } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton, Modal, Stack } from "@mui/material";
 
+import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
-import styles from "@styles/adminPhase.module.css";
 import getStudents, { Student } from "@callbacks/admin/rc/student/getStudents";
 import { errorNotification } from "@callbacks/notifcation";
+import EditStudent from "@components/Modals/EditStudentDetails";
+import ActiveButton from "@components/Buttons/ActiveButton";
+
+function DeleteStudents(props: { id: string }) {
+  const { token } = useStore();
+  const { id } = props;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  return (
+    <IconButton
+      onClick={() => {
+        getStudents.deleteStudent(token, rid, id);
+      }}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+}
 
 const columns: GridColDef[] = [
   {
@@ -53,6 +74,14 @@ const columns: GridColDef[] = [
     headerName: "Type",
     width: 100,
   },
+  {
+    field: "options",
+    headerName: "",
+    width: 100,
+    renderCell: (cellValues) => (
+      <DeleteStudents id={cellValues.id.toString()} />
+    ),
+  },
 ];
 function Index() {
   const [rows, setRows] = React.useState<any>([]);
@@ -73,6 +102,7 @@ function Index() {
               updated_at: student.UpdatedAt,
               comment: student.comment,
               id: student.ID,
+              ID: student.ID,
               name: student.name,
               email: student.email,
               cpi: student.cpi,
@@ -95,17 +125,28 @@ function Index() {
     };
     fetch();
   }, [rid, token]);
+  const [openNew, setOpenNew] = useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
   return (
-    <div className={styles.container}>
-      <h2>Students</h2>
-      <div style={{ height: 600, margin: "20px auto", width: 1200 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={7}
-          rowsPerPageOptions={[7]}
-        />
-      </div>
+    <div>
+      <Stack direction="row" justifyContent="space-between">
+        <h2>Students</h2>
+        <ActiveButton onClick={handleOpenNew}>EDIT</ActiveButton>
+        <Modal open={openNew} onClose={handleCloseNew}>
+          <EditStudent
+            handleCloseNew={handleCloseNew}
+            setRows={setRows}
+            studentData={rows}
+            rcid={rid}
+          />
+        </Modal>
+      </Stack>
+      <DataGrid rows={rows} columns={columns} />
     </div>
   );
 }
