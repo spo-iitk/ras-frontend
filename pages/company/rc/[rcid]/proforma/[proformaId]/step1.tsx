@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import RichTextEditor from "@components/Editor/RichText";
-import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
+import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import useStore from "@store/store";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
@@ -17,15 +17,15 @@ function ProformaNew() {
   const { rcid, proformaId } = router.query;
   const rid = (rcid || "").toString();
   const pid = (proformaId || "").toString();
-  const [fetchData, setFetch] = useState<ProformaParams>({
+  const [fetchData, setFetch] = useState<ProformaType>({
     ID: 0,
-  } as ProformaParams);
+  } as ProformaType);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ProformaParams>({
+  } = useForm<ProformaType>({
     defaultValues: fetchData,
   });
   useEffect(() => {
@@ -39,8 +39,8 @@ function ProformaNew() {
     getStep1();
   }, [rid, pid, token, reset]);
 
-  const handleNext = async (data: ProformaParams) => {
-    const info: ProformaParams = {
+  const handleNext = async (data: ProformaType) => {
+    const info: ProformaType = {
       ...data,
       ID: parseInt(pid, 10),
       job_description: value,

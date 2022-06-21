@@ -8,7 +8,7 @@ import Meta from "@components/Meta";
 import RichTextEditor from "@components/Editor/RichText";
 import proformaRequest, {
   NewProformaResponse,
-  ProformaParams,
+  ProformaType,
 } from "@callbacks/company/proforma";
 import useStore from "@store/store";
 
@@ -22,15 +22,15 @@ function ProformaNew() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ProformaParams>({
+  } = useForm<ProformaType>({
     defaultValues: { company_name: name },
   });
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
 
-  const handleNext = async (data: ProformaParams) => {
-    const info: ProformaParams = {
+  const handleNext = async (data: ProformaType) => {
+    const info: ProformaType = {
       ...data,
       job_description: value,
       recruitment_cycle_id: parseInt(rid, 10),

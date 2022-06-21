@@ -15,7 +15,7 @@ import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import RichText from "@components/Editor/RichText";
 import useStore from "@store/store";
-import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
+import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step4";
 
@@ -27,19 +27,19 @@ function Step3() {
   const { token } = useStore();
   const [ctc, changeCTC] = useState("");
   const [pkgDetails, changePkg] = useState("");
-  const [fetchData, setFetch] = useState<ProformaParams>({
+  const [fetchData, setFetch] = useState<ProformaType>({
     ID: 0,
-  } as ProformaParams);
+  } as ProformaType);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
     control,
-  } = useForm<ProformaParams>({
+  } = useForm<ProformaType>({
     defaultValues: fetchData,
   });
-  const handleNext = async (data: ProformaParams) => {
+  const handleNext = async (data: ProformaType) => {
     const info = {
       ...data,
       ID: parseInt(pid, 10),

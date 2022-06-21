@@ -19,7 +19,7 @@ import {
   programType,
 } from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
-import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
+import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import useStore from "@store/store";
 
 const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step3";
@@ -43,7 +43,7 @@ function Step2() {
     const info = {
       eligibility: str,
       ID: parseInt(pid, 10),
-    } as ProformaParams;
+    } as ProformaType;
     await proformaRequest.put(token, rid, info).then(() => {
       router.push({
         pathname: ROUTE,

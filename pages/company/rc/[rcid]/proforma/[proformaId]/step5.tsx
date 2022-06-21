@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
-import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
+import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import companyRequest, { HR } from "@callbacks/company/company";
 
 const ROUTE = "/company/rc/[rcId]";
@@ -24,19 +24,19 @@ function Step5() {
   const rid = (rcid || "").toString();
   const pid = (proformaId || "").toString();
   const { token } = useStore();
-  const [fetchData, setFetch] = useState<ProformaParams>({
+  const [fetchData, setFetch] = useState<ProformaType>({
     ID: 0,
-  } as ProformaParams);
+  } as ProformaType);
   const [HRdata, setHR] = useState<HR>({ name: "", hr1: "", hr2: "", hr3: "" });
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ProformaParams>({
+  } = useForm<ProformaType>({
     defaultValues: fetchData,
   });
-  const handleNext = async (data: ProformaParams) => {
+  const handleNext = async (data: ProformaType) => {
     const info = {
       ...data,
       ID: parseInt(pid, 10),
