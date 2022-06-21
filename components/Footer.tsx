@@ -1,5 +1,4 @@
 import { Grid, Stack } from "@mui/material";
-import Link from "next/link";
 import React from "react";
 import CallIcon from "@mui/icons-material/Call";
 import MailIcon from "@mui/icons-material/Mail";
@@ -85,13 +84,55 @@ function Footer() {
             <Grid item xs={12} md={3}>
               <h2>Important Links</h2>
               <Stack direction="column" justifyContent="center" spacing={2}>
-                <Link href="/"> Student Placement Office</Link>
-                <Link href="/"> Department Brochure</Link>
-                <Link href="/"> Intern Policy (Company)</Link>
-                <Link href="/"> Intern Policy (Student)</Link>
-                <Link href="/"> Recruitment Guide</Link>
-                <Link href="/"> Recruitment Itinerarry</Link>
-                <Link href="/"> Contact Us</Link>
+                <a
+                  href="https://spo.iitk.ac.in/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Student Placement Office
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/departmental-brochure"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Department Brochure
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/companies#ipolicy"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Intern Policy (Company)
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/docs/2021-22/Internship-Policy-2021-22.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Intern Policy (Student)
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/assets/companies_links/IITK_Recruitment_Guide_2022-23.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Recruitment Guide
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/companies#steps"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Recruitment Itinerarry
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/contact"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Contact Us
+                </a>
               </Stack>
             </Grid>
             <Grid item xs={12} md={3}>
@@ -99,10 +140,8 @@ function Footer() {
               <Stack direction="column" justifyContent="center" spacing={2}>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <HomeIcon />
-                  <Link href="/">
-                    Student Placement Office, 109, Outreach Building, IIT
-                    Kanpur, Kanpur- 208016, Uttar Pradesh, India
-                  </Link>
+                  Student Placement Office, 109, Outreach Building, IIT Kanpur,
+                  Kanpur- 208016, Uttar Pradesh, India
                 </Stack>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <PublicIcon />
@@ -147,13 +186,55 @@ function Footer() {
           </AccordionSummary>
           <AccordionDetails>
             <Stack direction="column" justifyContent="center" spacing={2}>
-              <Link href="/"> Student Placement Office</Link>
-              <Link href="/"> Department Brochure</Link>
-              <Link href="/"> Intern Policy (Company)</Link>
-              <Link href="/"> Intern Policy (Student)</Link>
-              <Link href="/"> Recruitment Guide</Link>
-              <Link href="/"> Recruitment Itinerarry</Link>
-              <Link href="/"> Contact Us</Link>
+              <a
+                href="https://spo.iitk.ac.in/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Student Placement Office
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/departmental-brochure"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Department Brochure
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/companies#ipolicy"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Intern Policy (Company)
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/docs/2021-22/Internship-Policy-2021-22.pdf"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Intern Policy (Student)
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/assets/companies_links/IITK_Recruitment_Guide_2022-23.pdf"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Recruitment Guide
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/companies#steps"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Recruitment Itinerarry
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/contact"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Contact Us
+              </a>
             </Stack>
           </AccordionDetails>
         </Accordion>
@@ -168,10 +249,8 @@ function Footer() {
             <Stack direction="column" justifyContent="center" spacing={2}>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <HomeIcon />
-                <Link href="/">
-                  Student Placement Office, 109, Outreach Building, IIT Kanpur,
-                  Kanpur- 208016, Uttar Pradesh, India
-                </Link>
+                Student Placement Office, 109, Outreach Building, IIT Kanpur,
+                Kanpur- 208016, Uttar Pradesh, India
               </Stack>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <PublicIcon />
