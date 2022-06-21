@@ -9,7 +9,6 @@ import router from "next/router";
 
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/adminPhase.module.css";
 import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import useStore from "@store/store";
 
@@ -28,7 +27,7 @@ function RecruitmentCycle() {
     console.log(response);
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Create New Recruitment Cycle - Admin" />
       <div style={{ marginTop: 50 }}>
         <Card

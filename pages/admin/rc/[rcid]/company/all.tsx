@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button, Grid, IconButton, Popover, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import InactiveButton from "@components/Buttons/InactiveButton";
 
@@ -129,8 +129,8 @@ function CompanyAll() {
   ];
 
   return (
-    <div className={styles.container}>
-      <Meta title="Student Dashboard - CompanyStudent" />
+    <div className="container">
+      <Meta title="All Students - Company" />
       <Stack>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>
@@ -177,20 +177,8 @@ function CompanyAll() {
             </div>
           </Grid>
         </Grid>
-        <div
-          style={{
-            height: 500,
-            margin: "0px auto",
-          }}
-          className={styles.datagridCompanyAll}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

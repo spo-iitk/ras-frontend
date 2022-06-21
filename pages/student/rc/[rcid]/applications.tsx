@@ -71,7 +71,7 @@ const applicationParams = {
 function Applications() {
   return (
     <div className="container">
-      <Meta title="Applications - Intern Season" />
+      <Meta title="Applications" />
       <Grid
         container
         spacing={1}

@@ -2,15 +2,12 @@ import styled from "@emotion/styled";
 import CallIcon from "@mui/icons-material/Call";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 import {
   Avatar,
   Box,
   Grid,
   IconButton,
   ListItemAvatar,
-  Menu,
-  MenuItem,
   Stack,
 } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
@@ -31,8 +28,8 @@ import { fields } from "./LayoutWrapper";
 const AccountStyle = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
-  backgroundColor: theme.palette.primary.main,
-  color: "white",
+  backgroundColor: theme.palette.secondary.main,
+  color: "black",
   borderRadius: "1em",
   padding: "15px 15px",
 }));
@@ -73,25 +70,8 @@ function MasterLayout({
       setState({ ...state, [anchor]: open });
     };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [anchorNotifEl, setAnchorNotifEl] = React.useState<null | HTMLElement>(
-    null
-  );
   const { setToken } = useStore();
-  const open = Boolean(anchorEl);
-  const notifOpen = Boolean(anchorNotifEl);
-  const handleNotifClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorNotifEl(event.currentTarget);
-  };
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleProfileMenuCLose = () => {
-    setAnchorEl(null);
-  };
-  const handleNotificationClose = () => {
-    setAnchorNotifEl(null);
-  };
+
   const list = (anchor: Anchor) => (
     <Box
       className={dashboardstyles.drawer}
@@ -141,7 +121,7 @@ function MasterLayout({
                 <ListItemAvatar
                   sx={{
                     color: match(`${items.route}${item.id}`)
-                      ? theme.palette.secondary.light
+                      ? theme.palette.secondary.contrastText
                       : "white",
                   }}
                 >
@@ -152,7 +132,7 @@ function MasterLayout({
                     style={{
                       margin: 5,
                       color: match(`${items.route}${item.id}`)
-                        ? theme.palette.secondary.light
+                        ? theme.palette.secondary.contrastText
                         : "white",
                     }}
                   >
@@ -269,7 +249,7 @@ function MasterLayout({
                       <ListItemAvatar
                         sx={{
                           color: match(`${items.route}${item.id}`)
-                            ? theme.palette.secondary.light
+                            ? theme.palette.secondary.contrastText
                             : "white",
                         }}
                       >
@@ -280,7 +260,7 @@ function MasterLayout({
                           style={{
                             margin: 5,
                             color: match(`${items.route}${item.id}`)
-                              ? theme.palette.secondary.light
+                              ? theme.palette.secondary.contrastText
                               : "white",
                           }}
                         >
@@ -357,14 +337,6 @@ function MasterLayout({
                 >
                   <MenuIcon fontSize="large" />
                 </IconButton>
-                <Stack direction="row" spacing={3}>
-                  <IconButton onClick={handleNotifClick}>
-                    <NotificationImportantIcon fontSize="large" />
-                  </IconButton>
-                  <IconButton onClick={handleClick}>
-                    <Avatar src="" alt="photoURL" />
-                  </IconButton>
-                </Stack>
               </Stack>
               <Drawer
                 anchor="left"
@@ -374,67 +346,10 @@ function MasterLayout({
                 {list("left")}
               </Drawer>
             </div>
-            {children}
+            <div style={{ marginTop: 50 }}>{children}</div>
           </Stack>
         </Grid>
       </Grid>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleProfileMenuCLose}
-        onClick={handleProfileMenuCLose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            width: 100,
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem>
-          <Link href="/student/profile">Profile</Link>
-        </MenuItem>
-        <MenuItem onClick={() => setToken("")}>
-          <Link href="/login">Logout</Link>
-        </MenuItem>
-      </Menu>
-      <Menu
-        anchorEl={anchorNotifEl}
-        id="account-notif"
-        open={notifOpen}
-        onClose={handleNotificationClose}
-        onClick={handleNotificationClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            width: 300,
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem>No notifications to show!</MenuItem>
-      </Menu>
     </div>
   );
 }

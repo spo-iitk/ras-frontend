@@ -11,14 +11,13 @@ import {
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 function NewQuestion() {
   const [optionVal, setOptionVal] = useState([0]);
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Question - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>

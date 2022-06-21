@@ -23,6 +23,7 @@ import formstyles from "@styles/Form.module.css";
 import Meta from "@components/Meta";
 import loginRequest, { LoginParams } from "@callbacks/auth/login";
 import useStore from "@store/store";
+import theme from "@components/theme/theme";
 
 function Login() {
   const {
@@ -171,7 +172,7 @@ function Login() {
                 Remember Me
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                <span style={{ color: "blue" }}>
+                <span style={{ color: theme.palette.secondary.main }}>
                   <Link href="/reset-password">Forgot password?</Link>
                 </span>
               </Typography>
@@ -189,7 +190,7 @@ function Login() {
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <Typography>
               Don&apos;t have an account?{" "}
-              <span style={{ color: "blue" }}>
+              <span style={{ color: theme.palette.secondary.main }}>
                 <Link href="/signup">Sign Up</Link>
               </span>
             </Typography>

@@ -92,19 +92,7 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const [notices, setNotice] = React.useState<NoticeParams[]>([
-    {
-      ID: 0,
-      recruitment_cycle_id: 0,
-      title: "I",
-      description: "",
-      tags: "",
-      attachment: "",
-      created_by: "",
-      CreatedAt: "",
-      last_reminder_at: 0,
-    },
-  ]);
+  const [notices, setNotice] = React.useState<NoticeParams[]>([]);
 
   const [openNew, setOpenNew] = React.useState(false);
   const handleOpenNew = () => {
@@ -113,12 +101,14 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
       const notice: NoticeParams[] = await NoticeReq.getAll(token, rid);
 
       setNotice(notice);
+      setLoading(false);
     };
     fetch();
   }, [rid, token]);
@@ -145,6 +135,7 @@ function Index() {
           rows={notices}
           getRowId={(row: any) => row.ID}
           columns={columns}
+          loading={loading}
         />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>

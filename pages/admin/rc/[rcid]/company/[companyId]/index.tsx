@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import {
   Button,
   Card,
@@ -10,14 +10,12 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
-// import { useRouter } from "next/router";
 import { useRouter } from "next/router";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 import AddPPO from "@components/Modals/addPPO";
 import useStore from "@store/store";
-// import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
 import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
 
 const columns: GridColDef[] = [
@@ -130,7 +128,7 @@ function Index() {
     getCompanydata();
   }, [token, rid, ID]);
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Company Dashboard" />
       <h1>{row.company_name}</h1>
 
@@ -205,17 +203,8 @@ function Index() {
             </IconButton>
           </Stack>
         </Stack>
-        <div
-          className={styles.datagridCompany}
-          style={{ height: 500, margin: "20px auto" }}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

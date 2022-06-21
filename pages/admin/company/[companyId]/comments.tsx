@@ -2,12 +2,11 @@ import React from "react";
 import { Card, Stack, TextField } from "@mui/material";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 function Comments() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Company History - Admin" />
       <h1>Dashboard</h1>
       <div style={{ marginTop: 50, marginBottom: 50 }}>

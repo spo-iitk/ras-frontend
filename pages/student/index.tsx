@@ -16,7 +16,7 @@ function RecruitmentPortal() {
     };
     fetch();
     router.push("student/rc");
-  });
+  }, [router, token]);
 
   return (
     <div>

@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
 import InactiveButton from "@components/Buttons/InactiveButton";
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import postEmails, { Emails } from "@callbacks/admin/rc/student/enrollStudents";
 import useStore from "@store/store";
@@ -40,7 +39,7 @@ function Enroll() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Enroll - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>

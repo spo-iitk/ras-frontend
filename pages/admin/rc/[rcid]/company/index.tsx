@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Grid, IconButton, Modal, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
-import DownloadIcon from "@mui/icons-material/Download";
-import Tooltip from "@mui/material/Tooltip";
-import Zoom from "@mui/material/Zoom";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import AddCompany from "@components/Modals/AddCompanyAdmin";
 import useStore from "@store/store";
@@ -79,17 +76,20 @@ function Index() {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const [rows, setRow] = useState<CompanyRc[]>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
       let response = await requestCompany.getall(token, rid);
       setRow(response);
+      setLoading(false);
     };
     if (rid !== "") getCompanydata();
   }, [token, rid]);
   return (
-    <div className={styles.container}>
-      <Meta title="Company - Admin" />
+    <div className="container">
+      <Meta title="Company" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Stack>
         <Grid container spacing={1} alignItems="center">
@@ -98,29 +98,19 @@ function Index() {
           </Grid>
           <Grid item xs={6} style={gridMain}>
             <div>
-              <Tooltip TransitionComponent={Zoom} title="Download Excel">
-                <IconButton>
-                  <DownloadIcon />
-                </IconButton>
-              </Tooltip>
               <IconButton onClick={handleOpenNew}>
                 <AddIcon />
               </IconButton>
             </div>
           </Grid>
         </Grid>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridCompanyStudent}
-        >
-          <DataGrid
-            rows={rows}
-            getRowId={(row) => row.ID}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid
+          rows={rows}
+          getRowId={(row) => row.ID}
+          columns={columns}
+          loading={loading}
+        />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
         <AddCompany handleCloseNew={handleCloseNew} />

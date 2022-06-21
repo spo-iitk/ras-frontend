@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { IconButton, Link, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
 
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
@@ -13,7 +13,7 @@ import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
     width: 90,
   },
@@ -64,29 +64,26 @@ const columns: GridColDef[] = [
   },
 ];
 
-let rows: RC[] = [];
 function Index() {
   const router = useRouter();
-  const [row, setRow] = useState<RC[]>(rows);
+  const [rows, setRows] = useState<RC[]>([]);
   const { token, setRCName, setRcId } = useStore();
   useEffect(() => {
     const getRC = async () => {
       const response = await rcRequest.getAll(token);
-      rows = response;
       // console.log(rows);
       for (let i = 0; i < response.length; i += 1) {
-        rows[i].id = response[i].ID;
-        rows[i].name = `${response[i].type} ${response[i].phase}`;
-        rows[i].start_date = new Date(
+        response[i].name = `${response[i].type} ${response[i].phase}`;
+        response[i].start_date = new Date(
           response[i].start_date
         ).toLocaleDateString();
       }
-      setRow(rows);
+      setRows(response);
     };
     getRC();
   }, [token]);
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Student Dashboard - Index" />
       <Stack>
         <h1>Dashboard</h1>
@@ -107,24 +104,19 @@ function Index() {
             </IconButton>
           </div>
         </Stack>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridIndex}
-        >
-          <DataGrid
-            rows={row}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-            onCellClick={(params) => {
-              setRcId(params.row.ID);
-              setRCName(
-                `${params.row.type} ${params.row.academic_year} ${params.row.phase}`
-              );
-              router.push(`rc/${params.row.ID}`);
-            }}
-          />
-        </div>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          getRowId={(row) => row.ID}
+          onCellClick={(params) => {
+            setRcId(params.row.ID);
+            setRCName(
+              `${params.row.type} ${params.row.academic_year} ${params.row.phase}`
+            );
+            router.push(`rc/${params.row.ID}`);
+          }}
+        />
       </Stack>
     </div>
   );

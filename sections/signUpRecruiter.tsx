@@ -9,6 +9,7 @@ import { LoadingButton } from "@mui/lab";
 import companySignUpRequest, {
   SignUpCompanyParams,
 } from "@callbacks/auth/signupCompany";
+import theme from "@components/theme/theme";
 
 const style = {
   position: "absolute" as const,
@@ -114,7 +115,7 @@ function SignUpRecruiter() {
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
           <Typography>
             Already have an account?{" "}
-            <span style={{ color: "blue" }}>
+            <span style={{ color: theme.palette.secondary.main }}>
               <Link href="/login">Sign In</Link>
             </span>
           </Typography>

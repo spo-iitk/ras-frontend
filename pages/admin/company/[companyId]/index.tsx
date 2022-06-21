@@ -15,12 +15,10 @@ import Link from "next/link";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
-import DownloadIcon from "@mui/icons-material/Download";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import addCompanyRequest, {
   Company,
@@ -304,7 +302,7 @@ function Index() {
     delCompany();
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Master Company Dashboard" />
       <Card
         elevation={2}
@@ -417,14 +415,7 @@ function Index() {
         }}
       >
         <Stack>
-          <Stack direction={{ sm: "row", xs: "column" }}>
-            <h1>Past Hires</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-            </Stack>
-          </Stack>
+          <h1>Past Hires</h1>
           <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
             <DataGrid
               rows={PastHireRows}
@@ -447,14 +438,10 @@ function Index() {
         <Stack>
           <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>Comapny History</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-            </Stack>
+
+            <IconButton>
+              <AddIcon />
+            </IconButton>
           </Stack>
           <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
             <DataGrid

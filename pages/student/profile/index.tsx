@@ -213,7 +213,7 @@ function Profile() {
   }, [token]);
   return (
     <div style={{ padding: "0 2rem" }}>
-      <Meta title="Student Dashboard - Profile" />
+      <Meta title="Profile - Student Dashboard" />
       <Stack spacing={2}>
         <Stack
           direction={{ xs: "column", sm: "row" }}

@@ -2,11 +2,10 @@ import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
 import React from "react";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 
 function Step1() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Step 1/5 - Basic Details" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Card
