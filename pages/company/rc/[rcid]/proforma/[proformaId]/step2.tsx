@@ -33,11 +33,12 @@ function Step2() {
   const pid = (proformaId || "").toString();
   const [fetchData, setFetch] = useState<ProformaParams>();
   useEffect(() => {
-    const getStep1 = async () => {
+    if (!(rid && pid)) return;
+    const getStep2 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
       setFetch(data);
     };
-    getStep1();
+    getStep2();
   }, [rid, pid, token]);
   const handleNext = async () => {
     const info = {

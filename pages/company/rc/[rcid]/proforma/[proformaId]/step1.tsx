@@ -26,6 +26,7 @@ function ProformaNew() {
   const [fetchData, setFetch] = useState<ProformaParams>();
 
   useEffect(() => {
+    if (!(rid && pid)) return;
     const getStep1 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
       setFetch(data);

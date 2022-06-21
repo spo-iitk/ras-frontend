@@ -52,6 +52,7 @@ function Step5() {
     });
   };
   useEffect(() => {
+    if (!(rid && pid)) return;
     const getStep5 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
       console.log(data);

@@ -36,11 +36,13 @@ function Step3() {
   const [pkgDetails, changePkg] = useState("");
   const [fetchData, setFetch] = useState<ProformaParams>();
   useEffect(() => {
-    const getStep1 = async () => {
+    if (!(rid && pid)) return;
+
+    const getStep3 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
       setFetch(data);
     };
-    getStep1();
+    getStep3();
   }, [rid, pid, token]);
 
   const handleNext = async (data: ProformaParams) => {
@@ -122,7 +124,7 @@ function Step3() {
               multiline
               minRows={3}
               variant="standard"
-              value={value={!fetchData ? ctc : fetchData.cost_to_company}}
+              value={!fetchData ? ctc : fetchData.cost_to_company}
               error={!!errors.bond_details}
               helperText={errors.bond_details && "This field is required"}
               {...register("bond_details", {
