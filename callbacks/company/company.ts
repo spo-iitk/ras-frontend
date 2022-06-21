@@ -10,9 +10,15 @@ import {
 import { errorNotification } from "@callbacks/notifcation";
 
 export interface HR {
+  name: string;
   hr1: string;
   hr2: string;
   hr3: string;
+}
+
+export interface ComapnyWhoami {
+  name: string;
+  email: string;
 }
 
 const instance = axios.create({
@@ -23,8 +29,8 @@ const instance = axios.create({
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
-const getCompanyHR = {
-  get: (token: string, rid: string) =>
+const companyRequest = {
+  getHR: (token: string, rid: string) =>
     instance
       .get<HR>(`/rc/${rid}/hr`, setConfig(token))
       .then(responseBody)
@@ -35,6 +41,17 @@ const getCompanyHR = {
         );
         return {} as HR;
       }),
+  get: (token: string) =>
+    instance
+      .get<ComapnyWhoami>("/whoami", setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Could not fetch company Meta data",
+          err?.response?.data?.error || err?.message
+        );
+        return { name: "", email: "" } as ComapnyWhoami;
+      }),
 };
 
-export default getCompanyHR;
+export default companyRequest;

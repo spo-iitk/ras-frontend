@@ -7,6 +7,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
+import useStore from "@store/store";
 
 const ROUTE_PATH = "/company/rc/[rcId]/proforma/[proformaId]";
 const columns: GridColDef[] = [
@@ -70,11 +71,12 @@ const rows = [
 ];
 
 function Overview() {
+  const { rcName } = useStore();
   return (
     <div className="container">
       <Meta title="Overview - QuadEye" />
       <Stack>
-        <h1>Internship Recruitment Drive 2022-23</h1>
+        <h1>{rcName}</h1>
         <h2>Overview</h2>
 
         <DataGrid rows={rows} columns={columns} />

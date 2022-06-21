@@ -14,7 +14,7 @@ import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
 import proformaRequest, { ProformaParams } from "@callbacks/company/proforma";
-import getCompanyHR, { HR } from "@callbacks/company/company";
+import companyRequest, { HR } from "@callbacks/company/company";
 
 const ROUTE = "/company/rc/[rcId]";
 
@@ -58,7 +58,7 @@ function Step5() {
     if (!(rid && pid)) return;
     const getStep5 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
-      const hr = await getCompanyHR.get(token, rid);
+      const hr = await companyRequest.getHR(token, rid);
       setHR(hr);
       setFetch(data);
       reset(data);

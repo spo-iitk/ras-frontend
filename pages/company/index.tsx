@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
+import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import rcRequest, { RC } from "@callbacks/company/rc/rc";
 import useStore from "@store/store";
-import InactiveButton from "@components/Buttons/InactiveButton";
+import companyRequest from "@callbacks/company/company";
 
 const columns: GridColDef[] = [
   {
@@ -21,11 +22,6 @@ const columns: GridColDef[] = [
     width: 400,
   },
   {
-    field: "type",
-    headerName: "Type of Recruitment",
-    width: 200,
-  },
-  {
     field: "is_active",
     headerName: "Status",
     width: 200,
@@ -33,32 +29,30 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <>
-        {!params.value && (
-          <InactiveButton sx={{ height: 30, width: "100%" }}>
-            INACTIVE
-          </InactiveButton>
-        )}
-        {params.value && (
-          <ActiveButton sx={{ height: 30, width: "100%" }}>ACTIVE</ActiveButton>
-        )}
-      </>
+      <Link href={`/company/rc/${params.row.id}`}>
+        <ActiveButton sx={{ height: 30, width: "100%" }}>View</ActiveButton>
+      </Link>
     ),
   },
 ];
 function Overview(): JSX.Element {
-  const { token } = useStore();
+  const { token, setRCName, setName } = useStore();
   const [rows, setRows] = useState<RC[]>([]);
+
   useEffect(() => {
     const getRC = async () => {
       const response = await rcRequest.getAll(token);
-      console.log(response);
-      for (let i = 0; i < response.length; i += 1) {
-        response[i].name = `${response[i].type} ${response[i].phase}`;
-      }
-      setRows(rows);
+      setRows(response);
     };
-    getRC();
+    const getCompany = async () => {
+      const response = await companyRequest.get(token);
+      setName(response.name);
+    };
+
+    if (token !== "") {
+      getRC();
+      getCompany();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
@@ -68,8 +62,13 @@ function Overview(): JSX.Element {
       <Stack>
         <h1>Dashboard</h1>
         <h2>Recruitment Cycle</h2>
-
-        <DataGrid rows={rows} getRowId={(row) => row.ID} columns={columns} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          onCellClick={(params) => {
+            setRCName(params.row.name);
+          }}
+        />
       </Stack>
     </div>
   );
