@@ -3,12 +3,11 @@ import { Card, Stack, TextField, Typography } from "@mui/material";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
 import InactiveButton from "@components/Buttons/InactiveButton";
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 function AddCompany() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Add Company - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>

@@ -10,7 +10,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 const ROUTE = "/company/rc/[rcId]";
@@ -42,7 +41,7 @@ function Step5() {
     });
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Step 5/5 - Additional Information" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Card

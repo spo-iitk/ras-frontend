@@ -7,7 +7,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import ActiveButton from "@components/Buttons/ActiveButton";
@@ -83,7 +82,7 @@ function Event() {
   const [endTime, setEndTime] = React.useState<Date | null>(new Date());
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Event Attendance Details" />
       <h1 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h1>
 

@@ -1,14 +1,14 @@
 import { Box, Button, Grid, Modal, Stack, TextField } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-import styles from "@styles/internPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 
@@ -142,7 +142,7 @@ function RcStudent() {
   const handleCloseUnfreeze = () => setOpenUnfreeze(false);
   return (
     <>
-      <div className={styles.container}>
+      <div className="container">
         <Meta title="Master Database (Student) - Admin" />
         <Stack
           spacing={1}
@@ -205,12 +205,7 @@ function RcStudent() {
           </div>
         </Stack>
         <Stack>
-          <div
-            style={{ height: 500, margin: "10px auto" }}
-            className={styles.datagridApplications}
-          >
-            <DataGrid rows={rows} columns={columns} pageSize={7} />
-          </div>
+          <DataGrid rows={rows} columns={columns} />
         </Stack>
       </div>
       <Modal open={openFreeze} onClose={handleCloseFreeze}>

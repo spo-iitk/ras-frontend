@@ -9,7 +9,6 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 const questions = [
@@ -90,7 +89,7 @@ const rows = [
 
 function Index() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Student Details - Admin" />
       <Stack spacing={2} alignItems="center">
         <Card

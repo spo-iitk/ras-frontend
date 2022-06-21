@@ -16,7 +16,6 @@ import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import addCompanyRequest, {
   Company,
@@ -221,7 +220,7 @@ function Index() {
     delCompany();
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Master Company Dashboard" />
       <Card
         elevation={2}

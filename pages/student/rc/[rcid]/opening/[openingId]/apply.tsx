@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import styles from "@styles/internPhase.module.css";
 import Meta from "@components/Meta";
 
 function Apply() {
@@ -79,7 +78,7 @@ function Apply() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Custom QnA" />
       <Grid
         container

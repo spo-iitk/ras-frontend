@@ -1,9 +1,9 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 
 const gridMain = {
@@ -66,7 +66,7 @@ const rows = [
 
 function Students() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title=" Stats Student- Admin" />
       <Grid container spacing={1} alignItems="center">
         <Grid item xs={12} md={6}>
@@ -80,17 +80,8 @@ function Students() {
           </div>
         </Grid>
       </Grid>
-      <div
-        style={{ height: 500, margin: "20px auto" }}
-        className={styles.datagridStats}
-      >
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={7}
-          rowsPerPageOptions={[7]}
-        />
-      </div>
+
+      <DataGrid rows={rows} columns={columns} />
     </div>
   );
 }

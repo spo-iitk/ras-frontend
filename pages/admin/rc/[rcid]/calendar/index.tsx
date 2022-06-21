@@ -4,13 +4,13 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import { Card, Grid, IconButton, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
 
-import styles from "@styles/studentInternPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 
 const style = {
@@ -124,7 +124,7 @@ function Calendar() {
     );
   }, [value]);
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Stack justifyContent="space-between" direction="row" alignItems="center">
         <div>
           <h1>Calender</h1>
@@ -165,14 +165,10 @@ function Calendar() {
             <div style={{ padding: "0px 15px" }}>
               <Stack alignItems="flex-start" justifyContent="flex-start">
                 {activity.length > 0 ? (
-                  <div
-                    style={{ height: 300, margin: "0px auto" }}
-                    className={styles.datagridEvents}
-                  >
+                  <div>
                     <DataGrid
                       rows={rows}
                       columns={columns}
-                      pageSize={3}
                       onCellClick={(e) => {
                         handleOpen();
                         setAct(activity.find((a) => a.id === e.row.id));

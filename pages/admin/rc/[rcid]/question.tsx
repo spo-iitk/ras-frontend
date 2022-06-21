@@ -6,10 +6,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import UpdateQuestion, { QuestionType } from "@callbacks/admin/addquestion";
@@ -82,32 +82,21 @@ function RecruitmentCycle() {
           type: "",
         });
       }
-      console.log(data);
     };
     postQuestion();
     getQuestions();
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Create New Recruitment Cycle - Admin" />
       <Stack>
         <h1>RECRUITMENT CYCLE</h1>
-        <div
-          style={{ height: 500, margin: "0px auto", maxWidth: 1200 }}
-          className={styles.datagridAttendance}
-        >
-          <DataGrid
-            rows={Ques}
-            getRowId={(row: QuestionType) => row.ID}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
-        <br />
-        <br />
+        <DataGrid
+          rows={Ques}
+          getRowId={(row: any) => row.ID}
+          columns={columns}
+        />
         <Card
-          elevation={5}
           sx={{
             padding: 3,
             width: { xs: "330px", sm: "500px", margin: "0px auto" },

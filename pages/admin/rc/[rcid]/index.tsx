@@ -11,7 +11,6 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
 import useStore from "@store/store";
 import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
@@ -76,7 +75,7 @@ function Index() {
     router.push(`/admin/rc/${rid}/notice`);
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Admin Dashboard" />
       <Stack>
         <h1>{rcName}</h1>

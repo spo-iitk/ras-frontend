@@ -11,7 +11,6 @@ import React, { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import RichText from "@components/Editor/RichText";
 
@@ -45,7 +44,7 @@ function Step3() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Step 3/5 - Package Details" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Card

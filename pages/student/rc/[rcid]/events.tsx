@@ -8,7 +8,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import Modal from "@mui/material/Modal";
 
 import DataGrid from "@components/DataGrid";
-import styles from "@styles/studentInternPhase.module.css";
 import Meta from "@components/Meta";
 import EventModal from "@components/Modals/EventModal";
 
@@ -109,7 +108,7 @@ function Calendar() {
     );
   }, [value]);
   return (
-    <div className={styles.container}>
+    <div className="container">
       <h1>Calender</h1>
       <Meta title="Calendar" />
       <Card>
@@ -140,10 +139,7 @@ function Calendar() {
             <div style={{ padding: "0px 15px" }}>
               <Stack alignItems="flex-start" justifyContent="flex-start">
                 {activity.length > 0 ? (
-                  <div
-                    style={{ height: 300, margin: "0px auto" }}
-                    className={styles.datagridEvents}
-                  >
+                  <div>
                     <DataGrid
                       rows={rows}
                       columns={columns}

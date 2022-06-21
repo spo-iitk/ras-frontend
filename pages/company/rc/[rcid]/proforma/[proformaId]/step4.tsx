@@ -28,7 +28,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import iconMap from "@components/Utils/IconMap";
-import styles from "@styles/internPhase.module.css";
 import Meta from "@components/Meta";
 import proformaRequestStep4 from "@callbacks/company/rc/proforma/step4";
 import useStore from "@store/store";
@@ -173,7 +172,7 @@ function Step4() {
   );
 
   return (
-    <div className={styles.container} style={{ marginBottom: 20 }}>
+    <div className="container" style={{ marginBottom: 20 }}>
       <Meta title="Step 4/5 - Add Hiring Process" />
       <Stack spacing={4}>
         <h1>Step 4/5 - Add Hiring Process</h1>

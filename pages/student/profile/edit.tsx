@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import styles from "@styles/Home.module.css";
 import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
@@ -233,7 +232,7 @@ function ProfileEdit() {
     fetch();
   }, [token, reset]);
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Edit Profile - Student Dashboard " />
       <Stack spacing={2}>
         <Stack
