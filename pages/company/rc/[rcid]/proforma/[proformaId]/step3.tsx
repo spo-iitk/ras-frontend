@@ -90,7 +90,7 @@ function Step3() {
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>Cost to Company</p>
               <RichText
-                value={fetchData.cost_to_company}
+                value={ctc}
                 onChange={changeCTC}
                 style={{ minHeight: 200 }}
               />
@@ -100,7 +100,7 @@ function Step3() {
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>Package Details</p>
               <RichText
-                value={fetchData.package_details}
+                value={pkgDetails}
                 onChange={changePkg}
                 style={{ minHeight: 200 }}
               />
