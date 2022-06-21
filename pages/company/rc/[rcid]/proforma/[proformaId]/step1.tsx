@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import RichTextEditor from "@components/Editor/RichText";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
@@ -61,7 +60,7 @@ function ProformaNew() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Step 1/5 - Basic Details" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Card
