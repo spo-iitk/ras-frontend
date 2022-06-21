@@ -31,8 +31,8 @@ import { fields } from "./LayoutWrapper";
 const AccountStyle = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
-  backgroundColor: theme.palette.primary.main,
-  color: "white",
+  backgroundColor: theme.palette.secondary.main,
+  color: "black",
   borderRadius: "1em",
   padding: "15px 15px",
 }));
@@ -141,7 +141,7 @@ function MasterLayout({
                 <ListItemAvatar
                   sx={{
                     color: match(`${items.route}${item.id}`)
-                      ? theme.palette.secondary.light
+                      ? theme.palette.secondary.contrastText
                       : "white",
                   }}
                 >
@@ -152,7 +152,7 @@ function MasterLayout({
                     style={{
                       margin: 5,
                       color: match(`${items.route}${item.id}`)
-                        ? theme.palette.secondary.light
+                        ? theme.palette.secondary.contrastText
                         : "white",
                     }}
                   >
@@ -269,7 +269,7 @@ function MasterLayout({
                       <ListItemAvatar
                         sx={{
                           color: match(`${items.route}${item.id}`)
-                            ? theme.palette.secondary.light
+                            ? theme.palette.secondary.contrastText
                             : "white",
                         }}
                       >
@@ -280,7 +280,7 @@ function MasterLayout({
                           style={{
                             margin: 5,
                             color: match(`${items.route}${item.id}`)
-                              ? theme.palette.secondary.light
+                              ? theme.palette.secondary.contrastText
                               : "white",
                           }}
                         >

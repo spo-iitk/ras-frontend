@@ -5,13 +5,37 @@ import { NotificationsProvider } from "@mantine/notifications";
 import { ThemeProvider } from "@mui/material";
 import { useRouter } from "next/router";
 
+import Progress from "@components/Progress/Progress";
 import theme from "@components/theme/theme";
 import LayoutWrapper from "@components/Layouts/LayoutWrapper";
 import useStore from "@store/store";
+import useProgressStore from "@store/useProgress";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { role } = useStore();
   const router = useRouter();
+  const setIsAnimating = useProgressStore((state) => state.setIsAnimating);
+  const isAnimating = useProgressStore((state) => state.isAnimating);
+
+  useEffect(() => {
+    const handleStart = () => {
+      setIsAnimating(true);
+    };
+    const handleStop = () => {
+      setIsAnimating(false);
+    };
+    if (router.isReady) {
+      router.events.on("routeChangeStart", handleStart);
+      router.events.on("routeChangeComplete", handleStop);
+      router.events.on("routeChangeError", handleStop);
+    }
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
+    };
+  }, [setIsAnimating, router, router.isReady]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -30,6 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <NotificationsProvider position="top-right" zIndex={2077}>
       <ThemeProvider theme={theme}>
+        <Progress isAnimating={isAnimating} />
         <LayoutWrapper>
           <Component {...pageProps} />
         </LayoutWrapper>

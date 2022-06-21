@@ -2,14 +2,12 @@ import {
   Button,
   Card,
   Grid,
-  IconButton,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
-import DownloadIcon from "@mui/icons-material/Download";
 
 import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
@@ -211,9 +209,6 @@ function Index() {
               alignItems="center"
             >
               <Typography variant="body2">Name (Roll no)</Typography>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
             </Stack>
           </Stack>
           <div style={{ height: 500, margin: "0px auto" }}>

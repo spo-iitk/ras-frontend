@@ -14,6 +14,7 @@ import Link from "next/link";
 
 import { SignUpStudentParams } from "@callbacks/auth/signupStudent";
 import otpRequest, { OTPParams } from "@callbacks/auth/otp";
+import theme from "@components/theme/theme";
 
 const SignUpRollNoSection = dynamic(() => import("./signUpRollNoSection"), {
   suspense: true,
@@ -102,7 +103,7 @@ function SignUpStudent() {
         <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
           <Typography>
             Already have an account?{" "}
-            <span style={{ color: "blue" }}>
+            <span style={{ color: theme.palette.secondary.main }}>
               <Link href="/login">Sign In</Link>
             </span>
           </Typography>
