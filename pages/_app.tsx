@@ -26,15 +26,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       setIsAnimating(false);
     };
     if (router.isReady) {
-      if (router.pathname.startsWith("/student") && role !== 1) {
-        router.push("/401");
-      } else if (router.pathname.startsWith("/company") && role !== 2) {
-        router.push("/401");
-      } else if (router.pathname.startsWith("/admin") && role < 100) {
-        router.push("/401");
-      } else if (role === 0) {
-        router.push("/");
-      }
       router.events.on("routeChangeStart", handleStart);
       router.events.on("routeChangeComplete", handleStop);
       router.events.on("routeChangeError", handleStop);
@@ -45,7 +36,21 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off("routeChangeComplete", handleStop);
       router.events.off("routeChangeError", handleStop);
     };
-  }, [role, router, router.isReady, setIsAnimating]);
+  }, [setIsAnimating, router, router.isReady]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      if (router.pathname.startsWith("/student") && role !== 1) {
+        router.push("/401");
+      } else if (router.pathname.startsWith("/company") && role !== 2) {
+        router.push("/401");
+      } else if (router.pathname.startsWith("/admin") && role < 100) {
+        router.push("/401");
+      } else if (role === 0) {
+        router.push("/");
+      }
+    }
+  }, [role, router, router.isReady]);
 
   return (
     <NotificationsProvider position="top-right" zIndex={2077}>
