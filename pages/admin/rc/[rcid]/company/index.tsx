@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Grid, IconButton, Modal, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
-import DownloadIcon from "@mui/icons-material/Download";
-import Tooltip from "@mui/material/Tooltip";
-import Zoom from "@mui/material/Zoom";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -98,11 +95,6 @@ function Index() {
           </Grid>
           <Grid item xs={6} style={gridMain}>
             <div>
-              <Tooltip TransitionComponent={Zoom} title="Download Excel">
-                <IconButton>
-                  <DownloadIcon />
-                </IconButton>
-              </Tooltip>
               <IconButton onClick={handleOpenNew}>
                 <AddIcon />
               </IconButton>
