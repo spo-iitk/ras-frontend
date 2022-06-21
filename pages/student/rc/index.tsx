@@ -24,6 +24,10 @@ const columns: GridColDef[] = [
     headerName: "Type of Recruitment",
   },
   {
+    field: "start_date",
+    headerName: "Start Date",
+  },
+  {
     field: "is_active",
     headerName: "Status",
 
@@ -53,7 +57,7 @@ function Overview() {
   useEffect(() => {
     const getRC = async () => {
       const response = await rcRequest.getAll(token);
-      console.log(response);
+
       setLoading(false);
       for (let i = 0; i < response.length; i += 1) {
         response[i].name = `${response[i].type} ${response[i].phase}`;
