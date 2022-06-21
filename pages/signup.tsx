@@ -45,9 +45,9 @@ function SignUp() {
       >
         <div className={formstyles.image}>
           <Image
-            src="/images/signup.png"
-            height={450}
-            width={400}
+            src="/images/signup.gif"
+            height={550}
+            width={500}
             alt="loginPage"
           />
         </div>
@@ -55,7 +55,7 @@ function SignUp() {
           spacing={2}
           justifyContent="flex-start"
           alignItems="center"
-          sx={{ minHeight: "80vh" }}
+          sx={{ minHeight: "70vh" }}
         >
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <h1>Welcome!</h1>

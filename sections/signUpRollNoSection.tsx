@@ -4,6 +4,7 @@ import {
   FormControl,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { Suspense, useState } from "react";
 import {
@@ -68,6 +69,9 @@ function SignUpRollNoSection({
   return (
     <Stack>
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
+        <Typography variant="caption" sx={{ color: "#777" }}>
+          An OTP has been sent to your <b>&lt;cc_id&gt;@iitk.ac.in</b>
+        </Typography>
         <TextField
           id="userOTP"
           label="OTP"

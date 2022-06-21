@@ -10,11 +10,11 @@ import {
 } from "../../constants";
 
 export interface PPOParams {
-  cid: string;
-  email: string;
+  cid: number;
+  emails: string[];
 }
 export interface PPOResponse {
-  email: string;
+  emails: string;
 }
 const instance = axios.create({
   baseURL: ADMIN_APPLICATION_URL,
@@ -27,7 +27,7 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const PioPPO = {
   post: (token: string, rcid: string, body: PPOParams) =>
     instance
-      .post<PPOParams>(`rc/${rcid}/pio-ppo`, body, setConfig(token))
+      .post(`rc/${rcid}/pio-ppo`, body, setConfig(token))
       .then(responseBody)
       .then(() => {
         successNotification("PPO/PIO added successfully", "");

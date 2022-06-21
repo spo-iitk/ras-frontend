@@ -77,7 +77,7 @@ function Login() {
           router.push("/admin");
           break;
         default:
-          router.push("/404");
+          router.push("/401");
           break;
       }
     }
@@ -95,9 +95,9 @@ function Login() {
       >
         <div className={formstyles.image}>
           <Image
-            src="/images/signin.png"
-            height={450}
-            width={400}
+            src="/images/signin.gif"
+            height={550}
+            width={500}
             alt="loginPage"
           />
         </div>
@@ -117,7 +117,7 @@ function Login() {
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
               id="Email ID"
-              label="Email Id"
+              label="Email ID"
               variant="outlined"
               error={!!errors.user_id}
               helperText={errors.user_id ? "Incorrect Email ID" : ""}

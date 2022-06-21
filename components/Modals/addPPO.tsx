@@ -40,10 +40,13 @@ function AddPPO({
   } = useForm<PPOResponse>();
   const handlePPO = (data: PPOResponse) => {
     const addPPO = async () => {
-      const finData = { cid: ID, email: data.email };
+      const finData = {
+        cid: Number(ID),
+        emails: data.emails.replace(" ", "").split(","),
+      };
       const response = await PioPPO.post(token, rid, finData);
       if (response) {
-        reset({ email: "" });
+        reset({ emails: "" });
       }
     };
     addPPO();
@@ -64,9 +67,9 @@ function AddPPO({
           label="Emails"
           id="selectActiveHR"
           variant="standard"
-          {...register("email", { required: true })}
-          error={!!errors.email}
-          helperText={errors.email && "Email is required"}
+          {...register("emails", { required: true })}
+          error={!!errors.emails}
+          helperText={errors.emails && "Email is required"}
         />
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
@@ -79,7 +82,7 @@ function AddPPO({
           <Button
             variant="contained"
             sx={{ width: "100%" }}
-            onClick={() => reset({ email: "" })}
+            onClick={() => reset({ emails: "" })}
           >
             Reset
           </Button>
