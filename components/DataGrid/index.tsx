@@ -95,7 +95,7 @@ function Index({ rows, columns, onCellClick, getRowId }: paramsType) {
         }}
         onCellClick={onCellClick}
         getRowId={getRowId}
-        sx={{ padding: 2, minHeight: 500 }}
+        sx={{ padding: 2, minHeight: rows.length > 0 ? 0 : 500 }}
       />
     </div>
   );
