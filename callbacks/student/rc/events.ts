@@ -31,4 +31,4 @@ const eventsRequest = {
 };
 export default eventsRequest;
 
-// Don't touch the code in this file
+// Haven't implemented this request, yet

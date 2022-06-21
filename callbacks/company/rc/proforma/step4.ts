@@ -30,7 +30,7 @@ const proformaRequestStep4 = {
         Event
       >(`/application/rc/${rcid}/event`, body, setConfig(token))
       .then((res) => {
-        successNotification("Step 4 Submitted", res?.data.status);
+        successNotification(`Step ${body.sequence/5} Added`, res?.data.status);
         return true;
       })
       .catch((err: ErrorType) => {
