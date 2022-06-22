@@ -65,7 +65,7 @@ const columns: GridColDef[] = [
 const rows = [
   {
     id: "1",
-    companyName: "Quadeye",
+    companyName: "Company",
     event: "PPO Talk",
     startTime: "May 26, 2022 8:00pm",
     endTime: "May 26, 2022 10:00pm",

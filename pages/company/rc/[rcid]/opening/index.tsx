@@ -103,7 +103,7 @@ function Applications() {
   }, [router.isReady, token, rid]);
   return (
     <div className="container">
-      <Meta title="Applications - QuadEye" />
+      <Meta title="Applications - Company" />
       <Stack>
         <h1>Applications</h1>
         <h2>Intern Season</h2>
