@@ -124,7 +124,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "1.5rem" },
                   }}
                 >
-                  Total Registered
+                  Total Enrolled
                 </Typography>
 
                 <Typography
@@ -135,7 +135,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "3rem" },
                   }}
                 >
-                  {rcdata.registered_company}
+                  {rcdata.registered_student}
                 </Typography>
               </CardContent>
             </Card>
