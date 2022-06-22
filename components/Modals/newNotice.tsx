@@ -2,13 +2,16 @@ import { Box, Button, Stack, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import * as React from "react";
+import Autocomplete from "@mui/material/Autocomplete";
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 import noticeRequest, {
   NoticeParams,
   NoticeResponse,
 } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
+import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -39,6 +42,18 @@ function NewNotice({
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
+  const [companies, setCompanies] = useState<CompanyRc[]>([]);
+  const [company, setCompany] = useState<string>("");
+
+  useEffect(() => {
+    const getCompanydata = async () => {
+      if (rid === undefined || rid === "") return;
+      let response = await requestCompany.getall(token, rid);
+      setCompanies(response);
+    };
+    if (rid !== "") getCompanydata();
+  }, [token, rid]);
+
   const {
     register,
     handleSubmit,
@@ -49,7 +64,7 @@ function NewNotice({
     const newNotice = async () => {
       const finData = {
         ...data,
-        title: `${data.subject} - ${data.company_name}`,
+        title: `${data.subject} - ${company}`,
         recruitment_cycle_id: Number(rid),
       };
       await noticeRequest.post(token, rid, finData).then(() => {
@@ -73,13 +88,20 @@ function NewNotice({
     <Box sx={boxStyle}>
       <Stack spacing={3}>
         <h1>Add Notice</h1>
-        <TextField
-          label="Company Name"
-          id="company"
-          variant="standard"
-          error={!!errors.company_name}
-          helperText={errors.company_name && "Company Name is required"}
-          {...register("company_name", { required: true })}
+        <Autocomplete
+          disablePortal
+          id="selectCompany"
+          options={companies.map((row) => ({
+            id: row.ID,
+            label: row.company_name,
+          }))}
+          renderInput={(params) => (
+            <TextField {...params} label="Select Company" />
+          )}
+          onChange={(e, v) => {
+            e.preventDefault();
+            if (v != null) setCompany(v.label);
+          }}
         />
         <TextField
           label="Subject"
@@ -103,7 +125,7 @@ function NewNotice({
           rows={5}
           placeholder="Write your notice here"
           label="Message"
-          {...register("description", { required: true })}
+          {...register("description", { required: true, maxLength: 1000 })}
           error={!!errors.description}
           helperText={errors.description && "Message is required"}
         />

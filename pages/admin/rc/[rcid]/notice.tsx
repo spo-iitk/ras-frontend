@@ -12,7 +12,7 @@ import Meta from "@components/Meta";
 import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
 
-function DeleteNotice(props: { id: string }) {
+function HandleNotice(props: { id: string }) {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
@@ -49,7 +49,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "title",
-    headerName: "Company Name",
+    headerName: "Title",
     width: 300,
   },
   {
@@ -69,10 +69,12 @@ const columns: GridColDef[] = [
   },
   {
     field: "button1",
-    headerName: "",
-    renderCell: (params) => <DeleteNotice id={params.row.ID} />,
+    headerName: "Delete/Notify",
+    renderCell: (params) => <HandleNotice id={params.row.ID} />,
     width: 50,
     align: "center",
+    sortable: false,
+    filterable: false,
   },
 ];
 function Index() {

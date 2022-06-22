@@ -24,7 +24,6 @@ export interface NoticeResponse {
   title: string;
   description: string;
   subject: string;
-  company_name: string;
   tags: string;
   recruitment_cycle_id: number;
 }
