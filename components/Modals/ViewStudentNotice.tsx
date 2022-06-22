@@ -28,7 +28,7 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
       <Stack spacing={3}>
         <h1>Add Notice</h1>
         <TextField
-          label="Company name"
+          label="Title"
           defaultValue={currentNotice.title}
           variant="standard"
           InputProps={{
