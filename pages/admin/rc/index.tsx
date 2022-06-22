@@ -70,6 +70,7 @@ function Index() {
   const [rows, setRows] = useState<RC[]>([]);
   const { token, setRCName, setRcId } = useStore();
   const [openNew, setOpenNew] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const handleOpenNew = () => {
     setOpenNew(true);
   };
@@ -87,6 +88,7 @@ function Index() {
         ).toLocaleDateString();
       }
       setRows(response);
+      setLoading(false);
     };
     getRC();
   }, [token]);
@@ -122,6 +124,7 @@ function Index() {
             );
             router.push(`rc/${params.row.ID}`);
           }}
+          loading={loading}
         />
         <Modal open={openNew} onClose={handleCloseNew}>
           <AddRC handleClose={handleCloseNew} />

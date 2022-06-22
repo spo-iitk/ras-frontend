@@ -142,11 +142,12 @@ const columns: GridColDef[] = [
 function Index() {
   const [rows, setRows] = useState<Student[]>([]);
   const { token } = useStore();
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetch = async () => {
       const students = await AdminStudentRequest.getAll(token).catch(() => []);
       setRows(students);
+      setLoading(false);
     };
     fetch();
   }, [token]);
@@ -155,7 +156,12 @@ function Index() {
     <div className="container">
       <Meta title="Master Student Database - Admin" />
       <h1>Master Database (Student)</h1>
-      <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        getRowId={(row) => row.ID}
+        loading={loading}
+      />
     </div>
   );
 }
