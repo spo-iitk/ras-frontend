@@ -1,5 +1,5 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import * as React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -27,9 +27,9 @@ const boxStyle = {
   alignItems: "center",
 };
 
-const Input = styled("input")({
-  display: "none",
-});
+// const Input = styled("input")({
+//   display: "none",
+// });
 
 function NewNotice({
   handleCloseNew,
@@ -129,7 +129,7 @@ function NewNotice({
           error={!!errors.description}
           helperText={errors.description && "Message is required"}
         />
-        <label
+        {/* <label
           htmlFor="contained-button-file"
           style={{ margin: "30px auto 10px auto" }}
         >
@@ -146,7 +146,7 @@ function NewNotice({
           >
             Upload
           </Button>
-        </label>
+        </label> */}
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
             variant="contained"
