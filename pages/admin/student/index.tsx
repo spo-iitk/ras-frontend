@@ -1,5 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import AdminStudentRequest, {
   Student,
@@ -142,6 +143,7 @@ const columns: GridColDef[] = [
 function Index() {
   const [rows, setRows] = useState<Student[]>([]);
   const { token } = useStore();
+  const router = useRouter();
 
   useEffect(() => {
     const fetch = async () => {
@@ -155,7 +157,12 @@ function Index() {
     <div className="container">
       <Meta title="Master Student Database - Admin" />
       <h1>Master Database (Student)</h1>
-      <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        getRowId={(row) => row.ID}
+        onCellClick={(params) => router.push(`student/${params.row.ID}`)}
+      />
     </div>
   );
 }
