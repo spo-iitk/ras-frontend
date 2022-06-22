@@ -52,6 +52,8 @@ const columns: GridColDef[] = [
   {
     field: "dob",
     headerName: "DOB",
+    valueGetter: ({ value }) =>
+      value && `${new Date(value).toLocaleDateString()}`,
     hide: true,
   },
   {
