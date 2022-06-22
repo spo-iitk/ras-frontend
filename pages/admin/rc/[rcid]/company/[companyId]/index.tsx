@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import {
@@ -16,51 +17,61 @@ import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import AddPPO from "@components/Modals/addPPO";
 import useStore from "@store/store";
+import requestProforma, { ProformaType } from "@callbacks/admin/rc/proforma";
 import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
     width: 100,
   },
   {
-    field: "designation",
+    field: "nature_of_business",
     headerName: "Designation",
     width: 200,
   },
   {
-    field: "activeApplicants",
-    headerName: "Active applicants",
-    width: 200,
-  },
-  {
-    field: "totalApplicants",
-    headerName: "Total applicants",
-    width: 200,
-  },
-  {
-    field: "status",
+    field: "is_approved",
     headerName: "Status",
     width: 200,
+
+    renderCell(params) {
+      // eslint-disable-next-line no-nested-ternary
+      return params.row.is_approved.Valid
+        ? params.row.is_verified.Bool
+          ? "Approved"
+          : "Rejected"
+        : "Pending";
+    },
   },
   {
-    field: "deadline",
+    field: "set_deadline",
     headerName: "Deadline",
     width: 200,
+
+    renderCell(params) {
+      return `${
+        params.row.set_deadline === 0
+          ? "Date not Set"
+          : new Date(params.value).toLocaleString()
+      }`;
+    },
+  },
+  {
+    field: "active_hr_id",
+    headerName: "Active HR",
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    designation: "Role 1",
-    activeApplicants: "102",
-    totalApplicants: "105",
-    status: "Accepted",
-    deadline: "May 26,2019",
-  },
-];
+// const rows = [
+//   {
+//     id: 1,
+//     designation: "Role 1",
+//     status: "Accepted",
+//     deadline: "May 26,2019",
+//   },
+// ];
 
 function Index() {
   const router = useRouter();
@@ -69,6 +80,7 @@ function Index() {
   const rid = (rcid || "").toString();
   const ID = (CID || "").toString();
   const [openNew, setOpenNew] = useState(false);
+  const [rows, setRows] = useState<ProformaType[]>([]);
   const handleOpenNew = () => {
     setOpenNew(true);
   };
@@ -115,9 +127,7 @@ function Index() {
       value: row.hr3,
     },
   ];
-  const handleClick = () => {
-    router.push(`/admin/company`);
-  };
+
   useEffect(() => {
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
@@ -125,8 +135,22 @@ function Index() {
       let response = await requestCompany.get(token, rid, ID);
       setRow(response);
     };
+
+    const getProforma = async () => {
+      if (rid === undefined || rid === "") return;
+      if (ID === undefined || ID === "") return;
+      let response = await requestProforma.getall(token, rid, ID);
+
+      setRows(response);
+    };
+
+    getProforma();
     getCompanydata();
   }, [token, rid, ID]);
+
+  const handleClick = () => {
+    router.push(`/admin/company/${row.company_id}`);
+  };
   return (
     <div className="container">
       <Meta title="Company Dashboard" />
@@ -198,13 +222,26 @@ function Index() {
         >
           <h2>Internship Roles</h2>
           <Stack direction="row" spacing={3}>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                router.push(`/admin/rc/${rid}/proforma/new`);
+              }}
+            >
               <AddIcon />
             </IconButton>
           </Stack>
         </Stack>
 
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          getRowId={(rows) => rows.ID}
+          onCellClick={(params) => {
+            router.push(
+              `/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`
+            );
+          }}
+        />
       </Stack>
     </div>
   );
