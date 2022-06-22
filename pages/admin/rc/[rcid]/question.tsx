@@ -54,7 +54,7 @@ const columns: GridColDef[] = [
     width: 100,
   },
   {
-    field: "button1",
+    field: "delete",
     headerName: "",
     renderCell: (params) => <DeleteQues id={params.row.ID} />,
     width: 50,
