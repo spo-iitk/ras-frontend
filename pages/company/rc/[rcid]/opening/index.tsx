@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 
@@ -14,16 +13,14 @@ const ROUTE_PATH = "/company/rc/[rcId]/opening/[openingId]";
 const ROUTE_PATH_PROFORMA = "/company/rc/[rcId]/proforma/[proformaId]";
 
 const columns: GridColDef[] = [
-  { field: "ID", headerName: "ID", width: 90 },
+  { field: "ID", headerName: "ID" },
   {
     field: "nature_of_business",
     headerName: "Role name",
-    width: 400,
   },
   {
     field: "set_deadline",
     headerName: "Application Deadline",
-    width: 200,
 
     renderCell(params) {
       return `${
@@ -36,7 +33,6 @@ const columns: GridColDef[] = [
   {
     field: "proforma",
     headerName: "Proforma",
-    width: 200,
     sortable: false,
     align: "center",
     headerAlign: "center",
@@ -51,9 +47,9 @@ const columns: GridColDef[] = [
         }}
         passHref
       >
-        <ActiveButton sx={{ height: 30, width: "100%" }}>
-          VIEW PROFORMA
-        </ActiveButton>
+        <Button sx={{ height: 30, width: "100%" }} variant="contained">
+          View Proforma
+        </Button>
       </Link>
     ),
   },
@@ -75,9 +71,13 @@ const columns: GridColDef[] = [
         }}
         passHref
       >
-        <ActiveButton sx={{ height: 30, width: "100%" }}>
-          VIEW APPLICANTS
-        </ActiveButton>
+        <Button
+          sx={{ height: 30, width: "100%" }}
+          disabled={params.row.hide_details}
+          variant="contained"
+        >
+          View Applicants
+        </Button>
       </Link>
     ),
   },
