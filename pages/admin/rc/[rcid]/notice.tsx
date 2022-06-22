@@ -19,34 +19,28 @@ function DeleteNotice(props: { id: string }) {
   const { token } = useStore();
   const { id } = props;
   return (
-    <IconButton
-      onClick={() => {
-        if (rid === undefined || rid === "") return;
-        NoticeReq.delete(token, rid, id);
-        window.location.reload();
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <Stack spacing={3} direction="row">
+      <IconButton
+        onClick={() => {
+          if (rid === undefined || rid === "") return;
+          NoticeReq.delete(token, rid, id);
+          window.location.reload();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => {
+          if (rid === undefined || rid === "") return;
+          NoticeReq.notify(token, rid, id);
+        }}
+      >
+        <NotificationsIcon />
+      </IconButton>
+    </Stack>
   );
 }
-function NotifyNotice(props: { id: string }) {
-  const router = useRouter();
-  const { rcid } = router.query;
-  const rid = (rcid || "").toString();
-  const { token } = useStore();
-  const { id } = props;
-  return (
-    <IconButton
-      onClick={() => {
-        if (rid === undefined || rid === "") return;
-        NoticeReq.notify(token, rid, id);
-      }}
-    >
-      <NotificationsIcon />
-    </IconButton>
-  );
-}
+
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -77,13 +71,6 @@ const columns: GridColDef[] = [
     field: "button1",
     headerName: "",
     renderCell: (params) => <DeleteNotice id={params.row.ID} />,
-    width: 50,
-    align: "center",
-  },
-  {
-    field: "button2",
-    headerName: "",
-    renderCell: (params) => <NotifyNotice id={params.row.ID} />,
     width: 50,
     align: "center",
   },
