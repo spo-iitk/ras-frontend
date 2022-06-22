@@ -9,7 +9,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import DataGrid from "@components/DataGrid";
 import NewNotice from "@components/Modals/newNotice";
 import Meta from "@components/Meta";
-import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
+import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
 
 function DeleteNotice(props: { id: string }) {
@@ -23,7 +23,7 @@ function DeleteNotice(props: { id: string }) {
       <IconButton
         onClick={() => {
           if (rid === undefined || rid === "") return;
-          NoticeReq.delete(token, rid, id);
+          noticeRequest.delete(token, rid, id);
           window.location.reload();
         }}
       >
@@ -32,7 +32,7 @@ function DeleteNotice(props: { id: string }) {
       <IconButton
         onClick={() => {
           if (rid === undefined || rid === "") return;
-          NoticeReq.notify(token, rid, id);
+          noticeRequest.notify(token, rid, id);
         }}
       >
         <NotificationsIcon />
@@ -93,7 +93,7 @@ function Index() {
   React.useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
-      const notice: NoticeParams[] = await NoticeReq.getAll(token, rid);
+      const notice: NoticeParams[] = await noticeRequest.getAll(token, rid);
 
       setNotice(notice);
       setLoading(false);
@@ -121,7 +121,7 @@ function Index() {
 
         <DataGrid
           rows={notices}
-          getRowId={(row: any) => row.ID}
+          getRowId={(row) => row.ID}
           columns={columns}
           loading={loading}
         />

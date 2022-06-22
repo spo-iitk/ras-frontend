@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 
-import NoticeReq, {
+import noticeRequest, {
   NoticeParams,
   NoticeResponse,
 } from "@callbacks/admin/rc/notice";
@@ -45,21 +45,24 @@ function NewNotice({
     formState: { errors },
     reset,
   } = useForm<NoticeResponse>();
-  const ext = { tags: "quant", recruitment_cycle_id: Number(rid) };
   const handleNewNotice = (data: NoticeResponse) => {
     const newNotice = async () => {
-      const finData = { ...data, ...ext };
-      const response = await NoticeReq.post(token, rid, finData).then(() => {
+      const finData = {
+        ...data,
+        title: `${data.subject} - ${data.company_name}`,
+        recruitment_cycle_id: Number(rid),
+      };
+      await noticeRequest.post(token, rid, finData).then(() => {
         const fetch = async () => {
           if (rid === undefined || rid === "") return;
-          const Newnotice: NoticeParams[] = await NoticeReq.getAll(token, rid);
-
+          const Newnotice: NoticeParams[] = await noticeRequest.getAll(
+            token,
+            rid
+          );
           setNotice(Newnotice);
         };
         fetch();
       });
-
-      console.log(response);
     };
     newNotice();
     reset();
@@ -72,24 +75,32 @@ function NewNotice({
         <h1>Add Notice</h1>
         <TextField
           label="Company Name"
-          id="selectCompany"
+          id="company"
           variant="standard"
-          error={!!errors.title}
-          helperText={errors.title && "Company Name is required"}
-          {...register("title", { required: true })}
+          error={!!errors.company_name}
+          helperText={errors.company_name && "Company Name is required"}
+          {...register("company_name", { required: true })}
         />
         <TextField
           label="Subject"
-          id="selectActiveHR"
+          id="subject"
           variant="standard"
           {...register("subject", { required: true })}
           error={!!errors.subject}
           helperText={errors.subject && "Subject is required"}
         />
         <TextField
+          label="Tags (csv)"
+          id="tags"
+          variant="standard"
+          {...register("tags", { required: true })}
+          error={!!errors.tags}
+          helperText={errors.tags && "Tags are required"}
+        />
+        <TextField
           variant="standard"
           multiline
-          rows={3}
+          rows={5}
           placeholder="Write your notice here"
           label="Message"
           {...register("description", { required: true })}
