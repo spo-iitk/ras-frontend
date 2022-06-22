@@ -45,7 +45,7 @@ const columns: GridColDef[] = [
         href={{
           pathname: ROUTE_PATH_PROFORMA,
           query: {
-            rcid: params.row.recruitment_cycle_id,
+            rcId: params.row.recruitment_cycle_id,
             proformaId: params.row.ID,
           },
         }}
@@ -82,72 +82,6 @@ const columns: GridColDef[] = [
     ),
   },
 ];
-
-// const rows = [
-//   {
-//     id: 1,
-//     rolename: "Software Development Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-//   {
-//     id: 2,
-//     rolename: "Quant Development Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-//   {
-//     id: 3,
-//     rolename: "Trading Ananlysis Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-//   {
-//     id: 4,
-//     rolename: "Software Development Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-//   {
-//     id: 5,
-//     rolename: "Quant Development Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-//   {
-//     id: 6,
-//     rolename: "Trading Ananlysis Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-//   {
-//     id: 7,
-//     rolename: "Software Development Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-//   {
-//     id: 8,
-//     rolename: "Quant Development Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-//   {
-//     id: 9,
-//     rolename: "Trading Ananlysis Intern",
-//     deadline: "9/12/2022",
-//     proforma: "View",
-//     applicants: "View",
-//   },
-// ];
 
 function Applications() {
   const { token } = useStore();
