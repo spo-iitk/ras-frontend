@@ -70,11 +70,11 @@ const columns: GridColDef[] = [
     hide: true,
   },
   {
-    field: "contact_number",
+    field: "phone",
     headerName: "Contact Number",
   },
   {
-    field: "alternate_contact_number",
+    field: "alternate_phone",
     headerName: "Alternate Contact Numer",
     hide: true,
   },
@@ -160,6 +160,16 @@ const columns: GridColDef[] = [
   {
     field: "friend_phone",
     headerName: "Friends Contact Details",
+    hide: true,
+  },
+  {
+    field: "is_verified",
+    headerName: "Verified",
+    valueGetter: ({ value }) => (value ? "Verified" : "-"),
+  },
+  {
+    field: "is_editable",
+    headerName: "Editable",
     hide: true,
   },
 ];
