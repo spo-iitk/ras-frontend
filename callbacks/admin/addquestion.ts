@@ -50,6 +50,21 @@ const UpdateQuestion = {
         errorNotification("Error", error.response?.data.error || error.message);
         return false;
       }),
+  deleteQues: (token: string, rcid: string, qid: string) => {
+    instance
+      .delete(`/${rcid}/student/question/${qid}`, setConfig(token))
+      .then((res) => {
+        successNotification("HR deleted", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in deleting HR",
+          err.response?.data?.error || err.message
+        );
+        return false;
+      });
+  },
 };
 
 export default UpdateQuestion;
