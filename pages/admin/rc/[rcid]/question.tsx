@@ -1,6 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import { IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -10,6 +11,22 @@ import Meta from "@components/Meta";
 import AddRCQuestion from "@components/Modals/AddRCQuestion";
 import useStore from "@store/store";
 
+function DeleteQues(props: { id: string }) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const { id } = props;
+  return (
+    <IconButton
+      onClick={() => {
+        UpdateQuestion.deleteQues(token, rid, id);
+      }}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+}
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -35,6 +52,13 @@ const columns: GridColDef[] = [
     field: "mandatory",
     headerName: "Mandatory",
     width: 100,
+  },
+  {
+    field: "delete",
+    headerName: "",
+    renderCell: (params) => <DeleteQues id={params.row.ID} />,
+    width: 50,
+    align: "center",
   },
 ];
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IconButton, Link, Stack } from "@mui/material";
+import { IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
@@ -10,6 +10,7 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
+import AddRC from "@components/Modals/AddRC";
 
 const columns: GridColDef[] = [
   {
@@ -68,10 +69,18 @@ function Index() {
   const router = useRouter();
   const [rows, setRows] = useState<RC[]>([]);
   const { token, setRCName, setRcId } = useStore();
+  const [openNew, setOpenNew] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+
   useEffect(() => {
     const getRC = async () => {
       const response = await rcRequest.getAll(token);
-      // console.log(rows);
       for (let i = 0; i < response.length; i += 1) {
         response[i].name = `${response[i].type} ${response[i].phase}`;
         response[i].start_date = new Date(
@@ -79,6 +88,7 @@ function Index() {
         ).toLocaleDateString();
       }
       setRows(response);
+      setLoading(false);
     };
     getRC();
   }, [token]);
@@ -97,10 +107,8 @@ function Index() {
             <h2>Recruitment Cycle</h2>
           </div>
           <div>
-            <IconButton>
-              <Link href="/admin/rc/new">
-                <AddIcon />
-              </Link>
+            <IconButton onClick={handleOpenNew}>
+              <AddIcon />
             </IconButton>
           </div>
         </Stack>
@@ -116,7 +124,11 @@ function Index() {
             );
             router.push(`rc/${params.row.ID}`);
           }}
+          loading={loading}
         />
+        <Modal open={openNew} onClose={handleCloseNew}>
+          <AddRC handleClose={handleCloseNew} />
+        </Modal>
       </Stack>
     </div>
   );
