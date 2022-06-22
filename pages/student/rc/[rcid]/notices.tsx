@@ -17,7 +17,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "title",
-    headerName: "Company Name",
+    headerName: "Title",
   },
   {
     field: "description",
@@ -25,11 +25,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "CreatedAt",
-    valueGetter: ({ value }) =>
-      value &&
-      `${new Date(value).toLocaleDateString()} ${new Date(
-        value
-      ).toLocaleTimeString()}`,
+    valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
     headerName: "Published Date And Time",
   },
 ];
