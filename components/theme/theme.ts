@@ -3,13 +3,13 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#140152",
-      dark: "#04052E",
+      main: "#5B7682",
+      dark: "#455A64",
     },
     secondary: {
-      main: "#22007C",
-      light: "#0D00A4",
-      contrastText: "#918EF4",
+      main: "#FF725E",
+      light: "#EB8D81",
+      contrastText: "#000000",
     },
   },
   typography: {
@@ -25,10 +25,10 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           "&.Mui-selected": {
-            backgroundColor: "#140152",
+            backgroundColor: "#FF725E",
           },
           "&.Mui-selected:hover": {
-            backgroundColor: "#110240",
+            backgroundColor: "#FA8778",
           },
         },
       },

@@ -138,10 +138,6 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
             id: row.ID,
             label: `${row.name} | ${row.email} | ${row.phone}`,
           }))}
-          onChange={(e, v) => {
-            e.preventDefault();
-            console.log(v);
-          }}
           renderInput={(params) => (
             <TextField
               {...params}

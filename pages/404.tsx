@@ -1,7 +1,6 @@
 import { Button, ButtonProps, Stack, Typography } from "@mui/material";
 import React from "react";
 import styled from "@emotion/styled";
-import { blue } from "@mui/material/colors";
 import Image from "next/image";
 
 import Meta from "@components/Meta";
@@ -10,10 +9,7 @@ const CustomButton = styled(Button)<ButtonProps>(() => ({
   color: "white",
   borderRadius: 10,
   padding: "0.5rem 1rem",
-  backgroundColor: blue[500],
-  "&:hover": {
-    backgroundColor: blue[500],
-  },
+
   fontWeight: "bold",
   width: 200,
   fontSize: 18,

@@ -1,12 +1,12 @@
 import AddIcon from "@mui/icons-material/Add";
 import { IconButton, Modal, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import NewNotice from "@components/Modals/newNotice";
 import Meta from "@components/Meta";
 import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
@@ -19,33 +19,28 @@ function DeleteNotice(props: { id: string }) {
   const { token } = useStore();
   const { id } = props;
   return (
-    <IconButton
-      onClick={() => {
-        if (rid === undefined || rid === "") return;
-        NoticeReq.delete(token, rid, id);
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <Stack spacing={3} direction="row">
+      <IconButton
+        onClick={() => {
+          if (rid === undefined || rid === "") return;
+          NoticeReq.delete(token, rid, id);
+          window.location.reload();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => {
+          if (rid === undefined || rid === "") return;
+          NoticeReq.notify(token, rid, id);
+        }}
+      >
+        <NotificationsIcon />
+      </IconButton>
+    </Stack>
   );
 }
-function NotifyNotice(props: { id: string }) {
-  const router = useRouter();
-  const { rcid } = router.query;
-  const rid = (rcid || "").toString();
-  const { token } = useStore();
-  const { id } = props;
-  return (
-    <IconButton
-      onClick={() => {
-        if (rid === undefined || rid === "") return;
-        NoticeReq.notify(token, rid, id);
-      }}
-    >
-      <NotificationsIcon />
-    </IconButton>
-  );
-}
+
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -79,48 +74,13 @@ const columns: GridColDef[] = [
     width: 50,
     align: "center",
   },
-  {
-    field: "button2",
-    headerName: "",
-    renderCell: (params) => <NotifyNotice id={params.row.ID} />,
-    width: 50,
-    align: "center",
-  },
-  // {
-  //   field: "button2",
-  //   headerName: "",
-  //   renderCell: () => (
-  //     <IconButton
-  //       onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
-  //         const { id } = e.currentTarget;
-  //         await NoticeReq.notif(token, id);
-  //       }}
-  //     >
-  //       <NotificationsIcon />
-  //     </IconButton>
-  //   ),
-  //   width: 50,
-  //   align: "center",
-  // },
 ];
 function Index() {
   const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const [notices, setNotice] = React.useState<NoticeParams[]>([
-    {
-      ID: 0,
-      recruitment_cycle_id: 0,
-      title: "I",
-      description: "",
-      tags: "",
-      attachment: "",
-      created_by: "",
-      CreatedAt: "",
-      last_reminder_at: 0,
-    },
-  ]);
+  const [notices, setNotice] = React.useState<NoticeParams[]>([]);
 
   const [openNew, setOpenNew] = React.useState(false);
   const handleOpenNew = () => {
@@ -129,21 +89,23 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
       const notice: NoticeParams[] = await NoticeReq.getAll(token, rid);
 
       setNotice(notice);
+      setLoading(false);
     };
     fetch();
   }, [rid, token]);
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Notices" />
       <Stack>
-        <h1>Internship 2022-23 Phase 1</h1>
+        {/* <h1>{rcName}</h1> */}
         <Stack
           direction="row"
           alignItems="center"
@@ -156,18 +118,13 @@ function Index() {
             </IconButton>
           </Stack>
         </Stack>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridNotices}
-        >
-          <DataGrid
-            rows={notices}
-            getRowId={(row: NoticeParams) => row.ID}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid
+          rows={notices}
+          getRowId={(row: any) => row.ID}
+          columns={columns}
+          loading={loading}
+        />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
         <NewNotice handleCloseNew={handleCloseNew} setNotice={setNotice} />

@@ -16,13 +16,14 @@ import Checkbox from "@mui/material/Checkbox";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import formstyles from "@styles/Form.module.css";
 import Meta from "@components/Meta";
 import loginRequest, { LoginParams } from "@callbacks/auth/login";
 import useStore from "@store/store";
+import theme from "@components/theme/theme";
 
 function Login() {
   const {
@@ -38,6 +39,10 @@ function Login() {
   });
   const [loading, setLoading] = useState(false);
   const { setToken, setRole } = useStore();
+
+  useEffect(() => {
+    setToken("");
+  }, [setToken]);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -77,7 +82,7 @@ function Login() {
           router.push("/admin");
           break;
         default:
-          router.push("/404");
+          router.push("/401");
           break;
       }
     }
@@ -95,9 +100,9 @@ function Login() {
       >
         <div className={formstyles.image}>
           <Image
-            src="/images/signin.png"
-            height={450}
-            width={400}
+            src="/images/signin.gif"
+            height={550}
+            width={500}
             alt="loginPage"
           />
         </div>
@@ -117,7 +122,7 @@ function Login() {
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
               id="Email ID"
-              label="Email Id"
+              label="Email ID"
               variant="outlined"
               error={!!errors.user_id}
               helperText={errors.user_id ? "Incorrect Email ID" : ""}
@@ -171,7 +176,7 @@ function Login() {
                 Remember Me
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                <span style={{ color: "blue" }}>
+                <span style={{ color: theme.palette.secondary.main }}>
                   <Link href="/reset-password">Forgot password?</Link>
                 </span>
               </Typography>
@@ -189,7 +194,7 @@ function Login() {
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <Typography>
               Don&apos;t have an account?{" "}
-              <span style={{ color: "blue" }}>
+              <span style={{ color: theme.palette.secondary.main }}>
                 <Link href="/signup">Sign Up</Link>
               </span>
             </Typography>

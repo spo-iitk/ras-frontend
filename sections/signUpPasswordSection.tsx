@@ -6,7 +6,6 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   Stack,
   TextField,
@@ -88,6 +87,10 @@ function SignUpPasswordSection({
   return (
     <Stack>
       <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
+        <Typography variant="caption" sx={{ color: "#777" }}>
+          Another OTP has been sent to your <b>&lt;roll_no&gt;@iitk.ac.in</b>,{" "}
+          which is <b>not</b> same as before, to verify your Roll Number.
+        </Typography>
         <TextField
           id="rollnoOTP"
           label="OTP"
@@ -187,14 +190,6 @@ function SignUpPasswordSection({
         >
           Sign Up
         </LoadingButton>
-      </FormControl>
-      <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-        <Typography>
-          Already have an account?{" "}
-          <span style={{ color: "blue" }}>
-            <Link href="/login">Sign In</Link>
-          </span>
-        </Typography>
       </FormControl>
     </Stack>
   );

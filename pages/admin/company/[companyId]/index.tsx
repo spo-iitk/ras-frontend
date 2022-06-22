@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  Box,
+  Button,
   Card,
   FormControl,
   Grid,
@@ -10,14 +12,13 @@ import {
 } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
-import DownloadIcon from "@mui/icons-material/Download";
 import { useRouter } from "next/router";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useForm } from "react-hook-form";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import addCompanyRequest, {
   Company,
@@ -25,10 +26,24 @@ import addCompanyRequest, {
 } from "@callbacks/admin/company/company";
 import useStore from "@store/store";
 import AddHRMD from "@components/Modals/AddHRAdminMD";
+import HRAuth, { HRAuthResponse } from "@callbacks/auth/hrauth";
 import EditCompanyMD from "@components/Modals/EditCompanyAdminMD";
 import InactiveButton from "@components/Buttons/InactiveButton";
 
-function DeleteHRdetail(props: { id: string }) {
+const boxStyle = {
+  position: "absolute" as const,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { xs: "330px", md: "500px" },
+  bgcolor: "background.paper",
+  border: "white solid 2px",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+  alignItems: "center",
+};
+function DeleteHR(props: { id: string }) {
   const { token } = useStore();
   const { id } = props;
   return (
@@ -41,12 +56,68 @@ function DeleteHRdetail(props: { id: string }) {
     </IconButton>
   );
 }
-
+function AuthHR(props: { id: string; name: string }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<HRAuthResponse>();
+  const { token } = useStore();
+  const det = props;
+  const handleAuthHR = (data: HRAuthResponse) => {
+    const authHR = async () => {
+      const finData = { ...data, user_id: det.id, name: det.name };
+      const response = await HRAuth.post(token, finData);
+      if (response) {
+        reset({ password: "" });
+      }
+    };
+    authHR();
+  };
+  const [openAuthHR, setOpenAuthHR] = useState(false);
+  const handleOpenAuthHR = () => {
+    setOpenAuthHR(true);
+  };
+  const handleCloseAuthHR = () => {
+    setOpenAuthHR(false);
+  };
+  return (
+    <div>
+      <ActiveButton sx={{ height: 30 }} onClick={handleOpenAuthHR}>
+        Auth HR
+      </ActiveButton>
+      <Modal open={openAuthHR} onClose={handleCloseAuthHR}>
+        <Box sx={boxStyle}>
+          <Stack spacing={3}>
+            <h1>Enter Password</h1>
+            <TextField
+              label="Enter Password"
+              id="password"
+              type="password"
+              variant="standard"
+              {...register("password", { required: true })}
+              error={!!errors.password}
+              helperText={errors.password && "Password is required"}
+            />
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              onClick={handleSubmit(handleAuthHR)}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
+    </div>
+  );
+}
 const HRcotactDetailsColumns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    width: 150,
+    width: 125,
   },
   {
     field: "name",
@@ -69,10 +140,19 @@ const HRcotactDetailsColumns: GridColDef[] = [
     width: 250,
   },
   {
-    field: "deleteHR",
+    field: "button1",
     headerName: "",
-    width: 250,
-    renderCell: (cellValue) => <DeleteHRdetail id={cellValue.id.toString()} />,
+    renderCell: (params) => <DeleteHR id={params.row.ID} />,
+    width: 50,
+    align: "center",
+  },
+  {
+    field: "button2",
+    headerName: "",
+    renderCell: (params) => (
+      <AuthHR id={params.row.email} name={params.row.name} />
+    ),
+    width: 100,
   },
 ];
 const PastHireColumns: GridColDef[] = [
@@ -222,7 +302,7 @@ function Index() {
     delCompany();
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Master Company Dashboard" />
       <Card
         elevation={2}
@@ -335,14 +415,7 @@ function Index() {
         }}
       >
         <Stack>
-          <Stack direction={{ sm: "row", xs: "column" }}>
-            <h1>Past Hires</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-            </Stack>
-          </Stack>
+          <h1>Past Hires</h1>
           <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
             <DataGrid
               rows={PastHireRows}
@@ -365,14 +438,10 @@ function Index() {
         <Stack>
           <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>Comapny History</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-            </Stack>
+
+            <IconButton>
+              <AddIcon />
+            </IconButton>
           </Stack>
           <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
             <DataGrid

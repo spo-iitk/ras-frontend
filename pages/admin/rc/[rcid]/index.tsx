@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
 import useStore from "@store/store";
 import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
@@ -76,11 +77,33 @@ function Index() {
     router.push(`/admin/rc/${rid}/notice`);
   };
   return (
-    <div className={styles.container}>
-      <Meta title="Admin Dashboard" />
+    <div className="container">
+      <Meta title={`Admin Dashboard - ${rcName}`} />
       <Stack>
-        <h1>{rcName}</h1>
+        {/* <h1>{rcName}</h1> */}
 
+        <Stack
+          spacing={3}
+          justifyContent="space-between"
+          alignItems="center"
+          direction="row"
+          sx={{ m: 5 }}
+        >
+          <Button
+            variant="contained"
+            endIcon={<EditIcon />}
+            sx={{ width: "150px" }}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="contained"
+            endIcon={<DeleteIcon />}
+            sx={{ width: "150px" }}
+          >
+            Delete
+          </Button>
+        </Stack>
         <Grid container justifyContent="space-evenly" spacing={2}>
           <Grid item xs={6} md={3} sx={{ padding: 0 }}>
             <Card

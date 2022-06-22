@@ -5,7 +5,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import React from "react";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 function Event() {
@@ -14,7 +13,7 @@ function Event() {
   const [endTime, setEndTime] = React.useState<Date | null>(new Date());
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Event Details" />
       <h1 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h1>
 
