@@ -6,7 +6,6 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   Stack,
   TextField,
@@ -191,14 +190,6 @@ function SignUpPasswordSection({
         >
           Sign Up
         </LoadingButton>
-      </FormControl>
-      <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-        <Typography>
-          Already have an account?{" "}
-          <span style={{ color: "blue" }}>
-            <Link href="/login">Sign In</Link>
-          </span>
-        </Typography>
       </FormControl>
     </Stack>
   );
