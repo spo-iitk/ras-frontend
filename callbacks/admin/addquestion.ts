@@ -54,12 +54,12 @@ const UpdateQuestion = {
     instance
       .delete(`/${rcid}/student/question/${qid}`, setConfig(token))
       .then((res) => {
-        successNotification("HR deleted", res.data.status);
+        successNotification(`Question ${qid} deleted`, res.data.status);
         return true;
       })
       .catch((err: ErrorType) => {
         errorNotification(
-          "Error in deleting HR",
+          `Error in deleting question ${qid}`,
           err.response?.data?.error || err.message
         );
         return false;
