@@ -85,14 +85,14 @@ function AuthHR(props: { id: string; name: string }) {
   return (
     <div>
       <ActiveButton sx={{ height: 30 }} onClick={handleOpenAuthHR}>
-        Auth HR
+        Generate Auth
       </ActiveButton>
       <Modal open={openAuthHR} onClose={handleCloseAuthHR}>
         <Box sx={boxStyle}>
           <Stack spacing={3}>
-            <h1>Enter Password</h1>
+            <h1>Enter New Password</h1>
             <TextField
-              label="Enter Password"
+              label="Enter New Password"
               id="password"
               type="password"
               variant="standard"
@@ -141,14 +141,14 @@ const HRcotactDetailsColumns: GridColDef[] = [
   },
   {
     field: "button1",
-    headerName: "",
+    headerName: "Delete HR",
     renderCell: (params) => <DeleteHR id={params.row.ID} />,
     width: 50,
     align: "center",
   },
   {
     field: "button2",
-    headerName: "",
+    headerName: "Send Authorization Mail",
     renderCell: (params) => (
       <AuthHR id={params.row.email} name={params.row.name} />
     ),
@@ -196,14 +196,7 @@ const PastHireColumns: GridColDef[] = [
   },
 ];
 
-const PastHireRows = [
-  {
-    id: 1,
-    RecruitmentDrive: "Internship 2022-23 Phase 1",
-    TotalHires: "5",
-    PIOPPO: "5",
-  },
-];
+const pastHireRows: never[] = [];
 
 const CompanyHistoryColumns: GridColDef[] = [
   {
@@ -243,12 +236,8 @@ const CompanyHistoryColumns: GridColDef[] = [
   },
 ];
 
-const CompanyHistoryRows = [
-  {
-    id: 1,
-    RecruitmentDrive: "Internship 2022-23 Phase 1",
-  },
-];
+const companyHistoryRows: never[] = [];
+
 function Index() {
   const { token } = useStore();
   const router = useRouter();
@@ -428,7 +417,7 @@ function Index() {
       >
         <Stack>
           <h1>Past Hires</h1>
-          <DataGrid rows={PastHireRows} columns={PastHireColumns} />
+          <DataGrid rows={pastHireRows} columns={PastHireColumns} />
         </Stack>
       </Card>
       <br />
@@ -444,7 +433,7 @@ function Index() {
           <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>Comapny History</h1>
           </Stack>
-          <DataGrid rows={CompanyHistoryRows} columns={CompanyHistoryColumns} />
+          <DataGrid rows={companyHistoryRows} columns={CompanyHistoryColumns} />
         </Stack>
       </Card>
     </div>
