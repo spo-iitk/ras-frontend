@@ -13,12 +13,6 @@ interface nullBool {
   Bool: boolean;
   Valid: boolean;
 }
-
-interface nullInt {
-  Int64: number;
-  Valid: boolean;
-}
-
 export interface ProformaType {
   ID: number;
   CreatedAt: string;
@@ -30,7 +24,7 @@ export interface ProformaType {
   recruitment_cycle_id: number;
   is_approved: nullBool;
   action_taken_by: string;
-  set_deadline: nullInt;
+  set_deadline: number;
   hide_details: boolean;
   active_hr_id: string;
   nature_of_business: string;
