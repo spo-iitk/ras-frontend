@@ -19,16 +19,17 @@ const columns: GridColDef[] = [
     headerName: "Name",
   },
   {
-    field: "program",
+    field: "program_department_id",
     headerName: "Program",
   },
   {
-    field: "department",
-    headerName: "Department",
+    field: "secondary_program_department_id",
+    headerName: "Secondary Program",
   },
   {
     field: "specialization",
     headerName: "Specialisation",
+    hide: true,
   },
   {
     field: "roll_no",
@@ -37,6 +38,7 @@ const columns: GridColDef[] = [
   {
     field: "preference",
     headerName: "Preference",
+    hide: true,
   },
   {
     field: "gender",
@@ -45,10 +47,12 @@ const columns: GridColDef[] = [
   {
     field: "disability",
     headerName: "Disability",
+    hide: true,
   },
   {
     field: "dob",
     headerName: "DOB",
+    hide: true,
   },
   {
     field: "expected_graduation_year",
@@ -61,6 +65,7 @@ const columns: GridColDef[] = [
   {
     field: "personal_email",
     headerName: "Personal Email",
+    hide: true,
   },
   {
     field: "contact_number",
@@ -69,10 +74,12 @@ const columns: GridColDef[] = [
   {
     field: "alternate_contact_number",
     headerName: "Alternate Contact Numer",
+    hide: true,
   },
   {
     field: "whatsapp_number",
     headerName: "Whatsapp Number",
+    hide: true,
   },
   {
     field: "current_cpi",
@@ -81,62 +88,77 @@ const columns: GridColDef[] = [
   {
     field: "ug_cpi",
     headerName: "UG CPI(on for PG Students)",
+    hide: true,
   },
   {
     field: "tenth_board",
     headerName: "10th Board",
+    hide: true,
   },
   {
     field: "tenth_board_year",
     headerName: "10th Board Year",
+    hide: true,
   },
   {
     field: "tenth_marks",
     headerName: "10th Marks",
+    hide: true,
   },
   {
     field: "twelfth_board",
     headerName: "12th Board",
+    hide: true,
   },
   {
     field: "twelfth_board_year",
     headerName: "12th Board Year",
+    hide: true,
   },
   {
     field: "twelfth_marks",
     headerName: "12th Board Marks",
+    hide: true,
   },
   {
     field: "entrance_exam",
     headerName: "Entrance Exam",
+    hide: true,
   },
   {
     field: "entrance_exam_rank",
     headerName: "Entrance Exam Rank",
+    hide: true,
   },
   {
     field: "category",
     headerName: "Category",
+    hide: true,
   },
   {
     field: "category_rank",
     headerName: "Category Rank",
+    hide: true,
   },
   {
     field: "current_address",
     headerName: "Current Address",
+    hide: true,
   },
   {
     field: "permanent_address",
     headerName: "Permanent Address",
+    hide: true,
   },
   {
     field: "friend_name",
     headerName: "Friends Name",
+    hide: true,
   },
   {
     field: "friend_phone",
     headerName: "Friends Contact Details",
+    hide: true,
   },
 ];
 
