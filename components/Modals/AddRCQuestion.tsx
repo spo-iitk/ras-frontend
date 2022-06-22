@@ -1,4 +1,4 @@
-import { Box, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -9,7 +9,6 @@ import React from "react";
 import router from "next/router";
 
 import UpdateQuestion, { QuestionType } from "@callbacks/admin/addquestion";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
 
 const boxStyle = {
@@ -61,7 +60,7 @@ function AddRCQuestion({ getQuestions, handleCloseNew }: any) {
     <Box sx={boxStyle}>
       <Stack spacing={3}>
         <FormControl onSubmit={handleSubmit(onSubmit)}>
-          <h2 style={{ margin: "10px 0px" }}>Additional Questions</h2>
+          <h1 style={{ margin: "20px 0px 50px 0px" }}>Additional Questions</h1>
           <FormControl sx={{ m: 1 }}>
             <InputLabel id="Type-of-Ques">Type of Question</InputLabel>
             <Select
@@ -98,12 +97,9 @@ function AddRCQuestion({ getQuestions, handleCloseNew }: any) {
             </Typography>
           </FormControl>
         </FormControl>
-        <ActiveButton
-          sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
-          onClick={handleSubmit(onSubmit)}
-        >
+        <Button variant="contained" onClick={handleSubmit(onSubmit)}>
           ADD QUESTION
-        </ActiveButton>
+        </Button>
       </Stack>
     </Box>
   );

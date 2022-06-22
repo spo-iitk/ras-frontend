@@ -57,9 +57,9 @@ const rows = [
 
 function StudentStatsAdmin() {
   return (
-    <div className="container">
+    <div>
       <Meta title=" Stats Studentwise" />
-      <h1>Stats &gt; Student-Wise</h1>
+      <h2>Stats &gt; Student-Wise</h2>
       <DataGrid rows={rows} columns={columns} />
     </div>
   );

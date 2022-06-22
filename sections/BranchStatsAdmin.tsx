@@ -57,9 +57,9 @@ const rows = [
 
 function BranchStatsAdmin() {
   return (
-    <div className="container">
+    <div>
       <Meta title="Stats Branchwise" />
-      <h1>Stats &gt; Branch-Wise</h1>
+      <h2>Stats &gt; Branch-Wise</h2>
       <DataGrid rows={rows} columns={columns} />
     </div>
   );
