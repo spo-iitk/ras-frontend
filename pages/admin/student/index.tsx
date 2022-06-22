@@ -146,7 +146,6 @@ function Index() {
   useEffect(() => {
     const fetch = async () => {
       const students = await AdminStudentRequest.getAll(token).catch(() => []);
-
       setRows(students);
     };
     fetch();
