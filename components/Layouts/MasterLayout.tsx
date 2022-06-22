@@ -173,11 +173,7 @@ function MasterLayout({
             </ListItem>
           </a>
           <Link href="/login" passHref key="logout">
-            <ListItem
-              sx={{ borderRadius: 5 }}
-              button
-              onClick={() => setToken("")}
-            >
+            <ListItem sx={{ borderRadius: 5 }} button>
               <ListItemAvatar sx={{ color: "white" }}>
                 <LogoutIcon />
               </ListItemAvatar>
