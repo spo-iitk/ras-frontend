@@ -38,11 +38,14 @@ const columns: GridColDef[] = [
 function Overview(): JSX.Element {
   const { token, setRCName, setName } = useStore();
   const [rows, setRows] = useState<RC[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getRC = async () => {
+      setLoading(true);
       const response = await rcRequest.getAll(token);
-      setRows(response);
+      if (response?.length > 0) setRows(response);
+      setLoading(false);
     };
     const getCompany = async () => {
       const response = await companyRequest.get(token);
@@ -68,6 +71,7 @@ function Overview(): JSX.Element {
           onCellClick={(params) => {
             setRCName(params.row.name);
           }}
+          loading={loading}
         />
       </Stack>
     </div>
