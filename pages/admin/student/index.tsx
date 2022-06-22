@@ -168,11 +168,13 @@ function Index() {
   const [rows, setRows] = useState<Student[]>([]);
   const { token } = useStore();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
       const students = await AdminStudentRequest.getAll(token).catch(() => []);
       setRows(students);
+      setLoading(false);
     };
     fetch();
   }, [token]);
@@ -186,6 +188,7 @@ function Index() {
         columns={columns}
         getRowId={(row) => row.ID}
         onCellClick={(params) => router.push(`student/${params.row.ID}`)}
+        loading={loading}
       />
     </div>
   );

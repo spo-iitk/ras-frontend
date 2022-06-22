@@ -6,7 +6,6 @@ import {
   ADMIN_RC_URL,
   ErrorType,
   SERVER_ERROR,
-  StatusResponse,
   setConfig,
 } from "../../constants";
 
@@ -29,6 +28,10 @@ const instance = axios.create({
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
+export interface RCResponse {
+  id: number;
+}
+
 const rcRequest = {
   getAll: (token: string) =>
     instance
@@ -45,18 +48,18 @@ const rcRequest = {
     }),
   post: (token: string, body: RC) =>
     instance
-      .post<StatusResponse, AxiosResponse<StatusResponse, RC>, RC>(
+      .post<RCResponse, AxiosResponse<RCResponse, RC>, RC>(
         "",
         body,
         setConfig(token)
       )
       .then((res) => {
-        successNotification("New RC Created", res.data.status);
-        return true;
+        successNotification("New RC Created", `RC ${res.data.id} created`);
+        return res.data.id;
       })
       .catch((err) => {
         errorNotification("Error", err.response?.data?.error || err.message);
-        return false;
+        return 0;
       }),
 };
 
