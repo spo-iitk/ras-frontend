@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import router from "next/router";
 
 import {
   ADMIN_RC_URL,
@@ -50,6 +51,22 @@ const UpdateQuestion = {
         errorNotification("Error", error.response?.data.error || error.message);
         return false;
       }),
+  deleteQues: (token: string, rcid: string, qid: string) => {
+    instance
+      .delete(`/${rcid}/student/question/${qid}`, setConfig(token))
+      .then((res) => {
+        successNotification(`Question ${qid} deleted`, res.data.status);
+        router.push(`/admin/rc/${rcid}/question`);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          `Error in deleting question ${qid}`,
+          err.response?.data?.error || err.message
+        );
+        return false;
+      });
+  },
 };
 
 export default UpdateQuestion;
