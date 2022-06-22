@@ -1,17 +1,8 @@
 import React from "react";
-import { Grid } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 
 import Meta from "@components/Meta";
 import DataGrid from "@components/DataGrid";
-import ActiveButton from "@components/Buttons/ActiveButton";
-
-const gridMain = {
-  width: "100%",
-  display: "flex",
-  alignItems: "right",
-  justifyContent: "right",
-};
 
 const columns: GridColDef[] = [
   {
@@ -64,27 +55,15 @@ const rows = [
   },
 ];
 
-function Students() {
+function StudentStatsAdmin() {
   return (
     <div className="container">
-      <Meta title=" Stats Student- Admin" />
-      <Grid container spacing={1} alignItems="center">
-        <Grid item xs={12} md={6}>
-          <h1>Stats &gt; Student-Wise</h1>
-        </Grid>
-        <Grid item xs={12} md={6} style={gridMain}>
-          <div>
-            <ActiveButton sx={{ width: "max-content" }}>
-              DOWNLOAD EXCEL
-            </ActiveButton>
-          </div>
-        </Grid>
-      </Grid>
-
+      <Meta title=" Stats Studentwise" />
+      <h1>Stats &gt; Student-Wise</h1>
       <DataGrid rows={rows} columns={columns} />
     </div>
   );
 }
 
-Students.layout = "adminPhaseDashBoard";
-export default Students;
+StudentStatsAdmin.layout = "adminPhaseDashBoard";
+export default StudentStatsAdmin;

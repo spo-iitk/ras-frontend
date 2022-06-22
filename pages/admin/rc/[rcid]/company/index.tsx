@@ -90,7 +90,6 @@ function Index() {
   return (
     <div className="container">
       <Meta title="Company" />
-      <h1>Internship 2022-23 Phase 1</h1>
       <Stack>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>

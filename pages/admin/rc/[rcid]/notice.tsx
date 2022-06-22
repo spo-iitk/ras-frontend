@@ -23,6 +23,7 @@ function DeleteNotice(props: { id: string }) {
       onClick={() => {
         if (rid === undefined || rid === "") return;
         NoticeReq.delete(token, rid, id);
+        window.location.reload();
       }}
     >
       <DeleteIcon />
@@ -88,7 +89,7 @@ const columns: GridColDef[] = [
   },
 ];
 function Index() {
-  const { token, rcName } = useStore();
+  const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
@@ -117,7 +118,7 @@ function Index() {
     <div className="container">
       <Meta title="Notices" />
       <Stack>
-        <h1>{rcName}</h1>
+        {/* <h1>{rcName}</h1> */}
         <Stack
           direction="row"
           alignItems="center"

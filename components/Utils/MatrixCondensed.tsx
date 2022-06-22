@@ -59,9 +59,9 @@ function MatrixCondensed({ data }: { data: string }) {
                   data[func[branch as keyof typeof func].BS] === "1" ||
                   data[func[branch as keyof typeof func].DoubleMajor] ===
                     "1" ? (
-                  <CheckIcon />
+                  <CheckIcon sx={{ color: "green" }} />
                 ) : (
-                  <CloseIcon />
+                  <CloseIcon sx={{ color: "red" }} />
                 )}
               </TableCell>
               <TableCell width={100} align="center">
@@ -72,9 +72,9 @@ function MatrixCondensed({ data }: { data: string }) {
                 ) : data[func[branch as keyof typeof func].MT] === "1" ||
                   data[func[branch as keyof typeof func].MSc] === "1" ||
                   data[func[branch as keyof typeof func].MSR] === "1" ? (
-                  <CheckIcon />
+                  <CheckIcon sx={{ color: "green" }} />
                 ) : (
-                  <CloseIcon />
+                  <CloseIcon sx={{ color: "red" }} />
                 )}
               </TableCell>
               <TableCell width={100} align="center">
@@ -85,27 +85,27 @@ function MatrixCondensed({ data }: { data: string }) {
                 ) : data[func[branch as keyof typeof func].DualA] === "1" ||
                   data[func[branch as keyof typeof func].DualB] === "1" ||
                   data[func[branch as keyof typeof func].DualC] === "1" ? (
-                  <CheckIcon />
+                  <CheckIcon sx={{ color: "green" }} />
                 ) : (
-                  <CloseIcon />
+                  <CloseIcon sx={{ color: "red" }} />
                 )}
               </TableCell>
               <TableCell width={100} align="center">
                 {func[branch as keyof typeof func].MDes === -1 ? (
                   <RemoveIcon />
                 ) : data[func[branch as keyof typeof func].MDes] === "1" ? (
-                  <CheckIcon />
+                  <CheckIcon sx={{ color: "green" }} />
                 ) : (
-                  <CloseIcon />
+                  <CloseIcon sx={{ color: "red" }} />
                 )}
               </TableCell>
               <TableCell width={100} align="center">
                 {func[branch as keyof typeof func].MBA === -1 ? (
                   <RemoveIcon />
                 ) : data[func[branch as keyof typeof func].MBA] === "1" ? (
-                  <CheckIcon />
+                  <CheckIcon sx={{ color: "green" }} />
                 ) : (
-                  <CloseIcon />
+                  <CloseIcon sx={{ color: "red" }} />
                 )}
               </TableCell>
               <TableCell width={100} align="center">

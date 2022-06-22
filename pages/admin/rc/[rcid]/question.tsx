@@ -43,7 +43,7 @@ function RecruitmentCycle() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const [Ques, setQues] = useState<QuestionType[]>([]);
-  const { token, rcName } = useStore();
+  const { token } = useStore();
   const [loading, setLoading] = useState(true);
   const getQuestions = async () => {
     if (rid === undefined || rid === "") return;
@@ -67,9 +67,9 @@ function RecruitmentCycle() {
 
   return (
     <div className="container">
-      <Meta title="Create New Recruitment Cycle - Admin" />
+      <Meta title="Add Questions - Recruitment Cycle" />
       <Stack>
-        <h1>{rcName}</h1>
+        {/* <h1>{rcName}</h1> */}
         <Stack
           spacing={3}
           justifyContent="space-between"

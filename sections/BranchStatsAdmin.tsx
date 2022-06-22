@@ -1,17 +1,8 @@
 import React from "react";
-import { Grid } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 
 import Meta from "@components/Meta";
 import DataGrid from "@components/DataGrid";
-import ActiveButton from "@components/Buttons/ActiveButton";
-
-const gridMain = {
-  width: "100%",
-  display: "flex",
-  alignItems: "right",
-  justifyContent: "right",
-};
 
 const columns: GridColDef[] = [
   {
@@ -64,27 +55,15 @@ const rows = [
   },
 ];
 
-function Branch() {
+function BranchStatsAdmin() {
   return (
     <div className="container">
-      <Meta title="Student Dashboard - Branch" />
-      <Grid container spacing={1} alignItems="center">
-        <Grid item xs={12} md={6}>
-          <h1>Stats &gt; Branch-Wise</h1>
-        </Grid>
-        <Grid item xs={12} md={6} style={gridMain}>
-          <div>
-            <ActiveButton sx={{ width: "max-content" }}>
-              DOWNLOAD EXCEL
-            </ActiveButton>
-          </div>
-        </Grid>
-      </Grid>
-
+      <Meta title="Stats Branchwise" />
+      <h1>Stats &gt; Branch-Wise</h1>
       <DataGrid rows={rows} columns={columns} />
     </div>
   );
 }
 
-Branch.layout = "adminPhaseDashBoard";
-export default Branch;
+BranchStatsAdmin.layout = "adminPhaseDashBoard";
+export default BranchStatsAdmin;

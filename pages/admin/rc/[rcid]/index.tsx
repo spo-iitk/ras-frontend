@@ -76,9 +76,9 @@ function Index() {
   };
   return (
     <div className="container">
-      <Meta title="Admin Dashboard" />
+      <Meta title={`Admin Dashboard - ${rcName}`} />
       <Stack>
-        <h1>{rcName}</h1>
+        {/* <h1>{rcName}</h1> */}
 
         <Grid container justifyContent="space-evenly" spacing={2}>
           <Grid item xs={6} md={3} sx={{ padding: 0 }}>
