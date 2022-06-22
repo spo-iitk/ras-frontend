@@ -21,7 +21,6 @@ import React from "react";
 
 import theme from "@components/theme/theme";
 import dashboardstyles from "@styles/Dashboard.module.css";
-import useStore from "@store/store";
 
 import { fields } from "./LayoutWrapper";
 
@@ -69,8 +68,6 @@ function MasterLayout({
 
       setState({ ...state, [anchor]: open });
     };
-
-  const { setToken } = useStore();
 
   const list = (anchor: Anchor) => (
     <Box
@@ -297,11 +294,7 @@ function MasterLayout({
                   </ListItem>
                 </a>
                 <Link href="/login" passHref key="logout">
-                  <ListItem
-                    sx={{ borderRadius: 5 }}
-                    button
-                    onClick={() => setToken("")}
-                  >
+                  <ListItem sx={{ borderRadius: 5 }} button>
                     <ListItemAvatar sx={{ color: "white" }}>
                       <LogoutIcon />
                     </ListItemAvatar>
