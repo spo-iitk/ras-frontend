@@ -10,8 +10,8 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
+import { GridColDef } from "@mui/x-data-grid";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
@@ -28,7 +28,7 @@ import useStore from "@store/store";
 import AddHRMD from "@components/Modals/AddHRAdminMD";
 import HRAuth, { HRAuthResponse } from "@callbacks/auth/hrauth";
 import EditCompanyMD from "@components/Modals/EditCompanyAdminMD";
-import InactiveButton from "@components/Buttons/InactiveButton";
+import DataGrid from "@components/DataGrid";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -299,80 +299,97 @@ function Index() {
     const delCompany = async () => {
       await addCompanyRequest.delete(token, companyId);
     };
+    router.push("/admin/company");
     delCompany();
   };
   return (
     <div className="container">
       <Meta title="Master Company Dashboard" />
-      <Card
-        elevation={2}
-        sx={{
-          padding: 3,
-          width: { sm: "100%", margin: "0px auto" },
-        }}
-      >
-        <Stack marginLeft="2em">
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <h1>Company Profile</h1>
-            <Stack spacing={1} direction="row">
-              <ActiveButton onClick={handleOpenEditComp}>EDIT</ActiveButton>
-              <InactiveButton onClick={deleteCompany}>DELETE</InactiveButton>
-            </Stack>
-            <Modal open={openEditComp} onClose={handleCloseEditComp}>
-              <EditCompanyMD
-                handleCloseNew={handleCloseNew}
-                setCompanyData={setCompanyData}
-                companyData={CompanyData}
-                companyID={companyId}
-              />
-            </Modal>
+      <Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <h1>Company Profile</h1>
+          <Stack spacing={1} direction="row">
+            <IconButton onClick={handleOpenEditComp}>
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={deleteCompany}>
+              <DeleteIcon />
+            </IconButton>
           </Stack>
-          <Grid
-            container
-            sx={{
-              padding: 3,
-              width: {
-                sm: "100%",
-                margin: "0px auto",
-              },
-              position: "relative",
-            }}
-          >
-            <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Company Name
+          <Modal open={openEditComp} onClose={handleCloseEditComp}>
+            <EditCompanyMD
+              handleCloseNew={handleCloseEditComp}
+              setCompanyData={setCompanyData}
+              companyData={CompanyData}
+              companyID={companyId}
+            />
+          </Modal>
+        </Stack>
+        <Card
+          elevation={2}
+          sx={{
+            padding: 3,
+            borderRadius: "10px",
+            width: { xs: "330px", sm: "600px", margin: "10px auto" },
+          }}
+        >
+          <Grid container spacing={5} sx={{ padding: 3 }}>
+            <Grid item xs={12} sm={6}>
+              <p>Company Name</p>
+              <TextField
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={CompanyData?.name}
+                id="standard-basic"
+                variant="standard"
+              />
             </Grid>
-            <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              {CompanyData?.name}
+            <Grid item xs={12} sm={6}>
+              <p>Tags</p>
+              <TextField
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={CompanyData?.tags}
+                id="standard-basic"
+                variant="standard"
+              />
             </Grid>
-            <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Tags
+            <Grid item xs={12} sm={6}>
+              <p>Description</p>
+              <TextField
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={CompanyData?.description}
+                id="standard-basic"
+                variant="standard"
+              />
             </Grid>
-            <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              <span key="tag">{CompanyData?.tags}</span>
-            </Grid>
-            <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Website
-            </Grid>
-            <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              <Link href="#">
-                <a>{CompanyData?.website}</a>
-              </Link>
-            </Grid>
-            <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Description
-            </Grid>
-            <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              {CompanyData?.description}
+            <Grid item xs={12} sm={6}>
+              <p>Website</p>
+              <TextField
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={CompanyData?.website}
+                id="standard-basic"
+                variant="standard"
+              />
             </Grid>
           </Grid>
-        </Stack>
-      </Card>
-      <br />
-      <br />
+        </Card>
+      </Stack>
+
       <Card
         elevation={2}
         sx={{
@@ -382,24 +399,19 @@ function Index() {
       >
         <Stack>
           <Stack
-            direction={{ sm: "row", xs: "column" }}
+            direction="row"
+            spacing={3}
+            alignItems="center"
             justifyContent="space-between"
           >
-            <Stack direction="row" spacing={3}>
-              <h1>HR Contact Details</h1>
+            <h1>HR Contact Details</h1>
+            <div>
               <IconButton onClick={handleOpenNew}>
                 <AddIcon />
               </IconButton>
-            </Stack>
+            </div>
           </Stack>
-          <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
-            <DataGrid
-              rows={HRcontactRows}
-              columns={HRcotactDetailsColumns}
-              pageSize={7}
-              rowsPerPageOptions={[7]}
-            />
-          </div>
+          <DataGrid rows={HRcontactRows} columns={HRcotactDetailsColumns} />
         </Stack>
         <Modal open={openNew} onClose={handleCloseNew}>
           <AddHRMD handleCloseNew={handleCloseNew} />
@@ -416,14 +428,7 @@ function Index() {
       >
         <Stack>
           <h1>Past Hires</h1>
-          <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
-            <DataGrid
-              rows={PastHireRows}
-              columns={PastHireColumns}
-              pageSize={7}
-              rowsPerPageOptions={[7]}
-            />
-          </div>
+          <DataGrid rows={PastHireRows} columns={PastHireColumns} />
         </Stack>
       </Card>
       <br />
@@ -438,19 +443,8 @@ function Index() {
         <Stack>
           <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>Comapny History</h1>
-
-            <IconButton>
-              <AddIcon />
-            </IconButton>
           </Stack>
-          <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
-            <DataGrid
-              rows={CompanyHistoryRows}
-              columns={CompanyHistoryColumns}
-              pageSize={7}
-              rowsPerPageOptions={[7]}
-            />
-          </div>
+          <DataGrid rows={CompanyHistoryRows} columns={CompanyHistoryColumns} />
         </Stack>
       </Card>
     </div>

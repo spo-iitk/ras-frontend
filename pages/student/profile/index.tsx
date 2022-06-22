@@ -310,7 +310,9 @@ function Profile() {
                   <p>{item.field}</p>
                   <TextField
                     fullWidth
-                    disabled
+                    InputProps={{
+                      readOnly: true,
+                    }}
                     id="standard-basic"
                     variant="standard"
                     value={handleValue(item.api_id)}
