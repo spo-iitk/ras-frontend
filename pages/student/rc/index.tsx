@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 
@@ -50,13 +50,17 @@ const columns: GridColDef[] = [
   {
     field: "button",
     headerName: "View Details",
+    headerAlign: "center",
     renderCell: (params) => (
       <Link
         href={{
-          pathname: `rc/${params.row.ID}/notices`,
+          pathname: `rc/${params.row.ID}`,
         }}
       >
-        <ActiveButton> click </ActiveButton>
+        <Button variant="contained" sx={{ height: 30, width: "100%" }}>
+          {" "}
+          click{" "}
+        </Button>
       </Link>
     ),
   },
