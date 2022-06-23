@@ -12,36 +12,35 @@ import { useForm } from "react-hook-form";
 
 import Meta from "@components/Meta";
 import useStore from "@store/store";
-import requestProforma, {
-  AdminProformaType,
-} from "@callbacks/admin/rc/adminproforma";
-import requestCompanyHR, { HR } from "@callbacks/admin/rc/companyhr";
+import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
+import companyRequest, { HR } from "@callbacks/company/company";
 
-const ROUTE = "/admin/rc/[rcId]";
+const ROUTE = "/company/rc/[rcId]";
+
 function Step5() {
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const pid = (proformaid || "").toString();
   const { token } = useStore();
-  const [fetchData, setFetch] = useState<AdminProformaType>({
+  const [fetchData, setFetch] = useState<ProformaType>({
     ID: 0,
-  } as AdminProformaType);
+  } as ProformaType);
   const [HRdata, setHR] = useState<HR>({ name: "", hr1: "", hr2: "", hr3: "" });
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<AdminProformaType>({
+  } = useForm<ProformaType>({
     defaultValues: fetchData,
   });
-  const handleNext = async (data: AdminProformaType) => {
+  const handleNext = async (data: ProformaType) => {
     const info = {
       ...data,
       ID: parseInt(pid, 10),
     };
-    const res = await requestProforma.put(token, rid, info);
+    const res = await proformaRequest.put(token, rid, info);
     if (res) {
       reset({
         additional_eligibility: "",
@@ -57,12 +56,8 @@ function Step5() {
   useEffect(() => {
     if (!(rid && pid)) return;
     const getStep5 = async () => {
-      const data = await requestProforma.get(token, rid, pid);
-      const hr = await requestCompanyHR.getHR(
-        token,
-        rid,
-        data.company_recruitment_cycle_id
-      );
+      const data = await proformaRequest.get(token, rid, pid);
+      const hr = await companyRequest.getHR(token, rid);
       setHR(hr);
       setFetch(data);
       reset(data);
@@ -150,41 +145,6 @@ function Step5() {
             />
           </FormControl>
 
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>CPI Cutoff</p>
-            <TextField
-              id="Cname"
-              required
-              type="number"
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              minRows={5}
-              variant="standard"
-              error={!!errors.cpi_cutoff}
-              helperText={errors.cpi_cutoff && "This field is required!"}
-              {...register("cpi_cutoff", {
-                setValueAs: (value: string) => parseFloat(value),
-              })}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Deadline</p>
-            <TextField
-              id="Cname"
-              type="date"
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              minRows={5}
-              variant="standard"
-              error={!!errors.set_deadline}
-              helperText={errors.set_deadline && "This field is required!"}
-              {...register("set_deadline", {
-                setValueAs: (value: string) => new Date(value).getTime(),
-              })}
-            />
-          </FormControl>
-
           <Stack
             spacing={3}
             direction="row"
@@ -219,5 +179,5 @@ function Step5() {
   );
 }
 
-Step5.layout = "adminPhaseDashBoard";
+Step5.layout = "companyPhaseDashboard";
 export default Step5;

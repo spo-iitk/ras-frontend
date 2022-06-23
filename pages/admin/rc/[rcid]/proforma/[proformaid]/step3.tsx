@@ -14,38 +14,40 @@ import { useRouter } from "next/router";
 import Meta from "@components/Meta";
 import RichText from "@components/Editor/RichText";
 import useStore from "@store/store";
-import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
+import requestProforma, {
+  AdminProformaType,
+} from "@callbacks/admin/rc/adminproforma";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step4";
+const ROUTE = "/admin/rc/[rcId]/proforma/[proformaid]/step4";
 
 function Step3() {
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const pid = (proformaid || "").toString();
   const { token } = useStore();
   const [ctc, changeCTC] = useState("");
   const [pkgDetails, changePkg] = useState("");
-  const [fetchData, setFetch] = useState<ProformaType>({
+  const [fetchData, setFetch] = useState<AdminProformaType>({
     ID: 0,
-  } as ProformaType);
+  } as AdminProformaType);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
     control,
-  } = useForm<ProformaType>({
+  } = useForm<AdminProformaType>({
     defaultValues: fetchData,
   });
-  const handleNext = async (data: ProformaType) => {
+  const handleNext = async (data: AdminProformaType) => {
     const info = {
       ...data,
       ID: parseInt(pid, 10),
       package_details: pkgDetails,
       cost_to_company: ctc,
     };
-    const response = await proformaRequest.put(token, rid, info);
+    const response = await requestProforma.put(token, rid, info);
     if (response) {
       reset({
         bond: false,
@@ -56,14 +58,14 @@ function Step3() {
       changePkg("");
       router.push({
         pathname: ROUTE,
-        query: { rcId: rid, proformaId: pid },
+        query: { rcId: rid, proformaid: pid },
       });
     }
   };
 
   useEffect(() => {
     const getStep3 = async () => {
-      const data = await proformaRequest.get(token, rid, pid);
+      const data = await requestProforma.get(token, rid, pid);
       setFetch(data);
       reset(data);
       changeCTC(data.cost_to_company);
@@ -173,5 +175,5 @@ function Step3() {
   );
 }
 
-Step3.layout = "companyPhaseDashboard";
+Step3.layout = "adminPhaseDashBoard";
 export default Step3;

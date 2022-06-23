@@ -5,47 +5,69 @@ import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
 import RichTextEditor from "@components/Editor/RichText";
-import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import useStore from "@store/store";
+import requestProforma, {
+  AdminProformaType,
+} from "@callbacks/admin/rc/adminproforma";
+import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
+const ROUTE = "/admin/rc/[rcId]/proforma/[proformaid]/step2";
 function ProformaNew() {
   const [value, onChange] = useState("");
   const { token, name } = useStore();
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
-  const [fetchData, setFetch] = useState<ProformaType>({
+  const pid = (proformaid || "").toString();
+  const [companies, setCompanies] = useState<CompanyRc[]>([]);
+  const [company, setCompany] = useState("");
+  const [fetchData, setFetch] = useState<AdminProformaType>({
     ID: 0,
-  } as ProformaType);
+  } as AdminProformaType);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ProformaType>({
+  } = useForm<AdminProformaType>({
     defaultValues: { ...fetchData, company_name: name },
   });
+
   useEffect(() => {
+    companies.forEach((item) => {
+      if (item.ID === fetchData.company_id) {
+        setCompany(item.company_name);
+      }
+    });
+  }, [companies, fetchData.company_id]);
+
+  useEffect(() => {
+    let data: AdminProformaType;
     if (!(rid && pid)) return;
+    const getCompanydata = async () => {
+      if (rid === undefined || rid === "") return;
+      let response = await requestCompany.getall(token, rid);
+      setCompanies(response);
+    };
+    getCompanydata();
     const getStep1 = async () => {
-      const data = await proformaRequest.get(token, rid, pid);
-      setFetch(data);
+      data = await requestProforma.get(token, rid, pid);
       onChange(data.job_description);
+      setFetch(data);
       reset(data);
     };
     getStep1();
   }, [rid, pid, token, reset]);
 
-  const handleNext = async (data: ProformaType) => {
-    const info: ProformaType = {
+  const handleNext = async (data: AdminProformaType) => {
+    const info: AdminProformaType = {
       ...data,
       ID: parseInt(pid, 10),
       job_description: value,
       recruitment_cycle_id: parseInt(rid, 10),
     };
-    await proformaRequest.put(token, rid, info).then(() => {
+    const res = await requestProforma.put(token, rid, info);
+    if (res) {
       reset({
         company_name: "",
         nature_of_business: "",
@@ -54,11 +76,10 @@ function ProformaNew() {
       onChange("");
       router.push({
         pathname: ROUTE,
-        query: { rcId: rid, proformaId: pid },
+        query: { rcId: rid, proformaid: pid },
       });
-    });
+    }
   };
-
   return (
     <div className="container">
       <Meta title="Step 1/5 - Basic Details" />
@@ -77,12 +98,12 @@ function ProformaNew() {
             <TextField
               id="Cname"
               disabled
+              value={company}
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
               variant="standard"
-              {...register("company_name")}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -161,5 +182,5 @@ function ProformaNew() {
   );
 }
 
-ProformaNew.layout = "companyPhaseDashboard";
+ProformaNew.layout = "adminPhaseDashBoard";
 export default ProformaNew;

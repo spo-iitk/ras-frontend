@@ -1,5 +1,9 @@
 import React from "react";
 import { Box, Button, Stack, TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
+
+import freezeRequest from "@callbacks/admin/rc/student/freezeStudents";
+import useStore from "@store/store";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -15,19 +19,53 @@ const boxStyle = {
   alignItems: "center",
 };
 
-function Freeze({ handleClose }: { handleClose: () => void }) {
+interface Email {
+  email: string;
+}
+function Freeze({
+  handleClose,
+  rid,
+}: {
+  handleClose: () => void;
+  rid: string;
+}) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Email>();
+  const { token } = useStore();
+  const onSubmit = async (data: Email) => {
+    const email: string[] = [...data.email.split(",").map((x) => x.trim())];
+    const response = await freezeRequest.put(token, rid, {
+      email,
+      frozen: true,
+    });
+    if (response) {
+      reset({
+        email: "",
+      });
+    }
+    handleClose();
+  };
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
         <h1>Freeze (Group)</h1>
-        <TextField label="Enter Email Ids" id="emails" variant="standard" />
+        <TextField
+          multiline
+          error={errors.email !== undefined}
+          label="Enter Email Ids (CV format)"
+          id="emails"
+          variant="standard"
+          {...register("email", { required: true })}
+        />
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
             variant="contained"
             sx={{ width: "100%" }}
-            onClick={() => {
-              handleClose();
-            }}
+            onClick={handleSubmit(onSubmit)}
           >
             Freeze
           </Button>
@@ -35,7 +73,9 @@ function Freeze({ handleClose }: { handleClose: () => void }) {
             variant="contained"
             sx={{ width: "100%" }}
             onClick={() => {
-              console.log("Hello");
+              reset({
+                email: "",
+              });
             }}
           >
             Reset

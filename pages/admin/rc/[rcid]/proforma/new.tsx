@@ -19,7 +19,7 @@ import requestProforma, {
   ProformaResponse,
 } from "@callbacks/admin/rc/adminproforma";
 
-const ROUTE = "/admin/rc/[rcId]/proforma/[proformaId]/step2";
+const ROUTE = "/admin/rc/[rcId]/proforma/[proformaid]/step2";
 
 function ProformaNew() {
   const [value, onChange] = useState("");
@@ -73,7 +73,7 @@ function ProformaNew() {
       onChange("");
       router.push({
         pathname: ROUTE,
-        query: { rcId: rid, proformaId: res.pid },
+        query: { rcId: rid, proformaid: res.pid },
       });
     }
   };

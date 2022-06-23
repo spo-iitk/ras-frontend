@@ -20,19 +20,19 @@ import {
 } from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
 
-const ROUTE = "/admin/rc/[rcid]/proforma/[proformaId]/step3";
+const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/step3";
 
 function Step2() {
   const [str, setStr] = useState(new Array(100 + 1).join("0"));
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const pid = (proformaid || "").toString();
 
   const handleNext = () => {
     router.push({
       pathname: ROUTE,
-      query: { rcid: rid, proformaId: pid },
+      query: { rcid: rid, proformaid: pid },
     });
   };
 

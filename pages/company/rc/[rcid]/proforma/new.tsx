@@ -11,7 +11,7 @@ import proformaRequest, {
 } from "@callbacks/company/proforma";
 import useStore from "@store/store";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
+const ROUTE = "/company/rc/[rcId]/proforma/[proformaid]/step2";
 
 function ProformaNew() {
   const [value, onChange] = useState("");
@@ -45,7 +45,7 @@ function ProformaNew() {
         onChange("");
         router.push({
           pathname: ROUTE,
-          query: { rcId: rid, proformaId: res.pid },
+          query: { rcId: rid, proformaid: res.pid },
         });
       });
   };
