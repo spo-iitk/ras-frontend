@@ -24,7 +24,7 @@ const instance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
-const proformaRequestStep4 = {
+const eventRequest = {
   put: (token: string, body: Event, rcid: string) =>
     instance
       .put<StatusResponse, AxiosResponse<StatusResponse, Event>, Event>(
@@ -86,4 +86,4 @@ const proformaRequestStep4 = {
         );
       }),
 };
-export default proformaRequestStep4;
+export default eventRequest;

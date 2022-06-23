@@ -30,7 +30,7 @@ import { useEffect, useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
-import proformaRequestStep4 from "@callbacks/company/rc/proforma/step4";
+import eventRequest from "@callbacks/company/rc/proforma/event";
 import useStore from "@store/store";
 import { successNotification } from "@callbacks/notifcation";
 
@@ -70,7 +70,7 @@ function Step4() {
   useEffect(() => {
     const fetchStep4 = async () => {
       if (router.isReady) {
-        const response = await proformaRequestStep4.getAll(
+        const response = await eventRequest.getAll(
           token,
           (rcid || "").toString(),
           (proformaId || "").toString()
@@ -170,7 +170,7 @@ function Step4() {
 
   const handleDelete = async (index: number) => {
     if (fields[index].ID !== undefined) {
-      const response = await proformaRequestStep4.delete(
+      const response = await eventRequest.delete(
         token,
         (rcid || "").toString(),
         fields[index].ID.toString()
@@ -404,7 +404,6 @@ function Step4() {
             sx={{ width: { xs: "50%", md: "20%" } }}
             onClick={handleSubmit(async (data) => {
               const { fieldArray } = data;
-              console.log(data);
               let push = 1;
               let count = 0;
               // eslint-disable-next-line no-loop-func
@@ -421,14 +420,14 @@ function Step4() {
                   fieldArray[i].ID = array[i].ID;
                   setValue("fieldArray", [{ id: array[i].ID }]);
                   // eslint-disable-next-line no-await-in-loop
-                  response = await proformaRequestStep4.put(
+                  response = await eventRequest.put(
                     token,
                     fieldArray[i],
                     (rcid || "").toString()
                   );
                 } else {
                   // eslint-disable-next-line no-await-in-loop
-                  response = await proformaRequestStep4.post(
+                  response = await eventRequest.post(
                     token,
                     fieldArray[i],
                     (rcid || "").toString()
