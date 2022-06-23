@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
+import { rev } from "@components/Utils/matrixUtils";
 
 const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   [
@@ -16,10 +17,10 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "name",
     },
     {
-      field: "Program",
-      value: "Select your Program",
-      disabled: true,
-      api_id: "program",
+      field: "IITK Email",
+      value: "Your IITK email",
+      disabled: false,
+      api_id: "iitk_email",
     },
     {
       field: "Department",
@@ -28,16 +29,40 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "department",
     },
     {
-      field: "Specialisation",
-      value: "Enter your Specialisation",
-      disabled: false,
-      api_id: "specialization",
+      field: "Program",
+      value: "Select your Program",
+      disabled: true,
+      api_id: "program",
+    },
+    {
+      field: "Secondary Department",
+      value: "Select your Department",
+      disabled: true,
+      api_id: "department_2",
+    },
+    {
+      field: "Secondary Program",
+      value: "Select your Program",
+      disabled: true,
+      api_id: "program_2",
     },
     {
       field: "IITK Roll No.",
       value: "Enter your IITK Roll No.",
       disabled: false,
       api_id: "roll_no",
+    },
+    {
+      field: "Specialisation",
+      value: "Enter your Specialisation",
+      disabled: false,
+      api_id: "specialization",
+    },
+    {
+      field: "Expected Graduation Year",
+      value: "Select your Graduation Year",
+      disabled: false,
+      api_id: "expected_graduation_year",
     },
     {
       field: "Preference",
@@ -58,28 +83,16 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "disability",
     },
     {
-      field: "DOB",
-      value: "Enter your Date of Birth",
-      disabled: false,
-      api_id: "dob",
-    },
-    {
-      field: "Expected Graduation Year",
-      value: "Select your Graduation Year",
-      disabled: false,
-      api_id: "expected_graduation_year",
-    },
-    {
-      field: "IITK Email",
-      value: "Your IITK email",
-      disabled: false,
-      api_id: "iitk_email",
-    },
-    {
       field: "Personal Email",
       value: "Enter your Personal Email",
       disabled: false,
       api_id: "personal_email",
+    },
+    {
+      field: "DOB",
+      value: "Enter your Date of Birth",
+      disabled: false,
+      api_id: "dob",
     },
     {
       field: "Contact Number",
@@ -88,7 +101,7 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "phone",
     },
     {
-      field: "Alternate Contact Numer",
+      field: "Alternate Contact Number",
       value: "Enter your Alternate Contact Number",
       disabled: false,
       api_id: "alternate_phone",
@@ -106,7 +119,7 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "current_cpi",
     },
     {
-      field: "UG CPI(on for PG Students)",
+      field: "UG CPI(only for PG Students)",
       value: "Enter your UG CPI",
       disabled: false,
       api_id: "ug_cpi",
@@ -211,6 +224,42 @@ function Profile() {
     };
     fetch();
   }, [token]);
+  const handleValue = (val: string) => {
+    switch (val) {
+      case "dob":
+        return new Date(StudentData.dob).toLocaleDateString();
+      case "program":
+        if (StudentData.program_department_id === 0) {
+          return "None";
+        }
+        return rev[
+          StudentData.program_department_id as keyof typeof rev
+        ]?.split("-")[0];
+      case "program_2":
+        if (StudentData.secondary_program_department_id === 0) {
+          return "None";
+        }
+        return rev[
+          StudentData.secondary_program_department_id as keyof typeof rev
+        ]?.split("-")[0];
+      case "department":
+        if (StudentData.program_department_id === 0) {
+          return "None";
+        }
+        return rev[
+          StudentData.program_department_id as keyof typeof rev
+        ]?.split("-")[1];
+      case "department_2":
+        if (StudentData.secondary_program_department_id === 0) {
+          return "None";
+        }
+        return rev[
+          StudentData.secondary_program_department_id as keyof typeof rev
+        ]?.split("-")[1];
+      default:
+        return StudentData[val as keyof Student];
+    }
+  };
   return (
     <div style={{ padding: "0 2rem" }}>
       <Meta title="Profile - Student Dashboard" />
@@ -229,7 +278,11 @@ function Profile() {
             spacing={2}
           >
             <Link href="/student/profile/edit" passHref>
-              <Button variant="contained" sx={{ width: 100 }}>
+              <Button
+                variant="contained"
+                sx={{ width: 100 }}
+                disabled={!StudentData.is_editable}
+              >
                 Edit
               </Button>
             </Link>
@@ -257,14 +310,12 @@ function Profile() {
                   <p>{item.field}</p>
                   <TextField
                     fullWidth
-                    disabled
+                    InputProps={{
+                      readOnly: true,
+                    }}
                     id="standard-basic"
                     variant="standard"
-                    value={
-                      item.api_id === "dob"
-                        ? new Date(StudentData.dob).toLocaleDateString()
-                        : StudentData[item.api_id as keyof Student]
-                    }
+                    value={handleValue(item.api_id)}
                   />
                 </Grid>
               ))}

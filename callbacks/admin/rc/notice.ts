@@ -36,7 +36,7 @@ const instance = axios.create({
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
-const NoticeReq = {
+const noticeRequest = {
   getAll: (token: string, rcid: string) =>
     instance
       .get<NoticeParams[]>(`/${rcid}/notice`, setConfig(token))
@@ -95,4 +95,4 @@ const NoticeReq = {
       }),
 };
 
-export default NoticeReq;
+export default noticeRequest;

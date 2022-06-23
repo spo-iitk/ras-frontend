@@ -8,26 +8,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 
-const rows = [
-  {
-    id: 1,
-    CompanyName: "Company 1",
-    EventName: "PPT",
-    StartTime: "11:AM 12/03/2022",
-    EndTime: "11:AM 12/03/2022",
-    Venue: "L-20",
-    ViewStudentsWiseDetails: "CLICK HERE",
-  },
-  {
-    id: 2,
-    CompanyName: "Company 2",
-    EventName: "Test",
-    StartTime: "11:AM 12/03/2022",
-    EndTime: "11:AM 12/03/2022",
-    Venue: "NCL",
-    ViewStudentsWiseDetails: "ATTENDANCE IS DISABLED",
-  },
-];
+const rows: never[] = [];
 
 const buttonstyle = {
   borderRadius: 0,

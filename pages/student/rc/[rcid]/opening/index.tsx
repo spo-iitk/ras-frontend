@@ -110,7 +110,7 @@ function Openings() {
   const rows = [
     {
       id: "1",
-      companyName: "Quadeye",
+      companyName: "Company",
       role: "Software Developer",
       proforma: "View",
       deadline: "May 26, 2022 8:00pm",

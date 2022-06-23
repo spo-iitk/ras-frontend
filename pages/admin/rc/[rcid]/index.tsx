@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Meta from "@components/Meta";
 import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
 import useStore from "@store/store";
-import NoticeReq, { NoticeParams } from "@callbacks/admin/rc/notice";
+import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
 
 const RecCompany = [
   { id: 1, Name: "Company Name: Registered", data: "4238" },
@@ -67,7 +67,7 @@ function Index() {
     };
     if (rid !== "") fetch();
     const fetchNotice = async () => {
-      const notice: NoticeParams[] = await NoticeReq.getAll(token, rid);
+      const notice: NoticeParams[] = await noticeRequest.getAll(token, rid);
       setNotice(notice);
     };
     if (rid !== "") fetchNotice();
@@ -124,7 +124,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "1.5rem" },
                   }}
                 >
-                  Total Registered
+                  Total Enrolled
                 </Typography>
 
                 <Typography
@@ -135,7 +135,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "3rem" },
                   }}
                 >
-                  {rcdata.registered_company}
+                  {rcdata.registered_student}
                 </Typography>
               </CardContent>
             </Card>

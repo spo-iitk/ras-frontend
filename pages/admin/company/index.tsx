@@ -25,6 +25,15 @@ const columns: GridColDef[] = [
   },
   {
     field: "website",
+    headerName: "Website",
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    hide: true,
+  },
+  {
+    field: "view_details",
     headerName: "View Details",
 
     renderCell: (params) => (

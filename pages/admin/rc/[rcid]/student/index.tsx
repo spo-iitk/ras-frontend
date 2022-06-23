@@ -105,6 +105,7 @@ function Index() {
               updated_at: student.UpdatedAt,
               comment: student.comment,
               id: student.ID,
+              ID: student.ID,
               name: student.name,
               email: student.email,
               cpi: student.cpi,
@@ -154,10 +155,10 @@ function Index() {
         <Enroll handleClose={handleCloseEnroll} />
       </Modal>
       <Modal open={openFreeze} onClose={handleCloseFreeze}>
-        <Freeze handleClose={handleCloseFreeze} />
+        <Freeze handleClose={handleCloseFreeze} rid={rid} />
       </Modal>
       <Modal open={openUnFreeze} onClose={handleCloseUnFreeze}>
-        <Unfreeze handleClose={handleCloseUnFreeze} />
+        <Unfreeze handleClose={handleCloseUnFreeze} rid={rid} />
       </Modal>
       <DataGrid rows={rows} columns={columns} loading={loading} />
     </div>
