@@ -29,10 +29,6 @@ import { useEffect, useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
-import eventRequest from "@callbacks/admin/rc/proforma/event";
-import useStore from "@store/store";
-
-const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/step5";
 type Anchor = "top" | "left" | "bottom" | "right";
 
 const style = {
@@ -53,9 +49,9 @@ function Step4() {
   const { rcid, proformaid } = router.query;
   const { token } = useStore();
   const [array, setArray] = useState<any>([]);
-
   const { register, handleSubmit, control, reset, getValues } = useForm();
   const { fields, append } = useFieldArray<FieldValues, "fieldArray", "ID">({
+
     control,
     name: "fieldArray",
   });
