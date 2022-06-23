@@ -135,6 +135,7 @@ const HRcotactDetailsColumns: GridColDef[] = [
   {
     field: "button1",
     headerName: "Delete HR",
+    headerAlign: "center",
     renderCell: (params) => <DeleteHR id={params.row.ID} />,
     width: 50,
     align: "center",
