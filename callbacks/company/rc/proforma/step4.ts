@@ -24,13 +24,16 @@ const instance = axios.create({
 const proformaRequestStep4 = {
   post: (token: string, body: Event, rcid: string) =>
     instance
-      .post<
-        StatusResponse,
-        AxiosResponse<StatusResponse, Event>,
-        Event
-      >(`/application/rc/${rcid}/event`, body, setConfig(token))
+      .post<StatusResponse, AxiosResponse<StatusResponse, Event>, Event>(
+        `/application/rc/${rcid}/event`,
+        body,
+        setConfig(token)
+      )
       .then((res) => {
-        successNotification(`Step ${body.sequence/5} Added`, res?.data.status);
+        successNotification(
+          `Step ${body.sequence / 5} Added`,
+          res?.data.status
+        );
         return true;
       })
       .catch((err: ErrorType) => {
