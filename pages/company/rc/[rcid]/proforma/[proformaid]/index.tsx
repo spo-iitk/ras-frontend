@@ -23,7 +23,7 @@ function Index() {
   const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
-  const PID = router.query.proformaId;
+  const PID = router.query.proformaid;
   const rid = (rcid || "").toString();
   const ID = (PID || "").toString();
   const [ctc, setCtc] = useState("");
