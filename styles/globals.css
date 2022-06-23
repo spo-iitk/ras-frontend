@@ -20,3 +20,12 @@ a {
 .container {
   padding: 0 1.5rem;
 }
+
+.modalScroll{
+  -ms-overflow-style: none; 
+  scrollbar-width: none;  
+}
+
+.modalScroll::-webkit-scrollbar { 
+  display: none;
+}

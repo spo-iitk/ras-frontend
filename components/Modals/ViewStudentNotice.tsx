@@ -15,6 +15,8 @@ const boxStyle = {
   boxShadow: 24,
   p: 4,
   alignItems: "center",
+  overflowY: "scroll",
+  maxHeight: "90vh",
 };
 function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
   let value = currentNotice.CreatedAt;
@@ -22,27 +24,33 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
     value
   ).toLocaleDateString()} ${new Date(value).toLocaleTimeString()}`;
   return (
-    <Box sx={boxStyle}>
+    <Box sx={boxStyle} className="modalScroll">
       <Stack spacing={3}>
         <h1>Add Notice</h1>
         <TextField
-          label="Company name"
+          label="Title"
           defaultValue={currentNotice.title}
           variant="standard"
-          disabled
+          InputProps={{
+            readOnly: true,
+          }}
         />
         <TextField
           label="Published Date and Time"
           defaultValue={publishedDateAndTime}
           variant="standard"
-          disabled
+          InputProps={{
+            readOnly: true,
+          }}
         />
         <TextField
           variant="standard"
-          disabled
           multiline
           label="Description"
           defaultValue={currentNotice.description}
+          InputProps={{
+            readOnly: true,
+          }}
         />
       </Stack>
     </Box>

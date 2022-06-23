@@ -14,6 +14,10 @@ export interface Student {
   ID: number;
   roll_no: string;
   name: string;
+  program: string;
+  department: string;
+  program_2: string;
+  department_2: string;
   specialization: string;
   preference: string;
   gender: string;

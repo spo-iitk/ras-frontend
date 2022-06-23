@@ -39,7 +39,7 @@ function NewQuestion() {
                   <em>None</em>
                 </MenuItem>
                 <MenuItem value={10}>MCQ</MenuItem>
-                <MenuItem value={20}>Fill in the blanks</MenuItem>
+                <MenuItem value={20}>Short Answer</MenuItem>
               </Select>
             </FormControl>
 

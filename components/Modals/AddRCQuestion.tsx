@@ -71,7 +71,7 @@ function AddRCQuestion({ getQuestions, handleCloseNew }: any) {
             >
               <MenuItem value="">None</MenuItem>
               <MenuItem value="MCQ">MCQ</MenuItem>
-              <MenuItem value="Fill in the blanks">Fill in the blanks</MenuItem>
+              <MenuItem value="Short Answer">Short Answer</MenuItem>
             </Select>
           </FormControl>
           <FormControl sx={{ m: 1 }}>

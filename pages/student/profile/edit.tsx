@@ -1,5 +1,12 @@
-import { Button, Card, Grid, Stack, TextField } from "@mui/material";
-import Link from "next/link";
+import {
+  Button,
+  Card,
+  Grid,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -7,217 +14,15 @@ import { useRouter } from "next/router";
 import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
-
-const info: {
-  field: string;
-  value: string;
-  disabled: boolean;
-  api_id: any;
-  isint?: boolean;
-}[] = [
-  {
-    field: "Name",
-    value: "Enter your Name",
-    disabled: true,
-    api_id: "name",
-  },
-  {
-    field: "Program",
-    value: "Select your Program",
-    disabled: true,
-    api_id: "program",
-  },
-  {
-    field: "Department",
-    value: "Select your Department",
-    disabled: true,
-    api_id: "department",
-  },
-  {
-    field: "Specialisation",
-    value: "Enter your Specialisation",
-    disabled: false,
-    api_id: "specialization",
-  },
-  {
-    field: "IITK Roll No.",
-    value: "Enter your IITK Roll No.",
-    disabled: false,
-    api_id: "roll_no",
-  },
-  {
-    field: "Preference",
-    value: "Select your Preference",
-    disabled: false,
-    api_id: "preference",
-  },
-  {
-    field: "Gender",
-    value: "Select your Gender",
-    disabled: false,
-    api_id: "gender",
-  },
-  {
-    field: "Disability",
-    value: "Select your Disability Status",
-    disabled: false,
-    api_id: "disability",
-  },
-  {
-    field: "DOB",
-    value: "Enter your Date of Birth",
-    disabled: false,
-    api_id: "dob",
-    isint: true,
-  },
-  {
-    field: "Expected Graduation Year",
-    value: "Select your Graduation Year",
-    disabled: false,
-    api_id: "expected_graduation_year",
-    isint: true,
-  },
-  {
-    field: "IITK Email",
-    value: "Your IITK email",
-    disabled: false,
-    api_id: "iitk_email",
-  },
-  {
-    field: "Personal Email",
-    value: "Enter your Personal Email",
-    disabled: false,
-    api_id: "personal_email",
-  },
-  {
-    field: "Contact Number",
-    value: "Enter your Contact Number",
-    disabled: false,
-    api_id: "phone",
-  },
-  {
-    field: "Alternate Contact Numer",
-    value: "Enter your Alternate Contact Number",
-    disabled: false,
-    api_id: "alternate_phone",
-  },
-  {
-    field: "Whatsapp Number",
-    value: "Enter your Whatsapp Number",
-    disabled: false,
-    api_id: "whatsapp_number",
-  },
-  {
-    field: "Current CPI",
-    value: "Enter your Current CPI",
-    disabled: false,
-    api_id: "current_cpi",
-    isint: true,
-  },
-  {
-    field: "UG CPI(on for PG Students)",
-    value: "Enter your UG CPI",
-    disabled: false,
-    api_id: "ug_cpi",
-    isint: true,
-  },
-  {
-    field: "10th Board",
-    value: "Enter your 10th Board Name",
-    disabled: false,
-    api_id: "tenth_board",
-  },
-  {
-    field: "10th Board Year",
-    value: "Enter your 10th Board Year",
-    disabled: false,
-    api_id: "tenth_year",
-    isint: true,
-  },
-  {
-    field: "10th Marks",
-    value: "Enter your 10th Marks",
-    disabled: false,
-    api_id: "tenth_marks",
-    isint: true,
-  },
-  {
-    field: "12th Board",
-    value: "Enter your 12th Board Name",
-    disabled: false,
-    api_id: "twelfth_board",
-  },
-  {
-    field: "12th Board Year",
-    value: "Enter your 12th Board Year",
-    disabled: false,
-    api_id: "twelfth_year",
-    isint: true,
-  },
-  {
-    field: "12th Board Marks",
-    value: "Enter your 12th Board Marks",
-    disabled: false,
-    api_id: "twelfth_marks",
-    isint: true,
-  },
-  {
-    field: "Entrance Exam",
-    value: "Enter your Entrance Exam",
-    disabled: false,
-    api_id: "entrance_exam",
-  },
-  {
-    field: "Entrance Exam Rank",
-    value: "Enter your Entrance Exam Rank",
-    disabled: false,
-    api_id: "entrance_exam_rank",
-    isint: true,
-  },
-  {
-    field: "Category",
-    value: "Enter your Category",
-    disabled: false,
-    api_id: "category",
-  },
-  {
-    field: "Category Rank",
-    value: "Enter your Category Rank",
-    disabled: false,
-    api_id: "category_rank",
-    isint: true,
-  },
-  {
-    field: "Current Address",
-    value: "Enter your Current Address",
-    disabled: false,
-    api_id: "current_address",
-  },
-  {
-    field: "Permanent Address",
-    value: "Enter your Permanent Address",
-    disabled: false,
-    api_id: "permanent_address",
-  },
-  {
-    field: "Friends Name",
-    value: "Enter your Friends Name",
-    disabled: false,
-    api_id: "friend_name",
-  },
-  {
-    field: "Friends Contact Details",
-    value: "Enter your Friends Contace Details",
-    disabled: false,
-    api_id: "friend_phone",
-  },
-];
+import { Branches, func, programType } from "@components/Utils/matrixUtils";
 
 function ProfileEdit() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
-  const { register, handleSubmit, reset } = useForm<Student>({
+  const { register, handleSubmit, reset, getValues } = useForm<Student>({
     defaultValues: StudentData,
   });
+  const [dept, setDept] = useState<any>("");
+  const [deptSec, setDeptSec] = useState<any>("");
 
   const { token } = useStore();
   const router = useRouter();
@@ -231,6 +36,47 @@ function ProfileEdit() {
     };
     fetch();
   }, [token, reset]);
+
+  const onSubmit = async (data: Student) => {
+    let program_department_id;
+    if (
+      getValues("program") === "" ||
+      getValues("program") === undefined ||
+      getValues("department") === "" ||
+      getValues("department") === undefined
+    ) {
+      program_department_id = 0;
+    } else {
+      program_department_id =
+        func[getValues("department") as keyof typeof func][
+          getValues("program") as keyof programType
+        ];
+    }
+    let secondary_program_department_id;
+    if (
+      getValues("program_2") === "" ||
+      getValues("program_2") === undefined ||
+      getValues("department_2") === "" ||
+      getValues("department_2") === undefined
+    ) {
+      secondary_program_department_id = 0;
+    } else {
+      secondary_program_department_id =
+        func[getValues("department_2") as keyof typeof func][
+          getValues("program_2") as keyof programType
+        ];
+    }
+
+    const response = await studentRequest.update(token, {
+      ...data,
+      program_department_id,
+      secondary_program_department_id,
+    });
+
+    if (response) {
+      router.push("/student/profile");
+    }
+  };
   return (
     <div className="container">
       <Meta title="Edit Profile - Student Dashboard " />
@@ -248,11 +94,14 @@ function ProfileEdit() {
             justifyContent="center"
             spacing={2}
           >
-            <Link href="/student/profile" passHref>
-              <Button variant="contained" sx={{ width: 100 }}>
-                Save
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+              sx={{ width: 100 }}
+            >
+              Save
+            </Button>
+
             <Button
               variant="contained"
               sx={{ width: 150 }}
@@ -262,14 +111,7 @@ function ProfileEdit() {
             </Button>
           </Stack>
         </Stack>
-        <form
-          onSubmit={handleSubmit(async (data: Student) => {
-            const response = await studentRequest.update(token, data);
-            if (response) {
-              router.push("/student/profile");
-            }
-          })}
-        >
+        <form style={{ marginBottom: 10 }}>
           <Stack justifyContent="center">
             <Card
               elevation={5}
@@ -280,47 +122,433 @@ function ProfileEdit() {
               }}
             >
               <Grid container spacing={5} sx={{ padding: 3 }}>
-                {info.map((item) => (
-                  <Grid item xs={12} sm={6} key={item.field}>
-                    <p>{item.field}</p>
-                    <TextField
+                <Grid item xs={12} sm={6}>
+                  <p>Name</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    disabled
+                    {...register("name")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>IITK Email</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    disabled
+                    {...register("iitk_email")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Department</p>
+                  <Select
+                    defaultValue=""
+                    fullWidth
+                    variant="standard"
+                    {...register("department")}
+                    onChange={(e) => {
+                      setDept(e.target.value);
+                    }}
+                  >
+                    <MenuItem value="">None</MenuItem>
+                    {Branches.map((branch) => (
+                      <MenuItem key={branch} value={branch}>
+                        {branch}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Program</p>
+                  {dept !== "" ? (
+                    <Select
+                      defaultValue=""
                       fullWidth
-                      type={
-                        // eslint-disable-next-line no-nested-ternary
-                        item.api_id === "dob"
-                          ? "date"
-                          : item.isint
-                          ? "number"
-                          : "text"
-                      }
-                      id="standard-basic"
                       variant="standard"
-                      disabled={item.disabled}
-                      multiline={
-                        item.api_id === "current_address" ||
-                        item.api_id === "permanent_address"
-                      }
-                      {...register(item.api_id, {
-                        setValueAs: (v) => {
-                          if (item.api_id === "dob") {
-                            const d = new Date(v);
-                            const epoch = d.getTime();
-                            return epoch;
+                      {...register("program")}
+                    >
+                      <MenuItem value="">None</MenuItem>
+                      {Object.keys(func[dept as keyof typeof func]).map(
+                        (program: any) => {
+                          if (
+                            func[dept as keyof typeof func][
+                              program as keyof programType
+                            ] !== -1
+                          ) {
+                            return (
+                              <MenuItem key={program} value={program}>
+                                {program}
+                              </MenuItem>
+                            );
                           }
-                          if (item.isint) return parseInt(v, 10);
-                          return v;
-                        },
-                      })}
-                    />
-                  </Grid>
-                ))}
+                          return null;
+                        }
+                      )}
+                    </Select>
+                  ) : (
+                    <Select
+                      defaultValue=""
+                      fullWidth
+                      variant="standard"
+                      {...register("program")}
+                    >
+                      <MenuItem value="">None</MenuItem>
+                    </Select>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Secondary Department</p>
+                  <Select
+                    defaultValue=""
+                    fullWidth
+                    variant="standard"
+                    {...register("department_2")}
+                    onChange={(e) => {
+                      setDeptSec(e.target.value);
+                    }}
+                  >
+                    <MenuItem value="">None</MenuItem>
+                    {Branches.map((branch) => (
+                      <MenuItem key={branch} value={branch}>
+                        {branch}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Secondary Program</p>
+                  {deptSec !== "" ? (
+                    <Select
+                      defaultValue=""
+                      fullWidth
+                      variant="standard"
+                      {...register("program_2")}
+                    >
+                      <MenuItem value="">None</MenuItem>
+                      {Object.keys(func[dept as keyof typeof func]).map(
+                        (program: any) => {
+                          if (
+                            func[dept as keyof typeof func][
+                              program as keyof programType
+                            ] !== -1
+                          ) {
+                            return (
+                              <MenuItem key={program} value={program}>
+                                {program}
+                              </MenuItem>
+                            );
+                          }
+                          return null;
+                        }
+                      )}
+                    </Select>
+                  ) : (
+                    <Select
+                      defaultValue=""
+                      fullWidth
+                      variant="standard"
+                      {...register("program")}
+                    >
+                      <MenuItem value="">None</MenuItem>
+                    </Select>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>IITK Roll No.</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    disabled
+                    {...register("roll_no")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Specialization</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("specialization")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Expected Year of Graduation</p>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("expected_graduation_year", {
+                      setValueAs: (value) => parseInt(value, 10),
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Preference</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("preference")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Gender</p>
+                  <Select
+                    defaultValue=""
+                    fullWidth
+                    variant="standard"
+                    {...register("gender")}
+                  >
+                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="Male">Male</MenuItem>
+                    <MenuItem value="Female">Female</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Disability</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("disability")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Personal Email</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("personal_email")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Date Of Birth</p>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("dob")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Contact Number</p>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("phone", { minLength: 10, maxLength: 10 })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Alternate Contact Number</p>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("alternate_phone", {
+                      minLength: 10,
+                      maxLength: 10,
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Whatsapp Number</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("whatsapp_number")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Current CPI</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("current_cpi", {
+                      setValueAs: (value) => parseFloat(value),
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>UG CPI(only for PG Students)</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("ug_cpi", {
+                      setValueAs: (value) => parseFloat(value),
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>10th Board</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("tenth_board")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>10th Board Year</p>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("tenth_year", {
+                      setValueAs: (value) => parseInt(value, 10),
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>10th Marks</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("tenth_marks")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>12th Board</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("twelfth_board")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>12th Board Year</p>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("twelfth_year", {
+                      setValueAs: (value) => parseInt(value, 10),
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>12th Marks</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("twelfth_marks")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Entrance Exam</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("entrance_exam")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Entrance Exam Rank</p>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("entrance_exam_rank")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Category</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("category")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Category Rank</p>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("category_rank")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Current Address</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    multiline
+                    {...register("current_address")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Permanent Address</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    multiline
+                    {...register("permanent_address")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Friend Name</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("friend_name")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Freind Contact Details</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("friend_phone")}
+                  />
+                </Grid>
               </Grid>
             </Card>
-          </Stack>
-          <Stack alignItems="center" sx={{ padding: 3 }}>
-            <Button type="submit" variant="contained">
-              Submit
-            </Button>
           </Stack>
         </form>
       </Stack>

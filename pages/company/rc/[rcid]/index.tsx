@@ -138,7 +138,7 @@ function Overview() {
 
   return (
     <div className="container">
-      <Meta title="Overview - QuadEye" />
+      <Meta title="Overview - Company" />
       <Stack>
         <h1 suppressHydrationWarning>{rcName}</h1>
         <h2>Overview</h2>
