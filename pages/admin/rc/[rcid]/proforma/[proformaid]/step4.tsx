@@ -1,7 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
   Card,
   Drawer,
@@ -30,12 +29,10 @@ import { useEffect, useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
-import eventRequest from "@callbacks/company/rc/proforma/event";
 import useStore from "@store/store";
-import { successNotification } from "@callbacks/notifcation";
+import eventRequest from "@callbacks/admin/rc/proforma/event";
 
-const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step5";
-
+const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/step5";
 type Anchor = "top" | "left" | "bottom" | "right";
 
 const style = {
@@ -56,14 +53,8 @@ function Step4() {
   const { rcid, proformaid } = router.query;
   const { token } = useStore();
   const [array, setArray] = useState<any>([]);
-
-  const { register, handleSubmit, control, reset, getValues, setValue } =
-    useForm();
-  const { fields, append, remove } = useFieldArray<
-    FieldValues,
-    "fieldArray",
-    "ID"
-  >({
+  const { register, handleSubmit, control, reset, getValues } = useForm();
+  const { fields, append } = useFieldArray<FieldValues, "fieldArray", "ID">({
     control,
     name: "fieldArray",
   });
@@ -163,30 +154,10 @@ function Step4() {
   const handleAdd = (id: number) => {
     append({
       label: tiles[id].label,
-      duratioresponsen: tiles[id].duration,
+      duration: tiles[id].duration,
     });
     setActiveStep(fields.length + 1);
   };
-
-  const handleDelete = async (index: number) => {
-    if (fields[index].ID !== undefined) {
-      const response = await eventRequest.delete(
-        token,
-        (rcid || "").toString(),
-        fields[index].ID.toString()
-      );
-      if (response) {
-        remove(index);
-        setActiveStep(index);
-        router.reload();
-      }
-    } else {
-      successNotification("Step deleted successfully", "");
-      remove(index);
-      setActiveStep(index);
-    }
-  };
-
   const list = (anchor: Anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300 }}
@@ -305,19 +276,29 @@ function Step4() {
                               {...register(`fieldArray.${index}.label`)}
                             />
                           </Stack>
-                          {index === activeStep - 1 ? (
-                            <IconButton onClick={() => handleDelete(index)}>
-                              <DeleteForeverIcon />
-                            </IconButton>
-                          ) : null}
                         </Stack>
                         <FormControl sx={{ mt: 1 }}>
-                          <TextField
-                            label="Duration"
-                            defaultValue="0"
-                            variant="outlined"
-                            {...register(`fieldArray.${index}.duration`)}
-                          />
+                          {fields[index].ID && (
+                            <Button
+                              variant="contained"
+                              onClick={() => {
+                                router.push({
+                                  pathname: "/admin/rc/[rcid]/event/[eid]",
+                                  query: {
+                                    rcid,
+                                    eid: (fields[index].ID || "").toString(),
+                                  },
+                                });
+                              }}
+                            >
+                              View Details
+                            </Button>
+                          )}
+                          {!fields[index].ID && (
+                            <Button variant="outlined">
+                              DETAILS NOT AVAILABLE
+                            </Button>
+                          )}
                         </FormControl>
                       </Stack>
                     </Card>
@@ -416,23 +397,15 @@ function Step4() {
                 fieldArray[i].name = fieldArray[i].label;
 
                 let response = false;
-                if (count < array.length) {
-                  fieldArray[i].ID = array[i].ID;
-                  setValue("fieldArray", [{ id: array[i].ID }]);
-                  // eslint-disable-next-line no-await-in-loop
-                  response = await eventRequest.put(
-                    token,
-                    fieldArray[i],
-                    (rcid || "").toString()
-                  );
-                } else {
+                if (count >= array.length) {
                   // eslint-disable-next-line no-await-in-loop
                   response = await eventRequest.post(
                     token,
                     fieldArray[i],
-                    (rcid || "").toString()
+                    (rcid || "").toString(),
+                    (proformaid || "").toString()
                   );
-                }
+                } else response = true;
                 count += 1;
                 if (!response) {
                   push = 0;
