@@ -110,35 +110,35 @@ function Step4() {
   const tiles = [
     {
       label: "Pre-Placement Talk",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Resume Shortlisting",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Group Discussion",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Technical Test",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Aptitude Test",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Technical Interview",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "HR Interview",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Other",
-      duration: "0",
+      duration: "0 Min",
     },
   ];
 
