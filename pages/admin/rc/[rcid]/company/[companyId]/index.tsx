@@ -242,13 +242,6 @@ function Index() {
           rows={rows}
           columns={columns}
           getRowId={(rows) => rows.ID}
-          // onCellClick={(params) => {
-          //   router.push(
-          //     `/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`
-          //   );
-          // }}
-
-          // onCellClick Function above
         />
       </Stack>
     </div>

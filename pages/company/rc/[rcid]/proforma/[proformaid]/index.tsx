@@ -6,7 +6,10 @@ import StepperComp from "@components/Stepper/stepperComp";
 import Meta from "@components/Meta";
 import MatrixCondensed from "@components/Utils/MatrixCondensed";
 import useStore from "@store/store";
-import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
+import proformaRequest, {
+  ProformaEvent,
+  ProformaType,
+} from "@callbacks/company/proforma";
 import RichText from "@components/Editor/RichText";
 
 const textFieldColor = "#ff0000";
@@ -33,12 +36,15 @@ function Index() {
   const [row, setRow] = useState<ProformaType>({
     ID: 0,
   } as ProformaType);
+  const [row2, setRow2] = useState<ProformaEvent[]>([]);
   useEffect(() => {
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
       if (ID === undefined || ID === "") return;
       let response = await proformaRequest.get(token, rid, ID);
       setRow(response);
+      let response2 = await proformaRequest.getEvent(token, rid, ID);
+      setRow2(response2);
       setCtc(response.cost_to_company);
       setJd(response.job_description);
       setPd(response.package_details);
@@ -130,7 +136,7 @@ function Index() {
             </Grid>
             <Grid item xs={12}>
               <h3>Hiring Process</h3>
-              <StepperComp />
+              <StepperComp steps={row2} />
             </Grid>
           </Grid>
         </Stack>
