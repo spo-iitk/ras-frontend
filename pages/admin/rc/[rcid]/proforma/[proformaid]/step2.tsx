@@ -20,7 +20,7 @@ import {
 } from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
 
-const ROUTE = "/admin/rc/[rcid]/proforma/[proformaId]/step3";
+const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/step3";
 
 function Step2() {
   const [str, setStr] = useState(new Array(100 + 1).join("0"));
@@ -30,7 +30,7 @@ function Step2() {
   const handleNext = () => {
     router.push({
       pathname: ROUTE,
-      query: { rcid, proformaId: 1 },
+      query: { rcid, proformaid: 1 },
     });
   };
 
