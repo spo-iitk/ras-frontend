@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
+// eslint-disable-next-line no-unused-vars
 import requestProforma, {
   AdminProformaType,
 } from "@callbacks/admin/rc/adminProforma";
@@ -78,6 +79,7 @@ function Index() {
     // reset,
   } = useForm<AdminProformaType>();
 
+  // eslint-disable-next-line no-unused-vars
   const [proformaData, setProformaData] = useState<AdminProformaType>();
   const [openEmailSender, setOpenEmailSender] = useState(false);
   const handleOpenEmailSender = () => {
@@ -97,14 +99,16 @@ function Index() {
   const { rcid } = router.query;
   const { proformaId } = router.query;
   const { token } = useStore();
-
+  // eslint-disable-next-line no-unused-vars
   const handleProformaData = (data: boolean) => {
-    setProformaData({ ...proformaData, hide_details: data });
+    console.log(proformaData);
+    console.log(data);
   };
+
   useEffect(() => {
     const fetchAdminProforma = async () => {
-      const response = await requestProforma.get(token, rcid, proformaId);
-      setProformaData(response);
+      // const response = await requestProforma.get(token, rcid, proformaId);
+      // setProformaData(response);
     };
 
     fetchAdminProforma();
@@ -181,14 +185,12 @@ function Index() {
                 <Button
                   variant="contained"
                   sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
-                  onClick={handleProformaData(false)}
                 >
                   Show Details of Company
                 </Button>
                 <Button
                   variant="contained"
                   sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
-                  onClick={handleProformaData(true)}
                 >
                   Hide Details of Company
                 </Button>
