@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { Box, Grid, IconButton, Modal, Stack, TextField } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Box, Grid, IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/router";
 
+import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
+import resumeRequest from "@callbacks/student/rc/resume";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -21,26 +23,12 @@ const boxStyle = {
   p: 4,
 };
 
-const divStyle = {
-  margin: "15px 0 auto 0",
-  padding: "0",
-  width: "100%",
-};
-
-const boxbuttonStyle = {
-  width: "100%",
-  height: "40px",
-  border: "inherit solid 2px",
-  borderRadius: "10px",
-};
-
 const gridMain = {
   width: "100%",
   display: "flex",
   alignItems: "right",
   justifyContent: "right",
 };
-
 const columns: GridColDef[] = [
   {
     field: "id",
@@ -96,13 +84,35 @@ const rows = [
   },
 ];
 
-function submitResume() {
-  return 0;
-}
 function Resume() {
+  const router = useRouter();
+  const [fileSaved, setFileSaved] = useState<File | null>(null);
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (event: { target: { files: any } }) => {
+    const { files } = event.target;
+    if (files && files.length > 0) {
+      setFileSaved(files[0]);
+    }
+  };
+
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", fileSaved !== null ? fileSaved : new Blob());
+    await resumeRequest.post(formData, token, rid);
+    setFileSaved(null);
+    handleClose();
+  };
+
   return (
     <>
       <div className="container">
@@ -128,21 +138,15 @@ function Resume() {
           <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
             Upload Resume
           </h1>
-          <TextField
-            name="upload-pdf"
-            type="file"
-            aria-hidden="true"
-            title=""
-          />
-          <div style={divStyle}>
-            <Button
-              style={boxbuttonStyle}
-              variant="contained"
-              onClick={submitResume}
-            >
-              Submit File
-            </Button>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="file"
+              name="file"
+              accept="application/pdf"
+              onChange={handleChange}
+            />
+            <button type="submit">Upload</button>
+          </form>
         </Box>
       </Modal>
     </>
