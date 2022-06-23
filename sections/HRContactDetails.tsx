@@ -158,7 +158,7 @@ function HRContactDetails() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-  const [HRcontactRows, setHRcontactRows] = useState<HR[]>([]);
+  const [hrRows, setHRRows] = useState<HR[]>([]);
   const { token } = useStore();
   const router = useRouter();
   const companyId = router.query.companyId?.toString() || "";
@@ -166,10 +166,7 @@ function HRContactDetails() {
   useEffect(() => {
     const fetchHRDetails = async () => {
       let response = await addCompanyRequest.getAllHR(token, companyId);
-      for (let i = 0; i < response.length; i += 1) {
-        response[i].id = response[i].ID;
-      }
-      setHRcontactRows(response);
+      setHRRows(response);
       setLoading(false);
     };
     if (router.isReady) {
@@ -193,9 +190,10 @@ function HRContactDetails() {
           </div>
         </Stack>
         <DataGrid
-          rows={HRcontactRows}
+          rows={hrRows}
           columns={HRcotactDetailsColumns}
           loading={loading}
+          getRowId={(row) => row.ID}
         />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>

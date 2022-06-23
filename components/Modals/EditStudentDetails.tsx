@@ -92,12 +92,10 @@ function EditStudent({
     editStudentData();
     handleCloseNew();
   };
-  const handleChange = (event: any) => {
-    console.log(event.target.value);
+  const handleChange = (value: any) => {
     let i = 0;
     for (i = 0; i < studentData.length; i += 1) {
-      if (studentData[i].ID === event.target.value) {
-        // setform(studentData[i]);
+      if (studentData[i].ID === value) {
         reset(studentData[i]);
         break;
       }
@@ -116,8 +114,7 @@ function EditStudent({
             error={!!errors.ID}
             variant="standard"
             onChange={(e) => {
-              //   console.log(this);
-              handleChange(e);
+              handleChange(e.target.value);
             }}
             // {...register("ID")}
           >

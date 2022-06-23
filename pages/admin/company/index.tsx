@@ -53,15 +53,12 @@ const columns: GridColDef[] = [
 
 function Index() {
   const { token } = useStore();
-  const [row, setRow] = useState<Company[]>([]);
+  const [rows, setRows] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getCompanydata = async () => {
       let response = await addCompanyRequest.getall(token);
-      for (let i = 0; i < response.length; i += 1) {
-        response[i].id = response[i].ID;
-      }
-      setRow(response);
+      setRows(response);
       setLoading(false);
     };
     getCompanydata();
@@ -101,7 +98,12 @@ function Index() {
           </Stack>
         </Grid>
 
-        <DataGrid rows={row} columns={columns} loading={loading} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          getRowId={(row) => row.ID}
+        />
       </Grid>
       <Modal open={openNew} onClose={handleCloseNew}>
         <AddCompanyMD handleCloseNew={handleCloseNew} />
