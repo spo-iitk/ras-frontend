@@ -9,37 +9,13 @@ import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
+// import { useRouter } from "next/router";
 
 import iconMap from "@components/Utils/IconMap";
+import { ProformaEvent } from "@callbacks/company/proforma";
+// import useStore from "@store/store";
 
-const steps = [
-  {
-    label: "Applications",
-    duration: ``,
-    venue: "NA",
-    date: "NA",
-    startTime: "NA",
-    endTime: "NA",
-  },
-  {
-    label: "Pre-Placement Talk",
-    duration: "Duration: 1 hour",
-    venue: "L20",
-    date: "8/20/2022",
-    startTime: "16:00",
-    endTime: "17:00",
-  },
-  {
-    label: "Technical Test",
-    duration: `Duration: 1 hour`,
-    venue: "L19",
-    date: "8/20/2022",
-    startTime: "11:00",
-    endTime: "12:00",
-  },
-];
-
-function StepperComp() {
+function StepperComp({ steps }: { steps: ProformaEvent[] }) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -64,7 +40,7 @@ function StepperComp() {
     >
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
-          <Step key={step.label}>
+          <Step key={step.name}>
             <StepLabel>
               <Card sx={{ padding: 2, width: { xs: "250px", md: "300px" } }}>
                 <Stack spacing={3}>
@@ -74,13 +50,13 @@ function StepperComp() {
                     justifyContent="space-between"
                   >
                     <Stack direction="row" spacing={2} alignItems="center">
-                      <div>{iconMap[step.label]}</div>
+                      <div>{iconMap[step.name]}</div>
                       <div>
-                        {!iconMap[step.label] && (
+                        {!iconMap[step.name] && (
                           <AttachFileIcon fontSize="large" />
                         )}
                       </div>
-                      <h3>{step.label}</h3>
+                      <h3>{step.name}</h3>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -90,10 +66,12 @@ function StepperComp() {
               <Box sx={{ mb: 2 }}>
                 <Card sx={{ padding: 2, width: { xs: "250px", md: "300px" } }}>
                   <h5 style={{ fontWeight: 400 }}>Duration: {step.duration}</h5>
-                  <h5 style={{ fontWeight: 400 }}>Date: {step.date}</h5>
+                  <h5 style={{ fontWeight: 400 }}>
+                    Date: {step?.date ? step?.date : ""}
+                  </h5>
                   <h5 style={{ fontWeight: 400 }}>Venue: {step.venue}</h5>
                   <h5 style={{ fontWeight: 400 }}>
-                    Time: {step.startTime}-{step.endTime}
+                    Time: {step.start_time}-{step.end_time}
                   </h5>
                 </Card>
                 <div>
