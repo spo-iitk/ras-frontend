@@ -16,13 +16,13 @@ import RichText from "@components/Editor/RichText";
 import useStore from "@store/store";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step4";
+const ROUTE = "/company/rc/[rcId]/proforma/[proformaid]/step4";
 
 function Step3() {
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const pid = (proformaid || "").toString();
   const { token } = useStore();
   const [ctc, changeCTC] = useState("");
   const [pkgDetails, changePkg] = useState("");
@@ -56,7 +56,7 @@ function Step3() {
       changePkg("");
       router.push({
         pathname: ROUTE,
-        query: { rcId: rid, proformaId: pid },
+        query: { rcId: rid, proformaid: pid },
       });
     }
   };

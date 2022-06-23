@@ -13,7 +13,7 @@ import useStore from "@store/store";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import InactiveButton from "@components/Buttons/InactiveButton";
 
-const ROUTE_PATH = "/company/rc/[rcid]/proforma/[proformaId]";
+const ROUTE_PATH = "/company/rc/[rcid]/proforma/[proformaid]";
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -53,7 +53,7 @@ const columns: GridColDef[] = [
           pathname: ROUTE_PATH,
           query: {
             rcid: params.row.recruitment_cycle_id,
-            proformaId: params.row.ID,
+            proformaid: params.row.ID,
           },
         }}
         passHref
@@ -86,7 +86,7 @@ const columns: GridColDef[] = [
               pathname: `${ROUTE_PATH}/step1`,
               query: {
                 rcid: params.row.recruitment_cycle_id,
-                proformaId: params.row.ID,
+                proformaid: params.row.ID,
               },
             }}
             passHref

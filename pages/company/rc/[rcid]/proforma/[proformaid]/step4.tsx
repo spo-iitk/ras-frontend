@@ -24,15 +24,17 @@ import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
-import proformaRequestStep4 from "@callbacks/company/rc/proforma/step4";
+import eventRequest from "@callbacks/company/rc/proforma/event";
 import useStore from "@store/store";
+import { successNotification } from "@callbacks/notifcation";
 
-const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step5";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step5";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -49,20 +51,50 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
-
 function Step4() {
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
-  const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const { rcid, proformaid } = router.query;
   const { token } = useStore();
-  const { register, handleSubmit, control, reset, getValues } = useForm();
-  const { fields, append, remove } = useFieldArray({
+  const [array, setArray] = useState<any>([]);
+
+  const { register, handleSubmit, control, reset, getValues, setValue } =
+    useForm();
+  const { fields, append, remove } = useFieldArray<
+    FieldValues,
+    "fieldArray",
+    "ID"
+  >({
     control,
     name: "fieldArray",
   });
+  useEffect(() => {
+    const fetchStep4 = async () => {
+      if (router.isReady) {
+        const response = await eventRequest.getAll(
+          token,
+          (rcid || "").toString(),
+          (proformaid || "").toString()
+        );
+        let arrays_temp: {
+          label: string;
+          duration: string;
+          ID: number;
+        }[] = [];
+        for (let i = 0; i < response.length; i += 1) {
+          const obj = {
+            label: response[i].name,
+            duration: (response[i].duration || "").toString(),
+            ID: response[i].ID,
+          };
+          arrays_temp.push(obj);
+        }
+        setArray(arrays_temp);
+        reset({ fieldArray: arrays_temp });
+      }
+    };
+    fetchStep4();
+  }, [token, proformaid, rcid, router.isReady, reset]);
   const [activeStep, setActiveStep] = React.useState(0);
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -131,14 +163,28 @@ function Step4() {
   const handleAdd = (id: number) => {
     append({
       label: tiles[id].label,
-      duration: tiles[id].duration,
+      duratioresponsen: tiles[id].duration,
     });
     setActiveStep(fields.length + 1);
   };
 
-  const handleDelete = (index: number) => {
-    remove(index);
-    setActiveStep(index);
+  const handleDelete = async (index: number) => {
+    if (fields[index].ID !== undefined) {
+      const response = await eventRequest.delete(
+        token,
+        (rcid || "").toString(),
+        fields[index].ID.toString()
+      );
+      if (response) {
+        remove(index);
+        setActiveStep(index);
+        router.reload();
+      }
+    } else {
+      successNotification("Step deleted successfully", "");
+      remove(index);
+      setActiveStep(index);
+    }
   };
 
   const list = (anchor: Anchor) => (
@@ -231,7 +277,7 @@ function Step4() {
                 </StepContent>
               </Step>
               {fields.map((step, index) => (
-                <Step key={step.id}>
+                <Step key={step.ID}>
                   <StepLabel>
                     <Card sx={{ padding: 2, width: "300px" }}>
                       <Stack spacing={3}>
@@ -356,20 +402,38 @@ function Step4() {
           <Button
             variant="contained"
             sx={{ width: { xs: "50%", md: "20%" } }}
-            disabled={!router.isReady || rid === "" || pid === ""}
             onClick={handleSubmit(async (data) => {
               const { fieldArray } = data;
               let push = 1;
+              let count = 0;
+              // eslint-disable-next-line no-loop-func
               for (let i = 0; i < fieldArray.length; i += 1) {
-                fieldArray[i].proforma_id = parseInt(pid, 10);
-                fieldArray[i].sequence = 5 * (i + 1);
-                // eslint-disable-next-line no-loop-func
-                // eslint-disable-next-line no-await-in-loop
-                let response = await proformaRequestStep4.post(
-                  token,
-                  fieldArray[i],
-                  (rcid || "").toString()
+                fieldArray[i].proforma_id = parseInt(
+                  (proformaid || "").toString(),
+                  10
                 );
+                fieldArray[i].sequence = 5 * (i + 1);
+                fieldArray[i].name = fieldArray[i].label;
+
+                let response = false;
+                if (count < array.length) {
+                  fieldArray[i].ID = array[i].ID;
+                  setValue("fieldArray", [{ id: array[i].ID }]);
+                  // eslint-disable-next-line no-await-in-loop
+                  response = await eventRequest.put(
+                    token,
+                    fieldArray[i],
+                    (rcid || "").toString()
+                  );
+                } else {
+                  // eslint-disable-next-line no-await-in-loop
+                  response = await eventRequest.post(
+                    token,
+                    fieldArray[i],
+                    (rcid || "").toString()
+                  );
+                }
+                count += 1;
                 if (!response) {
                   push = 0;
                   break;
@@ -378,7 +442,7 @@ function Step4() {
               if (push) {
                 router.push({
                   pathname: ROUTE,
-                  query: { rcid, proformaId },
+                  query: { rcid, proformaid },
                 });
               }
             })}

@@ -23,6 +23,18 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "iitk_email",
     },
     {
+      field: "IITK Roll No.",
+      value: "Enter your IITK Roll No.",
+      disabled: false,
+      api_id: "roll_no",
+    },
+    {
+      field: "Expected Graduation Year",
+      value: "Select your Graduation Year",
+      disabled: false,
+      api_id: "expected_graduation_year",
+    },
+    {
       field: "Department",
       value: "Select your Department",
       disabled: true,
@@ -47,22 +59,10 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "program_2",
     },
     {
-      field: "IITK Roll No.",
-      value: "Enter your IITK Roll No.",
-      disabled: false,
-      api_id: "roll_no",
-    },
-    {
       field: "Specialisation",
       value: "Enter your Specialisation",
       disabled: false,
       api_id: "specialization",
-    },
-    {
-      field: "Expected Graduation Year",
-      value: "Select your Graduation Year",
-      disabled: false,
-      api_id: "expected_graduation_year",
     },
     {
       field: "Preference",
@@ -75,12 +75,6 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       value: "Select your Gender",
       disabled: false,
       api_id: "gender",
-    },
-    {
-      field: "Disability",
-      value: "Select your Disability Status",
-      disabled: false,
-      api_id: "disability",
     },
     {
       field: "Personal Email",
@@ -207,6 +201,12 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       value: "Enter your Friends Contace Details",
       disabled: false,
       api_id: "friend_phone",
+    },
+    {
+      field: "Disability",
+      value: "Select your Disability Status",
+      disabled: false,
+      api_id: "disability",
     },
   ];
 
