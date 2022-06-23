@@ -9,7 +9,6 @@ import {
 import React from "react";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 
 const hrtype = [
   { id: 1, data: "HR1" },
@@ -18,7 +17,7 @@ const hrtype = [
 ];
 function Step5() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Step 5/5 - Additional Information" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Card

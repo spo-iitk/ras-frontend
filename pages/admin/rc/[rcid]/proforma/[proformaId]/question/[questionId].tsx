@@ -10,7 +10,6 @@ import {
 import React from "react";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 
 function Question() {
   const options = [
@@ -21,7 +20,7 @@ function Question() {
   const qtype = [{ id: 1, label: "Question Type" }];
   const quest = [{ id: 1, label: "Question" }];
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Question - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>
@@ -45,7 +44,7 @@ function Question() {
                 >
                   <MenuItem value="">None</MenuItem>
                   <MenuItem value={10}>MCQ</MenuItem>
-                  <MenuItem value={20}>Fill in the blanks</MenuItem>
+                  <MenuItem value={20}>Short Answer</MenuItem>
                 </Select>
               </FormControl>
             ))}

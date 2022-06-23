@@ -13,7 +13,6 @@ import {
 import { styled } from "@mui/material/styles";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 
 const Input = styled("input")({
   display: "none",
@@ -21,7 +20,7 @@ const Input = styled("input")({
 
 function SendMail() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Send-Mail" />
       <Card
         elevation={5}

@@ -10,7 +10,6 @@ import {
 import React, { useState } from "react";
 
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 
 function Step3() {
   const [bond, setBond] = useState(false);
@@ -18,7 +17,7 @@ function Step3() {
     setBond(event.target.checked);
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Step 3/5 - Package Details" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Card

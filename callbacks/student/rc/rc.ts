@@ -10,7 +10,6 @@ import {
 } from "../../constants";
 
 export interface RC {
-  id: number;
   ID: number;
   is_active: boolean;
   academic_year: string;
@@ -32,7 +31,7 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const rcRequest = {
   getAll: (token: string) =>
     instance
-      .get<RC[]>("", setConfig(token))
+      .get<RC[]>("/rc", setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);

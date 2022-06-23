@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ApartmentIcon from "@mui/icons-material/Apartment";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 import Blank from "./Blank";
 import Layout from "./Layout";
@@ -171,7 +172,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
-        name: "Company",
+        name: children.type?.companyName || "Company",
         id: "company",
       },
       moveBack: false,
@@ -285,6 +286,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           avatar: <ArticleIcon />,
           name: "Notices",
           id: "/notice",
+        },
+        {
+          avatar: <QuestionMarkIcon />,
+          name: "Questions",
+          id: "/question",
         },
         {
           avatar: <ApartmentIcon />,

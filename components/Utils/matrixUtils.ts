@@ -402,7 +402,7 @@ export const func = {
   },
 };
 
-const rev = {
+export const rev = {
   1: "BT-AE",
   2: "MT-AE",
   3: "DoubleMajor-AE",

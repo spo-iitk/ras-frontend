@@ -54,13 +54,14 @@ function AddHRMD({
         designation: "",
       });
       handleCloseNew();
+      window.location.reload();
     }
   };
 
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Add Company</h1>
+        <h1>Add HR</h1>
         <TextField
           label="HR Name"
           id="HRName"
