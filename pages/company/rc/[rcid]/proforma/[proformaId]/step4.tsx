@@ -24,7 +24,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -51,15 +51,19 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
-
 function Step4() {
   const router = useRouter();
   const { rcid, proformaId } = router.query;
   const { token } = useStore();
   const [array, setArray] = useState<any>([]);
 
-  const { register, handleSubmit, control, reset, getValues } = useForm();
-  const { fields, append, remove } = useFieldArray({
+  const { register, handleSubmit, control, reset, getValues, setValue } =
+    useForm();
+  const { fields, append, remove } = useFieldArray<
+    FieldValues,
+    "fieldArray",
+    "ID"
+  >({
     control,
     name: "fieldArray",
   });
@@ -74,6 +78,7 @@ function Step4() {
         let arrays_temp: {
           label: string;
           duration: string;
+          ID: number;
         }[] = [];
         for (let i = 0; i < response.length; i += 1) {
           const obj = {
@@ -173,6 +178,7 @@ function Step4() {
       if (response) {
         remove(index);
         setActiveStep(index);
+        router.reload();
       }
     } else {
       successNotification("Step deleted successfully", "");
@@ -271,7 +277,7 @@ function Step4() {
                 </StepContent>
               </Step>
               {fields.map((step, index) => (
-                <Step key={step.id}>
+                <Step key={step.ID}>
                   <StepLabel>
                     <Card sx={{ padding: 2, width: "300px" }}>
                       <Stack spacing={3}>
@@ -398,6 +404,7 @@ function Step4() {
             sx={{ width: { xs: "50%", md: "20%" } }}
             onClick={handleSubmit(async (data) => {
               const { fieldArray } = data;
+              console.log(data);
               let push = 1;
               let count = 0;
               // eslint-disable-next-line no-loop-func
@@ -412,6 +419,7 @@ function Step4() {
                 let response = false;
                 if (count < array.length) {
                   fieldArray[i].ID = array[i].ID;
+                  setValue("fieldArray", [{ id: array[i].ID }]);
                   // eslint-disable-next-line no-await-in-loop
                   response = await proformaRequestStep4.put(
                     token,
