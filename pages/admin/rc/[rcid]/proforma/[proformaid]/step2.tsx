@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RemoveIcon from "@mui/icons-material/Remove";
 
@@ -19,6 +19,10 @@ import {
   programType,
 } from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
+import useStore from "@store/store";
+import requestProforma, {
+  AdminProformaType,
+} from "@callbacks/admin/rc/adminproforma";
 
 const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/step3";
 
@@ -28,11 +32,25 @@ function Step2() {
   const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
   const pid = (proformaid || "").toString();
-
-  const handleNext = () => {
-    router.push({
-      pathname: ROUTE,
-      query: { rcid: rid, proformaid: pid },
+  const { token } = useStore();
+  useEffect(() => {
+    if (!(rid && pid)) return;
+    const getStep2 = async () => {
+      const data = await requestProforma.get(token, rid, pid);
+      if (data.eligibility.length > 90) setStr(data.eligibility);
+    };
+    getStep2();
+  }, [rid, pid, token]);
+  const handleNext = async () => {
+    const info = {
+      eligibility: str,
+      ID: parseInt(pid, 10),
+    } as AdminProformaType;
+    await requestProforma.put(token, rid, info).then(() => {
+      router.push({
+        pathname: ROUTE,
+        query: { rcid: rid, proformaid: pid },
+      });
     });
   };
 
