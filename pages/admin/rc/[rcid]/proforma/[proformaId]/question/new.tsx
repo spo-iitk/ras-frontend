@@ -11,14 +11,13 @@ import {
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 function NewQuestion() {
   const [optionVal, setOptionVal] = useState([0]);
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Question - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>
@@ -40,7 +39,7 @@ function NewQuestion() {
                   <em>None</em>
                 </MenuItem>
                 <MenuItem value={10}>MCQ</MenuItem>
-                <MenuItem value={20}>Fill in the blanks</MenuItem>
+                <MenuItem value={20}>Short Answer</MenuItem>
               </Select>
             </FormControl>
 

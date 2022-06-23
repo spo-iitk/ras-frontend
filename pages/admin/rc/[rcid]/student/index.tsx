@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton, Modal, Stack } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
@@ -10,6 +13,10 @@ import getStudents, { Student } from "@callbacks/admin/rc/student/getStudents";
 import { errorNotification } from "@callbacks/notifcation";
 import EditStudent from "@components/Modals/EditStudentDetails";
 import ActiveButton from "@components/Buttons/ActiveButton";
+import Meta from "@components/Meta";
+import Enroll from "@components/Modals/Enroll";
+import Freeze from "@components/Modals/Freeze";
+import Unfreeze from "@components/Modals/Unfreeze";
 
 function DeleteStudents(props: { id: string }) {
   const { token } = useStore();
@@ -84,11 +91,36 @@ const columns: GridColDef[] = [
   },
 ];
 function Index() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows, setRows] = React.useState<any>([]);
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
+  const [loading, setLoading] = React.useState(true);
+  const [openEnroll, setOpenEnroll] = React.useState(false);
+  const handleOpenEnroll = () => {
+    setOpenEnroll(true);
+  };
+  const handleCloseEnroll = () => {
+    setOpenEnroll(false);
+  };
+
+  const [openFreeze, setOpenFreeze] = React.useState(false);
+  const handleOpenFreeze = () => {
+    setOpenFreeze(true);
+  };
+  const handleCloseFreeze = () => {
+    setOpenFreeze(false);
+  };
+
+  const [openUnFreeze, setOpenUnFreeze] = React.useState(false);
+  const handleOpenUnFreeze = () => {
+    setOpenUnFreeze(true);
+  };
+  const handleCloseUnFreeze = () => {
+    setOpenUnFreeze(false);
+  };
   useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
@@ -115,6 +147,7 @@ function Index() {
               type: student.type,
             }))
           );
+          setLoading(false);
         })
         .catch((err) => {
           errorNotification(
@@ -133,20 +166,46 @@ function Index() {
     setOpenNew(false);
   };
   return (
-    <div>
-      <Stack direction="row" justifyContent="space-between">
+    <div className="container">
+      <Meta title="Students" />
+      <Stack
+        spacing={2}
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <h2>Students</h2>
-        <ActiveButton onClick={handleOpenNew}>EDIT</ActiveButton>
-        <Modal open={openNew} onClose={handleCloseNew}>
-          <EditStudent
-            handleCloseNew={handleCloseNew}
-            setRows={setRows}
-            studentData={rows}
-            rcid={rid}
-          />
-        </Modal>
+        <div>
+          <ActiveButton onClick={handleOpenNew}>EDIT</ActiveButton>
+          <Modal open={openNew} onClose={handleCloseNew}>
+            <EditStudent
+              handleCloseNew={handleCloseNew}
+              setRows={setRows}
+              studentData={rows}
+              rcid={rid}
+            />
+          </Modal>
+          <IconButton onClick={handleOpenUnFreeze}>
+            <HowToRegIcon />
+          </IconButton>
+          <IconButton onClick={handleOpenFreeze}>
+            <RemoveCircleOutlineIcon />
+          </IconButton>
+          <IconButton onClick={handleOpenEnroll}>
+            <AddIcon />
+          </IconButton>
+        </div>
       </Stack>
-      <DataGrid rows={rows} columns={columns} />
+      <Modal open={openEnroll} onClose={handleCloseEnroll}>
+        <Enroll handleClose={handleCloseEnroll} />
+      </Modal>
+      <Modal open={openFreeze} onClose={handleCloseFreeze}>
+        <Freeze handleClose={handleCloseFreeze} rid={rid} />
+      </Modal>
+      <Modal open={openUnFreeze} onClose={handleCloseUnFreeze}>
+        <Unfreeze handleClose={handleCloseUnFreeze} rid={rid} />
+      </Modal>
+      <DataGrid rows={rows} columns={columns} loading={loading} />
     </div>
   );
 }

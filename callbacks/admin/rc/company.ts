@@ -15,10 +15,11 @@ export interface CompanyRc {
   CreatedAt: string;
   company_id: number;
   company_name: string;
-  recuritment_cycle_id: string;
+  recruitment_cycle_id: number;
   hr1: string;
   hr2: string;
   hr3: string;
+  comments: string;
 }
 
 const instance = axios.create({
@@ -28,6 +29,18 @@ const instance = axios.create({
 });
 
 const requestCompany = {
+  get: (token: string, rcid: string, cid: string) =>
+    instance
+      .get<CompanyRc>(`/${rcid}/company/${cid}`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching data",
+          err.response?.data?.error || err.message
+        );
+        return {} as CompanyRc;
+      }),
+
   post: (token: string, body: CompanyRc, rid: string) =>
     instance
       .post<

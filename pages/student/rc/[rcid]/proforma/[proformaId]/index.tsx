@@ -3,7 +3,7 @@ import React from "react";
 
 import Meta from "@components/Meta";
 import StepperComp from "@components/Stepper/stepperComp";
-import MatrixCondensed from "@components/Utils/MatrixCondensed";
+import MatrixExpanded from "@components/Utils/MatrixExpanded";
 
 const textFieldColor = "#ff0000";
 const textFieldSX = {
@@ -49,12 +49,12 @@ const info = [
   },
 ];
 
-const data = Array(138).fill(0);
+const data = new Array(100 + 1).join("0");
 
 function Index() {
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title="Software Intern - Proforma" />
+      <Meta title="Company - Proforma" />
       <h1>Proforma</h1>
       <Card
         elevation={5}
@@ -86,7 +86,7 @@ function Index() {
             ))}
             <Grid item xs={12}>
               <h3>Eligibility</h3>
-              <MatrixCondensed data={data} />
+              <MatrixExpanded data={data} />
             </Grid>
             <Grid item xs={12}>
               <h3>Hiring Process</h3>

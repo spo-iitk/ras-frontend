@@ -1,8 +1,8 @@
 import { Button, Card, Grid, Stack } from "@mui/material";
 import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 
 const columns: GridColDef[] = [
@@ -44,7 +44,7 @@ const rows = [
 ];
 function Index() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Proforma" />
       <h1>Intenship 2022-23 Phase 1</h1>
       <Stack
@@ -82,17 +82,8 @@ function Index() {
           <Grid item xs={12} lg={9}>
             <Stack>
               <h2>Student Data</h2>
-              <div
-                style={{ height: 500, margin: "0px auto" }}
-                className={styles.datagridProformaSection}
-              >
-                <DataGrid
-                  rows={rows}
-                  columns={columns}
-                  pageSize={7}
-                  rowsPerPageOptions={[7]}
-                />
-              </div>
+
+              <DataGrid rows={rows} columns={columns} />
             </Stack>
           </Grid>
           <Grid item xs={12} lg={3}>

@@ -2,11 +2,11 @@ import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Button, IconButton, Modal, Popover, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
 import { useState } from "react";
 
-import styles from "@styles/adminPhase.module.css";
+import DataGrid from "@components/DataGrid";
 import ResumeClarification from "@components/Modals/resumeClarification";
 import Meta from "@components/Meta";
 import InactiveButton from "@components/Buttons/InactiveButton";
@@ -140,7 +140,7 @@ function Index() {
   ];
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Resume Dashboard" />
       <Grid container alignItems="center">
         <h1>Internship 2022-23 Phase 1</h1>
@@ -161,17 +161,8 @@ function Index() {
             </Stack>
           </Stack>
         </Grid>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridResume}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Grid>
     </div>
   );

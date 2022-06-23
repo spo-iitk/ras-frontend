@@ -3,39 +3,55 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import RichTextEditor from "@components/Editor/RichText";
+import proformaRequest, {
+  NewProformaResponse,
+  ProformaType,
+} from "@callbacks/company/proforma";
+import useStore from "@store/store";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
+
 function ProformaNew() {
+  const [value, onChange] = useState("");
+  const { token, name } = useStore();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<ProformaType>({
+    defaultValues: { company_name: name },
+  });
   const router = useRouter();
-  const { rcId } = router.query;
-  const handleNext = (data: any) => {
-    console.log(data);
-    reset({
-      companyName: "",
-      natureOfBusiness: "",
-      tentativeJobLocation: "",
-      jobDescription: "",
-    });
-    router.push({
-      pathname: ROUTE,
-      query: { rcId, proformaId: 1 },
-    });
-  };
-  const initialValue =
-    "<p>Your initial <b>html value</b> or an empty string to init editor without value</p>";
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
 
-  const [value, onChange] = useState(initialValue);
+  const handleNext = async (data: ProformaType) => {
+    const info: ProformaType = {
+      ...data,
+      job_description: value,
+      recruitment_cycle_id: parseInt(rid, 10),
+    };
+    await proformaRequest
+      .post(token, rid, info)
+      .then((res: NewProformaResponse) => {
+        reset({
+          company_name: "",
+          nature_of_business: "",
+          tentative_job_location: "",
+        });
+        onChange("");
+        router.push({
+          pathname: ROUTE,
+          query: { rcId: rid, proformaId: res.pid },
+        });
+      });
+  };
+
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Step 1/5 - Basic Details" />
       <h1>Internship 2022-23 Phase 1</h1>
       <Card
@@ -51,14 +67,13 @@ function ProformaNew() {
             <p style={{ fontWeight: 300 }}>Company Name</p>
             <TextField
               id="Cname"
+              disabled
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
               variant="standard"
-              error={errors.companyName}
-              helperText={errors.companyName && "This field is required"}
-              {...register("companyName", { required: true })}
+              {...register("company_name")}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -70,9 +85,9 @@ function ProformaNew() {
               fullWidth
               multiline
               variant="standard"
-              error={errors.natureOfBusiness}
-              helperText={errors.natureOfBusiness && "This field is required"}
-              {...register("natureOfBusiness", { required: true })}
+              error={!!errors.nature_of_business}
+              helperText={errors.nature_of_business && "This field is required"}
+              {...register("nature_of_business", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -84,11 +99,11 @@ function ProformaNew() {
               fullWidth
               multiline
               variant="standard"
-              error={errors.tentativeJobLocation}
+              error={!!errors.tentative_job_location}
               helperText={
-                errors.tentativeJobLocation && "This field is required"
+                errors.tentative_job_location && "This field is required"
               }
-              {...register("tentativeJobLocation", { required: true })}
+              {...register("tentative_job_location", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -108,6 +123,7 @@ function ProformaNew() {
             <Button
               variant="contained"
               sx={{ width: "50%" }}
+              disabled={!router.isReady || rid === ""}
               onClick={handleSubmit(handleNext)}
             >
               Next
@@ -115,14 +131,14 @@ function ProformaNew() {
             <Button
               variant="contained"
               sx={{ width: "50%" }}
-              onClick={() =>
+              onClick={() => {
                 reset({
-                  companyName: "",
-                  natureOfBusiness: "",
-                  tentativeJobLocation: "",
-                  jobDescription: "",
-                })
-              }
+                  company_name: "",
+                  nature_of_business: "",
+                  tentative_job_location: "",
+                });
+                onChange("");
+              }}
             >
               Reset
             </Button>

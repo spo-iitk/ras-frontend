@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  Box,
+  Button,
   Card,
   FormControl,
   Grid,
@@ -8,16 +10,15 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
+import { GridColDef } from "@mui/x-data-grid";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
-import DownloadIcon from "@mui/icons-material/Download";
 import { useRouter } from "next/router";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useForm } from "react-hook-form";
 
 import ActiveButton from "@components/Buttons/ActiveButton";
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 import addCompanyRequest, {
   Company,
@@ -25,10 +26,24 @@ import addCompanyRequest, {
 } from "@callbacks/admin/company/company";
 import useStore from "@store/store";
 import AddHRMD from "@components/Modals/AddHRAdminMD";
+import HRAuth, { HRAuthResponse } from "@callbacks/auth/hrauth";
 import EditCompanyMD from "@components/Modals/EditCompanyAdminMD";
-import InactiveButton from "@components/Buttons/InactiveButton";
+import DataGrid from "@components/DataGrid";
 
-function DeleteHRdetail(props: { id: string }) {
+const boxStyle = {
+  position: "absolute" as const,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { xs: "330px", md: "500px" },
+  bgcolor: "background.paper",
+  border: "white solid 2px",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+  alignItems: "center",
+};
+function DeleteHR(props: { id: string }) {
   const { token } = useStore();
   const { id } = props;
   return (
@@ -41,12 +56,68 @@ function DeleteHRdetail(props: { id: string }) {
     </IconButton>
   );
 }
-
+function AuthHR(props: { id: string; name: string }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<HRAuthResponse>();
+  const { token } = useStore();
+  const det = props;
+  const handleAuthHR = (data: HRAuthResponse) => {
+    const authHR = async () => {
+      const finData = { ...data, user_id: det.id, name: det.name };
+      const response = await HRAuth.post(token, finData);
+      if (response) {
+        reset({ password: "" });
+      }
+    };
+    authHR();
+  };
+  const [openAuthHR, setOpenAuthHR] = useState(false);
+  const handleOpenAuthHR = () => {
+    setOpenAuthHR(true);
+  };
+  const handleCloseAuthHR = () => {
+    setOpenAuthHR(false);
+  };
+  return (
+    <div>
+      <ActiveButton sx={{ height: 30 }} onClick={handleOpenAuthHR}>
+        Generate Auth
+      </ActiveButton>
+      <Modal open={openAuthHR} onClose={handleCloseAuthHR}>
+        <Box sx={boxStyle}>
+          <Stack spacing={3}>
+            <h1>Enter New Password</h1>
+            <TextField
+              label="Enter New Password"
+              id="password"
+              type="password"
+              variant="standard"
+              {...register("password", { required: true })}
+              error={!!errors.password}
+              helperText={errors.password && "Password is required"}
+            />
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              onClick={handleSubmit(handleAuthHR)}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
+    </div>
+  );
+}
 const HRcotactDetailsColumns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    width: 150,
+    width: 125,
   },
   {
     field: "name",
@@ -69,10 +140,19 @@ const HRcotactDetailsColumns: GridColDef[] = [
     width: 250,
   },
   {
-    field: "deleteHR",
-    headerName: "",
-    width: 250,
-    renderCell: (cellValue) => <DeleteHRdetail id={cellValue.id.toString()} />,
+    field: "button1",
+    headerName: "Delete HR",
+    renderCell: (params) => <DeleteHR id={params.row.ID} />,
+    width: 50,
+    align: "center",
+  },
+  {
+    field: "button2",
+    headerName: "Send Authorization Mail",
+    renderCell: (params) => (
+      <AuthHR id={params.row.email} name={params.row.name} />
+    ),
+    width: 100,
   },
 ];
 const PastHireColumns: GridColDef[] = [
@@ -116,14 +196,7 @@ const PastHireColumns: GridColDef[] = [
   },
 ];
 
-const PastHireRows = [
-  {
-    id: 1,
-    RecruitmentDrive: "Internship 2022-23 Phase 1",
-    TotalHires: "5",
-    PIOPPO: "5",
-  },
-];
+const pastHireRows: never[] = [];
 
 const CompanyHistoryColumns: GridColDef[] = [
   {
@@ -163,12 +236,8 @@ const CompanyHistoryColumns: GridColDef[] = [
   },
 ];
 
-const CompanyHistoryRows = [
-  {
-    id: 1,
-    RecruitmentDrive: "Internship 2022-23 Phase 1",
-  },
-];
+const companyHistoryRows: never[] = [];
+
 function Index() {
   const { token } = useStore();
   const router = useRouter();
@@ -219,80 +288,97 @@ function Index() {
     const delCompany = async () => {
       await addCompanyRequest.delete(token, companyId);
     };
+    router.push("/admin/company");
     delCompany();
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Master Company Dashboard" />
-      <Card
-        elevation={2}
-        sx={{
-          padding: 3,
-          width: { sm: "100%", margin: "0px auto" },
-        }}
-      >
-        <Stack marginLeft="2em">
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <h1>Company Profile</h1>
-            <Stack spacing={1} direction="row">
-              <ActiveButton onClick={handleOpenEditComp}>EDIT</ActiveButton>
-              <InactiveButton onClick={deleteCompany}>DELETE</InactiveButton>
-            </Stack>
-            <Modal open={openEditComp} onClose={handleCloseEditComp}>
-              <EditCompanyMD
-                handleCloseNew={handleCloseNew}
-                setCompanyData={setCompanyData}
-                companyData={CompanyData}
-                companyID={companyId}
-              />
-            </Modal>
+      <Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <h1>Company Profile</h1>
+          <Stack spacing={1} direction="row">
+            <IconButton onClick={handleOpenEditComp}>
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={deleteCompany}>
+              <DeleteIcon />
+            </IconButton>
           </Stack>
-          <Grid
-            container
-            sx={{
-              padding: 3,
-              width: {
-                sm: "100%",
-                margin: "0px auto",
-              },
-              position: "relative",
-            }}
-          >
-            <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Company Name
+          <Modal open={openEditComp} onClose={handleCloseEditComp}>
+            <EditCompanyMD
+              handleCloseNew={handleCloseEditComp}
+              setCompanyData={setCompanyData}
+              companyData={CompanyData}
+              companyID={companyId}
+            />
+          </Modal>
+        </Stack>
+        <Card
+          elevation={2}
+          sx={{
+            padding: 3,
+            borderRadius: "10px",
+            width: { xs: "330px", sm: "600px", margin: "10px auto" },
+          }}
+        >
+          <Grid container spacing={5} sx={{ padding: 3 }}>
+            <Grid item xs={12} sm={6}>
+              <p>Company Name</p>
+              <TextField
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={CompanyData?.name}
+                id="standard-basic"
+                variant="standard"
+              />
             </Grid>
-            <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              {CompanyData?.name}
+            <Grid item xs={12} sm={6}>
+              <p>Tags</p>
+              <TextField
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={CompanyData?.tags}
+                id="standard-basic"
+                variant="standard"
+              />
             </Grid>
-            <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Tags
+            <Grid item xs={12} sm={6}>
+              <p>Description</p>
+              <TextField
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={CompanyData?.description}
+                id="standard-basic"
+                variant="standard"
+              />
             </Grid>
-            <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              <span key="tag">{CompanyData?.tags}</span>
-            </Grid>
-            <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Website
-            </Grid>
-            <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              <Link href="#">
-                <a>{CompanyData?.website}</a>
-              </Link>
-            </Grid>
-            <Grid item xs={6} textAlign="center" sx={{ padding: 3 }}>
-              Description
-            </Grid>
-            <Grid xs={6} textAlign="center" sx={{ padding: 3 }}>
-              {CompanyData?.description}
+            <Grid item xs={12} sm={6}>
+              <p>Website</p>
+              <TextField
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                value={CompanyData?.website}
+                id="standard-basic"
+                variant="standard"
+              />
             </Grid>
           </Grid>
-        </Stack>
-      </Card>
-      <br />
-      <br />
+        </Card>
+      </Stack>
+
       <Card
         elevation={2}
         sx={{
@@ -302,24 +388,19 @@ function Index() {
       >
         <Stack>
           <Stack
-            direction={{ sm: "row", xs: "column" }}
+            direction="row"
+            spacing={3}
+            alignItems="center"
             justifyContent="space-between"
           >
-            <Stack direction="row" spacing={3}>
-              <h1>HR Contact Details</h1>
+            <h1>HR Contact Details</h1>
+            <div>
               <IconButton onClick={handleOpenNew}>
                 <AddIcon />
               </IconButton>
-            </Stack>
+            </div>
           </Stack>
-          <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
-            <DataGrid
-              rows={HRcontactRows}
-              columns={HRcotactDetailsColumns}
-              pageSize={7}
-              rowsPerPageOptions={[7]}
-            />
-          </div>
+          <DataGrid rows={HRcontactRows} columns={HRcotactDetailsColumns} />
         </Stack>
         <Modal open={openNew} onClose={handleCloseNew}>
           <AddHRMD handleCloseNew={handleCloseNew} />
@@ -335,22 +416,8 @@ function Index() {
         }}
       >
         <Stack>
-          <Stack direction={{ sm: "row", xs: "column" }}>
-            <h1>Past Hires</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-            </Stack>
-          </Stack>
-          <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
-            <DataGrid
-              rows={PastHireRows}
-              columns={PastHireColumns}
-              pageSize={7}
-              rowsPerPageOptions={[7]}
-            />
-          </div>
+          <h1>Past Hires</h1>
+          <DataGrid rows={pastHireRows} columns={PastHireColumns} />
         </Stack>
       </Card>
       <br />
@@ -365,23 +432,8 @@ function Index() {
         <Stack>
           <Stack direction={{ sm: "row", xs: "column" }}>
             <h1>Comapny History</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <DownloadIcon />
-              </IconButton>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-            </Stack>
           </Stack>
-          <div style={{ height: 500, margin: "0px auto", width: "100%" }}>
-            <DataGrid
-              rows={CompanyHistoryRows}
-              columns={CompanyHistoryColumns}
-              pageSize={7}
-              rowsPerPageOptions={[7]}
-            />
-          </div>
+          <DataGrid rows={companyHistoryRows} columns={CompanyHistoryColumns} />
         </Stack>
       </Card>
     </div>

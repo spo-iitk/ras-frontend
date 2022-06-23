@@ -39,6 +39,7 @@ function AddCompanyMD({ handleCloseNew }: { handleCloseNew: () => void }) {
         description: "",
       });
       handleCloseNew();
+      window.location.reload();
     }
   };
 
