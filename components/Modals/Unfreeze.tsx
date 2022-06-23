@@ -2,7 +2,9 @@ import React from "react";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import postEmails, { Emails } from "@callbacks/admin/rc/student/freezeStudents";
+import freezeRequest, {
+  Emails,
+} from "@callbacks/admin/rc/student/freezeStudents";
 import useStore from "@store/store";
 
 const boxStyle = {
@@ -42,7 +44,7 @@ function Unfreeze({
       email: [...data.email.split(",").map((x) => x.trim())],
       frozen: false,
     };
-    const response = await postEmails.put(token, rid, tosend);
+    const response = await freezeRequest.put(token, rid, tosend);
     if (response) {
       reset({
         email: "",

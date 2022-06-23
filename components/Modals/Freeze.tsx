@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import postEmails from "@callbacks/admin/rc/student/freezeStudents";
+import freezeRequest from "@callbacks/admin/rc/student/freezeStudents";
 import useStore from "@store/store";
 
 const boxStyle = {
@@ -38,7 +38,10 @@ function Freeze({
   const { token } = useStore();
   const onSubmit = async (data: Email) => {
     const email: string[] = [...data.email.split(",").map((x) => x.trim())];
-    const response = await postEmails.put(token, rid, { email, frozen: true });
+    const response = await freezeRequest.put(token, rid, {
+      email,
+      frozen: true,
+    });
     if (response) {
       reset({
         email: "",

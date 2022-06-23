@@ -20,7 +20,7 @@ const instance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
-const postEmails = {
+const freezeRequest = {
   put: (token: string, rcid: string, body: Emails) =>
     instance
       .put<StatusResponse, AxiosResponse<StatusResponse, Emails>, Emails>(
@@ -41,4 +41,4 @@ const postEmails = {
       }),
 };
 
-export default postEmails;
+export default freezeRequest;
