@@ -25,12 +25,14 @@ const ROUTE = "/admin/rc/[rcid]/proforma/[proformaId]/step3";
 function Step2() {
   const [str, setStr] = useState(new Array(100 + 1).join("0"));
   const router = useRouter();
-  const { rcid } = router.query;
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaId || "").toString();
 
   const handleNext = () => {
     router.push({
       pathname: ROUTE,
-      query: { rcid, proformaId: 1 },
+      query: { rcid: rid, proformaId: pid },
     });
   };
 

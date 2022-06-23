@@ -30,7 +30,7 @@ import { useRouter } from "next/router";
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
+const ROUTE = "/admin/rc/[rcId]/proforma/[proformaId]/step5";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -50,7 +50,9 @@ const textFieldSX = {
 
 function Step4() {
   const router = useRouter();
-  const { rcId } = router.query;
+  const { rcid, proformaId } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaId || "").toString();
   const { register, handleSubmit, control, reset, getValues } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -351,12 +353,13 @@ function Step4() {
         <Stack spacing={3} justifyContent="center" direction="row">
           <Button
             variant="contained"
+            disabled={!(rid && pid)}
             sx={{ width: { xs: "50%", md: "20%" } }}
             onClick={handleSubmit((data) => {
               console.log(data);
               router.push({
                 pathname: ROUTE,
-                query: { rcId, proformaId: 1 },
+                query: { rcId: rid, proformaId: pid },
               });
             })}
           >
@@ -378,5 +381,5 @@ function Step4() {
     </div>
   );
 }
-Step4.layout = "companyPhaseDashboard";
+Step4.layout = "adminPhaseDashBoard";
 export default Step4;
