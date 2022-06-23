@@ -238,11 +238,7 @@ function Index() {
           </Stack>
         </Stack>
 
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          getRowId={(rows) => rows.ID}
-        />
+        <DataGrid rows={rows} columns={columns} getRowId={(rows) => rows.ID} />
       </Stack>
     </div>
   );
