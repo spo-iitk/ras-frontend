@@ -127,62 +127,79 @@ function EditStudent({
             {/* <MenuItem value={10}>10</MenuItem> */}
           </Select>
         </FormControl>
-        <TextField
-          label="Student Name"
-          id="studentName"
-          error={!!errors.name}
-          variant="standard"
-          {...register("name")}
-        />
-        <TextField
-          label="Email"
-          id="email"
-          error={!!errors.email}
-          variant="standard"
-          {...register("email")}
-        />
-        <TextField
-          label="CPI"
-          id="cpi"
-          error={!!errors.cpi}
-          variant="standard"
-          {...register("cpi")}
-        />
-        <TextField
-          label="Department"
-          id="department"
-          error={!!errors.program_department_id}
-          variant="standard"
-          {...register("program_department_id")}
-        />
-        <TextField
-          label="Secondary Department"
-          id="secondary_department"
-          error={!!errors.secondary_program_department_id}
-          variant="standard"
-          {...register("secondary_program_department_id")}
-        />
-        <TextField
-          label="Student ID"
-          id="student_id"
-          error={!!errors.secondary_program_department_id}
-          variant="standard"
-          {...register("student_id")}
-        />
-        <TextField
-          label="Frozen"
-          id="frozen"
-          error={!!errors.secondary_program_department_id}
-          variant="standard"
-          {...register("is_frozen")}
-        />
-        <TextField
-          label="Type"
-          id="type"
-          error={!!errors.secondary_program_department_id}
-          variant="standard"
-          {...register("type")}
-        />
+        <FormControl sx={{ m: 1 }}>
+          <p style={{ margin: "10px 0px" }}>Student Name</p>
+          <TextField
+            id="studentName"
+            error={!!errors.name}
+            variant="standard"
+            {...register("name")}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1 }}>
+          <p style={{ margin: "10px 0px" }}>Email</p>
+          <TextField
+            id="email"
+            error={!!errors.email}
+            variant="standard"
+            {...register("email")}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1 }}>
+          <p style={{ margin: "10px 0px" }}>CPI</p>
+          <TextField
+            id="cpi"
+            error={!!errors.cpi}
+            variant="standard"
+            {...register("cpi")}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1 }}>
+          <p style={{ margin: "10px 0px" }}>Department</p>
+          <TextField
+            id="department"
+            error={!!errors.program_department_id}
+            variant="standard"
+            {...register("program_department_id")}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1 }}>
+          <p style={{ margin: "10px 0px" }}>Secondary Department</p>
+          <TextField
+            id="department"
+            error={!!errors.secondary_program_department_id}
+            variant="standard"
+            {...register("secondary_program_department_id")}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1 }}>
+          <p style={{ margin: "10px 0px" }}>Student ID</p>
+          <TextField
+            id="student_id"
+            error={!!errors.student_id}
+            variant="standard"
+            {...register("student_id")}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1 }}>
+          <p style={{ margin: "10px 0px" }}>Is Frozen</p>
+          <TextField
+            id="frozen"
+            error={!!errors.is_frozen}
+            variant="standard"
+            {...register("is_frozen")}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1 }}>
+          <p style={{ margin: "10px 0px" }}>Type</p>
+          <TextField
+            id="type"
+            error={!!errors.type}
+            variant="standard"
+            {...register("type")}
+          />
+        </FormControl>
+
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
             variant="contained"

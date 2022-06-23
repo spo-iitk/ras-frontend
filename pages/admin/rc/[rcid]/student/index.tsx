@@ -6,13 +6,13 @@ import { IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import EditIcon from "@mui/icons-material/Edit";
 
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
 import getStudents, { Student } from "@callbacks/admin/rc/student/getStudents";
 import { errorNotification } from "@callbacks/notifcation";
 import EditStudent from "@components/Modals/EditStudentDetails";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 import Enroll from "@components/Modals/Enroll";
 import Freeze from "@components/Modals/Freeze";
@@ -176,15 +176,9 @@ function Index() {
       >
         <h2>Students</h2>
         <div>
-          <ActiveButton onClick={handleOpenNew}>EDIT</ActiveButton>
-          <Modal open={openNew} onClose={handleCloseNew}>
-            <EditStudent
-              handleCloseNew={handleCloseNew}
-              setRows={setRows}
-              studentData={rows}
-              rcid={rid}
-            />
-          </Modal>
+          <IconButton onClick={handleOpenNew}>
+            <EditIcon />
+          </IconButton>
           <IconButton onClick={handleOpenUnFreeze}>
             <HowToRegIcon />
           </IconButton>
@@ -196,6 +190,14 @@ function Index() {
           </IconButton>
         </div>
       </Stack>
+      <Modal open={openNew} onClose={handleCloseNew}>
+        <EditStudent
+          handleCloseNew={handleCloseNew}
+          setRows={setRows}
+          studentData={rows}
+          rcid={rid}
+        />
+      </Modal>
       <Modal open={openEnroll} onClose={handleCloseEnroll}>
         <Enroll handleClose={handleCloseEnroll} />
       </Modal>
