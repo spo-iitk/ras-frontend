@@ -382,6 +382,7 @@ function Step4() {
         <Stack spacing={3} justifyContent="center" direction="row">
           <Button
             variant="contained"
+            disabled={!(rcid && proformaid)}
             sx={{ width: { xs: "50%", md: "20%" } }}
             onClick={handleSubmit(async (data) => {
               const { fieldArray } = data;
@@ -438,5 +439,5 @@ function Step4() {
     </div>
   );
 }
-Step4.layout = "companyPhaseDashboard";
+Step4.layout = "adminPhaseDashBoard";
 export default Step4;
