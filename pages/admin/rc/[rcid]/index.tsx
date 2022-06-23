@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import Meta from "@components/Meta";
 import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
@@ -80,6 +82,28 @@ function Index() {
       <Stack>
         {/* <h1>{rcName}</h1> */}
 
+        <Stack
+          spacing={3}
+          justifyContent="space-between"
+          alignItems="center"
+          direction="row"
+          sx={{ m: 5 }}
+        >
+          <Button
+            variant="contained"
+            endIcon={<EditIcon />}
+            sx={{ width: "150px" }}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="contained"
+            endIcon={<DeleteIcon />}
+            sx={{ width: "150px" }}
+          >
+            Delete
+          </Button>
+        </Stack>
         <Grid container justifyContent="space-evenly" spacing={2}>
           <Grid item xs={6} md={3} sx={{ padding: 0 }}>
             <Card
