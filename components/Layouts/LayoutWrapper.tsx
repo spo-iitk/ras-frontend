@@ -172,7 +172,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
-        name: "Company",
+        name: children.type?.companyName || "Company",
         id: "company",
       },
       moveBack: false,
