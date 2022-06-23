@@ -1,8 +1,9 @@
 import React from "react";
-import Meta from "@components/Meta";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { Stack } from "@mui/material";
-import styles from "@styles/adminPhase.module.css";
+
+import Meta from "@components/Meta";
+import DataGrid from "@components/DataGrid";
 
 const columns: GridColDef[] = [
   {
@@ -54,16 +55,12 @@ const rows = [
 ];
 function PastHire() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Past Hire - Admin" />
       <Stack>
         <h1>Past Hires &gt; Student Wise</h1>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridPastHire}
-        >
-          <DataGrid rows={rows} columns={columns} pageSize={7} />
-        </div>
+
+        <DataGrid rows={rows} columns={columns} />
       </Stack>
     </div>
   );

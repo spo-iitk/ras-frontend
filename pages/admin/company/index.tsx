@@ -1,90 +1,111 @@
-import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
-import { IconButton, Stack } from "@mui/material";
+import { IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import styles from "@styles/adminPhase.module.css";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Link from "next/link";
+
+import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
+import useStore from "@store/store";
+import AddCompanyMD from "@components/Modals/AddCompanyAdminMD";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 100 },
+  { field: "id", headerName: "ID" },
   {
-    field: "CompanyName",
+    field: "name",
     headerName: "Company Name",
-    width: 300,
   },
   {
-    field: "Tags",
+    field: "tags",
     headerName: "Tags",
-    width: 400,
   },
   {
-    field: "ViewDetails",
+    field: "website",
+    headerName: "Website",
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    hide: true,
+  },
+  {
+    field: "view_details",
     headerName: "View Details",
-    width: 200,
-    renderCell: () => (
+
+    renderCell: (params) => (
       <Stack
         direction="row"
         alignItems="center"
         width="100%"
         justifyContent="space-between"
       >
-        <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
+        <Link href={`/admin/company/${params.row.id}`}>
+          <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
+        </Link>
       </Stack>
     ),
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    CompanyName: "Company 1",
-    Tags: "Core,PSU,Analytics,Software,Startup,Noncore",
-    ViewDetails: "Click Here",
-  },
-  {
-    id: 2,
-    CompanyName: "Company 1",
-    Tags: "Core,PSU,Analytics,Software,Startup,Noncore",
-    ViewDetails: "Click Here",
-  },
-];
-
 function Index() {
+  const { token } = useStore();
+  const [row, setRow] = useState<Company[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const getCompanydata = async () => {
+      let response = await addCompanyRequest.getall(token);
+      for (let i = 0; i < response.length; i += 1) {
+        response[i].id = response[i].ID;
+      }
+      setRow(response);
+      setLoading(false);
+    };
+    getCompanydata();
+  }, [token]);
+  const [openNew, setOpenNew] = useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+
   return (
-    <div className={styles.container}>
-      <Meta title="Master Company Database" />
+    <div className="container">
+      <Meta title="Master Company Database - Admin" />
       <Grid container alignItems="center">
         <Grid item xs={12}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h1>Master Database (Comapny)</h1>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
-            </Stack>
-          </div>
+          <Stack
+            spacing={3}
+            justifyContent="space-between"
+            direction="row"
+            alignItems="center"
+          >
+            <div>
+              <h1>Master Database (Company)</h1>
+            </div>
+            <div>
+              <Stack direction="row" spacing={3}>
+                <IconButton onClick={handleOpenNew}>
+                  <AddIcon />
+                </IconButton>
+                <IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+              </Stack>
+            </div>
+          </Stack>
         </Grid>
-        <div
-          className={styles.datagridMasterCompany}
-          style={{ height: 500, margin: "0px auto" }}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid rows={row} columns={columns} loading={loading} />
       </Grid>
+      <Modal open={openNew} onClose={handleCloseNew}>
+        <AddCompanyMD handleCloseNew={handleCloseNew} />
+      </Modal>
     </div>
   );
 }

@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, Stack, TextField } from "@mui/material";
+
 import ActiveButton from "@components/Buttons/ActiveButton";
 import InactiveButton from "@components/Buttons/InactiveButton";
-import styles from "@styles/adminPhase.module.css";
 import Meta from "@components/Meta";
 
 function Bulk() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Bulk - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>

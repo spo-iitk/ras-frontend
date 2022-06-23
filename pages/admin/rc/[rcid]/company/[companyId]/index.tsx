@@ -1,139 +1,248 @@
-import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Paper from "@mui/material/Paper";
-import { Card, IconButton, Stack, Typography, Button } from "@mui/material";
+/* eslint-disable no-shadow */
+import React, { useEffect, useState } from "react";
+import { GridColDef } from "@mui/x-data-grid";
+import {
+  Button,
+  Card,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
-import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
+import { useRouter } from "next/router";
 
-const info = [
-  {
-    field: "Name",
-    value: "XYZ",
-  },
-  {
-    field: "Email",
-    value: "XYZ@company.com",
-  },
-  {
-    field: "Phone number",
-    value: "+91 6969696969",
-  },
-  {
-    field: "Username",
-    value: "XYZ@12",
-  },
-];
+import DataGrid from "@components/DataGrid";
+import Meta from "@components/Meta";
+import AddPPO from "@components/Modals/addPPO";
+import useStore from "@store/store";
+import requestProforma, { ProformaType } from "@callbacks/admin/rc/proforma";
+import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
     width: 100,
   },
   {
-    field: "designation",
+    field: "nature_of_business",
     headerName: "Designation",
     width: 200,
   },
   {
-    field: "activeApplicants",
-    headerName: "Active applicants",
-    width: 200,
-  },
-  {
-    field: "totalApplicants",
-    headerName: "Total applicants",
-    width: 200,
-  },
-  {
-    field: "status",
+    field: "is_approved",
     headerName: "Status",
     width: 200,
+
+    renderCell(params) {
+      // eslint-disable-next-line no-nested-ternary
+      return params.row.is_approved.Valid
+        ? params.row.is_verified.Bool
+          ? "Approved"
+          : "Rejected"
+        : "Pending";
+    },
   },
   {
-    field: "deadline",
+    field: "set_deadline",
     headerName: "Deadline",
     width: 200,
-  },
-];
 
-const rows = [
+    renderCell(params) {
+      return `${
+        params.row.set_deadline === 0
+          ? "Date not Set"
+          : new Date(params.value).toLocaleString()
+      }`;
+    },
+  },
   {
-    id: 1,
-    designation: "Role 1",
-    activeApplicants: "102",
-    totalApplicants: "105",
-    status: "Accepted",
-    deadline: "May 26,2019",
+    field: "active_hr_id",
+    headerName: "Active HR",
   },
 ];
 
-const ButtonContainer = {
-  display: "flex",
-  justifyContent: "space-around",
-};
+// const rows = [
+//   {
+//     id: 1,
+//     designation: "Role 1",
+//     status: "Accepted",
+//     deadline: "May 26,2019",
+//   },
+// ];
+
 function Index() {
+  const router = useRouter();
+  const CID = router.query.companyId;
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const ID = (CID || "").toString();
+  const [openNew, setOpenNew] = useState(false);
+  const [rows, setRows] = useState<ProformaType[]>([]);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+  const { token } = useStore();
+  const [row, setRow] = useState<CompanyRc>({
+    ID: 0,
+    CreatedAt: "",
+    company_id: 0,
+    company_name: "",
+    recruitment_cycle_id: 0,
+    hr1: "",
+    hr2: "",
+    hr3: "",
+    comments: "",
+  });
+  const info1 = [
+    {
+      field: "Name",
+      value: row.company_name,
+    },
+    {
+      field: "Company ID",
+      value: row.company_id,
+    },
+    {
+      field: "Comments",
+      value: row.comments,
+    },
+  ];
+  const info2 = [
+    {
+      field: "HR1",
+      value: row.hr1,
+    },
+    {
+      field: "HR2",
+      value: row.hr2,
+    },
+    {
+      field: "HR3",
+      value: row.hr3,
+    },
+  ];
+
+  useEffect(() => {
+    const getCompanydata = async () => {
+      if (rid === undefined || rid === "") return;
+      if (ID === undefined || ID === "") return;
+      let response = await requestCompany.get(token, rid, ID);
+      setRow(response);
+    };
+
+    const getProforma = async () => {
+      if (rid === undefined || rid === "") return;
+      if (ID === undefined || ID === "") return;
+      let response = await requestProforma.getall(token, rid, ID);
+
+      setRows(response);
+    };
+
+    getProforma();
+    getCompanydata();
+  }, [token, rid, ID]);
+
+  const handleClick = () => {
+    router.push(`/admin/company/${row.company_id}`);
+  };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Company Dashboard" />
-      <h1>COMPANY NAME</h1>
-      <br />
-      <br />
-      <Stack
-        spacing={5}
-        justifyContent="center"
-        alignItems="center"
-        direction={{ xs: "column", md: "row" }}
-      >
-        <Card
-          elevation={5}
-          sx={{ width: { xs: "300px", md: "500px" }, padding: 4 }}
+      <h1>{row.company_name}</h1>
+
+      <Stack spacing={5} justifyContent="center" alignItems="center">
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+          direction={{ lg: "row", xs: "column" }}
         >
-          <Grid container>
-            {info.map((item) => (
-              <Grid item xs={12} md={6} key="">
-                <h3>{item.field}</h3>
-                <Typography variant="body1">{item.value}</Typography>
-              </Grid>
-            ))}
-          </Grid>
-        </Card>
-        <div style={ButtonContainer}>
-          <Stack spacing={2} direction="column">
-            <Button variant="outlined">VIEW COMPANY HISTORY</Button>
-            <Button variant="outlined">CONTACT DETAILS</Button>
-            <Button variant="outlined">PAST HIRES</Button>
-            <Button variant="outlined">ADD PPO/PIIO</Button>
+          <Stack spacing={2} direction={{ sm: "row", xs: "column" }}>
+            <Button
+              sx={{ width: { xs: "280px" } }}
+              variant="contained"
+              onClick={handleClick}
+            >
+              Go to Company Master DB
+            </Button>
+
+            <Button
+              sx={{ width: { xs: "280px" } }}
+              variant="contained"
+              onClick={handleOpenNew}
+            >
+              ADD PPO/PIIO
+            </Button>
+            <Modal open={openNew} onClose={handleCloseNew}>
+              <AddPPO
+                handleCloseNew={handleCloseNew}
+                cname={row.company_name}
+              />
+            </Modal>
           </Stack>
+        </Stack>
+        <div>
+          <Card
+            elevation={5}
+            sx={{ width: { xs: "300px", md: "500px" }, padding: 4 }}
+          >
+            <Grid container>
+              {info1.map((item) => (
+                <Grid item xs={12} md={6} key="">
+                  <h3>{item.field}</h3>
+                  <Typography variant="body1">{item.value}</Typography>
+                </Grid>
+              ))}
+            </Grid>
+            <hr />
+            <Grid container>
+              {info2.map((item) => (
+                <Grid item xs={12} md={12} key="">
+                  <h3>{item.field}</h3>
+                  <Typography variant="body1">{item.value}</Typography>
+                </Grid>
+              ))}
+            </Grid>
+          </Card>
         </div>
       </Stack>
       <br />
       <br />
-      <Grid container spacing={2} component={Paper}>
-        <Grid item xs={11}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <h2>Internship Roles</h2>
-            <IconButton>
+      <Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <h2>Internship Roles</h2>
+          <Stack direction="row" spacing={3}>
+            <IconButton
+              onClick={() => {
+                router.push(`/admin/rc/${rid}/proforma/new`);
+              }}
+            >
               <AddIcon />
             </IconButton>
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <div
-            className={styles.datagridCompany}
-            style={{ height: 500, margin: "20px auto" }}
-          >
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={7}
-              rowsPerPageOptions={[7]}
-            />
-          </div>
-        </Grid>
-      </Grid>
+          </Stack>
+        </Stack>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          getRowId={(rows) => rows.ID}
+          onCellClick={(params) => {
+            router.push(
+              `/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`
+            );
+          }}
+        />
+      </Stack>
     </div>
   );
 }

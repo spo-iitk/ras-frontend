@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, Stack, TextField } from "@mui/material";
+
 import ActiveButton from "@components/Buttons/ActiveButton";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import Meta from "@components/Meta";
-import styles from "@styles/adminPhase.module.css";
 
 function Index() {
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Add PPO-PIO - Admin" />
       <h1>Internship 2022-23 Phase 1</h1>
       <div style={{ marginTop: 50 }}>

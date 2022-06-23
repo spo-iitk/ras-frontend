@@ -1,25 +1,41 @@
-import React, { useState } from "react";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { Card, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import Step from "@mui/material/Step";
+import StepContent from "@mui/material/StepContent";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+
+import iconMap from "@components/Utils/IconMap";
 
 const steps = [
   {
     label: "Applications",
-    description: ``,
+    duration: ``,
+    venue: "NA",
+    date: "NA",
+    startTime: "NA",
+    endTime: "NA",
   },
   {
     label: "Pre-Placement Talk",
-    description: "Duration: 1 hour",
+    duration: "Duration: 1 hour",
+    venue: "L20",
+    date: "8/20/2022",
+    startTime: "16:00",
+    endTime: "17:00",
   },
   {
     label: "Technical Test",
-    description: `Duration: 1 hour`,
+    duration: `Duration: 1 hour`,
+    venue: "L19",
+    date: "8/20/2022",
+    startTime: "11:00",
+    endTime: "12:00",
   },
 ];
 
@@ -39,22 +55,47 @@ function StepperComp() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400 }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+      }}
+    >
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>
-            <StepLabel
-              optional={
-                index === steps.length - 1 ? (
-                  <Typography variant="caption">Last Round</Typography>
-                ) : null
-              }
-            >
-              {step.label}
+            <StepLabel>
+              <Card sx={{ padding: 2, width: { xs: "250px", md: "300px" } }}>
+                <Stack spacing={3}>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <div>{iconMap[step.label]}</div>
+                      <div>
+                        {!iconMap[step.label] && (
+                          <AttachFileIcon fontSize="large" />
+                        )}
+                      </div>
+                      <h3>{step.label}</h3>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Card>
             </StepLabel>
             <StepContent>
-              <Typography>{step.description}</Typography>
               <Box sx={{ mb: 2 }}>
+                <Card sx={{ padding: 2, width: { xs: "250px", md: "300px" } }}>
+                  <h5 style={{ fontWeight: 400 }}>Duration: {step.duration}</h5>
+                  <h5 style={{ fontWeight: 400 }}>Date: {step.date}</h5>
+                  <h5 style={{ fontWeight: 400 }}>Venue: {step.venue}</h5>
+                  <h5 style={{ fontWeight: 400 }}>
+                    Time: {step.startTime}-{step.endTime}
+                  </h5>
+                </Card>
                 <div>
                   <Button
                     variant="contained"
@@ -75,15 +116,15 @@ function StepperComp() {
             </StepContent>
           </Step>
         ))}
+        {activeStep === steps.length && (
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>No more rounds to be held!</Typography>
+            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+              Reset
+            </Button>
+          </Paper>
+        )}
       </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} sx={{ p: 3, backgroundColor: "#ebebeb" }}>
-          {/* <Typography>All steps completed - you&apos;re finished</Typography> */}
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </Paper>
-      )}
     </Box>
   );
 }

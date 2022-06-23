@@ -1,7 +1,17 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
+import { useRouter } from "next/router";
 import * as React from "react";
+import Autocomplete from "@mui/material/Autocomplete";
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+
+import noticeRequest, {
+  NoticeParams,
+  NoticeResponse,
+} from "@callbacks/admin/rc/notice";
+import useStore from "@store/store";
+import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -17,20 +27,59 @@ const boxStyle = {
   alignItems: "center",
 };
 
-const Input = styled("input")({
-  display: "none",
-});
+// const Input = styled("input")({
+//   display: "none",
+// });
 
-function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
+function NewNotice({
+  handleCloseNew,
+  setNotice,
+}: {
+  handleCloseNew: () => void;
+  setNotice: React.Dispatch<React.SetStateAction<NoticeParams[]>>;
+}) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const [companies, setCompanies] = useState<CompanyRc[]>([]);
+  const [company, setCompany] = useState<string>("");
+
+  useEffect(() => {
+    const getCompanydata = async () => {
+      if (rid === undefined || rid === "") return;
+      let response = await requestCompany.getall(token, rid);
+      setCompanies(response);
+    };
+    if (rid !== "") getCompanydata();
+  }, [token, rid]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
-
-  const handleNewNotice = (data: any) => {
-    console.log(data);
+  } = useForm<NoticeResponse>();
+  const handleNewNotice = (data: NoticeResponse) => {
+    const newNotice = async () => {
+      const finData = {
+        ...data,
+        title: `${data.subject} - ${company}`,
+        recruitment_cycle_id: Number(rid),
+      };
+      await noticeRequest.post(token, rid, finData).then(() => {
+        const fetch = async () => {
+          if (rid === undefined || rid === "") return;
+          const Newnotice: NoticeParams[] = await noticeRequest.getAll(
+            token,
+            rid
+          );
+          setNotice(Newnotice);
+        };
+        fetch();
+      });
+    };
+    newNotice();
     reset();
     handleCloseNew();
   };
@@ -39,33 +88,48 @@ function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
     <Box sx={boxStyle}>
       <Stack spacing={3}>
         <h1>Add Notice</h1>
-        <TextField
-          label="Company Name"
+        <Autocomplete
+          disablePortal
           id="selectCompany"
-          variant="standard"
-          error={errors.companyName}
-          helperText={errors.companyName && "Company Name is required"}
-          {...register("companyName", { required: true })}
+          options={companies.map((row) => ({
+            id: row.ID,
+            label: row.company_name,
+          }))}
+          renderInput={(params) => (
+            <TextField {...params} label="Select Company" />
+          )}
+          onChange={(e, v) => {
+            e.preventDefault();
+            if (v != null) setCompany(v.label);
+          }}
         />
         <TextField
           label="Subject"
-          id="selectActiveHR"
+          id="subject"
           variant="standard"
           {...register("subject", { required: true })}
-          error={errors.subject}
+          error={!!errors.subject}
           helperText={errors.subject && "Subject is required"}
+        />
+        <TextField
+          label="Tags (csv)"
+          id="tags"
+          variant="standard"
+          {...register("tags", { required: true })}
+          error={!!errors.tags}
+          helperText={errors.tags && "Tags are required"}
         />
         <TextField
           variant="standard"
           multiline
-          rows={3}
+          rows={5}
           placeholder="Write your notice here"
           label="Message"
-          {...register("message", { required: true })}
-          error={errors.message}
-          helperText={errors.message && "Message is required"}
+          {...register("description", { required: true, maxLength: 1000 })}
+          error={!!errors.description}
+          helperText={errors.description && "Message is required"}
         />
-        <label
+        {/* <label
           htmlFor="contained-button-file"
           style={{ margin: "30px auto 10px auto" }}
         >
@@ -82,7 +146,7 @@ function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
           >
             Upload
           </Button>
-        </label>
+        </label> */}
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
             variant="contained"
@@ -94,7 +158,7 @@ function NewNotice({ handleCloseNew }: { handleCloseNew: () => void }) {
           <Button
             variant="contained"
             sx={{ width: "100%" }}
-            onClick={() => reset({ companyName: "", subject: "", message: "" })}
+            onClick={() => reset({ title: "", subject: "", description: "" })}
           >
             Reset
           </Button>

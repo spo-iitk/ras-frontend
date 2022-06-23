@@ -1,34 +1,89 @@
-import Meta from "@components/Meta";
-import NewNotice from "@components/Modals/newNotice";
 import AddIcon from "@mui/icons-material/Add";
 import { IconButton, Modal, Stack } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import styles from "@styles/adminPhase.module.css";
+import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
+import { useRouter } from "next/router";
+import DeleteIcon from "@mui/icons-material/Delete";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+
+import DataGrid from "@components/DataGrid";
+import NewNotice from "@components/Modals/newNotice";
+import Meta from "@components/Meta";
+import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
+import useStore from "@store/store";
+
+function HandleNotice(props: { id: string }) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const { id } = props;
+  return (
+    <Stack spacing={3} direction="row">
+      <IconButton
+        onClick={() => {
+          if (rid === undefined || rid === "") return;
+          noticeRequest.delete(token, rid, id);
+          window.location.reload();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => {
+          if (rid === undefined || rid === "") return;
+          noticeRequest.notify(token, rid, id);
+        }}
+      >
+        <NotificationsIcon />
+      </IconButton>
+    </Stack>
+  );
+}
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "Id",
     width: 100,
   },
   {
-    field: "name",
-    headerName: "Company Name",
+    field: "title",
+    headerName: "Title",
     width: 300,
   },
   {
-    field: "publishedDateAndTime",
+    field: "description",
+    headerName: "Description",
+    width: 300,
+  },
+  {
+    field: "CreatedAt",
     headerName: "Published Date And Time",
+    valueGetter: ({ value }) =>
+      value &&
+      `${new Date(value).toLocaleDateString()} ${new Date(
+        value
+      ).toLocaleTimeString()}`,
     width: 200,
   },
+  {
+    field: "button1",
+    headerName: "Delete/Notify",
+    renderCell: (params) => <HandleNotice id={params.row.ID} />,
+    width: 50,
+    align: "center",
+    sortable: false,
+    filterable: false,
+  },
 ];
-
-const rows = [
-  { id: 1, name: "Company Name : Title", publishedDateAndTime: "May 26 2019" },
-];
-
 function Index() {
+  const { token } = useStore();
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const [notices, setNotice] = React.useState<NoticeParams[]>([]);
+
   const [openNew, setOpenNew] = React.useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
@@ -36,12 +91,23 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
+  const [loading, setLoading] = React.useState(true);
+  React.useEffect(() => {
+    const fetch = async () => {
+      if (rid === undefined || rid === "") return;
+      const notice: NoticeParams[] = await noticeRequest.getAll(token, rid);
+
+      setNotice(notice);
+      setLoading(false);
+    };
+    fetch();
+  }, [rid, token]);
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Meta title="Notices" />
       <Stack>
-        <h1>Internship 2022-23 Phase 1</h1>
+        {/* <h1>{rcName}</h1> */}
         <Stack
           direction="row"
           alignItems="center"
@@ -54,20 +120,16 @@ function Index() {
             </IconButton>
           </Stack>
         </Stack>
-        <div
-          style={{ height: 500, margin: "0px auto" }}
-          className={styles.datagridNotices}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={7}
-            rowsPerPageOptions={[7]}
-          />
-        </div>
+
+        <DataGrid
+          rows={notices}
+          getRowId={(row) => row.ID}
+          columns={columns}
+          loading={loading}
+        />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <NewNotice handleCloseNew={handleCloseNew} />
+        <NewNotice handleCloseNew={handleCloseNew} setNotice={setNotice} />
       </Modal>
     </div>
   );

@@ -1,18 +1,15 @@
-import { Button, Stack, Typography, ButtonProps } from "@mui/material";
+import { Button, ButtonProps, Stack, Typography } from "@mui/material";
 import React from "react";
 import styled from "@emotion/styled";
-import { blue } from "@mui/material/colors";
 import Image from "next/image";
+
 import Meta from "@components/Meta";
 
 const CustomButton = styled(Button)<ButtonProps>(() => ({
   color: "white",
   borderRadius: 10,
   padding: "0.5rem 1rem",
-  backgroundColor: blue[500],
-  "&:hover": {
-    backgroundColor: blue[500],
-  },
+
   fontWeight: "bold",
   width: 200,
   fontSize: 18,
@@ -29,16 +26,12 @@ function Custom404() {
         sx={{ padding: "10px 30px", marginTop: 4 }}
       >
         <h1> Sorry, page not found!</h1>
-        <Typography variant="subtitle1" sx={{ color: "#757575" }}>
+        <Typography variant="h5" sx={{ color: "#757575" }}>
           Sorry, we couldn&apos;t find the page you&apos;re looking for. Perhaps
           you&apos;ve mistyped the URL? Be sure to check your spelling.
         </Typography>
-        <Image src="/images/404.png" width={250} height={300} alt="error 404" />
-        <CustomButton
-          variant="contained"
-          color="primary"
-          href="/studentDashboard/overview"
-        >
+        <Image src="/images/404.png" width={600} height={550} alt="error 404" />
+        <CustomButton variant="contained" color="primary" href="/">
           Go To Home
         </CustomButton>
       </Stack>
@@ -46,5 +39,5 @@ function Custom404() {
   );
 }
 
-Custom404.layout = "none";
+Custom404.layout = "Navigation";
 export default Custom404;

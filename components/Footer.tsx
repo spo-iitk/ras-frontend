@@ -1,5 +1,4 @@
 import { Grid, Stack } from "@mui/material";
-import Link from "next/link";
 import React from "react";
 import CallIcon from "@mui/icons-material/Call";
 import MailIcon from "@mui/icons-material/Mail";
@@ -13,6 +12,9 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import { styled } from "@mui/material/styles";
+
+import theme from "@components/theme/theme";
+
 import footerStyles from "../styles/Footer.module.css";
 
 const Accordion = styled((props: AccordionProps) => (
@@ -33,8 +35,8 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     }
     {...props}
   />
-))(({ theme }) => ({
-  backgroundColor: "black",
+))(() => ({
+  backgroundColor: theme.palette.primary.dark,
   color: "white",
   flexDirection: "row-reverse",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
@@ -45,10 +47,10 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
   },
 }));
 
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+const AccordionDetails = styled(MuiAccordionDetails)(() => ({
   padding: theme.spacing(2),
   borderTop: "1px solid rgba(0, 0, 0, .125)",
-  backgroundColor: "#1f2120",
+  backgroundColor: theme.palette.primary.main,
   color: "white",
   fontSize: "0.8rem",
 }));
@@ -62,7 +64,14 @@ function Footer() {
     };
 
   return (
-    <div style={{ backgroundColor: "black", color: "white", marginTop: 30 }}>
+    <div
+      style={{
+        backgroundColor: theme.palette.primary.dark,
+        color: "white",
+        marginTop: 30,
+        padding: "30px 0px",
+      }}
+    >
       <div className={footerStyles.footer}>
         <Stack justifyContent="center" alignItems="center" spacing={10}>
           <Grid
@@ -75,13 +84,63 @@ function Footer() {
             <Grid item xs={12} md={3}>
               <h2>Important Links</h2>
               <Stack direction="column" justifyContent="center" spacing={2}>
-                <Link href="/"> Student Placement Office</Link>
-                <Link href="/"> Department Brochure</Link>
-                <Link href="/"> Intern Policy (Company)</Link>
-                <Link href="/"> Intern Policy (Student)</Link>
-                <Link href="/"> Recruitment Guide</Link>
-                <Link href="/"> Recruitment Itinerarry</Link>
-                <Link href="/"> Contact Us</Link>
+                <a
+                  href="https://spo.iitk.ac.in/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography variant="body2">
+                    Student Placement Office
+                  </Typography>
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/departmental-brochure"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography variant="body2">Department Brochure</Typography>
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/companies#ipolicy"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography variant="body2">
+                    Intern Policy (Company)
+                  </Typography>
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/docs/2021-22/Internship-Policy-2021-22.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography variant="body2">
+                    Intern Policy (Student)
+                  </Typography>
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/assets/companies_links/IITK_Recruitment_Guide_2022-23.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography variant="body2">Recruitment Guide</Typography>
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/companies#steps"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography variant="body2">
+                    Recruitment Itinerarry
+                  </Typography>
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/contact"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography variant="body2">Contact Us</Typography>
+                </a>
               </Stack>
             </Grid>
             <Grid item xs={12} md={3}>
@@ -89,10 +148,17 @@ function Footer() {
               <Stack direction="column" justifyContent="center" spacing={2}>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <HomeIcon />
-                  <Link href="/">
-                    Student Placement Office, 109, Outreach Building, IIT
-                    Kanpur, Kanpur- 208016, Uttar Pradesh, India
-                  </Link>
+                  <div>
+                    <Typography variant="body2">
+                      Student Placement Office
+                    </Typography>
+                    <Typography variant="body2">
+                      109, Outreach Building, IIT Kanpur
+                    </Typography>
+                    <Typography variant="body2">
+                      Kanpur- 208016, Uttar Pradesh, India
+                    </Typography>
+                  </div>
                 </Stack>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <PublicIcon />
@@ -101,7 +167,7 @@ function Footer() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    spo.iitk.ac.in
+                    <Typography variant="body2">spo.iitk.ac.in</Typography>
                   </a>
                 </Stack>
                 <Stack direction="row" alignItems="center" spacing={1}>
@@ -111,12 +177,16 @@ function Footer() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    spo@iitk.ac.in
+                    <Typography variant="body2">spo@iitk.ac.in</Typography>
                   </a>
                 </Stack>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <CallIcon />
-                  <a href="tel:+91 5122594433"> +91 512 259 44 33/34</a>
+                  <a href="tel:+91 5122594433">
+                    <Typography variant="body2">
+                      +91 512 259 44 33/34
+                    </Typography>
+                  </a>
                 </Stack>
                 <h4>
                   &copy; Student Placement Office | IIT Kanpur. All Rights
@@ -137,13 +207,57 @@ function Footer() {
           </AccordionSummary>
           <AccordionDetails>
             <Stack direction="column" justifyContent="center" spacing={2}>
-              <Link href="/"> Student Placement Office</Link>
-              <Link href="/"> Department Brochure</Link>
-              <Link href="/"> Intern Policy (Company)</Link>
-              <Link href="/"> Intern Policy (Student)</Link>
-              <Link href="/"> Recruitment Guide</Link>
-              <Link href="/"> Recruitment Itinerarry</Link>
-              <Link href="/"> Contact Us</Link>
+              <a
+                href="https://spo.iitk.ac.in/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Typography variant="body2">
+                  Student Placement Office
+                </Typography>
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/departmental-brochure"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Typography variant="body2">Department Brochure</Typography>
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/companies#ipolicy"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Typography variant="body2">Intern Policy (Company)</Typography>
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/docs/2021-22/Internship-Policy-2021-22.pdf"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Typography variant="body2">Intern Policy (Student)</Typography>
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/assets/companies_links/IITK_Recruitment_Guide_2022-23.pdf"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Typography variant="body2">Recruitment Guide</Typography>
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/companies#steps"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Typography variant="body2">Recruitment Itinerarry</Typography>
+              </a>
+              <a
+                href="https://spo.iitk.ac.in/contact"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Typography variant="body2">Contact Us</Typography>
+              </a>
             </Stack>
           </AccordionDetails>
         </Accordion>
@@ -158,10 +272,17 @@ function Footer() {
             <Stack direction="column" justifyContent="center" spacing={2}>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <HomeIcon />
-                <Link href="/">
-                  Student Placement Office, 109, Outreach Building, IIT Kanpur,
-                  Kanpur- 208016, Uttar Pradesh, India
-                </Link>
+                <div>
+                  <Typography variant="body2">
+                    Student Placement Office
+                  </Typography>
+                  <Typography variant="body2">
+                    109, Outreach Building, IIT Kanpur
+                  </Typography>
+                  <Typography variant="body2">
+                    Kanpur- 208016, Uttar Pradesh, India
+                  </Typography>
+                </div>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <PublicIcon />
@@ -170,7 +291,7 @@ function Footer() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  spo.iitk.ac.in
+                  <Typography variant="body2">spo.iitk.ac.in</Typography>
                 </a>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={1}>
@@ -180,12 +301,14 @@ function Footer() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  spo@iitk.ac.in
+                  <Typography variant="body2">spo@iitk.ac.in</Typography>
                 </a>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={1}>
                 <CallIcon />
-                <a href="tel:+91 5122594433"> +91 512 259 44 33/34</a>
+                <a href="tel:+91 5122594433">
+                  <Typography variant="body2">+91 512 259 44 33/34</Typography>
+                </a>
               </Stack>
             </Stack>
           </AccordionDetails>

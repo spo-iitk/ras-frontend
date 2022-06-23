@@ -1,10 +1,24 @@
-import React, { useState } from "react";
-import { Typography, Stack, FormControl, Tab, Tabs } from "@mui/material";
-import Meta from "@components/Meta";
+import React, { Suspense, useState } from "react";
+import {
+  CircularProgress,
+  FormControl,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+import Meta from "@components/Meta";
 import formstyles from "@styles/Form.module.css";
-import SignUpRecruiter from "../sections/signUpRecruiter";
-import SignUpStudent from "../sections/signUpStudent";
+
+const SignUpRecruiter = dynamic(() => import("../sections/signUpRecruiter"), {
+  suspense: true,
+});
+const SignUpStudent = dynamic(() => import("../sections/signUpStudent"), {
+  suspense: true,
+});
 
 function SignUp() {
   const [role, setRole] = useState(0);
@@ -31,9 +45,9 @@ function SignUp() {
       >
         <div className={formstyles.image}>
           <Image
-            src="/images/signup.png"
-            height={450}
-            width={400}
+            src="/images/signup.gif"
+            height={550}
+            width={500}
             alt="loginPage"
           />
         </div>
@@ -41,7 +55,7 @@ function SignUp() {
           spacing={2}
           justifyContent="flex-start"
           alignItems="center"
-          sx={{ minHeight: "80vh" }}
+          sx={{ minHeight: "70vh" }}
         >
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <h1>Welcome!</h1>
@@ -62,7 +76,15 @@ function SignUp() {
               <Tab label="Recruiter" {...a11yProps(1)} />
             </Tabs>
           </FormControl>
-          {role === 0 ? <SignUpStudent /> : <SignUpRecruiter />}
+          {role === 0 ? (
+            <Suspense fallback={<CircularProgress />}>
+              <SignUpStudent />
+            </Suspense>
+          ) : (
+            <Suspense fallback={<CircularProgress />}>
+              <SignUpRecruiter />
+            </Suspense>
+          )}
         </Stack>
       </Stack>
     </div>

@@ -1,8 +1,9 @@
 import Image from "next/image";
 import React from "react";
-import { IconButton, Stack, Tooltip, Menu, MenuItem } from "@mui/material";
+import { IconButton, Menu, MenuItem, Stack, Tooltip } from "@mui/material";
 import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 import headerstyles from "../styles/Header.module.css";
 
 function Header() {
@@ -44,7 +45,7 @@ function Header() {
             <Link href="/login">Sign in</Link>
             <Link href="/signup">Sign Up</Link>
             <a
-              href="https://spo.iitk.ac.in/about_us.html"
+              href="https://spo.iitk.ac.in/contact"
               target="_blank"
               rel="noreferrer"
             >
@@ -109,7 +110,7 @@ function Header() {
             </MenuItem>
             <MenuItem>
               <a
-                href="https://spo.iitk.ac.in/about_us.html"
+                href="https://spo.iitk.ac.in/contact"
                 target="_blank"
                 rel="noreferrer"
               >

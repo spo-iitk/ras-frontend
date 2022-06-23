@@ -1,51 +1,48 @@
-import React, { useEffect } from "react";
-import {
-  TextField,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-  Stack,
-  InputAdornment,
-  IconButton,
-  FormControl,
-  Button,
-  FormHelperText,
-} from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Meta from "@components/Meta";
+import { LoadingButton } from "@mui/lab";
+import {
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "next/link";
 import Image from "next/image";
-import formstyles from "@styles/Form.module.css";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-type FormInput = {
-  username: string;
-  password: string;
-  rememberMe?: boolean;
-};
+import formstyles from "@styles/Form.module.css";
+import Meta from "@components/Meta";
+import loginRequest, { LoginParams } from "@callbacks/auth/login";
+import useStore from "@store/store";
+import theme from "@components/theme/theme";
+
 function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     reset,
-  } = useForm<FormInput>();
+  } = useForm<LoginParams>();
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     password: "",
     showPassword: false,
   });
+  const [loading, setLoading] = useState(false);
+  const { setToken, setRole } = useStore();
 
   useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset({
-        username: "",
-        password: "",
-      });
-    }
-  }, [reset, isSubmitSuccessful]);
+    setToken("");
+  }, [setToken]);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -60,8 +57,36 @@ function Login() {
     event.preventDefault();
   };
 
-  const onLogin = (data: FormInput) => {
-    console.log(data);
+  const router = useRouter();
+  const onLogin = async (data: LoginParams) => {
+    setLoading(true);
+    const response = await loginRequest.post(data);
+    if (response.token !== "") {
+      setToken(response.token);
+      setRole(response.role_id);
+      reset({
+        user_id: "",
+        password: "",
+      });
+      switch (response.role_id) {
+        case 1:
+          router.push("/student");
+          break;
+        case 2:
+          router.push("/company");
+          break;
+        case 100:
+          router.push("/admin");
+          break;
+        case 101:
+          router.push("/admin");
+          break;
+        default:
+          router.push("/401");
+          break;
+      }
+    }
+    setLoading(false);
   };
 
   return (
@@ -75,9 +100,9 @@ function Login() {
       >
         <div className={formstyles.image}>
           <Image
-            src="/images/signin.png"
-            height={450}
-            width={400}
+            src="/images/signin.gif"
+            height={550}
+            width={500}
             alt="loginPage"
           />
         </div>
@@ -96,12 +121,15 @@ function Login() {
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
-              id="username"
-              label="Username"
+              id="Email ID"
+              label="Email ID"
               variant="outlined"
-              error={!!errors.username}
-              helperText={errors.username ? "Incorrect username" : ""}
-              {...register("username", { required: true })}
+              error={!!errors.user_id}
+              helperText={errors.user_id ? "Incorrect Email ID" : ""}
+              {...register("user_id", {
+                required: true,
+                pattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+              })}
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
@@ -142,27 +170,31 @@ function Login() {
               <Typography variant="subtitle2" color="text.secondary">
                 <Checkbox
                   size="small"
-                  {...register("rememberMe")}
+                  {...register("remember_me")}
                   inputProps={{ "aria-label": "controlled" }}
                 />
                 Remember Me
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                <span style={{ color: "blue" }}>
-                  <Link href="/forgotPass">Forgot password?</Link>
+                <span style={{ color: theme.palette.secondary.main }}>
+                  <Link href="/reset-password">Forgot password?</Link>
                 </span>
               </Typography>
             </Stack>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <Button variant="contained" onClick={handleSubmit(onLogin)}>
+            <LoadingButton
+              loading={loading}
+              variant="contained"
+              onClick={handleSubmit(onLogin)}
+            >
               Sign In
-            </Button>
+            </LoadingButton>
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <Typography>
               Don&apos;t have an account?{" "}
-              <span style={{ color: "blue" }}>
+              <span style={{ color: theme.palette.secondary.main }}>
                 <Link href="/signup">Sign Up</Link>
               </span>
             </Typography>
