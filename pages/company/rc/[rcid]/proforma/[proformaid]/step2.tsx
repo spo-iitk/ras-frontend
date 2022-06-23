@@ -22,15 +22,15 @@ import Meta from "@components/Meta";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import useStore from "@store/store";
 
-const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step3";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step3";
 
 function Step2() {
   const [str, setStr] = useState(new Array(100 + 1).join("0"));
   const router = useRouter();
   const { token } = useStore();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const pid = (proformaid || "").toString();
   useEffect(() => {
     if (!(rid && pid)) return;
     const getStep2 = async () => {
@@ -47,7 +47,7 @@ function Step2() {
     await proformaRequest.put(token, rid, info).then(() => {
       router.push({
         pathname: ROUTE,
-        query: { rcid: rid, proformaId: pid },
+        query: { rcid: rid, proformaid: pid },
       });
     });
   };

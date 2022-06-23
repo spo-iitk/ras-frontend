@@ -10,7 +10,7 @@ import useStore from "@store/store";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 
 const ROUTE_PATH = "/company/rc/[rcId]/opening/[openingId]";
-const ROUTE_PATH_PROFORMA = "/company/rc/[rcId]/proforma/[proformaId]";
+const ROUTE_PATH_PROFORMA = "/company/rc/[rcId]/proforma/[proformaid]";
 
 const columns: GridColDef[] = [
   { field: "ID", headerName: "ID" },
@@ -42,7 +42,7 @@ const columns: GridColDef[] = [
           pathname: ROUTE_PATH_PROFORMA,
           query: {
             rcId: params.row.recruitment_cycle_id,
-            proformaId: params.row.ID,
+            proformaid: params.row.ID,
           },
         }}
         passHref

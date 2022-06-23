@@ -8,14 +8,14 @@ import RichTextEditor from "@components/Editor/RichText";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import useStore from "@store/store";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
+const ROUTE = "/company/rc/[rcId]/proforma/[proformaid]/step2";
 function ProformaNew() {
   const [value, onChange] = useState("");
   const { token, name } = useStore();
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const pid = (proformaid || "").toString();
   const [fetchData, setFetch] = useState<ProformaType>({
     ID: 0,
   } as ProformaType);
@@ -54,7 +54,7 @@ function ProformaNew() {
       onChange("");
       router.push({
         pathname: ROUTE,
-        query: { rcId: rid, proformaId: pid },
+        query: { rcId: rid, proformaid: pid },
       });
     });
   };

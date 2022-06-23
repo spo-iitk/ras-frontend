@@ -34,7 +34,7 @@ import eventRequest from "@callbacks/company/rc/proforma/event";
 import useStore from "@store/store";
 import { successNotification } from "@callbacks/notifcation";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step5";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -53,7 +53,7 @@ const textFieldSX = {
 };
 function Step4() {
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const { token } = useStore();
   const [array, setArray] = useState<any>([]);
 
@@ -73,7 +73,7 @@ function Step4() {
         const response = await eventRequest.getAll(
           token,
           (rcid || "").toString(),
-          (proformaId || "").toString()
+          (proformaid || "").toString()
         );
         let arrays_temp: {
           label: string;
@@ -93,7 +93,7 @@ function Step4() {
       }
     };
     fetchStep4();
-  }, [token, proformaId, rcid, router.isReady, reset]);
+  }, [token, proformaid, rcid, router.isReady, reset]);
   const [activeStep, setActiveStep] = React.useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -409,7 +409,7 @@ function Step4() {
               // eslint-disable-next-line no-loop-func
               for (let i = 0; i < fieldArray.length; i += 1) {
                 fieldArray[i].proforma_id = parseInt(
-                  (proformaId || "").toString(),
+                  (proformaid || "").toString(),
                   10
                 );
                 fieldArray[i].sequence = 5 * (i + 1);
@@ -442,7 +442,7 @@ function Step4() {
               if (push) {
                 router.push({
                   pathname: ROUTE,
-                  query: { rcid, proformaId },
+                  query: { rcid, proformaid },
                 });
               }
             })}
