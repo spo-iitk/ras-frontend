@@ -40,6 +40,7 @@ function DeleteHR(props: { id: string }) {
     <IconButton
       onClick={() => {
         addCompanyRequest.deleteHR(token, id);
+        window.location.reload();
       }}
     >
       <DeleteIcon />
