@@ -35,11 +35,11 @@ function ProformaNew() {
 
   useEffect(() => {
     companies.forEach((item) => {
-      if (item.ID === fetchData.company_id) {
+      if (item.ID === fetchData.company_recruitment_cycle_id) {
         setCompany(item.company_name);
       }
     });
-  }, [companies, fetchData.company_id]);
+  }, [companies, fetchData.company_recruitment_cycle_id]);
 
   useEffect(() => {
     let data: AdminProformaType;
