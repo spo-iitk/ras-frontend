@@ -65,6 +65,7 @@ function Index() {
               <TextField
                 multiline
                 fullWidth
+                minRows={4}
                 value={row.nature_of_business}
                 InputProps={{
                   readOnly: true,
@@ -77,6 +78,7 @@ function Index() {
               <TextField
                 multiline
                 fullWidth
+                minRows={4}
                 value={row.tentative_job_location}
                 InputProps={{
                   readOnly: true,
@@ -101,6 +103,7 @@ function Index() {
               <TextField
                 multiline
                 fullWidth
+                minRows={4}
                 value={row.bond_details}
                 InputProps={{
                   readOnly: true,
@@ -113,6 +116,7 @@ function Index() {
               <TextField
                 multiline
                 fullWidth
+                minRows={4}
                 value={row.medical_requirements}
                 InputProps={{
                   readOnly: true,
