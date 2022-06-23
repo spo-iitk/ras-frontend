@@ -13,7 +13,21 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
-
+const row = [
+  {
+    proforma_id: 0,
+    name: "",
+    date: "",
+    duration: "",
+    venue: "",
+    start_time: 0,
+    end_time: 0,
+    description: "",
+    main_poc: "",
+    sequence: 0,
+    record_attendance: false,
+  },
+];
 const info = [
   {
     label: "Company Name",
@@ -89,7 +103,7 @@ function View() {
             </Grid>
             <Grid item xs={12}>
               <h3>Hiring Process</h3>
-              <StepperComp />
+              <StepperComp steps={row} />
             </Grid>
           </Grid>
         </Stack>
