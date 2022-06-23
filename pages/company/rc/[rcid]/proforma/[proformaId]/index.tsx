@@ -17,7 +17,7 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
-const data = new Array(100 + 1).join("0");
+const data1 = new Array(100 + 1).join("0");
 
 function Index() {
   const { token } = useStore();
@@ -29,6 +29,7 @@ function Index() {
   const [ctc, setCtc] = useState("");
   const [jd, setJd] = useState("");
   const [pd, setPd] = useState("");
+  const [isFetched, setisFetched] = useState(false);
   const [row, setRow] = useState<ProformaType>({
     ID: 0,
   } as ProformaType);
@@ -41,10 +42,11 @@ function Index() {
       setCtc(response.cost_to_company);
       setJd(response.job_description);
       setPd(response.package_details);
+      setisFetched(true);
     };
     getCompanydata();
   }, [token, rid, ID]);
-
+  const data = row.eligibility?.length > 90 ? row.eligibility : data1;
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
       <Meta title="Software Intern - Proforma" />
@@ -58,47 +60,41 @@ function Index() {
       >
         <Stack spacing={2}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6} key="cname">
-              <h3>Company Name</h3>
-              <TextField
-                multiline
-                fullWidth
-                value={row.company_name}
-                disabled
-                sx={textFieldSX}
-              />
-            </Grid>
             <Grid item xs={12} md={6} key="bnature">
               <h3>Nature of Business</h3>
               <TextField
                 multiline
                 fullWidth
                 value={row.nature_of_business}
-                disabled
+                InputProps={{
+                  readOnly: true,
+                }}
                 sx={textFieldSX}
               />
             </Grid>
             <Grid item xs={12} md={6} key="tjobloc">
-              <h3>TentatIve Job Location</h3>
+              <h3>Tentative Job Location</h3>
               <TextField
                 multiline
                 fullWidth
                 value={row.tentative_job_location}
-                disabled
+                InputProps={{
+                  readOnly: true,
+                }}
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="jd">
+            <Grid item xs={12} md={12} key="jd">
               <h3>Job Description</h3>
-              <RichText onChange={setJd} readOnly value={jd} />
+              {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
             </Grid>
-            <Grid item xs={12} md={6} key="ctc">
+            <Grid item xs={12} md={12} key="ctc">
               <h3>Cost to Company</h3>
-              <RichText onChange={setCtc} readOnly value={ctc} />
+              {isFetched && <RichText onChange={setCtc} readOnly value={ctc} />}
             </Grid>
-            <Grid item xs={12} md={6} key="pd">
+            <Grid item xs={12} md={12} key="pd">
               <h3>Package Details</h3>
-              <RichText onChange={setPd} readOnly value={pd} />
+              {isFetched && <RichText onChange={setPd} readOnly value={pd} />}
             </Grid>
             <Grid item xs={12} md={6} key="bond">
               <h3>Bond Details</h3>
@@ -106,7 +102,9 @@ function Index() {
                 multiline
                 fullWidth
                 value={row.bond_details}
-                disabled
+                InputProps={{
+                  readOnly: true,
+                }}
                 sx={textFieldSX}
               />
             </Grid>
@@ -116,7 +114,9 @@ function Index() {
                 multiline
                 fullWidth
                 value={row.medical_requirements}
-                disabled
+                InputProps={{
+                  readOnly: true,
+                }}
                 sx={textFieldSX}
               />
             </Grid>
