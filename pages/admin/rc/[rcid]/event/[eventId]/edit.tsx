@@ -22,10 +22,10 @@ function Event() {
   const { register, handleSubmit, reset } = useForm<EventDetails>();
 
   const onSubmit = async (data: EventDetails) => {
-    const info = {
+    const info: EventDetails = {
       ...data,
-      start_time: startTime?.valueOf(),
-      end_time: endTime?.valueOf(),
+      start_time: startTime?.valueOf() || 0,
+      end_time: endTime?.valueOf() || 0,
     };
     await eventRequest.put(token, info, rid, pid.toString());
   };
