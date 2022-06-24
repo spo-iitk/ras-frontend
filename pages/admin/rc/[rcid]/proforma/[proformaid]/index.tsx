@@ -3,22 +3,23 @@ import {
   Button,
   Card,
   Grid,
+  MenuItem,
   Modal,
+  Select,
   Stack,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-// eslint-disable-next-line no-unused-vars
 import requestProforma, {
   AdminProformaType,
 } from "@callbacks/admin/rc/adminproforma";
 import useStore from "@store/store";
+import eventRequest, { Event } from "@callbacks/company/rc/proforma/event";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -62,38 +63,15 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    name: "Student Name ",
-    rollNo: "123456",
-    link: "Idk",
-    status: "IDC",
-  },
-];
+const rows: never[] = [];
 function Index() {
-  const {
-    register,
-    // handleSubmit,
-    // formState: { errors },
-    // reset,
-  } = useForm<AdminProformaType>();
-
-  // eslint-disable-next-line no-unused-vars
-  const [proformaData, setProformaData] = useState<AdminProformaType>();
   const [openEmailSender, setOpenEmailSender] = useState(false);
+  const [proformaEvents, setProformaEvents] = useState<Event[]>([]);
   const handleOpenEmailSender = () => {
     setOpenEmailSender(true);
   };
   const handleCloseEmailSender = () => {
     setOpenEmailSender(false);
-  };
-  const [openDateChanger, setOpenDateChanger] = useState(false);
-  const handleOpenDateChanger = () => {
-    setOpenDateChanger(true);
-  };
-  const handleCloseDateChanger = () => {
-    setOpenDateChanger(false);
   };
   const router = useRouter();
   const { rcid, proformaid } = router.query;
@@ -123,13 +101,13 @@ function Index() {
   const onClickShowDetails = () => hideDetails(false);
 
   useEffect(() => {
-    const fetchAdminProforma = async () => {
-      // const response = await requestProforma.get(token, rcid, proformaId);
-      // setProformaData(response);
+    const fetchProformaEvents = async () => {
+      const response = await eventRequest.getAll(token, rid, pid);
+      setProformaEvents(response);
     };
+    if (router.isReady) fetchProformaEvents();
+  }, [token, router.isReady, rid, pid]);
 
-    fetchAdminProforma();
-  }, [token, rcid, proformaid]);
   return (
     <div className="container">
       <Meta title="Proforma" />
@@ -228,7 +206,9 @@ function Index() {
                 <Button
                   variant="contained"
                   sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
-                  onClick={handleOpenDateChanger}
+                  onClick={() => {
+                    router.push(`/admin/rc/${rid}/proforma/${pid}/step5`);
+                  }}
                 >
                   Change/Set Deadline
                 </Button>
@@ -245,24 +225,22 @@ function Index() {
                   <Box sx={boxStyle}>
                     <Stack spacing={3}>
                       <h1>Enter Email to be Sent</h1>
-                      <TextField
-                        label="Enter New Password"
+                      <Select
+                        labelId="Event-ID"
+                        label="Select Group"
                         variant="standard"
-                      />
-                      <Button variant="contained" sx={{ width: "100%" }}>
-                        Submit
-                      </Button>
-                    </Stack>
-                  </Box>
-                </Modal>
-                <Modal open={openDateChanger} onClose={handleCloseDateChanger}>
-                  <Box sx={boxStyle}>
-                    <Stack spacing={3}>
-                      <h1>Enter New Deadline</h1>
+                        // {...register("type")}
+                      >
+                        {proformaEvents.map((event) => (
+                          <MenuItem value={event.ID}>{event.name}</MenuItem>
+                        ))}
+                      </Select>
+                      <TextField label="Email Subject" variant="standard" />
                       <TextField
-                        type="date"
+                        label="Email Body"
                         variant="standard"
-                        {...register("set_deadline")}
+                        multiline
+                        minRows={3}
                       />
                       <Button variant="contained" sx={{ width: "100%" }}>
                         Submit

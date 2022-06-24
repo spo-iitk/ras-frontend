@@ -45,6 +45,12 @@ export interface ProformaResponse {
   pid: number;
 }
 
+export interface ProformaEmailRequest {
+  event_id: number;
+  subject: string;
+  body: string;
+}
+
 const instance = axios.create({
   baseURL: ADMIN_APPLICATION_URL,
   timeout: 15000,
@@ -115,6 +121,26 @@ const requestProforma = {
       })
       .catch((err: ErrorType) => {
         errorNotification("Updation Failed", err.response?.data?.error);
+        return false;
+      }),
+  email: (
+    token: string,
+    rcid: string,
+    pid: string,
+    body: ProformaEmailRequest
+  ) =>
+    instance
+      .post<
+        StatusResponse,
+        AxiosResponse<StatusResponse, ProformaEmailRequest>,
+        ProformaEmailRequest
+      >(`/rc/${rcid}/proforma/${pid}/email`, body, setConfig(token))
+      .then((res) => {
+        successNotification("Email Send Successfully", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification("Email Send Failed", err.response?.data?.error);
         return false;
       }),
 };
