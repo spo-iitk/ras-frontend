@@ -71,6 +71,17 @@ const requestProforma = {
         );
         return {} as AdminProformaType;
       }),
+  getAll: (token: string, rcid: string) =>
+    instance
+      .get<AdminProformaType[]>(`/rc/${rcid}/proforma`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching data",
+          err.response?.data?.error || err.message
+        );
+        return [] as AdminProformaType[];
+      }),
 
   post: (token: string, rcid: string, body: AdminProformaType) =>
     instance

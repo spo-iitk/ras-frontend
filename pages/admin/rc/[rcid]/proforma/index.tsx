@@ -1,42 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
+import requestProforma, {
+  AdminProformaType,
+} from "@callbacks/admin/rc/adminproforma";
+import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
-    headerName: "Id",
-    width: 100,
+    field: "ID",
+    headerName: "ID",
   },
   {
-    field: "name",
-    headerName: "Company Name",
-    width: 300,
+    field: "CreatedAt",
+    headerName: "Created At",
+    hide: true,
   },
   {
-    field: "role",
-    headerName: "Role",
-    width: 200,
+    field: "UpdatedAt",
+    headerName: "Last Updated",
   },
   {
-    field: "applicationDeadline",
+    field: "company_id",
+    headerName: "Comapny ID",
+    hide: true,
+  },
+  {
+    field: "company_recruitment_cycle_id",
+    headerName: "Company RC ID",
+    hide: true,
+  },
+  {
+    field: "is_approved",
+    headerName: "Status",
+    renderCell: (params) =>
+      // eslint-disable-next-line no-nested-ternary
+      params.row.is_approved.Valid
+        ? params.row.is_verified?.Bool
+          ? "Approved"
+          : "Rejected"
+        : "Pending",
+  },
+  {
+    field: "set_deadline",
     headerName: "Application Deadline",
-    width: 200,
+    renderCell(params) {
+      return `${
+        params.row.set_deadline === 0
+          ? "Date not Set"
+          : new Date(params.value).toLocaleString()
+      }`;
+    },
   },
+  {
+    field: "hide_details",
+    headerName: "Deatils Hidden",
+  },
+  {
+    field: "action_taken_by",
+    headerName: "Action taken By",
+    valueParser: (value) => value?.split("@")[0],
+    hide: true,
+  },
+  { field: "active_hr_id", headerName: "Active HR" },
+  { field: "nature_of_business", headerName: "Role Name" },
+  { field: "company_name", headerName: "Company Name" },
   {
     field: "Actions",
     headerName: "Actions",
     width: 200,
-    renderCell: () => (
+    renderCell: (params) => (
       <Link
         href={{
-          pathname: `admin/rc`,
+          pathname: `/admin/rc/[rcid]/proforma/[pid]`,
           query: {
-            rcId: 1,
+            rcid: params.row.recruitment_cycle_id,
+            pid: params.row.ID,
           },
         }}
       >
@@ -47,18 +91,31 @@ const columns: GridColDef[] = [
     ),
   },
 ];
+function Index() {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = rcid as string;
 
-const rows: never[] = [];
+  const { token } = useStore();
 
-function index() {
+  const [proformas, setProformas] = useState<AdminProformaType[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await requestProforma.getAll(token, rid);
+      setProformas(response);
+    };
+    if (router.isReady) fetchData();
+  }, [rid, router.isReady, token]);
+
   return (
-    <div>
+    <div className="container">
       <Meta title="Proforma" />
       <h2>Proforma</h2>
-      <DataGrid rows={rows} columns={columns} />
+      <DataGrid rows={proformas} columns={columns} getRowId={(row) => row.ID} />
     </div>
   );
 }
 
-index.layout = "adminPhaseDashBoard";
-export default index;
+Index.layout = "adminPhaseDashBoard";
+export default Index;
