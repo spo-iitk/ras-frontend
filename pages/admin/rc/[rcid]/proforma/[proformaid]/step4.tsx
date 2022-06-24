@@ -328,7 +328,7 @@ function Step4() {
                   All steps completed - you&apos;re finished
                 </Typography>
                 <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                  Reset
+                  Back
                 </Button>
               </Paper>
             )}
@@ -428,7 +428,7 @@ function Step4() {
             sx={{ width: { xs: "50%", md: "20%" } }}
             onClick={() =>
               reset({
-                fieldArray: [],
+                fieldArray: array,
               })
             }
           >
