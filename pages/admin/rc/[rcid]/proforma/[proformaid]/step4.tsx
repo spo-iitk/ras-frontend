@@ -241,7 +241,7 @@ function Step4() {
                         onClick={handleBack}
                         sx={{ mt: 1, mr: 1 }}
                       >
-                        Reset
+                        Back
                       </Button>
                     </div>
                   </Box>
@@ -328,7 +328,7 @@ function Step4() {
                   All steps completed - you&apos;re finished
                 </Typography>
                 <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                  Back
+                  Reset
                 </Button>
               </Paper>
             )}
