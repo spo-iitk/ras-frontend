@@ -41,7 +41,6 @@ function Overview(): JSX.Element {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // console.log(Overview.companyName);
     const getRC = async () => {
       setLoading(true);
       const response = await rcRequest.getAll(token);

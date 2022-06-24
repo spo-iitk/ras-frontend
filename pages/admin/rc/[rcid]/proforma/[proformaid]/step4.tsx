@@ -1,7 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
   Card,
   Drawer,
@@ -24,16 +23,16 @@ import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
-import proformaRequestStep4 from "@callbacks/company/rc/proforma/step4";
 import useStore from "@store/store";
+import eventRequest from "@callbacks/admin/rc/proforma/event";
 
-const ROUTE = "/company/rc/[rcid]/proforma/[proformaId]/step5";
-
+const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/step5";
 type Anchor = "top" | "left" | "bottom" | "right";
 
 const style = {
@@ -49,20 +48,44 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
-
 function Step4() {
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
-  const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const { rcid, proformaid } = router.query;
   const { token } = useStore();
+  const [array, setArray] = useState<any>([]);
   const { register, handleSubmit, control, reset, getValues } = useForm();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append } = useFieldArray<FieldValues, "fieldArray", "ID">({
     control,
     name: "fieldArray",
   });
+  useEffect(() => {
+    const fetchStep4 = async () => {
+      if (router.isReady) {
+        const response = await eventRequest.getAll(
+          token,
+          (rcid || "").toString(),
+          (proformaid || "").toString()
+        );
+        let arrays_temp: {
+          label: string;
+          duration: string;
+          ID: number;
+        }[] = [];
+        for (let i = 0; i < response.length; i += 1) {
+          const obj = {
+            label: response[i].name,
+            duration: (response[i].duration || "").toString(),
+            ID: response[i].ID,
+          };
+          arrays_temp.push(obj);
+        }
+        setArray(arrays_temp);
+        reset({ fieldArray: arrays_temp });
+      }
+    };
+    fetchStep4();
+  }, [token, proformaid, rcid, router.isReady, reset]);
   const [activeStep, setActiveStep] = React.useState(0);
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -135,12 +158,6 @@ function Step4() {
     });
     setActiveStep(fields.length + 1);
   };
-
-  const handleDelete = (index: number) => {
-    remove(index);
-    setActiveStep(index);
-  };
-
   const list = (anchor: Anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300 }}
@@ -231,7 +248,7 @@ function Step4() {
                 </StepContent>
               </Step>
               {fields.map((step, index) => (
-                <Step key={step.id}>
+                <Step key={step.ID}>
                   <StepLabel>
                     <Card sx={{ padding: 2, width: "300px" }}>
                       <Stack spacing={3}>
@@ -259,19 +276,29 @@ function Step4() {
                               {...register(`fieldArray.${index}.label`)}
                             />
                           </Stack>
-                          {index === activeStep - 1 ? (
-                            <IconButton onClick={() => handleDelete(index)}>
-                              <DeleteForeverIcon />
-                            </IconButton>
-                          ) : null}
                         </Stack>
                         <FormControl sx={{ mt: 1 }}>
-                          <TextField
-                            label="Duration"
-                            defaultValue="0"
-                            variant="outlined"
-                            {...register(`fieldArray.${index}.duration`)}
-                          />
+                          {fields[index].ID && (
+                            <Button
+                              variant="contained"
+                              onClick={() => {
+                                router.push({
+                                  pathname: "/admin/rc/[rcid]/event/[eid]",
+                                  query: {
+                                    rcid,
+                                    eid: (fields[index].ID || "").toString(),
+                                  },
+                                });
+                              }}
+                            >
+                              View Details
+                            </Button>
+                          )}
+                          {!fields[index].ID && (
+                            <Button variant="outlined">
+                              DETAILS NOT AVAILABLE
+                            </Button>
+                          )}
                         </FormControl>
                       </Stack>
                     </Card>
@@ -355,21 +382,32 @@ function Step4() {
         <Stack spacing={3} justifyContent="center" direction="row">
           <Button
             variant="contained"
+            disabled={!(rcid && proformaid)}
             sx={{ width: { xs: "50%", md: "20%" } }}
-            disabled={!router.isReady || rid === "" || pid === ""}
             onClick={handleSubmit(async (data) => {
               const { fieldArray } = data;
               let push = 1;
+              let count = 0;
+              // eslint-disable-next-line no-loop-func
               for (let i = 0; i < fieldArray.length; i += 1) {
-                fieldArray[i].proforma_id = parseInt(pid, 10);
-                fieldArray[i].sequence = 5 * (i + 1);
-                // eslint-disable-next-line no-loop-func
-                // eslint-disable-next-line no-await-in-loop
-                let response = await proformaRequestStep4.post(
-                  token,
-                  fieldArray[i],
-                  (rcid || "").toString()
+                fieldArray[i].proforma_id = parseInt(
+                  (proformaid || "").toString(),
+                  10
                 );
+                fieldArray[i].sequence = 5 * (i + 1);
+                fieldArray[i].name = fieldArray[i].label;
+
+                let response = false;
+                if (count >= array.length) {
+                  // eslint-disable-next-line no-await-in-loop
+                  response = await eventRequest.post(
+                    token,
+                    fieldArray[i],
+                    (rcid || "").toString(),
+                    (proformaid || "").toString()
+                  );
+                } else response = true;
+                count += 1;
                 if (!response) {
                   push = 0;
                   break;
@@ -378,7 +416,7 @@ function Step4() {
               if (push) {
                 router.push({
                   pathname: ROUTE,
-                  query: { rcid, proformaId },
+                  query: { rcid, proformaid },
                 });
               }
             })}
@@ -401,5 +439,5 @@ function Step4() {
     </div>
   );
 }
-Step4.layout = "companyPhaseDashboard";
+Step4.layout = "adminPhaseDashBoard";
 export default Step4;

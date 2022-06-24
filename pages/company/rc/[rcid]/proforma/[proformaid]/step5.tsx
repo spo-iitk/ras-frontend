@@ -19,9 +19,9 @@ const ROUTE = "/company/rc/[rcId]";
 
 function Step5() {
   const router = useRouter();
-  const { rcid, proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
+  const pid = (proformaid || "").toString();
   const { token } = useStore();
   const [fetchData, setFetch] = useState<ProformaType>({
     ID: 0,

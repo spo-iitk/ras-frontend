@@ -1,53 +1,62 @@
 import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
 import RichTextEditor from "@components/Editor/RichText";
-import proformaRequest, {
-  NewProformaResponse,
-  ProformaType,
-} from "@callbacks/company/proforma";
+import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import useStore from "@store/store";
 
 const ROUTE = "/company/rc/[rcId]/proforma/[proformaid]/step2";
-
 function ProformaNew() {
   const [value, onChange] = useState("");
   const { token, name } = useStore();
+  const router = useRouter();
+  const { rcid, proformaid } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaid || "").toString();
+  const [fetchData, setFetch] = useState<ProformaType>({
+    ID: 0,
+  } as ProformaType);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<ProformaType>({
-    defaultValues: { company_name: name },
+    defaultValues: { ...fetchData, company_name: name },
   });
-  const router = useRouter();
-  const { rcid } = router.query;
-  const rid = (rcid || "").toString();
+  useEffect(() => {
+    if (!(rid && pid)) return;
+    const getStep1 = async () => {
+      const data = await proformaRequest.get(token, rid, pid);
+      setFetch(data);
+      onChange(data.job_description);
+      reset(data);
+    };
+    getStep1();
+  }, [rid, pid, token, reset]);
 
   const handleNext = async (data: ProformaType) => {
     const info: ProformaType = {
       ...data,
+      ID: parseInt(pid, 10),
       job_description: value,
       recruitment_cycle_id: parseInt(rid, 10),
     };
-    await proformaRequest
-      .post(token, rid, info)
-      .then((res: NewProformaResponse) => {
-        reset({
-          company_name: "",
-          nature_of_business: "",
-          tentative_job_location: "",
-        });
-        onChange("");
-        router.push({
-          pathname: ROUTE,
-          query: { rcId: rid, proformaid: res.pid },
-        });
+    await proformaRequest.put(token, rid, info).then(() => {
+      reset({
+        company_name: "",
+        nature_of_business: "",
+        tentative_job_location: "",
       });
+      onChange("");
+      router.push({
+        pathname: ROUTE,
+        query: { rcId: rid, proformaid: pid },
+      });
+    });
   };
 
   return (
@@ -106,14 +115,17 @@ function ProformaNew() {
               {...register("tentative_job_location", { required: true })}
             />
           </FormControl>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Job Description</p>
-            <RichTextEditor
-              value={value}
-              onChange={onChange}
-              style={{ minHeight: 200 }}
-            />
-          </FormControl>
+          {fetchData.ID !== 0 && (
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Job Description</p>
+              <RichTextEditor
+                value={fetchData.job_description}
+                onChange={onChange}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+          )}
+
           <Stack
             spacing={3}
             direction="row"

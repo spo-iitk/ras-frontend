@@ -12,6 +12,7 @@ import {
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -19,6 +20,7 @@ import AddPPO from "@components/Modals/addPPO";
 import useStore from "@store/store";
 import requestProforma, { ProformaType } from "@callbacks/admin/rc/proforma";
 import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 const columns: GridColDef[] = [
   {
@@ -39,7 +41,7 @@ const columns: GridColDef[] = [
     renderCell(params) {
       // eslint-disable-next-line no-nested-ternary
       return params.row.is_approved.Valid
-        ? params.row.is_verified.Bool
+        ? params.row.is_verified?.Bool
           ? "Approved"
           : "Rejected"
         : "Pending";
@@ -62,16 +64,20 @@ const columns: GridColDef[] = [
     field: "active_hr_id",
     headerName: "Active HR",
   },
+  {
+    field: "button",
+    headerName: "View Details",
+    renderCell: (params) => (
+      <Link
+        href={{
+          pathname: `/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`,
+        }}
+      >
+        <ActiveButton> click </ActiveButton>
+      </Link>
+    ),
+  },
 ];
-
-// const rows = [
-//   {
-//     id: 1,
-//     designation: "Role 1",
-//     status: "Accepted",
-//     deadline: "May 26,2019",
-//   },
-// ];
 
 function Index() {
   const router = useRouter();
@@ -232,16 +238,7 @@ function Index() {
           </Stack>
         </Stack>
 
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          getRowId={(rows) => rows.ID}
-          onCellClick={(params) => {
-            router.push(
-              `/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`
-            );
-          }}
-        />
+        <DataGrid rows={rows} columns={columns} getRowId={(rows) => rows.ID} />
       </Stack>
     </div>
   );

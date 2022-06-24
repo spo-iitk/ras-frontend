@@ -31,8 +31,13 @@ function ProfileEdit() {
       const student = await studentRequest
         .get(token)
         .catch(() => ({ ID: 0 } as Student));
+
       setStudentData(student);
-      reset(student);
+      reset({
+        name: student.name,
+        iitk_email: student.iitk_email,
+        roll_no: student.roll_no,
+      });
     };
     fetch();
   }, [token, reset]);
@@ -111,6 +116,14 @@ function ProfileEdit() {
             </Button>
           </Stack>
         </Stack>
+        <h3 style={{ fontWeight: 300 }}>
+          Please fill in corresponding details <b>only</b> for the fields you
+          want to edit.
+        </h3>
+        <h4 style={{ fontWeight: 300 }}>
+          PS. If your profile is already verified, it will be reverted upon any
+          change.
+        </h4>
         <form style={{ marginBottom: 10 }}>
           <Stack justifyContent="center">
             <Card
@@ -145,9 +158,33 @@ function ProfileEdit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
+                  <p>IITK Roll No.</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    disabled
+                    {...register("roll_no")}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Expected Year of Graduation</p>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("expected_graduation_year", {
+                      setValueAs: (value) => parseInt(value, 10),
+                      max: 9999,
+                      min: 1000,
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
                   <p>Department</p>
                   <Select
-                    defaultValue=""
                     fullWidth
                     variant="standard"
                     {...register("department")}
@@ -167,7 +204,6 @@ function ProfileEdit() {
                   <p>Program</p>
                   {dept !== "" ? (
                     <Select
-                      defaultValue=""
                       fullWidth
                       variant="standard"
                       {...register("program")}
@@ -192,7 +228,6 @@ function ProfileEdit() {
                     </Select>
                   ) : (
                     <Select
-                      defaultValue=""
                       fullWidth
                       variant="standard"
                       {...register("program")}
@@ -204,7 +239,6 @@ function ProfileEdit() {
                 <Grid item xs={12} sm={6}>
                   <p>Secondary Department</p>
                   <Select
-                    defaultValue=""
                     fullWidth
                     variant="standard"
                     {...register("department_2")}
@@ -224,7 +258,6 @@ function ProfileEdit() {
                   <p>Secondary Program</p>
                   {deptSec !== "" ? (
                     <Select
-                      defaultValue=""
                       fullWidth
                       variant="standard"
                       {...register("program_2")}
@@ -249,7 +282,6 @@ function ProfileEdit() {
                     </Select>
                   ) : (
                     <Select
-                      defaultValue=""
                       fullWidth
                       variant="standard"
                       {...register("program")}
@@ -258,17 +290,7 @@ function ProfileEdit() {
                     </Select>
                   )}
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <p>IITK Roll No.</p>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    id="standard-basic"
-                    variant="standard"
-                    disabled
-                    {...register("roll_no")}
-                  />
-                </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <p>Specialization</p>
                   <TextField
@@ -279,18 +301,7 @@ function ProfileEdit() {
                     {...register("specialization")}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <p>Expected Year of Graduation</p>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    id="standard-basic"
-                    variant="standard"
-                    {...register("expected_graduation_year", {
-                      setValueAs: (value) => parseInt(value, 10),
-                    })}
-                  />
-                </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <p>Preference</p>
                   <TextField
@@ -303,26 +314,11 @@ function ProfileEdit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
-                  <Select
-                    defaultValue=""
-                    fullWidth
-                    variant="standard"
-                    {...register("gender")}
-                  >
+                  <Select fullWidth variant="standard" {...register("gender")}>
                     <MenuItem value="">None</MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                   </Select>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <p>Disability</p>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    id="standard-basic"
-                    variant="standard"
-                    {...register("disability")}
-                  />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Personal Email</p>
@@ -341,14 +337,20 @@ function ProfileEdit() {
                     type="date"
                     id="standard-basic"
                     variant="standard"
-                    {...register("dob")}
+                    {...register("dob", {
+                      setValueAs: (date) => {
+                        const d = new Date(date);
+                        const epoch = d.getTime();
+                        return epoch;
+                      },
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Contact Number</p>
                   <TextField
                     fullWidth
-                    type="number"
+                    type="text"
                     id="standard-basic"
                     variant="standard"
                     {...register("phone", { minLength: 10, maxLength: 10 })}
@@ -358,7 +360,7 @@ function ProfileEdit() {
                   <p>Alternate Contact Number</p>
                   <TextField
                     fullWidth
-                    type="number"
+                    type="text"
                     id="standard-basic"
                     variant="standard"
                     {...register("alternate_phone", {
@@ -374,7 +376,10 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
-                    {...register("whatsapp_number")}
+                    {...register("whatsapp_number", {
+                      minLength: 10,
+                      maxLength: 10,
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -420,6 +425,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("tenth_year", {
                       setValueAs: (value) => parseInt(value, 10),
+                      max: 9999,
+                      min: 1000,
                     })}
                   />
                 </Grid>
@@ -430,7 +437,9 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
-                    {...register("tenth_marks")}
+                    {...register("tenth_marks", {
+                      setValueAs: (value) => parseFloat(value),
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -452,6 +461,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("twelfth_year", {
                       setValueAs: (value) => parseInt(value, 10),
+                      max: 9999,
+                      min: 1000,
                     })}
                   />
                 </Grid>
@@ -462,47 +473,67 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
-                    {...register("twelfth_marks")}
+                    {...register("twelfth_marks", {
+                      setValueAs: (value) => parseFloat(value),
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Entrance Exam</p>
-                  <TextField
+                  <Select
                     fullWidth
-                    type="text"
-                    id="standard-basic"
                     variant="standard"
                     {...register("entrance_exam")}
-                  />
+                  >
+                    <MenuItem value="">None</MenuItem>
+
+                    <MenuItem value="JEE Advanced">JEE Advanced</MenuItem>
+                    <MenuItem value="GATE">GATE</MenuItem>
+                    <MenuItem value="JAM">JAM</MenuItem>
+                    <MenuItem value="CEED">CEED</MenuItem>
+                    <MenuItem value="JMET">JMET</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Entrance Exam Rank</p>
                   <TextField
                     fullWidth
-                    type="number"
+                    type="string"
                     id="standard-basic"
                     variant="standard"
-                    {...register("entrance_exam_rank")}
+                    {...register("entrance_exam_rank", {
+                      setValueAs: (value) => parseInt(value, 10),
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Category</p>
-                  <TextField
+                  <Select
                     fullWidth
-                    type="text"
-                    id="standard-basic"
                     variant="standard"
                     {...register("category")}
-                  />
+                  >
+                    <MenuItem value="">None</MenuItem>
+
+                    <MenuItem value="General">General</MenuItem>
+                    <MenuItem value="General-EWS">General-EWS</MenuItem>
+                    <MenuItem value="OBC">OBC</MenuItem>
+                    <MenuItem value="SC">SC</MenuItem>
+                    <MenuItem value="ST">ST</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </Select>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Category Rank</p>
                   <TextField
                     fullWidth
-                    type="number"
+                    type="string"
                     id="standard-basic"
                     variant="standard"
-                    {...register("category_rank")}
+                    {...register("category_rank", {
+                      setValueAs: (value) => parseInt(value, 10),
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -513,6 +544,7 @@ function ProfileEdit() {
                     id="standard-basic"
                     variant="standard"
                     multiline
+                    minRows={3}
                     {...register("current_address")}
                   />
                 </Grid>
@@ -524,6 +556,7 @@ function ProfileEdit() {
                     id="standard-basic"
                     variant="standard"
                     multiline
+                    minRows={3}
                     {...register("permanent_address")}
                   />
                 </Grid>
@@ -544,7 +577,20 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
-                    {...register("friend_phone")}
+                    {...register("friend_phone", {
+                      minLength: 10,
+                      maxLength: 10,
+                    })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <p>Disability</p>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    id="standard-basic"
+                    variant="standard"
+                    {...register("disability")}
                   />
                 </Grid>
               </Grid>

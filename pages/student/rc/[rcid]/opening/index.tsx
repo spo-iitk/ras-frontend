@@ -40,10 +40,10 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <Link
         href={{
-          pathname: `${ROUTE_PREFIX}/proforma/[proformaId]`,
+          pathname: `${ROUTE_PREFIX}/proforma/[proformaid]`,
           query: {
             rcid: 1,
-            proformaId: 1,
+            proformaid: 1,
           },
         }}
       >

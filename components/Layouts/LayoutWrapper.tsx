@@ -303,6 +303,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/student",
         },
         {
+          avatar: <ArticleIcon />,
+          name: "Proforma",
+          id: "/proforma",
+        },
+        {
           avatar: <BarChartIcon />,
           name: "Stats",
           id: "/stats",

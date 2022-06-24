@@ -1,19 +1,41 @@
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { IconButton, Modal, Stack } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Button, IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import EditIcon from "@mui/icons-material/Edit";
+import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
 import getStudents, { Student } from "@callbacks/admin/rc/student/getStudents";
 import { errorNotification } from "@callbacks/notifcation";
+import EditStudent from "@components/Modals/EditStudentDetails";
 import Meta from "@components/Meta";
 import Enroll from "@components/Modals/Enroll";
 import Freeze from "@components/Modals/Freeze";
 import Unfreeze from "@components/Modals/Unfreeze";
+import { getDeptProgram } from "@components/Parser/parser";
+
+function DeleteStudents(props: { id: string }) {
+  const { token } = useStore();
+  const { id } = props;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  return (
+    <IconButton
+      onClick={() => {
+        getStudents.deleteStudent(token, rid, id);
+      }}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+}
 
 const columns: GridColDef[] = [
   {
@@ -40,11 +62,13 @@ const columns: GridColDef[] = [
     field: "program_department_id",
     headerName: "Department",
     width: 100,
+    renderCell: (params) => getDeptProgram(params.value),
   },
   {
     field: "secondary_program_department_id",
     headerName: "Secondary Department",
     width: 200,
+    renderCell: (params) => getDeptProgram(params.value),
   },
   {
     field: "student_id",
@@ -61,8 +85,31 @@ const columns: GridColDef[] = [
     headerName: "Type",
     width: 100,
   },
+  {
+    field: "options",
+    headerName: "",
+    align: "center",
+    width: 100,
+    renderCell: (cellValues) => (
+      <DeleteStudents id={cellValues.id.toString()} />
+    ),
+  },
+  {
+    field: "Actions",
+    headerName: "",
+    align: "center",
+    width: 100,
+    renderCell: (params) => (
+      <Link
+        href={`/admin/rc/${params.row.recruitment_cycle_id}/student/${params.row.id}`}
+      >
+        <Button variant="contained">View Details</Button>
+      </Link>
+    ),
+  },
 ];
 function Index() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows, setRows] = React.useState<any>([]);
   const router = useRouter();
   const { rcid } = router.query;
@@ -129,6 +176,13 @@ function Index() {
     };
     fetch();
   }, [rid, token]);
+  const [openNew, setOpenNew] = useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
   return (
     <div className="container">
       <Meta title="Students" />
@@ -140,6 +194,9 @@ function Index() {
       >
         <h2>Students</h2>
         <div>
+          <IconButton onClick={handleOpenNew}>
+            <EditIcon />
+          </IconButton>
           <IconButton onClick={handleOpenUnFreeze}>
             <HowToRegIcon />
           </IconButton>
@@ -151,6 +208,14 @@ function Index() {
           </IconButton>
         </div>
       </Stack>
+      <Modal open={openNew} onClose={handleCloseNew}>
+        <EditStudent
+          handleCloseNew={handleCloseNew}
+          setRows={setRows}
+          studentData={rows}
+          rcid={rid}
+        />
+      </Modal>
       <Modal open={openEnroll} onClose={handleCloseEnroll}>
         <Enroll handleClose={handleCloseEnroll} />
       </Modal>

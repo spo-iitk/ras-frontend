@@ -1,51 +1,70 @@
-import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  Card,
+  FormControl,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
 import RichTextEditor from "@components/Editor/RichText";
-import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import useStore from "@store/store";
+import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
+import requestProforma, {
+  AdminProformaType,
+  ProformaResponse,
+} from "@callbacks/admin/rc/adminproforma";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step2";
+const ROUTE = "/admin/rc/[rcId]/proforma/[proformaid]/step2";
+
 function ProformaNew() {
   const [value, onChange] = useState("");
   const { token, name } = useStore();
-  const router = useRouter();
-  const { rcid, proformaId } = router.query;
-  const rid = (rcid || "").toString();
-  const pid = (proformaId || "").toString();
-  const [fetchData, setFetch] = useState<ProformaType>({
-    ID: 0,
-  } as ProformaType);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ProformaType>({
-    defaultValues: { ...fetchData, company_name: name },
+  } = useForm<AdminProformaType>({
+    defaultValues: { company_name: name },
   });
-  useEffect(() => {
-    if (!(rid && pid)) return;
-    const getStep1 = async () => {
-      const data = await proformaRequest.get(token, rid, pid);
-      setFetch(data);
-      onChange(data.job_description);
-      reset(data);
-    };
-    getStep1();
-  }, [rid, pid, token, reset]);
 
-  const handleNext = async (data: ProformaType) => {
-    const info: ProformaType = {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const [companies, setCompanies] = useState<CompanyRc[]>([]);
+  const [company, setCompany] = useState<{
+    id: number;
+    label: string;
+    cid: number;
+  }>({
+    id: 0,
+    label: "",
+    cid: 0,
+  });
+
+  useEffect(() => {
+    const getCompanydata = async () => {
+      if (rid === undefined || rid === "") return;
+      let response = await requestCompany.getall(token, rid);
+      setCompanies(response);
+    };
+    if (rid !== "") getCompanydata();
+  }, [token, rid]);
+  const handleNext = async (data: AdminProformaType) => {
+    const info: AdminProformaType = {
       ...data,
-      ID: parseInt(pid, 10),
+      company_id: company.cid,
+      company_recruitment_cycle_id: company.id,
       job_description: value,
       recruitment_cycle_id: parseInt(rid, 10),
     };
-    await proformaRequest.put(token, rid, info).then(() => {
+    const res: ProformaResponse = await requestProforma.post(token, rid, info);
+    if (res.pid !== 0) {
       reset({
         company_name: "",
         nature_of_business: "",
@@ -54,9 +73,9 @@ function ProformaNew() {
       onChange("");
       router.push({
         pathname: ROUTE,
-        query: { rcId: rid, proformaId: pid },
+        query: { rcId: rid, proformaid: res.pid },
       });
-    });
+    }
   };
 
   return (
@@ -73,16 +92,21 @@ function ProformaNew() {
         <Stack spacing={3}>
           <h1>Step 1/5 : Basic Details</h1>
           <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Company Name</p>
-            <TextField
-              id="Cname"
-              disabled
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              variant="standard"
-              {...register("company_name")}
+            <Autocomplete
+              disablePortal
+              id="selectCompany"
+              options={companies.map((row) => ({
+                id: row.ID,
+                label: row.company_name,
+                cid: row.company_id,
+              }))}
+              renderInput={(params) => (
+                <TextField {...params} label="Select Company" />
+              )}
+              onChange={(e, v) => {
+                e.preventDefault();
+                if (v != null) setCompany(v);
+              }}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -115,17 +139,14 @@ function ProformaNew() {
               {...register("tentative_job_location", { required: true })}
             />
           </FormControl>
-          {fetchData.ID !== 0 && (
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Job Description</p>
-              <RichTextEditor
-                value={fetchData.job_description}
-                onChange={onChange}
-                style={{ minHeight: 200 }}
-              />
-            </FormControl>
-          )}
-
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Job Description</p>
+            <RichTextEditor
+              value={value}
+              onChange={onChange}
+              style={{ minHeight: 200 }}
+            />
+          </FormControl>
           <Stack
             spacing={3}
             direction="row"
@@ -161,5 +182,5 @@ function ProformaNew() {
   );
 }
 
-ProformaNew.layout = "companyPhaseDashboard";
+ProformaNew.layout = "adminPhaseDashBoard";
 export default ProformaNew;

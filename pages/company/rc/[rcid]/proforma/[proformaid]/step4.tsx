@@ -24,13 +24,17 @@ import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
+import eventRequest from "@callbacks/company/rc/proforma/event";
+import useStore from "@store/store";
+import { successNotification } from "@callbacks/notifcation";
 
-const ROUTE = "/company/rc/[rcId]/proforma/[proformaId]/step5";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step5";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -47,18 +51,50 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
-
 function Step4() {
   const router = useRouter();
-  const { rcId } = router.query;
-  const { register, handleSubmit, control, reset, getValues } = useForm();
-  const { fields, append, remove } = useFieldArray({
+  const { rcid, proformaid } = router.query;
+  const { token } = useStore();
+  const [array, setArray] = useState<any>([]);
+
+  const { register, handleSubmit, control, reset, getValues, setValue } =
+    useForm();
+  const { fields, append, remove } = useFieldArray<
+    FieldValues,
+    "fieldArray",
+    "ID"
+  >({
     control,
     name: "fieldArray",
   });
-
+  useEffect(() => {
+    const fetchStep4 = async () => {
+      if (router.isReady) {
+        const response = await eventRequest.getAll(
+          token,
+          (rcid || "").toString(),
+          (proformaid || "").toString()
+        );
+        let arrays_temp: {
+          label: string;
+          duration: string;
+          ID: number;
+        }[] = [];
+        for (let i = 0; i < response.length; i += 1) {
+          const obj = {
+            label: response[i].name,
+            duration: (response[i].duration || "").toString(),
+            ID: response[i].ID,
+          };
+          arrays_temp.push(obj);
+        }
+        setArray(arrays_temp);
+        reset({ fieldArray: arrays_temp });
+      }
+    };
+    fetchStep4();
+  }, [token, proformaid, rcid, router.isReady, reset]);
   const [activeStep, setActiveStep] = React.useState(0);
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -74,35 +110,35 @@ function Step4() {
   const tiles = [
     {
       label: "Pre-Placement Talk",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Resume Shortlisting",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Group Discussion",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Technical Test",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Aptitude Test",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Technical Interview",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "HR Interview",
-      duration: "0",
+      duration: "0 Min",
     },
     {
       label: "Other",
-      duration: "0",
+      duration: "0 Min",
     },
   ];
 
@@ -132,9 +168,23 @@ function Step4() {
     setActiveStep(fields.length + 1);
   };
 
-  const handleDelete = (index: number) => {
-    remove(index);
-    setActiveStep(index);
+  const handleDelete = async (index: number) => {
+    if (fields[index].ID !== undefined) {
+      const response = await eventRequest.delete(
+        token,
+        (rcid || "").toString(),
+        fields[index].ID.toString()
+      );
+      if (response) {
+        remove(index);
+        setActiveStep(index);
+        router.reload();
+      }
+    } else {
+      successNotification("Step deleted successfully", "");
+      remove(index);
+      setActiveStep(index);
+    }
   };
 
   const list = (anchor: Anchor) => (
@@ -227,7 +277,7 @@ function Step4() {
                 </StepContent>
               </Step>
               {fields.map((step, index) => (
-                <Step key={step.id}>
+                <Step key={step.ID}>
                   <StepLabel>
                     <Card sx={{ padding: 2, width: "300px" }}>
                       <Stack spacing={3}>
@@ -352,12 +402,49 @@ function Step4() {
           <Button
             variant="contained"
             sx={{ width: { xs: "50%", md: "20%" } }}
-            onClick={handleSubmit((data) => {
-              console.log(data);
-              router.push({
-                pathname: ROUTE,
-                query: { rcId, proformaId: 1 },
-              });
+            onClick={handleSubmit(async (data) => {
+              const { fieldArray } = data;
+              let push = 1;
+              let count = 0;
+              // eslint-disable-next-line no-loop-func
+              for (let i = 0; i < fieldArray.length; i += 1) {
+                fieldArray[i].proforma_id = parseInt(
+                  (proformaid || "").toString(),
+                  10
+                );
+                fieldArray[i].sequence = 5 * (i + 1);
+                fieldArray[i].name = fieldArray[i].label;
+
+                let response = false;
+                if (count < array.length) {
+                  fieldArray[i].ID = array[i].ID;
+                  setValue("fieldArray", [{ id: array[i].ID }]);
+                  // eslint-disable-next-line no-await-in-loop
+                  response = await eventRequest.put(
+                    token,
+                    fieldArray[i],
+                    (rcid || "").toString()
+                  );
+                } else {
+                  // eslint-disable-next-line no-await-in-loop
+                  response = await eventRequest.post(
+                    token,
+                    fieldArray[i],
+                    (rcid || "").toString()
+                  );
+                }
+                count += 1;
+                if (!response) {
+                  push = 0;
+                  break;
+                }
+              }
+              if (push) {
+                router.push({
+                  pathname: ROUTE,
+                  query: { rcid, proformaid },
+                });
+              }
             })}
           >
             Next

@@ -2,12 +2,14 @@ import { Card, Grid, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import Meta from "@components/Meta";
 import StepperComp from "@components/Stepper/stepperComp";
-import MatrixExpanded from "@components/Utils/MatrixExpanded";
+import Meta from "@components/Meta";
+import MatrixCondensed from "@components/Utils/MatrixCondensed";
 import useStore from "@store/store";
-import { ProformaEvent, ProformaType } from "@callbacks/company/proforma";
-import sProformaRequest from "@callbacks/student/rc/proforma";
+import proformaRequest, {
+  ProformaEvent,
+  ProformaType,
+} from "@callbacks/company/proforma";
 import RichText from "@components/Editor/RichText";
 
 const textFieldColor = "#ff0000";
@@ -18,14 +20,13 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
-
 const data1 = new Array(100 + 1).join("0");
 
 function Index() {
   const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
-  const PID = router.query.proformaId;
+  const PID = router.query.proformaid;
   const rid = (rcid || "").toString();
   const ID = (PID || "").toString();
   const [ctc, setCtc] = useState("");
@@ -40,9 +41,9 @@ function Index() {
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
       if (ID === undefined || ID === "") return;
-      let response = await sProformaRequest.get(token, rid, ID);
+      let response = await proformaRequest.get(token, rid, ID);
       setRow(response);
-      let response2 = await sProformaRequest.getEvent(token, rid, ID);
+      let response2 = await proformaRequest.getEvent(token, rid, ID);
       setRow2(response2);
       setCtc(response.cost_to_company);
       setJd(response.job_description);
@@ -54,31 +55,17 @@ function Index() {
   const data = row.eligibility?.length > 90 ? row.eligibility : data1;
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title="Company - Proforma" />
+      <Meta title="Software Intern - Proforma" />
       <h1>Proforma</h1>
       <Card
         elevation={5}
         sx={{
           padding: 3,
-          width: { xs: "100%", md: "800px" },
-          margin: "0px auto",
+          width: { xs: "320px", sm: "800px", margin: "0px auto" },
         }}
       >
         <Stack spacing={2}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={12} key="bnature">
-              <h3>Company Name</h3>
-              <TextField
-                multiline
-                fullWidth
-                value={row.company_name}
-                InputProps={{
-                  style: { textAlign: "center" },
-                  readOnly: true,
-                }}
-                sx={textFieldSX}
-              />
-            </Grid>
             <Grid item xs={12} md={6} key="bnature">
               <h3>Nature of Business</h3>
               <TextField
@@ -145,7 +132,7 @@ function Index() {
             </Grid>
             <Grid item xs={12}>
               <h3>Eligibility</h3>
-              <MatrixExpanded data={data} />
+              <MatrixCondensed data={data} />
             </Grid>
             <Grid item xs={12}>
               <h3>Hiring Process</h3>
@@ -158,5 +145,5 @@ function Index() {
   );
 }
 
-Index.layout = "studentPhaseDashboard";
+Index.layout = "companyPhaseDashboard";
 export default Index;

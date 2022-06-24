@@ -39,7 +39,19 @@ export interface ProformaType {
   message_for_cordinator: string;
   company_name: string;
 }
-
+export interface ProformaEvent {
+  proforma_id: number;
+  name: string;
+  date: string;
+  duration: string;
+  venue: string;
+  start_time: number;
+  end_time: number;
+  description: string;
+  main_poc: string;
+  sequence: number;
+  record_attendance: boolean;
+}
 export interface NewProformaResponse {
   pid: number;
 }
@@ -107,6 +119,17 @@ const proformaRequest = {
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
         return { ID: 0 } as ProformaType;
+      }),
+  getEvent: (token: string, rid: string, pid: string) =>
+    instance
+      .get<ProformaEvent[]>(
+        `/application/rc/${rid}/proforma/${pid}/event`,
+        setConfig(token)
+      )
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return [] as ProformaEvent[];
       }),
   getAll: (token: string, rid: string) =>
     instance

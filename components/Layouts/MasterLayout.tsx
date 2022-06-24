@@ -156,7 +156,7 @@ function MasterLayout({
             <div />
           )}
           <a
-            href="https://spo.iitk.ac.in/about_us.html"
+            href="https://spo.iitk.ac.in/contact"
             target="_blank"
             rel="noreferrer"
           >
@@ -280,7 +280,7 @@ function MasterLayout({
                   <div />
                 )}
                 <a
-                  href="https://spo.iitk.ac.in/about_us.html"
+                  href="https://spo.iitk.ac.in/contact"
                   target="_blank"
                   rel="noreferrer"
                 >
