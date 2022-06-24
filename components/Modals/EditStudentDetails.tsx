@@ -26,6 +26,8 @@ const boxStyle = {
   boxShadow: 24,
   p: 4,
   alignItems: "center",
+  maxHeight: "90vh",
+  overflowY: "scroll",
 };
 
 function EditStudent({
@@ -39,7 +41,6 @@ function EditStudent({
   studentData: Student[];
   rcid: string;
 }) {
-  //   const [formdata, setform] = useState<Student>({});
   const {
     register,
     handleSubmit,
@@ -102,7 +103,7 @@ function EditStudent({
     }
   };
   return (
-    <Box sx={boxStyle}>
+    <Box sx={boxStyle} className="modalScroll">
       <Stack spacing={3}>
         <h1>Edit Students</h1>
         <FormControl sx={{ m: 1 }}>

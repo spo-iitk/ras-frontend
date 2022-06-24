@@ -18,6 +18,7 @@ export interface Student {
   cpi: number;
   email: string;
   is_frozen: boolean;
+  is_verified: boolean;
   name: string;
   program_department_id: number;
   recruitment_cycle_id: number;

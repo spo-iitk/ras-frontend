@@ -10,6 +10,8 @@ import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -89,6 +91,18 @@ function Index() {
     };
     fetchData();
   }, [rcid, token, studentid]);
+
+  const handleVerify = async () => {
+    if (rcid !== undefined && rcid !== "" && student !== undefined) {
+      await getStudents.update(
+        token,
+        { ...student, is_verified: true },
+        rcid.toString()
+      );
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="container">
       <Meta title="Student Details - Admin" />
@@ -103,11 +117,7 @@ function Index() {
             },
           }}
         >
-          <Stack
-            spacing={2}
-            justifyContent="center"
-            style={{ marginBottom: 50 }}
-          >
+          <Stack spacing={2} justifyContent="center" sx={{ marginBottom: 5 }}>
             <Stack
               spacing={4}
               direction={{ sm: "row", xs: "column" }}
@@ -122,6 +132,40 @@ function Index() {
               </Link>
             </Stack>
           </Stack>
+          {student && (
+            <Stack spacing={2} justifyContent="center" sx={{ marginBottom: 5 }}>
+              <Stack
+                spacing={4}
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                {student.is_verified ? (
+                  <Button
+                    startIcon={
+                      <CheckCircleOutlineIcon sx={{ color: "green" }} />
+                    }
+                    sx={{ color: "green" }}
+                  >
+                    Verified
+                  </Button>
+                ) : (
+                  <Button
+                    startIcon={<NotInterestedIcon sx={{ color: "red" }} />}
+                    sx={{ color: "red" }}
+                  >
+                    Not Verified
+                  </Button>
+                )}
+
+                {student.is_frozen ? (
+                  <Button sx={{ color: "red" }}>Frozen</Button>
+                ) : (
+                  <Button sx={{ color: "green" }}>Not frozen</Button>
+                )}
+              </Stack>
+            </Stack>
+          )}
           {student && (
             <Grid
               container
@@ -247,10 +291,19 @@ function Index() {
                 ))}
               </Grid>
               <Stack spacing={2} direction="row">
-                <Button variant="contained" sx={{ width: "100%" }}>
+                <Button
+                  variant="contained"
+                  sx={{ width: "100%" }}
+                  onClick={handleVerify}
+                  disabled={student?.is_verified || student?.is_frozen}
+                >
                   Verify
                 </Button>
-                <Button variant="contained" sx={{ width: "100%" }}>
+                <Button
+                  variant="contained"
+                  sx={{ width: "100%" }}
+                  disabled={student?.is_verified || student?.is_frozen}
+                >
                   Ask Clarification
                 </Button>
               </Stack>
