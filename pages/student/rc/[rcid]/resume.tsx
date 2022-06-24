@@ -1,12 +1,15 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { Box, Grid, IconButton, Modal, Stack } from "@mui/material";
+import { Box, Button, Grid, IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import AvTimerIcon from "@mui/icons-material/AvTimer";
 
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
 import resumeRequest, {
   AllStudentResumeResponse,
@@ -56,15 +59,15 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <ActiveButton
+      <Button
         variant="contained"
-        color="primary"
+        sx={{ width: "100%" }}
         onClick={() => {
           window.open(getURL(params.value), "_blank");
         }}
       >
         {transformName(params.value)}
-      </ActiveButton>
+      </Button>
     ),
   },
   {
@@ -79,14 +82,36 @@ const columns: GridColDef[] = [
     headerName: "Verification Status",
     align: "center",
     headerAlign: "center",
-    valueGetter: ({ value }) => {
-      if (value?.Valid) {
-        if (value?.Bool) return "Accepted";
-        return "Rejected";
-      }
-      if (!value?.Valid) return "Pending by SPO";
-      return "Unkown";
-    },
+    renderCell: (params) =>
+      params.row.verified.Valid ? (
+        params.row.verified.Bool ? (
+          <Button
+            variant="outlined"
+            sx={{ borderRadius: "10px", width: "80%", color: "green" }}
+            color="success"
+            startIcon={<CheckIcon sx={{ color: "green" }} />}
+          >
+            Accepted
+          </Button>
+        ) : (
+          <Button
+            variant="outlined"
+            sx={{ borderRadius: "10px", width: "80%", color: "red" }}
+            color="error"
+            startIcon={<CloseIcon sx={{ color: "red" }} />}
+          >
+            Rejected
+          </Button>
+        )
+      ) : (
+        <Button
+          variant="outlined"
+          sx={{ borderRadius: "10px", width: "80%" }}
+          startIcon={<AvTimerIcon />}
+        >
+          Pending by SPO
+        </Button>
+      ),
   },
 ];
 
