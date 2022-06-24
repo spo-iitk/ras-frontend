@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { Box, Grid, IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -8,7 +8,10 @@ import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
-import resumeRequest from "@callbacks/student/rc/resume";
+import resumeRequest, {
+  AllStudentResumeResponse,
+} from "@callbacks/student/rc/resume";
+import { CDN_URL } from "@callbacks/constants";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -29,58 +32,61 @@ const gridMain = {
   alignItems: "right",
   justifyContent: "right",
 };
+
+const transformName = (name: string) => {
+  const nameArray = name.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
+};
+
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
+
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
     align: "center",
     headerAlign: "center",
   },
   {
-    field: "resumeLink",
+    field: "resume",
     headerName: "Resume Link",
     sortable: false,
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <ActiveButton sx={{ height: 30, width: "100%" }}>
-        {params.value}
+      <ActiveButton
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          window.open(getURL(params.value), "_blank");
+        }}
+      >
+        {transformName(params.value)}
       </ActiveButton>
     ),
   },
   {
-    field: "uploadTime",
+    field: "CreatedAt",
+    valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
     headerName: "Upload Time",
     align: "center",
     headerAlign: "center",
   },
   {
-    field: "comments",
-    headerName: "Comments from SPO",
-    align: "center",
-    headerAlign: "center",
-  },
-  {
-    field: "status",
+    field: "verified",
     headerName: "Verification Status",
     align: "center",
     headerAlign: "center",
-    renderCell: (params) => (
-      <div>
-        <ActiveButton sx={{ height: 30, width: "100%" }}>
-          {params.value}
-        </ActiveButton>
-      </div>
-    ),
-  },
-];
-const rows = [
-  {
-    id: 1,
-    resumeLink: "VIEW",
-    uploadTime: "12:00AM 31 May 2022",
-    comments: "Hello World",
-    status: "True",
+    valueGetter: ({ value }) => {
+      if (value?.Valid) {
+        if (value?.Bool) return "Accepted";
+        return "Rejected";
+      }
+      if (!value?.Valid) return "Pending by SPO";
+      return "Unkown";
+    },
   },
 ];
 
@@ -90,7 +96,8 @@ function Resume() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-
+  // eslint-disable-next-line no-unused-vars
+  const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -113,6 +120,15 @@ function Resume() {
     handleClose();
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (rid === undefined || rid === "") return;
+      const data = await resumeRequest.get(token, rid);
+      setAllResumes(data);
+    };
+    fetchData();
+  }, [token, rid]);
+
   return (
     <>
       <div className="container">
@@ -130,7 +146,11 @@ function Resume() {
           </Grid>
         </Grid>
         <Stack>
-          <DataGrid rows={rows} columns={columns} />
+          <DataGrid
+            rows={allResumes}
+            getRowId={(row) => row.ID}
+            columns={columns}
+          />
         </Stack>
       </div>
       <Modal open={open} onClose={handleClose}>
