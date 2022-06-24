@@ -17,7 +17,7 @@ import Meta from "@components/Meta";
 // eslint-disable-next-line no-unused-vars
 import requestProforma, {
   AdminProformaType,
-} from "@callbacks/admin/rc/adminProforma";
+} from "@callbacks/admin/rc/adminproforma";
 import useStore from "@store/store";
 
 const boxStyle = {
@@ -96,14 +96,31 @@ function Index() {
     setOpenDateChanger(false);
   };
   const router = useRouter();
-  const { rcid } = router.query;
-  const { proformaId } = router.query;
+  const { rcid, proformaid } = router.query;
+  const rid = rcid as string;
+  const pid = proformaid as string;
   const { token } = useStore();
-  // eslint-disable-next-line no-unused-vars
-  const handleProformaData = (data: boolean) => {
-    console.log(proformaData);
-    console.log(data);
+
+  const acceptProforma = () => {
+    requestProforma.put(token, rid, {
+      ID: parseInt(pid, 10),
+      is_approved: { Valid: true, Bool: true },
+    } as AdminProformaType);
   };
+
+  const rejectProforma = () => {
+    requestProforma.put(token, rid, {
+      ID: parseInt(pid, 10),
+      is_approved: { Valid: true, Bool: false },
+    } as AdminProformaType);
+  };
+
+  const hideDetails = (hide: boolean) => {
+    requestProforma.hide(token, rid, parseInt(pid, 10), hide);
+  };
+
+  const onClickHideDetails = () => hideDetails(true);
+  const onClickShowDetails = () => hideDetails(false);
 
   useEffect(() => {
     const fetchAdminProforma = async () => {
@@ -112,7 +129,7 @@ function Index() {
     };
 
     fetchAdminProforma();
-  }, [token, rcid, proformaId]);
+  }, [token, rcid, proformaid]);
   return (
     <div className="container">
       <Meta title="Proforma" />
@@ -128,31 +145,35 @@ function Index() {
             sx={{ width: { xs: "280px" } }}
             variant="contained"
             onClick={() => {
-              router.push(`/admin/rc/${rcid}/proforma/${proformaId}/view`);
+              router.push(`/admin/rc/${rid}/proforma/${pid}/view`);
             }}
           >
-            View IP
+            View Proforma
           </Button>
           <Button
             sx={{ width: { xs: "280px" } }}
             variant="contained"
             onClick={() => {
-              router.push(`/admin/rc/${rcid}/proforma/${proformaId}/step1`);
+              router.push(`/admin/rc/${rid}/proforma/${pid}/step1`);
             }}
           >
-            Update IP
+            Update Proforma
           </Button>
         </Stack>
         <Stack spacing={3} direction={{ sm: "row", xs: "column" }}>
-          <Button sx={{ width: { xs: "280px" } }} variant="contained">
-            Accept IP
+          <Button
+            sx={{ width: { xs: "280px" } }}
+            variant="contained"
+            onClick={acceptProforma}
+          >
+            Accept Proforma
           </Button>
 
           <Button
             sx={{ width: { xs: "280px" } }}
             variant="contained"
             onClick={() => {
-              router.push(`/admin/rc/${rcid}/proforma/${proformaId}/question`);
+              router.push(`/admin/rc/${rid}/proforma/${pid}/question`);
             }}
           >
             View / Add Custom Questions
@@ -185,14 +206,23 @@ function Index() {
                 <Button
                   variant="contained"
                   sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
+                  onClick={onClickShowDetails}
                 >
-                  Show Details of Company
+                  Show Details to Company
                 </Button>
                 <Button
                   variant="contained"
                   sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
+                  onClick={onClickHideDetails}
                 >
-                  Hide Details of Company
+                  Hide Details to Company
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
+                  onClick={rejectProforma}
+                >
+                  Reject Proforma
                 </Button>
 
                 <Button
