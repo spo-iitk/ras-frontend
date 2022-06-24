@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -47,10 +47,26 @@ const columns: GridColDef[] = [
       </>
     ),
   },
+  {
+    field: "button",
+    headerName: "View Details",
+    headerAlign: "center",
+    renderCell: (params) => (
+      <Link
+        href={{
+          pathname: `rc/${params.row.ID}`,
+        }}
+      >
+        <Button variant="contained" sx={{ height: 30, width: "100%" }}>
+          {" "}
+          click{" "}
+        </Button>
+      </Link>
+    ),
+  },
 ];
 
 function Overview() {
-  const router = useRouter();
   const [rows, setRows] = useState<RC[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { token } = useStore();
@@ -81,9 +97,9 @@ function Overview() {
           getRowId={(row) => row.ID}
           columns={columns}
           loading={loading}
-          onCellClick={(row) => {
-            router.push(`rc/${row.id}/notices`);
-          }}
+          // onCellClick={(row) => {
+          //   router.push(`rc/${row.id}/notices`);
+          // }}
         />
       </Stack>
     </div>

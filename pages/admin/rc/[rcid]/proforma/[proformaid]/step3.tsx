@@ -7,15 +7,73 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
+import RichText from "@components/Editor/RichText";
+import useStore from "@store/store";
+import requestProforma, {
+  AdminProformaType,
+} from "@callbacks/admin/rc/adminproforma";
+
+const ROUTE = "/admin/rc/[rcId]/proforma/[proformaid]/step4";
 
 function Step3() {
-  const [bond, setBond] = useState(false);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBond(event.target.checked);
+  const router = useRouter();
+  const { rcid, proformaid } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaid || "").toString();
+  const { token } = useStore();
+  const [ctc, changeCTC] = useState("");
+  const [pkgDetails, changePkg] = useState("");
+  const [fetchData, setFetch] = useState<AdminProformaType>({
+    ID: 0,
+  } as AdminProformaType);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    control,
+  } = useForm<AdminProformaType>({
+    defaultValues: fetchData,
+  });
+  const handleNext = async (data: AdminProformaType) => {
+    const info = {
+      ...data,
+      ID: parseInt(pid, 10),
+      package_details: pkgDetails,
+      cost_to_company: ctc,
+    };
+    const response = await requestProforma.put(token, rid, info);
+    if (response) {
+      reset({
+        bond: false,
+        bond_details: "",
+        medical_requirements: "",
+      });
+      changeCTC("");
+      changePkg("");
+      router.push({
+        pathname: ROUTE,
+        query: { rcId: rid, proformaid: pid },
+      });
+    }
   };
+
+  useEffect(() => {
+    const getStep3 = async () => {
+      const data = await requestProforma.get(token, rid, pid);
+      setFetch(data);
+      reset(data);
+      changeCTC(data.cost_to_company);
+      changePkg(data.package_details);
+    };
+    if (rid && pid) getStep3();
+  }, [rid, pid, token, reset]);
+
   return (
     <div className="container">
       <Meta title="Step 3/5 - Package Details" />
@@ -29,34 +87,32 @@ function Step3() {
       >
         <Stack spacing={3}>
           <h1>Step 3/5 : Package Details</h1>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Cost to Company</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Package Details</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              variant="standard"
-            />
-          </FormControl>
+          {fetchData.ID !== 0 && (
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Cost to Company</p>
+              <RichText
+                value={ctc}
+                onChange={changeCTC}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+          )}
+          {fetchData.ID !== 0 && (
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Package Details</p>
+              <RichText
+                value={pkgDetails}
+                onChange={changePkg}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+          )}
           <FormControl sx={{ m: 1 }}>
             <Stack direction="row" spacing={3}>
               <p style={{ fontWeight: 300 }}>Bond</p>
               <FormControlLabel
                 label=""
-                control={<Checkbox checked={bond} onChange={handleChange} />}
+                control={<Checkbox {...register("bond")} />}
               />
             </Stack>
           </FormControl>
@@ -65,11 +121,17 @@ function Step3() {
             <TextField
               id="Cname"
               required
+              disabled={useWatch({ control, name: "bond" }) !== true}
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
               minRows={3}
               variant="standard"
+              error={!!errors.bond_details}
+              helperText={errors.bond_details && "This field is required"}
+              {...register("bond_details", {
+                required: useWatch({ control, name: "bond" }) === true,
+              })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -82,6 +144,11 @@ function Step3() {
               multiline
               minRows={4}
               variant="standard"
+              error={!!errors.medical_requirements}
+              helperText={
+                errors.medical_requirements && "This field is required"
+              }
+              {...register("medical_requirements")}
             />
           </FormControl>
           <Stack
@@ -90,7 +157,12 @@ function Step3() {
             justifyContent="center"
             alignItems="center"
           >
-            <Button variant="contained" sx={{ width: "50%" }}>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              disabled={!router.isReady || rid === "" || pid === ""}
+              onClick={handleSubmit(handleNext)}
+            >
               Next
             </Button>
             <Button variant="contained" sx={{ width: "50%" }}>

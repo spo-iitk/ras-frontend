@@ -12,7 +12,6 @@ import {
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 
 export interface Company {
-  id: number;
   ID: number;
   name: string;
   tags: string;
@@ -21,7 +20,6 @@ export interface Company {
 }
 export interface HR {
   company_id: number;
-  id: number;
   ID: number;
   name: string;
   email: string;
@@ -59,7 +57,6 @@ const addCompanyRequest = {
           "Error in fetching data",
           err.response?.data?.error || err.message
         );
-        console.log(err);
         return [] as Company[];
       }),
   get: (token: string, cid: string) =>
@@ -71,7 +68,6 @@ const addCompanyRequest = {
           "Error in fetching data",
           err.response?.data?.error || err.message
         );
-        console.log(err);
         return { ID: 0 } as Company;
       }),
   update: (token: string, body: Company) =>
@@ -90,7 +86,6 @@ const addCompanyRequest = {
           "Failed to update",
           err.response?.data?.error || err.message
         );
-        console.log(err);
         return false;
       }),
   addHR: (body: HR, token: string) =>

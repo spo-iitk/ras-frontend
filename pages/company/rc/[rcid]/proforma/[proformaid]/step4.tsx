@@ -163,7 +163,7 @@ function Step4() {
   const handleAdd = (id: number) => {
     append({
       label: tiles[id].label,
-      duratioresponsen: tiles[id].duration,
+      duration: tiles[id].duration,
     });
     setActiveStep(fields.length + 1);
   };

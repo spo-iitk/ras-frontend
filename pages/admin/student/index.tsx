@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 import AdminStudentRequest, {
   Student,
@@ -8,6 +8,7 @@ import AdminStudentRequest, {
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 const columns: GridColDef[] = [
   {
@@ -172,12 +173,24 @@ const columns: GridColDef[] = [
     headerName: "Editable",
     hide: true,
   },
+  {
+    field: "button",
+    headerName: "View Details",
+    renderCell: (params) => (
+      <Link
+        href={{
+          pathname: `student/${params.row.ID}`,
+        }}
+      >
+        <ActiveButton> click </ActiveButton>
+      </Link>
+    ),
+  },
 ];
 
 function Index() {
   const [rows, setRows] = useState<Student[]>([]);
   const { token } = useStore();
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -197,7 +210,7 @@ function Index() {
         rows={rows}
         columns={columns}
         getRowId={(row) => row.ID}
-        onCellClick={(params) => router.push(`student/${params.row.ID}`)}
+        // onCellClick={(params) => router.push(`student/${params.row.ID}`)}
         loading={loading}
       />
     </div>
