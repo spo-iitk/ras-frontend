@@ -45,7 +45,7 @@ const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 const columns: GridColDef[] = [
   {
     field: "ID",
-    headerName: "ID",
+    headerName: "Resume ID",
     align: "center",
     headerAlign: "center",
   },
