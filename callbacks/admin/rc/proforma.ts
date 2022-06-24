@@ -10,6 +10,10 @@ import {
 } from "@callbacks/constants";
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 
+interface nullBool {
+  Bool: boolean;
+  Valid: boolean;
+}
 export interface ProformaType {
   ID: number;
   CreatedAt: string;
@@ -19,7 +23,7 @@ export interface ProformaType {
   company_id: number;
   company_recruitment_cycle_id: number;
   recruitment_cycle_id: number;
-  is_approved: boolean;
+  is_approved: nullBool;
   action_taken_by: string;
   set_deadline: number;
   hide_details: boolean;
