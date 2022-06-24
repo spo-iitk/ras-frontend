@@ -26,7 +26,8 @@ const boxStyle = {
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
-  marginTop: 10,
+  marginTop: 5,
+  marginBottom: 10,
   alignItems: "center",
 };
 function Enrollment() {
@@ -74,7 +75,7 @@ function Enrollment() {
             <FormControl>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
+                defaultValue={question.answer}
                 row
               >
                 {question.options
@@ -104,6 +105,7 @@ function Enrollment() {
             <TextField
               multiline
               minRows={3}
+              defaultValue={question.answer}
               variant="standard"
               error={errors[name]}
               helperText={errors[name] && "*Required"}
@@ -117,7 +119,7 @@ function Enrollment() {
             <FormControl>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
+                defaultValue={question.answer}
                 row
               >
                 <FormControlLabel
@@ -148,6 +150,7 @@ function Enrollment() {
           return (
             <TextField
               variant="standard"
+              defaultValue={question.answer}
               error={errors[name]}
               helperText={errors[name] && "*Required"}
               {...register(name, {
