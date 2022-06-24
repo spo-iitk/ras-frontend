@@ -20,7 +20,6 @@ import AddPPO from "@components/Modals/addPPO";
 import useStore from "@store/store";
 import requestProforma, { ProformaType } from "@callbacks/admin/rc/proforma";
 import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
-import ActiveButton from "@components/Buttons/ActiveButton";
 
 const columns: GridColDef[] = [
   {
@@ -67,13 +66,16 @@ const columns: GridColDef[] = [
   {
     field: "button",
     headerName: "View Details",
+    headerAlign: "center",
     renderCell: (params) => (
       <Link
         href={{
           pathname: `/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`,
         }}
       >
-        <ActiveButton> click </ActiveButton>
+        <Button variant="contained" sx={{ width: "100%" }}>
+          View
+        </Button>
       </Link>
     ),
   },

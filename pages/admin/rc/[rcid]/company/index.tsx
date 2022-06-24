@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Grid, IconButton, Modal, Stack } from "@mui/material";
+import { Button, Grid, IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import ActiveButton from "@components/Buttons/ActiveButton";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import AddCompany from "@components/Modals/AddCompanyAdmin";
@@ -57,7 +56,9 @@ const columns: GridColDef[] = [
           pathname: `${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.ID}`,
         }}
       >
-        <ActiveButton sx={{ height: 30, width: "50%" }}>Click</ActiveButton>
+        <Button variant="contained" sx={{ width: "80%" }}>
+          View
+        </Button>
       </Link>
     ),
   },
