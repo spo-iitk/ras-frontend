@@ -212,46 +212,53 @@ function Index() {
         >
           <h1 style={{ marginBottom: 50 }}>Enrollment Section Verification</h1>
 
-          <Grid
-            container
-            spacing={9}
-            justifyItems="center"
-            alignItems="flex-start"
-          >
-            {questionAnswer &&
-              questionAnswer.map((question) => (
-                <Grid item xs={12} md={6} key={question.ID}>
-                  <Stack spacing={4}>
-                    <Typography variant="subtitle1" fontWeight={500}>
-                      {question.question}
-                      {"  "}
-                      {question.mandatory && (
-                        <Typography variant="caption" color="error">
-                          *Required
-                        </Typography>
-                      )}
-                    </Typography>
+          {questionAnswer && questionAnswer.length > 0 && (
+            <div>
+              <Grid
+                container
+                spacing={9}
+                justifyItems="center"
+                alignItems="flex-start"
+                marginBottom={10}
+              >
+                {questionAnswer.map((question) => (
+                  <Grid item xs={12} md={6} key={question.ID}>
+                    <Stack spacing={4}>
+                      <Typography variant="subtitle1" fontWeight={500}>
+                        {question.question}
+                        {"  "}
+                        {question.mandatory && (
+                          <Typography variant="caption" color="error">
+                            *Required
+                          </Typography>
+                        )}
+                      </Typography>
 
-                    <TextField
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      multiline
-                      variant="standard"
-                      value={question.answer}
-                    />
-                    <Stack spacing={2} direction="row">
-                      <Button variant="contained" sx={{ width: "100%" }}>
-                        Verify
-                      </Button>
-                      <Button variant="contained" sx={{ width: "100%" }}>
-                        Ask to resubmit
-                      </Button>
+                      <TextField
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        multiline
+                        variant="standard"
+                        value={question.answer}
+                      />
                     </Stack>
-                  </Stack>
-                </Grid>
-              ))}
-          </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+              <Stack spacing={2} direction="row">
+                <Button variant="contained" sx={{ width: "100%" }}>
+                  Verify
+                </Button>
+                <Button variant="contained" sx={{ width: "100%" }}>
+                  Ask Clarification
+                </Button>
+              </Stack>
+            </div>
+          )}
+          {(!questionAnswer || questionAnswer.length <= 0) && (
+            <h3>No Record Found</h3>
+          )}
         </Card>
       </Stack>
       <div style={{ marginTop: 50 }}>
