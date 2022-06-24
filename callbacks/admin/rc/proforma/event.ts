@@ -11,12 +11,18 @@ import {
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 
 export interface Event {
-  duration: number;
-  label: string;
-  name: string;
   ID: number;
   proforma_id: number;
+  name: string;
+  date: string;
+  duration: string;
+  venue: string;
+  start_time: number;
+  end_time: number;
+  description: string;
+  main_poc: string;
   sequence: number;
+  record_attendance: boolean;
 }
 const instance = axios.create({
   baseURL: ADMIN_APPLICATION_URL,

@@ -17,7 +17,7 @@ import Meta from "@components/Meta";
 // eslint-disable-next-line no-unused-vars
 import requestProforma, {
   AdminProformaType,
-} from "@callbacks/admin/rc/adminProforma";
+} from "@callbacks/admin/rc/adminproforma";
 import useStore from "@store/store";
 
 const boxStyle = {
@@ -97,7 +97,9 @@ function Index() {
   };
   const router = useRouter();
   const { rcid } = router.query;
-  const { proformaId } = router.query;
+  const PID = router.query.proformaid;
+  const ID = (PID || "").toString();
+  // const { proformaId } = router.query;
   const { token } = useStore();
   // eslint-disable-next-line no-unused-vars
   const handleProformaData = (data: boolean) => {
@@ -112,7 +114,7 @@ function Index() {
     };
 
     fetchAdminProforma();
-  }, [token, rcid, proformaId]);
+  }, [token, rcid, ID]);
   return (
     <div className="container">
       <Meta title="Proforma" />
@@ -128,7 +130,7 @@ function Index() {
             sx={{ width: { xs: "280px" } }}
             variant="contained"
             onClick={() => {
-              router.push(`/admin/rc/${rcid}/proforma/${proformaId}/view`);
+              router.push(`/admin/rc/${rcid}/proforma/${ID}/view`);
             }}
           >
             View IP
@@ -137,7 +139,7 @@ function Index() {
             sx={{ width: { xs: "280px" } }}
             variant="contained"
             onClick={() => {
-              router.push(`/admin/rc/${rcid}/proforma/${proformaId}/step1`);
+              router.push(`/admin/rc/${rcid}/proforma/${ID}/step1`);
             }}
           >
             Update IP
@@ -152,7 +154,7 @@ function Index() {
             sx={{ width: { xs: "280px" } }}
             variant="contained"
             onClick={() => {
-              router.push(`/admin/rc/${rcid}/proforma/${proformaId}/question`);
+              router.push(`/admin/rc/${rcid}/proforma/${ID}/question`);
             }}
           >
             View / Add Custom Questions

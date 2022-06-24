@@ -13,9 +13,10 @@ import React, { useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import { ProformaEvent } from "@callbacks/company/proforma";
+import { Event } from "@callbacks/admin/rc/proforma/event";
 // import useStore from "@store/store";
 
-function StepperComp({ steps }: { steps: ProformaEvent[] }) {
+function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {

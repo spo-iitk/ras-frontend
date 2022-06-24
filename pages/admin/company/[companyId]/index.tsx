@@ -48,7 +48,6 @@ function Index() {
   const router = useRouter();
   const companyId = router.query.companyId?.toString() || "";
   const [CompanyData, setCompanyData] = useState<Company>({
-    id: 0,
     ID: 0,
     name: "",
     tags: "",
