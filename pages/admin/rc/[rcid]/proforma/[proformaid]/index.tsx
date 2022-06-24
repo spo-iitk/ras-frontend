@@ -17,7 +17,7 @@ import Meta from "@components/Meta";
 // eslint-disable-next-line no-unused-vars
 import requestProforma, {
   AdminProformaType,
-} from "@callbacks/admin/rc/adminProforma";
+} from "@callbacks/admin/rc/adminproforma";
 import useStore from "@store/store";
 
 const boxStyle = {

@@ -2,11 +2,12 @@ import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { IconButton, Modal, Stack } from "@mui/material";
+import { Button, IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import EditIcon from "@mui/icons-material/Edit";
+import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
@@ -17,6 +18,7 @@ import Meta from "@components/Meta";
 import Enroll from "@components/Modals/Enroll";
 import Freeze from "@components/Modals/Freeze";
 import Unfreeze from "@components/Modals/Unfreeze";
+import { getDeptProgram } from "@components/Parser/parser";
 
 function DeleteStudents(props: { id: string }) {
   const { token } = useStore();
@@ -60,11 +62,13 @@ const columns: GridColDef[] = [
     field: "program_department_id",
     headerName: "Department",
     width: 100,
+    renderCell: (params) => getDeptProgram(params.value),
   },
   {
     field: "secondary_program_department_id",
     headerName: "Secondary Department",
     width: 200,
+    renderCell: (params) => getDeptProgram(params.value),
   },
   {
     field: "student_id",
@@ -84,9 +88,23 @@ const columns: GridColDef[] = [
   {
     field: "options",
     headerName: "",
+    align: "center",
     width: 100,
     renderCell: (cellValues) => (
       <DeleteStudents id={cellValues.id.toString()} />
+    ),
+  },
+  {
+    field: "Actions",
+    headerName: "",
+    align: "center",
+    width: 100,
+    renderCell: (params) => (
+      <Link
+        href={`/admin/rc/${params.row.recruitment_cycle_id}/student/${params.row.id}`}
+      >
+        <Button variant="contained">View Details</Button>
+      </Link>
     ),
   },
 ];
