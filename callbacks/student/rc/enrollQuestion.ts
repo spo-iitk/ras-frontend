@@ -6,7 +6,7 @@ import {
   STUDENT_URL,
   setConfig,
 } from "@callbacks/constants";
-import { errorNotification } from "@callbacks/notifcation";
+import { errorNotification, successNotification } from "@callbacks/notifcation";
 
 export interface studentEnrollResponse {
   ID: number;
@@ -59,6 +59,32 @@ const enrollmentRequest = {
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
         return [] as studentEnrollResponse[];
+      }),
+  postEnrollmentAnswer: (
+    token: string,
+    rcid: string,
+    recruitment_cycle_question_id: number,
+    answer: string
+  ) =>
+    instance
+      .post(
+        `/rc/${rcid}/enrollment/${recruitment_cycle_question_id}/answer`,
+        { recruitment_cycle_question_id, answer },
+        setConfig(token)
+      )
+      .then((res) => {
+        successNotification(
+          `Question Id: ${recruitment_cycle_question_id} answered!`,
+          res.data.status
+        );
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          `Failed to answer Question Id:${recruitment_cycle_question_id}`,
+          err.response?.data?.error || err.message
+        );
+        return false;
       }),
 };
 
