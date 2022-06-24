@@ -6,8 +6,6 @@ import MatrixExpanded from "@components/Utils/MatrixExpanded";
 import StepperComp from "@components/Stepper/stepperComp";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
-// import { ProformaEvent, ProformaType } from "@callbacks/company/proforma";
-// import sProformaRequest from "@callbacks/student/rc/proforma";
 import requestProforma, {
   AdminProformaType,
 } from "@callbacks/admin/rc/adminproforma";
@@ -22,56 +20,6 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
-// const row = [
-//   {
-//     proforma_id: 0,
-//     name: "",
-//     date: "",
-//     duration: "",
-//     venue: "",
-//     start_time: 0,
-//     end_time: 0,
-//     description: "",
-//     main_poc: "",
-//     sequence: 0,
-//     record_attendance: false,
-//   },
-// ];
-// const info = [
-//   {
-//     label: "Company Name",
-//     value: "Paradime",
-//   },
-//   {
-//     label: "Nature of Business",
-//     value: "FrontEnd Engineer",
-//   },
-//   {
-//     label: "Tentative Job Location",
-//     value: "London",
-//   },
-//   {
-//     label: "Job Description",
-//     value: "Product Engineer in FrontEnd",
-//   },
-//   {
-//     label: "Cost to Company",
-//     value: "Not to be told",
-//   },
-//   {
-//     label: "Package Details",
-//     value: "Enough Money",
-//   },
-//   {
-//     label: "Bond Details",
-//     value: "Yes",
-//   },
-//   {
-//     label: "Medical Requirements",
-//     value: "None",
-//   },
-// ];
-
 const data1 = new Array(100 + 1).join("0");
 
 function View() {
@@ -118,7 +66,6 @@ function View() {
       >
         <Stack spacing={2}>
           <Grid container spacing={2}>
-            {/* {info.map((item) => ( */}
             <Grid item xs={12} md={12} key="bnature">
               <h3>Company Name</h3>
               <TextField
@@ -196,7 +143,6 @@ function View() {
                 sx={textFieldSX}
               />
             </Grid>
-            {/* ))} */}
             <Grid item xs={12}>
               <h3>Eligibility</h3>
               <MatrixExpanded data={data} />
