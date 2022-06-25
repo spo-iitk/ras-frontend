@@ -133,10 +133,11 @@ function SignUpRecruiter() {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             You have successfully registered for the IIT Kanpur Recruitment
-            Portal.
+            System.
           </Typography>
           <Typography>
-            phone your Student Coordinator for your login credentials.
+            Student Coordinator will contact you shortly with your login
+            credentials.
           </Typography>
         </Box>
       </Modal>

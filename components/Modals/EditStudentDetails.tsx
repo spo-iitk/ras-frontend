@@ -149,7 +149,7 @@ function EditStudent({
             id="cpi"
             error={!!errors.cpi}
             variant="standard"
-            {...register("cpi")}
+            {...register("cpi", { setValueAs: (cpi) => parseFloat(cpi) })}
           />
         </FormControl>
         <FormControl sx={{ m: 1 }}>
