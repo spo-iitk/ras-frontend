@@ -8,7 +8,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import EditCompany from "@components/Modals/EditCompanyAdmin";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import AddCompany from "@components/Modals/AddCompanyAdmin";
