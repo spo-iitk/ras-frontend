@@ -8,14 +8,16 @@ import {
   TextField,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 
+import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
 import Meta from "@components/Meta";
 import eventRequest, { EventDetails } from "@callbacks/admin/rc/proforma/event";
@@ -25,19 +27,43 @@ import { getDeptProgram } from "@components/Parser/parser";
 
 const cols: GridColDef[] = [
   {
+    field: "CreatedAt",
+    headerName: "Created At",
+    width: 150,
+    hide: true,
+  },
+  {
+    field: "DeletedAt",
+    headerName: "Deleted At",
+    width: 150,
+    hide: true,
+  },
+  {
     field: "ID",
     headerName: "Id",
     width: 100,
   },
   {
+    field: "UpdatedAt",
+    headerName: "Updated At",
+    width: 150,
+    hide: true,
+  },
+  {
+    field: "comment",
+    headerName: "Comment",
+    width: 150,
+    hide: true,
+  },
+  {
     field: "name",
     headerName: "Name",
-    width: 350,
+    width: 200,
   },
   {
     field: "email",
     headerName: "Email",
-    width: 350,
+    width: 150,
   },
   {
     field: "program_department_id",
@@ -46,13 +72,44 @@ const cols: GridColDef[] = [
     renderCell: (params) => getDeptProgram(params.value),
   },
   {
+    field: "secondary_program_department_id",
+    headerName: "Secondary Department",
+    width: 200,
+    renderCell: (params) => getDeptProgram(params.value),
+  },
+  {
+    field: "is_frozen",
+    headerName: "Frozen",
+    width: 100,
+    hide: true,
+  },
+  {
+    field: "is_verified",
+    headerName: "Verified",
+    width: 100,
+    hide: true,
+  },
+  {
+    field: "student_id",
+    headerName: "Student Id",
+    width: 100,
+    hide: true,
+  },
+  {
     field: "type",
     headerName: "Type",
-    width: 350,
+    width: 150,
+  },
+  {
+    field: "recruitment_cycle_id",
+    headerName: "Recruitment Cycle Id",
+    width: 150,
+    hide: true,
   },
 ];
 
 const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/view";
+const EDIT_ROUTE = "/admin/rc/[rcid]/event/[eventId]/edit";
 function Event() {
   const [startTime, setStartTime] = React.useState<Date | null>(new Date());
   const [endTime, setEndTime] = React.useState<Date | null>(new Date());
@@ -103,7 +160,19 @@ function Event() {
         }}
       >
         <Stack spacing={3}>
-          <h1>View Event Details</h1>
+          <Stack direction="row">
+            <h1>View Event Details</h1>
+            <IconButton>
+              <EditIcon
+                onClick={() => {
+                  router.push({
+                    pathname: EDIT_ROUTE,
+                    query: { rcid: rid, eventId: eid },
+                  });
+                }}
+              />
+            </IconButton>
+          </Stack>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Name</p>
             <TextField
@@ -191,13 +260,7 @@ function Event() {
           <AddIcon />
         </IconButton>
       </Stack>
-      <DataGrid
-        autoHeight
-        columns={cols}
-        getRowId={(row) => row.ID}
-        rows={students}
-        pageSize={5}
-      />
+      <DataGrid columns={cols} getRowId={(row) => row.ID} rows={students} />
       <Modal open={openNew} onClose={handleCloseNew}>
         <EnrollToEvent
           handleClose={handleCloseNew}

@@ -21,13 +21,22 @@ function Event() {
   const eid = eventId as string;
   const { register, handleSubmit, reset } = useForm<EventDetails>();
 
+  const ROUTE = "/admin/rc/[rcid]/event/[eventId]";
+
   const onSubmit = async (data: EventDetails) => {
     const info: EventDetails = {
       ...data,
       start_time: startTime?.valueOf() || 0,
       end_time: endTime?.valueOf() || 0,
     };
-    await eventRequest.put(token, info, rid, pid.toString());
+    if (router.isReady) {
+      const res = await eventRequest.put(token, info, rid, pid.toString());
+      if (res)
+        router.push({
+          pathname: ROUTE,
+          query: { rcid: rid, eventId: eid },
+        });
+    }
   };
 
   useEffect(() => {
