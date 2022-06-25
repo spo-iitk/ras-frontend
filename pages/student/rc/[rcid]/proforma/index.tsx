@@ -1,32 +1,30 @@
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
+import sProformaRequest, {
+  ProformaParams,
+} from "@callbacks/student/rc/proforma";
+import useStore from "@store/store";
 
 const BASE_ROUTE = "/student/rc/[rcId]/proforma";
 const columns: GridColDef[] = [
   {
-    field: "id",
-    headerName: "Id",
-    width: 100,
+    field: "ID",
+    headerName: "ID",
   },
+  { field: "company_name", headerName: "Company Name" },
+  { field: "nature_of_business", headerName: "Role Name" },
   {
-    field: "name",
-    headerName: "Company Name",
-    width: 300,
-  },
-  {
-    field: "role",
-    headerName: "Role",
-    width: 200,
-  },
-  {
-    field: "applicationDeadline",
+    field: "set_deadline",
     headerName: "Application Deadline",
-    width: 200,
+    renderCell(params) {
+      return new Date(params.value).toLocaleString();
+    },
   },
   {
     field: "Actions",
@@ -48,24 +46,26 @@ const columns: GridColDef[] = [
     ),
   },
 ];
-
-const rows = [
-  {
-    id: 1,
-    name: "Company Name : Title",
-    role: "Role1",
-    applicationDeadline: "May 26 2019",
-  },
-];
-
 function Proforma() {
+  const [rows, setRows] = React.useState<ProformaParams[]>([]);
+  const { token } = useStore();
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = rcid as string;
+  useEffect(() => {
+    const getProforma = async () => {
+      const res = await sProformaRequest.getAllProforma(token, rid);
+      setRows(res);
+    };
+    if (router.isReady) getProforma();
+  }, [rid, router.isReady, token]);
   return (
     <div className="container">
       <Meta title="Proforma" />
       <Stack>
         <h1>Internship 2022-23 Phase 1</h1>
         <h2>Proforma</h2>
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />
       </Stack>
     </div>
   );
