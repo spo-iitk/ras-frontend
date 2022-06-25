@@ -14,7 +14,7 @@ import useStore from "@store/store";
 import AddCompanyMD from "@components/Modals/AddCompanyAdminMD";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID" },
+  { field: "ID", headerName: "ID" },
   {
     field: "name",
     headerName: "Company Name",

@@ -149,7 +149,7 @@ function EditStudent({
             id="cpi"
             error={!!errors.cpi}
             variant="standard"
-            {...register("cpi", { setValueAs: (cpi) => parseFloat(cpi) })}
+            {...register("cpi", { setValueAs: (val) => parseFloat(val) })}
           />
         </FormControl>
         <FormControl sx={{ m: 1 }}>
@@ -204,7 +204,7 @@ function EditStudent({
             sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
             onClick={handleSubmit(onSubmit)}
           >
-            Edit
+            Save
           </Button>
           <Button
             variant="contained"

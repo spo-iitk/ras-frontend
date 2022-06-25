@@ -15,6 +15,7 @@ import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
 import { Branches, func, programType } from "@components/Utils/matrixUtils";
+import { getId } from "@components/Parser/parser";
 
 function ProfileEdit() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
@@ -43,34 +44,15 @@ function ProfileEdit() {
   }, [token, reset]);
 
   const onSubmit = async (data: Student) => {
-    let program_department_id;
-    if (
-      getValues("program") === "" ||
-      getValues("program") === undefined ||
-      getValues("department") === "" ||
-      getValues("department") === undefined
-    ) {
-      program_department_id = 0;
-    } else {
-      program_department_id =
-        func[getValues("department") as keyof typeof func][
-          getValues("program") as keyof programType
-        ];
-    }
-    let secondary_program_department_id;
-    if (
-      getValues("program_2") === "" ||
-      getValues("program_2") === undefined ||
-      getValues("department_2") === "" ||
-      getValues("department_2") === undefined
-    ) {
-      secondary_program_department_id = 0;
-    } else {
-      secondary_program_department_id =
-        func[getValues("department_2") as keyof typeof func][
-          getValues("program_2") as keyof programType
-        ];
-    }
+    let program_department_id = getId(
+      getValues("program"),
+      getValues("department")
+    );
+
+    let secondary_program_department_id = getId(
+      getValues("program_2"),
+      getValues("department_2")
+    );
 
     const response = await studentRequest.update(token, {
       ...data,

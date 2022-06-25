@@ -428,7 +428,7 @@ function Step4() {
             sx={{ width: { xs: "50%", md: "20%" } }}
             onClick={() =>
               reset({
-                fieldArray: [],
+                fieldArray: array,
               })
             }
           >
