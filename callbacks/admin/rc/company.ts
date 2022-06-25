@@ -109,6 +109,17 @@ const requestCompany = {
         );
         return false;
       }),
+  getRecent: (token: string) =>
+    recentInstance
+      .get<RecentCompany>(`new-companies`, setConfig(token))
+      .then((res) => res.data.companies)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching data",
+          err.response?.data?.error || err.message
+        );
+        return [] as string[];
+      }),
 };
 
 export default requestCompany;
