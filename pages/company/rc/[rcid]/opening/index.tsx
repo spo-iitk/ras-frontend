@@ -15,16 +15,16 @@ const ROUTE_PATH_PROFORMA = "/company/rc/[rcId]/proforma/[proformaid]";
 const columns: GridColDef[] = [
   { field: "ID", headerName: "ID" },
   {
-    field: "nature_of_business",
+    field: "role",
     headerName: "Role name",
   },
   {
-    field: "set_deadline",
+    field: "deadline",
     headerName: "Application Deadline",
 
     renderCell(params) {
       return `${
-        params.row.set_deadline === 0
+        params.row.deadline === 0
           ? "Date not Set"
           : new Date(params.value).toLocaleString()
       }`;

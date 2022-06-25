@@ -49,11 +49,11 @@ const columns: GridColDef[] = [
         : "Pending",
   },
   {
-    field: "set_deadline",
+    field: "deadline",
     headerName: "Application Deadline",
     renderCell(params) {
       return `${
-        params.row.set_deadline === 0
+        params.row.deadline === 0
           ? "Date not Set"
           : new Date(params.value).toLocaleString()
       }`;
@@ -70,7 +70,7 @@ const columns: GridColDef[] = [
     hide: true,
   },
   { field: "active_hr_id", headerName: "Active HR" },
-  { field: "nature_of_business", headerName: "Role Name" },
+  { field: "role", headerName: "Role Name" },
   {
     field: "Actions",
     headerName: "Actions",

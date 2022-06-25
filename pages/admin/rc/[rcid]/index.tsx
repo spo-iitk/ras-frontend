@@ -40,7 +40,10 @@ function Index() {
       last_reminder_at: 0,
     },
   ]);
-  const [appdata, setApp] = React.useState<APPCount>({ roles: 0, ppo_pio: 0 });
+  const [appdata, setApp] = React.useState<APPCount>({
+    roles: 0,
+    recruited: 0,
+  });
   const { token, rcName } = useStore();
   const [recCompany, setRecCompany] = useState<string[]>([]);
   const [eventSchd, setEventSchd] = useState<Event[]>([]);
@@ -187,7 +190,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "3rem" },
                   }}
                 >
-                  {appdata.ppo_pio}
+                  {appdata.recruited}
                 </Typography>
               </CardContent>
             </Card>
@@ -443,7 +446,7 @@ function Index() {
                         <Grid container sx={{ padding: "0px 1ch" }}>
                           <Grid item xs={6}>
                             <Typography>
-                              {value.company_name} - {value.nature_of_business}
+                              {value.company_name} - {value.role}
                             </Typography>
                           </Grid>
                           <Grid item xs={6}>

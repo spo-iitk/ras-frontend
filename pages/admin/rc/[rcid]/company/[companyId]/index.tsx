@@ -28,7 +28,7 @@ const columns: GridColDef[] = [
     width: 100,
   },
   {
-    field: "nature_of_business",
+    field: "role",
     headerName: "Designation",
     width: 200,
   },
@@ -47,13 +47,13 @@ const columns: GridColDef[] = [
     },
   },
   {
-    field: "set_deadline",
+    field: "deadline",
     headerName: "Deadline",
     width: 200,
 
     renderCell(params) {
       return `${
-        params.row.set_deadline === 0
+        params.row.deadline === 0
           ? "Date not Set"
           : new Date(params.value).toLocaleString()
       }`;
