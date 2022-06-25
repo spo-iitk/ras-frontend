@@ -22,6 +22,11 @@ export interface Event {
   description: string;
   record_attendance: boolean;
   venue: string;
+  company_name: string;
+  CreatedAt: string;
+  UpdatedAt: string;
+  nature_of_business: string;
+  recruitment_cycle_id: string;
 }
 const instance = axios.create({
   baseURL: ADMIN_APPLICATION_URL,
@@ -33,6 +38,14 @@ const eventRequest = {
   getAll: (token: string, rcid: string) =>
     instance
       .get<Event[]>(`/rc/${rcid}/event`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return [] as Event[];
+      }),
+  getProforma: (token: string, rcid: string) =>
+    instance
+      .get<Event[]>(`/rc/${rcid}/proforma`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);

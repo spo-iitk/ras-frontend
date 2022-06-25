@@ -108,7 +108,7 @@ function AuthHR(props: { id: string; name: string }) {
 
 const HRcotactDetailsColumns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
     width: 125,
   },

@@ -15,7 +15,9 @@ const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "ID",
+    hide: true,
   },
+  { field: "company_name", headerName: "Company Name" },
   {
     field: "CreatedAt",
     headerName: "Created At",
@@ -27,7 +29,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "company_id",
-    headerName: "Comapny ID",
+    headerName: "Company ID",
     hide: true,
   },
   {
@@ -41,7 +43,7 @@ const columns: GridColDef[] = [
     renderCell: (params) =>
       // eslint-disable-next-line no-nested-ternary
       params.row.is_approved.Valid
-        ? params.row.is_verified?.Bool
+        ? params.row.is_approved?.Bool
           ? "Approved"
           : "Rejected"
         : "Pending",
@@ -69,7 +71,6 @@ const columns: GridColDef[] = [
   },
   { field: "active_hr_id", headerName: "Active HR" },
   { field: "nature_of_business", headerName: "Role Name" },
-  { field: "company_name", headerName: "Company Name" },
   {
     field: "Actions",
     headerName: "Actions",
