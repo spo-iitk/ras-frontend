@@ -9,6 +9,7 @@ import AdminStudentRequest, {
   Student,
 } from "@callbacks/admin/student/adminStudent";
 import useStore from "@store/store";
+import { getDepartment, getProgram } from "@components/Parser/parser";
 
 const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   [
@@ -230,6 +231,24 @@ function Details() {
     };
     fetch();
   }, [token, sId]);
+
+  const handleValue = (val: string) => {
+    switch (val) {
+      case "dob":
+        return new Date(StudentData.dob).toLocaleDateString();
+      case "program":
+        return getProgram(StudentData.program_department_id);
+      case "program_2":
+        return getProgram(StudentData.secondary_program_department_id);
+      case "department":
+        return getDepartment(StudentData.program_department_id);
+      case "department_2":
+        return getDepartment(StudentData.secondary_program_department_id);
+      default:
+        return StudentData[val as keyof Student];
+    }
+  };
+
   return (
     <div style={{ padding: "0 2rem" }}>
       <Meta title="Profile - Student Dashboard" />
@@ -289,14 +308,12 @@ function Details() {
                   <p>{item.field}</p>
                   <TextField
                     fullWidth
-                    disabled
+                    InputProps={{
+                      readOnly: true,
+                    }}
                     id="standard-basic"
                     variant="standard"
-                    value={
-                      item.api_id === "dob"
-                        ? new Date(StudentData.dob).toLocaleDateString()
-                        : StudentData[item.api_id as keyof Student]
-                    }
+                    value={handleValue(item.api_id)}
                   />
                 </Grid>
               ))}
