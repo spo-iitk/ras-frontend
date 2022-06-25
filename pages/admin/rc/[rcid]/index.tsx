@@ -45,6 +45,7 @@ function Index() {
   const [recCompany, setRecCompany] = useState<string[]>([]);
   const [eventSchd, setEventSchd] = useState<Event[]>([]);
   const [eventNotSchd, setEventNotSchd] = useState<Event[]>([]);
+  const [proforma, setProforma] = useState<Event[]>([]);
   useEffect(() => {
     const fetch = async () => {
       const comapny_res = await countData.getRC(token, rid);
@@ -67,7 +68,6 @@ function Index() {
     const fetchEvent = async () => {
       if (router.isReady) {
         const response = await eventRequest.getAll(token, rid);
-        console.log(response);
         const scheduled: Event[] = [];
         const unscheduled: Event[] = [];
         response.forEach((value: Event) => {
@@ -78,8 +78,15 @@ function Index() {
         setEventNotSchd(unscheduled);
       }
     };
+    const fetchProforma = async () => {
+      if (router.isReady) {
+        const response = await eventRequest.getProforma(token, rid);
+        setProforma(response);
+      }
+    };
     fetchCompany();
     fetchEvent();
+    fetchProforma();
   }, [rid, router.isReady, token]);
 
   const handleClick = () => {
@@ -398,7 +405,7 @@ function Index() {
             <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
               <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
                 <Grid item xs={6}>
-                  <h3>Recent JAF Added</h3>
+                  <h3>Recent Proforma Added</h3>
                   <h5 style={{ position: "relative", bottom: "1rem" }}>
                     Posted by: SPO Team
                   </h5>
@@ -414,6 +421,7 @@ function Index() {
                     <Button
                       variant="outlined"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                      onClick={() => router.push(`/admin/rc/${rid}/proforma`)}
                     >
                       View All
                     </Button>
@@ -429,24 +437,32 @@ function Index() {
                 }}
               >
                 <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
-                  {eventSchd.map((value) => (
-                    <Grid container sx={{ padding: "0px 1ch" }}>
-                      <Grid item xs={6}>
-                        <Typography>{value.name}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            color: "blue",
-                          }}
-                        >
-                          {value.start_date}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  ))}
+                  {proforma.map((value, i) => {
+                    if (i < 4) {
+                      return (
+                        <Grid container sx={{ padding: "0px 1ch" }}>
+                          <Grid item xs={6}>
+                            <Typography>
+                              {value.company_name} - {value.nature_of_business}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                color: "blue",
+                              }}
+                            >
+                              {new Date(value.CreatedAt).toLocaleString()}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      );
+                    }
+                    // eslint-disable-next-line react/jsx-no-useless-fragment
+                    return <></>;
+                  })}
                 </div>
               </List>
             </Card>
@@ -471,6 +487,7 @@ function Index() {
                     <Button
                       variant="outlined"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                      onClick={() => router.push(`/admin/rc/${rid}/event`)}
                     >
                       View All
                     </Button>
@@ -486,24 +503,30 @@ function Index() {
                 }}
               >
                 <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
-                  {eventNotSchd.map((value) => (
-                    <Grid container sx={{ padding: "0px 1ch" }}>
-                      <Grid item xs={6}>
-                        <Typography>{value.name}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            color: "blue",
-                          }}
-                        >
-                          {value.start_date}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  ))}
+                  {eventSchd.map((value, i) => {
+                    if (i < 4) {
+                      return (
+                        <Grid container sx={{ padding: "0px 1ch" }}>
+                          <Grid item xs={6}>
+                            <Typography>{value.name}</Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                color: "blue",
+                              }}
+                            >
+                              {new Date(value.UpdatedAt).toLocaleString()}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      );
+                    }
+                    // eslint-disable-next-line react/jsx-no-useless-fragment
+                    return <></>;
+                  })}
                 </div>
               </List>
             </Card>
@@ -528,6 +551,7 @@ function Index() {
                     <Button
                       variant="outlined"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                      onClick={() => router.push(`/admin/rc/${rid}/event`)}
                     >
                       View All
                     </Button>
@@ -542,26 +566,32 @@ function Index() {
                   padding: "1rem",
                 }}
               >
-                {eventNotSchd.map((value) => (
-                  <div key={value.ID} style={{ margin: "15px 0px" }}>
-                    <Grid container sx={{ padding: "0px 1ch" }}>
-                      <Grid item xs={6}>
-                        <Typography>{value.name}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            color: "blue",
-                          }}
-                        >
-                          {value.start_date}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </div>
-                ))}
+                {eventNotSchd.map((value, i) => {
+                  if (i < 4) {
+                    return (
+                      <div key={value.ID} style={{ margin: "15px 0px" }}>
+                        <Grid container sx={{ padding: "0px 1ch" }}>
+                          <Grid item xs={6}>
+                            <Typography>{value.name}</Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                color: "blue",
+                              }}
+                            >
+                              {new Date(value.UpdatedAt).toLocaleString()}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </div>
+                    );
+                  }
+                  // eslint-disable-next-line react/jsx-no-useless-fragment
+                  return <></>;
+                })}
               </List>
             </Card>
           </Grid>

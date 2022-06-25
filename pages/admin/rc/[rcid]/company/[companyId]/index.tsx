@@ -40,7 +40,7 @@ const columns: GridColDef[] = [
     renderCell(params) {
       // eslint-disable-next-line no-nested-ternary
       return params.row.is_approved.Valid
-        ? params.row.is_verified?.Bool
+        ? params.row.is_approved?.Bool
           ? "Approved"
           : "Rejected"
         : "Pending";
