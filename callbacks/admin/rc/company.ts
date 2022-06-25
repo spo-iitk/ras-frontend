@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 
 import {
   ADMIN_RC_URL,
+  AUTH_URL,
   ErrorType,
   SERVER_ERROR,
   StatusResponse,
@@ -22,12 +23,21 @@ export interface CompanyRc {
   comments: string;
 }
 
+interface RecentCompany {
+  companies: string[];
+}
+
 const instance = axios.create({
   baseURL: ADMIN_RC_URL,
   timeout: 15000,
   timeoutErrorMessage: SERVER_ERROR,
 });
 
+const recentInstance = axios.create({
+  baseURL: AUTH_URL,
+  timeout: 15000,
+  timeoutErrorMessage: SERVER_ERROR,
+});
 const requestCompany = {
   get: (token: string, rcid: string, cid: string) =>
     instance

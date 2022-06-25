@@ -13,6 +13,8 @@ export const ADMIN_STUDENT_URL = `${BASE_URL}/api/admin/student`;
 export const ADMIN_COMPANY_URL = `${BASE_URL}/api/admin/company`;
 export const ADMIN_APPLICATION_URL = `${BASE_URL}/api/admin/application`;
 
+export const CDN_URL = `${BASE_URL}/cdn`;
+
 export const SERVER_ERROR = "Aw, Snap! Server maybe down.";
 
 export interface ErrorResponse {

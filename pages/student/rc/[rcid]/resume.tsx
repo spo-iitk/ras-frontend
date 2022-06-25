@@ -1,12 +1,20 @@
-import React from "react";
+/* eslint-disable no-nested-ternary */
+import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { Box, Grid, IconButton, Modal, Stack, TextField } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Box, Button, Grid, IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/router";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import AvTimerIcon from "@mui/icons-material/AvTimer";
 
+import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
+import resumeRequest, {
+  AllStudentResumeResponse,
+} from "@callbacks/student/rc/resume";
+import { CDN_URL } from "@callbacks/constants";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -21,19 +29,6 @@ const boxStyle = {
   p: 4,
 };
 
-const divStyle = {
-  margin: "15px 0 auto 0",
-  padding: "0",
-  width: "100%",
-};
-
-const boxbuttonStyle = {
-  width: "100%",
-  height: "40px",
-  border: "inherit solid 2px",
-  borderRadius: "10px",
-};
-
 const gridMain = {
   width: "100%",
   display: "flex",
@@ -41,68 +36,124 @@ const gridMain = {
   justifyContent: "right",
 };
 
+const transformName = (name: string) => {
+  const nameArray = name.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
+};
+
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
+
 const columns: GridColDef[] = [
   {
-    field: "id",
-    headerName: "ID",
+    field: "ID",
+    headerName: "Resume ID",
     align: "center",
     headerAlign: "center",
   },
   {
-    field: "resumeLink",
+    field: "resume",
     headerName: "Resume Link",
     sortable: false,
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <ActiveButton sx={{ height: 30, width: "100%" }}>
-        {params.value}
-      </ActiveButton>
+      <Button
+        variant="contained"
+        sx={{ width: "100%" }}
+        onClick={() => {
+          window.open(getURL(params.value), "_blank");
+        }}
+      >
+        {transformName(params.value)}
+      </Button>
     ),
   },
   {
-    field: "uploadTime",
+    field: "CreatedAt",
+    valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
     headerName: "Upload Time",
     align: "center",
     headerAlign: "center",
   },
   {
-    field: "comments",
-    headerName: "Comments from SPO",
-    align: "center",
-    headerAlign: "center",
-  },
-  {
-    field: "status",
+    field: "verified",
     headerName: "Verification Status",
     align: "center",
     headerAlign: "center",
-    renderCell: (params) => (
-      <div>
-        <ActiveButton sx={{ height: 30, width: "100%" }}>
-          {params.value}
-        </ActiveButton>
-      </div>
-    ),
-  },
-];
-const rows = [
-  {
-    id: 1,
-    resumeLink: "VIEW",
-    uploadTime: "12:00AM 31 May 2022",
-    comments: "Hello World",
-    status: "True",
+    renderCell: (params) =>
+      params.row.verified.Valid ? (
+        params.row.verified.Bool ? (
+          <Button
+            variant="outlined"
+            sx={{ borderRadius: "10px", width: "80%", color: "green" }}
+            color="success"
+            startIcon={<CheckIcon sx={{ color: "green" }} />}
+          >
+            Accepted
+          </Button>
+        ) : (
+          <Button
+            variant="outlined"
+            sx={{ borderRadius: "10px", width: "80%", color: "red" }}
+            color="error"
+            startIcon={<CloseIcon sx={{ color: "red" }} />}
+          >
+            Rejected
+          </Button>
+        )
+      ) : (
+        <Button
+          variant="outlined"
+          sx={{ borderRadius: "10px", width: "80%" }}
+          startIcon={<AvTimerIcon />}
+        >
+          Pending by SPO
+        </Button>
+      ),
   },
 ];
 
-function submitResume() {
-  return 0;
-}
 function Resume() {
+  const router = useRouter();
+  const [fileSaved, setFileSaved] = useState<File | null>(null);
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  // eslint-disable-next-line no-unused-vars
+  const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (event: { target: { files: any } }) => {
+    const { files } = event.target;
+    if (files && files.length > 0) {
+      setFileSaved(files[0]);
+    }
+  };
+
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", fileSaved !== null ? fileSaved : new Blob());
+    await resumeRequest.post(formData, token, rid);
+    setFileSaved(null);
+    handleClose();
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (rid === undefined || rid === "") return;
+      const data = await resumeRequest.get(token, rid);
+      setAllResumes(data);
+    };
+    fetchData();
+  }, [token, rid]);
+
   return (
     <>
       <div className="container">
@@ -120,7 +171,11 @@ function Resume() {
           </Grid>
         </Grid>
         <Stack>
-          <DataGrid rows={rows} columns={columns} />
+          <DataGrid
+            rows={allResumes}
+            getRowId={(row) => row.ID}
+            columns={columns}
+          />
         </Stack>
       </div>
       <Modal open={open} onClose={handleClose}>
@@ -128,21 +183,15 @@ function Resume() {
           <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
             Upload Resume
           </h1>
-          <TextField
-            name="upload-pdf"
-            type="file"
-            aria-hidden="true"
-            title=""
-          />
-          <div style={divStyle}>
-            <Button
-              style={boxbuttonStyle}
-              variant="contained"
-              onClick={submitResume}
-            >
-              Submit File
-            </Button>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="file"
+              name="file"
+              accept="application/pdf"
+              onChange={handleChange}
+            />
+            <button type="submit">Upload</button>
+          </form>
         </Box>
       </Modal>
     </>

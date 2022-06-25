@@ -114,7 +114,7 @@ function Enrollment() {
               })}
             />
           );
-        case "True / False":
+        case "Boolean":
           return (
             <FormControl>
               <RadioGroup

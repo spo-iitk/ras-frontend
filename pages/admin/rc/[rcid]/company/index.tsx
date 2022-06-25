@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, IconButton, Modal, Stack } from "@mui/material";
+import { Button, Grid, IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
@@ -77,7 +77,9 @@ const columns: GridColDef[] = [
           pathname: `${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.ID}`,
         }}
       >
-        <ActiveButton sx={{ height: 30, width: "50%" }}>Click</ActiveButton>
+        <Button variant="contained" sx={{ width: "80%" }}>
+          View
+        </Button>
       </Link>
     ),
   },
