@@ -1,76 +1,165 @@
-import AddIcon from "@mui/icons-material/Add";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Button, IconButton, Modal, Popover, Stack } from "@mui/material";
+import { Button, Container, Modal, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import ResumeClarification from "@components/Modals/resumeClarification";
 import Meta from "@components/Meta";
-import InactiveButton from "@components/Buttons/InactiveButton";
-import ActiveButton from "@components/Buttons/ActiveButton";
+import adminResumeRequest, {
+  AllStudentResumeResponse,
+} from "@callbacks/admin/rc/student/resumes";
+import useStore from "@store/store";
+import { CDN_URL } from "@callbacks/constants";
 
-const buttonstyle = {
-  borderRadius: 0,
-  color: "black",
-  background: "white",
-  "&:hover": { backgroundColor: "#cfd4d1" },
+const transformName = (name: string) => {
+  const nameArray = name.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
 };
 
-const rows = [
-  {
-    id: 1,
-    resumeid: 1687524,
-    StudentName: "Name 1",
-    Rollno: "190875",
-    ViewResume: "Resume 1",
-    Status: "ACCEPTED",
-  },
-  {
-    id: 2,
-    resumeid: 1687525,
-    StudentName: "Name 2",
-    Rollno: "190876",
-    ViewResume: "Resume 2",
-    Status: "REJECTED",
-  },
-];
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
+function AcceptResumeButton(props: {
+  id: string;
+  updateCallback: () => Promise<void>;
+}) {
+  const { token } = useStore();
+  const { id, updateCallback } = props;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  return (
+    <Button
+      variant="contained"
+      sx={{
+        marginInlineEnd: "0.5rem",
+      }}
+      onClick={() => {
+        adminResumeRequest
+          .putVerify(token, rid, id, { verified: true })
+          .then(() => {
+            updateCallback();
+          });
+      }}
+    >
+      Accept
+    </Button>
+  );
+}
+
+function RejectResumeButton(props: {
+  id: string;
+  updateCallback: () => Promise<void>;
+}) {
+  const { token } = useStore();
+  const { id, updateCallback } = props;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  return (
+    <Button
+      variant="contained"
+      onClick={() => {
+        adminResumeRequest
+          .putVerify(token, rid, id, { verified: false })
+          .then(() => {
+            updateCallback();
+          });
+      }}
+    >
+      Reject
+    </Button>
+  );
+}
 function Index() {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  useEffect(() => {
+    const fetchData = async () => {
+      if (rid === undefined || rid === "") return;
+      const res = await adminResumeRequest.getAll(token, rid);
+      setAllResumes(res);
+    };
+    fetchData();
+  }, [token, rid]);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
+  const updateTable = React.useCallback(async () => {
+    if (rid === undefined || rid === "") return;
+    const res = await adminResumeRequest.getAll(token, rid);
+    setAllResumes(res);
+  }, [token, rid]);
 
   const columns: GridColDef[] = [
-    { field: "resumeid", headerName: "Resume ID", width: 200 },
     {
-      field: "StudentName",
+      field: "rsid",
+      headerName: "Resume ID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "name",
       headerName: "Student Name",
-      width: 200,
+      align: "center",
+      headerAlign: "center",
     },
     {
-      field: "Rollno",
-      headerName: "Roll No.",
-      width: 200,
+      field: "email",
+      headerName: "Student Email",
+      align: "center",
+      headerAlign: "center",
     },
     {
-      field: "ViewResume",
-      headerName: "View Resume",
-      width: 200,
+      field: "resume",
+      headerName: "Resume Link",
+      sortable: false,
+      align: "center",
+      width: 400,
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Button
+          variant="contained"
+          sx={{ width: "100%" }}
+          onClick={() => {
+            window.open(getURL(params.value), "_blank");
+          }}
+        >
+          {transformName(params.value)}
+        </Button>
+      ),
+    },
+    {
+      field: "verified",
+      headerName: "Verification Status",
+      align: "center",
+      headerAlign: "center",
+      valueGetter: ({ value }) => {
+        if (value?.Valid) {
+          if (value?.Bool) return "Accepted";
+          return "Rejected";
+        }
+        if (!value?.Valid) return "Pending Verification";
+        return "Unkown";
+      },
+    },
+    {
+      field: "action_taken_by",
+      headerName: "Action Taken By",
+      align: "center",
+      headerAlign: "center",
+      hide: true,
     },
     {
       field: "AskClarification",
       headerName: "Ask Clarification",
-      width: 200,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const [openNew, setOpenNew] = useState(false);
@@ -88,53 +177,28 @@ function Index() {
                 resumeId={params.row.resumeid}
               />
             </Modal>
-            <ActiveButton sx={{ height: 30 }} onClick={handleOpenNew}>
+            <Button sx={{ height: 30 }} onClick={handleOpenNew}>
               CLICK HERE
-            </ActiveButton>
+            </Button>
           </div>
         );
       },
     },
     {
-      field: "Status",
-      headerName: "Status",
-      width: 300,
+      field: "options",
+      headerName: "",
+      align: "center",
       renderCell: (cellValues) => (
-        <Stack
-          direction="row"
-          alignItems="center"
-          width="100%"
-          justifyContent="space-between"
-        >
-          {cellValues.row.Status === "ACCEPTED" ? (
-            <ActiveButton sx={{ height: 30 }}>
-              {cellValues.row.Status}
-            </ActiveButton>
-          ) : (
-            <InactiveButton sx={{ height: 30 }}>
-              {cellValues.row.Status}
-            </InactiveButton>
-          )}
-
-          <IconButton onClick={handleClick}>
-            <MoreVertIcon />
-          </IconButton>
-          <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-          >
-            <Stack direction="column">
-              <Button sx={buttonstyle}>View Profile</Button>
-              <Button sx={buttonstyle}>See History</Button>
-              <Button sx={buttonstyle}>Freeze/Unfreeze</Button>
-            </Stack>
-          </Popover>
-        </Stack>
+        <Container>
+          <AcceptResumeButton
+            id={cellValues.id.toString()}
+            updateCallback={updateTable}
+          />
+          <RejectResumeButton
+            id={cellValues.id.toString()}
+            updateCallback={updateTable}
+          />
+        </Container>
       ),
     },
   ];
@@ -151,18 +215,14 @@ function Index() {
             justifyContent="space-between"
           >
             <h2>Resume</h2>
-            <Stack direction="row" spacing={3}>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
-            </Stack>
           </Stack>
         </Grid>
 
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid
+          rows={allResumes}
+          getRowId={(row) => row.rsid}
+          columns={columns}
+        />
       </Grid>
     </div>
   );

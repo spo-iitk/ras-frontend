@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
-import { rev } from "@components/Utils/matrixUtils";
+import { getDepartment, getProgram } from "@components/Parser/parser";
 
 const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   [
@@ -229,33 +229,13 @@ function Profile() {
       case "dob":
         return new Date(StudentData.dob).toLocaleDateString();
       case "program":
-        if (StudentData.program_department_id === 0) {
-          return "None";
-        }
-        return rev[
-          StudentData.program_department_id as keyof typeof rev
-        ]?.split("-")[0];
+        return getProgram(StudentData.program_department_id);
       case "program_2":
-        if (StudentData.secondary_program_department_id === 0) {
-          return "None";
-        }
-        return rev[
-          StudentData.secondary_program_department_id as keyof typeof rev
-        ]?.split("-")[0];
+        return getProgram(StudentData.secondary_program_department_id);
       case "department":
-        if (StudentData.program_department_id === 0) {
-          return "None";
-        }
-        return rev[
-          StudentData.program_department_id as keyof typeof rev
-        ]?.split("-")[1];
+        return getDepartment(StudentData.program_department_id);
       case "department_2":
-        if (StudentData.secondary_program_department_id === 0) {
-          return "None";
-        }
-        return rev[
-          StudentData.secondary_program_department_id as keyof typeof rev
-        ]?.split("-")[1];
+        return getDepartment(StudentData.secondary_program_department_id);
       default:
         return StudentData[val as keyof Student];
     }
