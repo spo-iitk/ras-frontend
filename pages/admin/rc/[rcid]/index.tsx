@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -16,25 +16,9 @@ import Meta from "@components/Meta";
 import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
 import useStore from "@store/store";
 import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
+import requestCompany from "@callbacks/admin/rc/company";
+import eventRequest, { Event } from "@callbacks/admin/rc/overview";
 
-const RecCompany = [
-  { id: 1, Name: "Company Name: Registered", data: "4238" },
-  { id: 1, Name: "Company Name: Registered", data: "4238" },
-  { id: 1, Name: "Company Name: Registered", data: "4238" },
-  { id: 2, Name: "Company Name: Uploaded", data: "4238" },
-];
-const EventSchd = [
-  { id: 1, Name: "Company Name: Test", data: "4238" },
-  { id: 2, Name: "Company Name: Interview", data: "4238" },
-  { id: 2, Name: "Company Name: GD", data: "4238" },
-  { id: 2, Name: "Company Name: PPT", data: "4238" },
-];
-const EventNotSchd = [
-  { id: 1, Name: "Company Name: PPT", data: "4238" },
-  { id: 2, Name: "Company Name: Test", data: "4238" },
-  { id: 1, Name: "Company Name: PPT", data: "4238" },
-  { id: 2, Name: "Company Name: Test", data: "4238" },
-];
 function Index() {
   const router = useRouter();
   const { rcid } = router.query;
@@ -58,6 +42,9 @@ function Index() {
   ]);
   const [appdata, setApp] = React.useState<APPCount>({ roles: 0, ppo_pio: 0 });
   const { token, rcName } = useStore();
+  const [recCompany, setRecCompany] = useState<string[]>([]);
+  const [eventSchd, setEventSchd] = useState<Event[]>([]);
+  const [eventNotSchd, setEventNotSchd] = useState<Event[]>([]);
   useEffect(() => {
     const fetch = async () => {
       const comapny_res = await countData.getRC(token, rid);
@@ -72,6 +59,28 @@ function Index() {
     };
     if (rid !== "") fetchNotice();
   }, [rid, token]);
+  useEffect(() => {
+    const fetchCompany = async () => {
+      const response = await requestCompany.getRecent(token);
+      setRecCompany(response);
+    };
+    const fetchEvent = async () => {
+      if (router.isReady) {
+        const response = await eventRequest.getAll(token, rid);
+        console.log(response);
+        const scheduled: Event[] = [];
+        const unscheduled: Event[] = [];
+        response.forEach((value: Event) => {
+          if (value.start_time === 0) unscheduled.push(value);
+          else scheduled.push(value);
+        });
+        setEventSchd(scheduled);
+        setEventNotSchd(unscheduled);
+      }
+    };
+    fetchCompany();
+    fetchEvent();
+  }, [rid, router.isReady, token]);
 
   const handleClick = () => {
     router.push(`/admin/rc/${rid}/notice`);
@@ -337,6 +346,7 @@ function Index() {
                     <Button
                       variant="outlined"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                      onClick={() => router.push(`/admin/rc/${rid}/company`)}
                     >
                       View All
                     </Button>
@@ -351,26 +361,34 @@ function Index() {
                   padding: "1rem",
                 }}
               >
-                {RecCompany.map((value) => (
-                  <div key={value.id} style={{ margin: "15px 0px" }}>
-                    <Grid container sx={{ padding: "0px 1ch" }}>
-                      <Grid item xs={6}>
-                        <Typography>{value.Name}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            color: "blue",
-                          }}
+                <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                  {recCompany.map((value, i) => {
+                    if (i < 4) {
+                      return (
+                        <Grid
+                          container
+                          sx={{ padding: "0px 1ch", marginBottom: "1rem" }}
                         >
-                          {value.data}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </div>
-                ))}
+                          <Grid item xs={6}>
+                            <Typography>{value}</Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                color: "blue",
+                              }}
+                            >
+                              Recently Added
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
               </List>
             </Card>
           </Grid>
@@ -380,7 +398,7 @@ function Index() {
             <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
               <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
                 <Grid item xs={6}>
-                  <h3>Notices</h3>
+                  <h3>Recent JAF Added</h3>
                   <h5 style={{ position: "relative", bottom: "1rem" }}>
                     Posted by: SPO Team
                   </h5>
@@ -410,11 +428,11 @@ function Index() {
                   padding: "1rem",
                 }}
               >
-                {EventSchd.map((value) => (
-                  <div key={value.id} style={{ margin: "15px 0px" }}>
+                <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                  {eventSchd.map((value) => (
                     <Grid container sx={{ padding: "0px 1ch" }}>
                       <Grid item xs={6}>
-                        <Typography>{value.Name}</Typography>
+                        <Typography>{value.name}</Typography>
                       </Grid>
                       <Grid item xs={6}>
                         <Typography
@@ -424,12 +442,12 @@ function Index() {
                             color: "blue",
                           }}
                         >
-                          {value.data}
+                          {value.start_date}
                         </Typography>
                       </Grid>
                     </Grid>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </List>
             </Card>
           </Grid>
@@ -437,7 +455,7 @@ function Index() {
             <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
               <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
                 <Grid item xs={6}>
-                  <h3>Recent Company Added</h3>
+                  <h3>Scheduled Events</h3>
                   <h5 style={{ position: "relative", bottom: "1rem" }}>
                     Posted by: SPO Team
                   </h5>
@@ -467,11 +485,11 @@ function Index() {
                   padding: "1rem",
                 }}
               >
-                {EventNotSchd.map((value) => (
-                  <div key={value.id} style={{ margin: "15px 0px" }}>
+                <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                  {eventNotSchd.map((value) => (
                     <Grid container sx={{ padding: "0px 1ch" }}>
                       <Grid item xs={6}>
-                        <Typography>{value.Name}</Typography>
+                        <Typography>{value.name}</Typography>
                       </Grid>
                       <Grid item xs={6}>
                         <Typography
@@ -481,7 +499,64 @@ function Index() {
                             color: "blue",
                           }}
                         >
-                          {value.data}
+                          {value.start_date}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  ))}
+                </div>
+              </List>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
+              <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
+                <Grid item xs={6}>
+                  <h3>Unscheduled Events</h3>
+                  <h5 style={{ position: "relative", bottom: "1rem" }}>
+                    Posted by: SPO Team
+                  </h5>
+                </Grid>
+                <Grid item xs={6}>
+                  <h5
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      color: "blue",
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                    >
+                      View All
+                    </Button>
+                  </h5>
+                </Grid>
+              </Grid>
+              <hr />
+              <List
+                sx={{
+                  width: "100%",
+                  bgcolor: "background.paper",
+                  padding: "1rem",
+                }}
+              >
+                {eventNotSchd.map((value) => (
+                  <div key={value.ID} style={{ margin: "15px 0px" }}>
+                    <Grid container sx={{ padding: "0px 1ch" }}>
+                      <Grid item xs={6}>
+                        <Typography>{value.name}</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography
+                          sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            color: "blue",
+                          }}
+                        >
+                          {value.start_date}
                         </Typography>
                       </Grid>
                     </Grid>

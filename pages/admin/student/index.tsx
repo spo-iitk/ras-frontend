@@ -9,6 +9,7 @@ import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
+import { getDeptProgram } from "@components/Parser/parser";
 
 const columns: GridColDef[] = [
   {
@@ -22,10 +23,12 @@ const columns: GridColDef[] = [
   {
     field: "program_department_id",
     headerName: "Program",
+    renderCell: (rowData) => getDeptProgram(rowData.value),
   },
   {
     field: "secondary_program_department_id",
     headerName: "Secondary Program",
+    renderCell: (rowData) => getDeptProgram(rowData.value),
   },
   {
     field: "specialization",

@@ -12,11 +12,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import requestProforma, {
   AdminProformaType,
+  ProformaEmailRequest,
 } from "@callbacks/admin/rc/adminproforma";
 import useStore from "@store/store";
 import eventRequest, { Event } from "@callbacks/company/rc/proforma/event";
@@ -65,19 +67,23 @@ const columns: GridColDef[] = [
 
 const rows: never[] = [];
 function Index() {
+  const { register, handleSubmit, reset } = useForm<ProformaEmailRequest>();
+
   const [openEmailSender, setOpenEmailSender] = useState(false);
   const [proformaEvents, setProformaEvents] = useState<Event[]>([]);
+
   const handleOpenEmailSender = () => {
     setOpenEmailSender(true);
   };
   const handleCloseEmailSender = () => {
     setOpenEmailSender(false);
   };
+
+  const { token } = useStore();
   const router = useRouter();
   const { rcid, proformaid } = router.query;
   const rid = rcid as string;
   const pid = proformaid as string;
-  const { token } = useStore();
 
   const acceptProforma = () => {
     requestProforma.put(token, rid, {
@@ -107,6 +113,18 @@ function Index() {
     };
     if (router.isReady) fetchProformaEvents();
   }, [token, router.isReady, rid, pid]);
+
+  const sendEmail = async (data: ProformaEmailRequest) => {
+    const response = await requestProforma.email(token, rid, pid, data);
+    if (response) {
+      reset({
+        event_id: 0,
+        subject: "",
+        body: "",
+      });
+      handleCloseEmailSender();
+    }
+  };
 
   return (
     <div className="container">
@@ -229,20 +247,29 @@ function Index() {
                         labelId="Event-ID"
                         label="Select Group"
                         variant="standard"
-                        // {...register("type")}
+                        {...register("event_id", { required: true })}
                       >
                         {proformaEvents.map((event) => (
                           <MenuItem value={event.ID}>{event.name}</MenuItem>
                         ))}
                       </Select>
-                      <TextField label="Email Subject" variant="standard" />
+                      <TextField
+                        label="Email Subject"
+                        variant="standard"
+                        {...register("subject", { required: true })}
+                      />
                       <TextField
                         label="Email Body"
                         variant="standard"
+                        {...register("body", { required: true })}
                         multiline
                         minRows={3}
                       />
-                      <Button variant="contained" sx={{ width: "100%" }}>
+                      <Button
+                        variant="contained"
+                        sx={{ width: "100%" }}
+                        onClick={handleSubmit(sendEmail)}
+                      >
                         Submit
                       </Button>
                     </Stack>
