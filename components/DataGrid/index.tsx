@@ -5,7 +5,7 @@ import {
   DataGrid,
   GridCellParams,
   GridColDef,
-  GridRowHeightParams,
+  // GridRowHeightParams,
   GridToolbar,
   MuiEvent,
 } from "@mui/x-data-grid";
@@ -93,13 +93,14 @@ function Index({
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[10, 25, 50, 100]}
         autoHeight={rows.length > 0}
-        getRowHeight={({ id, densityFactor }: GridRowHeightParams) => {
-          if ((id as number) % 2 === 0) {
-            return 100 * densityFactor;
-          }
+        // getRowHeight={({ id, densityFactor }: GridRowHeightParams) => {
+        //   if ((id as number) % 2 === 0) {
+        //     return 100 * densityFactor;
+        //   }
 
-          return null;
-        }}
+        //   return null;
+        // }}
+        rowHeight={80}
         onCellClick={onCellClick}
         getRowId={getRowId}
         sx={{ padding: 2, minHeight: rows.length > 0 ? 0 : 500 }}
