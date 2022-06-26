@@ -23,9 +23,12 @@ const transformName = (name: string) => {
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
-function AcceptResumeButton(props: { id: string }) {
+function AcceptResumeButton(props: {
+  id: string;
+  updateCallback: () => Promise<void>;
+}) {
   const { token } = useStore();
-  const { id } = props;
+  const { id, updateCallback } = props;
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
@@ -36,7 +39,11 @@ function AcceptResumeButton(props: { id: string }) {
         marginInlineEnd: "0.5rem",
       }}
       onClick={() => {
-        adminResumeRequest.putVerify(token, rid, id, { verified: true });
+        adminResumeRequest
+          .putVerify(token, rid, id, { verified: true })
+          .then(() => {
+            updateCallback();
+          });
       }}
     >
       Accept
@@ -44,9 +51,12 @@ function AcceptResumeButton(props: { id: string }) {
   );
 }
 
-function RejectResumeButton(props: { id: string }) {
+function RejectResumeButton(props: {
+  id: string;
+  updateCallback: () => Promise<void>;
+}) {
   const { token } = useStore();
-  const { id } = props;
+  const { id, updateCallback } = props;
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
@@ -54,7 +64,11 @@ function RejectResumeButton(props: { id: string }) {
     <Button
       variant="contained"
       onClick={() => {
-        adminResumeRequest.putVerify(token, rid, id, { verified: false });
+        adminResumeRequest
+          .putVerify(token, rid, id, { verified: false })
+          .then(() => {
+            updateCallback();
+          });
       }}
     >
       Reject
@@ -74,6 +88,12 @@ function Index() {
       setAllResumes(res);
     };
     fetchData();
+  }, [token, rid]);
+
+  const updateTable = React.useCallback(async () => {
+    if (rid === undefined || rid === "") return;
+    const res = await adminResumeRequest.getAll(token, rid);
+    setAllResumes(res);
   }, [token, rid]);
 
   const columns: GridColDef[] = [
@@ -170,8 +190,14 @@ function Index() {
       align: "center",
       renderCell: (cellValues) => (
         <Container>
-          <AcceptResumeButton id={cellValues.id.toString()} />
-          <RejectResumeButton id={cellValues.id.toString()} />
+          <AcceptResumeButton
+            id={cellValues.id.toString()}
+            updateCallback={updateTable}
+          />
+          <RejectResumeButton
+            id={cellValues.id.toString()}
+            updateCallback={updateTable}
+          />
         </Container>
       ),
     },

@@ -4,7 +4,10 @@ import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
+import EditCompany from "@components/Modals/EditCompanyAdmin";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import AddCompany from "@components/Modals/AddCompanyAdmin";
@@ -19,6 +22,23 @@ const gridMain = {
   alignItems: "right",
   justifyContent: "right",
 };
+
+function DeleteComapny(props: { id: string }) {
+  const { token } = useStore();
+  const { id } = props;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  return (
+    <IconButton
+      onClick={() => {
+        requestCompany.deleteCompany(token, rid, id);
+      }}
+    >
+      <DeleteIcon />
+    </IconButton>
+  );
+}
 
 const columns: GridColDef[] = [
   {
@@ -62,10 +82,26 @@ const columns: GridColDef[] = [
       </Link>
     ),
   },
+  {
+    field: "options",
+    headerName: "",
+    width: 100,
+    renderCell: (cellValues) => {
+      console.log(cellValues.row.ID);
+      return <DeleteComapny id={cellValues.row.ID.toString()} />;
+    },
+  },
 ];
 
 function Index() {
   const [openNew, setOpenNew] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const handleOpenEdit = () => {
+    setOpenEdit(true);
+  };
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
   const handleOpenNew = () => {
     setOpenNew(true);
   };
@@ -83,7 +119,18 @@ function Index() {
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
       let response = await requestCompany.getall(token, rid);
-      setRow(response);
+      let toset: CompanyRc[] = response.map((company) => ({
+        ID: company.company_id,
+        CreatedAt: company.CreatedAt,
+        company_id: company.company_id,
+        company_name: company.company_name,
+        recruitment_cycle_id: company.recruitment_cycle_id,
+        hr1: company.hr1,
+        hr2: company.hr2,
+        hr3: company.hr3,
+        comments: company.comments,
+      }));
+      setRow(toset);
       setLoading(false);
     };
     if (rid !== "") getCompanydata();
@@ -97,11 +144,14 @@ function Index() {
             <h2>Company</h2>
           </Grid>
           <Grid item xs={6} style={gridMain}>
-            <div>
+            <Stack direction="row">
+              <IconButton onClick={handleOpenEdit}>
+                <EditIcon />
+              </IconButton>
               <IconButton onClick={handleOpenNew}>
                 <AddIcon />
               </IconButton>
-            </div>
+            </Stack>
           </Grid>
         </Grid>
 
@@ -112,6 +162,13 @@ function Index() {
           loading={loading}
         />
       </Stack>
+      <Modal open={openEdit} onClose={handleCloseEdit}>
+        <EditCompany
+          handleCloseEdit={handleCloseEdit}
+          setRows={setRow}
+          companyData={rows}
+        />
+      </Modal>
       <Modal open={openNew} onClose={handleCloseNew}>
         <AddCompany handleCloseNew={handleCloseNew} />
       </Modal>

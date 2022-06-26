@@ -74,6 +74,7 @@ const columns: GridColDef[] = [
     field: "student_id",
     headerName: "Student ID",
     width: 100,
+    hide: true,
   },
   {
     field: "is_frozen",
@@ -90,6 +91,7 @@ const columns: GridColDef[] = [
     headerName: "",
     align: "center",
     width: 100,
+    hide: true,
     renderCell: (cellValues) => (
       <DeleteStudents id={cellValues.id.toString()} />
     ),

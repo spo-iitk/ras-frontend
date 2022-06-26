@@ -43,7 +43,7 @@ const columns: GridColDef[] = [
         width="100%"
         justifyContent="space-between"
       >
-        <Link href={`/admin/company/${params.row.id}`}>
+        <Link href={`/admin/company/${params.row.ID}`}>
           <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
         </Link>
       </Stack>
