@@ -20,7 +20,7 @@ const columns: GridColDef[] = [
   { field: "company_name", headerName: "Company Name" },
   { field: "role", headerName: "Role Name" },
   {
-    field: "set_deadline",
+    field: "deadline",
     headerName: "Application Deadline",
     renderCell(params) {
       return new Date(params.value).toLocaleString();

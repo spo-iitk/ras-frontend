@@ -68,21 +68,24 @@ function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
                 <Card sx={{ padding: 2, width: { xs: "250px", md: "300px" } }}>
                   <h5 style={{ fontWeight: 400 }}>Duration: {step.duration}</h5>
                   <h5 style={{ fontWeight: 400 }}>
-                    Date: {step?.date ? step?.date : ""}
+                    Venue: {step.venue === "" ? "Not set" : step.venue}
                   </h5>
-                  <h5 style={{ fontWeight: 400 }}>Venue: {step.venue}</h5>
-                  <h5 style={{ fontWeight: 400 }}>
-                    Time:{" "}
-                    {new Date(step.start_time).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                    -
-                    {new Date(step.end_time).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </h5>
+                  {step.end_time === 0 || step.start_time === 0 ? (
+                    <h5 style={{ fontWeight: 400 }}>Time: Not set</h5>
+                  ) : (
+                    <h5 style={{ fontWeight: 400 }}>
+                      Time:{" "}
+                      {new Date(step.start_time).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                      -
+                      {new Date(step.end_time).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </h5>
+                  )}
                 </Card>
                 <div>
                   <Button
