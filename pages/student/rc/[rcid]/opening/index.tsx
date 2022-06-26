@@ -1,130 +1,156 @@
-import React from "react";
-import { Stack } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import Meta from "@components/Meta";
+import useStore from "@store/store";
+import sProformaRequest, {
+  ProformaParams,
+} from "@callbacks/student/rc/proforma";
+import resumeRequest, {
+  AllStudentResumeResponse,
+} from "@callbacks/student/rc/resume";
 
 const ROUTE_PREFIX = "/student/rc/[rcid]";
-const handleChange = (event: SelectChangeEvent, setAge: any) => {
-  setAge(event.target.value);
-};
-
-const columns: GridColDef[] = [
-  {
-    field: "id",
-    headerName: "ID",
-    width: 90,
-  },
-  {
-    field: "companyName",
-    headerName: "Company Name",
-    width: 300,
-  },
-  {
-    field: "role",
-    headerName: "Role",
-    width: 200,
-  },
-  {
-    field: "proforma",
-    headerName: "Proforma",
-    width: 200,
-    align: "center",
-    headerAlign: "center",
-    renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `${ROUTE_PREFIX}/proforma/[proformaid]`,
-          query: {
-            rcid: 1,
-            proformaid: 1,
-          },
-        }}
-      >
-        <ActiveButton sx={{ width: "100%" }}>{params.value}</ActiveButton>
-      </Link>
-    ),
-  },
-  {
-    field: "deadline",
-    headerName: "Application Deadline",
-    width: 200,
-  },
-  {
-    field: "resume",
-    headerName: "Select Resume",
-    width: 200,
-    align: "center",
-    headerAlign: "center",
-    renderCell: (params) => (
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={params.value.age}
-          onChange={(e) => handleChange(e, params.value.setAge)}
-          label="Resume"
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Resume 1</MenuItem>
-          <MenuItem value={20}>Resume 2</MenuItem>
-          <MenuItem value={30}>Resume 3</MenuItem>
-        </Select>
-      </FormControl>
-    ),
-  },
-  {
-    field: "action",
-    headerName: "Action",
-    width: 200,
-    sortable: false,
-    align: "center",
-    headerAlign: "center",
-    renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `${ROUTE_PREFIX}/opening/[openingId]/apply`,
-          query: {
-            rcid: 1,
-            openingId: 1,
-          },
-        }}
-      >
-        <ActiveButton sx={{ width: "100%" }}>{params.value}</ActiveButton>
-      </Link>
-    ),
-  },
-];
 
 function Openings() {
-  const [age, setAge] = React.useState("");
-
-  const rows = [
+  // const [age, setAge] = React.useState("");
+  const { token } = useStore();
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = rcid as string;
+  const [rows, setRows] = useState<ProformaParams[]>([]);
+  const [resumes, setResume] = useState<AllStudentResumeResponse[]>([]);
+  const [selected, setSelected] = useState<string[]>(
+    Array(rows.length).fill("")
+  );
+  const columns: GridColDef[] = [
     {
-      id: "1",
-      companyName: "Company",
-      role: "Software Developer",
-      proforma: "View",
-      deadline: "May 26, 2022 8:00pm",
-      resume: { age, setAge },
-      action: "Apply",
+      field: "ID",
+      headerName: "ID",
+    },
+    { field: "company_name", headerName: "Company Name" },
+    { field: "nature_of_business", headerName: "Role Name" },
+    {
+      field: "set_deadline",
+      headerName: "Application Deadline",
+      renderCell(params) {
+        return new Date(params.value).toLocaleString();
+      },
+    },
+    {
+      field: "proforma",
+      headerName: "Proforma",
+      width: 200,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Link
+          href={{
+            pathname: `${ROUTE_PREFIX}/proforma/[proformaid]`,
+            query: {
+              rcid: rid,
+              proformaid: params.row.ID,
+            },
+          }}
+        >
+          <Button sx={{ width: "100%" }} variant="contained" color="primary">
+            View{" "}
+          </Button>
+        </Link>
+      ),
+    },
+    {
+      field: "resume",
+      headerName: "Select Resume",
+      width: 200,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <Select
+            id={params.row.ID.toString()}
+            name={params.row.ID.toString()}
+            defaultValue=""
+            label="Resume"
+            value={selected[params.row.ID]}
+            onChange={(e) => {
+              let temp = [...selected];
+              temp[params.row.ID] = e.target.value;
+              setSelected(temp);
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {resumes.map((resume) => {
+              if (resume.verified.Bool && resume.verified.Valid) {
+                return <MenuItem value={resume.ID}>{resume.ID}</MenuItem>;
+              }
+              return null;
+            })}
+          </Select>
+        </FormControl>
+      ),
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 200,
+      sortable: false,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Link
+          href={{
+            pathname: `${ROUTE_PREFIX}/opening/[openingId]/apply`,
+            query: {
+              rcid: rid,
+              openingId: params.row.ID,
+              rsid: selected[params.row.ID],
+            },
+          }}
+        >
+          <Button
+            disabled={selected[params.row.ID] === ""}
+            sx={{ width: "100%" }}
+            variant="contained"
+            color="primary"
+          >
+            Apply
+          </Button>
+        </Link>
+      ),
     },
   ];
 
+  useEffect(() => {
+    const getProforma = async () => {
+      const res = await sProformaRequest.getAllProforma(token, rid);
+      setRows(res);
+      setSelected(Array(res.length).fill(""));
+    };
+    const getResume = async () => {
+      const resume = await resumeRequest.get(token, rid);
+      setResume(resume);
+    };
+    if (router.isReady) {
+      getProforma();
+      getResume();
+    }
+  }, [rid, router.isReady, token]);
   return (
     <div className="container">
       <Meta title="Openings" />
       <Stack>
         <h1>Job Openings</h1>
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />
       </Stack>
     </div>
   );

@@ -12,6 +12,13 @@ import { ProformaEvent, ProformaType } from "@callbacks/company/proforma";
 export interface NewProformaResponse {
   pid: number;
 }
+export interface ProformaParams {
+  ID: number;
+  company_name: string;
+  nature_of_business: string;
+  set_deadline: number;
+  resume: string;
+}
 
 const instance = axios.create({
   baseURL: STUDENT_URL,
@@ -22,6 +29,17 @@ const instance = axios.create({
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const sProformaRequest = {
+  getAllProforma: (token: string, rid: string) =>
+    instance
+      .get<ProformaParams[]>(
+        `/application/rc/${rid}/proforma`,
+        setConfig(token)
+      )
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return [] as ProformaParams[];
+      }),
   get: (token: string, rid: string, pid: string) =>
     instance
       .get<ProformaType>(
