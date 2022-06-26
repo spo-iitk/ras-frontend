@@ -86,6 +86,8 @@ const columns: GridColDef[] = [
     field: "options",
     headerName: "",
     width: 100,
+    align: "center",
+    hide: true,
     renderCell: (cellValues) => {
       console.log(cellValues.row.ID);
       return <DeleteComapny id={cellValues.row.ID.toString()} />;
@@ -119,18 +121,7 @@ function Index() {
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
       let response = await requestCompany.getall(token, rid);
-      let toset: CompanyRc[] = response.map((company) => ({
-        ID: company.company_id,
-        CreatedAt: company.CreatedAt,
-        company_id: company.company_id,
-        company_name: company.company_name,
-        recruitment_cycle_id: company.recruitment_cycle_id,
-        hr1: company.hr1,
-        hr2: company.hr2,
-        hr3: company.hr3,
-        comments: company.comments,
-      }));
-      setRow(toset);
+      setRow(response);
       setLoading(false);
     };
     if (rid !== "") getCompanydata();

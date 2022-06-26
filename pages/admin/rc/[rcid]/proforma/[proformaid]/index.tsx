@@ -21,7 +21,7 @@ import requestProforma, {
   ProformaEmailRequest,
 } from "@callbacks/admin/rc/adminproforma";
 import useStore from "@store/store";
-import eventRequest, { Event } from "@callbacks/company/rc/proforma/event";
+import eventRequest, { Event } from "@callbacks/admin/rc/proforma/event";
 
 const boxStyle = {
   position: "absolute" as const,
