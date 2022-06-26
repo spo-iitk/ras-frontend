@@ -158,7 +158,9 @@ function EditStudent({
             id="department"
             error={!!errors.program_department_id}
             variant="standard"
-            {...register("program_department_id")}
+            {...register("program_department_id", {
+              setValueAs: (val) => parseInt(val, 10),
+            })}
           />
         </FormControl>
         <FormControl sx={{ m: 1 }}>
@@ -167,7 +169,9 @@ function EditStudent({
             id="department"
             error={!!errors.secondary_program_department_id}
             variant="standard"
-            {...register("secondary_program_department_id")}
+            {...register("secondary_program_department_id", {
+              setValueAs: (val) => parseInt(val, 10),
+            })}
           />
         </FormControl>
         <FormControl sx={{ m: 1 }}>
