@@ -4,6 +4,7 @@ import {
   CardContent,
   Grid,
   List,
+  Modal,
   Stack,
   Typography,
 } from "@mui/material";
@@ -20,6 +21,7 @@ import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
 import requestCompany from "@callbacks/admin/rc/company";
 import eventRequest, { Event } from "@callbacks/admin/rc/overview";
 import rcRequest from "@callbacks/admin/rc/rc";
+import EditRCApplicationCap from "@components/Modals/EditRCApplicationCap";
 
 function Index() {
   const router = useRouter();
@@ -97,6 +99,15 @@ function Index() {
   const handleClick = () => {
     router.push(`/admin/rc/${rid}/notice`);
   };
+
+  const [openNew, setOpenNew] = React.useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+
   return (
     <div className="container">
       <Meta title={`Admin Dashboard - ${rcName}`} />
@@ -114,9 +125,13 @@ function Index() {
             variant="contained"
             endIcon={<EditIcon />}
             sx={{ width: "150px" }}
+            onClick={handleOpenNew}
           >
             Edit
           </Button>
+          <Modal open={openNew} onClose={handleCloseNew}>
+            <EditRCApplicationCap handleClose={handleCloseNew} />
+          </Modal>
           <Button
             variant="contained"
             endIcon={<DeleteIcon />}

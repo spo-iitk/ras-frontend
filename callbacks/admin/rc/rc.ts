@@ -34,7 +34,8 @@ export interface RCResponse {
 
 export interface rcEdit {
   ID: number;
-  inactive: boolean;
+  inactive?: boolean;
+  application_count_cap?: number;
 }
 const rcRequest = {
   getAll: (token: string) =>
