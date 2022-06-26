@@ -296,9 +296,14 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/notice",
         },
         {
-          avatar: <QuestionMarkIcon />,
-          name: "Questions",
-          id: "/question",
+          avatar: <ArticleIcon />,
+          name: "Proforma",
+          id: "/proforma",
+        },
+        {
+          avatar: <ArticleIcon />,
+          name: "Resume",
+          id: "/resume",
         },
         {
           avatar: <ApartmentIcon />,
@@ -311,24 +316,19 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/student",
         },
         {
-          avatar: <ArticleIcon />,
-          name: "Proforma",
-          id: "/proforma",
-        },
-        {
           avatar: <BarChartIcon />,
           name: "Stats",
           id: "/stats",
         },
         {
+          avatar: <QuestionMarkIcon />,
+          name: "Questions",
+          id: "/question",
+        },
+        {
           avatar: <AccountCircleIcon />,
           name: "Attendance",
           id: "/attendance",
-        },
-        {
-          avatar: <ArticleIcon />,
-          name: "Resume",
-          id: "/resume",
         },
         {
           avatar: <CalendarMonthIcon />,
