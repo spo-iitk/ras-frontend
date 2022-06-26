@@ -177,9 +177,9 @@ function Step5() {
               fullWidth
               minRows={5}
               variant="standard"
-              error={!!errors.set_deadline}
-              helperText={errors.set_deadline && "This field is required!"}
-              {...register("set_deadline", {
+              error={!!errors.deadline}
+              helperText={errors.deadline && "This field is required!"}
+              {...register("deadline", {
                 setValueAs: (value: string) => new Date(value).getTime(),
               })}
             />

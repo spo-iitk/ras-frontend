@@ -72,7 +72,7 @@ function Index() {
                 multiline
                 fullWidth
                 minRows={4}
-                value={row.nature_of_business}
+                value={row.role}
                 InputProps={{
                   readOnly: true,
                 }}

@@ -25,7 +25,7 @@ export interface Event {
   company_name: string;
   CreatedAt: string;
   UpdatedAt: string;
-  nature_of_business: string;
+  role: string;
   recruitment_cycle_id: string;
 }
 const instance = axios.create({

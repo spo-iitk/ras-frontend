@@ -39,7 +39,7 @@ function ProformaNew() {
       .then((res: NewProformaResponse) => {
         reset({
           company_name: "",
-          nature_of_business: "",
+          role: "",
           tentative_job_location: "",
         });
         onChange("");
@@ -85,9 +85,9 @@ function ProformaNew() {
               fullWidth
               multiline
               variant="standard"
-              error={!!errors.nature_of_business}
-              helperText={errors.nature_of_business && "This field is required"}
-              {...register("nature_of_business", { required: true })}
+              error={!!errors.role}
+              helperText={errors.role && "This field is required"}
+              {...register("role", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -134,7 +134,7 @@ function ProformaNew() {
               onClick={() => {
                 reset({
                   company_name: "",
-                  nature_of_business: "",
+                  role: "",
                   tentative_job_location: "",
                 });
                 onChange("");

@@ -15,7 +15,7 @@ export interface RCCount {
 }
 export interface APPCount {
   roles: number;
-  ppo_pio: number;
+  recruited: number;
 }
 
 const companyinstance = axios.create({
@@ -53,7 +53,7 @@ const countData = {
           "Could not fetch data",
           err.response?.data?.error || err.message
         );
-        return { roles: 0, ppo_pio: 0 } as APPCount;
+        return { roles: 0, recruited: 0 } as APPCount;
       }),
 };
 

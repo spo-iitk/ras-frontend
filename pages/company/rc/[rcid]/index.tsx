@@ -25,7 +25,7 @@ const columns: GridColDef[] = [
     valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
   },
   {
-    field: "nature_of_business",
+    field: "role",
     headerName: "Role Type",
   },
   {
