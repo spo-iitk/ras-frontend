@@ -11,7 +11,8 @@ import { getDeptProgram } from "@components/Parser/parser";
 import { CDN_URL } from "@callbacks/constants";
 
 const transformName = (name: string) => {
-  const nameArray = name.split(".");
+  const nname = name.replace(`${CDN_URL}/view/`, "");
+  const nameArray = nname.split(".");
   const newName = nameArray[0].slice(14, -33);
   const newNameWithExtension = `${newName}.${nameArray[1]}`;
   return newNameWithExtension;
@@ -59,12 +60,13 @@ const columns: GridColDef[] = [
     align: "center",
     width: 400,
     headerAlign: "center",
+    valueGetter: (params) => getURL(params?.value),
     renderCell: (params) => (
       <Button
         variant="contained"
         sx={{ width: "100%" }}
         onClick={() => {
-          window.open(getURL(params.value), "_blank");
+          window.open(params.value, "_blank");
         }}
       >
         {transformName(params.value)}
