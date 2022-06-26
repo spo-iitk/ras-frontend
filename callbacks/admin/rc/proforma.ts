@@ -27,7 +27,7 @@ export interface ProformaType {
   action_taken_by: string;
   deadline: number;
   hide_details: boolean;
-  active_hr_id: string;
+  active_hr: string;
   role: string;
   tentative_job_location: string;
   job_description: string;
