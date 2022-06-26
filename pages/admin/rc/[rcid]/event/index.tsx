@@ -20,6 +20,10 @@ const columns: GridColDef[] = [
     headerName: "Company Name",
   },
   {
+    field: "role",
+    headerName: "Role",
+  },
+  {
     field: "name",
     headerName: "Event Name",
   },
