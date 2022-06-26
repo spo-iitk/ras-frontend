@@ -60,7 +60,7 @@ const columns: GridColDef[] = [
     },
   },
   {
-    field: "active_hr_id",
+    field: "active_hr",
     headerName: "Active HR",
   },
   {

@@ -46,7 +46,7 @@ function Step5() {
       reset({
         additional_eligibility: "",
         message_for_cordinator: "",
-        active_hr_id: "",
+        active_hr: "",
       });
       router.push({
         pathname: ROUTE,
@@ -142,9 +142,9 @@ function Step5() {
                   {...params}
                   fullWidth
                   variant="standard"
-                  error={!!errors.active_hr_id}
-                  helperText={errors.active_hr_id && "This field is required!"}
-                  {...register("active_hr_id", { required: true })}
+                  error={!!errors.active_hr}
+                  helperText={errors.active_hr && "This field is required!"}
+                  {...register("active_hr", { required: true })}
                 />
               )}
             />
@@ -206,7 +206,7 @@ function Step5() {
                 reset({
                   additional_eligibility: "",
                   message_for_cordinator: "",
-                  active_hr_id: "",
+                  active_hr: "",
                 });
               }}
             >

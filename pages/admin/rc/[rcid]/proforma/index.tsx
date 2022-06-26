@@ -70,7 +70,7 @@ const columns: GridColDef[] = [
     valueParser: (value) => value?.split("@")[0],
     hide: true,
   },
-  { field: "active_hr_id", headerName: "Active HR" },
+  { field: "active_hr", headerName: "Active HR" },
   { field: "role", headerName: "Role Name" },
   {
     field: "Actions",
