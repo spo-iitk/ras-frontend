@@ -20,10 +20,22 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "name",
     },
     {
-      field: "Program",
-      value: "Select your Program",
-      disabled: true,
-      api_id: "program",
+      field: "IITK Email",
+      value: "Your IITK email",
+      disabled: false,
+      api_id: "iitk_email",
+    },
+    {
+      field: "IITK Roll No.",
+      value: "Enter your IITK Roll No.",
+      disabled: false,
+      api_id: "roll_no",
+    },
+    {
+      field: "Expected Graduation Year",
+      value: "Select your Graduation Year",
+      disabled: false,
+      api_id: "expected_graduation_year",
     },
     {
       field: "Department",
@@ -32,16 +44,28 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "department",
     },
     {
+      field: "Program",
+      value: "Select your Program",
+      disabled: true,
+      api_id: "program",
+    },
+    {
+      field: "Secondary Department",
+      value: "Select your Department",
+      disabled: true,
+      api_id: "department_2",
+    },
+    {
+      field: "Secondary Program",
+      value: "Select your Program",
+      disabled: true,
+      api_id: "program_2",
+    },
+    {
       field: "Specialisation",
       value: "Enter your Specialisation",
       disabled: false,
       api_id: "specialization",
-    },
-    {
-      field: "IITK Roll No.",
-      value: "Enter your IITK Roll No.",
-      disabled: false,
-      api_id: "roll_no",
     },
     {
       field: "Preference",
@@ -56,10 +80,10 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "gender",
     },
     {
-      field: "Disability",
-      value: "Select your Disability Status",
+      field: "Personal Email",
+      value: "Enter your Personal Email",
       disabled: false,
-      api_id: "disability",
+      api_id: "personal_email",
     },
     {
       field: "DOB",
@@ -68,31 +92,13 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "dob",
     },
     {
-      field: "Expected Graduation Year",
-      value: "Select your Graduation Year",
-      disabled: false,
-      api_id: "expected_graduation_year",
-    },
-    {
-      field: "IITK Email",
-      value: "Your IITK email",
-      disabled: false,
-      api_id: "iitk_email",
-    },
-    {
-      field: "Personal Email",
-      value: "Enter your Personal Email",
-      disabled: false,
-      api_id: "personal_email",
-    },
-    {
       field: "Contact Number",
       value: "Enter your Contact Number",
       disabled: false,
       api_id: "phone",
     },
     {
-      field: "Alternate Contact Numer",
+      field: "Alternate Contact Number",
       value: "Enter your Alternate Contact Number",
       disabled: false,
       api_id: "alternate_phone",
@@ -110,7 +116,7 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "current_cpi",
     },
     {
-      field: "UG CPI(on for PG Students)",
+      field: "UG CPI(only for PG Students)",
       value: "Enter your UG CPI",
       disabled: false,
       api_id: "ug_cpi",
@@ -199,8 +205,13 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       disabled: false,
       api_id: "friend_phone",
     },
+    {
+      field: "Disability",
+      value: "Select your Disability Status",
+      disabled: false,
+      api_id: "disability",
+    },
   ];
-
 function Details() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
   const { token } = useStore();

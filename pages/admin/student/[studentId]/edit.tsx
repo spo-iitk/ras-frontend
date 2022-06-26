@@ -7,7 +7,6 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -18,10 +17,11 @@ import AdminStudentRequest, {
 } from "@callbacks/admin/student/adminStudent";
 import useStore from "@store/store";
 import { Branches, func, programType } from "@components/Utils/matrixUtils";
+import { getId } from "@components/Parser/parser";
 
 function Edit() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
-  const { register, handleSubmit, reset } = useForm<Student>({
+  const { register, handleSubmit, reset, getValues } = useForm<Student>({
     defaultValues: StudentData,
   });
   const [dept, setDept] = useState<any>("");
@@ -44,8 +44,19 @@ function Edit() {
   }, [token, sId, reset]);
 
   const onSubmit = async (data: Student) => {
+    let program_department_id = getId(
+      getValues("program"),
+      getValues("department")
+    );
+
+    let secondary_program_department_id = getId(
+      getValues("program_2"),
+      getValues("department_2")
+    );
     const response = await AdminStudentRequest.update(token, {
       ...data,
+      program_department_id,
+      secondary_program_department_id,
       ID: parseInt(sId, 10),
     });
     if (response) {
@@ -70,13 +81,31 @@ function Edit() {
             justifyContent="center"
             spacing={2}
           >
-            <Link href={`/admin/student/${sId}`} passHref>
-              <Button variant="contained" sx={{ width: 100 }}>
-                Go Back
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+              sx={{ width: 100 }}
+            >
+              Save
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={{ width: 150 }}
+              color={StudentData.is_verified ? "success" : "error"}
+            >
+              {StudentData.is_verified === true ? "Verified" : "Not Verified"}
+            </Button>
           </Stack>
         </Stack>
+        <h3 style={{ fontWeight: 300 }}>
+          Please fill in corresponding details <b>only</b> for the fields you
+          want to edit.
+        </h3>
+        <h4 style={{ fontWeight: 300 }}>
+          PS. If your profile is already verified, it will be reverted upon any
+          change.
+        </h4>
         <form style={{ marginBottom: 10 }}>
           <Stack justifyContent="center">
             <Card
@@ -548,11 +577,6 @@ function Edit() {
                 </Grid>
               </Grid>
             </Card>
-            <Stack alignItems="center" sx={{ padding: 3 }}>
-              <Button onClick={handleSubmit(onSubmit)} variant="contained">
-                Submit
-              </Button>
-            </Stack>
           </Stack>
         </form>
       </Stack>
