@@ -7,39 +7,51 @@ import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import statRequest from "@callbacks/student/rc/stat";
 import useStore from "@store/store";
+import { getDeptProgram } from "@components/Parser/parser";
 
 const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "Id",
+    width: 90,
   },
   {
-    field: "Name",
+    field: "name",
     headerName: "Name",
+    width: 200,
   },
   {
-    field: "Roll_no",
+    field: "roll_no",
     headerName: "Roll No.",
+    width: 200,
   },
   {
     field: "company_name",
     headerName: "Company Name",
+    width: 200,
   },
   {
     field: "role",
     headerName: "Role",
+    width: 150,
   },
   {
     field: "type",
     headerName: "Type",
   },
   {
-    field: "Program",
+    field: "Program Department",
     headerName: "Program",
+    width: 150,
+    sortable: false,
+    renderCell: (params) => getDeptProgram(params.row.program_department_id),
   },
   {
-    field: "Branch",
+    field: "Secondary Program Department",
     headerName: "Branch",
+    width: 150,
+    renderCell: (params) =>
+      getDeptProgram(params.row.secondary_program_department_id),
   },
 ];
 function Stats() {
@@ -60,14 +72,14 @@ function Stats() {
   }, [token, rcid]);
   return (
     <div className="container">
-      <Meta title="Statistics " />
+      <Meta title="Stats" />
       <Stack>
         <h1>Stats</h1>
         <DataGrid
           rows={rows}
           columns={columns}
           loading={loading}
-          getRowId={(row) => row.student_recruitment_cycle_id}
+          getRowId={(row) => row.id}
         />
       </Stack>
     </div>

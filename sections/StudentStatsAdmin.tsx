@@ -6,6 +6,7 @@ import Meta from "@components/Meta";
 import DataGrid from "@components/DataGrid";
 import statRequest from "@callbacks/admin/rc/stats";
 import useStore from "@store/store";
+import { getDeptProgram } from "@components/Parser/parser";
 
 const columns: GridColDef[] = [
   {
@@ -19,7 +20,7 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
-    field: "rollno",
+    field: "roll_no",
     headerName: "Roll No.",
     width: 200,
   },
@@ -38,15 +39,18 @@ const columns: GridColDef[] = [
     headerName: "Type",
   },
   {
-    field: "program",
+    field: "Program Department",
     headerName: "Program",
     width: 150,
     sortable: false,
+    renderCell: (params) => getDeptProgram(params.row.program_department_id),
   },
   {
-    field: "branch",
+    field: "Secondary Program Department",
     headerName: "Branch",
     width: 150,
+    renderCell: (params) =>
+      getDeptProgram(params.row.secondary_program_department_id),
   },
 ];
 
@@ -73,7 +77,7 @@ function StudentStatsAdmin() {
       <DataGrid
         rows={rows}
         columns={columns}
-        getRowId={(row) => row.student_recruitment_cycle_id}
+        getRowId={(row) => row.id}
         loading={loading}
       />
     </div>
