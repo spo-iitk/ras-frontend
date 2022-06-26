@@ -15,7 +15,7 @@ export interface NewProformaResponse {
 export interface ProformaParams {
   ID: number;
   company_name: string;
-  nature_of_business: string;
+  role: string;
   set_deadline: number;
   resume: string;
 }

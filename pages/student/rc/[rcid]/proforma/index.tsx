@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
     headerName: "ID",
   },
   { field: "company_name", headerName: "Company Name" },
-  { field: "nature_of_business", headerName: "Role Name" },
+  { field: "role", headerName: "Role Name" },
   {
     field: "set_deadline",
     headerName: "Application Deadline",
