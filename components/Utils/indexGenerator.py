@@ -21,7 +21,7 @@ PSE = [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2]
 Stats = [2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2]
 HSS = [2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2]
 Mathematics = [2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2]
-SSE = [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2]
+SEE = [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2]
 
 programExpanded = [
   "BT",
@@ -62,7 +62,7 @@ Branches = [
   "Stats",
   "HSS",
   "Mathematics",
-  "SSE",
+  "SEE",
 ]
 Branchesi = [
   AE,
@@ -88,7 +88,7 @@ Branchesi = [
   Stats,
   HSS,
   Mathematics,
-  SSE,
+  SEE,
 ]
 idx = 1
 master=dict()
