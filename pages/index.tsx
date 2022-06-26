@@ -9,7 +9,7 @@ function Index() {
   const { token, setToken } = useStore();
   useEffect(() => {
     const checklogin = async () => {
-      if (token === "") {
+      if (!token) {
         router.push("/login");
         return;
       }
