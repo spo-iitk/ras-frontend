@@ -155,6 +155,37 @@ function MasterLayout({
           ) : (
             <div />
           )}
+          {items?.extra.map((item) => (
+            <a href={item.id} target="_blank" key={item.id} rel="noreferrer">
+              <ListItem
+                sx={{ borderRadius: 5 }}
+                button
+                selected={!!match(`${items.route}${item.id}`)}
+              >
+                <ListItemAvatar
+                  sx={{
+                    color: match(`${items.route}${item.id}`)
+                      ? theme.palette.secondary.contrastText
+                      : "white",
+                  }}
+                >
+                  {item.avatar}
+                </ListItemAvatar>
+                <ListItemText>
+                  <h4
+                    style={{
+                      margin: 5,
+                      color: match(`${items.route}${item.id}`)
+                        ? theme.palette.secondary.contrastText
+                        : "white",
+                    }}
+                  >
+                    {item.name}
+                  </h4>
+                </ListItemText>
+              </ListItem>
+            </a>
+          ))}
           <a
             href="https://spo.iitk.ac.in/contact"
             target="_blank"
@@ -279,6 +310,42 @@ function MasterLayout({
                 ) : (
                   <div />
                 )}
+                {items?.extra.map((item) => (
+                  <a
+                    href={item.id}
+                    target="_blank"
+                    key={item.id}
+                    rel="noreferrer"
+                  >
+                    <ListItem
+                      sx={{ borderRadius: 5 }}
+                      button
+                      selected={!!match(`${items.route}${item.id}`)}
+                    >
+                      <ListItemAvatar
+                        sx={{
+                          color: match(`${items.route}${item.id}`)
+                            ? theme.palette.secondary.contrastText
+                            : "white",
+                        }}
+                      >
+                        {item.avatar}
+                      </ListItemAvatar>
+                      <ListItemText>
+                        <h4
+                          style={{
+                            margin: 5,
+                            color: match(`${items.route}${item.id}`)
+                              ? theme.palette.secondary.contrastText
+                              : "white",
+                          }}
+                        >
+                          {item.name}
+                        </h4>
+                      </ListItemText>
+                    </ListItem>
+                  </a>
+                ))}
                 <a
                   href="https://spo.iitk.ac.in/contact"
                   target="_blank"

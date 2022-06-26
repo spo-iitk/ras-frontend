@@ -29,6 +29,7 @@ export interface fields {
   moveBack: boolean;
   moveTo: string;
   userData: userItems[];
+  extra: userItems[];
 }
 
 export interface userItems {
@@ -97,20 +98,22 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           name: "Profile",
           id: "/profile",
         },
+      ],
+      extra: [
         {
           avatar: <LightbulbIcon />,
           name: "Placements Insight",
-          id: "/placementinsights",
+          id: "https://spo.iitk.ac.in/insights",
         },
         {
           avatar: <ArticleIcon />,
           name: "Intern Policy",
-          id: "/internpolicy",
+          id: "https://spo.iitk.ac.in/docs/2021-22/Placement_Policy_2021-22.pdf",
         },
         {
           avatar: <ArticleIcon />,
           name: "Placement Policy",
-          id: "/placementpolicy",
+          id: "https://spo.iitk.ac.in/docs/2021-22/Internship-Policy-2021-22.pdf",
         },
       ],
     },
@@ -166,6 +169,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/stats",
         },
       ],
+      extra: [],
     },
     {
       route: `/company`,
@@ -183,15 +187,17 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           name: "Overview",
           id: "",
         },
+      ],
+      extra: [
         {
           avatar: <ArticleIcon />,
           name: "Intern Policy",
-          id: "/internpolicy",
+          id: "https://spo.iitk.ac.in/companies#ipolicy",
         },
         {
           avatar: <ArticleIcon />,
           name: "Placement Policy",
-          id: "/placementpolicy",
+          id: "https://spo.iitk.ac.in/companies#policy",
         },
       ],
     },
@@ -222,6 +228,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/opening",
         },
       ],
+      extra: [],
     },
     {
       route: `/admin`,
@@ -265,6 +272,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/allotcompanies",
         },
       ],
+      extra: [],
     },
     {
       route: `/admin/rc/${rcid}`,
@@ -328,6 +336,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/calendar",
         },
       ],
+      extra: [],
     },
   ];
 
