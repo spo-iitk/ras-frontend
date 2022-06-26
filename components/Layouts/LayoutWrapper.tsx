@@ -13,11 +13,13 @@ import React from "react";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
+import StarsIcon from "@mui/icons-material/Stars";
 
 import Blank from "./Blank";
 import Layout from "./Layout";
 import MasterLayout from "./MasterLayout";
 
+const BASE_URL = "http://localhost:3000/";
 export interface fields {
   route: string;
   isUser: boolean;
@@ -115,6 +117,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           name: "Placement Policy",
           id: "https://spo.iitk.ac.in/docs/2021-22/Internship-Policy-2021-22.pdf",
         },
+        {
+          avatar: <StarsIcon />,
+          name: "Credits",
+          id: `${BASE_URL}credits`,
+        },
       ],
     },
     {
@@ -169,7 +176,13 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/stats",
         },
       ],
-      extra: [],
+      extra: [
+        {
+          avatar: <StarsIcon />,
+          name: "Credits",
+          id: `${BASE_URL}credits`,
+        },
+      ],
     },
     {
       route: `/company`,
@@ -198,6 +211,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           avatar: <ArticleIcon />,
           name: "Placement Policy",
           id: "https://spo.iitk.ac.in/companies#policy",
+        },
+        {
+          avatar: <StarsIcon />,
+          name: "Credits",
+          id: `${BASE_URL}credits`,
         },
       ],
     },
@@ -228,7 +246,13 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/opening",
         },
       ],
-      extra: [],
+      extra: [
+        {
+          avatar: <StarsIcon />,
+          name: "Credits",
+          id: `${BASE_URL}credits`,
+        },
+      ],
     },
     {
       route: `/admin`,
@@ -256,23 +280,14 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           name: "Master Database (Student)",
           id: "/student",
         },
+      ],
+      extra: [
         {
-          avatar: <GroupsIcon />,
-          name: "Worklog",
-          id: "/worklog",
-        },
-        {
-          avatar: <ApartmentIcon />,
-          name: "Allotted Companies",
-          id: "/allotedcompanies",
-        },
-        {
-          avatar: <ApartmentIcon />,
-          name: "Allot Companies",
-          id: "/allotcompanies",
+          avatar: <StarsIcon />,
+          name: "Credits",
+          id: `${BASE_URL}credits`,
         },
       ],
-      extra: [],
     },
     {
       route: `/admin/rc/${rcid}`,
@@ -336,7 +351,13 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           id: "/calendar",
         },
       ],
-      extra: [],
+      extra: [
+        {
+          avatar: <StarsIcon />,
+          name: "Credits",
+          id: `${BASE_URL}credits`,
+        },
+      ],
     },
   ];
 
