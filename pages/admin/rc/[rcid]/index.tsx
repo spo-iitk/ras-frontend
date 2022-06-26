@@ -19,6 +19,7 @@ import useStore from "@store/store";
 import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
 import requestCompany from "@callbacks/admin/rc/company";
 import eventRequest, { Event } from "@callbacks/admin/rc/overview";
+import rcRequest from "@callbacks/admin/rc/rc";
 
 function Index() {
   const router = useRouter();
@@ -120,6 +121,15 @@ function Index() {
             variant="contained"
             endIcon={<DeleteIcon />}
             sx={{ width: "150px" }}
+            onClick={async () => {
+              if (rcid) {
+                await rcRequest.put(token, {
+                  ID: parseInt(rcid?.toString(), 10),
+                  inactive: true,
+                });
+                router.push("/admin/rc");
+              }
+            }}
           >
             Delete
           </Button>
