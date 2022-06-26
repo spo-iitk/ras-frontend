@@ -48,8 +48,8 @@ const columns: GridColDef[] = [
     renderCell: (params) => new Date(params.row.start_time).toLocaleString(),
   },
   {
-    field: "record_attendance",
-    headerName: "Attendance",
+    field: "sequence",
+    headerName: "Sequence",
   },
   {
     field: "View Details",
