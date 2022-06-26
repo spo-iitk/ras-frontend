@@ -93,17 +93,18 @@ Branchesi = [
 idx = 1
 master=dict()
 reversemap = dict()
+
 for (ii,branchi) in enumerate(Branchesi):
-    d = dict()
-    for (index, program) in enumerate(programExpanded):
+  master[Branches[ii]] = dict()
+	
+for (index, program) in enumerate(programExpanded):
+  for (ii,branchi) in enumerate(Branchesi):
         if branchi[index] == 2:
-            d[program] = -1
+            master[Branches[ii]][program] = -1
         else:
-            d[program] = idx
+            master[Branches[ii]][program] = idx
             reversemap[idx] = program + "-" + Branches[ii]
             idx += 1
-    master[Branches[ii]] = d
-
 
 print(master)
 print(reversemap)
