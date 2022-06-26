@@ -19,8 +19,6 @@ const textFieldSX = {
   },
 };
 
-const data1 = new Array(100 + 1).join("0");
-
 function Index() {
   const { token } = useStore();
   const router = useRouter();
@@ -32,6 +30,7 @@ function Index() {
   const [jd, setJd] = useState("");
   const [pd, setPd] = useState("");
   const [isFetched, setisFetched] = useState(false);
+  const [data, setData] = useState<string>(new Array(100 + 1).join("0"));
   const [row, setRow] = useState<ProformaType>({
     ID: 0,
   } as ProformaType);
@@ -48,10 +47,10 @@ function Index() {
       setJd(response.job_description);
       setPd(response.package_details);
       setisFetched(true);
+      setData(response.eligibility);
     };
     getCompanydata();
-  }, [token, rid, ID]);
-  const data = row.eligibility?.length > 90 ? row.eligibility : data1;
+  }, [token, rid, ID, data]);
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
       <Meta title="Company - Proforma" />

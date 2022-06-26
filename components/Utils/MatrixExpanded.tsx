@@ -20,7 +20,7 @@ import {
   programType,
 } from "@components/Utils/matrixUtils";
 
-function MatrixCondensed({ data }: { data: string }) {
+function MatrixExpanded({ data }: { data: string }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -48,7 +48,11 @@ function MatrixCondensed({ data }: { data: string }) {
                     program as keyof programType
                   ] === -1 ? (
                     <RemoveIcon />
-                  ) : data[func[branch as keyof typeof func].PhD] === "1" ? (
+                  ) : data[
+                      func[branch as keyof typeof func][
+                        program as keyof programType
+                      ]
+                    ] === "1" ? (
                     <CheckIcon sx={{ color: "green" }} />
                   ) : (
                     <CloseIcon sx={{ color: "red" }} />
@@ -63,4 +67,4 @@ function MatrixCondensed({ data }: { data: string }) {
   );
 }
 
-export default MatrixCondensed;
+export default MatrixExpanded;
