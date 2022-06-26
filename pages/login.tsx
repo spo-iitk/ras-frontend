@@ -38,11 +38,17 @@ function Login() {
     showPassword: false,
   });
   const [loading, setLoading] = useState(false);
-  const { setToken, setRole } = useStore();
+  const { setToken, setRole, setName, setRCName, setRcId, setUserID } =
+    useStore();
 
   useEffect(() => {
     setToken("");
-  }, [setToken]);
+    setRole(0);
+    setName("");
+    setRCName("");
+    setRcId(0);
+    setUserID("");
+  }, [setToken, setRole, setName, setRCName, setRcId, setUserID]);
 
   const handleClickShowPassword = () => {
     setValues({
