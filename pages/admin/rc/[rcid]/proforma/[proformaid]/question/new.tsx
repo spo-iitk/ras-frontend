@@ -29,8 +29,7 @@ function NewQuestion() {
           }}
         >
           <Stack spacing={3}>
-            <h1>View Custom Question</h1>
-            <br />
+            <h1>Add Custom Question</h1>
 
             <FormControl sx={{ m: 1 }}>
               <InputLabel id="Type-of-Ques">Type of Question</InputLabel>
