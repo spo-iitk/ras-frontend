@@ -92,7 +92,7 @@ function Index({
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[10, 25, 50, 100]}
-        autoHeight={rows.length > 0}
+        autoHeight={rows?.length > 0}
         // getRowHeight={({ id, densityFactor }: GridRowHeightParams) => {
         //   if ((id as number) % 2 === 0) {
         //     return 100 * densityFactor;
@@ -103,7 +103,7 @@ function Index({
         rowHeight={80}
         onCellClick={onCellClick}
         getRowId={getRowId}
-        sx={{ padding: 2, minHeight: rows.length > 0 ? 0 : 500 }}
+        sx={{ padding: 2, minHeight: rows?.length > 0 ? 0 : 500 }}
         loading={loading}
       />
     </div>

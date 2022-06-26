@@ -22,6 +22,9 @@ import requestProforma, {
 } from "@callbacks/admin/rc/adminproforma";
 import useStore from "@store/store";
 import eventRequest, { Event } from "@callbacks/admin/rc/proforma/event";
+import StudentRequest from "@callbacks/admin/rc/proforma/students";
+import { getDeptProgram } from "@components/Parser/parser";
+import { CDN_URL } from "@callbacks/constants";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -37,6 +40,14 @@ const boxStyle = {
   alignItems: "center",
 };
 
+const transformName = (name: string) => {
+  const nameArray = name.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
+};
+
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 const columns: GridColDef[] = [
   {
     field: "id",
@@ -49,29 +60,162 @@ const columns: GridColDef[] = [
     width: 250,
   },
   {
-    field: "rollNo",
+    field: "roll_no",
     headerName: "Roll No",
+  },
+  {
+    field: "email",
+    headerName: "Email",
     width: 150,
   },
   {
-    field: "link",
-    headerName: "Link To Resume",
-    width: 200,
+    field: "resume",
+    headerName: "Resume Link",
+    sortable: false,
+    align: "center",
+    width: 400,
+    headerAlign: "center",
+    renderCell: (params) => (
+      <Button
+        variant="contained"
+        sx={{ width: "100%" }}
+        onClick={() => {
+          window.open(getURL(params.value), "_blank");
+        }}
+      >
+        {transformName(params.value)}
+      </Button>
+    ),
   },
   {
-    field: "status",
-    headerName: "Status",
+    field: "current_cpi",
+    headerName: "Current CPI",
+    width: 100,
+  },
+  {
+    field: "ug_cpi",
+    headerName: "UG CPI",
+    width: 100,
+  },
+  {
+    field: "program_dept",
+    headerName: "Program/Dept",
+    renderCell: (params) => getDeptProgram(params.row.program_department_id),
+  },
+  {
+    field: "program_dept_2",
+    headerName: "Secondary Program/Dept",
+    renderCell: (params) =>
+      getDeptProgram(params.row.secondary_program_department_id),
+  },
+  {
+    field: "specialization",
+    headerName: "Specialisation",
+    hide: true,
+  },
+  {
+    field: "preference",
+    headerName: "Preference",
+    hide: true,
+  },
+  {
+    field: "gender",
+    headerName: "Gender",
+  },
+  {
+    field: "disability",
+    headerName: "Disability",
+    hide: true,
+  },
+  {
+    field: "dob",
+    headerName: "DOB",
+    valueGetter: ({ value }) =>
+      value && `${new Date(value).toLocaleDateString()}`,
+    hide: true,
+  },
+  {
+    field: "expected_graduation_year",
+    headerName: "Expected Graduation Year",
+  },
+  {
+    field: "tenth_board",
+    headerName: "10th Board",
+    hide: true,
+  },
+  {
+    field: "tenth_board_year",
+    headerName: "10th Board Year",
+    hide: true,
+  },
+  {
+    field: "tenth_marks",
+    headerName: "10th Marks",
+  },
+  {
+    field: "twelfth_board",
+    headerName: "12th Board",
+    hide: true,
+  },
+  {
+    field: "twelfth_board_year",
+    headerName: "12th Board Year",
+    hide: true,
+  },
+  {
+    field: "twelfth_marks",
+    headerName: "12th Board Marks",
+  },
+  {
+    field: "entrance_exam",
+    headerName: "Entrance Exam",
+  },
+  {
+    field: "entrance_exam_rank",
+    headerName: "Entrance Exam Rank",
+  },
+  {
+    field: "category",
+    headerName: "Category",
+  },
+  {
+    field: "category_rank",
+    headerName: "Category Rank",
+  },
+  {
+    field: "current_address",
+    headerName: "Current Address",
+    hide: true,
+  },
+  {
+    field: "permanent_address",
+    headerName: "Permanent Address",
+    hide: true,
+  },
+  {
+    field: "friend_name",
+    headerName: "Friends Name",
+    hide: true,
+  },
+  {
+    field: "friend_phone",
+    headerName: "Friends Contact Details",
+    hide: true,
+  },
+  {
+    field: "frozen",
+    headerName: "Frozen",
     width: 150,
+    hide: true,
   },
 ];
 
-const rows: never[] = [];
 function Index() {
   const { register, handleSubmit, reset } = useForm<ProformaEmailRequest>();
 
   const [openEmailSender, setOpenEmailSender] = useState(false);
   const [proformaEvents, setProformaEvents] = useState<Event[]>([]);
-
+  const [rows, setRows] = useState<any>([]);
   const handleOpenEmailSender = () => {
     setOpenEmailSender(true);
   };
@@ -84,7 +228,7 @@ function Index() {
   const { rcid, proformaid } = router.query;
   const rid = rcid as string;
   const pid = proformaid as string;
-
+  const [loading, setLoading] = useState(true);
   const acceptProforma = () => {
     requestProforma.put(token, rid, {
       ID: parseInt(pid, 10),
@@ -111,8 +255,17 @@ function Index() {
       const response = await eventRequest.getAll(token, rid, pid);
       setProformaEvents(response);
     };
-    if (router.isReady) fetchProformaEvents();
-  }, [token, router.isReady, rid, pid]);
+
+    const fetch = async () => {
+      const response = await StudentRequest.get(token, rid, pid);
+      if (response) setRows(response);
+      setLoading(false);
+    };
+    if (router.isReady) {
+      fetch();
+      fetchProformaEvents();
+    }
+  }, [token, router.isReady, rid, pid, setLoading]);
 
   const sendEmail = async (data: ProformaEmailRequest) => {
     const response = await requestProforma.email(token, rid, pid, data);
@@ -129,7 +282,6 @@ function Index() {
   return (
     <div className="container">
       <Meta title="Proforma" />
-      <h1>Intenship 2022-23 Phase 1</h1>
       <Stack
         spacing={2}
         justifyContent="center"
@@ -188,7 +340,7 @@ function Index() {
             <Stack>
               <h2>Student Data</h2>
 
-              <DataGrid rows={rows} columns={columns} />
+              <DataGrid rows={rows} columns={columns} loading={loading} />
             </Stack>
           </Grid>
           <Grid item xs={12} lg={3}>
