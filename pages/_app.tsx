@@ -51,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       ) {
         router.push("/401");
       } else if (role === 0) {
-        router.push("/");
+        router.push("/login");
       }
     }
   }, [role, router, router.isReady]);
