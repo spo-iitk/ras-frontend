@@ -146,18 +146,6 @@ function Enrollment() {
               )}
             </FormControl>
           );
-        case "Fill in the blanks":
-          return (
-            <TextField
-              variant="standard"
-              defaultValue={question.answer}
-              error={errors[name]}
-              helperText={errors[name] && "*Required"}
-              {...register(name, {
-                required: question.mandatory,
-              })}
-            />
-          );
         default:
           return <div />;
       }

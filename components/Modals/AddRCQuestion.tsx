@@ -69,10 +69,8 @@ function AddRCQuestion({ getQuestions, handleCloseNew }: any) {
               variant="standard"
               {...register("type")}
             >
-              <MenuItem value="">None</MenuItem>
               <MenuItem value="MCQ">MCQ</MenuItem>
               <MenuItem value="Short Answer">Short Answer</MenuItem>
-              <MenuItem value="Fill in the blanks">Fill in the blanks</MenuItem>
               <MenuItem value="Boolean">Boolean</MenuItem>
             </Select>
           </FormControl>
