@@ -9,8 +9,9 @@ import {
 } from "@callbacks/constants";
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 
-export interface QuestionType {
+export interface QuestionProforma {
   ID: number;
+  qid: number;
   CreatedAt: string;
   UpdatedAt: string;
   type: string;
@@ -30,7 +31,7 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const UpdateApplyQuestion = {
   get: (token: string, rcid: string, pid: string) =>
     instance
-      .get<QuestionType[]>(
+      .get<QuestionProforma[]>(
         `/rc/${rcid}/proforma/${pid}/question`,
         setConfig(token)
       )
@@ -40,18 +41,21 @@ const UpdateApplyQuestion = {
           "Error in fetching data",
           error.response?.data.error || error.message
         );
-        return [] as QuestionType[];
+        return [] as QuestionProforma[];
       }),
-  post: (body: QuestionType, token: string, rcid: string, pid: string) =>
+  post: (body: QuestionProforma, token: string, rcid: string, pid: string) =>
     instance
-      .post<QuestionType>(
+      .post<QuestionProforma>(
         `/rc/${rcid}/proforma/${pid}/question`,
         body,
         setConfig(token)
       )
       .then(responseBody)
       .then((res) => {
-        successNotification("Successfully added", `Created with id: ${res.ID}`);
+        successNotification(
+          "Successfully added",
+          `Created with id: ${res.qid}`
+        );
         return true;
       })
       .catch((error) => {
@@ -63,7 +67,7 @@ const UpdateApplyQuestion = {
       .delete(`/rc/${rcid}/proforma/${pid}/question/${qid}`, setConfig(token))
       .then((res) => {
         successNotification(`Question ${qid} deleted`, res.data.status);
-        router.push(`/admin/rc/${rcid}/question`);
+        router.push(`/admin/rc/${rcid}/proforma/${pid}/question`);
         return true;
       })
       .catch((err: ErrorType) => {

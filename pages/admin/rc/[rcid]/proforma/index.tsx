@@ -26,6 +26,7 @@ const columns: GridColDef[] = [
   {
     field: "UpdatedAt",
     headerName: "Last Updated",
+    renderCell: (rowData) => new Date(rowData.value).toLocaleString(),
   },
   {
     field: "company_id",

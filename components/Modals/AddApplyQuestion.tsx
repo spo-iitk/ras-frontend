@@ -9,8 +9,9 @@ import router from "next/router";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 
-import UpdateApplyQuestion from "@callbacks/admin/rc/proforma/question";
-import { QuestionType } from "@callbacks/admin/addquestion";
+import UpdateApplyQuestion, {
+  QuestionProforma,
+} from "@callbacks/admin/rc/proforma/question";
 import useStore from "@store/store";
 
 const boxStyle = {
@@ -40,12 +41,12 @@ function AddApplyQuestion({
     formState: { errors },
     setValue,
     reset,
-  } = useForm<QuestionType>();
+  } = useForm<QuestionProforma>();
   const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
   const { token, rcId } = useStore();
 
-  const onSubmit = async (data: QuestionType) => {
+  const onSubmit = async (data: QuestionProforma) => {
     setValue("recruitment_cycle_id", rcId);
     const postQuestion = async () => {
       if (
