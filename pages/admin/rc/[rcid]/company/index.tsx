@@ -73,7 +73,7 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <Link
         href={{
-          pathname: `${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.company_id}`,
+          pathname: `${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.ID}`,
         }}
       >
         <Button variant="contained" sx={{ width: "80%" }}>
