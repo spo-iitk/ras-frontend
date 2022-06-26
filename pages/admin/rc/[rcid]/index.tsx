@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import theme from "@components/theme/theme";
 import Meta from "@components/Meta";
 import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
 import useStore from "@store/store";
@@ -128,7 +129,9 @@ function Index() {
             <Card
               sx={{
                 height: { xs: 100, md: 200 },
-                border: "2px solid blue",
+                border: `2px solid ${theme.palette.secondary.main}`,
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: 5,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -163,7 +166,9 @@ function Index() {
             <Card
               sx={{
                 height: { xs: 100, md: 200 },
-                border: "2px solid blue",
+                border: `2px solid ${theme.palette.secondary.main}`,
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: 5,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -199,7 +204,9 @@ function Index() {
             <Card
               sx={{
                 height: { xs: 100, md: 200 },
-                border: "2px solid blue",
+                border: `2px solid ${theme.palette.secondary.main}`,
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: 5,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -235,7 +242,9 @@ function Index() {
             <Card
               sx={{
                 height: { xs: 100, md: 200 },
-                border: "2px solid blue",
+                border: `2px solid ${theme.palette.secondary.main}`,
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: 5,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -284,11 +293,10 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
                       onClick={handleClick}
                     >
@@ -321,7 +329,7 @@ function Index() {
                               sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                color: "blue",
+                                color: theme.palette.secondary.main,
                               }}
                             >
                               {new Date(value.CreatedAt).toLocaleDateString()}
@@ -350,11 +358,10 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
                       onClick={() => router.push(`/admin/rc/${rid}/company`)}
                     >
@@ -387,7 +394,7 @@ function Index() {
                               sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                color: "blue",
+                                color: theme.palette.secondary.main,
                               }}
                             >
                               Recently Added
@@ -418,11 +425,10 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
                       onClick={() => router.push(`/admin/rc/${rid}/proforma`)}
                     >
@@ -454,7 +460,7 @@ function Index() {
                               sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                color: "blue",
+                                color: theme.palette.secondary.main,
                               }}
                             >
                               {new Date(value.CreatedAt).toLocaleString()}
@@ -484,11 +490,10 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
                       onClick={() => router.push(`/admin/rc/${rid}/event`)}
                     >
@@ -518,7 +523,7 @@ function Index() {
                               sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                color: "blue",
+                                color: theme.palette.secondary.main,
                               }}
                             >
                               {new Date(value.UpdatedAt).toLocaleString()}
@@ -548,11 +553,10 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
                       onClick={() => router.push(`/admin/rc/${rid}/event`)}
                     >
@@ -582,7 +586,7 @@ function Index() {
                               sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                color: "blue",
+                                color: theme.palette.secondary.main,
                               }}
                             >
                               {new Date(value.UpdatedAt).toLocaleString()}
