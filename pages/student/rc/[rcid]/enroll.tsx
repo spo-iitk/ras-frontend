@@ -161,6 +161,7 @@ function Enrollment() {
             <Stack spacing={2} alignItems="flex-start">
               <h1>Enrollment Questions</h1>
               {questions &&
+                questions.length > 0 &&
                 questions.map((question, index) => (
                   <FormControl key={question.ID} sx={{ m: 1, width: "100%" }}>
                     <h3 style={{ fontWeight: 300 }}>
@@ -169,6 +170,11 @@ function Enrollment() {
                     {questions && renderSwitch(index, question)}
                   </FormControl>
                 ))}
+              {questions && questions.length === 0 && (
+                <Typography variant="subtitle1">
+                  No questions to show! Click Submit to Proceed.
+                </Typography>
+              )}
             </Stack>
             <Stack spacing={2} alignItems="flex-start" direction="row">
               <Button
