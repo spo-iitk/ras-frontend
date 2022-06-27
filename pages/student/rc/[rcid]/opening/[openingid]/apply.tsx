@@ -56,7 +56,6 @@ function Apply() {
   }, [rcid, token, router, openingid]);
 
   const onSubmit = async (data: any) => {
-    console.log(data);
     if (questions) {
       let res: answerApplication[] = [];
       questions.forEach((question) => {
