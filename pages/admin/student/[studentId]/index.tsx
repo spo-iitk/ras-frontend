@@ -240,8 +240,8 @@ function Details() {
       ).catch(() => ({ ID: 0 } as Student));
       setStudentData(student);
     };
-    fetch();
-  }, [token, sId]);
+    if (router.isReady) fetch();
+  }, [token, sId, router.isReady]);
 
   const handleValue = (val: string) => {
     switch (val) {

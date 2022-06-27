@@ -88,10 +88,9 @@ const columns: GridColDef[] = [
     width: 100,
     align: "center",
     hide: true,
-    renderCell: (cellValues) => {
-      console.log(cellValues.row.ID);
-      return <DeleteComapny id={cellValues.row.ID.toString()} />;
-    },
+    renderCell: (cellValues) => (
+      <DeleteComapny id={cellValues.row.ID.toString()} />
+    ),
   },
 ];
 
