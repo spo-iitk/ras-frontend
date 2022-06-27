@@ -19,7 +19,13 @@ import { getId } from "@components/Parser/parser";
 
 function ProfileEdit() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
-  const { register, handleSubmit, reset, getValues } = useForm<Student>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm<Student>({
     defaultValues: StudentData,
   });
   const [dept, setDept] = useState<any>("");
@@ -157,6 +163,12 @@ function ProfileEdit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.expected_graduation_year}
+                    helperText={
+                      errors.expected_graduation_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("expected_graduation_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -245,10 +257,10 @@ function ProfileEdit() {
                       {...register("program_2")}
                     >
                       <MenuItem value="">None</MenuItem>
-                      {Object.keys(func[dept as keyof typeof func]).map(
+                      {Object.keys(func[deptSec as keyof typeof func]).map(
                         (program: any) => {
                           if (
-                            func[dept as keyof typeof func][
+                            func[deptSec as keyof typeof func][
                               program as keyof programType
                             ] !== -1
                           ) {
@@ -335,6 +347,10 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.phone}
+                    helperText={
+                      errors.phone ? "Contact No. must contain 10 digits!" : ""
+                    }
                     {...register("phone", { minLength: 10, maxLength: 10 })}
                   />
                 </Grid>
@@ -345,6 +361,12 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.alternate_phone}
+                    helperText={
+                      errors.phone
+                        ? "Alternate Contact No. must contain 10 digits!"
+                        : ""
+                    }
                     {...register("alternate_phone", {
                       minLength: 10,
                       maxLength: 10,
@@ -358,6 +380,12 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.whatsapp_number}
+                    helperText={
+                      errors.phone
+                        ? "Whatsapp Contact No. must contain 10 digits!"
+                        : ""
+                    }
                     {...register("whatsapp_number", {
                       minLength: 10,
                       maxLength: 10,
@@ -405,6 +433,12 @@ function ProfileEdit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.tenth_year}
+                    helperText={
+                      errors.tenth_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("tenth_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -441,6 +475,12 @@ function ProfileEdit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.twelfth_year}
+                    helperText={
+                      errors.twelfth_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("twelfth_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -481,7 +521,7 @@ function ProfileEdit() {
                   <p>Entrance Exam Rank</p>
                   <TextField
                     fullWidth
-                    type="string"
+                    type="number"
                     id="standard-basic"
                     variant="standard"
                     {...register("entrance_exam_rank", {
@@ -510,7 +550,7 @@ function ProfileEdit() {
                   <p>Category Rank</p>
                   <TextField
                     fullWidth
-                    type="string"
+                    type="number"
                     id="standard-basic"
                     variant="standard"
                     {...register("category_rank", {
@@ -558,6 +598,12 @@ function ProfileEdit() {
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    error={!!errors.friend_phone}
+                    helperText={
+                      errors.friend_phone
+                        ? "Contact number must be 10 digits long!"
+                        : ""
+                    }
                     variant="standard"
                     {...register("friend_phone", {
                       minLength: 10,
