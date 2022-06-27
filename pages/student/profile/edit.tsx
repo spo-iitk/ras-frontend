@@ -278,7 +278,7 @@ function ProfileEdit() {
                     <Select
                       fullWidth
                       variant="standard"
-                      {...register("program")}
+                      {...register("program_2")}
                     >
                       <MenuItem value="">None</MenuItem>
                     </Select>
