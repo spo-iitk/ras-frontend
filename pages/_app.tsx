@@ -39,7 +39,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (router.isReady) {
-      if (!role) router.push("/login");
       if (router.pathname.startsWith("/student") && role !== 1) {
         router.push("/401");
       } else if (router.pathname.startsWith("/company") && role !== 2) {
@@ -50,8 +49,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         role > 0
       ) {
         router.push("/401");
-      } else if (role === 0) {
-        router.push("/login");
       }
     }
   }, [role, router, router.isReady]);

@@ -288,11 +288,36 @@ function Index() {
         spacing={2}
         justifyContent="center"
         alignItems="center"
+        sx={{ marginBottom: 5 }}
         direction={{ lg: "row", xs: "column" }}
       >
         <Stack spacing={3} direction={{ sm: "row", xs: "column" }}>
           <Button
-            sx={{ width: { xs: "280px" } }}
+            sx={{ width: { xs: "280px" }, height: "40px" }}
+            variant="contained"
+            onClick={acceptProforma}
+          >
+            Accept Proforma
+          </Button>
+
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "280px" }, height: "40px" }}
+            onClick={rejectProforma}
+          >
+            Reject Proforma
+          </Button>
+        </Stack>
+      </Stack>
+      <Stack
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        direction={{ lg: "row", xs: "column" }}
+      >
+        <Stack spacing={3} direction={{ sm: "row", xs: "column" }}>
+          <Button
+            sx={{ width: { xs: "280px" }, height: "40px" }}
             variant="contained"
             onClick={() => {
               router.push(`/admin/rc/${rid}/proforma/${pid}/view`);
@@ -301,7 +326,7 @@ function Index() {
             View Proforma
           </Button>
           <Button
-            sx={{ width: { xs: "280px" } }}
+            sx={{ width: { xs: "280px" }, height: "40px" }}
             variant="contained"
             onClick={() => {
               router.push(`/admin/rc/${rid}/proforma/${pid}/step1`);
@@ -312,21 +337,55 @@ function Index() {
         </Stack>
         <Stack spacing={3} direction={{ sm: "row", xs: "column" }}>
           <Button
-            sx={{ width: { xs: "280px" } }}
-            variant="contained"
-            onClick={acceptProforma}
-          >
-            Accept Proforma
-          </Button>
-
-          <Button
-            sx={{ width: { xs: "280px" } }}
+            sx={{ width: { xs: "280px" }, height: "40px" }}
             variant="contained"
             onClick={() => {
               router.push(`/admin/rc/${rid}/proforma/${pid}/question`);
             }}
           >
             View / Add Custom Questions
+          </Button>
+        </Stack>
+      </Stack>
+      <Stack
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ marginTop: 5 }}
+        direction={{ lg: "row", xs: "column" }}
+      >
+        <Stack spacing={3} direction={{ sm: "row", xs: "column" }}>
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "280px" }, height: "40px" }}
+            onClick={onClickShowDetails}
+          >
+            Show Details to Company
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "280px" }, height: "40px" }}
+            onClick={onClickHideDetails}
+          >
+            Hide Details to Company
+          </Button>
+        </Stack>
+        <Stack spacing={3} direction={{ sm: "row", xs: "column" }}>
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "280px" }, height: "40px" }}
+            onClick={() => {
+              router.push(`/admin/rc/${rid}/proforma/${pid}/step5`);
+            }}
+          >
+            Change/Set Deadline
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "280px" }, height: "40px" }}
+            onClick={handleOpenEmailSender}
+          >
+            Send Customised Email
           </Button>
         </Stack>
       </Stack>
@@ -338,14 +397,14 @@ function Index() {
         }}
       >
         <Grid container spacing={5} alignItems="center" justifyItems="center">
-          <Grid item xs={12} lg={9}>
+          <Grid item xs={12}>
             <Stack>
               <h2>Student Data</h2>
 
               <DataGrid rows={rows} columns={columns} loading={loading} />
             </Stack>
           </Grid>
-          <Grid item xs={12} lg={3}>
+          <Grid item xs={12}>
             <Stack
               spacing={2}
               direction={{ xs: "column", md: "row", lg: "column" }}
@@ -353,46 +412,6 @@ function Index() {
               alignItems="center"
             >
               <Stack spacing={3}>
-                <Button
-                  variant="contained"
-                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
-                  onClick={onClickShowDetails}
-                >
-                  Show Details to Company
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
-                  onClick={onClickHideDetails}
-                >
-                  Hide Details to Company
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
-                  onClick={rejectProforma}
-                >
-                  Reject Proforma
-                </Button>
-
-                <Button
-                  variant="contained"
-                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
-                  onClick={() => {
-                    router.push(`/admin/rc/${rid}/proforma/${pid}/step5`);
-                  }}
-                >
-                  Change/Set Deadline
-                </Button>
-              </Stack>
-              <Stack spacing={3}>
-                <Button
-                  variant="contained"
-                  sx={{ width: { xs: "280px", md: "250px" }, height: "60px" }}
-                  onClick={handleOpenEmailSender}
-                >
-                  Send Customised Email
-                </Button>
                 <Modal open={openEmailSender} onClose={handleCloseEmailSender}>
                   <Box sx={boxStyle}>
                     <Stack spacing={3}>
