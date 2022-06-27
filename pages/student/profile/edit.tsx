@@ -186,7 +186,8 @@ function ProfileEdit() {
                       setDept(e.target.value);
                     }}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     {Branches.map((branch) => (
                       <MenuItem key={branch} value={branch}>
                         {branch}
@@ -202,23 +203,26 @@ function ProfileEdit() {
                       variant="standard"
                       {...register("program")}
                     >
-                      <MenuItem value="">None</MenuItem>
-                      {Object.keys(func[dept as keyof typeof func]).map(
-                        (program: any) => {
-                          if (
-                            func[dept as keyof typeof func][
-                              program as keyof programType
-                            ] !== -1
-                          ) {
-                            return (
-                              <MenuItem key={program} value={program}>
-                                {program}
-                              </MenuItem>
-                            );
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
+                      {dept !== "" &&
+                        dept !== "NA" &&
+                        Object.keys(func[dept as keyof typeof func]).map(
+                          (program: any) => {
+                            if (
+                              func[dept as keyof typeof func][
+                                program as keyof programType
+                              ] !== -1
+                            ) {
+                              return (
+                                <MenuItem key={program} value={program}>
+                                  {program}
+                                </MenuItem>
+                              );
+                            }
+                            return null;
                           }
-                          return null;
-                        }
-                      )}
+                        )}
                     </Select>
                   ) : (
                     <Select
@@ -226,7 +230,8 @@ function ProfileEdit() {
                       variant="standard"
                       {...register("program")}
                     >
-                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
                     </Select>
                   )}
                 </Grid>
@@ -240,7 +245,8 @@ function ProfileEdit() {
                       setDeptSec(e.target.value);
                     }}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     {Branches.map((branch) => (
                       <MenuItem key={branch} value={branch}>
                         {branch}
@@ -256,23 +262,26 @@ function ProfileEdit() {
                       variant="standard"
                       {...register("program_2")}
                     >
-                      <MenuItem value="">None</MenuItem>
-                      {Object.keys(func[deptSec as keyof typeof func]).map(
-                        (program: any) => {
-                          if (
-                            func[deptSec as keyof typeof func][
-                              program as keyof programType
-                            ] !== -1
-                          ) {
-                            return (
-                              <MenuItem key={program} value={program}>
-                                {program}
-                              </MenuItem>
-                            );
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
+                      {deptSec !== "" &&
+                        deptSec !== "NA" &&
+                        Object.keys(func[deptSec as keyof typeof func]).map(
+                          (program: any) => {
+                            if (
+                              func[deptSec as keyof typeof func][
+                                program as keyof programType
+                              ] !== -1
+                            ) {
+                              return (
+                                <MenuItem key={program} value={program}>
+                                  {program}
+                                </MenuItem>
+                              );
+                            }
+                            return null;
                           }
-                          return null;
-                        }
-                      )}
+                        )}
                     </Select>
                   ) : (
                     <Select
@@ -280,7 +289,8 @@ function ProfileEdit() {
                       variant="standard"
                       {...register("program_2")}
                     >
-                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
                     </Select>
                   )}
                 </Grid>
@@ -309,7 +319,8 @@ function ProfileEdit() {
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
                   <Select fullWidth variant="standard" {...register("gender")}>
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                   </Select>
@@ -507,7 +518,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("entrance_exam")}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
 
                     <MenuItem value="JEE Advanced">JEE Advanced</MenuItem>
                     <MenuItem value="GATE">GATE</MenuItem>
@@ -536,7 +548,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("category")}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
 
                     <MenuItem value="General">General</MenuItem>
                     <MenuItem value="General-EWS">General-EWS</MenuItem>
