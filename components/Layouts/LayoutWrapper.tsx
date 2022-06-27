@@ -15,8 +15,6 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import StarsIcon from "@mui/icons-material/Stars";
 
-import { BASE_URL } from "@callbacks/constants";
-
 import Blank from "./Blank";
 import Layout from "./Layout";
 import MasterLayout from "./MasterLayout";
@@ -121,7 +119,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <StarsIcon />,
           name: "Credits",
-          id: `${BASE_URL}/credits`,
+          id: `/credits`,
         },
       ],
     },
@@ -181,7 +179,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <StarsIcon />,
           name: "Credits",
-          id: `${BASE_URL}/credits`,
+          id: `/credits`,
         },
       ],
     },
@@ -216,7 +214,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <StarsIcon />,
           name: "Credits",
-          id: `${BASE_URL}/credits`,
+          id: `/credits`,
         },
       ],
     },
@@ -251,7 +249,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <StarsIcon />,
           name: "Credits",
-          id: `${BASE_URL}/credits`,
+          id: `/credits`,
         },
       ],
     },
@@ -286,7 +284,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <StarsIcon />,
           name: "Credits",
-          id: `${BASE_URL}/credits`,
+          id: `/credits`,
         },
       ],
     },
@@ -356,7 +354,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <StarsIcon />,
           name: "Credits",
-          id: `${BASE_URL}/credits`,
+          id: `/credits`,
         },
       ],
     },
