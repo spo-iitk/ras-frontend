@@ -27,7 +27,7 @@ const teamMembers = [
     website: "https://abhishekshree.github.io",
   },
   {
-    src: "https://avatars.githubusercontent.com/u/75195728?v=4",
+    src: "https://1-harshit.github.io/avatar.jpg",
     name: "Harshit Raj",
     title: "Web Head, 2022-23",
     about: "Living on the edge and not falling.",
