@@ -606,7 +606,7 @@ function ProfileEdit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>Freind Contact Details</p>
+                  <p>Friend Contact Details</p>
                   <TextField
                     fullWidth
                     type="text"
