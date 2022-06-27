@@ -102,12 +102,12 @@ const columns: GridColDef[] = [
   {
     field: "program_dept",
     headerName: "Program/Dept",
-    renderCell: (params) => getDeptProgram(params.row.program_department_id),
+    valueGetter: (params) => getDeptProgram(params.row.program_department_id),
   },
   {
     field: "program_dept_2",
     headerName: "Secondary Program/Dept",
-    renderCell: (params) =>
+    valueGetter: (params) =>
       getDeptProgram(params.row.secondary_program_department_id),
   },
   {

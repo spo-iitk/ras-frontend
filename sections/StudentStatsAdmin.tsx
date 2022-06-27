@@ -43,13 +43,13 @@ const columns: GridColDef[] = [
     headerName: "Program",
     width: 150,
     sortable: false,
-    renderCell: (params) => getDeptProgram(params.row.program_department_id),
+    valueGetter: (params) => getDeptProgram(params.row.program_department_id),
   },
   {
     field: "Secondary Program Department",
     headerName: "Branch",
     width: 150,
-    renderCell: (params) =>
+    valueGetter: (params) =>
       getDeptProgram(params.row.secondary_program_department_id),
   },
 ];

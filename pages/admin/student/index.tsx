@@ -23,12 +23,12 @@ const columns: GridColDef[] = [
   {
     field: "program_department_id",
     headerName: "Program",
-    renderCell: (rowData) => getDeptProgram(rowData.value),
+    valueGetter: (rowData) => getDeptProgram(rowData.value),
   },
   {
     field: "secondary_program_department_id",
     headerName: "Secondary Program",
-    renderCell: (rowData) => getDeptProgram(rowData.value),
+    valueGetter: (rowData) => getDeptProgram(rowData.value),
   },
   {
     field: "specialization",

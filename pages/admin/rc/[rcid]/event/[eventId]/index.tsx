@@ -69,13 +69,13 @@ const cols: GridColDef[] = [
     field: "program_department_id",
     headerName: "Department",
     width: 200,
-    renderCell: (params) => getDeptProgram(params.value),
+    valueGetter: (params) => getDeptProgram(params.value),
   },
   {
     field: "secondary_program_department_id",
     headerName: "Secondary Department",
     width: 200,
-    renderCell: (params) => getDeptProgram(params.value),
+    valueGetter: (params) => getDeptProgram(params.value),
   },
   {
     field: "is_frozen",
