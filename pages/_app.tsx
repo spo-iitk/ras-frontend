@@ -9,7 +9,7 @@ import Progress from "@components/Progress/Progress";
 import theme from "@components/theme/theme";
 import LayoutWrapper from "@components/Layouts/LayoutWrapper";
 import useStore from "@store/store";
-import useProgressStore from "@store/useProgress";
+import { useProgressStore } from "@store/useProgress";
 
 const isAdmin = (role: number) => role === 100 || role === 101 || role === 102;
 
