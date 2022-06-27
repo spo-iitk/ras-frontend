@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
+import router from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -9,7 +9,35 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
+import enrollmentRequest, {
+  StudentRC,
+} from "@callbacks/student/rc/enrollQuestion";
 
+function LinkButton({ params }: any) {
+  const { token } = useStore();
+  const [frozen, setFrozen] = useState(false);
+  useEffect(() => {
+    const fetch = async () => {
+      const student = await enrollmentRequest
+        .getStudentRC(token, params.row.ID)
+        .catch(() => ({ ID: 0 } as StudentRC));
+      setFrozen(student.is_frozen);
+    };
+    fetch();
+  }, [token, params]);
+  return (
+    <Button
+      variant="contained"
+      sx={{ width: "100%" }}
+      disabled={frozen}
+      onClick={() => {
+        router.push(`rc/${params.row.ID}`);
+      }}
+    >
+      {frozen ? "Frozen" : "View Details"}
+    </Button>
+  );
+}
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -51,18 +79,7 @@ const columns: GridColDef[] = [
     field: "button",
     headerName: "View Details",
     headerAlign: "center",
-    renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `rc/${params.row.ID}`,
-        }}
-      >
-        <Button variant="contained" sx={{ height: 30, width: "100%" }}>
-          {" "}
-          click{" "}
-        </Button>
-      </Link>
-    ),
+    renderCell: (params) => <LinkButton params={params} />,
   },
 ];
 
@@ -97,9 +114,6 @@ function Overview() {
           getRowId={(row) => row.ID}
           columns={columns}
           loading={loading}
-          // onCellClick={(row) => {
-          //   router.push(`rc/${row.id}/notices`);
-          // }}
         />
       </Stack>
     </div>
