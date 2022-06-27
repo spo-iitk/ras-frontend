@@ -49,7 +49,7 @@ function Step5() {
         active_hr: "",
       });
       router.push({
-        pathname: ROUTE,
+        pathname: `${ROUTE}/proforma`,
         query: { rcId: rid },
       });
     }
@@ -171,7 +171,7 @@ function Step5() {
             <p style={{ fontWeight: 300 }}>Deadline</p>
             <TextField
               id="Cname"
-              type="date"
+              type="datetime-local"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth

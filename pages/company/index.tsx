@@ -15,11 +15,14 @@ const columns: GridColDef[] = [
     field: "id",
     headerName: "ID",
     width: 90,
+    hide: true,
   },
   {
     field: "name",
     headerName: "Recruitment Drive Name",
     width: 400,
+    align: "center",
+    headerAlign: "center",
   },
   {
     field: "is_active",
@@ -30,7 +33,7 @@ const columns: GridColDef[] = [
     headerAlign: "center",
     renderCell: (params) => (
       <Link href={`/company/rc/${params.row.id}`}>
-        <ActiveButton sx={{ height: 30, width: "100%" }}>View</ActiveButton>
+        <ActiveButton sx={{ height: 30, width: "60%" }}>View</ActiveButton>
       </Link>
     ),
   },

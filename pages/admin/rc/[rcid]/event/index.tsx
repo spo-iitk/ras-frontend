@@ -90,7 +90,7 @@ function Index() {
 
   return (
     <div className="container">
-      <Meta title="Proforma" />
+      <Meta title="Events" />
       <h2>Events</h2>
       <DataGrid rows={events} columns={columns} getRowId={(row) => row.ID} />
     </div>

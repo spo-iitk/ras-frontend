@@ -3,7 +3,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
 import { IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
@@ -89,9 +88,6 @@ function Index() {
               <Stack direction="row" spacing={3}>
                 <IconButton onClick={handleOpenNew}>
                   <AddIcon />
-                </IconButton>
-                <IconButton>
-                  <MoreVertIcon />
                 </IconButton>
               </Stack>
             </div>

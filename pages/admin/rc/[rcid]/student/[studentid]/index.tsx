@@ -290,28 +290,28 @@ function Index() {
                   </Grid>
                 ))}
               </Grid>
-              <Stack spacing={2} direction="row">
-                <Button
-                  variant="contained"
-                  sx={{ width: "100%" }}
-                  onClick={handleVerify}
-                  disabled={student?.is_verified || student?.is_frozen}
-                >
-                  Verify
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{ width: "100%" }}
-                  disabled={student?.is_verified || student?.is_frozen}
-                >
-                  Ask Clarification
-                </Button>
-              </Stack>
             </div>
           )}
           {(!questionAnswer || questionAnswer.length <= 0) && (
             <h3>No Record Found</h3>
           )}
+          <Stack spacing={2} direction="row">
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              onClick={handleVerify}
+              disabled={student?.is_verified || student?.is_frozen}
+            >
+              Verify
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              disabled={student?.is_verified || student?.is_frozen}
+            >
+              Ask Clarification
+            </Button>
+          </Stack>
         </Card>
       </Stack>
       <div style={{ marginTop: 50 }}>

@@ -3,7 +3,6 @@ import {
   Card,
   Checkbox,
   FormControl,
-  FormControlLabel,
   Stack,
   TextField,
 } from "@mui/material";
@@ -110,9 +109,9 @@ function Step3() {
           <FormControl sx={{ m: 1 }}>
             <Stack direction="row" spacing={3}>
               <p style={{ fontWeight: 300 }}>Bond</p>
-              <FormControlLabel
-                label=""
-                control={<Checkbox {...register("bond")} />}
+              <Checkbox
+                checked={useWatch({ control, name: "bond_details" }) !== ""}
+                {...register("bond")}
               />
             </Stack>
           </FormControl>
@@ -121,7 +120,7 @@ function Step3() {
             <TextField
               id="Cname"
               required
-              disabled={useWatch({ control, name: "bond" }) !== true}
+              disabled={useWatch({ control, name: "bond" }) === true}
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline

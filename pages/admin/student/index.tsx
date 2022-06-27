@@ -1,6 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { Button } from "@mui/material";
 
 import AdminStudentRequest, {
   Student,
@@ -8,13 +9,13 @@ import AdminStudentRequest, {
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import { getDeptProgram } from "@components/Parser/parser";
 
 const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "ID",
+    hide: true,
   },
   {
     field: "name",
@@ -47,6 +48,7 @@ const columns: GridColDef[] = [
   {
     field: "gender",
     headerName: "Gender",
+    hide: true,
   },
   {
     field: "disability",
@@ -76,6 +78,7 @@ const columns: GridColDef[] = [
   {
     field: "phone",
     headerName: "Contact Number",
+    hide: true,
   },
   {
     field: "alternate_phone",
@@ -185,7 +188,9 @@ const columns: GridColDef[] = [
           pathname: `student/${params.row.ID}`,
         }}
       >
-        <ActiveButton> click </ActiveButton>
+        <Button variant="contained" fullWidth>
+          Click
+        </Button>
       </Link>
     ),
   },
