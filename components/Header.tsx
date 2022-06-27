@@ -24,22 +24,29 @@ function Header() {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Image
-            src="/images/logo/spoLogo.png"
-            alt="logo"
-            width={60}
-            height={60}
-          />
-          <Stack direction="column">
-            <h2 className={headerstyles.title} style={{ margin: 0 }}>
-              Recruitment Automation System
-            </h2>
-            <h5 className={headerstyles.title} style={{ margin: 0 }}>
-              Indian Institute of Technology, Kanpur
-            </h5>
+        <Link href="/">
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            className={headerstyles.pointer}
+          >
+            <Image
+              src="/images/logo/spoLogo.png"
+              alt="logo"
+              width={60}
+              height={60}
+            />
+            <Stack direction="column">
+              <h2 className={headerstyles.title} style={{ margin: 0 }}>
+                Recruitment Automation System
+              </h2>
+              <h5 className={headerstyles.title} style={{ margin: 0 }}>
+                Indian Institute of Technology, Kanpur
+              </h5>
+            </Stack>
           </Stack>
-        </Stack>
+        </Link>
         <div className={headerstyles.sideNav}>
           <Stack direction="row" spacing={3} alignItems="center">
             <Link href="/login">Sign in</Link>
