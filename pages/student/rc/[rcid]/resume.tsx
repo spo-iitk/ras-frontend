@@ -1,12 +1,25 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { Box, Button, Grid, IconButton, Modal, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Fab,
+  Grid,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
+import { styled } from "@mui/material/styles";
+import { green } from "@mui/material/colors";
+import SaveIcon from "@mui/icons-material/Save";
 
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
@@ -117,6 +130,10 @@ const columns: GridColDef[] = [
   },
 ];
 
+const Input = styled("input")({
+  display: "none",
+});
+
 function Resume() {
   const router = useRouter();
   const [fileSaved, setFileSaved] = useState<File | null>(null);
@@ -126,14 +143,22 @@ function Resume() {
   // eslint-disable-next-line no-unused-vars
   const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  const handleClose = () => {
+    setOpen(false);
+    setSuccess(false);
+    setFileSaved(null);
+    setLoading(false);
+  };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
     if (files && files.length > 0) {
       setFileSaved(files[0]);
+      setLoading(false);
+      setSuccess(true);
     }
   };
 
@@ -145,6 +170,7 @@ function Resume() {
     await resumeRequest.post(formData, token, rid);
     setFileSaved(null);
     handleClose();
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -154,7 +180,24 @@ function Resume() {
       setAllResumes(data);
     };
     fetchData();
+    setLoading(false);
+    setSuccess(false);
   }, [token, rid]);
+  const handleButtonClick = () => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+    }
+  };
+
+  const buttonSx = {
+    ...(success && {
+      bgcolor: green[500],
+      "&:hover": {
+        bgcolor: green[700],
+      },
+    }),
+  };
 
   return (
     <>
@@ -186,13 +229,50 @@ function Resume() {
             Upload Resume
           </h1>
           <form onSubmit={handleSubmit}>
-            <input
-              type="file"
-              name="file"
-              accept="application/pdf"
-              onChange={handleChange}
-            />
-            <button type="submit">Upload</button>
+            <Box
+              sx={{
+                m: 5,
+                position: "relative",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Stack spacing={2} justifyContent="center" alignItems="center">
+                <label htmlFor="icon-button-file">
+                  <Input
+                    accept="application/pdf"
+                    id="icon-button-file"
+                    type="file"
+                    onChange={handleChange}
+                  />
+                  <Fab
+                    color="primary"
+                    aria-label="upload picture"
+                    component="span"
+                    sx={buttonSx}
+                    onClick={handleButtonClick}
+                  >
+                    {success ? <CheckIcon /> : <SaveIcon />}
+                    {loading && (
+                      <CircularProgress
+                        size={68}
+                        sx={{
+                          color: green[500],
+                          position: "absolute",
+                          top: -6,
+                          left: -6,
+                          zIndex: 1,
+                        }}
+                      />
+                    )}
+                  </Fab>
+                </label>
+                <Typography variant="subtitle1">{fileSaved?.name}</Typography>
+              </Stack>
+            </Box>
+            <Button type="submit" variant="contained" fullWidth>
+              Upload
+            </Button>
           </form>
         </Box>
       </Modal>
