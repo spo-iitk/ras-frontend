@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IconButton, Stack } from "@mui/material";
+import { IconButton, Modal, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import InactiveButton from "@components/Buttons/InactiveButton";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 const ROUTE_PATH = "/company/rc/[rcid]/proforma/[proformaid]";
 const columns: GridColDef[] = [
@@ -107,15 +108,36 @@ function DeleteProforma(params: { id: string }) {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const { id } = params;
+  const [openDeleteModal, setDeleteModal] = React.useState(false);
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  useEffect(() => {
+    if (confirmation) {
+      if (rid === undefined || rid === "") return;
+      proformaRequest.delete(token, rid, id);
+    }
+  }, [confirmation, id, rid, token]);
   return (
-    <IconButton
-      onClick={() => {
-        if (rid === undefined || rid === "") return;
-        proformaRequest.delete(token, rid, id);
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </>
   );
 }
 

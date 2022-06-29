@@ -11,6 +11,7 @@ import AddApplyQuestion from "@components/Modals/AddApplyQuestion";
 import { QuestionType } from "@callbacks/admin/addquestion";
 import UpdateApplyQuestion from "@callbacks/admin/rc/proforma/question";
 import useStore from "@store/store";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 function DeleteQues(props: { id: string }) {
   const router = useRouter();
@@ -18,15 +19,36 @@ function DeleteQues(props: { id: string }) {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const { id } = props;
+  const [openDeleteModal, setDeleteModal] = React.useState(false);
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  useEffect(() => {
+    if (confirmation) {
+      if (proformaid === "" || proformaid === undefined) return;
+      UpdateApplyQuestion.deleteQues(token, rid, proformaid?.toString(), id);
+    }
+  }, [confirmation, id, proformaid, rid, token]);
   return (
-    <IconButton
-      onClick={() => {
-        if (proformaid === "" || proformaid === undefined) return;
-        UpdateApplyQuestion.deleteQues(token, rid, proformaid?.toString(), id);
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </>
   );
 }
 const columns: GridColDef[] = [

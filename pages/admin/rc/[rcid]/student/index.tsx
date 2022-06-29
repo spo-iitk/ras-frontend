@@ -19,6 +19,7 @@ import Enroll from "@components/Modals/Enroll";
 import Freeze from "@components/Modals/Freeze";
 import Unfreeze from "@components/Modals/Unfreeze";
 import { getDeptProgram } from "@components/Parser/parser";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 function DeleteStudents(props: { id: string }) {
   const { token } = useStore();
@@ -26,14 +27,35 @@ function DeleteStudents(props: { id: string }) {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
+  const [openDeleteModal, setDeleteModal] = React.useState(false);
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  useEffect(() => {
+    if (confirmation) {
+      getStudents.deleteStudent(token, rid, id);
+    }
+  }, [confirmation, id, rid, token]);
   return (
-    <IconButton
-      onClick={() => {
-        getStudents.deleteStudent(token, rid, id);
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </>
   );
 }
 

@@ -13,6 +13,7 @@ import Meta from "@components/Meta";
 import AddCompany from "@components/Modals/AddCompanyAdmin";
 import useStore from "@store/store";
 import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 const BASE_ROUTE = "/admin/rc";
 
@@ -29,13 +30,32 @@ function DeleteComapny(props: { id: string }) {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
+  const [openDeleteModal, setDeleteModal] = React.useState(false);
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  useEffect(() => {
+    if (confirmation) {
+      requestCompany.deleteCompany(token, rid, id);
+    }
+  }, [confirmation, id, rid, token]);
   return (
     <IconButton
       onClick={() => {
-        requestCompany.deleteCompany(token, rid, id);
+        handleOpenDeleteModal();
       }}
     >
       <DeleteIcon />
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
     </IconButton>
   );
 }
