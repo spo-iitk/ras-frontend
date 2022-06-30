@@ -44,19 +44,21 @@ function DeleteComapny(props: { id: string }) {
     }
   }, [confirmation, id, rid, token]);
   return (
-    <IconButton
-      onClick={() => {
-        handleOpenDeleteModal();
-      }}
-    >
-      <DeleteIcon />
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
       <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
         <DeleteConfirmation
           handleClose={handleCloseDeleteModal}
           setConfirmation={setConfirmation}
         />
       </Modal>
-    </IconButton>
+    </>
   );
 }
 
