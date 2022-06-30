@@ -64,7 +64,7 @@ function Stats() {
     const fetch = async () => {
       if (rcid) {
         const response = await statRequest.getAll(token, rcid.toString());
-        setRows(response);
+        if (response) setRows(response);
         setLoading(false);
       }
     };
