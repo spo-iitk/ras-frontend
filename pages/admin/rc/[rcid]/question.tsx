@@ -10,6 +10,7 @@ import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import AddRCQuestion from "@components/Modals/AddRCQuestion";
 import useStore from "@store/store";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 function DeleteQues(props: { id: string }) {
   const router = useRouter();
@@ -17,14 +18,35 @@ function DeleteQues(props: { id: string }) {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const { id } = props;
+  const [openDeleteModal, setDeleteModal] = React.useState(false);
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  useEffect(() => {
+    if (confirmation) {
+      UpdateQuestion.deleteQues(token, rid, id);
+    }
+  }, [confirmation, id, rid, token]);
   return (
-    <IconButton
-      onClick={() => {
-        UpdateQuestion.deleteQues(token, rid, id);
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </>
   );
 }
 const columns: GridColDef[] = [

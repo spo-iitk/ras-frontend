@@ -19,6 +19,7 @@ import HRAuth, { HRAuthResponse } from "@callbacks/auth/hrauth";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import AddHRMD from "@components/Modals/AddHRAdminMD";
 import useStore from "@store/store";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -36,15 +37,36 @@ const boxStyle = {
 function DeleteHR(props: { id: string }) {
   const { token } = useStore();
   const { id } = props;
+  const [openDeleteModal, setDeleteModal] = React.useState(false);
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  useEffect(() => {
+    if (confirmation) {
+      addCompanyRequest.deleteHR(token, id);
+      window.location.reload();
+    }
+  }, [confirmation, id, token]);
   return (
-    <IconButton
-      onClick={() => {
-        addCompanyRequest.deleteHR(token, id);
-        window.location.reload();
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </>
   );
 }
 function AuthHR(props: { id: string; name: string }) {

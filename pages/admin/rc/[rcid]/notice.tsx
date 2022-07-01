@@ -11,6 +11,7 @@ import NewNotice from "@components/Modals/newNotice";
 import Meta from "@components/Meta";
 import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 function HandleNotice(props: { id: string }) {
   const router = useRouter();
@@ -18,17 +19,36 @@ function HandleNotice(props: { id: string }) {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const { id } = props;
+  const [openDeleteModal, setDeleteModal] = React.useState(false);
+  const [confirmation, setConfirmation] = React.useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  React.useEffect(() => {
+    if (confirmation) {
+      if (rid === undefined || rid === "") return;
+      noticeRequest.delete(token, rid, id);
+      window.location.reload();
+    }
+  }, [confirmation, id, rid, token]);
   return (
     <Stack spacing={3} direction="row">
       <IconButton
         onClick={() => {
-          if (rid === undefined || rid === "") return;
-          noticeRequest.delete(token, rid, id);
-          window.location.reload();
+          handleOpenDeleteModal();
         }}
       >
         <DeleteIcon />
       </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
       <IconButton
         onClick={() => {
           if (rid === undefined || rid === "") return;

@@ -22,6 +22,7 @@ import requestCompany from "@callbacks/admin/rc/company";
 import eventRequest, { Event } from "@callbacks/admin/rc/overview";
 import rcRequest from "@callbacks/admin/rc/rc";
 import EditRCApplicationCap from "@components/Modals/EditRCApplicationCap";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 function Index() {
   const router = useRouter();
@@ -101,11 +102,31 @@ function Index() {
   };
 
   const [openNew, setOpenNew] = React.useState(false);
+  const [openDeleteModal, setDeleteModal] = React.useState(false);
+  const [confirmation, setConfirmation] = React.useState(false);
+  useEffect(() => {
+    const close = async () => {
+      if (rcid && confirmation) {
+        await rcRequest.put(token, {
+          ID: parseInt(rcid?.toString(), 10),
+          inactive: true,
+        });
+        router.push("/admin/rc");
+      }
+    };
+    close();
+  }, [confirmation, rcid, router, router.isReady, token]);
   const handleOpenNew = () => {
     setOpenNew(true);
   };
   const handleCloseNew = () => {
     setOpenNew(false);
+  };
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
   };
 
   return (
@@ -136,18 +157,18 @@ function Index() {
             variant="contained"
             endIcon={<DeleteIcon />}
             sx={{ width: "150px" }}
-            onClick={async () => {
-              if (rcid) {
-                await rcRequest.put(token, {
-                  ID: parseInt(rcid?.toString(), 10),
-                  inactive: true,
-                });
-                router.push("/admin/rc");
-              }
+            onClick={() => {
+              handleOpenDeleteModal();
             }}
           >
             Delete
           </Button>
+          <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+            <DeleteConfirmation
+              handleClose={handleCloseDeleteModal}
+              setConfirmation={setConfirmation}
+            />
+          </Modal>
         </Stack>
         <Grid container justifyContent="space-evenly" spacing={2}>
           <Grid item xs={6} md={3} sx={{ padding: 0 }}>
