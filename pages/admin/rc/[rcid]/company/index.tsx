@@ -41,6 +41,7 @@ function DeleteComapny(props: { id: string }) {
   useEffect(() => {
     if (confirmation) {
       requestCompany.deleteCompany(token, rid, id);
+      window.location.reload();
     }
   }, [confirmation, id, rid, token]);
   return (

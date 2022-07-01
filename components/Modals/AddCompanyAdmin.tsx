@@ -68,6 +68,7 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
       });
       handleCloseNew();
     }
+    window.location.reload();
   };
   return (
     <Box sx={boxStyle}>
