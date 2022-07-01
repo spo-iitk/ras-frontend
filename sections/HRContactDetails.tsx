@@ -37,8 +37,8 @@ const boxStyle = {
 function DeleteHR(props: { id: string }) {
   const { token } = useStore();
   const { id } = props;
-  const [openDeleteModal, setDeleteModal] = React.useState(false);
-  const [confirmation, setConfirmation] = React.useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const handleOpenDeleteModal = () => {
     setDeleteModal(true);
   };

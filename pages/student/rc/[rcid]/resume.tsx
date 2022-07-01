@@ -142,9 +142,9 @@ function Resume() {
   const { token } = useStore();
   // eslint-disable-next-line no-unused-vars
   const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);

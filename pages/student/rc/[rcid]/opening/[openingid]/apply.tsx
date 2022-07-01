@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -42,8 +42,7 @@ function Apply() {
   const { rcid, openingid, rsid } = router.query;
 
   const { token } = useStore();
-  const [questions, setQuestions] =
-    React.useState<studentApplicationQuestions[]>();
+  const [questions, setQuestions] = useState<studentApplicationQuestions[]>();
   useEffect(() => {
     if (!rcid || !openingid) return;
     const fetch = async () => {

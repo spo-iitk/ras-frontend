@@ -1,7 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import { IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -19,15 +19,16 @@ function HandleNotice(props: { id: string }) {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const { id } = props;
-  const [openDeleteModal, setDeleteModal] = React.useState(false);
-  const [confirmation, setConfirmation] = React.useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const handleOpenDeleteModal = () => {
     setDeleteModal(true);
   };
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
   };
-  React.useEffect(() => {
+
+  useEffect(() => {
     if (confirmation) {
       if (rid === undefined || rid === "") return;
       noticeRequest.delete(token, rid, id);
@@ -102,17 +103,18 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const [notices, setNotice] = React.useState<NoticeParams[]>([]);
+  const [notices, setNotice] = useState<NoticeParams[]>([]);
 
-  const [openNew, setOpenNew] = React.useState(false);
+  const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
   };
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-  const [loading, setLoading] = React.useState(true);
-  React.useEffect(() => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
       const notice: NoticeParams[] = await noticeRequest.getAll(token, rid);

@@ -71,9 +71,9 @@ function Index() {
     setOpenEditComp(false);
   };
 
-  const [value, setValue] = React.useState(0);
-  const [openDeleteModal, setDeleteModal] = React.useState(false);
-  const [confirmation, setConfirmation] = React.useState(false);
+  const [value, setValue] = useState(0);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };

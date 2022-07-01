@@ -20,7 +20,7 @@ import resumeRequest, {
 const ROUTE_PREFIX = "/student/rc/[rcid]";
 
 function Openings() {
-  // const [age, setAge] = React.useState("");
+  // const [age, setAge] = useState("");
   const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
