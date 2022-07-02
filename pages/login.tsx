@@ -87,6 +87,9 @@ function Login() {
         case 101:
           router.push("/admin");
           break;
+        case 102:
+          router.push("/admin");
+          break;
         default:
           router.push("/401");
           break;
