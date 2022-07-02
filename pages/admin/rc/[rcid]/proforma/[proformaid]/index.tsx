@@ -54,6 +54,7 @@ const columns: GridColDef[] = [
     field: "id",
     headerName: "Id",
     width: 100,
+    hide: true,
   },
   {
     field: "name",
@@ -97,6 +98,7 @@ const columns: GridColDef[] = [
   {
     field: "ug_cpi",
     headerName: "UG CPI",
+    hide: true,
     width: 100,
   },
   {
@@ -122,6 +124,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "gender",
+    hide: true,
     headerName: "Gender",
   },
   {
@@ -138,6 +141,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "expected_graduation_year",
+    hide: true,
     headerName: "Expected Graduation Year",
   },
   {
@@ -152,6 +156,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "tenth_marks",
+    hide: true,
     headerName: "10th Marks",
   },
   {
@@ -166,23 +171,28 @@ const columns: GridColDef[] = [
   },
   {
     field: "twelfth_marks",
+    hide: true,
     headerName: "12th Board Marks",
   },
   {
     field: "entrance_exam",
+    hide: true,
     headerName: "Entrance Exam",
   },
   {
     field: "entrance_exam_rank",
+    hide: true,
     headerName: "Entrance Exam Rank",
   },
   {
     field: "category",
+    hide: true,
     headerName: "Category",
   },
   {
     field: "category_rank",
     headerName: "Category Rank",
+    hide: true,
   },
   {
     field: "current_address",
@@ -209,6 +219,10 @@ const columns: GridColDef[] = [
     headerName: "Frozen",
     width: 150,
     hide: true,
+  },
+  {
+    field: "phone",
+    headerName: "Phone",
   },
 ];
 

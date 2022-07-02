@@ -45,9 +45,10 @@ function Enrollment() {
   useEffect(() => {
     if (rcid === "" || rcid === undefined) return;
     const fetch = async () => {
-      const response = await enrollmentRequest
-        .getStudentEnrollment(token, rcid.toString())
-        .catch(() => ({ type: "null" } as studentEnrollResponse));
+      const response = await enrollmentRequest.getStudentEnrollment(
+        token,
+        rcid.toString()
+      );
       setQuestions(response);
     };
     fetch();
