@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -40,13 +40,15 @@ function Enrollment() {
   const router = useRouter();
   const { rcid } = router.query;
   const { token } = useStore();
-  const [questions, setQuestions] = React.useState<studentEnrollResponse[]>();
+  const [questions, setQuestions] = useState<studentEnrollResponse[]>();
+
   useEffect(() => {
     if (rcid === "" || rcid === undefined) return;
     const fetch = async () => {
-      const response = await enrollmentRequest
-        .getStudentEnrollment(token, rcid.toString())
-        .catch(() => ({ type: "null" } as studentEnrollResponse));
+      const response = await enrollmentRequest.getStudentEnrollment(
+        token,
+        rcid.toString()
+      );
       setQuestions(response);
     };
     fetch();

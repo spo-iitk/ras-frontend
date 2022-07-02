@@ -30,8 +30,8 @@ function DeleteComapny(props: { id: string }) {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const [openDeleteModal, setDeleteModal] = React.useState(false);
-  const [confirmation, setConfirmation] = React.useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const handleOpenDeleteModal = () => {
     setDeleteModal(true);
   };
@@ -118,8 +118,8 @@ const columns: GridColDef[] = [
 ];
 
 function Index() {
-  const [openNew, setOpenNew] = React.useState(false);
-  const [openEdit, setOpenEdit] = React.useState(false);
+  const [openNew, setOpenNew] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const handleOpenEdit = () => {
     setOpenEdit(true);
   };

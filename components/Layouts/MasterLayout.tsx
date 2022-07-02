@@ -17,7 +17,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
 import theme from "@components/theme/theme";
 import dashboardstyles from "@styles/Dashboard.module.css";
@@ -51,7 +51,7 @@ function MasterLayout({
 }) {
   const { asPath } = useRouter();
   const match = (path: string) => path === asPath;
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     left: false,
   });
 

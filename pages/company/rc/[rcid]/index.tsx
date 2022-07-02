@@ -27,8 +27,10 @@ function DeleteProforma({
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const [openDeleteModal, setDeleteModal] = React.useState(false);
-  const [confirmation, setConfirmation] = React.useState(false);
+
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+
   const handleOpenDeleteModal = () => {
     setDeleteModal(true);
   };

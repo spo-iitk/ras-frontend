@@ -19,8 +19,8 @@ function DeleteQues(props: { id: string }) {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const { id } = props;
-  const [openDeleteModal, setDeleteModal] = React.useState(false);
-  const [confirmation, setConfirmation] = React.useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const handleOpenDeleteModal = () => {
     setDeleteModal(true);
   };
@@ -110,7 +110,7 @@ function Question() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
-  const [openNew, setOpenNew] = React.useState(false);
+  const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
   };

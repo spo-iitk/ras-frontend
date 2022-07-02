@@ -1,5 +1,5 @@
 import { Grid, Stack } from "@mui/material";
-import React from "react";
+import React, { SyntheticEvent, useState } from "react";
 import CallIcon from "@mui/icons-material/Call";
 import MailIcon from "@mui/icons-material/Mail";
 import PublicIcon from "@mui/icons-material/Public";
@@ -56,10 +56,10 @@ const AccordionDetails = styled(MuiAccordionDetails)(() => ({
 }));
 
 function Footer() {
-  const [expanded, setExpanded] = React.useState<string | false>("panel1");
+  const [expanded, setExpanded] = useState<string | false>("panel1");
 
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+    (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
 

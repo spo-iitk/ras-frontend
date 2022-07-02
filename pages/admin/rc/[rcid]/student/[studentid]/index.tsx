@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
@@ -68,8 +68,8 @@ function Index() {
   const { rcid, studentid } = useRouter().query;
   const { token } = useStore();
   const [questionAnswer, setQuestionAnswer] =
-    React.useState<studentEnrollResponse[]>();
-  const [student, setStudent] = React.useState<Student>();
+    useState<studentEnrollResponse[]>();
+  const [student, setStudent] = useState<Student>();
   useEffect(() => {
     const fetchData = async () => {
       if (

@@ -11,6 +11,7 @@ import {
 } from "@mui/x-data-grid";
 import Image from "next/image";
 import * as React from "react";
+import { useState } from "react";
 
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
@@ -65,7 +66,7 @@ function Index({
   getRowId,
   loading = false,
 }: paramsType) {
-  const [pageSize, setPageSize] = React.useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   const cols = columns.map((col) => ({
     ...col,

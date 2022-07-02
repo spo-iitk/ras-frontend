@@ -11,7 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -111,11 +111,11 @@ const cols: GridColDef[] = [
 const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/view";
 const EDIT_ROUTE = "/admin/rc/[rcid]/event/[eventId]/edit";
 function Event() {
-  const [startTime, setStartTime] = React.useState<Date | null>(new Date());
-  const [endTime, setEndTime] = React.useState<Date | null>(new Date());
-  const [pid, setProformaID] = React.useState<number>(0);
-  const [openNew, setOpenNew] = React.useState(false);
-  const [students, setStudents] = React.useState<Student[]>([]);
+  const [startTime, setStartTime] = useState<Date | null>(new Date());
+  const [endTime, setEndTime] = useState<Date | null>(new Date());
+  const [pid, setProformaID] = useState<number>(0);
+  const [openNew, setOpenNew] = useState(false);
+  const [students, setStudents] = useState<Student[]>([]);
   const { token } = useStore();
   const router = useRouter();
   const { rcid, eventId } = router.query;

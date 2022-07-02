@@ -69,8 +69,8 @@ function Index() {
   const router = useRouter();
   const [rows, setRows] = useState<RC[]>([]);
   const { token, setRCName, setRcId } = useStore();
-  const [openNew, setOpenNew] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+  const [openNew, setOpenNew] = useState(false);
+  const [loading, setLoading] = useState(true);
   const handleOpenNew = () => {
     setOpenNew(true);
   };

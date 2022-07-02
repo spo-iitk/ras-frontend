@@ -1,6 +1,6 @@
 import { Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
@@ -34,16 +34,16 @@ function Notices() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const [openNew, setOpenNew] = React.useState(false);
+  const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
   };
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-  const [notices, setNotice] = React.useState<NoticeParams[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [currentNotice, setCurrentNotice] = React.useState<NoticeParams>({
+  const [notices, setNotice] = useState<NoticeParams[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentNotice, setCurrentNotice] = useState<NoticeParams>({
     ID: 0,
     recruitment_cycle_id: 0,
     title: "",
@@ -54,7 +54,8 @@ function Notices() {
     CreatedAt: "",
     last_reminder_at: 0,
   });
-  React.useEffect(() => {
+
+  useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
       const notice: NoticeParams[] = await NoticeSReq.getSAll(token, rid);

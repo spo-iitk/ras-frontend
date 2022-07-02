@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -90,12 +90,12 @@ const events: Events[] = [
 ];
 
 function Calendar() {
-  const [value, setValue] = React.useState<Date | null>(new Date());
-  const [activity, setActivity] = React.useState<Events[]>([]);
-  const [rows, setRows] = React.useState<Events[]>([]);
-  const [, setAct] = React.useState<Events>();
+  const [value, setValue] = useState<Date | null>(new Date());
+  const [activity, setActivity] = useState<Events[]>([]);
+  const [rows, setRows] = useState<Events[]>([]);
+  const [, setAct] = useState<Events>();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

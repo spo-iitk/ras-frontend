@@ -28,6 +28,7 @@ export interface StudentRC {
   secondary_program_department_id: number;
   cpi: number;
   email: string;
+  roll_no: string;
   name: string;
   type: string;
   is_frozen: boolean;
@@ -46,15 +47,15 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const enrollmentRequest = {
   getStudentRC: (token: string, rcid: string) =>
     instance
-      .get(`/rc/${rcid}`, setConfig(token))
+      .get<StudentRC>(`/rc/${rcid}`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
-        return [] as StudentRC[];
+        return { ID: 0 } as StudentRC;
       }),
   getStudentEnrollment: (token: string, rcid: string) =>
     instance
-      .get(`/rc/${rcid}/enrollment`, setConfig(token))
+      .get<studentEnrollResponse[]>(`/rc/${rcid}/enrollment`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);

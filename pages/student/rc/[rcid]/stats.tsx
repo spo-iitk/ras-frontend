@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { Stack } from "@mui/material";
 import { useRouter } from "next/router";
@@ -55,8 +55,8 @@ const columns: GridColDef[] = [
   },
 ];
 function Stats() {
-  const [rows, setRows] = React.useState<any>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [rows, setRows] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
   const { rcid } = useRouter().query;
   const { token } = useStore();
 

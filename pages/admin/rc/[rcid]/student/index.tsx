@@ -27,8 +27,8 @@ function DeleteStudents(props: { id: string }) {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const [openDeleteModal, setDeleteModal] = React.useState(false);
-  const [confirmation, setConfirmation] = React.useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const handleOpenDeleteModal = () => {
     setDeleteModal(true);
   };
@@ -134,13 +134,13 @@ const columns: GridColDef[] = [
 ];
 function Index() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [rows, setRows] = React.useState<any>([]);
+  const [rows, setRows] = useState<any>([]);
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const [loading, setLoading] = React.useState(true);
-  const [openEnroll, setOpenEnroll] = React.useState(false);
+  const [loading, setLoading] = useState(true);
+  const [openEnroll, setOpenEnroll] = useState(false);
   const handleOpenEnroll = () => {
     setOpenEnroll(true);
   };
@@ -148,7 +148,7 @@ function Index() {
     setOpenEnroll(false);
   };
 
-  const [openFreeze, setOpenFreeze] = React.useState(false);
+  const [openFreeze, setOpenFreeze] = useState(false);
   const handleOpenFreeze = () => {
     setOpenFreeze(true);
   };
@@ -156,7 +156,7 @@ function Index() {
     setOpenFreeze(false);
   };
 
-  const [openUnFreeze, setOpenUnFreeze] = React.useState(false);
+  const [openUnFreeze, setOpenUnFreeze] = useState(false);
   const handleOpenUnFreeze = () => {
     setOpenUnFreeze(true);
   };

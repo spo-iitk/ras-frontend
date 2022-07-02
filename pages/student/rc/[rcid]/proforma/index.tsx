@@ -1,7 +1,7 @@
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
@@ -47,11 +47,12 @@ const columns: GridColDef[] = [
   },
 ];
 function Proforma() {
-  const [rows, setRows] = React.useState<ProformaParams[]>([]);
+  const [rows, setRows] = useState<ProformaParams[]>([]);
   const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
   const rid = rcid as string;
+
   useEffect(() => {
     const getProforma = async () => {
       const res = await sProformaRequest.getAllProforma(token, rid);

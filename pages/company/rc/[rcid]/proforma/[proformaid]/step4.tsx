@@ -94,7 +94,7 @@ function Step4() {
     };
     fetchStep4();
   }, [token, proformaid, rcid, router.isReady, reset]);
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -142,7 +142,7 @@ function Step4() {
     },
   ];
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     bottom: false,
   });
 

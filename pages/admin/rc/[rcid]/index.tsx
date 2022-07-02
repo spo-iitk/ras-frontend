@@ -28,11 +28,11 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const [rcdata, setData] = React.useState<RCCount>({
+  const [rcdata, setData] = useState<RCCount>({
     registered_student: 0,
     registered_company: 0,
   });
-  const [notices, setNotice] = React.useState<NoticeParams[]>([
+  const [notices, setNotice] = useState<NoticeParams[]>([
     {
       ID: 0,
       recruitment_cycle_id: 0,
@@ -45,7 +45,7 @@ function Index() {
       last_reminder_at: 0,
     },
   ]);
-  const [appdata, setApp] = React.useState<APPCount>({
+  const [appdata, setApp] = useState<APPCount>({
     roles: 0,
     recruited: 0,
   });
@@ -101,9 +101,9 @@ function Index() {
     router.push(`/admin/rc/${rid}/notice`);
   };
 
-  const [openNew, setOpenNew] = React.useState(false);
-  const [openDeleteModal, setDeleteModal] = React.useState(false);
-  const [confirmation, setConfirmation] = React.useState(false);
+  const [openNew, setOpenNew] = useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   useEffect(() => {
     const close = async () => {
       if (rcid && confirmation) {

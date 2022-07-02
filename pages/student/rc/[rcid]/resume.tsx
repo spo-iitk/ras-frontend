@@ -21,6 +21,7 @@ import { styled } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
 import SaveIcon from "@mui/icons-material/Save";
 
+import { getDeptProgram } from "@components/Parser/parser";
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -28,6 +29,8 @@ import resumeRequest, {
   AllStudentResumeResponse,
 } from "@callbacks/student/rc/resume";
 import { CDN_URL } from "@callbacks/constants";
+import enrollmentRequest from "@callbacks/student/rc/enrollQuestion";
+import { errorNotification } from "@callbacks/notifcation";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -140,11 +143,12 @@ function Resume() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  // eslint-disable-next-line no-unused-vars
   const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
+  const [resumeName, setResumeName] = useState<string>("");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
@@ -152,14 +156,46 @@ function Resume() {
     setFileSaved(null);
     setLoading(false);
   };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
-    if (files && files.length > 0) {
-      setFileSaved(files[0]);
+
+    if (
+      allResumes.filter(
+        (resume) => !(resume.verified.Valid && !resume.verified.Bool)
+      ).length >= 5
+    ) {
+      errorNotification("You can only upload 5 resumes", "Cannot upload");
       setLoading(false);
-      setSuccess(true);
+      return;
     }
+
+    if (!(files && files.length > 0)) {
+      setLoading(false);
+      return;
+    }
+
+    const file = files[0];
+
+    if (file.size > 256000) {
+      errorNotification("File size too large", "Max file size is about 200KB");
+      setLoading(false);
+      return;
+    }
+
+    if (file.name !== resumeName) {
+      errorNotification(
+        "File must follow the name constraint",
+        `Expected File name: ${resumeName}`
+      );
+      setLoading(false);
+      return;
+    }
+
+    setFileSaved(file);
+    setSuccess(true);
+    setLoading(false);
   };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
@@ -175,14 +211,30 @@ function Resume() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (rid === undefined || rid === "") return;
       const data = await resumeRequest.get(token, rid);
       setAllResumes(data);
     };
-    fetchData();
+
+    const fetchStudent = async () => {
+      const data = await enrollmentRequest.getStudentRC(token, rid);
+      if (data.ID) {
+        const progdept = getDeptProgram(data.program_department_id);
+        let filename = `${data.roll_no} ${data.name} ${progdept}`;
+        filename = filename.replace(/[^\w]/gi, "_");
+        filename = filename.toLowerCase();
+        setResumeName(`${filename}.pdf`);
+      }
+    };
+
+    if (router.isReady) {
+      fetchData();
+      fetchStudent();
+    }
+
     setLoading(false);
     setSuccess(false);
-  }, [token, rid]);
+  }, [token, rid, router.isReady]);
+
   const handleButtonClick = () => {
     if (!loading) {
       setSuccess(false);
@@ -270,7 +322,12 @@ function Resume() {
                 <Typography variant="subtitle1">{fileSaved?.name}</Typography>
               </Stack>
             </Box>
-            <Button type="submit" variant="contained" fullWidth>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              disabled={!success}
+            >
               Upload
             </Button>
           </form>
