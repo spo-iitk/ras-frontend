@@ -1,11 +1,4 @@
-import {
-  Button,
-  Card,
-  Checkbox,
-  FormControl,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -107,15 +100,6 @@ function Step3() {
             </FormControl>
           )}
           <FormControl sx={{ m: 1 }}>
-            <Stack direction="row" spacing={3}>
-              <p style={{ fontWeight: 300 }}>Bond</p>
-              <Checkbox
-                checked={useWatch({ control, name: "bond_details" }) !== ""}
-                {...register("bond")}
-              />
-            </Stack>
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Bond Details</p>
             <TextField
               id="Cname"
@@ -128,9 +112,7 @@ function Step3() {
               variant="standard"
               error={!!errors.bond_details}
               helperText={errors.bond_details && "This field is required"}
-              {...register("bond_details", {
-                required: useWatch({ control, name: "bond" }) === true,
-              })}
+              {...register("bond_details")}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
