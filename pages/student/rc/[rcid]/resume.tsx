@@ -156,9 +156,11 @@ function Resume() {
     setFileSaved(null);
     setLoading(false);
   };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
+
     if (
       allResumes.filter(
         (resume) => !(resume.verified.Valid && !resume.verified.Bool)
@@ -168,19 +170,32 @@ function Resume() {
       setLoading(false);
       return;
     }
-    if (files && files.length > 0) {
-      const file = files[0];
-      if (file.name === resumeName) {
-        setFileSaved(file);
-        setSuccess(true);
-      } else {
-        errorNotification(
-          "File must follow the name constraint",
-          `Expected File name: ${resumeName}`
-        );
-      }
+
+    if (!(files && files.length > 0)) {
       setLoading(false);
+      return;
     }
+
+    const file = files[0];
+
+    if (file.size > 256000) {
+      errorNotification("File size too large", "Max file size is about 200KB");
+      setLoading(false);
+      return;
+    }
+
+    if (file.name !== resumeName) {
+      errorNotification(
+        "File must follow the name constraint",
+        `Expected File name: ${resumeName}`
+      );
+      setLoading(false);
+      return;
+    }
+
+    setFileSaved(file);
+    setSuccess(true);
+    setLoading(false);
   };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
