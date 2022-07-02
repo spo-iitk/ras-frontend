@@ -94,7 +94,8 @@ function Index() {
   const updateTable = React.useCallback(async () => {
     if (rid === undefined || rid === "") return;
     const res = await adminResumeRequest.getAll(token, rid);
-    setAllResumes(res);
+    if (res.length > 0) setAllResumes(res);
+    else setAllResumes([]);
   }, [token, rid]);
 
   const columns: GridColDef[] = [
