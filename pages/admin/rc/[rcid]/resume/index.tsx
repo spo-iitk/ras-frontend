@@ -94,7 +94,7 @@ function Index() {
   const updateTable = React.useCallback(async () => {
     if (rid === undefined || rid === "") return;
     const res = await adminResumeRequest.getAll(token, rid);
-    if (res.length > 0) setAllResumes(res);
+    if (res?.length > 0) setAllResumes(res);
     else setAllResumes([]);
   }, [token, rid]);
 

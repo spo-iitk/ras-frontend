@@ -33,7 +33,7 @@ const columns: GridColDef[] = [
     headerAlign: "center",
     renderCell: (params) => (
       <Link href={`/company/rc/${params.row.id}`}>
-        <ActiveButton sx={{ height: 30, width: "60%" }}>View</ActiveButton>
+        <ActiveButton sx={{ height: 30, width: "40%" }}>View</ActiveButton>
       </Link>
     ),
   },

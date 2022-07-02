@@ -1,10 +1,14 @@
+/* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useState } from "react";
-import { IconButton, Modal, Stack } from "@mui/material";
+import { Button, IconButton, Modal, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import AvTimerIcon from "@mui/icons-material/AvTimer";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -107,14 +111,36 @@ function Overview() {
     {
       field: "is_approved",
       headerName: "Status",
-      valueGetter: ({ value }) => {
-        if (value?.Valid) {
-          if (value?.Bool) return "Accepted";
-          return "Rejected";
-        }
-        if (!value?.Valid) return "Pending by SPO";
-        return "Unkown";
-      },
+      renderCell: (params) =>
+        params.row.is_approved.Valid ? (
+          params.row.is_approved.Bool ? (
+            <Button
+              variant="outlined"
+              sx={{ borderRadius: "10px", width: "80%", color: "green" }}
+              color="success"
+              startIcon={<CheckIcon sx={{ color: "green" }} />}
+            >
+              Accepted
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              sx={{ borderRadius: "10px", width: "80%", color: "red" }}
+              color="error"
+              startIcon={<CloseIcon sx={{ color: "red" }} />}
+            >
+              Rejected
+            </Button>
+          )
+        ) : (
+          <Button
+            variant="outlined"
+            sx={{ borderRadius: "10px", width: "80%" }}
+            startIcon={<AvTimerIcon />}
+          >
+            Pending by SPO
+          </Button>
+        ),
     },
     {
       field: "proforma",
