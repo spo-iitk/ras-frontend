@@ -86,7 +86,8 @@ function Index() {
     const fetchData = async () => {
       if (rid === undefined || rid === "") return;
       const res = await adminResumeRequest.getAll(token, rid);
-      setAllResumes(res);
+      if (res !== null && res?.length > 0) setAllResumes(res);
+      else setAllResumes([]);
     };
     fetchData();
   }, [token, rid]);
@@ -94,7 +95,7 @@ function Index() {
   const updateTable = React.useCallback(async () => {
     if (rid === undefined || rid === "") return;
     const res = await adminResumeRequest.getAll(token, rid);
-    if (res?.length > 0) setAllResumes(res);
+    if (res !== null && res?.length > 0) setAllResumes(res);
     else setAllResumes([]);
   }, [token, rid]);
 
