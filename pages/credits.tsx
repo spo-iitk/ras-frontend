@@ -204,21 +204,20 @@ function Credits() {
                 </Grid>
                 <Zoom in style={{ transitionDelay: "1300ms" }}>
                   <div>
-                    <Typography variant="caption" sx={{ fontSize: 14 }}>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Explicabo vitae aut laboriosam in corporis repellendus
-                      cumque qui quos modi minus, cum provident magni nostrum,
-                      quas sed? Perferendis odio quae ipsam. Lorem ipsum dolor
-                      sit amet consectetur adipisicing elit. Explicabo vitae aut
-                      laboriosam in corporis repellendus cumque qui quos modi
-                      minus, cum provident magni nostrum, quas sed? Perferendis
-                      odio quae ipsam. Lorem ipsum dolor sit amet consectetur
-                      adipisicing elit. Explicabo vitae aut laboriosam in
-                      corporis repellendus cumque qui quos modi minus, cum
-                      provident magni nostrum, quas sed? Perferendis odio quae
-                      ipsam. Lorem ipsum dolor sit amet consectetur adipisicing
-                      elit. Explicabo vitae aut laboriosam in corporis
-                      repellendus cumque qui quos modi minus, cum ipsam.
+                    <Typography
+                      align="justify"
+                      sx={{ fontSize: 14.5, padding: "10px" }}
+                    >
+                      The Recruitment Automation System is built by this team of
+                      undergrads for use in Placement and Internship drives at
+                      IIT Kanpur. The portal aims to facilitate the recruitment
+                      process by providing essential automation recourses. It
+                      provides information exchange between Students, Companies,
+                      and Placement Office. <br />
+                      The students above undertook the development of the
+                      Recruitment Automation System. The team developed the
+                      portal on a microservice-based architecture using Next.js
+                      and Go.
                     </Typography>
                   </div>
                 </Zoom>
