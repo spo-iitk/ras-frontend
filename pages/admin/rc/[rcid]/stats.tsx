@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import { useRouter } from "next/router";
 
-import BranchStatsAdmin from "sections/BranchStatsAdmin";
-import StudentStatsAdmin from "sections/StudentStatsAdmin";
+import BranchStats from "sections/BranchStats";
+import StudentStats from "sections/StudentStats";
+import statRequest, { Stats } from "@callbacks/admin/rc/stats";
+import useStore from "@store/store";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -28,11 +31,32 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 function Stats() {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = rcid as string;
+  const { token } = useStore();
+
   const [value, setValue] = useState(0);
+  const [statsData, setStatsData] = useState<Stats>({
+    student: [],
+    branch: [],
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      const res = await statRequest.getAll(token, rid);
+      setStatsData(res);
+      setIsLoading(false);
+    };
+    if (router.isReady) getData();
+  }, [router.isReady, rid, token]);
+
   return (
     <div className="container">
       <h2>Stats</h2>
@@ -48,10 +72,10 @@ function Stats() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <StudentStatsAdmin />
+          <StudentStats data={statsData.student} isLoading={isLoading} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <BranchStatsAdmin />
+          <BranchStats data={statsData.branch} isLoading={isLoading} />
         </TabPanel>
       </Box>
     </div>

@@ -16,6 +16,30 @@ export interface StatType {
   type: string;
 }
 
+export interface StudentStats {
+  id: number;
+  name: string;
+  email: string;
+  roll_no: string;
+  program_department_id: number;
+  secondary_program_department_id: number;
+  company_name: string;
+  role: string;
+  type: string;
+}
+
+export interface BranchStats {
+  program_department_id: number;
+  total: number;
+  pre_offer: number;
+  recruited: number;
+}
+
+export interface Stats {
+  student: StudentStats[];
+  branch: BranchStats[];
+}
+
 const instance = axios.create({
   baseURL: ADMIN_APPLICATION_URL,
   timeout: 15000,
@@ -27,11 +51,11 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const statRequest = {
   getAll: (token: string, rcid: string) =>
     instance
-      .get<StatType[]>(`rc/${rcid}/student/stats`, setConfig(token))
+      .get<Stats>(`rc/${rcid}/stats`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
-        return [] as StatType[];
+        return { student: [], branch: [] } as Stats;
       }),
 };
 

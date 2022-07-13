@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
+import { StudentStats as StatsType } from "@callbacks/admin/rc/stats";
 import DataGrid from "@components/DataGrid";
-import statRequest from "@callbacks/admin/rc/stats";
-import useStore from "@store/store";
 import { getDeptProgram } from "@components/Parser/parser";
 
 const columns: GridColDef[] = [
@@ -40,7 +38,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "Program Department",
-    headerName: "Program",
+    headerName: "Branch",
     width: 150,
     sortable: false,
     valueGetter: (params) => getDeptProgram(params.row.program_department_id),
@@ -54,35 +52,22 @@ const columns: GridColDef[] = [
   },
 ];
 
-function StudentStatsAdmin() {
-  const [rows, setRows] = useState<any>([]);
-  const [loading, setLoading] = useState(true);
-  const { rcid } = useRouter().query;
-  const { token } = useStore();
+function StudentStats(params: { data: StatsType[]; isLoading: boolean }) {
+  const { data, isLoading } = params;
 
-  useEffect(() => {
-    const fetch = async () => {
-      if (rcid) {
-        const response = await statRequest.getAll(token, rcid.toString());
-        if (response) setRows(response);
-        setLoading(false);
-      }
-    };
-    fetch();
-  }, [token, rcid]);
   return (
     <div>
       <Meta title=" Stats Studentwise" />
       <h2>Stats &gt; Student-Wise</h2>
       <DataGrid
-        rows={rows}
+        rows={data}
         columns={columns}
         getRowId={(row) => row.id}
-        loading={loading}
+        loading={isLoading}
       />
     </div>
   );
 }
 
-StudentStatsAdmin.layout = "adminPhaseDashBoard";
-export default StudentStatsAdmin;
+StudentStats.layout = "adminPhaseDashBoard";
+export default StudentStats;
