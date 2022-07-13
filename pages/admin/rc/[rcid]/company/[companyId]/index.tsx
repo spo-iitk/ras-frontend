@@ -185,7 +185,7 @@ function Index() {
               variant="contained"
               onClick={handleOpenNew}
             >
-              ADD PPO/PIIO
+              ADD PPO/PIO
             </Button>
             <Modal open={openNew} onClose={handleCloseNew}>
               <AddPPO

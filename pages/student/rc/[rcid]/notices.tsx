@@ -8,38 +8,44 @@ import Meta from "@components/Meta";
 import { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
 import NoticeSReq from "@callbacks/student/rc/noticeS";
-import ViewNotice from "@components/Modals/ViewStudentNotice";
+import ViewNotice from "@components/Modals/ViewNotice";
 
 const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "Id",
-  },
-  {
-    field: "title",
-    headerName: "Title",
-  },
-  {
-    field: "description",
-    headerName: "Description",
+    hide: true,
   },
   {
     field: "CreatedAt",
     valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
     headerName: "Published Date And Time",
   },
+  {
+    field: "title",
+    headerName: "Title",
+  },
+  {
+    field: "tags",
+    headerName: "Tags",
+  },
+  {
+    field: "description",
+    headerName: "Description",
+  },
 ];
+
 function Notices() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const [openNew, setOpenNew] = useState(false);
-  const handleOpenNew = () => {
-    setOpenNew(true);
+  const [openView, setOpenView] = useState(false);
+  const handleOpenView = () => {
+    setOpenView(true);
   };
-  const handleCloseNew = () => {
-    setOpenNew(false);
+  const handleCloseView = () => {
+    setOpenView(false);
   };
   const [notices, setNotice] = useState<NoticeParams[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -85,11 +91,11 @@ function Notices() {
           loading={loading}
           onCellClick={(params) => {
             setCurrentNotice(params.row);
-            handleOpenNew();
+            handleOpenView();
           }}
         />
       </Stack>
-      <Modal open={openNew} onClose={handleCloseNew}>
+      <Modal open={openView} onClose={handleCloseView}>
         <ViewNotice currentNotice={currentNotice} />
       </Modal>
     </div>
