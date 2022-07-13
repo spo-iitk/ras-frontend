@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
+import ViewNotice from "@components/Modals/ViewNotice";
 import DataGrid from "@components/DataGrid";
 import NewNotice from "@components/Modals/newNotice";
 import Meta from "@components/Meta";
@@ -66,27 +67,23 @@ const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "Id",
-    width: 100,
   },
   {
     field: "title",
     headerName: "Title",
-    width: 300,
   },
   {
     field: "description",
     headerName: "Description",
-    width: 300,
   },
   {
     field: "CreatedAt",
     headerName: "Published Date And Time",
-    valueGetter: ({ value }) =>
-      value &&
-      `${new Date(value).toLocaleDateString()} ${new Date(
-        value
-      ).toLocaleTimeString()}`,
-    width: 200,
+    valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
+  },
+  {
+    field: "tags",
+    headerName: "Tags",
   },
   {
     field: "button1",
@@ -104,6 +101,26 @@ function Index() {
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const [notices, setNotice] = useState<NoticeParams[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentNotice, setCurrentNotice] = useState<NoticeParams>({
+    ID: 0,
+    recruitment_cycle_id: 0,
+    title: "",
+    description: "",
+    tags: "",
+    attachment: "",
+    created_by: "",
+    CreatedAt: "",
+    last_reminder_at: 0,
+  });
+
+  const [openView, setOpenView] = useState(false);
+  const handleOpenView = () => {
+    setOpenView(true);
+  };
+  const handleCloseView = () => {
+    setOpenView(false);
+  };
 
   const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
@@ -112,7 +129,6 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
@@ -148,10 +164,17 @@ function Index() {
           getRowId={(row) => row.ID}
           columns={columns}
           loading={loading}
+          onCellClick={(params) => {
+            setCurrentNotice(params.row);
+            handleOpenView();
+          }}
         />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
         <NewNotice handleCloseNew={handleCloseNew} setNotice={setNotice} />
+      </Modal>
+      <Modal open={openView} onClose={handleCloseView}>
+        <ViewNotice currentNotice={currentNotice} />
       </Modal>
     </div>
   );
