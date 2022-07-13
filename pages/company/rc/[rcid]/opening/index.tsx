@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
@@ -21,10 +22,11 @@ const columns: GridColDef[] = [
   {
     field: "deadline",
     headerName: "Application Deadline",
-
     renderCell(params) {
       return `${
-        params.row.deadline === 0
+        params.row.hide_details
+          ? "--/ -- / ---- ,  -- : -- : --"
+          : params.row.deadline === 0
           ? "Date not Set"
           : new Date(params.value).toLocaleString()
       }`;

@@ -78,7 +78,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
   }
   const Layouter = layouts[layoutType];
   const Id = Ids[layoutType];
-  const { token, setName } = useStore();
+  const { role, token, setName } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
 
@@ -97,10 +97,10 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       setName(response.name);
     };
     if (token !== "") {
-      getCompany();
-      getStudent();
+      if (role === 2) getCompany();
+      if (role === 1) getStudent();
     }
-  }, [token, setCompanyName, setName, setStudentName]);
+  }, [role, token, setCompanyName, setName, setStudentName]);
 
   const dashbboard_items: fields[] = [
     {
