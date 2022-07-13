@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 import BranchStats from "sections/BranchStats";
 import StudentStats from "sections/StudentStats";
-import statRequest, { Stats } from "@callbacks/admin/rc/stats";
+import statRequest, { Stats as StatsType } from "@callbacks/admin/rc/stats";
 import useStore from "@store/store";
 
 interface TabPanelProps {
@@ -30,6 +30,7 @@ function TabPanel(props: TabPanelProps) {
     </div>
   );
 }
+
 function Stats() {
   const router = useRouter();
   const { rcid } = router.query;
@@ -37,7 +38,7 @@ function Stats() {
   const { token } = useStore();
 
   const [value, setValue] = useState(0);
-  const [statsData, setStatsData] = useState<Stats>({
+  const [statsData, setStatsData] = useState<StatsType>({
     student: [],
     branch: [],
   });
