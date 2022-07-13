@@ -8,7 +8,6 @@ import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import rcRequest, { RC } from "@callbacks/company/rc/rc";
 import useStore from "@store/store";
-import companyRequest from "@callbacks/company/company";
 
 const columns: GridColDef[] = [
   {
@@ -39,7 +38,7 @@ const columns: GridColDef[] = [
   },
 ];
 function Overview(): JSX.Element {
-  const { token, setRCName, setName } = useStore();
+  const { token, setRCName } = useStore();
   const [rows, setRows] = useState<RC[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -50,15 +49,15 @@ function Overview(): JSX.Element {
       if (response?.length > 0) setRows(response);
       setLoading(false);
     };
-    const getCompany = async () => {
-      const response = await companyRequest.get(token);
-      setName(response.name);
-      Object.assign(Overview, { companyName: response.name });
-    };
+    // const getCompany = async () => {
+    //   const response = await companyRequest.get(token);
+    //   setName(response.name);
+    //   Object.assign(Overview, { companyName: response.name });
+    // };
 
     if (token !== "") {
       getRC();
-      getCompany();
+      // getCompany();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);

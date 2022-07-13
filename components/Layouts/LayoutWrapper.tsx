@@ -9,11 +9,15 @@ import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import StarsIcon from "@mui/icons-material/Stars";
+
+import useStore from "@store/store";
+import companyRequest from "@callbacks/company/company";
+import studentRequest from "@callbacks/student/student";
 
 import Blank from "./Blank";
 import Layout from "./Layout";
@@ -74,17 +78,38 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
   }
   const Layouter = layouts[layoutType];
   const Id = Ids[layoutType];
-
+  const { token, setName } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
+
+  const [companyName, setCompanyName] = useState("Company");
+  const [studentName, setStudentName] = useState("Student");
+
+  useEffect(() => {
+    const getCompany = async () => {
+      const response = await companyRequest.get(token);
+      setCompanyName(response.name);
+      setName(response.name);
+    };
+    const getStudent = async () => {
+      const response = await studentRequest.get(token);
+      setStudentName(response.name);
+      setName(response.name);
+    };
+    if (token !== "") {
+      getCompany();
+      getStudent();
+    }
+  }, [token, setCompanyName, setName, setStudentName]);
+
   const dashbboard_items: fields[] = [
     {
       route: `/student`,
       isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
-        name: "User",
-        id: "student",
+        name: studentName,
+        id: "Student",
       },
       moveBack: false,
       moveTo: "",
@@ -128,8 +153,8 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
-        name: "Student",
-        id: "student",
+        name: studentName,
+        id: "Student",
       },
       moveBack: true,
       moveTo: "/student/rc",
@@ -188,8 +213,8 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
-        name: children.type?.companyName || "Company",
-        id: "company",
+        name: companyName,
+        id: "Company",
       },
       moveBack: false,
       moveTo: "",
@@ -223,8 +248,8 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
-        name: "Company",
-        id: "company",
+        name: companyName,
+        id: "Company",
       },
       moveBack: true,
       moveTo: "/company",
