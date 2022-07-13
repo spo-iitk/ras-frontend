@@ -1,87 +1,85 @@
 import React, { useEffect, useState } from "react";
-import { GridColDef } from "@mui/x-data-grid";
-import { Stack } from "@mui/material";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
 
-import DataGrid from "@components/DataGrid";
-import Meta from "@components/Meta";
-import statRequest from "@callbacks/student/rc/stat";
+import statRequest from "@callbacks/student/rc/stats";
+import BranchStats from "sections/BranchStats";
+import StudentStats from "sections/StudentStats";
+import { Stats as StatsType } from "@callbacks/admin/rc/stats";
 import useStore from "@store/store";
-import { getDeptProgram } from "@components/Parser/parser";
 
-const columns: GridColDef[] = [
-  {
-    field: "id",
-    headerName: "Id",
-    width: 90,
-  },
-  {
-    field: "name",
-    headerName: "Name",
-    width: 200,
-  },
-  {
-    field: "roll_no",
-    headerName: "Roll No.",
-    width: 200,
-  },
-  {
-    field: "company_name",
-    headerName: "Company Name",
-    width: 200,
-  },
-  {
-    field: "role",
-    headerName: "Role",
-    width: 150,
-  },
-  {
-    field: "type",
-    headerName: "Type",
-  },
-  {
-    field: "Program Department",
-    headerName: "Program Department",
-    width: 150,
-    sortable: false,
-    valueGetter: (params) => getDeptProgram(params.row.program_department_id),
-  },
-  {
-    field: "Secondary Program Department",
-    headerName: "Secondary Program Department",
-    width: 150,
-    valueGetter: (params) =>
-      getDeptProgram(params.row.secondary_program_department_id),
-  },
-];
+interface TabPanelProps {
+  // eslint-disable-next-line react/require-default-props
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+    >
+      {value === index && <Box>{children}</Box>}
+    </div>
+  );
+}
+
 function Stats() {
-  const [rows, setRows] = useState<any>([]);
-  const [loading, setLoading] = useState(true);
-  const { rcid } = useRouter().query;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = rcid as string;
   const { token } = useStore();
 
+  const [value, setValue] = useState(0);
+  const [statsData, setStatsData] = useState<StatsType>({
+    student: [],
+    branch: [],
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
   useEffect(() => {
-    const fetch = async () => {
-      if (rcid) {
-        const response = await statRequest.getAll(token, rcid.toString());
-        if (response) setRows(response);
-        setLoading(false);
-      }
+    const getData = async () => {
+      setIsLoading(true);
+      const res = await statRequest.getAll(token, rid);
+      setStatsData(res);
+      setIsLoading(false);
     };
-    fetch();
-  }, [token, rcid]);
+    if (router.isReady) getData();
+  }, [router.isReady, rid, token]);
+
   return (
     <div className="container">
-      <Meta title="Stats" />
-      <Stack>
-        <h1>Stats</h1>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={loading}
-          getRowId={(row) => row.id}
-        />
-      </Stack>
+      <h2>Stats</h2>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Studentwise" />
+            <Tab label="Branchwise" />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <StudentStats data={statsData.student} isLoading={isLoading} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <BranchStats data={statsData.branch} isLoading={isLoading} />
+        </TabPanel>
+      </Box>
     </div>
   );
 }
