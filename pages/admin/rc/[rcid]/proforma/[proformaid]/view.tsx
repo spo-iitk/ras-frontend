@@ -56,7 +56,7 @@ function View() {
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
       <Meta title="Software Intern - Proforma" />
-      <h1>Proforma</h1>
+      <h2>Proforma</h2>
       <Card
         elevation={5}
         sx={{

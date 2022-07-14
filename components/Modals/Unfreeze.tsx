@@ -55,7 +55,7 @@ function Unfreeze({
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Unfreeze (Group)</h1>
+        <h2>Unfreeze (Group)</h2>
         <TextField
           multiline
           error={errors.email !== undefined}

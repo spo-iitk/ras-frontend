@@ -67,7 +67,7 @@ function Step3() {
   return (
     <div className="container">
       <Meta title="Step 3/5 - Package Details" />
-      <h1>Internship 2022-23 Phase 1</h1>
+      <h2>Internship 2022-23 Phase 1</h2>
       <Card
         elevation={5}
         sx={{
@@ -76,7 +76,7 @@ function Step3() {
         }}
       >
         <Stack spacing={3}>
-          <h1>Step 3/5 : Package Details</h1>
+          <h2>Step 3/5 : Package Details</h2>
           {fetchData.ID !== 0 && (
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>Cost to Company</p>

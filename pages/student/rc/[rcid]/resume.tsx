@@ -257,7 +257,7 @@ function Resume() {
         <Meta title="Manage Resume " />
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>
-            <h1>Manage Resume</h1>
+            <h2>Manage Resume</h2>
           </Grid>
           <Grid item xs={6} style={gridMain}>
             <div>
@@ -277,9 +277,9 @@ function Resume() {
       </div>
       <Modal open={open} onClose={handleClose}>
         <Box sx={boxStyle}>
-          <h1 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
+          <h2 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
             Upload Resume
-          </h1>
+          </h2>
           <form onSubmit={handleSubmit}>
             <Box
               sx={{

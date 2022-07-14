@@ -107,7 +107,7 @@ function Applications() {
     <div className="container">
       <Meta title="Applications - Company" />
       <Stack>
-        <h1>Applications</h1>
+        <h2>Applications</h2>
         <h2>Intern Season</h2>
         <DataGrid
           rows={proformas}

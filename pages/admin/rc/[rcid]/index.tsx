@@ -133,8 +133,6 @@ function Index() {
     <div className="container">
       <Meta title={`Admin Dashboard - ${rcName}`} />
       <Stack>
-        {/* <h1>{rcName}</h1> */}
-
         <Stack
           spacing={3}
           justifyContent="space-between"

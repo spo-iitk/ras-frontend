@@ -105,7 +105,7 @@ function EditStudent({
   return (
     <Box sx={boxStyle} className="modalScroll">
       <Stack spacing={3}>
-        <h1>Edit Students</h1>
+        <h2>Edit Students</h2>
         <FormControl sx={{ m: 1 }}>
           <InputLabel id="edit-student">Select ID</InputLabel>
           <Select

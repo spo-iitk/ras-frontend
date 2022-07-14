@@ -28,7 +28,7 @@ function EditRCApplicationCap({ handleClose }: { handleClose: () => void }) {
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Edit RC Application Cap</h1>
+        <h2>Edit RC Application Cap</h2>
         <TextField
           type="number"
           label="Application Cap"

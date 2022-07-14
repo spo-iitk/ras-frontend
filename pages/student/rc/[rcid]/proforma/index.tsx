@@ -64,7 +64,7 @@ function Proforma() {
     <div className="container">
       <Meta title="Proforma" />
       <Stack>
-        <h1>Internship 2022-23 Phase 1</h1>
+        <h2>Internship 2022-23 Phase 1</h2>
         <h2>Proforma</h2>
         <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />
       </Stack>

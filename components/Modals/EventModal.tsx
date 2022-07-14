@@ -27,7 +27,7 @@ function EventModal() {
 
   return (
     <Box sx={boxStyle}>
-      <h1 style={{ textAlign: "center" }}>View Event Details</h1>
+      <h2 style={{ textAlign: "center" }}>View Event Details</h2>
       <Grid
         container
         spacing={3}

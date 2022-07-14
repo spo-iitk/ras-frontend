@@ -18,6 +18,9 @@ import StarsIcon from "@mui/icons-material/Stars";
 import useStore from "@store/store";
 import companyRequest from "@callbacks/company/company";
 import studentRequest from "@callbacks/student/student";
+import rcRequestStudent from "@callbacks/student/rc/rc";
+import rcRequestCompany from "@callbacks/company/rc/rc";
+import rcRequestAdmin from "@callbacks/admin/rc/rc";
 
 import Blank from "./Blank";
 import Layout from "./Layout";
@@ -33,6 +36,7 @@ export interface fields {
   };
   moveBack: boolean;
   moveTo: string;
+  rcName: string;
   userData: userItems[];
   extra: userItems[];
 }
@@ -84,6 +88,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
 
   const [companyName, setCompanyName] = useState("Company");
   const [studentName, setStudentName] = useState("Student");
+  const [rcName, setRcName] = useState("");
 
   useEffect(() => {
     const getCompany = async () => {
@@ -96,11 +101,43 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       setStudentName(response.name);
       setName(response.name);
     };
+
+    const getRc = async () => {
+      if (rcid && rcid !== undefined) {
+        if (role === 1) {
+          const response = await rcRequestStudent.getAll(token);
+          const rc = response.filter(
+            (item: any) => item.ID === parseInt(rcid.toString(), 10)
+          )[0];
+          const name = `${rc.type}-${rc.phase} ${rc.academic_year}`;
+          setRcName(name);
+        } else if (role === 2) {
+          const response = await rcRequestCompany.getAll(token);
+          const rc = response.filter(
+            (item: any) => item.ID === parseInt(rcid.toString(), 10)
+          )[0];
+          const name = `${rc.type}-${rc.phase} ${rc.academic_year}`;
+          setRcName(name);
+        } else if (role === 100 || role === 101 || role === 102) {
+          const response = await rcRequestAdmin.getAll(token);
+          const rc = response.filter(
+            (item: any) => item.ID === parseInt(rcid.toString(), 10)
+          )[0];
+          const name = `${rc.type}-${rc.phase} ${rc.academic_year}`;
+          setRcName(name);
+        }
+      }
+    };
+
     if (token !== "") {
       if (role === 2) getCompany();
       if (role === 1) getStudent();
+
+      if (rcid && rcid !== "") {
+        getRc();
+      } else setRcName("Dashboard");
     }
-  }, [role, token, setCompanyName, setName, setStudentName]);
+  }, [role, token, setCompanyName, setName, setStudentName, rcid]);
 
   const dashbboard_items: fields[] = [
     {
@@ -113,6 +150,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       },
       moveBack: false,
       moveTo: "",
+      rcName,
       userData: [
         {
           avatar: <PieChartIcon />,
@@ -158,6 +196,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       },
       moveBack: true,
       moveTo: "/student/rc",
+      rcName,
       userData: [
         {
           avatar: <PieChartIcon />,
@@ -218,6 +257,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       },
       moveBack: false,
       moveTo: "",
+      rcName,
       userData: [
         {
           avatar: <PieChartIcon />,
@@ -253,6 +293,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       },
       moveBack: true,
       moveTo: "/company",
+      rcName,
       userData: [
         {
           avatar: <PieChartIcon />,
@@ -288,6 +329,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       },
       moveBack: false,
       moveTo: "",
+      rcName,
       userData: [
         {
           avatar: <PieChartIcon />,
@@ -323,6 +365,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       },
       moveBack: true,
       moveTo: "/admin/rc",
+      rcName,
       userData: [
         {
           avatar: <PieChartIcon />,

@@ -24,7 +24,7 @@ function Custom401() {
         alignItems="center"
         sx={{ padding: "10px 30px", marginTop: 4 }}
       >
-        <h1> Unauthorized!</h1>
+        <h2> Unauthorized!</h2>
         <Typography variant="h5" sx={{ color: "#757575" }}>
           Sorry, you're not authorized to view the page. Perhaps you&apos;ve
           mistyped the URL? Be sure to check your spelling. or you may not have

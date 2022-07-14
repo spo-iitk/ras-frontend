@@ -58,7 +58,7 @@ function SignUp() {
           sx={{ minHeight: "70vh" }}
         >
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <h1>Welcome!</h1>
+            <h2>Welcome!</h2>
             <h2>Sign up to</h2>
             <Typography variant="subtitle1" color="text.secondary">
               Recruitment Portal IIT Kanpur

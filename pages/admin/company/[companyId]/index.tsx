@@ -104,7 +104,7 @@ function Index() {
           alignItems="center"
           justifyContent="space-between"
         >
-          <h1>Company Profile</h1>
+          <h2>Company Profile</h2>
           <Stack spacing={1} direction="row">
             <IconButton onClick={handleOpenEditComp}>
               <EditIcon />

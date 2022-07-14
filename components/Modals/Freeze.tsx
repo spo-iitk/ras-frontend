@@ -52,7 +52,7 @@ function Freeze({
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Freeze (Group)</h1>
+        <h2>Freeze (Group)</h2>
         <TextField
           multiline
           error={errors.email !== undefined}

@@ -104,7 +104,7 @@ function AuthHR(props: { id: string; name: string }) {
       <Modal open={openAuthHR} onClose={handleCloseAuthHR}>
         <Box sx={boxStyle}>
           <Stack spacing={3}>
-            <h1>Enter New Password</h1>
+            <h2>Enter New Password</h2>
             <TextField
               label="Enter New Password"
               id="password"
@@ -204,7 +204,7 @@ function HRContactDetails() {
           alignItems="center"
           justifyContent="space-between"
         >
-          <h1>HR Contact Details</h1>
+          <h2>HR Contact Details</h2>
           <div>
             <IconButton onClick={handleOpenNew}>
               <AddIcon />

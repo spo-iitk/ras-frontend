@@ -82,7 +82,7 @@ function Index() {
             alignItems="center"
           >
             <div>
-              <h1>Master Database (Company)</h1>
+              <h2>Master Database (Company)</h2>
             </div>
             <div>
               <Stack direction="row" spacing={3}>

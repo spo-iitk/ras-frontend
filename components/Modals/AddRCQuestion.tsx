@@ -60,7 +60,7 @@ function AddRCQuestion({ getQuestions, handleCloseNew }: any) {
     <Box sx={boxStyle}>
       <Stack spacing={3}>
         <FormControl onSubmit={handleSubmit(onSubmit)}>
-          <h1 style={{ margin: "20px 0px 50px 0px" }}>Additional Questions</h1>
+          <h2 style={{ margin: "20px 0px 50px 0px" }}>Additional Questions</h2>
           <FormControl sx={{ m: 1 }}>
             <InputLabel id="Type-of-Ques">Type of Question</InputLabel>
             <Select

@@ -70,7 +70,7 @@ function Enroll({
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Enroll (Group)</h1>
+        <h2>Enroll (Group)</h2>
         <TextField
           multiline
           error={errors.email !== undefined}

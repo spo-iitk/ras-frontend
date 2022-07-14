@@ -46,7 +46,7 @@ function AddCompanyMD({ handleCloseNew }: { handleCloseNew: () => void }) {
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Add Company</h1>
+        <h2>Add Company</h2>
         <TextField
           label="Company Name"
           id="companyName"

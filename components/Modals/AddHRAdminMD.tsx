@@ -61,7 +61,7 @@ function AddHRMD({
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Add HR</h1>
+        <h2>Add HR</h2>
         <TextField
           label="HR Name"
           id="HRName"

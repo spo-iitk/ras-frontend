@@ -47,7 +47,7 @@ function ResumeClarification({
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Ask Clarification</h1>
+        <h2>Ask Clarification</h2>
         <TextField
           label="Message"
           id="message"

@@ -49,7 +49,7 @@ function CompanyHistory() {
   return (
     <div>
       <Stack>
-        <h1>Company History</h1>
+        <h2>Company History</h2>
         <DataGrid rows={companyHistoryRows} columns={CompanyHistoryColumns} />
       </Stack>
     </div>

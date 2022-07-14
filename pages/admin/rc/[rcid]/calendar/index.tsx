@@ -127,7 +127,7 @@ function Calendar() {
     <div className="container">
       <Stack justifyContent="space-between" direction="row" alignItems="center">
         <div>
-          <h1>Calender</h1>
+          <h2>Calender</h2>
         </div>
         <div>
           <IconButton>

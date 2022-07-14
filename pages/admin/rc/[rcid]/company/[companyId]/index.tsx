@@ -162,7 +162,7 @@ function Index() {
   return (
     <div className="container">
       <Meta title="Company Dashboard" />
-      <h1>{row.company_name}</h1>
+      <h2>{row.company_name}</h2>
 
       <Stack spacing={5} justifyContent="center" alignItems="center">
         <Stack

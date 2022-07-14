@@ -117,7 +117,6 @@ function RecruitmentCycle() {
     <div className="container">
       <Meta title="Add Questions - Recruitment Cycle" />
       <Stack>
-        {/* <h1>{rcName}</h1> */}
         <Stack
           spacing={3}
           justifyContent="space-between"

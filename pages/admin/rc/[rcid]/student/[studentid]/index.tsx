@@ -124,7 +124,7 @@ function Index() {
               alignItems={{ sm: "center", xs: "flex-start" }}
               justifyContent={{ sm: "space-between", xs: "center" }}
             >
-              <h1 style={{ width: "100%" }}>Student Details</h1>
+              <h2 style={{ width: "100%" }}>Student Details</h2>
               <Link href={`/admin/student/${studentid}`}>
                 <Button size="small" variant="contained" sx={{ width: "100%" }}>
                   View Profile
@@ -254,7 +254,7 @@ function Index() {
             },
           }}
         >
-          <h1 style={{ marginBottom: 50 }}>Enrollment Section Verification</h1>
+          <h2 style={{ marginBottom: 50 }}>Enrollment Section Verification</h2>
 
           {questionAnswer && questionAnswer.length > 0 && (
             <div>
@@ -315,7 +315,7 @@ function Index() {
         </Card>
       </Stack>
       <div style={{ marginTop: 50 }}>
-        <h1>Application Status - Name of Recruitment Drive</h1>
+        <h2>Application Status - Name of Recruitment Drive</h2>
         <DataGrid rows={rows} columns={cols} />
       </div>
     </div>

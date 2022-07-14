@@ -145,7 +145,6 @@ function Index() {
     <div className="container">
       <Meta title="Notices" />
       <Stack>
-        {/* <h1>{rcName}</h1> */}
         <Stack
           direction="row"
           alignItems="center"

@@ -250,7 +250,7 @@ function Profile() {
           justifyContent="space-between"
           spacing={2}
         >
-          <h1>Profile</h1>
+          <h2>Profile</h2>
           <Stack
             direction="row"
             alignItems="center"

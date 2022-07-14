@@ -68,7 +68,7 @@ function Step5() {
   return (
     <div className="container">
       <Meta title="Step 5/5 - Additional Information" />
-      <h1>Internship 2022-23 Phase 1</h1>
+      <h2>Internship 2022-23 Phase 1</h2>
       <Card
         elevation={5}
         sx={{
@@ -77,7 +77,7 @@ function Step5() {
         }}
       >
         <Stack spacing={3}>
-          <h1>Step 5/5 : Additional Information</h1>
+          <h2>Step 5/5 : Additional Information</h2>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Additional Eligibility Criteria</p>
             <TextField

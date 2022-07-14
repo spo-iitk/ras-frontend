@@ -207,7 +207,7 @@ function Overview() {
     <div className="container">
       <Meta title="Overview - Company" />
       <Stack>
-        <h1 suppressHydrationWarning>{rcName}</h1>
+        <h2 suppressHydrationWarning>{rcName}</h2>
         <h2>Overview</h2>
 
         <DataGrid

@@ -81,7 +81,7 @@ function ProformaNew() {
   return (
     <div className="container">
       <Meta title="Step 1/5 - Basic Details" />
-      <h1>Internship 2022-23 Phase 1</h1>
+      <h2>Internship 2022-23 Phase 1</h2>
       <Card
         elevation={5}
         sx={{
@@ -90,7 +90,7 @@ function ProformaNew() {
         }}
       >
         <Stack spacing={3}>
-          <h1>Step 1/5 : Basic Details</h1>
+          <h2>Step 1/5 : Basic Details</h2>
           <FormControl sx={{ m: 1 }}>
             <Autocomplete
               disablePortal

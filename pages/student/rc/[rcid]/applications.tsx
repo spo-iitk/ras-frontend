@@ -106,7 +106,7 @@ function Applications() {
         alignItems={{ xs: "flex-start", md: "center" }}
       >
         <Grid item xs={12} md={6}>
-          <h1>Your Applications</h1>
+          <h2>Your Applications</h2>
         </Grid>
         <Grid item xs={12} md={6} sx={sideTextStyle}>
           <h2>

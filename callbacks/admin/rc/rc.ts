@@ -37,7 +37,7 @@ export interface rcEdit {
   inactive?: boolean;
   application_count_cap?: number;
 }
-const rcRequest = {
+export const rcRequest = {
   getAll: (token: string) =>
     instance
       .get<RC[]>("", setConfig(token))

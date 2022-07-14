@@ -82,7 +82,7 @@ function AddCompany({
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Edit Company</h1>
+        <h2>Edit Company</h2>
         <Autocomplete
           disablePortal
           id="selectCompany"

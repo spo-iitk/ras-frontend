@@ -455,7 +455,7 @@ function Index() {
                 <Modal open={openEmailSender} onClose={handleCloseEmailSender}>
                   <Box sx={boxStyle}>
                     <Stack spacing={3}>
-                      <h1>Enter Email to be Sent</h1>
+                      <h2>Enter Email to be Sent</h2>
                       <Select
                         labelId="Event-ID"
                         label="Select Group"

@@ -96,7 +96,6 @@ function Index() {
     <div className="container">
       <Meta title="Student Dashboard - Index" />
       <Stack>
-        <h1>Dashboard</h1>
         <Stack
           spacing={3}
           justifyContent="space-between"

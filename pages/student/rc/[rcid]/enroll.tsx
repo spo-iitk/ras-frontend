@@ -161,7 +161,7 @@ function Enrollment() {
         <Box sx={boxStyle}>
           <Stack spacing={4}>
             <Stack spacing={2} alignItems="flex-start">
-              <h1>Enrollment Questions</h1>
+              <h2>Enrollment Questions</h2>
               {questions &&
                 questions.length > 0 &&
                 questions.map((question, index) => (

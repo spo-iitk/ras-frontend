@@ -402,7 +402,12 @@ function MasterLayout({
                 {list("left")}
               </Drawer>
             </div>
-            <div style={{ marginTop: 50 }}>{children}</div>
+            <div style={{ marginTop: 50 }} className="container">
+              <Stack direction="column">
+                <div>{items ? <h1>{items?.rcName}</h1> : "Dashboard"}</div>
+                <div>{children}</div>
+              </Stack>
+            </div>
           </Stack>
         </Grid>
       </Grid>

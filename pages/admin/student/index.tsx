@@ -213,7 +213,7 @@ function Index() {
   return (
     <div className="container">
       <Meta title="Master Student Database - Admin" />
-      <h1>Master Database (Student)</h1>
+      <h2>Master Database (Student)</h2>
       <DataGrid
         rows={rows}
         columns={columns}

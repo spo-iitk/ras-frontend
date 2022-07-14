@@ -55,7 +55,7 @@ function AddPPO({
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Add PPO/PIO</h1>
+        <h2>Add PPO/PIO</h2>
         <TextField
           disabled
           label="Company Name"

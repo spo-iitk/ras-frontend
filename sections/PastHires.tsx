@@ -51,7 +51,7 @@ const pastHireRows: never[] = [];
 function PastHires() {
   return (
     <div>
-      <h1>Past Hires</h1>
+      <h2>Past Hires</h2>
       <DataGrid rows={pastHireRows} columns={PastHireColumns} />
     </div>
   );

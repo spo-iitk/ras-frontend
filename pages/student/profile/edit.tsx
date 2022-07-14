@@ -80,7 +80,7 @@ function ProfileEdit() {
           justifyContent="space-between"
           spacing={2}
         >
-          <h1>Edit Profile</h1>
+          <h2>Edit Profile</h2>
           <Stack
             direction="row"
             alignItems="center"

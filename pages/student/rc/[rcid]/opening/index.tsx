@@ -149,7 +149,7 @@ function Openings() {
     <div className="container">
       <Meta title="Openings" />
       <Stack>
-        <h1>Job Openings</h1>
+        <h2>Job Openings</h2>
         <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />
       </Stack>
     </div>

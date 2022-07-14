@@ -164,7 +164,7 @@ function Credits() {
   return (
     <div style={{ minHeight: "80vh", margin: "50px auto", width: "90%" }}>
       <Meta title="Credits -  Recruitment Automation System" />
-      <h1 style={{ textAlign: "center", fontSize: 50 }}>Credits</h1>
+      <h2 style={{ textAlign: "center", fontSize: 50 }}>Credits</h2>
       <Box sx={{ pt: 2 }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} lg={4}>

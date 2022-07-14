@@ -26,7 +26,7 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
   return (
     <Box sx={boxStyle} className="modalScroll">
       <Stack spacing={3}>
-        <h1>Notice</h1>
+        <h2>Notice</h2>
         <TextField
           label="Title"
           defaultValue={currentNotice.title}
