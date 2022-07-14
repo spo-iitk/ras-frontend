@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-import { errorNotification } from "@callbacks/notifcation";
+import { errorNotification, successNotification } from "@callbacks/notifcation";
 
 import {
   ErrorType,
@@ -29,6 +29,20 @@ const applicationViewRequest = {
     instance
       .get<ApplicationType[]>(`/application/rc/${rcid}/view`, setConfig(token))
       .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return {} as ApplicationType[];
+      }),
+  delete: (token: string, rcid: string, pid: string) =>
+    instance
+      .delete<ApplicationType[]>(
+        `/application/rc/${rcid}/opening/${pid}`,
+        setConfig(token)
+      )
+      .then(() => {
+        successNotification("Withdrawn successfully!", "");
+        return true;
+      })
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
         return {} as ApplicationType[];

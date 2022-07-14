@@ -15,6 +15,30 @@ const sideTextStyle = {
   flexDirection: "column",
   alignItems: "flex-end",
 };
+
+function Withdraw({ params }: any) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+
+  const handleWithdraw = () => {
+    if (rid) {
+      applicationViewRequest.delete(token, rid, params.row.id);
+      window.location.reload();
+    }
+  };
+  return (
+    <Button
+      variant="contained"
+      sx={{ width: "100%" }}
+      onClick={() => handleWithdraw()}
+    >
+      Withdraw
+    </Button>
+  );
+}
+
 const columns: GridColDef[] = [
   {
     field: "id",
@@ -22,7 +46,7 @@ const columns: GridColDef[] = [
     width: 100,
   },
   {
-    field: "companyName",
+    field: "company_name",
     headerName: "Company Name",
     width: 250,
   },
@@ -47,11 +71,7 @@ const columns: GridColDef[] = [
     headerName: "Actions",
     sortable: false,
     width: 200,
-    renderCell: () => (
-      <Button variant="contained" color="primary" sx={{ width: "100%" }}>
-        Withdraw
-      </Button>
-    ),
+    renderCell: (params) => <Withdraw params={params} />,
   },
 ];
 

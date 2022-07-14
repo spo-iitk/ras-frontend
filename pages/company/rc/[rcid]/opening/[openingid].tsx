@@ -95,8 +95,7 @@ function Application() {
           rid,
           openingid?.toString()
         );
-
-        setRows(data);
+        if (data && data.length > 0) setRows(data);
         setLoading(false);
       }
     };
