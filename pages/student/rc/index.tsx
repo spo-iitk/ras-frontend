@@ -9,19 +9,20 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
-import enrollmentRequest, {
-  StudentRC,
-} from "@callbacks/student/rc/enrollQuestion";
+import enrollmentRequest from "@callbacks/student/rc/enrollQuestion";
 
 function LinkButton({ params }: any) {
   const { token } = useStore();
   const [frozen, setFrozen] = useState(false);
+  const [frozenStr, setFrozenStr] = useState("Frozen");
   useEffect(() => {
     const fetch = async () => {
-      const student = await enrollmentRequest
-        .getStudentRC(token, params.row.ID)
-        .catch(() => ({ ID: 0 } as StudentRC));
-      setFrozen(student.is_frozen);
+      const student = await enrollmentRequest.getStudentRC(
+        token,
+        params.row.ID
+      );
+      setFrozen(student.is_frozen || !params.row.is_active);
+      if (student.comment !== "") setFrozenStr(student.comment);
     };
     fetch();
   }, [token, params]);
@@ -34,7 +35,7 @@ function LinkButton({ params }: any) {
         router.push(`rc/${params.row.ID}`);
       }}
     >
-      {frozen ? "Frozen" : "View Details"}
+      {frozen ? frozenStr : "View Details"}
     </Button>
   );
 }
@@ -42,6 +43,15 @@ const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "ID",
+    hide: true,
+  },
+  {
+    field: "start_date",
+    headerName: "Start Date",
+  },
+  {
+    field: "academic_year",
+    headerName: "Academic Year",
   },
   {
     field: "name",
@@ -50,10 +60,7 @@ const columns: GridColDef[] = [
   {
     field: "type",
     headerName: "Type of Recruitment",
-  },
-  {
-    field: "start_date",
-    headerName: "Start Date",
+    hide: true,
   },
   {
     field: "is_active",
