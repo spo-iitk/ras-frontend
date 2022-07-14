@@ -113,7 +113,6 @@ function Overview() {
     <div className="container">
       <Meta title="Overview - Student Dashboard " />
       <Stack>
-        <h2>Dashboard</h2>
         <h2>Recruitment Cycle</h2>
 
         <DataGrid

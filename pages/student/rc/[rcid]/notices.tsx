@@ -75,7 +75,6 @@ function Notices() {
     <div className="container">
       <Meta title="Notices" />
       <Stack>
-        <h2>Internship 2022-23 Phase 1</h2>
         <Stack
           direction="row"
           alignItems="center"
