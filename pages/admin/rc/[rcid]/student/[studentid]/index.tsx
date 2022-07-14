@@ -69,7 +69,7 @@ function Index() {
   const { token } = useStore();
   const [questionAnswer, setQuestionAnswer] =
     useState<studentEnrollResponse[]>();
-  const [student, setStudent] = useState<Student>();
+  const [student, setStudent] = useState<Student>({ student_id: 0 } as Student);
   useEffect(() => {
     const fetchData = async () => {
       if (
@@ -125,7 +125,7 @@ function Index() {
               justifyContent={{ sm: "space-between", xs: "center" }}
             >
               <h1 style={{ width: "100%" }}>Student Details</h1>
-              <Link href={`/admin/student/${studentid}`}>
+              <Link href={`/admin/student/${student.student_id}`}>
                 <Button size="small" variant="contained" sx={{ width: "100%" }}>
                   View Profile
                 </Button>
