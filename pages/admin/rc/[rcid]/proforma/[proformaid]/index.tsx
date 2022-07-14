@@ -9,22 +9,24 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
-import DataGrid from "@components/DataGrid";
-import Meta from "@components/Meta";
 import requestProforma, {
   AdminProformaType,
   ProformaEmailRequest,
 } from "@callbacks/admin/rc/adminproforma";
-import useStore from "@store/store";
 import eventRequest, { Event } from "@callbacks/admin/rc/proforma/event";
 import StudentRequest from "@callbacks/admin/rc/proforma/students";
-import { getDeptProgram } from "@components/Parser/parser";
 import { CDN_URL } from "@callbacks/constants";
+import DataGrid from "@components/DataGrid";
+import Meta from "@components/Meta";
+import { getDeptProgram } from "@components/Parser/parser";
+import useStore from "@store/store";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -111,6 +113,30 @@ const columns: GridColDef[] = [
     headerName: "Secondary Program/Dept",
     valueGetter: (params) =>
       getDeptProgram(params.row.secondary_program_department_id),
+  },
+  {
+    field: "status_name",
+    headerName: "Status",
+    renderCell: (params) =>
+      params.row.status_name === "Recruited" ? (
+        <Button
+          variant="outlined"
+          sx={{ borderRadius: "10px", width: "100%", color: "green" }}
+          color="success"
+          startIcon={<CheckIcon sx={{ color: "green" }} />}
+        >
+          Recruited
+        </Button>
+      ) : (
+        <Button
+          variant="outlined"
+          sx={{ borderRadius: "10px", width: "100%", color: "red" }}
+          color="error"
+          startIcon={<CloseIcon sx={{ color: "red" }} />}
+        >
+          Not Recruited
+        </Button>
+      ),
   },
   {
     field: "specialization",

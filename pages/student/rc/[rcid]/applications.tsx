@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { Button, Grid, Stack } from "@mui/material";
+import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
+import useStore from "@store/store";
+import applicationViewRequest, {
+  ApplicationType,
+} from "@callbacks/student/rc/applications";
 
 const sideTextStyle = {
   display: "flex",
@@ -49,26 +54,28 @@ const columns: GridColDef[] = [
     ),
   },
 ];
-const rows = [
-  {
-    id: 1,
-    companyName: "Google",
-    role: "Software Dev",
-    deadline: "12:00AM 31 May 2022",
-    resume: "ID:2 Page Software Dev ",
-  },
-  {
-    id: 2,
-    companyName: "Microsoft",
-    role: "Software Dev",
-    deadline: "12:00AM 31 May 2022",
-    resume: "ID:1 Page Software Dev",
-  },
-];
-const applicationParams = {
-  applications: rows.length,
-};
+
 function Applications() {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const [applications, setApplications] = useState<ApplicationType[]>([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (rid === undefined || rid === "") return;
+      const allApplications: ApplicationType[] =
+        await applicationViewRequest.get(token, rid);
+      if (allApplications && allApplications.length > 0)
+        setApplications(allApplications);
+      setLoading(false);
+    };
+    fetch();
+  }, [rid, token]);
+
   return (
     <div className="container">
       <Meta title="Applications" />
@@ -82,11 +89,13 @@ function Applications() {
           <h1>Your Applications</h1>
         </Grid>
         <Grid item xs={12} md={6} sx={sideTextStyle}>
-          <h2>Total Applications : {applicationParams.applications}</h2>
+          <h2>
+            Total Applications : {applications ? applications?.length : 0}
+          </h2>
         </Grid>
       </Grid>
       <Stack>
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid rows={applications} columns={columns} loading={loading} />
       </Stack>
     </div>
   );
