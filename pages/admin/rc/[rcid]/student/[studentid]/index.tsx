@@ -69,7 +69,7 @@ function Index() {
   const { token } = useStore();
   const [questionAnswer, setQuestionAnswer] =
     useState<studentEnrollResponse[]>();
-  const [student, setStudent] = useState<Student>();
+  const [student, setStudent] = useState<Student>({ student_id: 0 } as Student);
   useEffect(() => {
     const fetchData = async () => {
       if (
