@@ -132,7 +132,7 @@ function Openings() {
 
   useEffect(() => {
     const getProforma = async () => {
-      const res = await sProformaRequest.getAllProforma(token, rid);
+      const res = await sProformaRequest.getAllOpenings(token, rid);
       setRows(res);
       setSelected(Array(res.length).fill(""));
     };

@@ -40,6 +40,14 @@ const sProformaRequest = {
         errorNotification("Error", err.response?.data?.error || err.message);
         return [] as ProformaParams[];
       }),
+  getAllOpenings: (token: string, rid: string) =>
+    instance
+      .get<ProformaParams[]>(`/application/rc/${rid}/opening`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return [] as ProformaParams[];
+      }),
   get: (token: string, rid: string, pid: string) =>
     instance
       .get<ProformaType>(
