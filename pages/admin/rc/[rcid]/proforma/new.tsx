@@ -59,6 +59,7 @@ function ProformaNew() {
     const info: AdminProformaType = {
       ...data,
       company_id: company.cid,
+      company_name: company.label,
       company_recruitment_cycle_id: company.id,
       job_description: value,
       recruitment_cycle_id: parseInt(rid, 10),
