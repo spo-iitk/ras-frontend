@@ -66,7 +66,6 @@ function Overview(): JSX.Element {
     <div className="container">
       <Meta title="Company Dashboard - Overview" />
       <Stack>
-        <h2>Dashboard</h2>
         <h2>Recruitment Cycle</h2>
         <DataGrid
           rows={rows}

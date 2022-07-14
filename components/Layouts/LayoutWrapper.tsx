@@ -114,9 +114,9 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         } else if (role === 2) {
           const response = await rcRequestCompany.getAll(token);
           const rc = response.filter(
-            (item: any) => item.ID === parseInt(rcid.toString(), 10)
+            (item: any) => item.id === parseInt(rcid.toString(), 10)
           )[0];
-          const name = `${rc.type} ${rc.academic_year} ${rc.phase} `;
+          const name = `${rc.name} `;
           setRcName(name);
         } else if (role === 100 || role === 101 || role === 102) {
           const response = await rcRequestAdmin.getAll(token);

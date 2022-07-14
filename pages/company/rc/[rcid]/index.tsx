@@ -69,7 +69,7 @@ function DeleteProforma({
 }
 
 function Overview() {
-  const { rcName, token } = useStore();
+  const { token } = useStore();
 
   const router = useRouter();
   const { rcid } = router.query;
@@ -207,7 +207,6 @@ function Overview() {
     <div className="container">
       <Meta title="Overview - Company" />
       <Stack>
-        <h2 suppressHydrationWarning>{rcName}</h2>
         <h2>Overview</h2>
 
         <DataGrid

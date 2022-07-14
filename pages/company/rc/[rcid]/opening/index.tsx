@@ -108,7 +108,6 @@ function Applications() {
       <Meta title="Applications - Company" />
       <Stack>
         <h2>Applications</h2>
-        <h2>Intern Season</h2>
         <DataGrid
           rows={proformas}
           columns={columns}
