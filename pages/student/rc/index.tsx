@@ -21,7 +21,7 @@ function LinkButton({ params }: any) {
       const student = await enrollmentRequest
         .getStudentRC(token, params.row.ID)
         .catch(() => ({ ID: 0 } as StudentRC));
-      setFrozen(student.is_frozen);
+      setFrozen(student.is_frozen || !params.row.is_active);
     };
     fetch();
   }, [token, params]);
@@ -42,6 +42,15 @@ const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "ID",
+    hide: true,
+  },
+  {
+    field: "start_date",
+    headerName: "Start Date",
+  },
+  {
+    field: "academic_year",
+    headerName: "Academic Year",
   },
   {
     field: "name",
@@ -50,10 +59,7 @@ const columns: GridColDef[] = [
   {
     field: "type",
     headerName: "Type of Recruitment",
-  },
-  {
-    field: "start_date",
-    headerName: "Start Date",
+    hide: true,
   },
   {
     field: "is_active",
@@ -66,7 +72,7 @@ const columns: GridColDef[] = [
       <>
         {!params.value && (
           <InactiveButton sx={{ height: 30, width: "100%" }}>
-            INACTIVE
+            {params.row.comment || "INACTIVE"}
           </InactiveButton>
         )}
         {params.value && (
