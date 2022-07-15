@@ -25,8 +25,9 @@ function Withdraw({ params }: any) {
 
   const handleWithdraw = () => {
     if (rid) {
-      applicationViewRequest.delete(token, rid, params.row.id);
-      window.location.reload();
+      applicationViewRequest.delete(token, rid, params.row.id).finally(() => {
+        window.location.reload();
+      });
     }
   };
   return (
