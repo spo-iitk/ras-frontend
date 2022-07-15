@@ -20,6 +20,20 @@ import enrollQuestion from "@callbacks/admin/rc/student/enrollQuestion";
 import { studentEnrollResponse } from "@callbacks/student/rc/enrollQuestion";
 import getStudents, { Student } from "@callbacks/admin/rc/student/getStudents";
 import { getDeptProgram } from "@components/Parser/parser";
+import getStudentApplication, {
+  ApplicationResponse,
+} from "@callbacks/admin/rc/student/getApplications";
+import { CDN_URL } from "@callbacks/constants";
+
+const transformName = (name: string) => {
+  const nname = name.replace(`${CDN_URL}/view/`, "");
+  const nameArray = nname.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
+};
+
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
 const cols: GridColDef[] = [
   {
@@ -27,40 +41,36 @@ const cols: GridColDef[] = [
     headerName: "Id",
   },
   {
-    field: "companyName",
+    field: "company_name",
     headerName: "Company Name",
-    width: 200,
   },
   {
     field: "role",
     headerName: "Role",
-    width: 200,
   },
   {
     field: "resume",
-    headerName: "Resume",
-    width: 200,
+    headerName: "Applied Resume",
+    sortable: false,
+    align: "center",
+    headerAlign: "center",
+    valueGetter: (params) => getURL(params?.value),
+    renderCell: (params) => (
+      <Button
+        variant="contained"
+        sx={{ width: "100%" }}
+        onClick={() => {
+          window.open(params.value, "_blank");
+        }}
+      >
+        {transformName(params.value)}
+      </Button>
+    ),
   },
   {
-    field: "appliedOn",
+    field: "applied_on",
     headerName: "Applied On",
-    width: 200,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 200,
-  },
-];
-
-const rows = [
-  {
-    id: "1",
-    companyName: "company Name",
-    role: "role",
-    resume: "#",
-    appliedOn: "date ",
-    status: "waiting",
+    valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
   },
 ];
 
@@ -70,6 +80,9 @@ function Index() {
   const [questionAnswer, setQuestionAnswer] =
     useState<studentEnrollResponse[]>();
   const [student, setStudent] = useState<Student>({ student_id: 0 } as Student);
+
+  const [applications, setApplications] = useState<ApplicationResponse[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       if (
@@ -87,8 +100,14 @@ function Index() {
           .getStudent(token, rcid.toString(), studentid.toString())
           .catch(() => ({ type: "null" } as Student));
         setStudent(studentData);
+
+        const studentApplications = await getStudentApplication
+          .getAll(token, rcid.toString(), studentid.toString())
+          .catch(() => ({ type: "null" } as unknown as ApplicationResponse[]));
+        setApplications(studentApplications);
       }
     };
+
     fetchData();
   }, [rcid, token, studentid]);
 
@@ -315,8 +334,8 @@ function Index() {
         </Card>
       </Stack>
       <div style={{ marginTop: 50 }}>
-        <h2>Application Status - Name of Recruitment Drive</h2>
-        <DataGrid rows={rows} columns={cols} />
+        <h2>Application Status</h2>
+        <DataGrid rows={applications} columns={cols} />
       </div>
     </div>
   );

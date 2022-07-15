@@ -9,6 +9,7 @@ import useStore from "@store/store";
 import applicationViewRequest, {
   ApplicationType,
 } from "@callbacks/student/rc/applications";
+import { CDN_URL } from "@callbacks/constants";
 
 const sideTextStyle = {
   display: "flex",
@@ -39,6 +40,16 @@ function Withdraw({ params }: any) {
   );
 }
 
+const transformName = (name: string) => {
+  const nname = name.replace(`${CDN_URL}/view/`, "");
+  const nameArray = nname.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
+};
+
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
+
 const columns: GridColDef[] = [
   {
     field: "id",
@@ -58,13 +69,27 @@ const columns: GridColDef[] = [
   {
     field: "deadline",
     headerName: "Application Deadline",
+    valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
     width: 200,
   },
   {
     field: "resume",
     headerName: "Applied Resume",
     sortable: false,
-    width: 200,
+    align: "center",
+    headerAlign: "center",
+    valueGetter: (params) => getURL(params?.value),
+    renderCell: (params) => (
+      <Button
+        variant="contained"
+        sx={{ width: "100%" }}
+        onClick={() => {
+          window.open(params.value, "_blank");
+        }}
+      >
+        {transformName(params.value)}
+      </Button>
+    ),
   },
   {
     field: "withdraw",

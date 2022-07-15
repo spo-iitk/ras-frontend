@@ -82,7 +82,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
   }
   const Layouter = layouts[layoutType];
   const Id = Ids[layoutType];
-  const { role, token, setName } = useStore();
+  const { role, token, setName, setRCName } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
 
@@ -111,6 +111,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           )[0];
           const name = `${rc.type} ${rc.academic_year} ${rc.phase} `;
           setRcName(name);
+          setRCName(name);
         } else if (role === 2) {
           const response = await rcRequestCompany.getAll(token);
           const rc = response.filter(
@@ -118,6 +119,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           )[0];
           const name = `${rc.name} `;
           setRcName(name);
+          setRCName(name);
         } else if (role === 100 || role === 101 || role === 102) {
           const response = await rcRequestAdmin.getAll(token);
           const rc = response.filter(
@@ -125,6 +127,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           )[0];
           const name = `${rc.type} ${rc.academic_year} ${rc.phase} `;
           setRcName(name);
+          setRCName(name);
         }
       }
     };
@@ -137,7 +140,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         getRc();
       } else setRcName("Dashboard");
     }
-  }, [role, token, setCompanyName, setName, setStudentName, rcid]);
+  }, [role, token, setCompanyName, setName, setStudentName, rcid, setRCName]);
 
   const dashbboard_items: fields[] = [
     {
