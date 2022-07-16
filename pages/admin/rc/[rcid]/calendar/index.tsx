@@ -3,222 +3,157 @@ import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-import { Card, Grid, IconButton, Stack } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import AddIcon from "@mui/icons-material/Add";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
+import eventRequest, { Event } from "@callbacks/admin/rc/overview";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-
-const style = {
-  position: "absolute" as const,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: {
-    md: 500,
-    xs: 350,
-  },
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};
+import useStore from "@store/store";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
+    field: "ID",
     headerName: "ID",
-    width: 90,
+    hide: true,
   },
   {
-    field: "eventName",
+    field: "company_name",
+    headerName: "Company Name",
+  },
+  {
+    field: "role",
+    headerName: "Role",
+  },
+  {
+    field: "name",
     headerName: "Event Name",
-    width: 400,
   },
   {
-    field: "eventStartTime",
+    field: "CreatedAt",
+    headerName: "Created At",
+    renderCell: (params) => new Date(params.row.CreatedAt).toLocaleDateString(),
+    hide: true,
+  },
+  {
+    field: "UpdatedAt",
+    headerName: "Updated At",
+    renderCell: (params) => new Date(params.row.UpdatedAt).toLocaleDateString(),
+    hide: true,
+  },
+  {
+    field: "duration",
+    headerName: "Event Duration",
+    hide: true,
+  },
+  {
+    field: "start_time",
     headerName: "Start Time",
-    width: 100,
+    renderCell: (params) => new Date(params.row.start_time).toLocaleString(),
+    hide: true,
   },
   {
-    field: "eventEndTime",
-    headerName: "End Time",
-    width: 100,
+    field: "sequence",
+    headerName: "Sequence",
+    hide: true,
   },
   {
-    field: "eventLocation",
-    headerName: "Location",
-    width: 200,
-  },
-];
-
-type Events = {
-  id: string;
-  companyName: string;
-  eventName: string;
-  eventDate: Date;
-  eventStartTime: string;
-  eventEndTime: string;
-  eventLocation: string;
-  eventDescription: string;
-  contact: string;
-};
-
-const events: Events[] = [
-  {
-    id: "1",
-    companyName: "Google",
-    eventName: "Google Summer of Code",
-    eventDate: new Date(2022, 4, 29),
-    eventStartTime: "9:00 AM",
-    eventEndTime: "5:00 PM",
-    eventLocation: "Google Headquarters",
-    eventDescription:
-      "Google Summer of Code is a program for students to learn about Google's software development process and to apply their skills to the real world. Students will work on a variety of projects, including web and mobile apps, games, and other software. The program is open to all students in the United States.",
-    contact: "https://www.google.com/summerofcode/",
-  },
-  {
-    id: "3",
-    companyName: "Julia",
-    eventName: "Julia Summer of Code",
-    eventDate: new Date(2022, 4, 29),
-    eventStartTime: "9:00 AM",
-    eventEndTime: "5:00 PM",
-    eventLocation: "Google Headquarters",
-    eventDescription:
-      "Google Summer of Code is a program for students to learn about Google's software development process and to apply their skills to the real world. Students will work on a variety of projects, including web and mobile apps, games, and other software. The program is open to all students in the United States.",
-    contact: "https://www.google.com/summerofcode/",
-  },
-  {
-    id: "2",
-    companyName: "Apple",
-    eventName: "Apple Conf",
-    eventDate: new Date(2022, 4, 30),
-    eventStartTime: "9:00 AM",
-    eventEndTime: "5:00 PM",
-    eventLocation: "Apple Headquarters",
-    eventDescription: "Conference o Apple products",
-    contact: "https://www.google.com/summerofcode/",
+    field: "View Details",
+    renderCell: (params) => (
+      <Link
+        href={{
+          pathname: `/admin/rc/${params.row.recruitment_cycle_id}/event/${params.row.ID}`,
+        }}
+      >
+        <Button variant="contained" style={{ width: "100%" }}>
+          View Details
+        </Button>
+      </Link>
+    ),
   },
 ];
 
 function Calendar() {
   const [value, setValue] = useState<Date | null>(new Date());
-  const [activity, setActivity] = useState<Events[]>([]);
-  const [rows, setRows] = useState<Events[]>([]);
-  const [act, setAct] = useState<Events>();
+  const [activity, setActivity] = useState<Event[]>([]);
+  const [rows, setRows] = useState<Event[]>([]);
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [events, setEvents] = useState<Event[]>([]);
+
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = rcid as string;
+
+  const { token } = useStore();
+  useEffect(() => {
+    const fetchData = async () => {
+      if (router.isReady) {
+        let response = await eventRequest.getAll(token, rid);
+        for (let i = 0; i < response.length; i += 1) {
+          response[i].recruitment_cycle_id = rid;
+        }
+        setEvents(response);
+      }
+    };
+    if (router.isReady) fetchData();
+  }, [rid, router.isReady, token]);
 
   useEffect(() => {
     setActivity(
-      events.filter((e) => e.eventDate.toDateString() === value?.toDateString())
+      events.filter(
+        (e) => new Date(e.start_time).toDateString() === value?.toDateString()
+      )
     );
     setRows(
-      events.filter((e) => e.eventDate.toDateString() === value?.toDateString())
+      events.filter(
+        (e) => new Date(e.start_time).toDateString() === value?.toDateString()
+      )
     );
-  }, [value]);
-  return (
-    <div className="container">
-      <Stack justifyContent="space-between" direction="row" alignItems="center">
-        <div>
-          <h2>Calender</h2>
-        </div>
-        <div>
-          <IconButton>
-            <AddIcon />
-          </IconButton>
-        </div>
-      </Stack>
+  }, [value, events]);
 
+  return (
+    <div>
+      <h2>Calender</h2>
       <Meta title="Calendar - Intern Season" />
-      <Card>
-        <Grid
-          container
-          spacing={3}
-          alignItems="flex-start"
-          justifyContent="center"
-        >
-          <Grid item xs={12} md={6}>
-            <LocalizationProvider dateAdapter={AdapterDateFns} wi>
-              <StaticDatePicker<Date>
-                displayStaticWrapperAs="desktop"
-                openTo="day"
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                  const d = newValue?.toDateString();
-                  setActivity(
-                    events.filter((e) => e.eventDate.toDateString() === d)
-                  );
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <div style={{ padding: "0px 15px" }}>
-              <Stack alignItems="flex-start" justifyContent="flex-start">
-                {activity.length > 0 ? (
-                  <div>
-                    <DataGrid
-                      rows={rows}
-                      columns={columns}
-                      onCellClick={(e) => {
-                        handleOpen();
-                        setAct(activity.find((a) => a.id === e.row.id));
-                      }}
-                    />
-                    <div>
-                      <Modal open={open} onClose={handleClose}>
-                        <Box sx={style}>
-                          <Typography variant="h4" id="modal-modal-title">
-                            {act?.eventName}
-                          </Typography>
-                          <br />
-                          <Typography
-                            variant="subtitle1"
-                            id="modal-modal-description"
-                          >
-                            {act?.eventDescription}
-                          </Typography>
-                          <br />
-                          <Typography
-                            variant="subtitle1"
-                            id="modal-modal-description"
-                          >
-                            <b>Location:</b> {act?.eventLocation}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            id="modal-modal-description"
-                          >
-                            <b>Time:</b> {act?.eventStartTime} -{" "}
-                            {act?.eventEndTime}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            id="modal-modal-description"
-                          >
-                            <b>Contact:</b> {act?.contact}
-                          </Typography>
-                        </Box>
-                      </Modal>
-                    </div>
-                  </div>
-                ) : (
-                  <h2>No event scheduled</h2>
-                )}
-              </Stack>
-            </div>
-          </Grid>
+      <Grid
+        container
+        spacing={3}
+        alignItems="flex-start"
+        justifyContent="center"
+      >
+        <Grid item xs={12} lg={3}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <StaticDatePicker<Date>
+              displayStaticWrapperAs="desktop"
+              openTo="day"
+              value={value}
+              onChange={(newValue: any) => {
+                setValue(newValue);
+                const d = newValue?.toDateString();
+                setActivity(
+                  events.filter(
+                    (e) => new Date(e.start_time).toDateString() === d
+                  )
+                );
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
         </Grid>
-      </Card>
+        <Grid item xs={12} lg={8}>
+          {activity.length > 0 ? (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              getRowId={(row) => row.ID}
+            />
+          ) : (
+            <h2>No event scheduled</h2>
+          )}
+        </Grid>
+      </Grid>
     </div>
   );
 }
