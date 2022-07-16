@@ -175,12 +175,12 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <ArticleIcon />,
           name: "Intern Policy",
-          id: "https://spo.iitk.ac.in/docs/2021-22/Placement_Policy_2021-22.pdf",
+          id: "https://spo.iitk.ac.in/docs/students/internship-policy.pdf",
         },
         {
           avatar: <ArticleIcon />,
           name: "Placement Policy",
-          id: "https://spo.iitk.ac.in/docs/2021-22/Internship-Policy-2021-22.pdf",
+          id: "https://spo.iitk.ac.in/docs/2021-22/Placement_Policy_2021-22.pdf",
         },
         {
           avatar: <StarsIcon />,
@@ -272,12 +272,12 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <ArticleIcon />,
           name: "Intern Policy",
-          id: "https://spo.iitk.ac.in/companies#ipolicy",
+          id: "https://spo.iitk.ac.in/assets/companies_links/Internship-Policy-Companies.pdf",
         },
         {
           avatar: <ArticleIcon />,
           name: "Placement Policy",
-          id: "https://spo.iitk.ac.in/companies#policy",
+          id: "https://spo.iitk.ac.in/docs/company/placement-policy.pdf",
         },
         {
           avatar: <StarsIcon />,

@@ -52,7 +52,7 @@ function Header() {
             <Link href="/login">Sign in</Link>
             <Link href="/signup">Sign Up</Link>
             <a
-              href="https://spo.iitk.ac.in/contact"
+              href="https://spo.iitk.ac.in/placement-coordinators"
               target="_blank"
               rel="noreferrer"
             >
@@ -117,7 +117,7 @@ function Header() {
             </MenuItem>
             <MenuItem>
               <a
-                href="https://spo.iitk.ac.in/contact"
+                href="https://spo.iitk.ac.in/placement-coordinators"
                 target="_blank"
                 rel="noreferrer"
               >

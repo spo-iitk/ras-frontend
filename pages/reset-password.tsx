@@ -219,7 +219,7 @@ function ForgotPass() {
               Facing any issues?{" "}
               <span style={{ color: "blue" }}>
                 <a
-                  href="https://spo.iitk.ac.in/contact"
+                  href="https://spo.iitk.ac.in/placement-coordinators"
                   target="_blank"
                   rel="noreferrer"
                 >
