@@ -67,7 +67,6 @@ function Step3() {
   return (
     <div className="container">
       <Meta title="Step 3/5 - Package Details" />
-      <h2>Internship 2022-23 Phase 1</h2>
       <Card
         elevation={5}
         sx={{

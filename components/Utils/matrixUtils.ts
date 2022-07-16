@@ -34,6 +34,50 @@ export const Branches = [
   "SEE",
 ];
 
+export const examMapper = {
+  JEE: [
+    ["BT", "AE"],
+    ["BT", "CE"],
+    ["BT", "CHE"],
+    ["BT", "CSE"],
+    ["BT", "EE"],
+    ["BT", "MSE"],
+    ["BT", "ME"],
+    ["BT", "BSBE"],
+    ["BS", "CHM"],
+    ["BS", "ECO"],
+    ["BS", "ES"],
+    ["BS", "MTH"],
+    ["BS", "PHY"],
+  ],
+  GATE: [
+    ["MT", "AE"],
+    ["MT", "CE"],
+    ["MT", "ME"],
+    ["MT", "EE"],
+    ["MT", "CHE"],
+    ["MT", "CSE"],
+    ["MT", "MSE"],
+    ["MT", "EEM"],
+    ["MT", "MSP"],
+    ["MT", "ES"],
+    ["MT", "IME"],
+    ["MT", "NET"],
+    ["MT", "BSBE"],
+    ["MT", "PSE"],
+    ["MT", "SEE"],
+  ],
+  "CEED/GATE": [["MDES", "DES"]],
+  JAM: [
+    ["MSc", "CHM"],
+    ["MSc", "Stats"],
+    ["MSc", "Mathematics"],
+    ["MSc", "PHY"],
+  ],
+  COGJET: [["MSR", "CGS"]],
+  CAT: [],
+};
+
 export const programExpanded = [
   "BT",
   "BS",

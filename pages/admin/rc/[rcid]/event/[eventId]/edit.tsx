@@ -55,8 +55,6 @@ function Event() {
   return (
     <div className="container">
       <Meta title="Event Details" />
-      <h2 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h2>
-
       <Card
         elevation={5}
         sx={{

@@ -14,6 +14,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 import {
   Branches,
+  examMapper,
   func,
   programExpanded,
   programType,
@@ -93,13 +94,81 @@ function Step2() {
         func[branch as keyof typeof func][programName as keyof programType];
       if (idx !== -1) {
         if (str[idx] === "1") {
-          newStr = `${str.substring(0, idx)}0${str.substring(idx + 1)}`;
+          newStr = `${newStr.substring(0, idx)}0${newStr.substring(idx + 1)}`;
         } else {
-          newStr = `${str.substring(0, idx)}1${str.substring(idx + 1)}`;
+          newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
         }
       }
     });
     setStr(newStr);
+  };
+
+  const handleExamSelection = (exam: string) => {
+    let newStr = str;
+    switch (exam) {
+      case "JEE":
+        examMapper.JEE.forEach((data) => {
+          const idx =
+            func[data[1] as keyof typeof func][data[0] as keyof programType];
+          if (idx !== -1) {
+            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+          }
+        });
+        setStr(newStr);
+        break;
+      case "JAM":
+        examMapper.JAM.forEach((data) => {
+          const idx =
+            func[data[1] as keyof typeof func][data[0] as keyof programType];
+          if (idx !== -1) {
+            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+          }
+        });
+        setStr(newStr);
+        break;
+      case "COGJET":
+        examMapper.COGJET.forEach((data) => {
+          const idx =
+            func[data[1] as keyof typeof func][data[0] as keyof programType];
+          if (idx !== -1) {
+            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+          }
+        });
+        setStr(newStr);
+        break;
+      case "CAT":
+        examMapper.CAT.forEach((data) => {
+          const idx =
+            func[data[1] as keyof typeof func][data[0] as keyof programType];
+          if (idx !== -1) {
+            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+          }
+        });
+        setStr(newStr);
+        break;
+      case "GATE":
+        examMapper.GATE.forEach((data) => {
+          const idx =
+            func[data[1] as keyof typeof func][data[0] as keyof programType];
+          if (idx !== -1) {
+            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+          }
+        });
+        setStr(newStr);
+        break;
+      case "CEED/GATE":
+        examMapper["CEED/GATE"].forEach((data) => {
+          const idx =
+            func[data[1] as keyof typeof func][data[0] as keyof programType];
+          if (idx !== -1) {
+            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+          }
+        });
+        setStr(newStr);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -116,7 +185,7 @@ function Step2() {
               <h3>Select all</h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton>
+              <IconButton onClick={() => handleExamSelection("JEE")}>
                 <CheckCircleIcon />
               </IconButton>
               <h3>
@@ -124,22 +193,34 @@ function Step2() {
               </h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton>
+              <IconButton onClick={() => handleExamSelection("GATE")}>
                 <CheckCircleIcon />
               </IconButton>
               <h3>Select all branches and programmes coming from GATE</h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton>
+              <IconButton onClick={() => handleExamSelection("JAM")}>
                 <CheckCircleIcon />
               </IconButton>
               <h3>Select all branches and programmes coming from JAM</h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton>
+              <IconButton onClick={() => handleExamSelection("CAT")}>
                 <CheckCircleIcon />
               </IconButton>
               <h3>Select all branches and programmes coming from CAT</h3>
+            </Stack>
+            <Stack spacing={4} direction="row" alignItems="center">
+              <IconButton onClick={() => handleExamSelection("CEED/GATE")}>
+                <CheckCircleIcon />
+              </IconButton>
+              <h3>Select all branches and programmes coming from CEED/GATE</h3>
+            </Stack>
+            <Stack spacing={4} direction="row" alignItems="center">
+              <IconButton onClick={() => handleExamSelection("COGJET")}>
+                <CheckCircleIcon />
+              </IconButton>
+              <h3>Select all branches and programmes coming from COGJET</h3>
             </Stack>
           </Stack>
           <TableContainer component={Paper}>
