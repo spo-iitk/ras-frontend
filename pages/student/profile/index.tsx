@@ -293,20 +293,39 @@ function Profile() {
                       item.field === "10th Marks") &&
                       "(CGPA / Percentage)"}
                   </p>
-                  <TextField
-                    fullWidth
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    multiline={
-                      item.field === "Current Address" ||
-                      item.field === "Permanent Address"
-                    }
-                    minRows={3}
-                    id="standard-basic"
-                    variant="standard"
-                    value={handleValue(item.api_id)}
-                  />
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <TextField
+                      fullWidth
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      multiline={
+                        item.field === "Current Address" ||
+                        item.field === "Permanent Address"
+                      }
+                      minRows={3}
+                      id="standard-basic"
+                      variant="standard"
+                      value={handleValue(item.api_id)}
+                    />
+                    <b>
+                      {item.field === "12th Marks" &&
+                        (parseFloat(handleValue("twelfth_marks")?.toString()) <=
+                        10
+                          ? "CGPA"
+                          : "Percentage")}
+                      {item.field === "10th Marks" &&
+                        (parseFloat(handleValue("tenth_marks")?.toString()) <=
+                        10
+                          ? "CGPA"
+                          : "Percentage")}
+                    </b>
+                  </Stack>
                 </Grid>
               ))}
             </Grid>
