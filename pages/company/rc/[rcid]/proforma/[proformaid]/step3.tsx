@@ -65,7 +65,7 @@ function Step3() {
   }, [rid, pid, token, reset]);
 
   return (
-    <div className="container">
+    <div >
       <Meta title="Step 3/5 - Package Details" />
       <Card
         elevation={5}

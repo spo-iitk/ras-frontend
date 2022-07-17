@@ -108,7 +108,7 @@ function Calendar() {
     );
   }, [value]);
   return (
-    <div className="container">
+    <div >
       <h2>Calender</h2>
       <Meta title="Calendar" />
       <Card>

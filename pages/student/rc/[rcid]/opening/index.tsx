@@ -147,7 +147,7 @@ function Openings() {
     }
   }, [rid, router.isReady, token]);
   return (
-    <div className="container">
+    <div >
       <Meta title="Openings" />
       <Stack>
         <h2>Job Openings</h2>

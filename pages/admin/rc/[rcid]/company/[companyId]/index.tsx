@@ -165,7 +165,7 @@ function Index() {
     router.push(`/admin/company/${row.company_id}`);
   };
   return (
-    <div className="container">
+    <div >
       <Meta title="Company Dashboard" />
       <h2>{row.company_name}</h2>
 

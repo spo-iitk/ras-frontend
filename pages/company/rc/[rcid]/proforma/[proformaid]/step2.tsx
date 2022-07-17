@@ -172,7 +172,7 @@ function Step2() {
   };
 
   return (
-    <div style={{ padding: "0 2rem" }}>
+    <div>
       <Meta title="Step 2/5 - New Opening" />
       <Card sx={{ padding: 3 }}>
         <h2>Step 2/5 (Eligibility Matrix)</h2>

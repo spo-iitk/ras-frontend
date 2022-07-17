@@ -63,7 +63,7 @@ function Proforma() {
     if (router.isReady) getProforma();
   }, [rid, router.isReady, token]);
   return (
-    <div className="container">
+    <div >
       <Meta title="Proforma" />
       <Stack>
         <h2>Proforma</h2>

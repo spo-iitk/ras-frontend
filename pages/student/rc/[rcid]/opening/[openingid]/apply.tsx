@@ -159,7 +159,7 @@ function Apply() {
   };
 
   return (
-    <div className="container">
+    <div >
       <Meta title="Custom QnA" />
       <Stack alignItems="center" spacing={4}>
         <Box sx={boxStyle}>

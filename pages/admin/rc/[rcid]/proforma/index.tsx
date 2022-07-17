@@ -112,7 +112,7 @@ function Index() {
   }, [rid, router.isReady, token]);
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Proforma" />
       <h2>Proforma</h2>
       <DataGrid rows={proformas} columns={columns} getRowId={(row) => row.ID} />

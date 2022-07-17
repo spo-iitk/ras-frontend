@@ -81,7 +81,7 @@ function ProformaNew() {
     }
   };
   return (
-    <div className="container">
+    <div >
       <Meta title="Step 1/5 - Basic Details" />
       <Card
         elevation={5}

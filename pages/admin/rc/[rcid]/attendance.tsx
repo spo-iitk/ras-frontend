@@ -96,7 +96,7 @@ function Index() {
     },
   ];
   return (
-    <div className="container">
+    <div >
       <Meta title="Attendance" />
       <Grid container alignItems="center">
         <Grid item xs={12}>

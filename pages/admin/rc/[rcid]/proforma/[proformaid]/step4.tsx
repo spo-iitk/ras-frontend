@@ -191,7 +191,7 @@ function Step4() {
   );
 
   return (
-    <div className="container" style={{ marginBottom: 20 }}>
+    <div  style={{ marginBottom: 20 }}>
       <Meta title="Step 4/5 - Add Hiring Process" />
       <Stack spacing={4}>
         <h2>Step 4/5 - Add Hiring Process</h2>

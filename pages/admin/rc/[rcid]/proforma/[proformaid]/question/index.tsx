@@ -119,7 +119,7 @@ function Question() {
   };
 
   return (
-    <div className="container">
+    <div >
       <Meta title="Add Questions - Recruitment Cycle" />
       <Stack>
         <Stack

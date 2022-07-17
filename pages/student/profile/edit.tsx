@@ -71,7 +71,7 @@ function ProfileEdit() {
     }
   };
   return (
-    <div className="container">
+    <div>
       <Meta title="Edit Profile - Student Dashboard " />
       <Stack spacing={2}>
         <Stack

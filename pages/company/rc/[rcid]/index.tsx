@@ -208,7 +208,7 @@ function Overview() {
   ];
 
   return (
-    <div className="container">
+    <div >
       <Meta title="Overview - Company" />
       <Stack>
         <h2>Overview</h2>

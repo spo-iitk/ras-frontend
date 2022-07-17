@@ -241,7 +241,7 @@ function Profile() {
     }
   };
   return (
-    <div style={{ padding: "0 2rem" }}>
+    <div>
       <Meta title="Profile - Student Dashboard" />
       <Stack spacing={2}>
         <Stack
