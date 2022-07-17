@@ -98,7 +98,7 @@ function View() {
                 multiline
                 fullWidth
                 minRows={4}
-                value={row.role}
+                value={row.profile}
                 InputProps={{
                   readOnly: true,
                 }}
