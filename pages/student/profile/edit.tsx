@@ -308,13 +308,15 @@ function ProfileEdit() {
 
                 <Grid item xs={12} sm={6}>
                   <p>Preference</p>
-                  <TextField
+                  <Select
                     fullWidth
-                    type="text"
-                    id="standard-basic"
                     variant="standard"
                     {...register("preference")}
-                  />
+                  >
+                    <MenuItem value="" />
+                    <MenuItem value="Academic">Academic</MenuItem>
+                    <MenuItem value="Industrial">Industrial</MenuItem>
+                  </Select>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
@@ -458,7 +460,7 @@ function ProfileEdit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>10th Marks</p>
+                  <p>10th Marks (CGPA / Percentage)</p>
                   <TextField
                     fullWidth
                     type="text"
@@ -500,7 +502,7 @@ function ProfileEdit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>12th Marks</p>
+                  <p>12th Marks (CGPA / Percentage)</p>
                   <TextField
                     fullWidth
                     type="text"

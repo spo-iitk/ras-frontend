@@ -149,7 +149,7 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "twelfth_year",
     },
     {
-      field: "12th Board Marks",
+      field: "12th Marks",
       value: "Enter your 12th Board Marks",
       disabled: false,
       api_id: "twelfth_marks",
@@ -287,12 +287,22 @@ function Profile() {
             <Grid container spacing={5} sx={{ padding: 3 }}>
               {info.map((item) => (
                 <Grid item xs={12} sm={6} key={item.field}>
-                  <p>{item.field}</p>
+                  <p>
+                    {item.field}{" "}
+                    {(item.field === "12th Marks" ||
+                      item.field === "10th Marks") &&
+                      "(CGPA / Percentage)"}
+                  </p>
                   <TextField
                     fullWidth
                     InputProps={{
                       readOnly: true,
                     }}
+                    multiline={
+                      item.field === "Current Address" ||
+                      item.field === "Permanent Address"
+                    }
+                    minRows={3}
                     id="standard-basic"
                     variant="standard"
                     value={handleValue(item.api_id)}
