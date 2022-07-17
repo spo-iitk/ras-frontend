@@ -8,13 +8,13 @@ import { useRouter } from "next/router";
 import Progress from "@components/Progress/Progress";
 import theme from "@components/theme/theme";
 import LayoutWrapper from "@components/Layouts/LayoutWrapper";
-import useStore from "@store/store";
+// import useStore from "@store/store";
 import { useProgressStore } from "@store/useProgress";
 
-const isAdmin = (role: number) => role === 100 || role === 101 || role === 102;
+// const isAdmin = (role: number) => role === 100 || role === 101 || role === 102;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { role } = useStore();
+  // const { role } = useStore();
   const router = useRouter();
   const setIsAnimating = useProgressStore((state) => state.setIsAnimating);
   const isAnimating = useProgressStore((state) => state.isAnimating);
@@ -39,17 +39,17 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [setIsAnimating, router, router.isReady]);
 
-  useEffect(() => {
-    if (router.isReady && role !== undefined) {
-      if (router.pathname.startsWith("/student") && role !== 1) {
-        router.push("/401");
-      } else if (router.pathname.startsWith("/company") && role !== 2) {
-        router.push("/401");
-      } else if (router.pathname.startsWith("/admin") && !isAdmin(role)) {
-        router.push("/401");
-      }
-    }
-  }, [role, router, router.isReady]);
+  // useEffect(() => {
+  //   if (router.isReady && role !== undefined) {
+  //     if (router.pathname.startsWith("/student") && role !== 1) {
+  //       router.push("/401");
+  //     } else if (router.pathname.startsWith("/company") && role !== 2) {
+  //       router.push("/401");
+  //     } else if (router.pathname.startsWith("/admin") && !isAdmin(role)) {
+  //       router.push("/401");
+  //     }
+  //   }
+  // }, [role, router, router.isReady]);
 
   return (
     <NotificationsProvider position="top-right" zIndex={2077}>
