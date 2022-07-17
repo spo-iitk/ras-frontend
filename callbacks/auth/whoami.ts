@@ -29,6 +29,11 @@ const whoami = {
         );
         return { user_id: "", role_id: 0 } as WhoamiResponse;
       }),
+  credits: (token: string) =>
+    authInstance
+      .get<WhoamiResponse>("/credits", setConfig(token))
+      .then(responseBody)
+      .catch(() => ({ role_id: 0 } as WhoamiResponse)),
 };
 
 export default whoami;
