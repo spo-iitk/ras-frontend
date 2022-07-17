@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Image from "next/image";
@@ -16,6 +16,8 @@ import Zoom from "@mui/material/Zoom";
 
 import formstyles from "@styles/Form.module.css";
 import Meta from "@components/Meta";
+import whoami from "@callbacks/auth/whoami";
+import useStore from "@store/store";
 
 const teamMembers = [
   {
@@ -161,6 +163,11 @@ function Others({ data }: any) {
   );
 }
 function Credits() {
+  const { token } = useStore();
+  useEffect(() => {
+    if (token !== undefined) whoami.credits(token);
+  }, [token]);
+
   return (
     <div style={{ minHeight: "80vh", margin: "50px auto", width: "90%" }}>
       <Meta title="Credits -  Recruitment Automation System" />

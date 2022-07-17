@@ -28,6 +28,7 @@ export interface AdminProformaType {
   hide_details: boolean;
   active_hr: string;
   role: string;
+  profile: string;
   tentative_job_location: string;
   job_description: string;
   cost_to_company: string;

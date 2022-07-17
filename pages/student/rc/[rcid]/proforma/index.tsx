@@ -27,6 +27,7 @@ function Proforma() {
     },
     { field: "company_name", headerName: "Company Name" },
     { field: "role", headerName: "Role Name" },
+    { field: "profile", headerName: "Profile" },
     {
       field: "deadline",
       headerName: "Application Deadline",

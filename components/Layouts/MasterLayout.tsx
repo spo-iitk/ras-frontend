@@ -187,7 +187,7 @@ function MasterLayout({
             </a>
           ))}
           <a
-            href="https://spo.iitk.ac.in/contact"
+            href="https://spo.iitk.ac.in/placement-coordinators"
             target="_blank"
             rel="noreferrer"
           >
@@ -347,7 +347,7 @@ function MasterLayout({
                   </a>
                 ))}
                 <a
-                  href="https://spo.iitk.ac.in/contact"
+                  href="https://spo.iitk.ac.in/placement-coordinators"
                   target="_blank"
                   rel="noreferrer"
                 >

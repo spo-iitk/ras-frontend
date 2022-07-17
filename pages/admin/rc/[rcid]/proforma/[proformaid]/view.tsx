@@ -92,7 +92,20 @@ function View() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="tjobloc">
+            <Grid item xs={12} md={6} key="bnature">
+              <h3>Profile</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.profile}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} key="tjobloc">
               <h3>Tentative Job Location</h3>
               <TextField
                 multiline
