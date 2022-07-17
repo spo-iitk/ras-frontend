@@ -33,6 +33,11 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
+    field: "profile",
+    headerName: "Profile",
+    width: 200,
+  },
+  {
     field: "is_approved",
     headerName: "Status",
     width: 200,

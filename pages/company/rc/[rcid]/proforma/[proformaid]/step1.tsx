@@ -88,7 +88,7 @@ function ProformaNew() {
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Nature of Business</p>
             <TextField
-              id="Cname"
+              id="NatureOfBuisness"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
@@ -100,9 +100,23 @@ function ProformaNew() {
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Profile</p>
+            <TextField
+              id="Profile"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.profile}
+              helperText={errors.profile && "This field is required"}
+              {...register("profile", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
             <TextField
-              id="Cname"
+              id="TentativeJobLocation"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth

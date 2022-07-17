@@ -16,6 +16,7 @@ export interface ProformaParams {
   ID: number;
   company_name: string;
   role: string;
+  profile: string;
   set_deadline: number;
   resume: string;
 }
