@@ -62,7 +62,9 @@ function Unfreeze({
           label="Enter Email Ids (CV format)"
           id="emails"
           variant="standard"
-          {...register("email", { required: true })}
+          {...register("email", {
+            required: true,
+          })}
         />
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button

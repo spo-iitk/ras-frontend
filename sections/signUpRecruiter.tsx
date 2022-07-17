@@ -67,7 +67,10 @@ function SignUpRecruiter() {
             id="Name"
             label="Name"
             variant="outlined"
-            {...register("name", { required: true })}
+            {...register("name", {
+              required: true,
+              setValueAs: (value) => value.trim(),
+            })}
             error={!!errors.name}
             helperText={errors.name ? "Name is required!" : ""}
           />
@@ -77,7 +80,10 @@ function SignUpRecruiter() {
             id="Designation"
             label="Designation"
             variant="outlined"
-            {...register("designation", { required: true })}
+            {...register("designation", {
+              required: true,
+              setValueAs: (value) => value.trim(),
+            })}
             error={!!errors.designation}
             helperText={errors.designation ? "Designation is required!" : ""}
           />
@@ -87,7 +93,11 @@ function SignUpRecruiter() {
             id="Email Id"
             label="Email Id"
             variant="outlined"
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            {...register("email", {
+              required: true,
+              pattern: /^\S+@\S+$/i,
+              setValueAs: (value) => value.trim(),
+            })}
             error={!!errors.email}
             helperText={errors.email ? "Valid Email Id is required!" : ""}
           />
@@ -98,7 +108,11 @@ function SignUpRecruiter() {
             label="Contact Number"
             variant="outlined"
             type="tel"
-            {...register("phone", { required: true, pattern: /^[0-9]{10}$/ })}
+            {...register("phone", {
+              required: true,
+              pattern: /^[0-9]{10}$/,
+              setValueAs: (value) => value.trim(),
+            })}
             error={!!errors.phone}
             helperText={errors.phone ? "Valid Contact Number is required!" : ""}
           />

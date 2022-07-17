@@ -69,6 +69,7 @@ function AddHRMD({
           variant="standard"
           {...register("name", {
             required: true,
+            setValueAs: (value) => value.trim(),
           })}
         />
         <TextField
@@ -78,6 +79,7 @@ function AddHRMD({
           variant="standard"
           {...register("email", {
             required: true,
+            setValueAs: (value) => value.trim(),
           })}
         />
         <TextField
@@ -87,6 +89,7 @@ function AddHRMD({
           variant="standard"
           {...register("phone", {
             required: true,
+            setValueAs: (value) => value.trim(),
           })}
         />
         <TextField
@@ -96,6 +99,7 @@ function AddHRMD({
           variant="standard"
           {...register("designation", {
             required: true,
+            setValueAs: (value) => value.trim(),
           })}
         />
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>

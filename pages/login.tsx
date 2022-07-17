@@ -138,6 +138,7 @@ function Login() {
               {...register("user_id", {
                 required: true,
                 pattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+                setValueAs: (value) => value.trim(),
               })}
             />
           </FormControl>
