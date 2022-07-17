@@ -20,6 +20,10 @@ const columns: GridColDef[] = [
     headerName: "Role name",
   },
   {
+    field: "profile",
+    headerName: "Profile",
+  },
+  {
     field: "deadline",
     headerName: "Application Deadline",
     renderCell(params) {

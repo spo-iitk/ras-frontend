@@ -72,6 +72,7 @@ const columns: GridColDef[] = [
   },
   { field: "active_hr", headerName: "Active HR" },
   { field: "role", headerName: "Role Name" },
+  { field: "profile", headerName: "Profile" },
   {
     field: "Actions",
     headerName: "Actions",

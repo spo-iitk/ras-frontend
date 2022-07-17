@@ -109,7 +109,7 @@ function ProformaNew() {
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Nature of Business</p>
             <TextField
-              id="Cname"
+              id="NatureOfBusiness"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
@@ -123,7 +123,7 @@ function ProformaNew() {
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Profile</p>
             <TextField
-              id="Cname"
+              id="Profile"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
@@ -137,7 +137,7 @@ function ProformaNew() {
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
             <TextField
-              id="Cname"
+              id="TentativeJobDescription"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
