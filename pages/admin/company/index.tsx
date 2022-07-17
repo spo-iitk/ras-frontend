@@ -3,7 +3,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
 import { IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
@@ -43,7 +42,7 @@ const columns: GridColDef[] = [
         width="100%"
         justifyContent="space-between"
       >
-        <Link href={`/admin/company/${params.row.id}`}>
+        <Link href={`/admin/company/${params.row.ID}`}>
           <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
         </Link>
       </Stack>
@@ -83,15 +82,12 @@ function Index() {
             alignItems="center"
           >
             <div>
-              <h1>Master Database (Company)</h1>
+              <h2>Master Database (Company)</h2>
             </div>
             <div>
               <Stack direction="row" spacing={3}>
                 <IconButton onClick={handleOpenNew}>
                   <AddIcon />
-                </IconButton>
-                <IconButton>
-                  <MoreVertIcon />
                 </IconButton>
               </Stack>
             </div>

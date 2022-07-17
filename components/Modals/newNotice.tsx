@@ -87,7 +87,7 @@ function NewNotice({
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Add Notice</h1>
+        <h2>Add Notice</h2>
         <Autocomplete
           disablePortal
           id="selectCompany"

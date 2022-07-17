@@ -24,10 +24,10 @@ export interface ProformaType {
   recruitment_cycle_id: number;
   is_approved: nullBool;
   action_taken_by: string;
-  set_deadline: number;
+  deadline: number;
   hide_details: boolean;
-  active_hr_id: string;
-  nature_of_business: string;
+  active_hr: string;
+  role: string;
   tentative_job_location: string;
   job_description: string;
   cost_to_company: string;

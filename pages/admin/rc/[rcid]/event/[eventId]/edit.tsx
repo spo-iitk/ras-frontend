@@ -1,7 +1,7 @@
 import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -11,9 +11,9 @@ import Meta from "@components/Meta";
 import eventRequest, { EventDetails } from "@callbacks/admin/rc/proforma/event";
 
 function Event() {
-  const [startTime, setStartTime] = React.useState<Date | null>(new Date());
-  const [endTime, setEndTime] = React.useState<Date | null>(new Date());
-  const [pid, setProformaID] = React.useState<number>(0);
+  const [startTime, setStartTime] = useState<Date | null>(new Date());
+  const [endTime, setEndTime] = useState<Date | null>(new Date());
+  const [pid, setProformaID] = useState<number>(0);
   const { token } = useStore();
   const router = useRouter();
   const { rcid, eventId } = router.query;
@@ -55,7 +55,7 @@ function Event() {
   return (
     <div className="container">
       <Meta title="Event Details" />
-      <h1 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h1>
+      <h2 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h2>
 
       <Card
         elevation={5}
@@ -65,7 +65,7 @@ function Event() {
         }}
       >
         <Stack spacing={3}>
-          <h1>Edit Event Details</h1>
+          <h2>Edit Event Details</h2>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Name</p>
             <TextField

@@ -19,6 +19,7 @@ import Enroll from "@components/Modals/Enroll";
 import Freeze from "@components/Modals/Freeze";
 import Unfreeze from "@components/Modals/Unfreeze";
 import { getDeptProgram } from "@components/Parser/parser";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 function DeleteStudents(props: { id: string }) {
   const { token } = useStore();
@@ -26,14 +27,35 @@ function DeleteStudents(props: { id: string }) {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  useEffect(() => {
+    if (confirmation) {
+      getStudents.deleteStudent(token, rid, id);
+    }
+  }, [confirmation, id, rid, token]);
   return (
-    <IconButton
-      onClick={() => {
-        getStudents.deleteStudent(token, rid, id);
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </>
   );
 }
 
@@ -62,18 +84,19 @@ const columns: GridColDef[] = [
     field: "program_department_id",
     headerName: "Department",
     width: 100,
-    renderCell: (params) => getDeptProgram(params.value),
+    valueGetter: (params) => getDeptProgram(params.value),
   },
   {
     field: "secondary_program_department_id",
     headerName: "Secondary Department",
     width: 200,
-    renderCell: (params) => getDeptProgram(params.value),
+    valueGetter: (params) => getDeptProgram(params.value),
   },
   {
     field: "student_id",
     headerName: "Student ID",
     width: 100,
+    hide: true,
   },
   {
     field: "is_frozen",
@@ -90,6 +113,7 @@ const columns: GridColDef[] = [
     headerName: "",
     align: "center",
     width: 100,
+    hide: true,
     renderCell: (cellValues) => (
       <DeleteStudents id={cellValues.id.toString()} />
     ),
@@ -110,13 +134,13 @@ const columns: GridColDef[] = [
 ];
 function Index() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [rows, setRows] = React.useState<any>([]);
+  const [rows, setRows] = useState<any>([]);
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const [loading, setLoading] = React.useState(true);
-  const [openEnroll, setOpenEnroll] = React.useState(false);
+  const [loading, setLoading] = useState(true);
+  const [openEnroll, setOpenEnroll] = useState(false);
   const handleOpenEnroll = () => {
     setOpenEnroll(true);
   };
@@ -124,7 +148,7 @@ function Index() {
     setOpenEnroll(false);
   };
 
-  const [openFreeze, setOpenFreeze] = React.useState(false);
+  const [openFreeze, setOpenFreeze] = useState(false);
   const handleOpenFreeze = () => {
     setOpenFreeze(true);
   };
@@ -132,7 +156,7 @@ function Index() {
     setOpenFreeze(false);
   };
 
-  const [openUnFreeze, setOpenUnFreeze] = React.useState(false);
+  const [openUnFreeze, setOpenUnFreeze] = useState(false);
   const handleOpenUnFreeze = () => {
     setOpenUnFreeze(true);
   };

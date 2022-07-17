@@ -5,12 +5,13 @@ import {
   DataGrid,
   GridCellParams,
   GridColDef,
-  GridRowHeightParams,
+  // GridRowHeightParams,
   GridToolbar,
   MuiEvent,
 } from "@mui/x-data-grid";
 import Image from "next/image";
 import * as React from "react";
+import { useState } from "react";
 
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
@@ -65,7 +66,7 @@ function Index({
   getRowId,
   loading = false,
 }: paramsType) {
-  const [pageSize, setPageSize] = React.useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   const cols = columns.map((col) => ({
     ...col,
@@ -92,17 +93,18 @@ function Index({
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[10, 25, 50, 100]}
-        autoHeight={rows.length > 0}
-        getRowHeight={({ id, densityFactor }: GridRowHeightParams) => {
-          if ((id as number) % 2 === 0) {
-            return 100 * densityFactor;
-          }
+        autoHeight={rows?.length > 0}
+        // getRowHeight={({ id, densityFactor }: GridRowHeightParams) => {
+        //   if ((id as number) % 2 === 0) {
+        //     return 100 * densityFactor;
+        //   }
 
-          return null;
-        }}
+        //   return null;
+        // }}
+        rowHeight={80}
         onCellClick={onCellClick}
         getRowId={getRowId}
-        sx={{ padding: 2, minHeight: rows.length > 0 ? 0 : 500 }}
+        sx={{ padding: 2, minHeight: rows?.length > 0 ? 0 : 500 }}
         loading={loading}
       />
     </div>

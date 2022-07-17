@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -40,13 +40,15 @@ function Enrollment() {
   const router = useRouter();
   const { rcid } = router.query;
   const { token } = useStore();
-  const [questions, setQuestions] = React.useState<studentEnrollResponse[]>();
+  const [questions, setQuestions] = useState<studentEnrollResponse[]>();
+
   useEffect(() => {
     if (rcid === "" || rcid === undefined) return;
     const fetch = async () => {
-      const response = await enrollmentRequest
-        .getStudentEnrollment(token, rcid.toString())
-        .catch(() => ({ type: "null" } as studentEnrollResponse));
+      const response = await enrollmentRequest.getStudentEnrollment(
+        token,
+        rcid.toString()
+      );
       setQuestions(response);
     };
     fetch();
@@ -146,18 +148,6 @@ function Enrollment() {
               )}
             </FormControl>
           );
-        case "Fill in the blanks":
-          return (
-            <TextField
-              variant="standard"
-              defaultValue={question.answer}
-              error={errors[name]}
-              helperText={errors[name] && "*Required"}
-              {...register(name, {
-                required: question.mandatory,
-              })}
-            />
-          );
         default:
           return <div />;
       }
@@ -171,8 +161,9 @@ function Enrollment() {
         <Box sx={boxStyle}>
           <Stack spacing={4}>
             <Stack spacing={2} alignItems="flex-start">
-              <h1>Enrollment Questions</h1>
+              <h2>Enrollment Questions</h2>
               {questions &&
+                questions.length > 0 &&
                 questions.map((question, index) => (
                   <FormControl key={question.ID} sx={{ m: 1, width: "100%" }}>
                     <h3 style={{ fontWeight: 300 }}>
@@ -181,6 +172,11 @@ function Enrollment() {
                     {questions && renderSwitch(index, question)}
                   </FormControl>
                 ))}
+              {questions && questions.length === 0 && (
+                <Typography variant="subtitle1">
+                  No questions to show! Click Submit to Proceed.
+                </Typography>
+              )}
             </Stack>
             <Stack spacing={2} alignItems="flex-start" direction="row">
               <Button

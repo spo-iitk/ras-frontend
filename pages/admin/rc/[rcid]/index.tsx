@@ -4,6 +4,7 @@ import {
   CardContent,
   Grid,
   List,
+  Modal,
   Stack,
   Typography,
 } from "@mui/material";
@@ -12,22 +13,26 @@ import { useRouter } from "next/router";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import theme from "@components/theme/theme";
 import Meta from "@components/Meta";
 import countData, { APPCount, RCCount } from "@callbacks/admin/rc/count";
 import useStore from "@store/store";
 import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
 import requestCompany from "@callbacks/admin/rc/company";
 import eventRequest, { Event } from "@callbacks/admin/rc/overview";
+import rcRequest from "@callbacks/admin/rc/rc";
+import EditRCApplicationCap from "@components/Modals/EditRCApplicationCap";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const [rcdata, setData] = React.useState<RCCount>({
+  const [rcdata, setData] = useState<RCCount>({
     registered_student: 0,
     registered_company: 0,
   });
-  const [notices, setNotice] = React.useState<NoticeParams[]>([
+  const [notices, setNotice] = useState<NoticeParams[]>([
     {
       ID: 0,
       recruitment_cycle_id: 0,
@@ -40,11 +45,15 @@ function Index() {
       last_reminder_at: 0,
     },
   ]);
-  const [appdata, setApp] = React.useState<APPCount>({ roles: 0, ppo_pio: 0 });
+  const [appdata, setApp] = useState<APPCount>({
+    roles: 0,
+    recruited: 0,
+  });
   const { token, rcName } = useStore();
   const [recCompany, setRecCompany] = useState<string[]>([]);
   const [eventSchd, setEventSchd] = useState<Event[]>([]);
   const [eventNotSchd, setEventNotSchd] = useState<Event[]>([]);
+  const [proforma, setProforma] = useState<Event[]>([]);
   useEffect(() => {
     const fetch = async () => {
       const comapny_res = await countData.getRC(token, rid);
@@ -67,7 +76,6 @@ function Index() {
     const fetchEvent = async () => {
       if (router.isReady) {
         const response = await eventRequest.getAll(token, rid);
-        console.log(response);
         const scheduled: Event[] = [];
         const unscheduled: Event[] = [];
         response.forEach((value: Event) => {
@@ -78,19 +86,53 @@ function Index() {
         setEventNotSchd(unscheduled);
       }
     };
+    const fetchProforma = async () => {
+      if (router.isReady) {
+        const response = await eventRequest.getProforma(token, rid);
+        setProforma(response);
+      }
+    };
     fetchCompany();
     fetchEvent();
+    fetchProforma();
   }, [rid, router.isReady, token]);
 
   const handleClick = () => {
     router.push(`/admin/rc/${rid}/notice`);
   };
+
+  const [openNew, setOpenNew] = useState(false);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+  useEffect(() => {
+    const close = async () => {
+      if (rcid && confirmation) {
+        await rcRequest.put(token, {
+          ID: parseInt(rcid?.toString(), 10),
+          inactive: true,
+        });
+        router.push("/admin/rc");
+      }
+    };
+    close();
+  }, [confirmation, rcid, router, router.isReady, token]);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+
   return (
     <div className="container">
       <Meta title={`Admin Dashboard - ${rcName}`} />
       <Stack>
-        {/* <h1>{rcName}</h1> */}
-
         <Stack
           spacing={3}
           justifyContent="space-between"
@@ -102,23 +144,38 @@ function Index() {
             variant="contained"
             endIcon={<EditIcon />}
             sx={{ width: "150px" }}
+            onClick={handleOpenNew}
           >
             Edit
           </Button>
+          <Modal open={openNew} onClose={handleCloseNew}>
+            <EditRCApplicationCap handleClose={handleCloseNew} />
+          </Modal>
           <Button
             variant="contained"
             endIcon={<DeleteIcon />}
             sx={{ width: "150px" }}
+            onClick={() => {
+              handleOpenDeleteModal();
+            }}
           >
             Delete
           </Button>
+          <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+            <DeleteConfirmation
+              handleClose={handleCloseDeleteModal}
+              setConfirmation={setConfirmation}
+            />
+          </Modal>
         </Stack>
         <Grid container justifyContent="space-evenly" spacing={2}>
           <Grid item xs={6} md={3} sx={{ padding: 0 }}>
             <Card
               sx={{
                 height: { xs: 100, md: 200 },
-                border: "2px solid blue",
+                border: `2px solid ${theme.palette.secondary.main}`,
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: 5,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -153,7 +210,9 @@ function Index() {
             <Card
               sx={{
                 height: { xs: 100, md: 200 },
-                border: "2px solid blue",
+                border: `2px solid ${theme.palette.secondary.main}`,
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: 5,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -180,7 +239,7 @@ function Index() {
                     fontSize: { xs: "1rem", md: "3rem" },
                   }}
                 >
-                  {appdata.ppo_pio}
+                  {appdata.recruited}
                 </Typography>
               </CardContent>
             </Card>
@@ -189,7 +248,9 @@ function Index() {
             <Card
               sx={{
                 height: { xs: 100, md: 200 },
-                border: "2px solid blue",
+                border: `2px solid ${theme.palette.secondary.main}`,
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: 5,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -225,7 +286,9 @@ function Index() {
             <Card
               sx={{
                 height: { xs: 100, md: 200 },
-                border: "2px solid blue",
+                border: `2px solid ${theme.palette.secondary.main}`,
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: 5,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -274,11 +337,10 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
                       onClick={handleClick}
                     >
@@ -311,7 +373,7 @@ function Index() {
                               sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                color: "blue",
+                                color: theme.palette.secondary.main,
                               }}
                             >
                               {new Date(value.CreatedAt).toLocaleDateString()}
@@ -340,11 +402,10 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
                       onClick={() => router.push(`/admin/rc/${rid}/company`)}
                     >
@@ -377,7 +438,7 @@ function Index() {
                               sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                color: "blue",
+                                color: theme.palette.secondary.main,
                               }}
                             >
                               Recently Added
@@ -398,7 +459,7 @@ function Index() {
             <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
               <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
                 <Grid item xs={6}>
-                  <h3>Recent JAF Added</h3>
+                  <h3>Recent Proforma Added</h3>
                   <h5 style={{ position: "relative", bottom: "1rem" }}>
                     Posted by: SPO Team
                   </h5>
@@ -408,12 +469,12 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                      onClick={() => router.push(`/admin/rc/${rid}/proforma`)}
                     >
                       View All
                     </Button>
@@ -429,24 +490,32 @@ function Index() {
                 }}
               >
                 <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
-                  {eventSchd.map((value) => (
-                    <Grid container sx={{ padding: "0px 1ch" }}>
-                      <Grid item xs={6}>
-                        <Typography>{value.name}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            color: "blue",
-                          }}
-                        >
-                          {value.start_date}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  ))}
+                  {proforma.map((value, i) => {
+                    if (i < 4) {
+                      return (
+                        <Grid container sx={{ padding: "0px 1ch" }}>
+                          <Grid item xs={6}>
+                            <Typography>
+                              {value.company_name} - {value.role}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                color: theme.palette.secondary.main,
+                              }}
+                            >
+                              {new Date(value.CreatedAt).toLocaleString()}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      );
+                    }
+                    // eslint-disable-next-line react/jsx-no-useless-fragment
+                    return <></>;
+                  })}
                 </div>
               </List>
             </Card>
@@ -465,12 +534,12 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                      onClick={() => router.push(`/admin/rc/${rid}/event`)}
                     >
                       View All
                     </Button>
@@ -486,24 +555,30 @@ function Index() {
                 }}
               >
                 <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
-                  {eventNotSchd.map((value) => (
-                    <Grid container sx={{ padding: "0px 1ch" }}>
-                      <Grid item xs={6}>
-                        <Typography>{value.name}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            color: "blue",
-                          }}
-                        >
-                          {value.start_date}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  ))}
+                  {eventSchd.map((value, i) => {
+                    if (i < 4) {
+                      return (
+                        <Grid container sx={{ padding: "0px 1ch" }}>
+                          <Grid item xs={6}>
+                            <Typography>{value.name}</Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                color: theme.palette.secondary.main,
+                              }}
+                            >
+                              {new Date(value.UpdatedAt).toLocaleString()}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      );
+                    }
+                    // eslint-disable-next-line react/jsx-no-useless-fragment
+                    return <></>;
+                  })}
                 </div>
               </List>
             </Card>
@@ -522,12 +597,12 @@ function Index() {
                     style={{
                       display: "flex",
                       justifyContent: "flex-end",
-                      color: "blue",
                     }}
                   >
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                      onClick={() => router.push(`/admin/rc/${rid}/event`)}
                     >
                       View All
                     </Button>
@@ -542,26 +617,32 @@ function Index() {
                   padding: "1rem",
                 }}
               >
-                {eventNotSchd.map((value) => (
-                  <div key={value.ID} style={{ margin: "15px 0px" }}>
-                    <Grid container sx={{ padding: "0px 1ch" }}>
-                      <Grid item xs={6}>
-                        <Typography>{value.name}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            color: "blue",
-                          }}
-                        >
-                          {value.start_date}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </div>
-                ))}
+                {eventNotSchd.map((value, i) => {
+                  if (i < 4) {
+                    return (
+                      <div key={value.ID} style={{ margin: "15px 0px" }}>
+                        <Grid container sx={{ padding: "0px 1ch" }}>
+                          <Grid item xs={6}>
+                            <Typography>{value.name}</Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                color: theme.palette.secondary.main,
+                              }}
+                            >
+                              {new Date(value.UpdatedAt).toLocaleString()}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </div>
+                    );
+                  }
+                  // eslint-disable-next-line react/jsx-no-useless-fragment
+                  return <></>;
+                })}
               </List>
             </Card>
           </Grid>

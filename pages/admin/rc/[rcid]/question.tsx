@@ -10,6 +10,7 @@ import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import AddRCQuestion from "@components/Modals/AddRCQuestion";
 import useStore from "@store/store";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 function DeleteQues(props: { id: string }) {
   const router = useRouter();
@@ -17,14 +18,37 @@ function DeleteQues(props: { id: string }) {
   const rid = (rcid || "").toString();
   const { token } = useStore();
   const { id } = props;
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+
+  useEffect(() => {
+    if (confirmation) {
+      UpdateQuestion.deleteQues(token, rid, id);
+    }
+  }, [confirmation, id, rid, token]);
   return (
-    <IconButton
-      onClick={() => {
-        UpdateQuestion.deleteQues(token, rid, id);
-      }}
-    >
-      <DeleteIcon />
-    </IconButton>
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </>
   );
 }
 const columns: GridColDef[] = [
@@ -81,7 +105,7 @@ function RecruitmentCycle() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
-  const [openNew, setOpenNew] = React.useState(false);
+  const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
   };
@@ -93,7 +117,6 @@ function RecruitmentCycle() {
     <div className="container">
       <Meta title="Add Questions - Recruitment Cycle" />
       <Stack>
-        {/* <h1>{rcName}</h1> */}
         <Stack
           spacing={3}
           justifyContent="space-between"

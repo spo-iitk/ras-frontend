@@ -21,6 +21,7 @@ import useStore from "@store/store";
 import CompanyHistory from "sections/CompanyHistory";
 import HRContactDetails from "sections/HRContactDetails";
 import PastHires from "sections/PastHires";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -69,19 +70,30 @@ function Index() {
   const handleCloseEditComp = () => {
     setOpenEditComp(false);
   };
-  const deleteCompany = () => {
-    const delCompany = async () => {
-      await addCompanyRequest.delete(token, companyId);
-    };
-    router.push("/admin/company");
-    delCompany();
-  };
 
-  const [value, setValue] = React.useState(0);
-
+  const [value, setValue] = useState(0);
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+
+  useEffect(() => {
+    const deleteCompany = () => {
+      const delCompany = async () => {
+        await addCompanyRequest.delete(token, companyId);
+      };
+      router.push("/admin/company");
+      delCompany();
+    };
+    if (confirmation) deleteCompany();
+  }, [confirmation, companyId, router.isReady, token, router]);
 
   return (
     <div className="container">
@@ -92,14 +104,20 @@ function Index() {
           alignItems="center"
           justifyContent="space-between"
         >
-          <h1>Company Profile</h1>
+          <h2>Company Profile</h2>
           <Stack spacing={1} direction="row">
             <IconButton onClick={handleOpenEditComp}>
               <EditIcon />
             </IconButton>
-            <IconButton onClick={deleteCompany}>
+            <IconButton onClick={handleOpenDeleteModal}>
               <DeleteIcon />
             </IconButton>
+            <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+              <DeleteConfirmation
+                handleClose={handleCloseDeleteModal}
+                setConfirmation={setConfirmation}
+              />
+            </Modal>
           </Stack>
           <Modal open={openEditComp} onClose={handleCloseEditComp}>
             <EditCompanyMD

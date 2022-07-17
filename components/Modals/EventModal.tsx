@@ -3,7 +3,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import React from "react";
+import React, { useState } from "react";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -21,13 +21,13 @@ const boxStyle = {
   maxHeight: "100vh",
 };
 function EventModal() {
-  const [date, setDate] = React.useState<Date | null>(new Date());
-  const [startTime, setStartTime] = React.useState<Date | null>(new Date());
-  const [endTime, setEndTime] = React.useState<Date | null>(new Date());
+  const [date, setDate] = useState<Date | null>(new Date());
+  const [startTime, setStartTime] = useState<Date | null>(new Date());
+  const [endTime, setEndTime] = useState<Date | null>(new Date());
 
   return (
     <Box sx={boxStyle}>
-      <h1 style={{ textAlign: "center" }}>View Event Details</h1>
+      <h2 style={{ textAlign: "center" }}>View Event Details</h2>
       <Grid
         container
         spacing={3}

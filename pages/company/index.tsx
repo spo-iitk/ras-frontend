@@ -8,18 +8,20 @@ import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import rcRequest, { RC } from "@callbacks/company/rc/rc";
 import useStore from "@store/store";
-import companyRequest from "@callbacks/company/company";
 
 const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
     width: 90,
+    hide: true,
   },
   {
     field: "name",
     headerName: "Recruitment Drive Name",
     width: 400,
+    align: "center",
+    headerAlign: "center",
   },
   {
     field: "is_active",
@@ -30,13 +32,13 @@ const columns: GridColDef[] = [
     headerAlign: "center",
     renderCell: (params) => (
       <Link href={`/company/rc/${params.row.id}`}>
-        <ActiveButton sx={{ height: 30, width: "100%" }}>View</ActiveButton>
+        <ActiveButton sx={{ height: 30, width: "40%" }}>View</ActiveButton>
       </Link>
     ),
   },
 ];
 function Overview(): JSX.Element {
-  const { token, setRCName, setName } = useStore();
+  const { token, setRCName } = useStore();
   const [rows, setRows] = useState<RC[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -47,15 +49,15 @@ function Overview(): JSX.Element {
       if (response?.length > 0) setRows(response);
       setLoading(false);
     };
-    const getCompany = async () => {
-      const response = await companyRequest.get(token);
-      setName(response.name);
-      Object.assign(Overview, { companyName: response.name });
-    };
+    // const getCompany = async () => {
+    //   const response = await companyRequest.get(token);
+    //   setName(response.name);
+    //   Object.assign(Overview, { companyName: response.name });
+    // };
 
     if (token !== "") {
       getRC();
-      getCompany();
+      // getCompany();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
@@ -64,7 +66,6 @@ function Overview(): JSX.Element {
     <div className="container">
       <Meta title="Company Dashboard - Overview" />
       <Stack>
-        <h1>Dashboard</h1>
         <h2>Recruitment Cycle</h2>
         <DataGrid
           rows={rows}

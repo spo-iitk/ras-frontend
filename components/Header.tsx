@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { IconButton, Menu, MenuItem, Stack, Tooltip } from "@mui/material";
 import Link from "next/link";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -7,7 +7,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import headerstyles from "../styles/Header.module.css";
 
 function Header() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -24,28 +24,35 @@ function Header() {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Image
-            src="/images/logo/spoLogo.png"
-            alt="logo"
-            width={60}
-            height={60}
-          />
-          <Stack direction="column">
-            <h2 className={headerstyles.title} style={{ margin: 0 }}>
-              Recruitment Automation System
-            </h2>
-            <h5 className={headerstyles.title} style={{ margin: 0 }}>
-              Indian Institute of Technology, Kanpur
-            </h5>
+        <Link href="/">
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            className={headerstyles.pointer}
+          >
+            <Image
+              src="/images/logo/spoLogo.png"
+              alt="logo"
+              width={60}
+              height={60}
+            />
+            <Stack direction="column">
+              <h2 className={headerstyles.title} style={{ margin: 0 }}>
+                Recruitment Automation System
+              </h2>
+              <h5 className={headerstyles.title} style={{ margin: 0 }}>
+                Indian Institute of Technology, Kanpur
+              </h5>
+            </Stack>
           </Stack>
-        </Stack>
+        </Link>
         <div className={headerstyles.sideNav}>
           <Stack direction="row" spacing={3} alignItems="center">
             <Link href="/login">Sign in</Link>
             <Link href="/signup">Sign Up</Link>
             <a
-              href="https://spo.iitk.ac.in/contact"
+              href="https://spo.iitk.ac.in/placement-coordinators"
               target="_blank"
               rel="noreferrer"
             >
@@ -110,7 +117,7 @@ function Header() {
             </MenuItem>
             <MenuItem>
               <a
-                href="https://spo.iitk.ac.in/contact"
+                href="https://spo.iitk.ac.in/placement-coordinators"
                 target="_blank"
                 rel="noreferrer"
               >

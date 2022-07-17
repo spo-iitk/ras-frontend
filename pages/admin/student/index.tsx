@@ -1,6 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { Button } from "@mui/material";
 
 import AdminStudentRequest, {
   Student,
@@ -8,13 +9,13 @@ import AdminStudentRequest, {
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import { getDeptProgram } from "@components/Parser/parser";
 
 const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "ID",
+    hide: true,
   },
   {
     field: "name",
@@ -23,12 +24,12 @@ const columns: GridColDef[] = [
   {
     field: "program_department_id",
     headerName: "Program",
-    renderCell: (rowData) => getDeptProgram(rowData.value),
+    valueGetter: (rowData) => getDeptProgram(rowData.value),
   },
   {
     field: "secondary_program_department_id",
     headerName: "Secondary Program",
-    renderCell: (rowData) => getDeptProgram(rowData.value),
+    valueGetter: (rowData) => getDeptProgram(rowData.value),
   },
   {
     field: "specialization",
@@ -47,6 +48,7 @@ const columns: GridColDef[] = [
   {
     field: "gender",
     headerName: "Gender",
+    hide: true,
   },
   {
     field: "disability",
@@ -76,6 +78,7 @@ const columns: GridColDef[] = [
   {
     field: "phone",
     headerName: "Contact Number",
+    hide: true,
   },
   {
     field: "alternate_phone",
@@ -185,7 +188,9 @@ const columns: GridColDef[] = [
           pathname: `student/${params.row.ID}`,
         }}
       >
-        <ActiveButton> click </ActiveButton>
+        <Button variant="contained" fullWidth>
+          Click
+        </Button>
       </Link>
     ),
   },
@@ -208,7 +213,7 @@ function Index() {
   return (
     <div className="container">
       <Meta title="Master Student Database - Admin" />
-      <h1>Master Database (Student)</h1>
+      <h2>Master Database (Student)</h2>
       <DataGrid
         rows={rows}
         columns={columns}

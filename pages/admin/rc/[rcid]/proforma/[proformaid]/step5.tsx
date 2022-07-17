@@ -46,10 +46,10 @@ function Step5() {
       reset({
         additional_eligibility: "",
         message_for_cordinator: "",
-        active_hr_id: "",
+        active_hr: "",
       });
       router.push({
-        pathname: ROUTE,
+        pathname: `${ROUTE}/proforma`,
         query: { rcId: rid },
       });
     }
@@ -73,7 +73,7 @@ function Step5() {
   return (
     <div className="container">
       <Meta title="Step 5/5 - Additional Information" />
-      <h1>Internship 2022-23 Phase 1</h1>
+      <h2>Internship 2022-23 Phase 1</h2>
       <Card
         elevation={5}
         sx={{
@@ -82,7 +82,7 @@ function Step5() {
         }}
       >
         <Stack spacing={3}>
-          <h1>Step 5/5 : Additional Information</h1>
+          <h2>Step 5/5 : Additional Information</h2>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Additional Eligibility Criteria</p>
             <TextField
@@ -142,9 +142,9 @@ function Step5() {
                   {...params}
                   fullWidth
                   variant="standard"
-                  error={!!errors.active_hr_id}
-                  helperText={errors.active_hr_id && "This field is required!"}
-                  {...register("active_hr_id", { required: true })}
+                  error={!!errors.active_hr}
+                  helperText={errors.active_hr && "This field is required!"}
+                  {...register("active_hr", { required: true })}
                 />
               )}
             />
@@ -171,15 +171,15 @@ function Step5() {
             <p style={{ fontWeight: 300 }}>Deadline</p>
             <TextField
               id="Cname"
-              type="date"
+              type="datetime-local"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               minRows={5}
               variant="standard"
-              error={!!errors.set_deadline}
-              helperText={errors.set_deadline && "This field is required!"}
-              {...register("set_deadline", {
+              error={!!errors.deadline}
+              helperText={errors.deadline && "This field is required!"}
+              {...register("deadline", {
                 setValueAs: (value: string) => new Date(value).getTime(),
               })}
             />
@@ -206,7 +206,7 @@ function Step5() {
                 reset({
                   additional_eligibility: "",
                   message_for_cordinator: "",
-                  active_hr_id: "",
+                  active_hr: "",
                 });
               }}
             >

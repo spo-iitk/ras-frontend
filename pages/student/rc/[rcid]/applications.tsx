@@ -1,15 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { Button, Grid, Stack } from "@mui/material";
+import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
+import useStore from "@store/store";
+import applicationViewRequest, {
+  ApplicationType,
+} from "@callbacks/student/rc/applications";
+import { CDN_URL } from "@callbacks/constants";
 
 const sideTextStyle = {
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-end",
 };
+
+function Withdraw({ params }: any) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+
+  const handleWithdraw = () => {
+    if (rid) {
+      applicationViewRequest.delete(token, rid, params.row.id).finally(() => {
+        window.location.reload();
+      });
+    }
+  };
+  return (
+    <Button
+      variant="contained"
+      sx={{ width: "100%" }}
+      onClick={() => handleWithdraw()}
+    >
+      Withdraw
+    </Button>
+  );
+}
+
+const transformName = (name: string) => {
+  const nname = name.replace(`${CDN_URL}/view/`, "");
+  const nameArray = nname.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
+};
+
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
+
 const columns: GridColDef[] = [
   {
     field: "id",
@@ -17,7 +58,7 @@ const columns: GridColDef[] = [
     width: 100,
   },
   {
-    field: "companyName",
+    field: "company_name",
     headerName: "Company Name",
     width: 250,
   },
@@ -29,46 +70,58 @@ const columns: GridColDef[] = [
   {
     field: "deadline",
     headerName: "Application Deadline",
+    valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
     width: 200,
   },
   {
     field: "resume",
     headerName: "Applied Resume",
     sortable: false,
-    width: 200,
+    align: "center",
+    headerAlign: "center",
+    valueGetter: (params) => getURL(params?.value),
+    renderCell: (params) => (
+      <Button
+        variant="contained"
+        sx={{ width: "100%" }}
+        onClick={() => {
+          window.open(params.value, "_blank");
+        }}
+      >
+        {transformName(params.value)}
+      </Button>
+    ),
   },
   {
     field: "withdraw",
     headerName: "Actions",
     sortable: false,
     width: 200,
-    renderCell: () => (
-      <Button variant="contained" color="primary" sx={{ width: "100%" }}>
-        Withdraw
-      </Button>
-    ),
+    renderCell: (params) => <Withdraw params={params} />,
   },
 ];
-const rows = [
-  {
-    id: 1,
-    companyName: "Google",
-    role: "Software Dev",
-    deadline: "12:00AM 31 May 2022",
-    resume: "ID:2 Page Software Dev ",
-  },
-  {
-    id: 2,
-    companyName: "Microsoft",
-    role: "Software Dev",
-    deadline: "12:00AM 31 May 2022",
-    resume: "ID:1 Page Software Dev",
-  },
-];
-const applicationParams = {
-  applications: rows.length,
-};
+
 function Applications() {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const [applications, setApplications] = useState<ApplicationType[]>([]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (rid === undefined || rid === "") return;
+      const allApplications: ApplicationType[] =
+        await applicationViewRequest.get(token, rid);
+      if (allApplications && allApplications.length > 0)
+        setApplications(allApplications);
+      setLoading(false);
+    };
+    fetch();
+  }, [rid, token]);
+
   return (
     <div className="container">
       <Meta title="Applications" />
@@ -79,14 +132,16 @@ function Applications() {
         alignItems={{ xs: "flex-start", md: "center" }}
       >
         <Grid item xs={12} md={6}>
-          <h1>Your Applications</h1>
+          <h2>Your Applications</h2>
         </Grid>
         <Grid item xs={12} md={6} sx={sideTextStyle}>
-          <h2>Total Applications : {applicationParams.applications}</h2>
+          <h2>
+            Total Applications : {applications ? applications?.length : 0}
+          </h2>
         </Grid>
       </Grid>
       <Stack>
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid rows={applications} columns={columns} loading={loading} />
       </Stack>
     </div>
   );

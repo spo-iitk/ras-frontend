@@ -26,7 +26,7 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
   return (
     <Box sx={boxStyle} className="modalScroll">
       <Stack spacing={3}>
-        <h1>Add Notice</h1>
+        <h2>Notice</h2>
         <TextField
           label="Title"
           defaultValue={currentNotice.title}
@@ -38,6 +38,14 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
         <TextField
           label="Published Date and Time"
           defaultValue={publishedDateAndTime}
+          variant="standard"
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+        <TextField
+          label="Tags"
+          defaultValue={currentNotice.tags}
           variant="standard"
           InputProps={{
             readOnly: true,

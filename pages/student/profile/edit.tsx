@@ -19,7 +19,13 @@ import { getId } from "@components/Parser/parser";
 
 function ProfileEdit() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
-  const { register, handleSubmit, reset, getValues } = useForm<Student>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm<Student>({
     defaultValues: StudentData,
   });
   const [dept, setDept] = useState<any>("");
@@ -74,7 +80,7 @@ function ProfileEdit() {
           justifyContent="space-between"
           spacing={2}
         >
-          <h1>Edit Profile</h1>
+          <h2>Edit Profile</h2>
           <Stack
             direction="row"
             alignItems="center"
@@ -157,6 +163,12 @@ function ProfileEdit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.expected_graduation_year}
+                    helperText={
+                      errors.expected_graduation_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("expected_graduation_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -174,7 +186,8 @@ function ProfileEdit() {
                       setDept(e.target.value);
                     }}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     {Branches.map((branch) => (
                       <MenuItem key={branch} value={branch}>
                         {branch}
@@ -190,23 +203,26 @@ function ProfileEdit() {
                       variant="standard"
                       {...register("program")}
                     >
-                      <MenuItem value="">None</MenuItem>
-                      {Object.keys(func[dept as keyof typeof func]).map(
-                        (program: any) => {
-                          if (
-                            func[dept as keyof typeof func][
-                              program as keyof programType
-                            ] !== -1
-                          ) {
-                            return (
-                              <MenuItem key={program} value={program}>
-                                {program}
-                              </MenuItem>
-                            );
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
+                      {dept !== "" &&
+                        dept !== "NA" &&
+                        Object.keys(func[dept as keyof typeof func]).map(
+                          (program: any) => {
+                            if (
+                              func[dept as keyof typeof func][
+                                program as keyof programType
+                              ] !== -1
+                            ) {
+                              return (
+                                <MenuItem key={program} value={program}>
+                                  {program}
+                                </MenuItem>
+                              );
+                            }
+                            return null;
                           }
-                          return null;
-                        }
-                      )}
+                        )}
                     </Select>
                   ) : (
                     <Select
@@ -214,7 +230,8 @@ function ProfileEdit() {
                       variant="standard"
                       {...register("program")}
                     >
-                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
                     </Select>
                   )}
                 </Grid>
@@ -228,7 +245,8 @@ function ProfileEdit() {
                       setDeptSec(e.target.value);
                     }}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     {Branches.map((branch) => (
                       <MenuItem key={branch} value={branch}>
                         {branch}
@@ -244,31 +262,35 @@ function ProfileEdit() {
                       variant="standard"
                       {...register("program_2")}
                     >
-                      <MenuItem value="">None</MenuItem>
-                      {Object.keys(func[dept as keyof typeof func]).map(
-                        (program: any) => {
-                          if (
-                            func[dept as keyof typeof func][
-                              program as keyof programType
-                            ] !== -1
-                          ) {
-                            return (
-                              <MenuItem key={program} value={program}>
-                                {program}
-                              </MenuItem>
-                            );
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
+                      {deptSec !== "" &&
+                        deptSec !== "NA" &&
+                        Object.keys(func[deptSec as keyof typeof func]).map(
+                          (program: any) => {
+                            if (
+                              func[deptSec as keyof typeof func][
+                                program as keyof programType
+                              ] !== -1
+                            ) {
+                              return (
+                                <MenuItem key={program} value={program}>
+                                  {program}
+                                </MenuItem>
+                              );
+                            }
+                            return null;
                           }
-                          return null;
-                        }
-                      )}
+                        )}
                     </Select>
                   ) : (
                     <Select
                       fullWidth
                       variant="standard"
-                      {...register("program")}
+                      {...register("program_2")}
                     >
-                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
                     </Select>
                   )}
                 </Grid>
@@ -297,7 +319,8 @@ function ProfileEdit() {
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
                   <Select fullWidth variant="standard" {...register("gender")}>
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                   </Select>
@@ -335,6 +358,10 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.phone}
+                    helperText={
+                      errors.phone ? "Contact No. must contain 10 digits!" : ""
+                    }
                     {...register("phone", { minLength: 10, maxLength: 10 })}
                   />
                 </Grid>
@@ -345,6 +372,12 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.alternate_phone}
+                    helperText={
+                      errors.phone
+                        ? "Alternate Contact No. must contain 10 digits!"
+                        : ""
+                    }
                     {...register("alternate_phone", {
                       minLength: 10,
                       maxLength: 10,
@@ -358,6 +391,12 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.whatsapp_number}
+                    helperText={
+                      errors.phone
+                        ? "Whatsapp Contact No. must contain 10 digits!"
+                        : ""
+                    }
                     {...register("whatsapp_number", {
                       minLength: 10,
                       maxLength: 10,
@@ -405,6 +444,12 @@ function ProfileEdit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.tenth_year}
+                    helperText={
+                      errors.tenth_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("tenth_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -441,6 +486,12 @@ function ProfileEdit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.twelfth_year}
+                    helperText={
+                      errors.twelfth_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("twelfth_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -467,7 +518,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("entrance_exam")}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
 
                     <MenuItem value="JEE Advanced">JEE Advanced</MenuItem>
                     <MenuItem value="GATE">GATE</MenuItem>
@@ -481,7 +533,7 @@ function ProfileEdit() {
                   <p>Entrance Exam Rank</p>
                   <TextField
                     fullWidth
-                    type="string"
+                    type="number"
                     id="standard-basic"
                     variant="standard"
                     {...register("entrance_exam_rank", {
@@ -496,7 +548,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("category")}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
 
                     <MenuItem value="General">General</MenuItem>
                     <MenuItem value="General-EWS">General-EWS</MenuItem>
@@ -510,7 +563,7 @@ function ProfileEdit() {
                   <p>Category Rank</p>
                   <TextField
                     fullWidth
-                    type="string"
+                    type="number"
                     id="standard-basic"
                     variant="standard"
                     {...register("category_rank", {
@@ -553,11 +606,17 @@ function ProfileEdit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>Freind Contact Details</p>
+                  <p>Friend Contact Details</p>
                   <TextField
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    error={!!errors.friend_phone}
+                    helperText={
+                      errors.friend_phone
+                        ? "Contact number must be 10 digits long!"
+                        : ""
+                    }
                     variant="standard"
                     {...register("friend_phone", {
                       minLength: 10,

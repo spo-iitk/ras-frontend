@@ -32,7 +32,12 @@ export interface RCResponse {
   id: number;
 }
 
-const rcRequest = {
+export interface rcEdit {
+  ID: number;
+  inactive?: boolean;
+  application_count_cap?: number;
+}
+export const rcRequest = {
   getAll: (token: string) =>
     instance
       .get<RC[]>("", setConfig(token))
@@ -55,6 +60,21 @@ const rcRequest = {
       )
       .then((res) => {
         successNotification("New RC Created", `RC ${res.data.id} created`);
+        return res.data.id;
+      })
+      .catch((err) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return 0;
+      }),
+  put: (token: string, body: rcEdit) =>
+    instance
+      .put<RCResponse, AxiosResponse<RCResponse, rcEdit>, rcEdit>(
+        ``,
+        body,
+        setConfig(token)
+      )
+      .then((res) => {
+        successNotification("RC Updated", `RC updated`);
         return res.data.id;
       })
       .catch((err) => {

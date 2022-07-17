@@ -1,12 +1,4 @@
-import {
-  Button,
-  Card,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -77,7 +69,7 @@ function Step3() {
   return (
     <div className="container">
       <Meta title="Step 3/5 - Package Details" />
-      <h1>Internship 2022-23 Phase 1</h1>
+      <h2>Internship 2022-23 Phase 1</h2>
       <Card
         elevation={5}
         sx={{
@@ -86,7 +78,7 @@ function Step3() {
         }}
       >
         <Stack spacing={3}>
-          <h1>Step 3/5 : Package Details</h1>
+          <h2>Step 3/5 : Package Details</h2>
           {fetchData.ID !== 0 && (
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>Cost to Company</p>
@@ -108,20 +100,11 @@ function Step3() {
             </FormControl>
           )}
           <FormControl sx={{ m: 1 }}>
-            <Stack direction="row" spacing={3}>
-              <p style={{ fontWeight: 300 }}>Bond</p>
-              <FormControlLabel
-                label=""
-                control={<Checkbox {...register("bond")} />}
-              />
-            </Stack>
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Bond Details</p>
             <TextField
               id="Cname"
               required
-              disabled={useWatch({ control, name: "bond" }) !== true}
+              disabled={useWatch({ control, name: "bond" }) === true}
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
@@ -129,9 +112,7 @@ function Step3() {
               variant="standard"
               error={!!errors.bond_details}
               helperText={errors.bond_details && "This field is required"}
-              {...register("bond_details", {
-                required: useWatch({ control, name: "bond" }) === true,
-              })}
+              {...register("bond_details")}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>

@@ -69,7 +69,7 @@ function Attendance() {
     <div className="container">
       <Meta title="Attendance " />
       <Stack>
-        <h1>Attendance</h1>
+        <h2>Attendance</h2>
 
         <DataGrid rows={rows} columns={columns} />
       </Stack>

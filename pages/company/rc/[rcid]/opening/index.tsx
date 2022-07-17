@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
@@ -15,16 +16,17 @@ const ROUTE_PATH_PROFORMA = "/company/rc/[rcId]/proforma/[proformaid]";
 const columns: GridColDef[] = [
   { field: "ID", headerName: "ID" },
   {
-    field: "nature_of_business",
+    field: "role",
     headerName: "Role name",
   },
   {
-    field: "set_deadline",
+    field: "deadline",
     headerName: "Application Deadline",
-
     renderCell(params) {
       return `${
-        params.row.set_deadline === 0
+        params.row.hide_details
+          ? "--/ -- / ---- ,  -- : -- : --"
+          : params.row.deadline === 0
           ? "Date not Set"
           : new Date(params.value).toLocaleString()
       }`;
@@ -105,8 +107,7 @@ function Applications() {
     <div className="container">
       <Meta title="Applications - Company" />
       <Stack>
-        <h1>Applications</h1>
-        <h2>Intern Season</h2>
+        <h2>Applications</h2>
         <DataGrid
           rows={proformas}
           columns={columns}

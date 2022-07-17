@@ -15,7 +15,9 @@ const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "ID",
+    hide: true,
   },
+  { field: "company_name", headerName: "Company Name" },
   {
     field: "CreatedAt",
     headerName: "Created At",
@@ -24,10 +26,11 @@ const columns: GridColDef[] = [
   {
     field: "UpdatedAt",
     headerName: "Last Updated",
+    renderCell: (rowData) => new Date(rowData.value).toLocaleString(),
   },
   {
     field: "company_id",
-    headerName: "Comapny ID",
+    headerName: "Company ID",
     hide: true,
   },
   {
@@ -41,17 +44,17 @@ const columns: GridColDef[] = [
     renderCell: (params) =>
       // eslint-disable-next-line no-nested-ternary
       params.row.is_approved.Valid
-        ? params.row.is_verified?.Bool
+        ? params.row.is_approved?.Bool
           ? "Approved"
           : "Rejected"
         : "Pending",
   },
   {
-    field: "set_deadline",
+    field: "deadline",
     headerName: "Application Deadline",
     renderCell(params) {
       return `${
-        params.row.set_deadline === 0
+        params.row.deadline === 0
           ? "Date not Set"
           : new Date(params.value).toLocaleString()
       }`;
@@ -67,9 +70,8 @@ const columns: GridColDef[] = [
     valueParser: (value) => value?.split("@")[0],
     hide: true,
   },
-  { field: "active_hr_id", headerName: "Active HR" },
-  { field: "nature_of_business", headerName: "Role Name" },
-  { field: "company_name", headerName: "Company Name" },
+  { field: "active_hr", headerName: "Active HR" },
+  { field: "role", headerName: "Role Name" },
   {
     field: "Actions",
     headerName: "Actions",

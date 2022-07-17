@@ -68,11 +68,12 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
       });
       handleCloseNew();
     }
+    window.location.reload();
   };
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Add Company</h1>
+        <h2>Add Company</h2>
         <Typography>
           Note: If company is not listed here then it might be not listed in the
           master database. Add it there first.

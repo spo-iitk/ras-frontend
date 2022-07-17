@@ -17,7 +17,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
 import theme from "@components/theme/theme";
 import dashboardstyles from "@styles/Dashboard.module.css";
@@ -51,7 +51,7 @@ function MasterLayout({
 }) {
   const { asPath } = useRouter();
   const match = (path: string) => path === asPath;
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     left: false,
   });
 
@@ -155,8 +155,39 @@ function MasterLayout({
           ) : (
             <div />
           )}
+          {items?.extra.map((item) => (
+            <a href={item.id} target="_blank" key={item.id} rel="noreferrer">
+              <ListItem
+                sx={{ borderRadius: 5 }}
+                button
+                selected={!!match(`${items.route}${item.id}`)}
+              >
+                <ListItemAvatar
+                  sx={{
+                    color: match(`${items.route}${item.id}`)
+                      ? theme.palette.secondary.contrastText
+                      : "white",
+                  }}
+                >
+                  {item.avatar}
+                </ListItemAvatar>
+                <ListItemText>
+                  <h4
+                    style={{
+                      margin: 5,
+                      color: match(`${items.route}${item.id}`)
+                        ? theme.palette.secondary.contrastText
+                        : "white",
+                    }}
+                  >
+                    {item.name}
+                  </h4>
+                </ListItemText>
+              </ListItem>
+            </a>
+          ))}
           <a
-            href="https://spo.iitk.ac.in/contact"
+            href="https://spo.iitk.ac.in/placement-coordinators"
             target="_blank"
             rel="noreferrer"
           >
@@ -279,8 +310,44 @@ function MasterLayout({
                 ) : (
                   <div />
                 )}
+                {items?.extra.map((item) => (
+                  <a
+                    href={item.id}
+                    target="_blank"
+                    key={item.id}
+                    rel="noreferrer"
+                  >
+                    <ListItem
+                      sx={{ borderRadius: 5 }}
+                      button
+                      selected={!!match(`${items.route}${item.id}`)}
+                    >
+                      <ListItemAvatar
+                        sx={{
+                          color: match(`${items.route}${item.id}`)
+                            ? theme.palette.secondary.contrastText
+                            : "white",
+                        }}
+                      >
+                        {item.avatar}
+                      </ListItemAvatar>
+                      <ListItemText>
+                        <h4
+                          style={{
+                            margin: 5,
+                            color: match(`${items.route}${item.id}`)
+                              ? theme.palette.secondary.contrastText
+                              : "white",
+                          }}
+                        >
+                          {item.name}
+                        </h4>
+                      </ListItemText>
+                    </ListItem>
+                  </a>
+                ))}
                 <a
-                  href="https://spo.iitk.ac.in/contact"
+                  href="https://spo.iitk.ac.in/placement-coordinators"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -335,7 +402,12 @@ function MasterLayout({
                 {list("left")}
               </Drawer>
             </div>
-            <div style={{ marginTop: 50 }}>{children}</div>
+            <div style={{ marginTop: 50 }} className="container">
+              <Stack direction="column">
+                <div>{items ? <h1>{items?.rcName}</h1> : "Dashboard"}</div>
+                <div>{children}</div>
+              </Stack>
+            </div>
           </Stack>
         </Grid>
       </Grid>

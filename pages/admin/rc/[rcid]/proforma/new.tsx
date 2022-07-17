@@ -59,6 +59,7 @@ function ProformaNew() {
     const info: AdminProformaType = {
       ...data,
       company_id: company.cid,
+      company_name: company.label,
       company_recruitment_cycle_id: company.id,
       job_description: value,
       recruitment_cycle_id: parseInt(rid, 10),
@@ -67,7 +68,7 @@ function ProformaNew() {
     if (res.pid !== 0) {
       reset({
         company_name: "",
-        nature_of_business: "",
+        role: "",
         tentative_job_location: "",
       });
       onChange("");
@@ -81,7 +82,7 @@ function ProformaNew() {
   return (
     <div className="container">
       <Meta title="Step 1/5 - Basic Details" />
-      <h1>Internship 2022-23 Phase 1</h1>
+      <h2>Internship 2022-23 Phase 1</h2>
       <Card
         elevation={5}
         sx={{
@@ -90,7 +91,7 @@ function ProformaNew() {
         }}
       >
         <Stack spacing={3}>
-          <h1>Step 1/5 : Basic Details</h1>
+          <h2>Step 1/5 : Basic Details</h2>
           <FormControl sx={{ m: 1 }}>
             <Autocomplete
               disablePortal
@@ -118,9 +119,9 @@ function ProformaNew() {
               fullWidth
               multiline
               variant="standard"
-              error={!!errors.nature_of_business}
-              helperText={errors.nature_of_business && "This field is required"}
-              {...register("nature_of_business", { required: true })}
+              error={!!errors.role}
+              helperText={errors.role && "This field is required"}
+              {...register("role", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -167,7 +168,7 @@ function ProformaNew() {
               onClick={() => {
                 reset({
                   company_name: "",
-                  nature_of_business: "",
+                  role: "",
                   tentative_job_location: "",
                 });
                 onChange("");

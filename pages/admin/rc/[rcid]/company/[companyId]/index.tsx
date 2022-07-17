@@ -28,7 +28,7 @@ const columns: GridColDef[] = [
     width: 100,
   },
   {
-    field: "nature_of_business",
+    field: "role",
     headerName: "Designation",
     width: 200,
   },
@@ -40,27 +40,27 @@ const columns: GridColDef[] = [
     renderCell(params) {
       // eslint-disable-next-line no-nested-ternary
       return params.row.is_approved.Valid
-        ? params.row.is_verified?.Bool
+        ? params.row.is_approved?.Bool
           ? "Approved"
           : "Rejected"
         : "Pending";
     },
   },
   {
-    field: "set_deadline",
+    field: "deadline",
     headerName: "Deadline",
     width: 200,
 
     renderCell(params) {
       return `${
-        params.row.set_deadline === 0
+        params.row.deadline === 0
           ? "Date not Set"
           : new Date(params.value).toLocaleString()
       }`;
     },
   },
   {
-    field: "active_hr_id",
+    field: "active_hr",
     headerName: "Active HR",
   },
   {
@@ -162,7 +162,7 @@ function Index() {
   return (
     <div className="container">
       <Meta title="Company Dashboard" />
-      <h1>{row.company_name}</h1>
+      <h2>{row.company_name}</h2>
 
       <Stack spacing={5} justifyContent="center" alignItems="center">
         <Stack
@@ -185,7 +185,7 @@ function Index() {
               variant="contained"
               onClick={handleOpenNew}
             >
-              ADD PPO/PIIO
+              ADD PPO/PIO
             </Button>
             <Modal open={openNew} onClose={handleCloseNew}>
               <AddPPO

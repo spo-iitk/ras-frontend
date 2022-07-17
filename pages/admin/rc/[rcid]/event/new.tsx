@@ -3,19 +3,19 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import React from "react";
+import React, { useState } from "react";
 
 import Meta from "@components/Meta";
 
 function Event() {
-  const [date, setDate] = React.useState<Date | null>(new Date());
-  const [startTime, setStartTime] = React.useState<Date | null>(new Date());
-  const [endTime, setEndTime] = React.useState<Date | null>(new Date());
+  const [date, setDate] = useState<Date | null>(new Date());
+  const [startTime, setStartTime] = useState<Date | null>(new Date());
+  const [endTime, setEndTime] = useState<Date | null>(new Date());
 
   return (
     <div className="container">
       <Meta title="Event Details" />
-      <h1 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h1>
+      <h2 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h2>
 
       <Card
         elevation={5}
@@ -25,7 +25,7 @@ function Event() {
         }}
       >
         <Stack spacing={3}>
-          <h1>Add Event Details</h1>
+          <h2>Add Event Details</h2>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Company Name</p>
             <TextField id="Cname" multiline variant="standard" />

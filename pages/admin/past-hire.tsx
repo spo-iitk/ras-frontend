@@ -58,7 +58,7 @@ function PastHire() {
     <div className="container">
       <Meta title="Past Hire - Admin" />
       <Stack>
-        <h1>Past Hires &gt; Student Wise</h1>
+        <h2>Past Hires &gt; Student Wise</h2>
 
         <DataGrid rows={rows} columns={columns} />
       </Stack>

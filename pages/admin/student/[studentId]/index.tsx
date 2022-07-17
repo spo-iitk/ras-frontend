@@ -9,6 +9,7 @@ import AdminStudentRequest, {
   Student,
 } from "@callbacks/admin/student/adminStudent";
 import useStore from "@store/store";
+import { getDepartment, getProgram } from "@components/Parser/parser";
 
 const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   [
@@ -19,10 +20,22 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "name",
     },
     {
-      field: "Program",
-      value: "Select your Program",
-      disabled: true,
-      api_id: "program",
+      field: "IITK Email",
+      value: "Your IITK email",
+      disabled: false,
+      api_id: "iitk_email",
+    },
+    {
+      field: "IITK Roll No.",
+      value: "Enter your IITK Roll No.",
+      disabled: false,
+      api_id: "roll_no",
+    },
+    {
+      field: "Expected Graduation Year",
+      value: "Select your Graduation Year",
+      disabled: false,
+      api_id: "expected_graduation_year",
     },
     {
       field: "Department",
@@ -31,16 +44,28 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "department",
     },
     {
+      field: "Program",
+      value: "Select your Program",
+      disabled: true,
+      api_id: "program",
+    },
+    {
+      field: "Secondary Department",
+      value: "Select your Department",
+      disabled: true,
+      api_id: "department_2",
+    },
+    {
+      field: "Secondary Program",
+      value: "Select your Program",
+      disabled: true,
+      api_id: "program_2",
+    },
+    {
       field: "Specialisation",
       value: "Enter your Specialisation",
       disabled: false,
       api_id: "specialization",
-    },
-    {
-      field: "IITK Roll No.",
-      value: "Enter your IITK Roll No.",
-      disabled: false,
-      api_id: "roll_no",
     },
     {
       field: "Preference",
@@ -55,10 +80,10 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "gender",
     },
     {
-      field: "Disability",
-      value: "Select your Disability Status",
+      field: "Personal Email",
+      value: "Enter your Personal Email",
       disabled: false,
-      api_id: "disability",
+      api_id: "personal_email",
     },
     {
       field: "DOB",
@@ -67,31 +92,13 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "dob",
     },
     {
-      field: "Expected Graduation Year",
-      value: "Select your Graduation Year",
-      disabled: false,
-      api_id: "expected_graduation_year",
-    },
-    {
-      field: "IITK Email",
-      value: "Your IITK email",
-      disabled: false,
-      api_id: "iitk_email",
-    },
-    {
-      field: "Personal Email",
-      value: "Enter your Personal Email",
-      disabled: false,
-      api_id: "personal_email",
-    },
-    {
       field: "Contact Number",
       value: "Enter your Contact Number",
       disabled: false,
       api_id: "phone",
     },
     {
-      field: "Alternate Contact Numer",
+      field: "Alternate Contact Number",
       value: "Enter your Alternate Contact Number",
       disabled: false,
       api_id: "alternate_phone",
@@ -109,7 +116,7 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "current_cpi",
     },
     {
-      field: "UG CPI(on for PG Students)",
+      field: "UG CPI(only for PG Students)",
       value: "Enter your UG CPI",
       disabled: false,
       api_id: "ug_cpi",
@@ -198,8 +205,13 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       disabled: false,
       api_id: "friend_phone",
     },
+    {
+      field: "Disability",
+      value: "Select your Disability Status",
+      disabled: false,
+      api_id: "disability",
+    },
   ];
-
 function Details() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
   const { token } = useStore();
@@ -228,8 +240,26 @@ function Details() {
       ).catch(() => ({ ID: 0 } as Student));
       setStudentData(student);
     };
-    fetch();
-  }, [token, sId]);
+    if (router.isReady) fetch();
+  }, [token, sId, router.isReady]);
+
+  const handleValue = (val: string) => {
+    switch (val) {
+      case "dob":
+        return new Date(StudentData.dob).toLocaleDateString();
+      case "program":
+        return getProgram(StudentData.program_department_id);
+      case "program_2":
+        return getProgram(StudentData.secondary_program_department_id);
+      case "department":
+        return getDepartment(StudentData.program_department_id);
+      case "department_2":
+        return getDepartment(StudentData.secondary_program_department_id);
+      default:
+        return StudentData[val as keyof Student];
+    }
+  };
+
   return (
     <div style={{ padding: "0 2rem" }}>
       <Meta title="Profile - Student Dashboard" />
@@ -240,7 +270,7 @@ function Details() {
           justifyContent="space-between"
           spacing={2}
         >
-          <h1>Profile</h1>
+          <h2>Profile</h2>
           <Stack
             direction="row"
             alignItems="center"
@@ -289,14 +319,12 @@ function Details() {
                   <p>{item.field}</p>
                   <TextField
                     fullWidth
-                    disabled
+                    InputProps={{
+                      readOnly: true,
+                    }}
                     id="standard-basic"
                     variant="standard"
-                    value={
-                      item.api_id === "dob"
-                        ? new Date(StudentData.dob).toLocaleDateString()
-                        : StudentData[item.api_id as keyof Student]
-                    }
+                    value={handleValue(item.api_id)}
                   />
                 </Grid>
               ))}

@@ -9,7 +9,7 @@ function Index() {
   const { token, setToken } = useStore();
   useEffect(() => {
     const checklogin = async () => {
-      if (token === "") {
+      if (!token) {
         router.push("/login");
         return;
       }
@@ -26,6 +26,9 @@ function Index() {
           router.push("/admin");
           break;
         case 101:
+          router.push("/admin");
+          break;
+        case 102:
           router.push("/admin");
           break;
         default:

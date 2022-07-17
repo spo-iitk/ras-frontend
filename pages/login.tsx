@@ -38,11 +38,17 @@ function Login() {
     showPassword: false,
   });
   const [loading, setLoading] = useState(false);
-  const { setToken, setRole } = useStore();
+  const { setToken, setRole, setName, setRCName, setRcId, setUserID } =
+    useStore();
 
   useEffect(() => {
     setToken("");
-  }, [setToken]);
+    setRole(0);
+    setName("");
+    setRCName("");
+    setRcId(0);
+    setUserID("");
+  }, [setToken, setRole, setName, setRCName, setRcId, setUserID]);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -81,6 +87,9 @@ function Login() {
         case 101:
           router.push("/admin");
           break;
+        case 102:
+          router.push("/admin");
+          break;
         default:
           router.push("/401");
           break;
@@ -113,7 +122,7 @@ function Login() {
           sx={{ minHeight: "70vh" }}
         >
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
-            <h1>Welcome Back!</h1>
+            <h2>Welcome Back!</h2>
             <h2>Sign in to</h2>
             <Typography variant="subtitle1" color="text.secondary">
               Recruitment Portal IIT Kanpur

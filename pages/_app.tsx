@@ -9,7 +9,9 @@ import Progress from "@components/Progress/Progress";
 import theme from "@components/theme/theme";
 import LayoutWrapper from "@components/Layouts/LayoutWrapper";
 import useStore from "@store/store";
-import useProgressStore from "@store/useProgress";
+import { useProgressStore } from "@store/useProgress";
+
+const isAdmin = (role: number) => role === 100 || role === 101 || role === 102;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { role } = useStore();
@@ -38,15 +40,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [setIsAnimating, router, router.isReady]);
 
   useEffect(() => {
-    if (router.isReady) {
+    if (router.isReady && role !== undefined) {
       if (router.pathname.startsWith("/student") && role !== 1) {
         router.push("/401");
       } else if (router.pathname.startsWith("/company") && role !== 2) {
         router.push("/401");
-      } else if (router.pathname.startsWith("/admin") && role < 100) {
+      } else if (router.pathname.startsWith("/admin") && !isAdmin(role)) {
         router.push("/401");
-      } else if (role === 0) {
-        router.push("/");
       }
     }
   }, [role, router, router.isReady]);

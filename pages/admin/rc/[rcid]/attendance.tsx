@@ -99,7 +99,6 @@ function Index() {
     <div className="container">
       <Meta title="Attendance" />
       <Grid container alignItems="center">
-        <h1>Internship 2022-23 Phase 1</h1>
         <Grid item xs={12}>
           <Stack
             direction="row"

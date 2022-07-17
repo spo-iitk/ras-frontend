@@ -55,7 +55,10 @@ function SignUpStudent() {
             label="Name"
             variant="outlined"
             disabled={emailStatus}
-            {...register("name", { required: true })}
+            {...register("name", {
+              required: true,
+              setValueAs: (value) => value.trim(),
+            })}
             error={!!errors.name}
             helperText={errors.name ? "Name is required!" : ""}
           />

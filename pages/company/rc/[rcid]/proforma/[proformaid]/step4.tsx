@@ -94,7 +94,7 @@ function Step4() {
     };
     fetchStep4();
   }, [token, proformaid, rcid, router.isReady, reset]);
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -142,7 +142,7 @@ function Step4() {
     },
   ];
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     bottom: false,
   });
 
@@ -223,7 +223,7 @@ function Step4() {
     <div className="container" style={{ marginBottom: 20 }}>
       <Meta title="Step 4/5 - Add Hiring Process" />
       <Stack spacing={4}>
-        <h1>Step 4/5 - Add Hiring Process</h1>
+        <h2>Step 4/5 - Add Hiring Process</h2>
         <Stack
           spacing={3}
           justifyContent="center"

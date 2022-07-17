@@ -41,7 +41,7 @@ function AddRC({ handleClose }: { handleClose: () => void }) {
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h1>Create New Recruitment Cycle</h1>
+        <h2>Create New Recruitment Cycle</h2>
         <FormControl sx={{ m: 1 }}>
           <InputLabel id="Academic-Year">
             {errors.academic_year

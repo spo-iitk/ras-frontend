@@ -1,6 +1,6 @@
 import { Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
@@ -8,42 +8,48 @@ import Meta from "@components/Meta";
 import { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
 import NoticeSReq from "@callbacks/student/rc/noticeS";
-import ViewNotice from "@components/Modals/ViewStudentNotice";
+import ViewNotice from "@components/Modals/ViewNotice";
 
 const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "Id",
-  },
-  {
-    field: "title",
-    headerName: "Title",
-  },
-  {
-    field: "description",
-    headerName: "Description",
+    hide: true,
   },
   {
     field: "CreatedAt",
     valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
     headerName: "Published Date And Time",
   },
+  {
+    field: "title",
+    headerName: "Title",
+  },
+  {
+    field: "tags",
+    headerName: "Tags",
+  },
+  {
+    field: "description",
+    headerName: "Description",
+  },
 ];
+
 function Notices() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const [openNew, setOpenNew] = React.useState(false);
-  const handleOpenNew = () => {
-    setOpenNew(true);
+  const [openView, setOpenView] = useState(false);
+  const handleOpenView = () => {
+    setOpenView(true);
   };
-  const handleCloseNew = () => {
-    setOpenNew(false);
+  const handleCloseView = () => {
+    setOpenView(false);
   };
-  const [notices, setNotice] = React.useState<NoticeParams[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [currentNotice, setCurrentNotice] = React.useState<NoticeParams>({
+  const [notices, setNotice] = useState<NoticeParams[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentNotice, setCurrentNotice] = useState<NoticeParams>({
     ID: 0,
     recruitment_cycle_id: 0,
     title: "",
@@ -54,7 +60,8 @@ function Notices() {
     CreatedAt: "",
     last_reminder_at: 0,
   });
-  React.useEffect(() => {
+
+  useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
       const notice: NoticeParams[] = await NoticeSReq.getSAll(token, rid);
@@ -68,7 +75,6 @@ function Notices() {
     <div className="container">
       <Meta title="Notices" />
       <Stack>
-        <h1>Internship 2022-23 Phase 1</h1>
         <Stack
           direction="row"
           alignItems="center"
@@ -84,11 +90,11 @@ function Notices() {
           loading={loading}
           onCellClick={(params) => {
             setCurrentNotice(params.row);
-            handleOpenNew();
+            handleOpenView();
           }}
         />
       </Stack>
-      <Modal open={openNew} onClose={handleCloseNew}>
+      <Modal open={openView} onClose={handleCloseView}>
         <ViewNotice currentNotice={currentNotice} />
       </Modal>
     </div>

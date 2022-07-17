@@ -25,7 +25,7 @@ function Custom404() {
         alignItems="center"
         sx={{ padding: "10px 30px", marginTop: 4 }}
       >
-        <h1> Sorry, page not found!</h1>
+        <h2> Sorry, page not found!</h2>
         <Typography variant="h5" sx={{ color: "#757575" }}>
           Sorry, we couldn&apos;t find the page you&apos;re looking for. Perhaps
           you&apos;ve mistyped the URL? Be sure to check your spelling.

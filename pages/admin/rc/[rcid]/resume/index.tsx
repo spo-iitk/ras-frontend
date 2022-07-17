@@ -15,7 +15,8 @@ import useStore from "@store/store";
 import { CDN_URL } from "@callbacks/constants";
 
 const transformName = (name: string) => {
-  const nameArray = name.split(".");
+  const nname = name.replace(`${CDN_URL}/view/`, "");
+  const nameArray = nname.split(".");
   const newName = nameArray[0].slice(14, -33);
   const newNameWithExtension = `${newName}.${nameArray[1]}`;
   return newNameWithExtension;
@@ -85,7 +86,8 @@ function Index() {
     const fetchData = async () => {
       if (rid === undefined || rid === "") return;
       const res = await adminResumeRequest.getAll(token, rid);
-      setAllResumes(res);
+      if (res !== null && res?.length > 0) setAllResumes(res);
+      else setAllResumes([]);
     };
     fetchData();
   }, [token, rid]);
@@ -93,7 +95,8 @@ function Index() {
   const updateTable = React.useCallback(async () => {
     if (rid === undefined || rid === "") return;
     const res = await adminResumeRequest.getAll(token, rid);
-    setAllResumes(res);
+    if (res !== null && res?.length > 0) setAllResumes(res);
+    else setAllResumes([]);
   }, [token, rid]);
 
   const columns: GridColDef[] = [
@@ -122,12 +125,13 @@ function Index() {
       align: "center",
       width: 400,
       headerAlign: "center",
+      valueGetter: (params) => getURL(params?.value),
       renderCell: (params) => (
         <Button
           variant="contained"
           sx={{ width: "100%" }}
           onClick={() => {
-            window.open(getURL(params.value), "_blank");
+            window.open(params.value, "_blank");
           }}
         >
           {transformName(params.value)}
@@ -207,7 +211,6 @@ function Index() {
     <div className="container">
       <Meta title="Resume Dashboard" />
       <Grid container alignItems="center">
-        <h1>Internship 2022-23 Phase 1</h1>
         <Grid item xs={12}>
           <Stack
             direction="row"

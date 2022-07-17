@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
+import router from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -9,11 +9,49 @@ import InactiveButton from "@components/Buttons/InactiveButton";
 import rcRequest, { RC } from "@callbacks/student/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
+import enrollmentRequest from "@callbacks/student/rc/enrollQuestion";
 
+function LinkButton({ params }: any) {
+  const { token } = useStore();
+  const [frozen, setFrozen] = useState(false);
+  const [frozenStr, setFrozenStr] = useState("Frozen");
+  useEffect(() => {
+    const fetch = async () => {
+      const student = await enrollmentRequest.getStudentRC(
+        token,
+        params.row.ID
+      );
+      setFrozen(student.is_frozen || !params.row.is_active);
+      if (student.comment !== "") setFrozenStr(student.comment);
+    };
+    fetch();
+  }, [token, params]);
+  return (
+    <Button
+      variant="contained"
+      sx={{ width: "100%" }}
+      disabled={frozen}
+      onClick={() => {
+        router.push(`rc/${params.row.ID}`);
+      }}
+    >
+      {frozen ? frozenStr : "View Details"}
+    </Button>
+  );
+}
 const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "ID",
+    hide: true,
+  },
+  {
+    field: "start_date",
+    headerName: "Start Date",
+  },
+  {
+    field: "academic_year",
+    headerName: "Academic Year",
   },
   {
     field: "name",
@@ -22,10 +60,7 @@ const columns: GridColDef[] = [
   {
     field: "type",
     headerName: "Type of Recruitment",
-  },
-  {
-    field: "start_date",
-    headerName: "Start Date",
+    hide: true,
   },
   {
     field: "is_active",
@@ -51,18 +86,7 @@ const columns: GridColDef[] = [
     field: "button",
     headerName: "View Details",
     headerAlign: "center",
-    renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `rc/${params.row.ID}`,
-        }}
-      >
-        <Button variant="contained" sx={{ height: 30, width: "100%" }}>
-          {" "}
-          click{" "}
-        </Button>
-      </Link>
-    ),
+    renderCell: (params) => <LinkButton params={params} />,
   },
 ];
 
@@ -89,7 +113,6 @@ function Overview() {
     <div className="container">
       <Meta title="Overview - Student Dashboard " />
       <Stack>
-        <h1>Dashboard</h1>
         <h2>Recruitment Cycle</h2>
 
         <DataGrid
@@ -97,9 +120,6 @@ function Overview() {
           getRowId={(row) => row.ID}
           columns={columns}
           loading={loading}
-          // onCellClick={(row) => {
-          //   router.push(`rc/${row.id}/notices`);
-          // }}
         />
       </Stack>
     </div>
