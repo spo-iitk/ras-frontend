@@ -468,6 +468,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("tenth_marks", {
                       setValueAs: (value) => parseFloat(value),
+                      min: 0,
+                      max: 100,
                     })}
                   />
                 </Grid>
@@ -510,6 +512,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("twelfth_marks", {
                       setValueAs: (value) => parseFloat(value),
+                      min: 0,
+                      max: 100,
                     })}
                   />
                 </Grid>
