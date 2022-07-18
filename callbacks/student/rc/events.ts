@@ -8,6 +8,7 @@ import {
 } from "@callbacks/constants";
 import { errorNotification } from "@callbacks/notifcation";
 import { Event } from "@callbacks/admin/rc/proforma/event";
+import { Student } from "@callbacks/admin/rc/student/getStudents";
 
 const instance = axios.create({
   baseURL: STUDENT_URL,
@@ -34,7 +35,16 @@ const eventsRequest = {
         errorNotification("Error", err.response?.data?.error || err.message);
         return {} as Event;
       }),
+  getStudents: (token: string, rcid: string, eventid: string) =>
+    instance
+      .get(
+        `/application/rc/${rcid}/event/${eventid}/students`,
+        setConfig(token)
+      )
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return [] as Student[];
+      }),
 };
 export default eventsRequest;
-
-// Haven't implemented this request, yet

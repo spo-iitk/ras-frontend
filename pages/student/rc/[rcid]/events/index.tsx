@@ -148,6 +148,7 @@ function Calendar() {
               rows={rows}
               columns={columns}
               getRowId={(row) => row.ID}
+              heighted
             />
           ) : (
             <h2>No event scheduled</h2>

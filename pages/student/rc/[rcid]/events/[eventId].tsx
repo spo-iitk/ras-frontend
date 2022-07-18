@@ -10,7 +10,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
 import Meta from "@components/Meta";
-import eventRequest, { EventDetails } from "@callbacks/admin/rc/proforma/event";
+import { EventDetails } from "@callbacks/admin/rc/proforma/event";
 import { Student } from "@callbacks/admin/rc/student/getStudents";
 import { getDeptProgram } from "@components/Parser/parser";
 import eventsRequest from "@callbacks/student/rc/events";
@@ -114,12 +114,7 @@ function Event() {
   useEffect(() => {
     const getEvent = async () => {
       const res = await eventsRequest.get(token, rid, eid);
-      const all_students = await eventRequest.getStudents(
-        token,
-        rid,
-        pid.toString(),
-        eid
-      );
+      const all_students = await eventsRequest.getStudents(token, rid, eid);
       setStudents(all_students);
       setProformaID(res.proforma_id);
       setStartTime(new Date(res.start_time));
