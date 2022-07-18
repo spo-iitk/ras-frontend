@@ -14,7 +14,6 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 import {
   Branches,
-  examMapper,
   func,
   programExpanded,
   programType,
@@ -97,69 +96,43 @@ function Step2() {
     }
     setStr(newStr);
   };
+  const handleMultipleProgramWise = (programName: string[]) => {
+    let newStr = str;
+    Branches.forEach((branch) => {
+      programName.forEach((program) => {
+        const idx =
+          func[branch as keyof typeof func][program as keyof programType];
+        if (idx !== -1) {
+          newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
+        }
+      });
+    });
+    setStr(newStr);
+  };
 
   const handleExamSelection = (exam: string) => {
-    let newStr = str;
     switch (exam) {
       case "JEE":
-        examMapper.JEE.forEach((data) => {
-          const idx =
-            func[data[1] as keyof typeof func][data[0] as keyof programType];
-          if (idx !== -1) {
-            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-          }
-        });
-        setStr(newStr);
+        handleMultipleProgramWise([
+          "BT",
+          "BS",
+          "DoubleMajor",
+          "DualA",
+          "DualB",
+          "DualC",
+        ]);
         break;
       case "JAM":
-        examMapper.JAM.forEach((data) => {
-          const idx =
-            func[data[1] as keyof typeof func][data[0] as keyof programType];
-          if (idx !== -1) {
-            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-          }
-        });
-        setStr(newStr);
-        break;
-      case "COGJET":
-        examMapper.COGJET.forEach((data) => {
-          const idx =
-            func[data[1] as keyof typeof func][data[0] as keyof programType];
-          if (idx !== -1) {
-            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-          }
-        });
-        setStr(newStr);
+        handleMultipleProgramWise(["MSc"]);
         break;
       case "CAT":
-        examMapper.CAT.forEach((data) => {
-          const idx =
-            func[data[1] as keyof typeof func][data[0] as keyof programType];
-          if (idx !== -1) {
-            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-          }
-        });
-        setStr(newStr);
+        handleMultipleProgramWise(["MBA"]);
         break;
       case "GATE":
-        examMapper.GATE.forEach((data) => {
-          const idx =
-            func[data[1] as keyof typeof func][data[0] as keyof programType];
-          if (idx !== -1) {
-            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-          }
-        });
-        setStr(newStr);
+        handleMultipleProgramWise(["MT", "MSR", "MDes"]);
         break;
-      case "CEED/GATE":
-        examMapper["CEED/GATE"].forEach((data) => {
-          const idx =
-            func[data[1] as keyof typeof func][data[0] as keyof programType];
-          if (idx !== -1) {
-            newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-          }
-        });
-        setStr(newStr);
+      case "CEED":
+        handleMultipleProgramWise(["MDes"]);
         break;
       default:
         break;
@@ -206,16 +179,10 @@ function Step2() {
               <h3>Select all branches and programmes coming from CAT</h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton onClick={() => handleExamSelection("CEED/GATE")}>
+              <IconButton onClick={() => handleExamSelection("CEED")}>
                 <CheckCircleIcon />
               </IconButton>
-              <h3>Select all branches and programmes coming from CEED/GATE</h3>
-            </Stack>
-            <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton onClick={() => handleExamSelection("COGJET")}>
-                <CheckCircleIcon />
-              </IconButton>
-              <h3>Select all branches and programmes coming from COGJET</h3>
+              <h3>Select all branches and programmes coming from CEED</h3>
             </Stack>
           </Stack>
           <TableContainer component={Paper}>
