@@ -208,7 +208,7 @@ function Index() {
   ];
 
   return (
-    <div >
+    <div>
       <Meta title="Resume Dashboard" />
       <Grid container alignItems="center">
         <Grid item xs={12}>

@@ -63,7 +63,7 @@ function Overview(): JSX.Element {
   }, [token]);
 
   return (
-    <div >
+    <div>
       <Meta title="Company Dashboard - Overview" />
       <Stack>
         <h2>Recruitment Cycle</h2>

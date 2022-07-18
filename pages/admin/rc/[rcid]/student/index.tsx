@@ -208,7 +208,7 @@ function Index() {
     setOpenNew(false);
   };
   return (
-    <div >
+    <div>
       <Meta title="Students" />
       <Stack
         spacing={2}

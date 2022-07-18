@@ -123,7 +123,7 @@ function Applications() {
   }, [rid, token]);
 
   return (
-    <div >
+    <div>
       <Meta title="Applications" />
       <Grid
         container

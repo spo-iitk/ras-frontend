@@ -72,7 +72,7 @@ function Notices() {
   }, [rid, token]);
 
   return (
-    <div >
+    <div>
       <Meta title="Notices" />
       <Stack>
         <Stack

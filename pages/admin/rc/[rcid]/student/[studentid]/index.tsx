@@ -123,7 +123,7 @@ function Index() {
   };
 
   return (
-    <div >
+    <div>
       <Meta title="Student Details - Admin" />
       <Stack spacing={2} alignItems="center">
         <Card

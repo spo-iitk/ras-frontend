@@ -110,7 +110,7 @@ function Overview() {
     getRC();
   }, [token]);
   return (
-    <div >
+    <div>
       <Meta title="Overview - Student Dashboard " />
       <Stack>
         <h2>Recruitment Cycle</h2>

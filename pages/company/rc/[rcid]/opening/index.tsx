@@ -108,7 +108,7 @@ function Applications() {
     if (router.isReady && rid !== "") getall();
   }, [router.isReady, token, rid]);
   return (
-    <div >
+    <div>
       <Meta title="Applications - Company" />
       <Stack>
         <h2>Applications</h2>

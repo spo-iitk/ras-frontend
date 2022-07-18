@@ -13,7 +13,7 @@ function Event() {
   const [endTime, setEndTime] = useState<Date | null>(new Date());
 
   return (
-    <div >
+    <div>
       <Meta title="Event Details" />
       <Card
         elevation={5}

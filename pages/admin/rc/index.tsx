@@ -93,7 +93,7 @@ function Index() {
     getRC();
   }, [token]);
   return (
-    <div >
+    <div>
       <Meta title="Student Dashboard - Index" />
       <Stack>
         <Stack

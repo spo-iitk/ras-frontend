@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Button,
   Card,
   Grid,
@@ -431,12 +432,16 @@ function ProfileEdit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>10th Board</p>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    id="standard-basic"
-                    variant="standard"
-                    {...register("tenth_board")}
+                  <Autocomplete
+                    freeSolo
+                    options={["CBSE", "ICSE"]}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        {...register("tenth_board")}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -475,12 +480,16 @@ function ProfileEdit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>12th Board</p>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    id="standard-basic"
-                    variant="standard"
-                    {...register("twelfth_board")}
+                  <Autocomplete
+                    freeSolo
+                    options={["CBSE", "ICSE"]}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        {...register("twelfth_board")}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -531,7 +540,7 @@ function ProfileEdit() {
                     <MenuItem value="GATE">GATE</MenuItem>
                     <MenuItem value="JAM">JAM</MenuItem>
                     <MenuItem value="CEED">CEED</MenuItem>
-                    <MenuItem value="JMET">JMET</MenuItem>
+                    <MenuItem value="JMET">CAT</MenuItem>
                     <MenuItem value="Other">Other</MenuItem>
                   </Select>
                 </Grid>
@@ -632,13 +641,14 @@ function ProfileEdit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Disability</p>
-                  <TextField
+                  <Select
                     fullWidth
-                    type="text"
-                    id="standard-basic"
                     variant="standard"
                     {...register("disability")}
-                  />
+                  >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                  </Select>
                 </Grid>
               </Grid>
             </Card>

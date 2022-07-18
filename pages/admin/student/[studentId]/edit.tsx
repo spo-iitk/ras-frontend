@@ -65,7 +65,7 @@ function Edit() {
   };
 
   return (
-    <div >
+    <div>
       <Meta title="Edit Profile -Admin Student Dashboard " />
       <Stack spacing={2}>
         <Stack

@@ -71,7 +71,7 @@ function Index() {
   };
 
   return (
-    <div >
+    <div>
       <Meta title="Master Company Database - Admin" />
       <Grid container alignItems="center">
         <Grid item xs={12}>
