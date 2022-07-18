@@ -48,6 +48,13 @@ function SignUpRecruiter() {
     setLoading(false);
   };
   const handleClose = () => setOpen(false);
+  const capitalizeFirstLetter = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+  const titleCase = (str: string) => {
+    const splitStr = str.toLowerCase().split(" ").map(capitalizeFirstLetter);
+    return splitStr.join(" ");
+  };
 
   return (
     <div>
@@ -69,7 +76,7 @@ function SignUpRecruiter() {
             variant="outlined"
             {...register("name", {
               required: true,
-              setValueAs: (value) => value.trim(),
+              setValueAs: (value) => titleCase(value),
             })}
             error={!!errors.name}
             helperText={errors.name ? "Name is required!" : ""}
