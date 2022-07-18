@@ -57,6 +57,7 @@ interface paramsType {
   // eslint-disable-next-line no-unused-vars
   getRowId?: (row: any) => string;
   loading?: boolean;
+  heighted?: boolean;
 }
 
 function Index({
@@ -65,6 +66,7 @@ function Index({
   onCellClick,
   getRowId,
   loading = false,
+  heighted = false,
 }: paramsType) {
   const [pageSize, setPageSize] = useState<number>(10);
 
@@ -93,7 +95,7 @@ function Index({
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[10, 25, 50, 100]}
-        autoHeight={rows?.length > 0}
+        autoHeight={rows?.length > 0 && heighted === false}
         // getRowHeight={({ id, densityFactor }: GridRowHeightParams) => {
         //   if ((id as number) % 2 === 0) {
         //     return 100 * densityFactor;
