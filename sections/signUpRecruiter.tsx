@@ -87,7 +87,11 @@ function SignUpRecruiter() {
             id="Email Id"
             label="Email Id"
             variant="outlined"
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            {...register("email", {
+              required: true,
+              pattern: /^\S+@\S+$/i,
+              validate: (value) => value.includes("@iitk.ac.in") === false,
+            })}
             error={!!errors.email}
             helperText={errors.email ? "Valid Email Id is required!" : ""}
           />
