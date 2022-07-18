@@ -104,6 +104,21 @@ const AdminStudentRequest = {
         errorNotification("Could Not Update", err.response?.data?.error);
         return false;
       }),
+  verify: (token: string, sid: string, verifyy: boolean) =>
+    instance
+      .put<StatusResponse, AxiosResponse<StatusResponse, Student>, Student>(
+        `/${sid}/verify`,
+        { is_verified: verifyy } as Student,
+        setConfig(token)
+      )
+      .then((res) => {
+        successNotification("Student Data Updated", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification("Could Not Update", err.response?.data?.error);
+        return false;
+      }),
 };
 
 export default AdminStudentRequest;

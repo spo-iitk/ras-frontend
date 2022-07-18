@@ -224,11 +224,7 @@ function Details() {
   // };
 
   const verify = async () => {
-    const data = {
-      is_verified: true,
-      ID: parseInt(sId, 10),
-    } as Student;
-    await AdminStudentRequest.update(token, data);
+    await AdminStudentRequest.verify(token, sId, true);
   };
 
   useEffect(() => {
