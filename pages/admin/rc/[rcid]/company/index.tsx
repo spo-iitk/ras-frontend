@@ -149,7 +149,7 @@ function Index() {
     if (rid !== "") getCompanydata();
   }, [token, rid]);
   return (
-    <div className="container">
+    <div>
       <Meta title="Company" />
       <Stack>
         <Grid container spacing={1} alignItems="center">

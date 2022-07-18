@@ -1,14 +1,4 @@
-import {
-  Button,
-  Card,
-  FormControl,
-  IconButton,
-  Modal,
-  Stack,
-  TextField,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
+import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
@@ -20,10 +10,10 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
 import Meta from "@components/Meta";
-import eventRequest, { EventDetails } from "@callbacks/admin/rc/proforma/event";
-import EnrollToEvent from "@components/Modals/EnrollToEvent";
+import { EventDetails } from "@callbacks/admin/rc/proforma/event";
 import { Student } from "@callbacks/admin/rc/student/getStudents";
 import { getDeptProgram } from "@components/Parser/parser";
+import eventsRequest from "@callbacks/student/rc/events";
 
 const cols: GridColDef[] = [
   {
@@ -108,13 +98,12 @@ const cols: GridColDef[] = [
   },
 ];
 
-const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/view";
-const EDIT_ROUTE = "/admin/rc/[rcid]/event/[eventId]/edit";
+const ROUTE = "/student/rc/[rcid]/proforma/[proformaid]";
+
 function Event() {
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [endTime, setEndTime] = useState<Date | null>(new Date());
   const [pid, setProformaID] = useState<number>(0);
-  const [openNew, setOpenNew] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const { token } = useStore();
   const router = useRouter();
@@ -122,21 +111,10 @@ function Event() {
   const rid = rcid as string;
   const eid = eventId as string;
   const { register, reset } = useForm<EventDetails>();
-  const handleOpenNew = () => {
-    setOpenNew(true);
-  };
-  const handleCloseNew = () => {
-    setOpenNew(false);
-  };
   useEffect(() => {
     const getEvent = async () => {
-      const res = await eventRequest.get(token, rid, eid);
-      const all_students = await eventRequest.getStudents(
-        token,
-        rid,
-        pid.toString(),
-        eid
-      );
+      const res = await eventsRequest.get(token, rid, eid);
+      const all_students = await eventsRequest.getStudents(token, rid, eid);
       setStudents(all_students);
       setProformaID(res.proforma_id);
       setStartTime(new Date(res.start_time));
@@ -160,16 +138,6 @@ function Event() {
         <Stack spacing={3}>
           <Stack direction="row">
             <h2>View Event Details</h2>
-            <IconButton>
-              <EditIcon
-                onClick={() => {
-                  router.push({
-                    pathname: EDIT_ROUTE,
-                    query: { rcid: rid, eventId: eid },
-                  });
-                }}
-              />
-            </IconButton>
           </Stack>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Name</p>
@@ -253,23 +221,13 @@ function Event() {
         </Stack>
       </Card>
       <Stack direction="row">
-        <p style={{ fontWeight: 300 }}>Registered Students</p>
-        <IconButton onClick={handleOpenNew}>
-          <AddIcon />
-        </IconButton>
+        <h2>Registered Students</h2>
       </Stack>
       <DataGrid columns={cols} getRowId={(row) => row.ID} rows={students} />
-      <Modal open={openNew} onClose={handleCloseNew}>
-        <EnrollToEvent
-          handleClose={handleCloseNew}
-          pid={pid.toString()}
-          eid={eid}
-        />
-      </Modal>
       <br />
     </div>
   );
 }
 
-Event.layout = "adminPhaseDashBoard";
+Event.layout = "studentDashboard";
 export default Event;

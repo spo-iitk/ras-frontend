@@ -20,6 +20,10 @@ const columns: GridColDef[] = [
     headerName: "Role name",
   },
   {
+    field: "profile",
+    headerName: "Profile",
+  },
+  {
     field: "deadline",
     headerName: "Application Deadline",
     renderCell(params) {
@@ -104,7 +108,7 @@ function Applications() {
     if (router.isReady && rid !== "") getall();
   }, [router.isReady, token, rid]);
   return (
-    <div className="container">
+    <div>
       <Meta title="Applications - Company" />
       <Stack>
         <h2>Applications</h2>

@@ -13,10 +13,8 @@ function Event() {
   const [endTime, setEndTime] = useState<Date | null>(new Date());
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Event Details" />
-      <h2 style={{ marginBottom: "4rem" }}>Internship 2022-23 Phase 1</h2>
-
       <Card
         elevation={5}
         sx={{

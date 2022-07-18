@@ -55,7 +55,7 @@ const rows = [
 ];
 function PastHire() {
   return (
-    <div className="container">
+    <div>
       <Meta title="Past Hire - Admin" />
       <Stack>
         <h2>Past Hires &gt; Student Wise</h2>

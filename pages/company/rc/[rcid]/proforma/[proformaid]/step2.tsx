@@ -93,17 +93,46 @@ function Step2() {
         func[branch as keyof typeof func][programName as keyof programType];
       if (idx !== -1) {
         if (str[idx] === "1") {
-          newStr = `${str.substring(0, idx)}0${str.substring(idx + 1)}`;
+          newStr = `${newStr.substring(0, idx)}0${newStr.substring(idx + 1)}`;
         } else {
-          newStr = `${str.substring(0, idx)}1${str.substring(idx + 1)}`;
+          newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
         }
       }
     });
     setStr(newStr);
   };
 
+  const handleExamSelection = (exam: string) => {
+    switch (exam) {
+      case "JEE":
+        handleProgramWise([
+          "BT",
+          "BS",
+          "DoubleMajor",
+          "DualA",
+          "DualB",
+          "DualC",
+        ]);
+        break;
+      case "JAM":
+        handleProgramWise(["MSc"]);
+        break;
+      case "CAT":
+        handleProgramWise(["MBA"]);
+        break;
+      case "GATE":
+        handleProgramWise(["MT", "MSR", "MDes"]);
+        break;
+      case "CEED":
+        handleProgramWise(["MDes"]);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <div style={{ padding: "0 2rem" }}>
+    <div>
       <Meta title="Step 2/5 - New Opening" />
       <Card sx={{ padding: 3 }}>
         <h2>Step 2/5 (Eligibility Matrix)</h2>
@@ -116,7 +145,7 @@ function Step2() {
               <h3>Select all</h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton>
+              <IconButton onClick={() => handleExamSelection("JEE")}>
                 <CheckCircleIcon />
               </IconButton>
               <h3>
@@ -124,22 +153,28 @@ function Step2() {
               </h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton>
+              <IconButton onClick={() => handleExamSelection("GATE")}>
                 <CheckCircleIcon />
               </IconButton>
               <h3>Select all branches and programmes coming from GATE</h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton>
+              <IconButton onClick={() => handleExamSelection("JAM")}>
                 <CheckCircleIcon />
               </IconButton>
               <h3>Select all branches and programmes coming from JAM</h3>
             </Stack>
             <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton>
+              <IconButton onClick={() => handleExamSelection("CAT")}>
                 <CheckCircleIcon />
               </IconButton>
               <h3>Select all branches and programmes coming from CAT</h3>
+            </Stack>
+            <Stack spacing={4} direction="row" alignItems="center">
+              <IconButton onClick={() => handleExamSelection("CEED")}>
+                <CheckCircleIcon />
+              </IconButton>
+              <h3>Select all branches and programmes coming from CEED</h3>
             </Stack>
           </Stack>
           <TableContainer component={Paper}>

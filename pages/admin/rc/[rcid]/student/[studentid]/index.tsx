@@ -104,7 +104,9 @@ function Index() {
         const studentApplications = await getStudentApplication
           .getAll(token, rcid.toString(), studentid.toString())
           .catch(() => ({ type: "null" } as unknown as ApplicationResponse[]));
-        setApplications(studentApplications);
+        if (studentApplications && studentApplications.length > 0)
+          setApplications(studentApplications);
+        else setApplications([]);
       }
     };
 
@@ -123,7 +125,7 @@ function Index() {
   };
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Student Details - Admin" />
       <Stack spacing={2} alignItems="center">
         <Card

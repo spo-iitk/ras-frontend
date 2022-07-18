@@ -224,11 +224,7 @@ function Details() {
   // };
 
   const verify = async () => {
-    const data = {
-      is_verified: true,
-      ID: parseInt(sId, 10),
-    } as Student;
-    await AdminStudentRequest.update(token, data);
+    await AdminStudentRequest.verify(token, sId, true);
   };
 
   useEffect(() => {
@@ -261,7 +257,7 @@ function Details() {
   };
 
   return (
-    <div style={{ padding: "0 2rem" }}>
+    <div>
       <Meta title="Profile - Student Dashboard" />
       <Stack spacing={2}>
         <Stack

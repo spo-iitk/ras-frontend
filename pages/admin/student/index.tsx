@@ -211,7 +211,7 @@ function Index() {
   }, [token]);
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Master Student Database - Admin" />
       <h2>Master Database (Student)</h2>
       <DataGrid

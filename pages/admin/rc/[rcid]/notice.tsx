@@ -142,7 +142,7 @@ function Index() {
   }, [rid, token]);
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Notices" />
       <Stack>
         <Stack

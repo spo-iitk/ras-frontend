@@ -54,13 +54,25 @@ const columns: GridColDef[] = [
 
 function StudentStats(params: { data: StatsType[]; isLoading: boolean }) {
   const { data, isLoading } = params;
-
+  if (data && data.length > 0)
+    return (
+      <div>
+        <Meta title=" Stats Studentwise" />
+        <h2>Stats &gt; Student-Wise</h2>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          getRowId={(row) => row.id}
+          loading={isLoading}
+        />
+      </div>
+    );
   return (
     <div>
       <Meta title=" Stats Studentwise" />
       <h2>Stats &gt; Student-Wise</h2>
       <DataGrid
-        rows={data}
+        rows={[]}
         columns={columns}
         getRowId={(row) => row.id}
         loading={isLoading}

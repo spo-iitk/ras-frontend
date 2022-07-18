@@ -8,10 +8,11 @@ import { GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import eventRequest, { Event } from "@callbacks/admin/rc/overview";
+import { Event } from "@callbacks/admin/rc/overview";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
+import eventsRequest from "@callbacks/student/rc/events";
 
 const columns: GridColDef[] = [
   {
@@ -46,7 +47,6 @@ const columns: GridColDef[] = [
   {
     field: "duration",
     headerName: "Event Duration",
-    hide: true,
   },
   {
     field: "start_time",
@@ -64,7 +64,7 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <Link
         href={{
-          pathname: `/admin/rc/${params.row.recruitment_cycle_id}/event/${params.row.ID}`,
+          pathname: `/student/rc/${params.row.recruitment_cycle_id}/events/${params.row.ID}`,
         }}
       >
         <Button variant="contained" style={{ width: "100%" }}>
@@ -90,7 +90,7 @@ function Calendar() {
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
-        let response = await eventRequest.getAll(token, rid);
+        let response = await eventsRequest.getAll(token, rid);
         for (let i = 0; i < response.length; i += 1) {
           response[i].recruitment_cycle_id = rid;
         }
@@ -112,6 +112,7 @@ function Calendar() {
       )
     );
   }, [value, events]);
+
   return (
     <div>
       <h2>Calender</h2>
@@ -157,5 +158,5 @@ function Calendar() {
     </div>
   );
 }
-Calendar.layout = "adminPhaseDashBoard";
+Calendar.layout = "studentPhaseDashboard";
 export default Calendar;

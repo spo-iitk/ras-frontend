@@ -80,9 +80,8 @@ function ProformaNew() {
   };
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Step 1/5 - Basic Details" />
-      <h2>Internship 2022-23 Phase 1</h2>
       <Card
         elevation={5}
         sx={{
@@ -113,7 +112,7 @@ function ProformaNew() {
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Nature of Business</p>
             <TextField
-              id="Cname"
+              id="NatureOfBusiness"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
@@ -127,7 +126,7 @@ function ProformaNew() {
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
             <TextField
-              id="Cname"
+              id="TentativeJobDescription"
               required
               sx={{ marginLeft: "5 rem" }}
               fullWidth
@@ -138,6 +137,20 @@ function ProformaNew() {
                 errors.tentative_job_location && "This field is required"
               }
               {...register("tentative_job_location", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Profile</p>
+            <TextField
+              id="Profile"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.profile}
+              helperText={errors.profile && "This field is required"}
+              {...register("profile", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>

@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Button,
   Card,
   Grid,
@@ -59,6 +60,8 @@ function ProfileEdit() {
       getValues("program_2"),
       getValues("department_2")
     );
+    
+    secondary_program_department_id = secondary_program_department_id===200 ? 0 : secondary_program_department_id;
 
     const response = await studentRequest.update(token, {
       ...data,
@@ -71,7 +74,7 @@ function ProfileEdit() {
     }
   };
   return (
-    <div className="container">
+    <div>
       <Meta title="Edit Profile - Student Dashboard " />
       <Stack spacing={2}>
         <Stack
@@ -308,13 +311,15 @@ function ProfileEdit() {
 
                 <Grid item xs={12} sm={6}>
                   <p>Preference</p>
-                  <TextField
+                  <Select
                     fullWidth
-                    type="text"
-                    id="standard-basic"
                     variant="standard"
                     {...register("preference")}
-                  />
+                  >
+                    <MenuItem value="" />
+                    <MenuItem value="Academic">Academic</MenuItem>
+                    <MenuItem value="Industrial">Industrial</MenuItem>
+                  </Select>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
@@ -429,12 +434,16 @@ function ProfileEdit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>10th Board</p>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    id="standard-basic"
-                    variant="standard"
-                    {...register("tenth_board")}
+                  <Autocomplete
+                    freeSolo
+                    options={["CBSE", "ICSE"]}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        {...register("tenth_board")}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -458,7 +467,7 @@ function ProfileEdit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>10th Marks</p>
+                  <p>10th Marks (CGPA / Percentage)</p>
                   <TextField
                     fullWidth
                     type="text"
@@ -466,17 +475,23 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("tenth_marks", {
                       setValueAs: (value) => parseFloat(value),
+                      min: 0,
+                      max: 100,
                     })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>12th Board</p>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    id="standard-basic"
-                    variant="standard"
-                    {...register("twelfth_board")}
+                  <Autocomplete
+                    freeSolo
+                    options={["CBSE", "ICSE"]}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        {...register("twelfth_board")}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -500,7 +515,7 @@ function ProfileEdit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>12th Marks</p>
+                  <p>12th Marks (CGPA / Percentage)</p>
                   <TextField
                     fullWidth
                     type="text"
@@ -508,6 +523,8 @@ function ProfileEdit() {
                     variant="standard"
                     {...register("twelfth_marks", {
                       setValueAs: (value) => parseFloat(value),
+                      min: 0,
+                      max: 100,
                     })}
                   />
                 </Grid>
@@ -525,7 +542,7 @@ function ProfileEdit() {
                     <MenuItem value="GATE">GATE</MenuItem>
                     <MenuItem value="JAM">JAM</MenuItem>
                     <MenuItem value="CEED">CEED</MenuItem>
-                    <MenuItem value="JMET">JMET</MenuItem>
+                    <MenuItem value="JMET">CAT</MenuItem>
                     <MenuItem value="Other">Other</MenuItem>
                   </Select>
                 </Grid>
@@ -626,13 +643,14 @@ function ProfileEdit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Disability</p>
-                  <TextField
+                  <Select
                     fullWidth
-                    type="text"
-                    id="standard-basic"
                     variant="standard"
                     {...register("disability")}
-                  />
+                  >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                  </Select>
                 </Grid>
               </Grid>
             </Card>

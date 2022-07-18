@@ -27,6 +27,7 @@ function Proforma() {
     },
     { field: "company_name", headerName: "Company Name" },
     { field: "role", headerName: "Role Name" },
+    { field: "profile", headerName: "Profile" },
     {
       field: "deadline",
       headerName: "Application Deadline",
@@ -62,7 +63,7 @@ function Proforma() {
     if (router.isReady) getProforma();
   }, [rid, router.isReady, token]);
   return (
-    <div className="container">
+    <div>
       <Meta title="Proforma" />
       <Stack>
         <h2>Proforma</h2>

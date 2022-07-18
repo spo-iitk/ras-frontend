@@ -130,7 +130,7 @@ function Index() {
   };
 
   return (
-    <div className="container">
+    <div>
       <Meta title={`Admin Dashboard - ${rcName}`} />
       <Stack>
         <Stack
