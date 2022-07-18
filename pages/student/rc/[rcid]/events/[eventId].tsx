@@ -126,7 +126,7 @@ function Event() {
     }
   }, [rid, eid, token, router.isReady, reset, pid]);
   return (
-    <div className="container">
+    <div>
       <Meta title="Event Details" />
       <Card
         elevation={5}
@@ -221,7 +221,7 @@ function Event() {
         </Stack>
       </Card>
       <Stack direction="row">
-        <p style={{ fontWeight: 300 }}>Registered Students</p>
+        <h2>Registered Students</h2>
       </Stack>
       <DataGrid columns={cols} getRowId={(row) => row.ID} rows={students} />
       <br />
