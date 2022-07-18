@@ -66,7 +66,7 @@ function Step5() {
   }, [rid, pid, token, reset]);
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Step 5/5 - Additional Information" />
       <Card
         elevation={5}

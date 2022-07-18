@@ -7,6 +7,7 @@ export interface LoginParams {
   user_id: string;
   password: string;
   remember_me: boolean;
+  admin_id?: string;
 }
 
 export interface LoginResponse {
@@ -29,6 +30,18 @@ const loginRequest = {
         AxiosResponse<LoginResponse, LoginParams>,
         LoginParams
       >("/login", body)
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Login Failed", err.response?.data?.error);
+        return { user_id: "", token: "", role_id: 0 } as LoginResponse;
+      }),
+  god: (body: LoginParams) =>
+    authInstance
+      .post<
+        LoginResponse,
+        AxiosResponse<LoginResponse, LoginParams>,
+        LoginParams
+      >("/god/login", body)
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Login Failed", err.response?.data?.error);

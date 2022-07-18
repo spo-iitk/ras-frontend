@@ -112,7 +112,6 @@ function Calendar() {
       )
     );
   }, [value, events]);
-
   return (
     <div>
       <h2>Calender</h2>

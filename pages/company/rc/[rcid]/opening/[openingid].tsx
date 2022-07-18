@@ -103,7 +103,7 @@ function Application() {
   }, [router.isReady, token, rid, openingid]);
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Applications - Software Development Intern" />
       <Stack>
         <h2>Applicants</h2>

@@ -135,7 +135,7 @@ function Footer() {
                   </Typography>
                 </a>
                 <a
-                  href="https://spo.iitk.ac.in/contact"
+                  href="https://spo.iitk.ac.in/placement-coordinators"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -252,7 +252,7 @@ function Footer() {
                 <Typography variant="body2">Recruitment Itinerarry</Typography>
               </a>
               <a
-                href="https://spo.iitk.ac.in/contact"
+                href="https://spo.iitk.ac.in/placement-coordinators"
                 target="_blank"
                 rel="noreferrer"
               >

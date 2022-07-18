@@ -155,7 +155,7 @@ function Enrollment() {
     return <div />;
   };
   return (
-    <div className="container">
+    <div>
       <Meta title="Student Dashboard - Enrollment" />
       <Stack alignItems="center" spacing={4}>
         <Box sx={boxStyle}>

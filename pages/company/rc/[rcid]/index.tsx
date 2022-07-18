@@ -109,6 +109,10 @@ function Overview() {
       headerName: "Role Type",
     },
     {
+      field: "profile",
+      headerName: "Profile",
+    },
+    {
       field: "is_approved",
       headerName: "Status",
       renderCell: (params) =>
@@ -204,7 +208,7 @@ function Overview() {
   ];
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Overview - Company" />
       <Stack>
         <h2>Overview</h2>

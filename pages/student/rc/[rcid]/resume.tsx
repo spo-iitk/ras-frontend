@@ -253,7 +253,7 @@ function Resume() {
 
   return (
     <>
-      <div className="container">
+      <div>
         <Meta title="Manage Resume " />
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>

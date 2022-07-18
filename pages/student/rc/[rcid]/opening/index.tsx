@@ -37,6 +37,7 @@ function Openings() {
     },
     { field: "company_name", headerName: "Company Name" },
     { field: "role", headerName: "Role Name" },
+    { field: "profile", headerName: "Profile" },
     {
       field: "deadline",
       headerName: "Application Deadline",
@@ -146,7 +147,7 @@ function Openings() {
     }
   }, [rid, router.isReady, token]);
   return (
-    <div className="container">
+    <div>
       <Meta title="Openings" />
       <Stack>
         <h2>Job Openings</h2>

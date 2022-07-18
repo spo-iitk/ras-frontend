@@ -322,7 +322,7 @@ function Index() {
   };
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Proforma" />
       <Stack
         spacing={2}

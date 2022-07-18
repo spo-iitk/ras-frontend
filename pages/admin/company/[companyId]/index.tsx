@@ -96,7 +96,7 @@ function Index() {
   }, [confirmation, companyId, router.isReady, token, router]);
 
   return (
-    <div className="container">
+    <div>
       <Meta title="Master Company Dashboard" />
       <Stack>
         <Stack
