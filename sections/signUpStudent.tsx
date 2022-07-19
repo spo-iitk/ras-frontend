@@ -46,6 +46,18 @@ function SignUpStudent() {
     setLoading(false);
   };
 
+  const capitalizeFirstLetter = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+  const titleCase = (str: string) => {
+    const splitStr = str
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .map(capitalizeFirstLetter);
+    return splitStr.join(" ");
+  };
+
   return (
     <div>
       <Stack justifyContent="center" alignItems="center" spacing={2}>
@@ -57,7 +69,7 @@ function SignUpStudent() {
             disabled={emailStatus}
             {...register("name", {
               required: true,
-              setValueAs: (value) => value.trim(),
+              setValueAs: (value) => titleCase(value),
             })}
             error={!!errors.name}
             helperText={errors.name ? "Name is required!" : ""}
@@ -73,6 +85,7 @@ function SignUpStudent() {
             {...registerOTP("user_id", {
               required: true,
               pattern: /^[^@]+@iitk\.ac\.in$/,
+              setValueAs: (value) => value.trim(),
             })}
             error={!!errorsOTP.user_id}
             helperText={errorsOTP.user_id ? "Invalid IITK Email ID" : ""}

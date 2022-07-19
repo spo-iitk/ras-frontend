@@ -48,6 +48,13 @@ function SignUpRecruiter() {
     setLoading(false);
   };
   const handleClose = () => setOpen(false);
+  const capitalizeFirstLetter = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+  const titleCase = (str: string) => {
+    const splitStr = str.toLowerCase().split(" ").map(capitalizeFirstLetter);
+    return splitStr.join(" ");
+  };
 
   return (
     <div>
@@ -67,7 +74,10 @@ function SignUpRecruiter() {
             id="Name"
             label="Name"
             variant="outlined"
-            {...register("name", { required: true })}
+            {...register("name", {
+              required: true,
+              setValueAs: (value) => titleCase(value),
+            })}
             error={!!errors.name}
             helperText={errors.name ? "Name is required!" : ""}
           />
@@ -77,7 +87,10 @@ function SignUpRecruiter() {
             id="Designation"
             label="Designation"
             variant="outlined"
-            {...register("designation", { required: true })}
+            {...register("designation", {
+              required: true,
+              setValueAs: (value) => value.trim(),
+            })}
             error={!!errors.designation}
             helperText={errors.designation ? "Designation is required!" : ""}
           />
@@ -90,6 +103,7 @@ function SignUpRecruiter() {
             {...register("email", {
               required: true,
               pattern: /^\S+@\S+$/i,
+              setValueAs: (value) => value.trim(),
               validate: (value) => value.includes("@iitk.ac.in") === false,
             })}
             error={!!errors.email}
@@ -102,7 +116,11 @@ function SignUpRecruiter() {
             label="Contact Number"
             variant="outlined"
             type="tel"
-            {...register("phone", { required: true, pattern: /^[0-9]{10}$/ })}
+            {...register("phone", {
+              required: true,
+              pattern: /^[0-9]{10}$/,
+              setValueAs: (value) => value.trim(),
+            })}
             error={!!errors.phone}
             helperText={errors.phone ? "Valid Contact Number is required!" : ""}
           />

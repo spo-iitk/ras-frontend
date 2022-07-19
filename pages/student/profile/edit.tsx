@@ -60,8 +60,9 @@ function ProfileEdit() {
       getValues("program_2"),
       getValues("department_2")
     );
-    
-    secondary_program_department_id = secondary_program_department_id===200 ? 0 : secondary_program_department_id;
+
+    if (secondary_program_department_id === 200)
+      secondary_program_department_id = 0;
 
     const response = await studentRequest.update(token, {
       ...data,

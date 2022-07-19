@@ -42,7 +42,7 @@ function AddPPO({
     const addPPO = async () => {
       const finData = {
         cid: Number(ID),
-        emails: data.emails.replace(" ", "").split(","),
+        emails: [...data.emails.split(",").map((x) => x.trim())],
       };
       const response = await PioPPO.post(token, rid, finData);
       if (response) {
@@ -65,9 +65,11 @@ function AddPPO({
         />
         <TextField
           label="Emails"
-          id="selectActiveHR"
+          id="emails"
           variant="standard"
-          {...register("emails", { required: true })}
+          {...register("emails", {
+            required: true,
+          })}
           error={!!errors.emails}
           helperText={errors.emails && "Email is required"}
         />

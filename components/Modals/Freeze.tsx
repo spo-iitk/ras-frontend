@@ -56,10 +56,12 @@ function Freeze({
         <TextField
           multiline
           error={errors.email !== undefined}
-          label="Enter Email Ids (CV format)"
+          label="Enter Email Ids (CSV format)"
           id="emails"
           variant="standard"
-          {...register("email", { required: true })}
+          {...register("email", {
+            required: true,
+          })}
         />
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button

@@ -60,7 +60,9 @@ function Enroll({ handleClose }: { handleClose: () => void }) {
           label="Enter Email Ids"
           id="emails"
           variant="standard"
-          {...register("email", { required: true })}
+          {...register("email", {
+            required: true,
+          })}
         />
         <Stack direction="row" spacing={2}>
           <Button
