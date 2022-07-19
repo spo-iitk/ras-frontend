@@ -50,7 +50,11 @@ function SignUpStudent() {
     str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
   const titleCase = (str: string) => {
-    const splitStr = str.trim().toLowerCase().split(" ").map(capitalizeFirstLetter);
+    const splitStr = str
+      .trim()
+      .toLowerCase()
+      .split(" ")
+      .map(capitalizeFirstLetter);
     return splitStr.join(" ");
   };
 
