@@ -59,7 +59,7 @@ function Unfreeze({
         <TextField
           multiline
           error={errors.email !== undefined}
-          label="Enter Email Ids (CV format)"
+          label="Enter Email Ids (CSV format)"
           id="emails"
           variant="standard"
           {...register("email", {
