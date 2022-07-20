@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,6 +22,8 @@ import {
 } from "@components/Utils/matrixUtils";
 
 function MatrixExpanded({ data }: { data: string }) {
+  if (data?.length < 80)
+    return <Typography>Eligibility Matrix Not Found</Typography>;
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

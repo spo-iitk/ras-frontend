@@ -29,7 +29,7 @@ const instance = axios.create({
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
-const sProformaRequest = {
+const SProformaRequest = {
   getAllProforma: (token: string, rid: string) =>
     instance
       .get<ProformaParams[]>(
@@ -58,7 +58,13 @@ const sProformaRequest = {
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
-        return { ID: 0 } as ProformaType;
+        return {
+          ID: 0,
+          cost_to_company: "",
+          job_description: "",
+          package_details: "",
+          eligibility: "0",
+        } as ProformaType;
       }),
   getEvent: (token: string, rid: string, pid: string) =>
     instance
@@ -72,4 +78,4 @@ const sProformaRequest = {
         return [] as ProformaEvent[];
       }),
 };
-export default sProformaRequest;
+export default SProformaRequest;
