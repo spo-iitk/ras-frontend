@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
 
 import statRequest from "@callbacks/student/rc/stats";
-import BranchStats from "sections/BranchStats";
+// import BranchStats from "sections/BranchStats";
 import StudentStats from "sections/StudentStats";
 import { Stats as StatsType } from "@callbacks/admin/rc/stats";
 import useStore from "@store/store";
@@ -70,15 +70,15 @@ function Stats() {
             aria-label="basic tabs example"
           >
             <Tab label="Studentwise" />
-            <Tab label="Branchwise" />
+            {/* <Tab label="Branchwise" /> */}
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
           <StudentStats data={statsData.student} isLoading={isLoading} />
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        {/* <TabPanel value={value} index={1}>
           <BranchStats data={statsData.branch} isLoading={isLoading} />
-        </TabPanel>
+        </TabPanel> */}
       </Box>
     </div>
   );
