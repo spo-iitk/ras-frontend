@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Button,
   Card,
   Grid,
@@ -21,7 +22,13 @@ import { getId } from "@components/Parser/parser";
 
 function Edit() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
-  const { register, handleSubmit, reset, getValues } = useForm<Student>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    getValues,
+  } = useForm<Student>({
     defaultValues: StudentData,
   });
   const [dept, setDept] = useState<any>("");
@@ -124,7 +131,6 @@ function Edit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
-                    disabled
                     {...register("name")}
                   />
                 </Grid>
@@ -157,6 +163,12 @@ function Edit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.expected_graduation_year}
+                    helperText={
+                      errors.expected_graduation_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("expected_graduation_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -174,7 +186,8 @@ function Edit() {
                       setDept(e.target.value);
                     }}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     {Branches.map((branch) => (
                       <MenuItem key={branch} value={branch}>
                         {branch}
@@ -190,23 +203,26 @@ function Edit() {
                       variant="standard"
                       {...register("program")}
                     >
-                      <MenuItem value="">None</MenuItem>
-                      {Object.keys(func[dept as keyof typeof func]).map(
-                        (program: any) => {
-                          if (
-                            func[dept as keyof typeof func][
-                              program as keyof programType
-                            ] !== -1
-                          ) {
-                            return (
-                              <MenuItem key={program} value={program}>
-                                {program}
-                              </MenuItem>
-                            );
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
+                      {dept !== "" &&
+                        dept !== "NA" &&
+                        Object.keys(func[dept as keyof typeof func]).map(
+                          (program: any) => {
+                            if (
+                              func[dept as keyof typeof func][
+                                program as keyof programType
+                              ] !== -1
+                            ) {
+                              return (
+                                <MenuItem key={program} value={program}>
+                                  {program}
+                                </MenuItem>
+                              );
+                            }
+                            return null;
                           }
-                          return null;
-                        }
-                      )}
+                        )}
                     </Select>
                   ) : (
                     <Select
@@ -214,7 +230,8 @@ function Edit() {
                       variant="standard"
                       {...register("program")}
                     >
-                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
                     </Select>
                   )}
                 </Grid>
@@ -228,7 +245,8 @@ function Edit() {
                       setDeptSec(e.target.value);
                     }}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     {Branches.map((branch) => (
                       <MenuItem key={branch} value={branch}>
                         {branch}
@@ -244,31 +262,35 @@ function Edit() {
                       variant="standard"
                       {...register("program_2")}
                     >
-                      <MenuItem value="">None</MenuItem>
-                      {Object.keys(func[dept as keyof typeof func]).map(
-                        (program: any) => {
-                          if (
-                            func[dept as keyof typeof func][
-                              program as keyof programType
-                            ] !== -1
-                          ) {
-                            return (
-                              <MenuItem key={program} value={program}>
-                                {program}
-                              </MenuItem>
-                            );
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
+                      {deptSec !== "" &&
+                        deptSec !== "NA" &&
+                        Object.keys(func[deptSec as keyof typeof func]).map(
+                          (program: any) => {
+                            if (
+                              func[deptSec as keyof typeof func][
+                                program as keyof programType
+                              ] !== -1
+                            ) {
+                              return (
+                                <MenuItem key={program} value={program}>
+                                  {program}
+                                </MenuItem>
+                              );
+                            }
+                            return null;
                           }
-                          return null;
-                        }
-                      )}
+                        )}
                     </Select>
                   ) : (
                     <Select
                       fullWidth
                       variant="standard"
-                      {...register("program")}
+                      {...register("program_2")}
                     >
-                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="" />
+                      <MenuItem value="NA">None</MenuItem>
                     </Select>
                   )}
                 </Grid>
@@ -286,18 +308,21 @@ function Edit() {
 
                 <Grid item xs={12} sm={6}>
                   <p>Preference</p>
-                  <TextField
+                  <Select
                     fullWidth
-                    type="text"
-                    id="standard-basic"
                     variant="standard"
                     {...register("preference")}
-                  />
+                  >
+                    <MenuItem value="" />
+                    <MenuItem value="Academic">Academic</MenuItem>
+                    <MenuItem value="Industrial">Industrial</MenuItem>
+                  </Select>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
                   <Select fullWidth variant="standard" {...register("gender")}>
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                   </Select>
@@ -335,6 +360,10 @@ function Edit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.phone}
+                    helperText={
+                      errors.phone ? "Contact No. must contain 10 digits!" : ""
+                    }
                     {...register("phone", { minLength: 10, maxLength: 10 })}
                   />
                 </Grid>
@@ -345,6 +374,12 @@ function Edit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.alternate_phone}
+                    helperText={
+                      errors.phone
+                        ? "Alternate Contact No. must contain 10 digits!"
+                        : ""
+                    }
                     {...register("alternate_phone", {
                       minLength: 10,
                       maxLength: 10,
@@ -358,6 +393,12 @@ function Edit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.whatsapp_number}
+                    helperText={
+                      errors.phone
+                        ? "Whatsapp Contact No. must contain 10 digits!"
+                        : ""
+                    }
                     {...register("whatsapp_number", {
                       minLength: 10,
                       maxLength: 10,
@@ -390,12 +431,16 @@ function Edit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>10th Board</p>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    id="standard-basic"
-                    variant="standard"
-                    {...register("tenth_board")}
+                  <Autocomplete
+                    freeSolo
+                    options={["CBSE", "ICSE"]}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        {...register("tenth_board")}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -405,6 +450,12 @@ function Edit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.tenth_year}
+                    helperText={
+                      errors.tenth_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("tenth_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -413,7 +464,7 @@ function Edit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>10th Marks</p>
+                  <p>10th Marks (CGPA / Percentage)</p>
                   <TextField
                     fullWidth
                     type="text"
@@ -421,17 +472,23 @@ function Edit() {
                     variant="standard"
                     {...register("tenth_marks", {
                       setValueAs: (value) => parseFloat(value),
+                      min: 0,
+                      max: 100,
                     })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>12th Board</p>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    id="standard-basic"
-                    variant="standard"
-                    {...register("twelfth_board")}
+                  <Autocomplete
+                    freeSolo
+                    options={["CBSE", "ICSE"]}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        {...register("twelfth_board")}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -441,6 +498,12 @@ function Edit() {
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    error={!!errors.twelfth_year}
+                    helperText={
+                      errors.twelfth_year
+                        ? "Year doesnt lie in required range!"
+                        : ""
+                    }
                     {...register("twelfth_year", {
                       setValueAs: (value) => parseInt(value, 10),
                       max: 9999,
@@ -449,7 +512,7 @@ function Edit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>12th Marks</p>
+                  <p>12th Marks (CGPA / Percentage)</p>
                   <TextField
                     fullWidth
                     type="text"
@@ -457,6 +520,8 @@ function Edit() {
                     variant="standard"
                     {...register("twelfth_marks", {
                       setValueAs: (value) => parseFloat(value),
+                      min: 0,
+                      max: 100,
                     })}
                   />
                 </Grid>
@@ -467,13 +532,14 @@ function Edit() {
                     variant="standard"
                     {...register("entrance_exam")}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
 
                     <MenuItem value="JEE Advanced">JEE Advanced</MenuItem>
                     <MenuItem value="GATE">GATE</MenuItem>
                     <MenuItem value="JAM">JAM</MenuItem>
                     <MenuItem value="CEED">CEED</MenuItem>
-                    <MenuItem value="JMET">JMET</MenuItem>
+                    <MenuItem value="JMET">CAT</MenuItem>
                     <MenuItem value="Other">Other</MenuItem>
                   </Select>
                 </Grid>
@@ -481,7 +547,7 @@ function Edit() {
                   <p>Entrance Exam Rank</p>
                   <TextField
                     fullWidth
-                    type="string"
+                    type="number"
                     id="standard-basic"
                     variant="standard"
                     {...register("entrance_exam_rank", {
@@ -496,7 +562,8 @@ function Edit() {
                     variant="standard"
                     {...register("category")}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="" />
+                    <MenuItem value="NA">None</MenuItem>
 
                     <MenuItem value="General">General</MenuItem>
                     <MenuItem value="General-EWS">General-EWS</MenuItem>
@@ -510,7 +577,7 @@ function Edit() {
                   <p>Category Rank</p>
                   <TextField
                     fullWidth
-                    type="string"
+                    type="number"
                     id="standard-basic"
                     variant="standard"
                     {...register("category_rank", {
@@ -553,11 +620,17 @@ function Edit() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <p>Freind Contact Details</p>
+                  <p>Friend Contact Details</p>
                   <TextField
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    error={!!errors.friend_phone}
+                    helperText={
+                      errors.friend_phone
+                        ? "Contact number must be 10 digits long!"
+                        : ""
+                    }
                     variant="standard"
                     {...register("friend_phone", {
                       minLength: 10,
@@ -567,13 +640,14 @@ function Edit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Disability</p>
-                  <TextField
+                  <Select
                     fullWidth
-                    type="text"
-                    id="standard-basic"
                     variant="standard"
                     {...register("disability")}
-                  />
+                  >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                  </Select>
                 </Grid>
               </Grid>
             </Card>

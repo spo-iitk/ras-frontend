@@ -321,6 +321,11 @@ function Details() {
                     id="standard-basic"
                     variant="standard"
                     value={handleValue(item.api_id)}
+                    multiline={
+                      item.field === "Current Address" ||
+                      item.field === "Permanent Address"
+                    }
+                    minRows={3}
                   />
                 </Grid>
               ))}
