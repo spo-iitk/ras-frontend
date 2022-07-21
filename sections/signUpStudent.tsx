@@ -85,7 +85,7 @@ function SignUpStudent() {
             {...registerOTP("user_id", {
               required: true,
               pattern: /^[^@]+@iitk\.ac\.in$/,
-              setValueAs: (value) => value.trim(),
+              setValueAs: (value) => value.trim().toLowerCase(),
             })}
             error={!!errorsOTP.user_id}
             helperText={errorsOTP.user_id ? "Invalid IITK Email ID" : ""}
