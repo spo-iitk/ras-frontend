@@ -179,7 +179,7 @@ function Index() {
               <Clarification
                 handleCloseNew={handleCloseNew}
                 studentID={params.row.sid}
-                context={`Your resume ${params.row.resume}`}
+                context={`Your resume ${getURL(params?.row?.resume)}`}
               />
             </Modal>
             <Button sx={{ height: 30 }} onClick={handleOpenNew}>
