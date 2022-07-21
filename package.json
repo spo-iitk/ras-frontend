@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next lint --fix && next dev",
-    "build": "next lint --fix && next build",
-    "start": "next lint --fix && next start",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix --ext .ts,.tsx"
   },
