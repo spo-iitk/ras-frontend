@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
-import ResumeClarification from "@components/Modals/resumeClarification";
+import Clarification from "@components/Modals/clarification";
 import Meta from "@components/Meta";
 import adminResumeRequest, {
   AllStudentResumeResponse,
@@ -176,9 +176,10 @@ function Index() {
         return (
           <div>
             <Modal open={openNew} onClose={handleCloseNew}>
-              <ResumeClarification
+              <Clarification
                 handleCloseNew={handleCloseNew}
-                resumeId={params.row.resumeid}
+                studentID={params.row.sid}
+                context={`Your resume ${params.row.resume}`}
               />
             </Modal>
             <Button sx={{ height: 30 }} onClick={handleOpenNew}>

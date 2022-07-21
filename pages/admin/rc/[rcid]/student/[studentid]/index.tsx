@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   Grid,
+  Modal,
   Stack,
   TextField,
   Typography,
@@ -24,6 +25,7 @@ import getStudentApplication, {
   ApplicationResponse,
 } from "@callbacks/admin/rc/student/getApplications";
 import { CDN_URL } from "@callbacks/constants";
+import Clarification from "@components/Modals/clarification";
 
 const transformName = (name: string) => {
   const nname = name.replace(`${CDN_URL}/view/`, "");
@@ -122,6 +124,14 @@ function Index() {
       );
       window.location.reload();
     }
+  };
+
+  const [openNew, setOpenNew] = useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
   };
 
   return (
@@ -329,9 +339,17 @@ function Index() {
               variant="contained"
               sx={{ width: "100%" }}
               disabled={student?.is_verified || student?.is_frozen}
+              onClick={handleOpenNew}
             >
               Ask Clarification
             </Button>
+            <Modal open={openNew} onClose={handleCloseNew}>
+              <Clarification
+                handleCloseNew={handleCloseNew}
+                studentID={studentid as string}
+                context="your enrollment questions"
+              />
+            </Modal>
           </Stack>
         </Card>
       </Stack>

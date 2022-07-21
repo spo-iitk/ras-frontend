@@ -84,6 +84,29 @@ const getStudents = {
         );
         return false;
       }),
+  clarify: (
+    token: string,
+    clarification: string,
+    rcid: string,
+    studentid: string
+  ) =>
+    instance
+      .post<StatusResponse, AxiosResponse<StatusResponse, any>, any>(
+        `/${rcid}/student/${studentid}/clarification`,
+        { clarification },
+        setConfig(token)
+      )
+      .then((res) => {
+        successNotification("Message sent!", res.data.status);
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Failed to send message!",
+          err.response?.data?.error || err.message
+        );
+        return false;
+      }),
 };
 
 export default getStudents;

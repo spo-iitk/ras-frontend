@@ -1,6 +1,10 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+
+import getStudents from "@callbacks/admin/rc/student/getStudents";
+import useStore from "@store/store";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -16,33 +20,29 @@ const boxStyle = {
   alignItems: "center",
 };
 
-function ResumeClarification({
+function Clarification({
   handleCloseNew,
-  resumeId,
+  studentID,
+  context,
 }: {
   handleCloseNew: () => void;
-  resumeId: string;
+  studentID: string;
+  context: string;
 }) {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
     reset,
-    clearErrors,
   } = useForm();
+  const { token } = useStore();
+  const { rcid } = useRouter().query;
+  const rid = (rcid || "").toString();
 
-  const handleClarification = (data: any) => {
-    if (!data.message && !data.pocDetails) {
-      setError("ErrorMessage", {
-        type: "manual",
-        message: "Either of the fields is required",
-      });
-    } else {
-      console.log(data);
-      console.log(resumeId);
-      handleCloseNew();
-    }
+  const handleClarification = async (data: any) => {
+    const message = `This is regarding ${context}.\nMessage: ${data.message}.\nYour POC is ${data.poc}.`;
+    getStudents.clarify(token, message, rid, studentID);
+    handleCloseNew();
   };
   return (
     <Box sx={boxStyle}>
@@ -54,22 +54,19 @@ function ResumeClarification({
           multiline
           minRows={3}
           variant="standard"
-          {...register("message")}
-          error={errors.ErrorMessage}
-          onChange={() => clearErrors("ErrorMessage")}
-          helperText={errors.ErrorMessage && "Message is required"}
+          {...register("message", { required: true })}
+          error={errors.message}
+          helperText={errors.message && "Message is required"}
         />
-        <h2 style={{ margin: "30px auto 10px auto" }}>OR</h2>
         <TextField
           label="POC Details"
-          id="pocdetails"
+          id="poc"
           variant="standard"
           multiline
           minRows={3}
-          {...register("pocDetails")}
-          error={errors.ErrorMessage}
-          onChange={() => clearErrors("ErrorMessage")}
-          helperText={errors.ErrorMessage && "POC Details is required"}
+          {...register("poc", { required: true })}
+          error={errors.poc}
+          helperText={errors.poc && "POC Details is required"}
         />
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
@@ -94,4 +91,4 @@ function ResumeClarification({
   );
 }
 
-export default ResumeClarification;
+export default Clarification;
