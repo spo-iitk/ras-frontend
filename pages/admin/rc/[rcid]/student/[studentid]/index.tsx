@@ -156,7 +156,7 @@ function Index() {
               justifyContent={{ sm: "space-between", xs: "center" }}
             >
               <h2 style={{ width: "100%" }}>Student Details</h2>
-              <Link href={`/admin/student/${studentid}`}>
+              <Link href={`/admin/student/${student.student_id}`}>
                 <Button size="small" variant="contained" sx={{ width: "100%" }}>
                   View Profile
                 </Button>
