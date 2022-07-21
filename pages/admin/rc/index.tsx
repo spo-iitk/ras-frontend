@@ -85,7 +85,7 @@ function Index() {
         response[i].name = `${response[i].type} ${response[i].phase}`;
         response[i].start_date = new Date(
           response[i].start_date
-        ).toLocaleDateString();
+        ).toLocaleDateString("en-GB");
       }
       setRows(response);
       setLoading(false);

@@ -242,7 +242,7 @@ function Details() {
   const handleValue = (val: string) => {
     switch (val) {
       case "dob":
-        return new Date(StudentData.dob).toLocaleDateString();
+        return new Date(StudentData.dob).toLocaleDateString("en-GB");
       case "program":
         return getProgram(StudentData.program_department_id);
       case "program_2":

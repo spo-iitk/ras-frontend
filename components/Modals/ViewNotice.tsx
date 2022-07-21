@@ -20,9 +20,9 @@ const boxStyle = {
 };
 function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
   let value = currentNotice.CreatedAt;
-  const publishedDateAndTime = `${new Date(
-    value
-  ).toLocaleDateString()} ${new Date(value).toLocaleTimeString()}`;
+  const publishedDateAndTime = `${new Date(value).toLocaleDateString(
+    "en-GB"
+  )} ${new Date(value).toLocaleTimeString()}`;
   return (
     <Box sx={boxStyle} className="modalScroll">
       <Stack spacing={3}>

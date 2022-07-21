@@ -376,7 +376,9 @@ function Index() {
                                 color: theme.palette.secondary.main,
                               }}
                             >
-                              {new Date(value.CreatedAt).toLocaleDateString()}
+                              {new Date(value.CreatedAt).toLocaleDateString(
+                                "en-GB"
+                              )}
                             </Typography>
                           </Grid>
                         </Grid>

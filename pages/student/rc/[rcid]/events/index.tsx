@@ -35,13 +35,15 @@ const columns: GridColDef[] = [
   {
     field: "CreatedAt",
     headerName: "Created At",
-    renderCell: (params) => new Date(params.row.CreatedAt).toLocaleDateString(),
+    renderCell: (params) =>
+      new Date(params.row.CreatedAt).toLocaleDateString("en-GB"),
     hide: true,
   },
   {
     field: "UpdatedAt",
     headerName: "Updated At",
-    renderCell: (params) => new Date(params.row.UpdatedAt).toLocaleDateString(),
+    renderCell: (params) =>
+      new Date(params.row.UpdatedAt).toLocaleDateString("en-GB"),
     hide: true,
   },
   {
