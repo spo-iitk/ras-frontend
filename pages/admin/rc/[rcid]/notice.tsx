@@ -96,7 +96,7 @@ const columns: GridColDef[] = [
   },
 ];
 function Index() {
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
@@ -143,7 +143,7 @@ function Index() {
 
   return (
     <div>
-      <Meta title="Notices" />
+      <Meta title={`Notices - ${rcName}`} />
       <Stack>
         <Stack
           direction="row"

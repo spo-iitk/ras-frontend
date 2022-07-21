@@ -124,7 +124,7 @@ function Applications() {
 
   return (
     <div>
-      <Meta title="Applications" />
+      <Meta title="RC - Applications" />
       <Grid
         container
         spacing={1}

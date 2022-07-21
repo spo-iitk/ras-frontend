@@ -254,7 +254,7 @@ function Resume() {
   return (
     <>
       <div>
-        <Meta title="Manage Resume " />
+        <Meta title="RC - Manage Resume " />
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>
             <h2>Manage Resume</h2>

@@ -138,7 +138,7 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   const [loading, setLoading] = useState(true);
   const [openEnroll, setOpenEnroll] = useState(false);
   const handleOpenEnroll = () => {
@@ -209,7 +209,7 @@ function Index() {
   };
   return (
     <div>
-      <Meta title="Students" />
+      <Meta title={`Student List - ${rcName}`} />
       <Stack
         spacing={2}
         direction="row"

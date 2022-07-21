@@ -99,7 +99,7 @@ function Index() {
   const { rcid } = router.query;
   const rid = rcid as string;
 
-  const { token } = useStore();
+  const { token, rcName } = useStore();
 
   const [proformas, setProformas] = useState<AdminProformaType[]>([]);
 
@@ -113,7 +113,7 @@ function Index() {
 
   return (
     <div>
-      <Meta title="Proforma" />
+      <Meta title={`Proforma List - ${rcName}`} />
       <h2>Proforma</h2>
       <DataGrid rows={proformas} columns={columns} getRowId={(row) => row.ID} />
     </div>

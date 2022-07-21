@@ -100,7 +100,7 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   const [row, setRow] = useState<CompanyRc>({
     ID: 0,
     CreatedAt: "",
@@ -166,7 +166,7 @@ function Index() {
   };
   return (
     <div>
-      <Meta title="Company Dashboard" />
+      <Meta title={`${row.company_name} - ${rcName}`} />
       <h2>{row.company_name}</h2>
 
       <Stack spacing={5} justifyContent="center" alignItems="center">

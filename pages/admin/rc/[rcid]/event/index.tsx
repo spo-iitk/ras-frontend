@@ -71,7 +71,7 @@ function Index() {
   const { rcid } = router.query;
   const rid = rcid as string;
 
-  const { token } = useStore();
+  const { token, rcName } = useStore();
 
   const [events, setEvents] = useState<Event[]>([]);
 
@@ -90,7 +90,7 @@ function Index() {
 
   return (
     <div>
-      <Meta title="Events" />
+      <Meta title={`Events - ${rcName}`} />
       <h2>Events</h2>
       <DataGrid rows={events} columns={columns} getRowId={(row) => row.ID} />
     </div>

@@ -77,7 +77,7 @@ function Step3() {
         }}
       >
         <Stack spacing={3}>
-          <h2>Step 3/5 : Package Details</h2>
+          <h2>Step 3 : Package Details</h2>
           {fetchData.ID !== 0 && (
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>Cost to Company</p>

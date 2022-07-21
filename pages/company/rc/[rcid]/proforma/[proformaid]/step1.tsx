@@ -70,7 +70,7 @@ function ProformaNew() {
         }}
       >
         <Stack spacing={3}>
-          <h2>Step 1/5 : Basic Details</h2>
+          <h2>Step 1 : Basic Details</h2>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Company Name</p>
             <TextField

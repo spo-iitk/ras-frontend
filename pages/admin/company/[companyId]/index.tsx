@@ -97,7 +97,7 @@ function Index() {
 
   return (
     <div>
-      <Meta title="Master Company Dashboard" />
+      <Meta title={`${CompanyData.name} - Master Company Details`} />
       <Stack>
         <Stack
           direction="row"

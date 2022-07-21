@@ -135,7 +135,7 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   const [rows, setRow] = useState<CompanyRc[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -150,7 +150,7 @@ function Index() {
   }, [token, rid]);
   return (
     <div>
-      <Meta title="Company" />
+      <Meta title={`Company List - ${rcName}`} />
       <Stack>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={6}>

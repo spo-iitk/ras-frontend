@@ -148,7 +148,7 @@ function Openings() {
   }, [rid, router.isReady, token]);
   return (
     <div>
-      <Meta title="Openings" />
+      <Meta title="RC - Openings" />
       <Stack>
         <h2>Job Openings</h2>
         <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />
