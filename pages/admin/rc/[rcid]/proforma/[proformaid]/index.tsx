@@ -176,7 +176,7 @@ const columns: GridColDef[] = [
     hide: true,
   },
   {
-    field: "tenth_board_year",
+    field: "tenth_year",
     headerName: "10th Board Year",
     hide: true,
   },
@@ -191,7 +191,7 @@ const columns: GridColDef[] = [
     hide: true,
   },
   {
-    field: "twelfth_board_year",
+    field: "twelfth__year",
     headerName: "12th Board Year",
     hide: true,
   },
