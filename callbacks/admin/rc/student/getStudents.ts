@@ -25,6 +25,7 @@ export interface Student {
   secondary_program_department_id: number;
   student_id: number;
   type: string;
+  roll_no?: string;
 }
 
 const instance = axios.create({

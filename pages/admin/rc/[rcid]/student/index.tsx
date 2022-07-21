@@ -76,6 +76,11 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
+    field: "roll_no",
+    headerName: "Roll No.",
+    width: 100,
+  },
+  {
     field: "cpi",
     headerName: "CPI",
     width: 100,
@@ -187,6 +192,7 @@ function Index() {
               student_id: student.student_id,
               is_frozen: student.is_frozen,
               type: student.type,
+              roll_no: student.roll_no,
             }))
           );
           setLoading(false);
