@@ -267,6 +267,23 @@ function Resume() {
             </div>
           </Grid>
         </Grid>
+        <div>
+          <Typography>Instructions for submitting your resume:</Typography>
+          <ol>
+            <li>
+              Resume should be in <b>PDF</b> format only.
+            </li>
+            <li>
+              The maximum permissible file size is <b>200KB</b>.{" "}
+            </li>
+            <li>
+              You can have at most 5 verified (including pending) resumes.
+            </li>
+            <li>
+              Each of your resume name should be <b>{resumeName}</b>
+            </li>
+          </ol>
+        </div>
         <Stack>
           <DataGrid
             rows={allResumes}
