@@ -160,7 +160,7 @@ function Apply() {
 
   return (
     <div>
-      <Meta title="Custom QnA" />
+      <Meta title="RC - Openings - QnA" />
       <Stack alignItems="center" spacing={4}>
         <Box sx={boxStyle}>
           <Stack spacing={4}>

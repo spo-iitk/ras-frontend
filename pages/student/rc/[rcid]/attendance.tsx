@@ -67,7 +67,7 @@ const rows: never[] = [];
 function Attendance() {
   return (
     <div>
-      <Meta title="Attendance " />
+      <Meta title="RC - Attendance" />
       <Stack>
         <h2>Attendance</h2>
 

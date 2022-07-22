@@ -64,7 +64,7 @@ function Overview(): JSX.Element {
 
   return (
     <div>
-      <Meta title="Company Dashboard - Overview" />
+      <Meta title="Dashboard" />
       <Stack>
         <h2>Recruitment Cycle</h2>
         <DataGrid

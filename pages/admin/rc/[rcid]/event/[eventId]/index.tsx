@@ -116,7 +116,7 @@ function Event() {
   const [pid, setProformaID] = useState<number>(0);
   const [openNew, setOpenNew] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   const router = useRouter();
   const { rcid, eventId } = router.query;
   const rid = rcid as string;
@@ -149,7 +149,7 @@ function Event() {
   }, [rid, eid, token, router.isReady, reset, pid]);
   return (
     <div>
-      <Meta title="Event Details" />
+      <Meta title={`Event Details - ${rcName}`} />
       <Card
         elevation={5}
         sx={{

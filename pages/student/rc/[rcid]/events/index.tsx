@@ -118,7 +118,7 @@ function Calendar() {
   return (
     <div>
       <h2>Calender</h2>
-      <Meta title="Calendar - Intern Season" />
+      <Meta title="RC - Events - Calendar" />
       <Grid
         container
         spacing={3}

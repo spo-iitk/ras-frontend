@@ -88,7 +88,7 @@ function Calendar() {
   const { rcid } = router.query;
   const rid = rcid as string;
 
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
@@ -117,7 +117,7 @@ function Calendar() {
   return (
     <div>
       <h2>Calender</h2>
-      <Meta title="Calendar - Intern Season" />
+      <Meta title={`Calendar - ${rcName}`} />
       <Grid
         container
         spacing={3}

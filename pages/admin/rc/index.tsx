@@ -94,7 +94,7 @@ function Index() {
   }, [token]);
   return (
     <div>
-      <Meta title="Student Dashboard - Index" />
+      <Meta title="RC Overview - Admin" />
       <Stack>
         <Stack
           spacing={3}

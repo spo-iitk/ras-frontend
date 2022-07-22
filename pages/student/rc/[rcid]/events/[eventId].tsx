@@ -127,7 +127,7 @@ function Event() {
   }, [rid, eid, token, router.isReady, reset, pid]);
   return (
     <div>
-      <Meta title="Event Details" />
+      <Meta title="RC - Event - Details" />
       <Card
         elevation={5}
         sx={{
