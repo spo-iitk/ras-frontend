@@ -55,7 +55,7 @@ function Index() {
   const data = row.eligibility?.length > 90 ? row.eligibility : data1;
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title="Software Intern - Proforma" />
+      <Meta title="Proforma" />
       <h2>Proforma</h2>
       <Card
         elevation={5}

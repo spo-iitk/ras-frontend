@@ -81,7 +81,7 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   useEffect(() => {
     const fetchData = async () => {
       if (rid === undefined || rid === "") return;
@@ -210,7 +210,7 @@ function Index() {
 
   return (
     <div>
-      <Meta title="Resume Dashboard" />
+      <Meta title={`Resume Dashboard - ${rcName}`} />
       <Grid container alignItems="center">
         <Grid item xs={12}>
           <Stack

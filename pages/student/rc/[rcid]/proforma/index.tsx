@@ -64,7 +64,7 @@ function Proforma() {
   }, [rid, router.isReady, token]);
   return (
     <div>
-      <Meta title="Proforma" />
+      <Meta title="RC - Proformas" />
       <Stack>
         <h2>Proforma</h2>
         <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />

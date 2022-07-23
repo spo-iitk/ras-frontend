@@ -14,7 +14,7 @@ function Event() {
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [endTime, setEndTime] = useState<Date | null>(new Date());
   const [pid, setProformaID] = useState<number>(0);
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   const router = useRouter();
   const { rcid, eventId } = router.query;
   const rid = rcid as string;
@@ -54,7 +54,7 @@ function Event() {
 
   return (
     <div>
-      <Meta title="Event Details" />
+      <Meta title={`Edit Event - ${rcName}`} />
       <Card
         elevation={5}
         sx={{

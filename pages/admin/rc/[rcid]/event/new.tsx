@@ -6,15 +6,17 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import React, { useState } from "react";
 
 import Meta from "@components/Meta";
+import useStore from "@store/store";
 
 function Event() {
+  const { rcName } = useStore();
   const [date, setDate] = useState<Date | null>(new Date());
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [endTime, setEndTime] = useState<Date | null>(new Date());
 
   return (
     <div>
-      <Meta title="Event Details" />
+      <Meta title={`New Event - ${rcName}`} />
       <Card
         elevation={5}
         sx={{

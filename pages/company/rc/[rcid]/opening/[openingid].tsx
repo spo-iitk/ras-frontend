@@ -104,7 +104,7 @@ function Application() {
 
   return (
     <div>
-      <Meta title="Applications - Software Development Intern" />
+      <Meta title="Opening - Applicants" />
       <Stack>
         <h2>Applicants</h2>
         <DataGrid rows={rows} columns={columns} loading={loading} />

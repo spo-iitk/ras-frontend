@@ -86,7 +86,7 @@ function Question() {
   const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
   const [Ques, setQues] = useState<QuestionType[]>([]);
-  const { token } = useStore();
+  const { token, rcName } = useStore();
   const [loading, setLoading] = useState(true);
   const getQuestions = async () => {
     if (
@@ -120,7 +120,7 @@ function Question() {
 
   return (
     <div>
-      <Meta title="Add Questions - Recruitment Cycle" />
+      <Meta title={`Add Questions - Proforma - ${rcName}`} />
       <Stack>
         <Stack
           spacing={3}

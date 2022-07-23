@@ -72,7 +72,7 @@ function Step5() {
 
   return (
     <div>
-      <Meta title="Step 5/5 - Additional Information" />
+      <Meta title="Step 5 - Additional Information" />
       <Card
         elevation={5}
         sx={{

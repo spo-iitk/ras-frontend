@@ -258,7 +258,7 @@ function Details() {
 
   return (
     <div>
-      <Meta title="Profile - Student Dashboard" />
+      <Meta title={`${StudentData.name} - Master Student Details`} />
       <Stack spacing={2}>
         <Stack
           direction={{ xs: "column", sm: "row" }}

@@ -323,7 +323,7 @@ function Index() {
 
   return (
     <div>
-      <Meta title="Proforma" />
+      <Meta title={`${pid} - Proforma`} />
       <Stack
         spacing={2}
         justifyContent="center"

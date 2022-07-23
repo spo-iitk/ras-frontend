@@ -209,7 +209,7 @@ function Overview() {
 
   return (
     <div>
-      <Meta title="Overview - Company" />
+      <Meta title="Overview" />
       <Stack>
         <h2>Overview</h2>
 

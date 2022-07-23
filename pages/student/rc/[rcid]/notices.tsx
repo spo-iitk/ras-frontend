@@ -73,7 +73,7 @@ function Notices() {
 
   return (
     <div>
-      <Meta title="Notices" />
+      <Meta title="RC - Notices" />
       <Stack>
         <Stack
           direction="row"

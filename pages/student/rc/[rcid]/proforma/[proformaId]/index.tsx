@@ -53,7 +53,7 @@ function Index() {
   }, [token, rid, ID, data]);
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title="Company - Proforma" />
+      <Meta title="RC - Company - Proforma" />
       <h2>Proforma</h2>
       <Card
         elevation={5}

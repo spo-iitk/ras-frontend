@@ -73,7 +73,7 @@ function Edit() {
 
   return (
     <div>
-      <Meta title="Edit Profile -Admin Student Dashboard " />
+      <Meta title={`${StudentData.name} - Edit Student Details`} />
       <Stack spacing={2}>
         <Stack
           direction={{ xs: "column", sm: "row" }}

@@ -7,6 +7,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
+import useStore from "@store/store";
 
 const rows: never[] = [];
 
@@ -18,6 +19,7 @@ const buttonstyle = {
 };
 
 function Index() {
+  const { rcName } = useStore();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -97,7 +99,7 @@ function Index() {
   ];
   return (
     <div>
-      <Meta title="Attendance" />
+      <Meta title={`${rcName} - Attendance`} />
       <Grid container alignItems="center">
         <Grid item xs={12}>
           <Stack

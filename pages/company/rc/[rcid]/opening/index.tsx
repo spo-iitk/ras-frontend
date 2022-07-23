@@ -109,7 +109,7 @@ function Applications() {
   }, [router.isReady, token, rid]);
   return (
     <div>
-      <Meta title="Applications - Company" />
+      <Meta title="Applications" />
       <Stack>
         <h2>Applications</h2>
         <DataGrid
