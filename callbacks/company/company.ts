@@ -50,6 +50,9 @@ const companyRequest = {
           "Could not fetch company Meta data",
           err?.response?.data?.error || err?.message
         );
+        if (err.response?.status === 401) {
+          return { name: "error401", email: "error401" } as ComapnyWhoami;
+        }
         return { name: "", email: "" } as ComapnyWhoami;
       }),
 };

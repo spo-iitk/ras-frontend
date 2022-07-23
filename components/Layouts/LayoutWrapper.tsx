@@ -82,7 +82,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
   }
   const Layouter = layouts[layoutType];
   const Id = Ids[layoutType];
-  const { role, token, setName, setRCName } = useStore();
+  const { role, token, setName, setRCName, setToken } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
 
@@ -93,11 +93,19 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
   useEffect(() => {
     const getCompany = async () => {
       const response = await companyRequest.get(token);
+      if (response.name === "error401" && response.email === "error.401") {
+        router.push("/login");
+        setToken("");
+      }
       setCompanyName(response.name);
       setName(response.name);
     };
     const getStudent = async () => {
       const response = await studentRequest.get(token);
+      if (response.ID === -1) {
+        router.push("/login");
+        setToken("");
+      }
       setStudentName(response.name);
       setName(response.name);
     };
@@ -140,7 +148,17 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         getRc();
       } else setRcName("Dashboard");
     }
-  }, [role, token, setCompanyName, setName, setStudentName, rcid, setRCName]);
+  }, [
+    role,
+    token,
+    setCompanyName,
+    setName,
+    setStudentName,
+    rcid,
+    setRCName,
+    setToken,
+    router,
+  ]);
 
   const dashbboard_items: fields[] = [
     {

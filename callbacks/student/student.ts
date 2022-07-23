@@ -69,6 +69,11 @@ const studentRequest = {
           "Failed to get data",
           err.response?.data.message || err.message
         );
+        if (err.response.status === 401) {
+          return {
+            ID: -1,
+          } as Student;
+        }
         return { ID: 0 } as Student;
       }),
   update: (token: string, body: Student) =>
