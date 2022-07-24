@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Card,
   Grid,
   MenuItem,
   Modal,
@@ -13,8 +12,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 
 import requestProforma, {
   AdminProformaType,
@@ -117,26 +114,15 @@ const columns: GridColDef[] = [
   {
     field: "status_name",
     headerName: "Status",
-    renderCell: (params) =>
-      params.row.status_name === "Recruited" ? (
-        <Button
-          variant="outlined"
-          sx={{ borderRadius: "10px", width: "100%", color: "green" }}
-          color="success"
-          startIcon={<CheckIcon sx={{ color: "green" }} />}
-        >
-          Recruited
-        </Button>
-      ) : (
-        <Button
-          variant="outlined"
-          sx={{ borderRadius: "10px", width: "100%", color: "red" }}
-          color="error"
-          startIcon={<CloseIcon sx={{ color: "red" }} />}
-        >
-          Not Recruited
-        </Button>
-      ),
+    renderCell: (params) => (
+      <Button
+        variant="outlined"
+        sx={{ borderRadius: "10px", width: "100%", color: "green" }}
+        color="success"
+      >
+        {params.value}
+      </Button>
+    ),
   },
   {
     field: "specialization",
@@ -429,70 +415,62 @@ function Index() {
           </Button>
         </Stack>
       </Stack>
-      <Card
-        elevation={5}
-        sx={{
-          padding: 3,
-          margin: "50px auto",
-        }}
-      >
-        <Grid container spacing={5} alignItems="center" justifyItems="center">
-          <Grid item xs={12}>
-            <Stack>
-              <h2>Student Data</h2>
+      <Grid container spacing={5} alignItems="center" justifyItems="center">
+        <Grid item xs={12}>
+          <Stack>
+            <h2>Student Data</h2>
 
-              <DataGrid rows={rows} columns={columns} loading={loading} />
-            </Stack>
-          </Grid>
-          <Grid item xs={12}>
-            <Stack
-              spacing={2}
-              direction={{ xs: "column", md: "row", lg: "column" }}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Stack spacing={3}>
-                <Modal open={openEmailSender} onClose={handleCloseEmailSender}>
-                  <Box sx={boxStyle}>
-                    <Stack spacing={3}>
-                      <h2>Enter Email to be Sent</h2>
-                      <Select
-                        labelId="Event-ID"
-                        label="Select Group"
-                        variant="standard"
-                        {...register("event_id", { required: true })}
-                      >
-                        {proformaEvents.map((event) => (
-                          <MenuItem value={event.ID}>{event.name}</MenuItem>
-                        ))}
-                      </Select>
-                      <TextField
-                        label="Email Subject"
-                        variant="standard"
-                        {...register("subject", { required: true })}
-                      />
-                      <TextField
-                        label="Email Body"
-                        variant="standard"
-                        {...register("body", { required: true })}
-                        multiline
-                        minRows={3}
-                      />
-                      <Button
-                        variant="contained"
-                        sx={{ width: "100%" }}
-                        onClick={handleSubmit(sendEmail)}
-                      >
-                        Submit
-                      </Button>
-                    </Stack>
-                  </Box>
-                </Modal>
-              </Stack>
-            </Stack>
-          </Grid>
+            <DataGrid rows={rows} columns={columns} loading={loading} />
+          </Stack>
         </Grid>
-      </Card>
+        <Grid item xs={12}>
+          <Stack
+            spacing={2}
+            direction={{ xs: "column", md: "row", lg: "column" }}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Stack spacing={3}>
+              <Modal open={openEmailSender} onClose={handleCloseEmailSender}>
+                <Box sx={boxStyle}>
+                  <Stack spacing={3}>
+                    <h2>Enter Email to be Sent</h2>
+                    <Select
+                      labelId="Event-ID"
+                      label="Select Group"
+                      variant="standard"
+                      {...register("event_id", { required: true })}
+                    >
+                      {proformaEvents.map((event) => (
+                        <MenuItem value={event.ID}>{event.name}</MenuItem>
+                      ))}
+                    </Select>
+                    <TextField
+                      label="Email Subject"
+                      variant="standard"
+                      {...register("subject", { required: true })}
+                    />
+                    <TextField
+                      label="Email Body"
+                      variant="standard"
+                      {...register("body", { required: true })}
+                      multiline
+                      minRows={3}
+                    />
+                    <Button
+                      variant="contained"
+                      sx={{ width: "100%" }}
+                      onClick={handleSubmit(sendEmail)}
+                    >
+                      Submit
+                    </Button>
+                  </Stack>
+                </Box>
+              </Modal>
+            </Stack>
+          </Stack>
+        </Grid>
+      </Grid>
     </div>
   );
 }
