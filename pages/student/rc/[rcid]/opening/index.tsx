@@ -34,6 +34,7 @@ function Openings() {
     {
       field: "ID",
       headerName: "ID",
+      hide: true,
     },
     { field: "company_name", headerName: "Company Name" },
     { field: "role", headerName: "Role Name" },
