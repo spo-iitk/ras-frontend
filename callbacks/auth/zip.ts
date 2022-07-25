@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-import { errorNotification } from "@callbacks/notifcation";
+import { errorNotification, successNotification } from "@callbacks/notifcation";
 
 import { CDN_URL, ErrorType, SERVER_ERROR } from "../constants";
 
@@ -21,13 +21,23 @@ const zipInstance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
-const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+// const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const zip = {
   post: (req: ZipParams) =>
     zipInstance
       .post<ZipResponse, AxiosResponse<ZipResponse, ZipParams>>("/zip", req)
-      .then(responseBody)
+      .then((res) => {
+        if (res.status === 200) {
+          successNotification(
+            "Resume ziped successfully",
+            `http://placement.iitk.ac.in/cdn/zip/${res.data.filename}`
+          );
+          window.open(
+            `http://placement.iitk.ac.in/cdn/zip/${res.data.filename}`
+          );
+        }
+      })
       .catch((err: ErrorType) => {
         errorNotification(
           "Cannot Zip Files",

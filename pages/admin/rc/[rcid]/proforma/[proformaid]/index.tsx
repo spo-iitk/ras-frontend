@@ -2,16 +2,19 @@ import {
   Box,
   Button,
   Grid,
+  IconButton,
   MenuItem,
   Modal,
   Select,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import DownloadIcon from "@mui/icons-material/Download";
 
 import requestProforma, {
   AdminProformaType,
@@ -24,6 +27,7 @@ import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import { getDeptProgram } from "@components/Parser/parser";
 import useStore from "@store/store";
+import zip from "@callbacks/auth/zip";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -307,6 +311,13 @@ function Index() {
     }
   };
 
+  const zipResume = async () => {
+    const files = rows.map((row: any) => row.resume);
+    const outfile = `${rid}_${pid}.zip`;
+
+    await zip.post({ files, rid, outfile });
+  };
+
   return (
     <div>
       <Meta title={`${pid} - Proforma`} />
@@ -418,7 +429,20 @@ function Index() {
       <Grid container spacing={5} alignItems="center" justifyItems="center">
         <Grid item xs={12}>
           <Stack>
-            <h2>Student Data</h2>
+            <Stack
+              alignItems="center"
+              justifyContent="space-between"
+              direction="row"
+            >
+              <h2>Student Data</h2>
+              <div>
+                <Tooltip title="Zip Resumes">
+                  <IconButton onClick={() => zipResume()}>
+                    <DownloadIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            </Stack>
 
             <DataGrid rows={rows} columns={columns} loading={loading} />
           </Stack>
