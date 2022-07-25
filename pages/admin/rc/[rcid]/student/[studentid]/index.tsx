@@ -27,13 +27,13 @@ import getStudentApplication, {
 import { CDN_URL } from "@callbacks/constants";
 import Clarification from "@components/Modals/clarification";
 
-const transformName = (name: string) => {
-  const nname = name.replace(`${CDN_URL}/view/`, "");
-  const nameArray = nname.split(".");
-  const newName = nameArray[0].slice(14, -33);
-  const newNameWithExtension = `${newName}.${nameArray[1]}`;
-  return newNameWithExtension;
-};
+// const transformName = (name: string) => {
+//   const nname = name.replace(`${CDN_URL}/view/`, "");
+//   const nameArray = nname.split(".");
+//   const newName = nameArray[0].slice(14, -33);
+//   const newNameWithExtension = `${newName}.${nameArray[1]}`;
+//   return newNameWithExtension;
+// };
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
@@ -65,7 +65,7 @@ const cols: GridColDef[] = [
           window.open(params.value, "_blank");
         }}
       >
-        {transformName(params.value)}
+        Resume ID: {params.row.resume_id}
       </Button>
     ),
   },
@@ -73,6 +73,24 @@ const cols: GridColDef[] = [
     field: "applied_on",
     headerName: "Applied On",
     valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
+  },
+  {
+    field: "deadline",
+    headerName: "Deadline",
+    valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    renderCell: (params) => (
+      <Button
+        variant="outlined"
+        sx={{ borderRadius: "10px", width: "100%", color: "green" }}
+        color="success"
+      >
+        {params.row.status}
+      </Button>
+    ),
   },
 ];
 
