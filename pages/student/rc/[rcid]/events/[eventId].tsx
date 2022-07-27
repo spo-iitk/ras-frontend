@@ -229,5 +229,5 @@ function Event() {
   );
 }
 
-Event.layout = "studentDashboard";
+Event.layout = "studentPhaseDashboard";
 export default Event;
