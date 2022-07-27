@@ -112,6 +112,7 @@ const columns: GridColDef[] = [
   {
     field: "program_dept_2",
     headerName: "Secondary Program/Dept",
+    hide: true,
     valueGetter: (params) =>
       getDeptProgram(params.row.secondary_program_department_id),
   },
@@ -239,6 +240,10 @@ const columns: GridColDef[] = [
   {
     field: "phone",
     headerName: "Phone",
+  },
+  {
+    field: "personal_email",
+    headerName: "Alternate Email",
   },
 ];
 
