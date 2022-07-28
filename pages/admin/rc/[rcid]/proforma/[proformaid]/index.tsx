@@ -25,7 +25,11 @@ import StudentRequest from "@callbacks/admin/rc/proforma/students";
 import { CDN_URL } from "@callbacks/constants";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import { getDeptProgram } from "@components/Parser/parser";
+import {
+  getDepartment,
+  getDeptProgram,
+  getProgram,
+} from "@components/Parser/parser";
 import useStore from "@store/store";
 import zip from "@callbacks/auth/zip";
 
@@ -108,6 +112,18 @@ const columns: GridColDef[] = [
     field: "program_dept",
     headerName: "Program/Dept",
     valueGetter: (params) => getDeptProgram(params.row.program_department_id),
+  },
+  {
+    field: "program_dept",
+    hide: true,
+    headerName: "Program",
+    valueGetter: (params) => getProgram(params.row.program_department_id),
+  },
+  {
+    field: "program_dept",
+    hide: true,
+    headerName: "Department",
+    valueGetter: (params) => getDepartment(params.row.program_department_id),
   },
   {
     field: "program_dept_2",
