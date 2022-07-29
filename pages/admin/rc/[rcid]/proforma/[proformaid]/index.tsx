@@ -114,13 +114,13 @@ const columns: GridColDef[] = [
     valueGetter: (params) => getDeptProgram(params.row.program_department_id),
   },
   {
-    field: "program_dept",
+    field: "program",
     hide: true,
     headerName: "Program",
     valueGetter: (params) => getProgram(params.row.program_department_id),
   },
   {
-    field: "program_dept",
+    field: "dept",
     hide: true,
     headerName: "Department",
     valueGetter: (params) => getDepartment(params.row.program_department_id),
