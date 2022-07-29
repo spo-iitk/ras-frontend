@@ -130,7 +130,7 @@ function Login() {
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
-              id="Admin Email ID"
+              id="Email ID"
               label="Admin Email ID"
               variant="outlined"
               {...register("admin_id", {
@@ -169,7 +169,7 @@ function Login() {
           </FormControl>
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
-              id="User Email ID"
+              id="User"
               label="User Email ID"
               variant="outlined"
               {...register("user_id", {
