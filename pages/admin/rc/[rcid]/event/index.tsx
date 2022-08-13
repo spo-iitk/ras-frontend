@@ -52,7 +52,7 @@ const columns: GridColDef[] = [
   {
     field: "sequence",
     headerName: "Sequence",
-    hide: true
+    hide: true,
   },
   {
     field: "View Details",
