@@ -11,7 +11,7 @@ import {
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 
 export interface Event {
-  duration: number;
+  duration: string;
   label: string;
   name: string;
   ID: number;

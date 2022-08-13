@@ -75,15 +75,6 @@ function Event() {
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Sequence</p>
-            <TextField
-              id="Cname"
-              multiline
-              variant="standard"
-              {...register("sequence")}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Start Time</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
@@ -106,6 +97,15 @@ function Event() {
                 renderInput={(params) => <TextField disabled {...params} />}
               />
             </LocalizationProvider>
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Event Duration</p>
+            <TextField
+              id="Cname"
+              multiline
+              variant="standard"
+              {...register("duration")}
+            />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Venue</p>
