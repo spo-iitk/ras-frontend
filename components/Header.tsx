@@ -1,4 +1,4 @@
-import Image from "next/image";
+// import Image from "next/image";
 import React, { useState } from "react";
 import { IconButton, Menu, MenuItem, Stack, Tooltip } from "@mui/material";
 import Link from "next/link";
@@ -31,7 +31,7 @@ function Header() {
             alignItems="center"
             className={headerstyles.pointer}
           >
-            <Image
+            <img
               src="/images/logo/spoLogo.png"
               alt="logo"
               width={60}

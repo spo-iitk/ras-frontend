@@ -14,7 +14,7 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -85,7 +85,7 @@ function MasterLayout({
     >
       <Stack spacing={3}>
         <Stack direction="row" spacing={2} alignItems="center">
-          <Image
+          <img
             src="/images/logo/spoLogo.png"
             alt="logo"
             width={60}
@@ -237,7 +237,7 @@ function MasterLayout({
           >
             <Stack spacing={3}>
               <Stack direction="row" spacing={2} alignItems="center">
-                <Image
+                <img
                   src="/images/logo/spoLogo.png"
                   alt="logo"
                   width={60}

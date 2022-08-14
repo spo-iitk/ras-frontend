@@ -9,7 +9,7 @@ import {
   GridToolbar,
   MuiEvent,
 } from "@mui/x-data-grid";
-import Image from "next/image";
+// import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 
@@ -40,7 +40,7 @@ const StyledGridOverlay = styled("div")(({ theme }) => ({
 function CustomNoRowsOverlay() {
   return (
     <StyledGridOverlay>
-      <Image src="/images/norows.png" height={500} width={300} alt="noRows" />
+      <img src="/images/norows.png" height={500} width={300} alt="noRows" />
       <Box sx={{ mt: 1, fontSize: 20 }}>No Rows</Box>
     </StyledGridOverlay>
   );
