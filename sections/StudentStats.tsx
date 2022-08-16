@@ -10,45 +10,34 @@ const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "Id",
-    width: 90,
+    hide: true,
   },
   {
     field: "name",
     headerName: "Name",
-    width: 200,
   },
   {
     field: "roll_no",
     headerName: "Roll No.",
-    width: 200,
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    hide: true,
   },
   {
     field: "company_name",
     headerName: "Company Name",
-    width: 200,
   },
   {
-    field: "role",
-    headerName: "Role",
-    width: 150,
-  },
-  {
-    field: "type",
-    headerName: "Type",
+    field: "profile",
+    headerName: "Profile",
   },
   {
     field: "Program Department",
     headerName: "Branch",
-    width: 150,
     sortable: false,
     valueGetter: (params) => getDeptProgram(params.row.program_department_id),
-  },
-  {
-    field: "Secondary Program Department",
-    headerName: "Branch",
-    width: 150,
-    valueGetter: (params) =>
-      getDeptProgram(params.row.secondary_program_department_id),
   },
 ];
 
