@@ -32,6 +32,7 @@ import {
 } from "@components/Parser/parser";
 import useStore from "@store/store";
 import zip from "@callbacks/auth/zip";
+import DownloadResume, { resumeDLModal } from "@components/Modals/DownloadResume";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -112,16 +113,15 @@ const columns: GridColDef[] = [
     field: "program_dept",
     headerName: "Program/Dept",
     valueGetter: (params) => getDeptProgram(params.row.program_department_id),
+    hide: true,
   },
   {
     field: "program",
-    hide: true,
     headerName: "Program",
     valueGetter: (params) => getProgram(params.row.program_department_id),
   },
   {
     field: "dept",
-    hide: true,
     headerName: "Department",
     valueGetter: (params) => getDepartment(params.row.program_department_id),
   },
@@ -268,6 +268,7 @@ function Index() {
 
   const [openEmailSender, setOpenEmailSender] = useState(false);
   const [proformaEvents, setProformaEvents] = useState<Event[]>([]);
+  const [openResumeModal, setResumeModal] = useState(false);
   const [rows, setRows] = useState<any>([]);
   const handleOpenEmailSender = () => {
     setOpenEmailSender(true);
@@ -275,7 +276,12 @@ function Index() {
   const handleCloseEmailSender = () => {
     setOpenEmailSender(false);
   };
-
+  const handleOpenResumeModal = () => {
+    setResumeModal(true);
+  }
+  const handleCloseResumeModal = () => {
+    setResumeModal(false);
+  }
   const { token } = useStore();
   const router = useRouter();
   const { rcid, proformaid } = router.query;
@@ -288,7 +294,6 @@ function Index() {
       is_approved: { Valid: true, Bool: true },
     } as AdminProformaType);
   };
-
   const rejectProforma = () => {
     requestProforma.put(token, rid, {
       ID: parseInt(pid, 10),
@@ -306,12 +311,14 @@ function Index() {
   useEffect(() => {
     const fetchProformaEvents = async () => {
       const response = await eventRequest.getAll(token, rid, pid);
+      console.log(response)
       setProformaEvents(response);
     };
 
     const fetch = async () => {
       const response = await StudentRequest.get(token, rid, pid);
       if (response) setRows(response);
+      console.log(response)
       setLoading(false);
     };
     if (router.isReady) {
@@ -332,8 +339,17 @@ function Index() {
     }
   };
 
-  const zipResume = async () => {
-    const files = rows.map((row: any) => row.resume);
+  const zipResume = async (data: resumeDLModal) => {
+    let resRows:any = [];
+    rows.forEach((row:any) => {
+      if(data.frozen == true) {
+        if(row.status_name == data.status) resRows.append(row);
+      }
+      else {
+        if(row.status_name == data.status && row.frozen) resRows.append(row);
+      }
+    })
+    const files = resRows.map((row: any) => row.resume);
     const outfile = `${rid}_${pid}.zip`;
 
     await zip.post({ files, rid, outfile });
@@ -458,9 +474,14 @@ function Index() {
               <h2>Student Data</h2>
               <div>
                 <Tooltip title="Zip Resumes">
-                  <IconButton onClick={() => zipResume()}>
+                  <>
+                  <IconButton onClick= {() => {handleOpenResumeModal()}}>
                     <DownloadIcon />
                   </IconButton>
+                  <Modal open={openResumeModal} onClose={handleCloseResumeModal}>
+                      <DownloadResume Events={proformaEvents} zipResume = {(data:any) => zipResume(data)}/>
+                  </Modal>
+                </>
                 </Tooltip>
               </div>
             </Stack>
