@@ -37,7 +37,7 @@ function Freeze({
   } = useForm<Email>();
   const { token } = useStore();
   const onSubmit = async (data: Email) => {
-    const email: string[] = [...data.email.split(",").map((x) => x.trim())];
+    const email: string[] = [...data.email.split(" ").map((x) => x.trim())];
     const response = await freezeRequest.put(token, rid, {
       email,
       frozen: true,
