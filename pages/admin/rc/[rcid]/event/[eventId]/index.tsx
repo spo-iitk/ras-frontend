@@ -227,6 +227,16 @@ function Event() {
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
+          <p style={{ fontWeight: 300 }}>Sequence</p>
+            <TextField
+              disabled
+              id="Cname"
+              multiline
+              variant="standard"
+              {...register("sequence",{setValueAs: v => parseInt(v)})}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Description</p>
             <TextField
               disabled
