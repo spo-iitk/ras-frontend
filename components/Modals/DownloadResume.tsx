@@ -3,18 +3,15 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
-  FormGroup,
-  InputLabel,
   MenuItem,
   Select,
-  SliderValueLabel,
   Stack,
-  TextField,
 } from "@mui/material";
-import useStore from "@store/store";
 import React from "react";
 import { useForm } from "react-hook-form";
+
 import { Event } from "@callbacks/admin/rc/proforma/event";
+
 const boxStyle = {
   position: "absolute" as const,
   top: "50%",
@@ -29,29 +26,23 @@ const boxStyle = {
   alignItems: "center",
 };
 export interface resumeDLModal {
-    status: string;
-    frozen: boolean;
-  }
-function DownloadResume({ Events }: any, {zipResume} : {zipResume: (data:resumeDLModal) => void}) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<resumeDLModal>();
-  // const onSubmit = async () => {
-  //       window.location.reload();
-  //     }
-  //   };
+  status: string;
+  frozen: boolean;
+}
+function DownloadResume({
+  Events,
+  zipResume,
+}: {
+  Events: any;
+  /* eslint-disable no-unused-vars */
+  zipResume: (data: resumeDLModal) => void;
+  /* eslint-enable no-unused-vars */
+}) {
+  const { register, handleSubmit } = useForm<resumeDLModal>();
   const onSubmit = async (data: resumeDLModal) => {
-    console.log("Form Submitted");
-    console.log(data);
     zipResume(data);
-    //handleClose();
-  }
-  console.log("Printing");
-  console.log(Events);
+  };
 
-  const { token } = useStore();
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
@@ -63,9 +54,8 @@ function DownloadResume({ Events }: any, {zipResume} : {zipResume: (data:resumeD
           })}
         >
           {Events.map((value: Event) => (
-            <MenuItem value={value.ID}>{value.name}</MenuItem>
+            <MenuItem value={value.name}>{value.name}</MenuItem>
           ))}
-          <MenuItem value="0">Any Stage</MenuItem>
         </Select>
         <FormControlLabel
           control={

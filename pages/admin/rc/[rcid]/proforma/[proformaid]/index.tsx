@@ -32,7 +32,10 @@ import {
 } from "@components/Parser/parser";
 import useStore from "@store/store";
 import zip from "@callbacks/auth/zip";
-import DownloadResume, { resumeDLModal } from "@components/Modals/DownloadResume";
+import DownloadResume, {
+  resumeDLModal,
+} from "@components/Modals/DownloadResume";
+import { errorNotification } from "@callbacks/notifcation";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -278,10 +281,10 @@ function Index() {
   };
   const handleOpenResumeModal = () => {
     setResumeModal(true);
-  }
+  };
   const handleCloseResumeModal = () => {
     setResumeModal(false);
-  }
+  };
   const { token } = useStore();
   const router = useRouter();
   const { rcid, proformaid } = router.query;
@@ -311,14 +314,12 @@ function Index() {
   useEffect(() => {
     const fetchProformaEvents = async () => {
       const response = await eventRequest.getAll(token, rid, pid);
-      console.log(response)
       setProformaEvents(response);
     };
 
     const fetch = async () => {
       const response = await StudentRequest.get(token, rid, pid);
       if (response) setRows(response);
-      console.log(response)
       setLoading(false);
     };
     if (router.isReady) {
@@ -340,19 +341,24 @@ function Index() {
   };
 
   const zipResume = async (data: resumeDLModal) => {
-    let resRows:any = [];
-    rows.forEach((row:any) => {
-      if(data.frozen == true) {
-        if(row.status_name == data.status) resRows.append(row);
-      }
-      else {
-        if(row.status_name == data.status && row.frozen) resRows.append(row);
-      }
-    })
-    const files = resRows.map((row: any) => row.resume);
-    const outfile = `${rid}_${pid}.zip`;
-
-    await zip.post({ files, rid, outfile });
+    let resRows: any = [];
+    rows.forEach((row: any) => {
+      if (data.status === "Application") resRows.push(row);
+      else if (data.frozen === true) {
+        if (row.status_name === data.status) resRows.push(row);
+      } else if (row.status_name === data.status && !row.frozen)
+        resRows.push(row);
+    });
+    if (resRows.length === 0)
+      errorNotification(
+        "No Row Selected",
+        "No students matching required criterion"
+      );
+    else {
+      const files = resRows.map((row: any) => row.resume);
+      const outfile = `${data.status}_${rid}_${pid}.zip`;
+      await zip.post({ files, rid, outfile });
+    }
   };
 
   return (
@@ -475,13 +481,23 @@ function Index() {
               <div>
                 <Tooltip title="Zip Resumes">
                   <>
-                  <IconButton onClick= {() => {handleOpenResumeModal()}}>
-                    <DownloadIcon />
-                  </IconButton>
-                  <Modal open={openResumeModal} onClose={handleCloseResumeModal}>
-                      <DownloadResume Events={proformaEvents} zipResume = {(data:any) => zipResume(data)}/>
-                  </Modal>
-                </>
+                    <IconButton
+                      onClick={() => {
+                        handleOpenResumeModal();
+                      }}
+                    >
+                      <DownloadIcon />
+                    </IconButton>
+                    <Modal
+                      open={openResumeModal}
+                      onClose={handleCloseResumeModal}
+                    >
+                      <DownloadResume
+                        Events={proformaEvents}
+                        zipResume={(data: any) => zipResume(data)}
+                      />
+                    </Modal>
+                  </>
                 </Tooltip>
               </div>
             </Stack>
