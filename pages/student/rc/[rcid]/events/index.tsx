@@ -57,11 +57,6 @@ const columns: GridColDef[] = [
     hide: true,
   },
   {
-    field: "sequence",
-    headerName: "Sequence",
-    hide: true,
-  },
-  {
     field: "View Details",
     renderCell: (params) => (
       <Link
