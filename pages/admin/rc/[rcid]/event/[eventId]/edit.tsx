@@ -117,12 +117,12 @@ function Event() {
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
-          <p style={{ fontWeight: 300 }}>Sequence</p>
+            <p style={{ fontWeight: 300 }}>Sequence</p>
             <TextField
               id="Cname"
               multiline
               variant="standard"
-              {...register("sequence", {setValueAs: v => parseInt(v)})}
+              {...register("sequence", { setValueAs: (v) => parseInt(v, 10) })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
