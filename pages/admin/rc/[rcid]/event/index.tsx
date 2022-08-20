@@ -50,10 +50,6 @@ const columns: GridColDef[] = [
     renderCell: (params) => new Date(params.row.start_time).toLocaleString(),
   },
   {
-    field: "sequence",
-    headerName: "Sequence",
-  },
-  {
     field: "View Details",
     renderCell: (params) => (
       <Link
