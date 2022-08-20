@@ -2,6 +2,7 @@ import { Box, Stack, TextField } from "@mui/material";
 import * as React from "react";
 
 import { NoticeParams } from "@callbacks/admin/rc/notice";
+import RichText from "@components/Editor/RichText";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -29,6 +30,7 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
         <h2>Notice</h2>
         <TextField
           label="Title"
+          multiline
           defaultValue={currentNotice.title}
           variant="standard"
           InputProps={{
@@ -36,6 +38,7 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
           }}
         />
         <TextField
+          multiline
           label="Published Date and Time"
           defaultValue={publishedDateAndTime}
           variant="standard"
@@ -44,6 +47,7 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
           }}
         />
         <TextField
+          multiline
           label="Tags"
           defaultValue={currentNotice.tags}
           variant="standard"
@@ -51,14 +55,12 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
             readOnly: true,
           }}
         />
-        <TextField
-          variant="standard"
-          multiline
-          label="Description"
-          defaultValue={currentNotice.description}
-          InputProps={{
-            readOnly: true,
-          }}
+        <small style={{ fontWeight: 300 }}>Description</small>
+        <RichText
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onChange={() => {}}
+          readOnly
+          value={currentNotice.description}
         />
       </Stack>
     </Box>

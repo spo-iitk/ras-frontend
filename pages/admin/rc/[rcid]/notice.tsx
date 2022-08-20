@@ -13,6 +13,7 @@ import Meta from "@components/Meta";
 import noticeRequest, { NoticeParams } from "@callbacks/admin/rc/notice";
 import useStore from "@store/store";
 import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
+import NotifyConfirmation from "@components/Modals/NotifyConfirmation";
 
 function HandleNotice(props: { id: string }) {
   const router = useRouter();
@@ -21,12 +22,20 @@ function HandleNotice(props: { id: string }) {
   const { token } = useStore();
   const { id } = props;
   const [openDeleteModal, setDeleteModal] = useState(false);
+  const [openNotifyModal, setNotifyModal] = useState(false);
   const [confirmation, setConfirmation] = useState(false);
+  const [notify, setNotify] = useState(false);
   const handleOpenDeleteModal = () => {
     setDeleteModal(true);
   };
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
+  };
+  const handleOpenNotifyModal = () => {
+    setNotifyModal(true);
+  };
+  const handleCloseNotifyModal = () => {
+    setNotifyModal(false);
   };
 
   useEffect(() => {
@@ -36,6 +45,12 @@ function HandleNotice(props: { id: string }) {
       window.location.reload();
     }
   }, [confirmation, id, rid, token]);
+  useEffect(() => {
+    if (notify) {
+      if (rid === undefined || rid === "") return;
+      noticeRequest.notify(token, rid, id);
+    }
+  }, [notify, id, rid, token]);
   return (
     <Stack spacing={3} direction="row">
       <IconButton
@@ -53,12 +68,17 @@ function HandleNotice(props: { id: string }) {
       </Modal>
       <IconButton
         onClick={() => {
-          if (rid === undefined || rid === "") return;
-          noticeRequest.notify(token, rid, id);
+          handleOpenNotifyModal();
         }}
       >
         <NotificationsIcon />
       </IconButton>
+      <Modal open={openNotifyModal} onClose={handleCloseNotifyModal}>
+        <NotifyConfirmation
+          handleClose={handleCloseNotifyModal}
+          setConfirmation={setNotify}
+        />
+      </Modal>
     </Stack>
   );
 }
@@ -71,10 +91,6 @@ const columns: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
-  },
-  {
-    field: "description",
-    headerName: "Description",
   },
   {
     field: "CreatedAt",
