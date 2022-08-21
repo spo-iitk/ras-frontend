@@ -9,14 +9,20 @@ import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
-// import { useRouter } from "next/router";
+import router from "next/router";
 
 import iconMap from "@components/Utils/IconMap";
 import { ProformaEvent } from "@callbacks/company/proforma";
 import { Event } from "@callbacks/admin/rc/proforma/event";
 // import useStore from "@store/store";
 
-function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
+function StepperComp({
+  steps,
+  rcid,
+}: {
+  steps: ProformaEvent[] | Event[];
+  rcid: string | string[] | undefined;
+}) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -29,6 +35,10 @@ function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
 
   const handleReset = () => {
     setActiveStep(0);
+  };
+
+  const handleClick = () => {
+    router.push(`/admin/rc/${rcid}/event/${steps[0].proforma_id}`);
   };
 
   return (
@@ -86,6 +96,9 @@ function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
                       })}
                     </h5>
                   )}
+                  <Button variant="contained" onClick={handleClick}>
+                    View Event
+                  </Button>
                 </Card>
                 <div>
                   <Button
