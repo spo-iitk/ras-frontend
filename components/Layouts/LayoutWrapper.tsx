@@ -21,6 +21,7 @@ import studentRequest from "@callbacks/student/student";
 import rcRequestStudent from "@callbacks/student/rc/rc";
 import rcRequestCompany from "@callbacks/company/rc/rc";
 import rcRequestAdmin from "@callbacks/admin/rc/rc";
+import whoami from "@callbacks/auth/whoami";
 
 import Blank from "./Blank";
 import Layout from "./Layout";
@@ -88,6 +89,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
 
   const [companyName, setCompanyName] = useState("Company");
   const [studentName, setStudentName] = useState("Student");
+  const [email, setEmail] = useState("");
   const [rcName, setRcName] = useState("");
 
   useEffect(() => {
@@ -100,6 +102,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       setCompanyName(response.name);
       setName(response.name);
     };
+
     const getStudent = async () => {
       const response = await studentRequest.get(token);
       if (response.ID === -1) {
@@ -140,9 +143,20 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       }
     };
 
+    const getAdmin = async () => {
+      const response = await whoami.get(token);
+      if (response.name === "error401" && response.user_id === "error.401") {
+        router.push("/login");
+        setToken("");
+      }
+      setStudentName(response.name);
+      setEmail(response.user_id.split("@")[0]);
+      setName(response.name);
+    };
     if (token !== "") {
       if (role === 2) getCompany();
       if (role === 1) getStudent();
+      if (role === 100 || role === 101 || role === 102) getAdmin();
 
       if (rcid && rcid !== "") {
         getRc();
@@ -342,11 +356,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
     },
     {
       route: `/admin`,
-      isUser: false,
+      isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
-        name: "Admin",
-        id: "admin",
+        name: studentName,
+        id: email,
       },
       moveBack: false,
       moveTo: "",
@@ -378,11 +392,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
     },
     {
       route: `/admin/rc/${rcid}`,
-      isUser: false,
+      isUser: true,
       userInfo: {
         avatar: <AccountCircleIcon />,
-        name: "Admin",
-        id: "admin",
+        name: studentName,
+        id: email,
       },
       moveBack: true,
       moveTo: "/admin/rc",
