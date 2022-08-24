@@ -5,7 +5,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import EditIcon from "@mui/icons-material/Edit";
 
+import EditRCNotices from "@components/Modals/EditRCNotices";
 import ViewNotice from "@components/Modals/ViewNotice";
 import DataGrid from "@components/DataGrid";
 import NewNotice from "@components/Modals/newNotice";
@@ -146,6 +148,14 @@ function Index() {
     setOpenNew(false);
   };
 
+  const [openEdit, setOpenEdit] = useState(false);
+  const handleOpenEdit = () => {
+    setOpenEdit(true);
+  };
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
+
   useEffect(() => {
     const fetch = async () => {
       if (rid === undefined || rid === "") return;
@@ -171,6 +181,9 @@ function Index() {
             <IconButton onClick={handleOpenNew}>
               <AddIcon />
             </IconButton>
+            <IconButton onClick={handleOpenEdit}>
+              <EditIcon />
+            </IconButton>
           </Stack>
         </Stack>
 
@@ -190,6 +203,12 @@ function Index() {
       </Modal>
       <Modal open={openView} onClose={handleCloseView}>
         <ViewNotice currentNotice={currentNotice} />
+      </Modal>
+      <Modal open={openEdit} onClose={handleCloseEdit}>
+        <EditRCNotices
+          handleCloseEdit={handleCloseEdit}
+          setNotice={setNotice}
+        />
       </Modal>
     </div>
   );
