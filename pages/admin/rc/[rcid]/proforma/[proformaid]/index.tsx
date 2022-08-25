@@ -348,14 +348,13 @@ function Index() {
         "No Row Selected",
         "No students matching required criterion"
       );
-      return "" as string
+      return "" as string;
     }
-    else {
-      const files = resRows.map((row: any) => row.resume);
-      const outfile = `${data.status}_${rid}_${pid}.zip`;
-      const response = await zip.post({ files, rid, outfile });
-      return response?.filename as string
-    }
+
+    const files = resRows.map((row: any) => row.resume);
+    const outfile = `${data.status}_${rid}_${pid}.zip`;
+    const response = await zip.post({ files, rid, outfile });
+    return response?.filename as string;
   };
 
   return (

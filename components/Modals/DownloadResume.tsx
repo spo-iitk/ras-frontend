@@ -40,8 +40,12 @@ function DownloadResume({
   zipResume: (data: resumeDLModal) => void;
   /* eslint-enable no-unused-vars */
 }) {
-  const { register, handleSubmit, formState: { errors }} = useForm<resumeDLModal>();
-  const [resumeLink, setResumeLink] = useState<any>("")
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<resumeDLModal>();
+  const [resumeLink, setResumeLink] = useState<any>("");
   const onSubmit = async (data: resumeDLModal) => {
     const response = await zipResume(data);
     setResumeLink(response);
@@ -83,9 +87,11 @@ function DownloadResume({
             Download Resumes
           </Button>
         </Stack>
-        {resumeLink.length > 0 &&
-        <Link href = {`http://placement.iitk.ac.in/cdn/zip/${resumeLink}`}>Click Here to Download Zip</Link>
-        }
+        {resumeLink.length > 0 && (
+          <Link href={`http://placement.iitk.ac.in/cdn/zip/${resumeLink}`}>
+            Click Here to Download Zip
+          </Link>
+        )}
       </Stack>
     </Box>
   );
