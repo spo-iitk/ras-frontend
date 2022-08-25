@@ -2,16 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
-
-const ROUTE_PATH = "/company/rc/[rcId]/opening/[openingId]";
-const ROUTE_PATH_PROFORMA = "/company/rc/[rcId]/proforma/[proformaid]";
 
 const columns: GridColDef[] = [
   { field: "ID", headerName: "ID" },
@@ -43,20 +39,13 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: ROUTE_PATH_PROFORMA,
-          query: {
-            rcId: params.row.recruitment_cycle_id,
-            proformaid: params.row.ID,
-          },
-        }}
-        passHref
+      <Button
+        href={`/company/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`}
+        sx={{ height: 30, width: "100%" }}
+        variant="contained"
       >
-        <Button sx={{ height: 30, width: "100%" }} variant="contained">
-          View Proforma
-        </Button>
-      </Link>
+        View Proforma
+      </Button>
     ),
   },
   {
@@ -67,24 +56,14 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: ROUTE_PATH,
-          query: {
-            rcId: params.row.recruitment_cycle_id,
-            openingId: params.row.ID,
-          },
-        }}
-        passHref
+      <Button
+        href={`/company/rc/${params.row.recruitment_cycle_id}/opening/${params.row.ID}`}
+        sx={{ height: 30, width: "100%" }}
+        disabled={params.row.hide_details}
+        variant="contained"
       >
-        <Button
-          sx={{ height: 30, width: "100%" }}
-          disabled={params.row.hide_details}
-          variant="contained"
-        >
-          View Applicants
-        </Button>
-      </Link>
+        View Applicants
+      </Button>
     ),
   },
 ];

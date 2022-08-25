@@ -5,7 +5,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import { Button, Grid } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { Event } from "@callbacks/admin/rc/overview";
@@ -59,15 +58,13 @@ const columns: GridColDef[] = [
   {
     field: "View Details",
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `/student/rc/${params.row.recruitment_cycle_id}/events/${params.row.ID}`,
-        }}
+      <Button
+        href={`/student/rc/${params.row.recruitment_cycle_id}/events/${params.row.ID}`}
+        variant="contained"
+        style={{ width: "100%" }}
       >
-        <Button variant="contained" style={{ width: "100%" }}>
-          View Details
-        </Button>
-      </Link>
+        View Details
+      </Button>
     ),
   },
 ];

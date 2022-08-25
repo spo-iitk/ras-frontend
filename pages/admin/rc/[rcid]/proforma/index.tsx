@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
@@ -78,19 +77,13 @@ const columns: GridColDef[] = [
     headerName: "Actions",
     width: 200,
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `/admin/rc/[rcid]/proforma/[pid]`,
-          query: {
-            rcid: params.row.recruitment_cycle_id,
-            pid: params.row.ID,
-          },
-        }}
+      <Button
+        href={`/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`}
+        variant="contained"
+        color="primary"
       >
-        <Button variant="contained" color="primary">
-          View Proforma
-        </Button>
-      </Link>
+        View Proforma
+      </Button>
     ),
   },
 ];
