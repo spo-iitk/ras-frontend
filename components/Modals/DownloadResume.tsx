@@ -3,11 +3,13 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  InputLabel,
+  Link,
   MenuItem,
   Select,
   Stack,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Event } from "@callbacks/admin/rc/proforma/event";
@@ -38,17 +40,22 @@ function DownloadResume({
   zipResume: (data: resumeDLModal) => void;
   /* eslint-enable no-unused-vars */
 }) {
-  const { register, handleSubmit } = useForm<resumeDLModal>();
+  const { register, handleSubmit, formState: { errors }} = useForm<resumeDLModal>();
+  const [resumeLink, setResumeLink] = useState<any>("")
   const onSubmit = async (data: resumeDLModal) => {
-    zipResume(data);
+    const response = await zipResume(data);
+    setResumeLink(response);
   };
 
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
         <h2>Download Resume</h2>
+        <InputLabel>Select Status</InputLabel>
         <Select
-          label="Select Status"
+          labelId="status_type"
+          error={!!errors.status}
+          variant="outlined"
           {...register("status", {
             required: true,
           })}
@@ -76,6 +83,9 @@ function DownloadResume({
             Download Resumes
           </Button>
         </Stack>
+        {resumeLink.length > 0 &&
+        <Link href = {`http://placement.iitk.ac.in/cdn/zip/${resumeLink}`}>Click Here to Download Zip</Link>
+        }
       </Stack>
     </Box>
   );

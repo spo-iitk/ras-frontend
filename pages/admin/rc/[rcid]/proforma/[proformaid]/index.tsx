@@ -343,15 +343,18 @@ function Index() {
       } else if (row.status_name === data.status && !row.frozen)
         resRows.push(row);
     });
-    if (resRows.length === 0)
+    if (resRows.length === 0) {
       errorNotification(
         "No Row Selected",
         "No students matching required criterion"
       );
+      return "" as string
+    }
     else {
       const files = resRows.map((row: any) => row.resume);
       const outfile = `${data.status}_${rid}_${pid}.zip`;
-      await zip.post({ files, rid, outfile });
+      const response = await zip.post({ files, rid, outfile });
+      return response?.filename as string
     }
   };
 
