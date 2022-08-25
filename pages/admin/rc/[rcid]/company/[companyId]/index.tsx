@@ -230,7 +230,7 @@ function Index() {
           alignItems="center"
           justifyContent="space-between"
         >
-          <h2>Internship Roles</h2>
+          <h2>Company Proformas</h2>
           <Stack direction="row" spacing={3}>
             <IconButton href={`/admin/rc/${rid}/proforma/new`}>
               <AddIcon />
