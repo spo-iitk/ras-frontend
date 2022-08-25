@@ -377,18 +377,14 @@ function Index() {
           <Button
             sx={{ width: { xs: "280px" }, height: "40px" }}
             variant="contained"
-            onClick={() => {
-              router.push(`/admin/rc/${rid}/proforma/${pid}/view`);
-            }}
+            href={`/admin/rc/${rid}/proforma/${pid}/view`}
           >
             View Proforma
           </Button>
           <Button
             sx={{ width: { xs: "280px" }, height: "40px" }}
             variant="contained"
-            onClick={() => {
-              router.push(`/admin/rc/${rid}/proforma/${pid}/step1`);
-            }}
+            href={`/admin/rc/${rid}/proforma/${pid}/step1`}
           >
             Update Proforma
           </Button>
@@ -397,9 +393,7 @@ function Index() {
           <Button
             sx={{ width: { xs: "280px" }, height: "40px" }}
             variant="contained"
-            onClick={() => {
-              router.push(`/admin/rc/${rid}/proforma/${pid}/question`);
-            }}
+            href={`/admin/rc/${rid}/proforma/${pid}/question`}
           >
             View / Add Custom Questions
           </Button>
@@ -432,9 +426,7 @@ function Index() {
           <Button
             variant="contained"
             sx={{ width: { xs: "280px" }, height: "40px" }}
-            onClick={() => {
-              router.push(`/admin/rc/${rid}/proforma/${pid}/step5`);
-            }}
+            href={`/admin/rc/${rid}/proforma/${pid}/step5`}
           >
             Change/Set Deadline
           </Button>

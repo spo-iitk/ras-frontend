@@ -235,11 +235,7 @@ function Index() {
         >
           <h2>Internship Roles</h2>
           <Stack direction="row" spacing={3}>
-            <IconButton
-              onClick={() => {
-                router.push(`/admin/rc/${rid}/proforma/new`);
-              }}
-            >
+            <IconButton href={`/admin/rc/${rid}/proforma/new`}>
               <AddIcon />
             </IconButton>
           </Stack>
