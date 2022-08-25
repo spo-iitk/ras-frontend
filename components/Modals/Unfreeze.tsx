@@ -41,7 +41,7 @@ function Unfreeze({
   const { token } = useStore();
   const onSubmit = async (data: unfreezeStudent) => {
     const tosend: Emails = {
-      email: [...data.email.split(" ").map((x) => x.trim())],
+      email: [...data.email.replace(/,\s+/g,",").split(/[\n,\s+]/).map((x) => x.trim())],
       frozen: false,
     };
     const response = await freezeRequest.put(token, rid, tosend);
