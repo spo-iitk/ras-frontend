@@ -108,8 +108,6 @@ const cols: GridColDef[] = [
   },
 ];
 
-const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/view";
-const EDIT_ROUTE = "/admin/rc/[rcid]/event/[eventId]/edit";
 function Event() {
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [endTime, setEndTime] = useState<Date | null>(new Date());
@@ -160,15 +158,8 @@ function Event() {
         <Stack spacing={3}>
           <Stack direction="row">
             <h2>View Event Details</h2>
-            <IconButton>
-              <EditIcon
-                onClick={() => {
-                  router.push({
-                    pathname: EDIT_ROUTE,
-                    query: { rcid: rid, eventId: eid },
-                  });
-                }}
-              />
+            <IconButton href={`/admin/rc/${rid}/event/${eid}/edit`}>
+              <EditIcon />
             </IconButton>
           </Stack>
           <FormControl sx={{ m: 1 }}>
@@ -260,12 +251,7 @@ function Event() {
           <Button
             variant="contained"
             sx={{ width: "100%" }}
-            onClick={() => {
-              router.push({
-                pathname: ROUTE,
-                query: { rcid: rid, proformaid: pid },
-              });
-            }}
+            href={`/admin/rc/${rid}/proforma/${pid}/view`}
           >
             View Proforma
           </Button>

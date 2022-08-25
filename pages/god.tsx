@@ -131,7 +131,7 @@ function Login() {
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
               id="Email ID"
-              label="Admin Email ID"
+              label="Email ID"
               variant="outlined"
               {...register("admin_id", {
                 required: true,
@@ -170,7 +170,7 @@ function Login() {
           <FormControl sx={{ m: 1, width: "35ch" }} variant="outlined">
             <TextField
               id="User"
-              label="User Email ID"
+              label="User"
               variant="outlined"
               {...register("user_id", {
                 required: true,

@@ -29,10 +29,6 @@ const columns: GridColDef[] = [
     field: "tags",
     headerName: "Tags",
   },
-  {
-    field: "description",
-    headerName: "Description",
-  },
 ];
 
 function Notices() {

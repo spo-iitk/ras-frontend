@@ -1,6 +1,5 @@
 import { Card, Grid, Stack, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import Meta from "@components/Meta";
@@ -257,15 +256,14 @@ function Profile() {
             justifyContent="center"
             spacing={2}
           >
-            <Link href="/student/profile/edit" passHref>
-              <Button
-                variant="contained"
-                sx={{ width: 100 }}
-                disabled={!StudentData.is_editable}
-              >
-                Edit
-              </Button>
-            </Link>
+            href="/student/profile/edit" passHref
+            <Button
+              variant="contained"
+              sx={{ width: 100 }}
+              disabled={!StudentData.is_editable}
+            >
+              Edit
+            </Button>
             <Button
               variant="contained"
               sx={{ width: 150 }}

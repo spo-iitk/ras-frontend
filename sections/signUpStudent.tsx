@@ -50,7 +50,8 @@ function SignUpStudent() {
     str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
   const titleCase = (str: string) => {
-    const splitStr = str
+    const escapedStr = str.replace(/\s\s+/g, " ");
+    const splitStr = escapedStr
       .trim()
       .toLowerCase()
       .split(" ")

@@ -1,11 +1,11 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
-// import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import * as React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 
+import RichTextEditor from "@components/Editor/RichText";
 import noticeRequest, {
   NoticeParams,
   NoticeResponse,
@@ -25,11 +25,9 @@ const boxStyle = {
   boxShadow: 24,
   p: 4,
   alignItems: "center",
+  overflowY: "scroll",
+  maxHeight: "90vh",
 };
-
-// const Input = styled("input")({
-//   display: "none",
-// });
 
 function NewNotice({
   handleCloseNew,
@@ -44,6 +42,7 @@ function NewNotice({
   const { token } = useStore();
   const [companies, setCompanies] = useState<CompanyRc[]>([]);
   const [company, setCompany] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   useEffect(() => {
     const getCompanydata = async () => {
@@ -66,6 +65,7 @@ function NewNotice({
         ...data,
         title: `${data.subject} - ${company}`,
         recruitment_cycle_id: Number(rid),
+        description,
       };
       await noticeRequest.post(token, rid, finData).then(() => {
         const fetch = async () => {
@@ -119,34 +119,12 @@ function NewNotice({
           error={!!errors.tags}
           helperText={errors.tags && "Tags are required"}
         />
-        <TextField
-          variant="standard"
-          multiline
-          rows={5}
-          placeholder="Write your notice here"
-          label="Message"
-          {...register("description", { required: true, maxLength: 1000 })}
-          error={!!errors.description}
-          helperText={errors.description && "Message is required"}
+        <small style={{ fontWeight: 300 }}>Description</small>
+        <RichTextEditor
+          value={description}
+          onChange={setDescription}
+          style={{ minHeight: 200 }}
         />
-        {/* <label
-          htmlFor="contained-button-file"
-          style={{ margin: "30px auto 10px auto" }}
-        >
-          <Input
-            accept="image/*"
-            id="contained-button-file"
-            multiple
-            type="file"
-          />
-          <Button
-            variant="outlined"
-            component="span"
-            sx={{ width: "200px", borderRadius: 5 }}
-          >
-            Upload
-          </Button>
-        </label> */}
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
             variant="contained"

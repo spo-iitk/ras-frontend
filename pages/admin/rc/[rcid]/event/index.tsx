@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 
 import eventRequest, { Event } from "@callbacks/admin/rc/overview";
 import DataGrid from "@components/DataGrid";
@@ -50,22 +49,15 @@ const columns: GridColDef[] = [
     renderCell: (params) => new Date(params.row.start_time).toLocaleString(),
   },
   {
-    field: "sequence",
-    headerName: "Sequence",
-    hide: true,
-  },
-  {
     field: "View Details",
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `/admin/rc/${params.row.recruitment_cycle_id}/event/${params.row.ID}`,
-        }}
+      <Button
+        href={`/admin/rc/${params.row.recruitment_cycle_id}/event/${params.row.ID}`}
+        variant="contained"
+        style={{ width: "100%" }}
       >
-        <Button variant="contained" style={{ width: "100%" }}>
-          View Details
-        </Button>
-      </Link>
+        View Details
+      </Button>
     ),
   },
 ];

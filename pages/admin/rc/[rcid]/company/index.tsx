@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button, Grid, IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -94,15 +93,13 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.ID}`,
-        }}
+      <Button
+        href={`${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.ID}`}
+        variant="contained"
+        sx={{ width: "80%" }}
       >
-        <Button variant="contained" sx={{ width: "80%" }}>
-          View
-        </Button>
-      </Link>
+        View
+      </Button>
     ),
   },
   {

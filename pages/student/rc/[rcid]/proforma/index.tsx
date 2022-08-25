@@ -1,6 +1,5 @@
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -10,8 +9,6 @@ import sProformaRequest, {
   ProformaParams,
 } from "@callbacks/student/rc/proforma";
 import useStore from "@store/store";
-
-const BASE_ROUTE = "/student/rc/[rcId]/proforma";
 
 function Proforma() {
   const [rows, setRows] = useState<ProformaParams[]>([]);
@@ -40,18 +37,13 @@ function Proforma() {
       headerName: "Actions",
       width: 200,
       renderCell: (rowdata) => (
-        <Link
-          href={{
-            pathname: `${BASE_ROUTE}/${rowdata.id}`,
-            query: {
-              rcId: rid,
-            },
-          }}
+        <Button
+          href={`/student/rc/${rid}/proforma/${rowdata.id}`}
+          variant="contained"
+          color="primary"
         >
-          <Button variant="contained" color="primary">
-            View Proforma
-          </Button>
-        </Link>
+          View Proforma
+        </Button>
       ),
     },
   ];
