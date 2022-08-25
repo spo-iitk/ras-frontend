@@ -373,14 +373,26 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         },
         {
           avatar: <BarChartIcon />,
-          name: "Master Database (Company)",
-          id: "/company",
-        },
-        {
-          avatar: <BarChartIcon />,
           name: "Master Database (Student)",
           id: "/student",
         },
+        // conditional rendering
+        role === 100 || role === 101
+          ? {
+              avatar: <BarChartIcon />,
+              name: "Master Database (Company)",
+              id: "/company",
+            }
+          : // eslint-disable-next-line react/jsx-no-useless-fragment
+            { avatar: <></>, name: "", id: "" },
+        role === 100 || role === 101
+          ? {
+              avatar: <BarChartIcon />,
+              name: "User Database",
+              id: "/users",
+            }
+          : // eslint-disable-next-line react/jsx-no-useless-fragment
+            { avatar: <></>, name: "", id: "" },
       ],
       extra: [
         {
