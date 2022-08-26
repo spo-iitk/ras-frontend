@@ -256,8 +256,8 @@ function Profile() {
             justifyContent="center"
             spacing={2}
           >
-            href="/student/profile/edit" passHref
             <Button
+              href="/student/profile/edit"
               variant="contained"
               sx={{ width: 100 }}
               disabled={!StudentData.is_editable}
