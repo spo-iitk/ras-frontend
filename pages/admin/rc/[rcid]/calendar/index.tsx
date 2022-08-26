@@ -25,6 +25,11 @@ const columns: GridColDef[] = [
   {
     field: "role",
     headerName: "Role",
+    hide: true,
+  },
+  {
+    field: "profile",
+    headerName: "Profile",
   },
   {
     field: "name",
@@ -52,8 +57,8 @@ const columns: GridColDef[] = [
   {
     field: "start_time",
     headerName: "Start Time",
-    renderCell: (params) => new Date(params.row.start_time).toLocaleString(),
-    hide: true,
+    renderCell: (params) =>
+      new Date(params.row.start_time).toLocaleTimeString(),
   },
   {
     field: "sequence",
