@@ -173,16 +173,6 @@ function Event() {
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Sequence</p>
-            <TextField
-              disabled
-              id="Cname"
-              multiline
-              variant="standard"
-              {...register("sequence")}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Start Time</p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
@@ -209,6 +199,15 @@ function Event() {
             </LocalizationProvider>
           </FormControl>
           <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Event Duration</p>
+            <TextField
+              disabled
+              id="Cname"
+              variant="standard"
+              {...register("duration")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Venue</p>
             <TextField
               disabled
@@ -216,6 +215,16 @@ function Event() {
               multiline
               variant="standard"
               {...register("venue")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Sequence</p>
+            <TextField
+              disabled
+              id="Cname"
+              multiline
+              variant="standard"
+              {...register("sequence", { setValueAs: (v) => parseInt(v, 10) })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
