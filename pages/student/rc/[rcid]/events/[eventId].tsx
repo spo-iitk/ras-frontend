@@ -98,8 +98,6 @@ const cols: GridColDef[] = [
   },
 ];
 
-const ROUTE = "/student/rc/[rcid]/proforma/[proformaid]";
-
 function Event() {
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [endTime, setEndTime] = useState<Date | null>(new Date());
@@ -209,12 +207,7 @@ function Event() {
           <Button
             variant="contained"
             sx={{ width: "100%" }}
-            onClick={() => {
-              router.push({
-                pathname: ROUTE,
-                query: { rcid: rid, proformaid: pid },
-              });
-            }}
+            href={`/student/rc/${rid}/proforma/${pid}`}
           >
             View Proforma
           </Button>

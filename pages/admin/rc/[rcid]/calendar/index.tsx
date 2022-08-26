@@ -5,7 +5,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import { Button, Grid } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import eventRequest, { Event } from "@callbacks/admin/rc/overview";
@@ -26,6 +25,11 @@ const columns: GridColDef[] = [
   {
     field: "role",
     headerName: "Role",
+    hide: true,
+  },
+  {
+    field: "profile",
+    headerName: "Profile",
   },
   {
     field: "name",
@@ -53,8 +57,8 @@ const columns: GridColDef[] = [
   {
     field: "start_time",
     headerName: "Start Time",
-    renderCell: (params) => new Date(params.row.start_time).toLocaleString(),
-    hide: true,
+    renderCell: (params) =>
+      new Date(params.row.start_time).toLocaleTimeString(),
   },
   {
     field: "sequence",
@@ -64,15 +68,13 @@ const columns: GridColDef[] = [
   {
     field: "View Details",
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `/admin/rc/${params.row.recruitment_cycle_id}/event/${params.row.ID}`,
-        }}
+      <Button
+        href={`/admin/rc/${params.row.recruitment_cycle_id}/event/${params.row.ID}`}
+        variant="contained"
+        style={{ width: "100%" }}
       >
-        <Button variant="contained" style={{ width: "100%" }}>
-          View Details
-        </Button>
-      </Link>
+        View Details
+      </Button>
     ),
   },
 ];

@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button, IconButton, Modal, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Link from "next/link";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
@@ -17,8 +16,6 @@ import useStore from "@store/store";
 import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
-
-const ROUTE_PATH = "/company/rc/[rcid]/proforma/[proformaid]";
 
 function DeleteProforma({
   id,
@@ -154,20 +151,12 @@ function Overview() {
       align: "center",
       headerAlign: "center",
       renderCell: (params) => (
-        <Link
-          href={{
-            pathname: ROUTE_PATH,
-            query: {
-              rcid: params.row.recruitment_cycle_id,
-              proformaid: params.row.ID,
-            },
-          }}
-          passHref
+        <ActiveButton
+          href={`/company/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`}
+          sx={{ height: 30, width: "100%" }}
         >
-          <ActiveButton sx={{ height: 30, width: "100%" }}>
-            View Proforma
-          </ActiveButton>
-        </Link>
+          View Proforma
+        </ActiveButton>
       ),
     },
     {
@@ -187,20 +176,11 @@ function Overview() {
         return (
           <>
             <DeleteProforma id={params.row.ID} updateCallback={updateTable} />
-            <Link
-              href={{
-                pathname: `${ROUTE_PATH}/step1`,
-                query: {
-                  rcid: params.row.recruitment_cycle_id,
-                  proformaid: params.row.ID,
-                },
-              }}
-              passHref
+            <IconButton
+              href={`/company/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}/step1`}
             >
-              <IconButton>
-                <EditIcon />
-              </IconButton>
-            </Link>
+              <EditIcon />
+            </IconButton>
           </>
         );
       },
