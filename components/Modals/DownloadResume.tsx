@@ -88,9 +88,13 @@ function DownloadResume({
           </Button>
         </Stack>
         {resumeLink.length > 0 && (
-          <Link href={`http://placement.iitk.ac.in/cdn/zip/${resumeLink}`}>
+          <Button 
+            variant="contained"
+            sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
+            href={`https://placement.iitk.ac.in/cdn/zip/${resumeLink}`}
+          >
             Click Here to Download Zip
-          </Link>
+          </Button>
         )}
       </Stack>
     </Box>
