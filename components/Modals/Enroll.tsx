@@ -38,7 +38,12 @@ function Enroll({ handleClose }: { handleClose: () => void }) {
   const { token } = useStore();
   const onSubmit = async (data: EnrollForm) => {
     const tosend: Emails = {
-      email: [...data.email.split(",").map((x) => x.trim())],
+      email: [
+        ...data.email
+          .replace(/,\s+/g, ",")
+          .split(/[\n,\s+]/)
+          .map((x) => x.trim()),
+      ],
     };
 
     const response = await postEmails.post(token, rid, tosend);
