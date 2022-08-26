@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import router from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -31,9 +30,7 @@ function LinkButton({ params }: any) {
       variant="contained"
       sx={{ width: "100%" }}
       disabled={frozen}
-      onClick={() => {
-        router.push(`rc/${params.row.ID}`);
-      }}
+      href={`rc/${params.row.ID}`}
     >
       {frozen ? frozenStr : "View Details"}
     </Button>

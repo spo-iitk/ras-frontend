@@ -1,6 +1,5 @@
 import { Card, Grid, Stack, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -273,11 +272,13 @@ function Details() {
             justifyContent="center"
             spacing={2}
           >
-            <Link href={`${sId}/edit`} passHref>
-              <Button variant="contained" sx={{ width: 100 }}>
-                Edit
-              </Button>
-            </Link>
+            <Button
+              href={`${sId}/edit`}
+              variant="contained"
+              sx={{ width: 100 }}
+            >
+              Edit
+            </Button>
             {/* <Button
               variant="contained"
               sx={{ width: 150 }}

@@ -10,7 +10,6 @@ import {
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
@@ -174,11 +173,14 @@ function Index() {
               justifyContent={{ sm: "space-between", xs: "center" }}
             >
               <h2 style={{ width: "100%" }}>Student Details</h2>
-              <Link href={`/admin/student/${student.student_id}`}>
-                <Button size="small" variant="contained" sx={{ width: "100%" }}>
-                  View Profile
-                </Button>
-              </Link>
+              <Button
+                href={`/admin/student/${student.student_id}`}
+                size="small"
+                variant="contained"
+                sx={{ width: "100%" }}
+              >
+                View Profile
+              </Button>
             </Stack>
           </Stack>
           {student && (

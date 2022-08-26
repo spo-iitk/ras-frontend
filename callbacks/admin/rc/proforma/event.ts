@@ -38,6 +38,7 @@ export interface EventDetails {
   label: string;
   ID: number;
   sequence: number;
+  duration: string;
 }
 export interface RegisterStudentParams {
   emails: string[];

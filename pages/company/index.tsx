@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -31,9 +30,12 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => (
-      <Link href={`/company/rc/${params.row.id}`}>
-        <ActiveButton sx={{ height: 30, width: "40%" }}>View</ActiveButton>
-      </Link>
+      <ActiveButton
+        href={`/company/rc/${params.row.id}`}
+        sx={{ height: 30, width: "40%" }}
+      >
+        View
+      </ActiveButton>
     ),
   },
 ];

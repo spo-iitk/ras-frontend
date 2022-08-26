@@ -409,7 +409,7 @@ function Index() {
                     <Button
                       variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={() => router.push(`/admin/rc/${rid}/company`)}
+                      href={`/admin/rc/${rid}/company`}
                     >
                       View All
                     </Button>
@@ -476,7 +476,7 @@ function Index() {
                     <Button
                       variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={() => router.push(`/admin/rc/${rid}/proforma`)}
+                      href={`/admin/rc/${rid}/proforma`}
                     >
                       View All
                     </Button>
@@ -541,7 +541,7 @@ function Index() {
                     <Button
                       variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={() => router.push(`/admin/rc/${rid}/event`)}
+                      href={`/admin/rc/${rid}/event`}
                     >
                       View All
                     </Button>
@@ -604,7 +604,7 @@ function Index() {
                     <Button
                       variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={() => router.push(`/admin/rc/${rid}/event`)}
+                      href={`/admin/rc/${rid}/event`}
                     >
                       View All
                     </Button>

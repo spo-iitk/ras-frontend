@@ -281,15 +281,9 @@ function Step4() {
                           {fields[index].ID && (
                             <Button
                               variant="contained"
-                              onClick={() => {
-                                router.push({
-                                  pathname: "/admin/rc/[rcid]/event/[eid]",
-                                  query: {
-                                    rcid,
-                                    eid: (fields[index].ID || "").toString(),
-                                  },
-                                });
-                              }}
+                              href={`/admin/rc/${rcid}/event/${(
+                                fields[index].ID || ""
+                              ).toString()}`}
                             >
                               View Details
                             </Button>
