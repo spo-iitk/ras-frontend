@@ -12,8 +12,8 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 
+import RichTextEditor from "@components/Editor/RichText";
 import noticeRequest, {
   NoticeParams,
   NoticeResponse,
@@ -61,6 +61,7 @@ function EditNotice({
     CreatedAt: "",
     last_reminder_at: 0,
   });
+  const [isFetched, setisFetched] = useState(false);
 
   const {
     register,
@@ -108,6 +109,7 @@ function EditNotice({
         const ID = value.toString();
         setID(ID);
         setCurrNotice(notices[i]);
+        setisFetched(true);
         break;
       }
     }
@@ -149,14 +151,9 @@ function EditNotice({
           helperText={errors.tags && "Tags are required"}
         />
         <small style={{ fontWeight: 300 }}>Description</small>
-        <TextareaAutosize
-          defaultValue={description}
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-          style={{ minHeight: 200 }}
-        />
+        {isFetched && (
+          <RichTextEditor onChange={setDescription} value={description} />
+        )}
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
             variant="contained"
