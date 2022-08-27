@@ -77,7 +77,7 @@ function EditNotice({
         recruitment_cycle_id: Number(rid),
         description,
       };
-      await noticeRequest.put(token, rid, finData, id).then(() => {
+      await noticeRequest.put(token, rid, finData).then(() => {
         const fetch = async () => {
           if (rid === undefined || rid === "") return;
           const Newnotice: NoticeParams[] = await noticeRequest.getAll(

@@ -67,9 +67,9 @@ const noticeRequest = {
           err?.response.data.message || err.message
         );
       }),
-  put: (token: string, rcid: string, notice: NoticeResponse, nid: string) =>
+  put: (token: string, rcid: string, notice: NoticeResponse) =>
     instance
-      .put<NoticeResponse>(`/${rcid}/notice/${nid}`, notice, setConfig(token))
+      .put<NoticeResponse>(`/${rcid}/notice`, notice, setConfig(token))
       .then(responseBody)
       .then(() => {
         successNotification("Notice edited successfully", "");
