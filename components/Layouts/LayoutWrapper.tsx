@@ -145,7 +145,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
 
     const getAdmin = async () => {
       const response = await whoami.get(token);
-      if (response.name === "error401" && response.user_id === "error.401") {
+      if (response.name === "error401" && response.user_id === "error401") {
         router.push("/login");
         setToken("");
       }
