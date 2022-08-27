@@ -73,7 +73,7 @@ function EditNotice({
       const finData = {
         ...data,
         subject: data.title,
-        recruitment_cycle_id: Number(rid),
+        recruitment_cycle_id: 0,
         description,
       };
       await noticeRequest.put(token, rid, finData).then(() => {
