@@ -49,7 +49,6 @@ function EditNotice({
   const { token } = useStore();
   const [description, setDescription] = useState<string>("");
   const [notices, setNotices] = useState<NoticeParams[]>([]);
-  const [id, setID] = useState<string>("0");
   const [currNotice, setCurrNotice] = useState<NoticeParams>({
     ID: 0,
     recruitment_cycle_id: 0,
@@ -106,8 +105,6 @@ function EditNotice({
       if (notices[i].ID === value) {
         reset(notices[i]);
         setDescription(notices[i].description);
-        const ID = value.toString();
-        setID(ID);
         setCurrNotice(notices[i]);
         setisFetched(true);
         break;
