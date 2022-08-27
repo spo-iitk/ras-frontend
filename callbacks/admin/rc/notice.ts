@@ -67,6 +67,20 @@ const noticeRequest = {
           err?.response.data.message || err.message
         );
       }),
+  put: (token: string, rcid: string, notice: NoticeResponse) =>
+    instance
+      .put<NoticeResponse>(`/${rcid}/notice`, notice, setConfig(token))
+      .then(responseBody)
+      .then(() => {
+        successNotification("Notice edited successfully", "");
+        return true;
+      })
+      .catch((err) => {
+        errorNotification(
+          "Error in editing notice",
+          err?.response.data.message || err.meassage
+        );
+      }),
   delete: (token: string, rcid: string, nid: string) =>
     instance
       .delete(`/${rcid}/notice/${nid}`, setConfig(token))
