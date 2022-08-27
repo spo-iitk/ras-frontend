@@ -21,7 +21,7 @@ function StepperComp({
   rcid,
 }: {
   steps: ProformaEvent[] | Event[];
-  rcid: string | string[] | undefined;
+  rcid: string;
 }) {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -35,10 +35,6 @@ function StepperComp({
 
   const handleReset = () => {
     setActiveStep(0);
-  };
-
-  const handleClick = () => {
-    router.push(`/admin/rc/${rcid}/event/${steps[0].proforma_id}`);
   };
 
   return (
@@ -96,7 +92,11 @@ function StepperComp({
                       })}
                     </h5>
                   )}
-                  <Button variant="contained" onClick={handleClick}>
+                  <Button
+                    href={`/admin/rc/${rcid}/event/${steps[0].proforma_id}`}
+                    variant="contained"
+                    target="_blank"
+                  >
                     View Event
                   </Button>
                 </Card>
