@@ -14,6 +14,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import StarsIcon from "@mui/icons-material/Stars";
+import People from "@mui/icons-material/People";
 
 import useStore from "@store/store";
 import companyRequest from "@callbacks/company/company";
@@ -296,8 +297,13 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       userData: [
         {
           avatar: <PieChartIcon />,
-          name: "Overview",
+          name: "Recruitment Drives",
           id: "",
+        },
+        {
+          avatar: <People />,
+          name: "Registered HRs",
+          id: "/hr",
         },
       ],
       extra: [
