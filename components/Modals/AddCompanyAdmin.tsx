@@ -95,7 +95,7 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
           id="selectActiveHR1"
           options={HRs.map((row) => ({
             id: row.ID,
-            label: `${row.name} | ${row.email} | ${row.phone}`,
+            label: `${row.name} | ${row.email}`,
           }))}
           renderInput={(params) => (
             <TextField
@@ -113,7 +113,7 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
           id="selectActiveHR2"
           options={HRs.map((row) => ({
             id: row.ID,
-            label: `${row.name} | ${row.email} | ${row.phone}`,
+            label: `${row.name} | ${row.email}`,
           }))}
           renderInput={(params) => (
             <TextField
@@ -129,7 +129,7 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
           id="selectActiveHR3"
           options={HRs.map((row) => ({
             id: row.ID,
-            label: `${row.name} | ${row.email} | ${row.phone}`,
+            label: `${row.name} | ${row.email}`,
           }))}
           renderInput={(params) => (
             <TextField

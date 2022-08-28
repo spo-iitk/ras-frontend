@@ -107,7 +107,7 @@ function AddCompany({
           id="selectActiveHR1"
           options={HRs.map((row) => ({
             id: row.ID,
-            label: `${row.name} | ${row.email} | ${row.phone}`,
+            label: `${row.name} | ${row.email}`,
           }))}
           renderInput={(params) => (
             <>
@@ -127,7 +127,7 @@ function AddCompany({
           id="selectActiveHR2"
           options={HRs.map((row) => ({
             id: row.ID,
-            label: `${row.name} | ${row.email} | ${row.phone}`,
+            label: `${row.name} | ${row.email}`,
           }))}
           renderInput={(params) => (
             <>
@@ -145,7 +145,7 @@ function AddCompany({
           id="selectActiveHR3"
           options={HRs.map((row) => ({
             id: row.ID,
-            label: `${row.name} | ${row.email} | ${row.phone}`,
+            label: `${row.name} | ${row.email}`,
           }))}
           renderInput={(params) => (
             <>
