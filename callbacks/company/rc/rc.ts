@@ -10,12 +10,8 @@ import { errorNotification } from "@callbacks/notifcation";
 
 export interface RC {
   ID: number;
-  is_active: boolean;
-  academic_year: string;
-  type: string;
   name: string;
-  phase: string;
-  application_count_cap: number;
+  enrolled: boolean;
 }
 
 const instance = axios.create({
@@ -29,7 +25,7 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const rcRequest = {
   getAll: (token: string) =>
     instance
-      .get<RC[]>("/rc", setConfig(token))
+      .get<RC[]>("/rc/all", setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);

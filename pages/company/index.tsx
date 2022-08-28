@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import ActiveButton from "@components/Buttons/ActiveButton";
 import rcRequest, { RC } from "@callbacks/company/rc/rc";
 import useStore from "@store/store";
 
@@ -12,31 +11,43 @@ const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    width: 90,
     hide: true,
   },
   {
     field: "name",
     headerName: "Recruitment Drive Name",
-    width: 400,
     align: "center",
     headerAlign: "center",
   },
   {
-    field: "is_active",
-    headerName: "Status",
-    width: 200,
+    field: "enrolled",
+    headerName: "Action",
     sortable: false,
     align: "center",
     headerAlign: "center",
-    renderCell: (params) => (
-      <ActiveButton
-        href={`/company/rc/${params.row.id}`}
-        sx={{ height: 30, width: "40%" }}
-      >
-        View
-      </ActiveButton>
-    ),
+    renderCell: (params) => {
+      if (params?.row?.enrolled) {
+        return (
+          <Button
+            variant="contained"
+            href={`/company/rc/${params.row.id}`}
+            sx={{ height: 30, width: "40%" }}
+          >
+            View
+          </Button>
+        );
+      }
+      return (
+        <Button
+          variant="contained"
+          color="success"
+          sx={{ height: 30, width: "40%" }}
+          href={`/company/rc/${params.row.id}/enroll`}
+        >
+          Enroll
+        </Button>
+      );
+    },
   },
 ];
 function Overview(): JSX.Element {
@@ -51,15 +62,8 @@ function Overview(): JSX.Element {
       if (response?.length > 0) setRows(response);
       setLoading(false);
     };
-    // const getCompany = async () => {
-    //   const response = await companyRequest.get(token);
-    //   setName(response.name);
-    //   Object.assign(Overview, { companyName: response.name });
-    // };
-
     if (token !== "") {
       getRC();
-      // getCompany();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
