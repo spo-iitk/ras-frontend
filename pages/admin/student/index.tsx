@@ -26,6 +26,16 @@ const columns: GridColDef[] = [
     valueGetter: (rowData) => getDeptProgram(rowData.value),
   },
   {
+    field: "CreatedAt",
+    headerName: "Created At",
+    hide: true,
+  },
+  {
+    field: "UpdatedAt",
+    headerName: "Updated At",
+    hide: true,
+  },
+  {
     field: "secondary_program_department_id",
     headerName: "Secondary Program",
     valueGetter: (rowData) => getDeptProgram(rowData.value),

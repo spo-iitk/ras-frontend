@@ -18,6 +18,16 @@ const columns: GridColDef[] = [
     headerName: "Company Name",
   },
   {
+    field: "CreatedAt",
+    headerName: "Created At",
+    hide: true,
+  },
+  {
+    field: "UpdatedAt",
+    headerName: "Updated At",
+    hide: true,
+  },
+  {
     field: "tags",
     headerName: "Tags",
   },

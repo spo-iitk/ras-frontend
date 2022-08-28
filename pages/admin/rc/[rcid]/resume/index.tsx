@@ -103,20 +103,28 @@ function Index() {
     {
       field: "rsid",
       headerName: "Resume ID",
-      align: "center",
-      headerAlign: "center",
+    },
+    {
+      field: "CreatedAt",
+      headerName: "Created At",
+      hide: true,
+    },
+    {
+      field: "UpdatedAt",
+      headerName: "Updated At",
+      hide: true,
     },
     {
       field: "name",
       headerName: "Student Name",
-      align: "center",
-      headerAlign: "center",
     },
     {
       field: "email",
       headerName: "Student Email",
-      align: "center",
-      headerAlign: "center",
+    },
+    {
+      field: "roll_no",
+      headerName: "Student Roll No",
     },
     {
       field: "resume",
@@ -196,7 +204,7 @@ function Index() {
       renderCell: (cellValues) => (
         <Container>
           <AcceptResumeButton
-            id={cellValues.id.toString()}
+            id={cellValues.id as string}
             updateCallback={updateTable}
           />
           <RejectResumeButton
