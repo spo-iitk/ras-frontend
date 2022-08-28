@@ -274,6 +274,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           name: "Stats",
           id: "/stats",
         },
+        {
+          avatar: <QuestionMarkIcon />,
+          name: "Enrollment Questions",
+          id: "/enroll",
+        },
       ],
       extra: [
         {
