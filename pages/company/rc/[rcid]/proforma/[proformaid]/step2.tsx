@@ -25,7 +25,7 @@ import useStore from "@store/store";
 const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step3";
 
 function Step2() {
-  const [str, setStr] = useState(new Array(100 + 1).join("0"));
+  const [str, setStr] = useState(new Array(130 + 1).join("0"));
   const router = useRouter();
   const { token } = useStore();
   const { rcid, proformaid } = router.query;
@@ -35,7 +35,7 @@ function Step2() {
     if (!(rid && pid)) return;
     const getStep2 = async () => {
       const data = await proformaRequest.get(token, rid, pid);
-      if (data.eligibility.length > 90) setStr(data.eligibility);
+      if (data.eligibility.length > 110) setStr(data.eligibility);
     };
     getStep2();
   }, [rid, pid, token]);
@@ -53,11 +53,11 @@ function Step2() {
   };
 
   const handleCheckAll = () => {
-    setStr(new Array(100 + 1).join("1"));
+    setStr(new Array(130 + 1).join("1"));
   };
 
   const handleReset = () => {
-    setStr(new Array(100 + 1).join("0"));
+    setStr(new Array(130 + 1).join("0"));
   };
 
   const handleProgramWise = (programName: string[]) => {
