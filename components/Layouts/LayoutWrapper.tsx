@@ -96,7 +96,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
   useEffect(() => {
     const getCompany = async () => {
       const response = await companyRequest.get(token);
-      if (response.name === "error401" && response.email === "error.401") {
+      if (response.name === "error401" && response.email === "error401") {
         router.push("/login");
         setToken("");
       }
