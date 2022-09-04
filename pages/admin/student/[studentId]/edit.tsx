@@ -38,6 +38,7 @@ function Edit() {
   const router = useRouter();
   const { studentId } = router.query;
   const sId = (studentId || "").toString();
+
   useEffect(() => {
     const fetch = async () => {
       const student = await AdminStudentRequest.get(
@@ -47,8 +48,8 @@ function Edit() {
       setStudentData(student);
       reset(student);
     };
-    fetch();
-  }, [token, sId, reset]);
+    if (router.isReady) fetch();
+  }, [token, sId, reset, router]);
 
   const onSubmit = async (data: Student) => {
     let program_department_id = getId(
