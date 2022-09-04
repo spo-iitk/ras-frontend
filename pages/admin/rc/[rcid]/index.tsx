@@ -49,7 +49,7 @@ function Index() {
     roles: 0,
     recruited: 0,
   });
-  const { token, rcName } = useStore();
+  const { token, rcName, role } = useStore();
   const [recCompany, setRecCompany] = useState<string[]>([]);
   const [eventSchd, setEventSchd] = useState<Event[]>([]);
   const [eventNotSchd, setEventNotSchd] = useState<Event[]>([]);
@@ -92,10 +92,12 @@ function Index() {
         setProforma(response);
       }
     };
-    fetchCompany();
+    if (role === 100 || role === 101) {
+      fetchCompany();
+    }
     fetchEvent();
     fetchProforma();
-  }, [rid, router.isReady, token]);
+  }, [rid, router.isReady, token, role]);
 
   const handleClick = () => {
     router.push(`/admin/rc/${rid}/notice`);

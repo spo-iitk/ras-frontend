@@ -47,6 +47,7 @@ export interface userItems {
   avatar: JSX.Element;
   name: string;
   id: string;
+  hidden?: boolean;
 }
 interface layoutings {
   [key: string]: React.ComponentType<{
@@ -395,7 +396,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
               id: "/company",
             }
           : // eslint-disable-next-line react/jsx-no-useless-fragment
-            { avatar: <></>, name: "", id: "" },
+            { avatar: <></>, name: "", id: "", hidden: true },
         role === 100 || role === 101
           ? {
               avatar: <BarChartIcon />,
@@ -403,7 +404,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
               id: "/users",
             }
           : // eslint-disable-next-line react/jsx-no-useless-fragment
-            { avatar: <></>, name: "", id: "" },
+            { avatar: <></>, name: "", id: "", hidden: true },
       ],
       extra: [
         {
