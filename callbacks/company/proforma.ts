@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { NumberInputStylesNames } from "@mantine/core";
 
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 import {
@@ -41,6 +42,7 @@ export interface ProformaType {
   company_name: string;
 }
 export interface ProformaEvent {
+  ID: number;
   proforma_id: number;
   name: string;
   date: string;
