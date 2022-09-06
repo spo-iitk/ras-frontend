@@ -7,7 +7,6 @@ import {
   setConfig,
 } from "@callbacks/constants";
 import { errorNotification } from "@callbacks/notifcation";
-import { Event } from "@callbacks/admin/rc/proforma/event";
 import { Student } from "@callbacks/admin/rc/student/getStudents";
 
 const instance = axios.create({
@@ -16,6 +15,20 @@ const instance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
+export interface Event {
+  ID: number;
+  proforma_id: number;
+  name: string;
+  date: string;
+  duration: string;
+  venue: string;
+  start_time: number;
+  end_time: number;
+  description: string;
+  main_poc: string;
+  sequence: number;
+  record_attendance: boolean;
+}
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const eventsRequest = {
