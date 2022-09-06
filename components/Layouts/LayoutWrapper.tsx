@@ -273,7 +273,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <CalendarMonthIcon />,
           name: "Events",
-          id: "/event",
+          id: "/events",
         },
         {
           avatar: <EqualizerIcon />,

@@ -64,7 +64,7 @@ const columns: GridColDef[] = [
     field: "View Details",
     renderCell: (params) => (
       <Button
-        href={`/student/rc/${params.row.recruitment_cycle_id}/events/${params.row.ID}`}
+        href={`/student/rc/${params.row.recruitment_cycle_id}/calendar/${params.row.ID}`}
         variant="contained"
         style={{ width: "100%" }}
       >
