@@ -105,7 +105,7 @@ function StepperComp({
                   )}
                   {showViewEventButton && (
                     <Button
-                      href={`/admin/rc/${rcid}/event/${steps[0].proforma_id}`}
+                      href={`/admin/rc/${rcid}/event/${steps[0].ID}`}
                       variant="contained"
                       target="_blank"
                     >
