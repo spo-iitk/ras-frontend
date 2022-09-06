@@ -113,6 +113,12 @@ const columns: GridColDef[] = [
     width: 100,
   },
   {
+    field: "gridanswers",
+    headerName: "Questions",
+    width: 800,
+    hide: true,
+  },
+  {
     field: "program",
     headerName: "Program",
     valueGetter: (params) => getProgram(params.row.program_department_id),
@@ -313,7 +319,23 @@ function Index() {
 
     const fetch = async () => {
       const response = await StudentRequest.get(token, rid, pid);
-      if (response) setRows(response);
+      if (response) {
+        console.log(response);
+        for (let i = 0; i < response.length; i += 1) {
+          let questions = "";
+          if (response[i].questions) {
+            response[i].questions.forEach((value) => {
+              let answer = "";
+              if (value.answer.trim().toUpperCase() === "YES") answer = "Y";
+              else if (value.answer.trim().toUpperCase() === "NO") answer = "N";
+              else answer = value.answer.trim();
+              questions += `${value.questionID}:${answer}, `;
+            });
+            response[i].gridanswers = questions;
+          }
+        }
+        setRows(response);
+      }
       setLoading(false);
     };
     if (router.isReady) {

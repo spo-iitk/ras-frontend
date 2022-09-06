@@ -8,6 +8,10 @@ import {
 } from "@callbacks/constants";
 import { errorNotification } from "@callbacks/notifcation";
 
+type Questions = {
+  questionID: number;
+  answer: string;
+};
 export interface StudentType {
   ID: number;
   name: string;
@@ -40,6 +44,8 @@ export interface StudentType {
   friend_phone: string;
   resume: string;
   frozen: boolean;
+  questions : Questions[]
+  gridanswers : string;
 }
 
 const instance = axios.create({
