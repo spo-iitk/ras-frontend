@@ -320,7 +320,6 @@ function Index() {
     const fetch = async () => {
       const response = await StudentRequest.get(token, rid, pid);
       if (response) {
-        console.log(response);
         for (let i = 0; i < response.length; i += 1) {
           let questions = "";
           if (response[i].questions) {
