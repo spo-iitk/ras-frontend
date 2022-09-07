@@ -51,6 +51,20 @@ const adminResumeRequest = {
         );
         return [] as AllStudentResumeResponse[];
       }),
+  get: (token: string, rid: string, sid: string) =>
+    instance
+      .get<AllStudentResumeResponse>(
+        `/${rid}/student/${sid}/resume`,
+        setConfig(token)
+      )
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching data",
+          err.response?.data?.error || err.message
+        );
+        return {} as AllStudentResumeResponse;
+      }),
   putVerify: (token: string, rid: string, rsid: string, body: VerifyBody) =>
     instance
       .put<SuccessResponse, AxiosResponse<SuccessResponse>>(

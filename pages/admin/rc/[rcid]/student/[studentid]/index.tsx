@@ -14,6 +14,9 @@ import Link from "next/link";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
+import adminResumeRequest, {
+  AllStudentResumeResponse,
+} from "@callbacks/admin/rc/student/resumes";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
@@ -96,12 +99,24 @@ const cols: GridColDef[] = [
 
 function Index() {
   const { rcid, studentid } = useRouter().query;
+  const rid = (rcid || "").toString();
+  const sid = (studentid || "").toString();
   const { token } = useStore();
   const [questionAnswer, setQuestionAnswer] =
     useState<studentEnrollResponse[]>();
   const [student, setStudent] = useState<Student>({ student_id: 0 } as Student);
 
   const [applications, setApplications] = useState<ApplicationResponse[]>([]);
+  const [studentResume, setStudentResume] = useState<AllStudentResumeResponse>({
+    name: "",
+    email: "",
+    sid: 0,
+    rsid: 0,
+    resume: "",
+    verified: { Bool: false, Valid: false },
+    action_taken_by: "",
+  });
+  const [resumeVerificationStatus, setResumeVerificationStatus] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -127,6 +142,20 @@ function Index() {
         if (studentApplications && studentApplications.length > 0)
           setApplications(studentApplications);
         else setApplications([]);
+
+        const resume = await adminResumeRequest.get(
+          token,
+          rcid.toString(),
+          studentid.toString()
+        );
+        setStudentResume(resume);
+
+        if (resume.verified?.Valid) {
+          if (resume.verified?.Bool) setResumeVerificationStatus("Accepted");
+          else setResumeVerificationStatus("Rejected");
+        } else if (!resume.verified?.Valid)
+          setResumeVerificationStatus("Pending Verification");
+        else setResumeVerificationStatus("Unkown");
       }
     };
 
@@ -144,12 +173,36 @@ function Index() {
     }
   };
 
+  const updateResumeStatus = React.useCallback(async () => {
+    if (rid === undefined || rid === "") return;
+    const res = await adminResumeRequest.get(token, rid, sid);
+    if (res !== null) setStudentResume(res);
+    else
+      setStudentResume({
+        name: "",
+        email: "",
+        sid: 0,
+        rsid: 0,
+        resume: "",
+        verified: { Bool: false, Valid: false },
+        action_taken_by: "",
+      });
+  }, [rid, token, sid]);
+
   const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
   };
   const handleCloseNew = () => {
     setOpenNew(false);
+  };
+
+  const [openAskClarification, setOpenAskClarification] = useState(false);
+  const handleOpenAskClarification = () => {
+    setOpenAskClarification(true);
+  };
+  const handleCloseAskClarification = () => {
+    setOpenAskClarification(false);
   };
 
   return (
@@ -368,6 +421,125 @@ function Index() {
                 context="your enrollment questions"
               />
             </Modal>
+          </Stack>
+        </Card>
+        <Card
+          elevation={5}
+          sx={{
+            padding: 3,
+            width: {
+              md: "800px",
+              xs: "100%",
+            },
+          }}
+        >
+          <Stack>
+            <h2 style={{ marginBottom: 50 }}>Resume Status</h2>
+            <div>
+              <Grid
+                container
+                spacing={9}
+                justifyItems="center"
+                alignItems="flex-start"
+                // marginBottom={10}
+              >
+                <Grid item xs={12} md={6}>
+                  <Typography>Resume ID: {studentResume.rsid}</Typography>
+                  <Button
+                    variant="contained"
+                    sx={{ width: "100%" }}
+                    onClick={() => {
+                      window.open(getURL(studentResume?.resume), "_blank");
+                    }}
+                  >
+                    View Resume
+                  </Button>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography>
+                    Verification Status: {resumeVerificationStatus}
+                  </Typography>
+                  <Typography>
+                    Action Taken By: {studentResume.action_taken_by}
+                  </Typography>
+                </Grid>
+                {!studentResume.verified?.Valid && (
+                  <>
+                    <Grid item xs={12} md={6}>
+                      <div>
+                        <Modal
+                          open={openAskClarification}
+                          onClose={handleCloseAskClarification}
+                        >
+                          <Clarification
+                            handleCloseNew={handleCloseAskClarification}
+                            studentID={sid}
+                            context={`Your resume ${getURL(
+                              studentResume?.resume
+                            )}`}
+                          />
+                        </Modal>
+                        <Button
+                          sx={{ height: 30 }}
+                          onClick={handleOpenAskClarification}
+                        >
+                          Ask Clarification
+                        </Button>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Stack direction="row" spacing={4}>
+                        {" "}
+                        <Button
+                          variant="contained"
+                          sx={{
+                            marginInlineEnd: "0.5rem",
+                          }}
+                          onClick={() => {
+                            adminResumeRequest
+                              .putVerify(
+                                token,
+                                rid,
+                                studentResume.rsid.toString(),
+                                {
+                                  verified: true,
+                                }
+                              )
+                              .then(() => {
+                                updateResumeStatus();
+                              });
+                          }}
+                        >
+                          Accept
+                        </Button>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            marginInlineEnd: "0.5rem",
+                          }}
+                          onClick={() => {
+                            adminResumeRequest
+                              .putVerify(
+                                token,
+                                rid,
+                                studentResume.rsid.toString(),
+                                {
+                                  verified: false,
+                                }
+                              )
+                              .then(() => {
+                                updateResumeStatus();
+                              });
+                          }}
+                        >
+                          Reject
+                        </Button>
+                      </Stack>
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+            </div>
           </Stack>
         </Card>
       </Stack>

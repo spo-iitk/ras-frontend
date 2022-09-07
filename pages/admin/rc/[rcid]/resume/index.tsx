@@ -164,6 +164,7 @@ function Index() {
       headerName: "Ask Clarification",
       align: "center",
       headerAlign: "center",
+      // eslint-disable-next-line consistent-return
       renderCell: (params) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const [openNew, setOpenNew] = useState(false);
@@ -173,38 +174,45 @@ function Index() {
         const handleCloseNew = () => {
           setOpenNew(false);
         };
-        return (
-          <div>
-            <Modal open={openNew} onClose={handleCloseNew}>
-              <Clarification
-                handleCloseNew={handleCloseNew}
-                studentID={params.row.sid}
-                context={`Your resume ${getURL(params?.row?.resume)}`}
-              />
-            </Modal>
-            <Button sx={{ height: 30 }} onClick={handleOpenNew}>
-              CLICK HERE
-            </Button>
-          </div>
-        );
+        if (!params.row.verified?.Valid) {
+          return (
+            <div>
+              <Modal open={openNew} onClose={handleCloseNew}>
+                <Clarification
+                  handleCloseNew={handleCloseNew}
+                  studentID={params.row.sid}
+                  context={`Your resume ${getURL(params?.row?.resume)}`}
+                />
+              </Modal>
+              <Button sx={{ height: 30 }} onClick={handleOpenNew}>
+                CLICK HERE
+              </Button>
+            </div>
+          );
+        }
       },
     },
     {
       field: "options",
       headerName: "",
       align: "center",
-      renderCell: (cellValues) => (
-        <Container>
-          <AcceptResumeButton
-            id={cellValues.id.toString()}
-            updateCallback={updateTable}
-          />
-          <RejectResumeButton
-            id={cellValues.id.toString()}
-            updateCallback={updateTable}
-          />
-        </Container>
-      ),
+      // eslint-disable-next-line consistent-return
+      renderCell: (cellValues) => {
+        if (!cellValues.row.verified?.Valid) {
+          return (
+            <Container>
+              <AcceptResumeButton
+                id={cellValues.id.toString()}
+                updateCallback={updateTable}
+              />
+              <RejectResumeButton
+                id={cellValues.id.toString()}
+                updateCallback={updateTable}
+              />
+            </Container>
+          );
+        }
+      },
     },
   ];
 
