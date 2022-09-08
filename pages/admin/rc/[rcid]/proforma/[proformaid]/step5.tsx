@@ -164,6 +164,7 @@ function Step5() {
               {...register("cpi_cutoff", {
                 setValueAs: (value: string) => parseFloat(value),
               })}
+              onWheel={(event) => (event.target as HTMLTextAreaElement).blur()}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>

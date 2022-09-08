@@ -131,6 +131,7 @@ function AddRC({ handleClose }: { handleClose: () => void }) {
               required: true,
               setValueAs: (v) => parseInt(v, 10),
             })}
+            onWheel={(event) => (event.target as HTMLTextAreaElement).blur()}
           />
         </FormControl>
         <Button

@@ -71,7 +71,6 @@ function Edit() {
       router.push(`/admin/student/${sId}`);
     }
   };
-
   return (
     <div>
       <Meta title={`${StudentData.name} - Edit Student Details`} />
@@ -175,6 +174,9 @@ function Edit() {
                       max: 9999,
                       min: 1000,
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -462,6 +464,9 @@ function Edit() {
                       max: 9999,
                       min: 1000,
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -510,6 +515,9 @@ function Edit() {
                       max: 9999,
                       min: 1000,
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -554,6 +562,9 @@ function Edit() {
                     {...register("entrance_exam_rank", {
                       setValueAs: (value) => parseInt(value, 10),
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -584,6 +595,9 @@ function Edit() {
                     {...register("category_rank", {
                       setValueAs: (value) => parseInt(value, 10),
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
