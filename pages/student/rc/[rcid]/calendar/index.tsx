@@ -114,7 +114,7 @@ function Calendar() {
 
   return (
     <div>
-      <h2>Calender</h2>
+      <h2>Calendar</h2>
       <Meta title="RC - Events - Calendar" />
       <Grid
         container
