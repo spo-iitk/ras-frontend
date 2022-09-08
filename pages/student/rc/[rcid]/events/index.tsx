@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-import { Button, Grid } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
+import Button from "@mui/material/Button";
 
-import { Event } from "@callbacks/admin/rc/overview";
+import eventsRequest, { Event } from "@callbacks/student/rc/events";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
-import eventsRequest from "@callbacks/student/rc/events";
 
 const columns: GridColDef[] = [
   {
@@ -64,7 +59,7 @@ const columns: GridColDef[] = [
     field: "View Details",
     renderCell: (params) => (
       <Button
-        href={`/student/rc/${params.row.recruitment_cycle_id}/events/${params.row.ID}`}
+        href={`/student/rc/${params.row.recruitment_cycle_id}/calendar/${params.row.ID}`}
         variant="contained"
         style={{ width: "100%" }}
       >
@@ -73,19 +68,15 @@ const columns: GridColDef[] = [
     ),
   },
 ];
-
-function Calendar() {
-  const [value, setValue] = useState<Date | null>(new Date());
-  const [activity, setActivity] = useState<Event[]>([]);
-  const [rows, setRows] = useState<Event[]>([]);
-
-  const [events, setEvents] = useState<Event[]>([]);
-
+function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = rcid as string;
 
-  const { token } = useStore();
+  const { token, rcName } = useStore();
+
+  const [events, setEvents] = useState<Event[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
@@ -99,63 +90,14 @@ function Calendar() {
     if (router.isReady) fetchData();
   }, [rid, router.isReady, token]);
 
-  useEffect(() => {
-    setActivity(
-      events.filter(
-        (e) => new Date(e.start_time).toDateString() === value?.toDateString()
-      )
-    );
-    setRows(
-      events.filter(
-        (e) => new Date(e.start_time).toDateString() === value?.toDateString()
-      )
-    );
-  }, [value, events]);
-
   return (
     <div>
-      <h2>Calender</h2>
-      <Meta title="RC - Events - Calendar" />
-      <Grid
-        container
-        spacing={3}
-        alignItems="flex-start"
-        justifyContent="center"
-      >
-        <Grid item xs={12} lg={3}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <StaticDatePicker<Date>
-              displayStaticWrapperAs="desktop"
-              openTo="day"
-              value={value}
-              onChange={(newValue: any) => {
-                setValue(newValue);
-                const d = newValue?.toDateString();
-                setActivity(
-                  events.filter(
-                    (e) => new Date(e.start_time).toDateString() === d
-                  )
-                );
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </Grid>
-        <Grid item xs={12} lg={8}>
-          {activity.length > 0 ? (
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              getRowId={(row) => row.ID}
-              heighted
-            />
-          ) : (
-            <h2>No event scheduled</h2>
-          )}
-        </Grid>
-      </Grid>
+      <Meta title={`Events - ${rcName}`} />
+      <h2>Events</h2>
+      <DataGrid rows={events} columns={columns} getRowId={(row) => row.ID} />
     </div>
   );
 }
-Calendar.layout = "studentPhaseDashboard";
-export default Calendar;
+
+Index.layout = "studentPhaseDashboard";
+export default Index;
