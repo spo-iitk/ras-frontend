@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { NumberInputStylesNames } from "@mantine/core";
 
 import { errorNotification, successNotification } from "@callbacks/notifcation";
 import {
