@@ -36,6 +36,7 @@ function EditRCApplicationCap({ handleClose }: { handleClose: () => void }) {
           {...register("application_count_cap", {
             setValueAs: (val) => parseInt(val, 10),
           })}
+          onWheel={(event) => (event.target as HTMLTextAreaElement).blur()}
         />
         <Stack
           direction="row"

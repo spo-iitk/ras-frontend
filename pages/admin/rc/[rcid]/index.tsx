@@ -49,7 +49,7 @@ function Index() {
     roles: 0,
     recruited: 0,
   });
-  const { token, rcName } = useStore();
+  const { token, rcName, role } = useStore();
   const [recCompany, setRecCompany] = useState<string[]>([]);
   const [eventSchd, setEventSchd] = useState<Event[]>([]);
   const [eventNotSchd, setEventNotSchd] = useState<Event[]>([]);
@@ -92,10 +92,12 @@ function Index() {
         setProforma(response);
       }
     };
-    fetchCompany();
+    if (role === 100 || role === 101) {
+      fetchCompany();
+    }
     fetchEvent();
     fetchProforma();
-  }, [rid, router.isReady, token]);
+  }, [rid, router.isReady, token, role]);
 
   const handleClick = () => {
     router.push(`/admin/rc/${rid}/notice`);
@@ -409,7 +411,7 @@ function Index() {
                     <Button
                       variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={() => router.push(`/admin/rc/${rid}/company`)}
+                      href={`/admin/rc/${rid}/company`}
                     >
                       View All
                     </Button>
@@ -476,7 +478,7 @@ function Index() {
                     <Button
                       variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={() => router.push(`/admin/rc/${rid}/proforma`)}
+                      href={`/admin/rc/${rid}/proforma`}
                     >
                       View All
                     </Button>
@@ -541,7 +543,7 @@ function Index() {
                     <Button
                       variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={() => router.push(`/admin/rc/${rid}/event`)}
+                      href={`/admin/rc/${rid}/event`}
                     >
                       View All
                     </Button>
@@ -604,7 +606,7 @@ function Index() {
                     <Button
                       variant="contained"
                       sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={() => router.push(`/admin/rc/${rid}/event`)}
+                      href={`/admin/rc/${rid}/event`}
                     >
                       View All
                     </Button>

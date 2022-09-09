@@ -52,7 +52,7 @@ function Index() {
     };
     getCompanydata();
   }, [token, rid, ID]);
-  const data = row.eligibility?.length > 90 ? row.eligibility : data1;
+  const data = row.eligibility?.length > 110 ? row.eligibility : data1;
   return (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
       <Meta title="Proforma" />
@@ -136,7 +136,7 @@ function Index() {
             </Grid>
             <Grid item xs={12}>
               <h3>Hiring Process</h3>
-              <StepperComp steps={row2} />
+              <StepperComp steps={row2} rcid={rcid as string} />
             </Grid>
           </Grid>
         </Stack>

@@ -108,8 +108,6 @@ const cols: GridColDef[] = [
   },
 ];
 
-const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/view";
-const EDIT_ROUTE = "/admin/rc/[rcid]/event/[eventId]/edit";
 function Event() {
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [endTime, setEndTime] = useState<Date | null>(new Date());
@@ -160,15 +158,8 @@ function Event() {
         <Stack spacing={3}>
           <Stack direction="row">
             <h2>View Event Details</h2>
-            <IconButton>
-              <EditIcon
-                onClick={() => {
-                  router.push({
-                    pathname: EDIT_ROUTE,
-                    query: { rcid: rid, eventId: eid },
-                  });
-                }}
-              />
+            <IconButton href={`/admin/rc/${rid}/event/${eid}/edit`}>
+              <EditIcon />
             </IconButton>
           </Stack>
           <FormControl sx={{ m: 1 }}>
@@ -179,16 +170,6 @@ function Event() {
               multiline
               variant="standard"
               {...register("name")}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Sequence</p>
-            <TextField
-              disabled
-              id="Cname"
-              multiline
-              variant="standard"
-              {...register("sequence")}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -218,6 +199,15 @@ function Event() {
             </LocalizationProvider>
           </FormControl>
           <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Event Duration</p>
+            <TextField
+              disabled
+              id="Cname"
+              variant="standard"
+              {...register("duration")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Venue</p>
             <TextField
               disabled
@@ -225,6 +215,16 @@ function Event() {
               multiline
               variant="standard"
               {...register("venue")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Sequence</p>
+            <TextField
+              disabled
+              id="Cname"
+              multiline
+              variant="standard"
+              {...register("sequence", { setValueAs: (v) => parseInt(v, 10) })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -251,12 +251,7 @@ function Event() {
           <Button
             variant="contained"
             sx={{ width: "100%" }}
-            onClick={() => {
-              router.push({
-                pathname: ROUTE,
-                query: { rcid: rid, proformaid: pid },
-              });
-            }}
+            href={`/admin/rc/${rid}/proforma/${pid}/view`}
           >
             View Proforma
           </Button>

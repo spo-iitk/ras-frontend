@@ -41,6 +41,7 @@ export interface ProformaType {
   company_name: string;
 }
 export interface ProformaEvent {
+  ID: number;
   proforma_id: number;
   name: string;
   date: string;

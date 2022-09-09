@@ -5,91 +5,64 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import useStore from "@store/store";
-import addCompanyRequest, {
-  Company,
-  HR,
-} from "@callbacks/admin/company/company";
-import requestCompany, { CompanyRc } from "@callbacks/admin/rc/company";
+import companyHRRequest, { CompanyRC, HR } from "@callbacks/company/hr";
 
 const boxStyle = {
-  position: "absolute" as const,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: { xs: "330px", md: "500px" },
   bgcolor: "background.paper",
+  margin: 2,
   border: "white solid 2px",
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
-  alignItems: "center",
 };
 
-function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
+function AddCompany() {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<CompanyRc>();
-  const { token } = useStore();
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [company, setCompany] = useState({ id: 0, label: "" });
+  } = useForm<CompanyRC>();
+
+  const { token, name } = useStore();
   const [HRs, setHRs] = useState<HR[]>([]);
+
   const router = useRouter();
   const { rcid } = router.query;
-  const rid = (rcid || "").toString();
+  const rid = rcid as string;
+
   useEffect(() => {
-    const getCompanydata = async () => {
-      let response = await addCompanyRequest.getall(token);
-      setCompanies(response);
-    };
-    getCompanydata();
-  }, [token]);
-  useEffect(() => {
-    const getHRdata = async (id: number) => {
-      let response = await addCompanyRequest.getAllHR(token, id.toString());
+    const getHRdata = async () => {
+      let response = await companyHRRequest.get(token);
       setHRs(response);
     };
-    if (company.id !== 0) getHRdata(company.id);
-  }, [token, company.id]);
-  const onSubmit = async (data: CompanyRc) => {
-    const response = await requestCompany.post(
+    if (token !== "") getHRdata();
+  }, [token]);
+
+  const onSubmit = async (data: CompanyRC) => {
+    const response = await companyHRRequest.enroll(
+      { ...data, company_name: name },
       token,
-      { ...data, company_id: company.id, company_name: company.label },
       rid
     );
     if (response) {
       reset({
-        company_name: "",
         hr1: "",
         hr2: "",
         hr3: "",
       });
-      handleCloseNew();
+      router.push(`/company/rc/${rid}`);
     }
-    window.location.reload();
   };
+
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
-        <h2>Add Company</h2>
+        <h2>Enroll Company</h2>
         <Typography>
-          Note: If company is not listed here then it might be not listed in the
-          master database. Add it there first.
+          Note: If HR is not listed here then it might be not listed in the
+          Registered HR back in dashboard. Add it there first.
         </Typography>
-        <Autocomplete
-          disablePortal
-          id="selectCompany"
-          options={companies.map((row) => ({ id: row.ID, label: row.name }))}
-          renderInput={(params) => (
-            <TextField {...params} label="Select Company" />
-          )}
-          onChange={(e, v) => {
-            e.preventDefault();
-            if (v != null) setCompany(v);
-          }}
-        />
         <Autocomplete
           disablePortal
           id="selectActiveHR1"
@@ -146,7 +119,7 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
             sx={{ borderRadius: 5, fontSize: 16, width: "100%" }}
             onClick={handleSubmit(onSubmit)}
           >
-            Add
+            Enroll
           </Button>
           <Button
             variant="contained"
@@ -168,5 +141,5 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
   );
 }
 
-AddCompany.layout = "adminPhaseDashBoard";
+AddCompany.layout = "companyPhaseDashboard";
 export default AddCompany;
