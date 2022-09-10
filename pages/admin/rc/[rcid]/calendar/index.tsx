@@ -93,8 +93,6 @@ function Calendar() {
 
   const handleClick = () => {
     if (rid === "1") {
-      // window.location.href =
-      //   "https://calendar.google.com/calendar/u/1?cid=MXJpdDljbmgwMWc1cGUxZGhlMmgzYWJjMzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ";
       window.open(
         "https://calendar.google.com/calendar/u/1?cid=MXJpdDljbmgwMWc1cGUxZGhlMmgzYWJjMzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
         "_blank"
