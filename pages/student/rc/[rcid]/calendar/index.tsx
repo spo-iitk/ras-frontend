@@ -86,6 +86,23 @@ function Calendar() {
   const rid = rcid as string;
 
   const { token } = useStore();
+
+  const handleClick = () => {
+    if (rid === "1") {
+      window.open(
+        "https://calendar.google.com/calendar/u/1?cid=MXJpdDljbmgwMWc1cGUxZGhlMmgzYWJjMzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
+        "_blank"
+      );
+    } else if (rid === "2") {
+      window.open(
+        "https://calendar.google.com/calendar/u/1?cid=YjgwdnJrMTlpYnM3ZWxlbmsybmhybHFxazRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
+        "_blank"
+      );
+    } else {
+      console.log("error");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
@@ -141,6 +158,13 @@ function Calendar() {
             />
           </LocalizationProvider>
         </Grid>
+        <Button
+          variant="contained"
+          style={{ width: "100%" }}
+          onClick={handleClick}
+        >
+          Google Calendar
+        </Button>
         <Grid item xs={12} lg={8}>
           {activity.length > 0 ? (
             <DataGrid
