@@ -83,7 +83,6 @@ function Calendar() {
   const [value, setValue] = useState<Date | null>(new Date());
   const [activity, setActivity] = useState<Event[]>([]);
   const [rows, setRows] = useState<Event[]>([]);
-
   const [events, setEvents] = useState<Event[]>([]);
 
   const router = useRouter();
@@ -91,6 +90,25 @@ function Calendar() {
   const rid = rcid as string;
 
   const { token, rcName } = useStore();
+
+  const handleClick = () => {
+    if (rid === "1") {
+      // window.location.href =
+      //   "https://calendar.google.com/calendar/u/1?cid=MXJpdDljbmgwMWc1cGUxZGhlMmgzYWJjMzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ";
+      window.open(
+        "https://calendar.google.com/calendar/u/1?cid=MXJpdDljbmgwMWc1cGUxZGhlMmgzYWJjMzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
+        "_blank"
+      );
+    } else if (rid === "2") {
+      window.open(
+        "https://calendar.google.com/calendar/u/1?cid=YjgwdnJrMTlpYnM3ZWxlbmsybmhybHFxazRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
+        "_blank"
+      );
+    } else {
+      console.log("error");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
@@ -118,7 +136,7 @@ function Calendar() {
   }, [value, events]);
   return (
     <div>
-      <h2>Calender</h2>
+      <h2>Calendar</h2>
       <Meta title={`Calendar - ${rcName}`} />
       <Grid
         container
@@ -144,6 +162,13 @@ function Calendar() {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          <Button
+            variant="contained"
+            style={{ width: "100%" }}
+            onClick={handleClick}
+          >
+            Google Calendar
+          </Button>
         </Grid>
         <Grid item xs={12} lg={8}>
           {activity.length > 0 ? (
