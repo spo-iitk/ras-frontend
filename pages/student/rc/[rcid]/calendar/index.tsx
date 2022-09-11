@@ -162,7 +162,7 @@ function Calendar() {
             style={{ width: "100%" }}
             onClick={handleClick}
           >
-            Google Calendar
+            Import Google Calendar
           </Button>
         </Grid>
         <Grid item xs={12} lg={8}>
