@@ -50,6 +50,10 @@ const cols: GridColDef[] = [
     headerName: "Role",
   },
   {
+    field: "profile",
+    headerName: "Profile",
+  },
+  {
     field: "resume",
     headerName: "Applied Resume",
     sortable: false,
