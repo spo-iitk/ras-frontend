@@ -157,14 +157,14 @@ function Calendar() {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          <Button
+            variant="contained"
+            style={{ width: "100%" }}
+            onClick={handleClick}
+          >
+            Google Calendar
+          </Button>
         </Grid>
-        <Button
-          variant="contained"
-          style={{ width: "100%" }}
-          onClick={handleClick}
-        >
-          Google Calendar
-        </Button>
         <Grid item xs={12} lg={8}>
           {activity.length > 0 ? (
             <DataGrid
