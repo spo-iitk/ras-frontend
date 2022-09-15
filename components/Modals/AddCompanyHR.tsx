@@ -3,7 +3,7 @@ import { Box, Button, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import addCompanyRequest, { HR } from "@callbacks/admin/company/company";
+import addCompanyRequest, { HR } from "@callbacks/company/hr";
 import useStore from "@store/store";
 
 const boxStyle = {
@@ -42,7 +42,7 @@ function AddHRMD({
   }, [router.isReady]);
   const ID = (CID || "").toString();
   const onSubmit = async (data: HR) => {
-    const response = await addCompanyRequest.addHR(
+    const response = await addCompanyRequest.post(
       { ...data, company_id: parseInt(ID, 10) },
       token
     );
