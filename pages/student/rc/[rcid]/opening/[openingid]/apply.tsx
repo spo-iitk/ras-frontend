@@ -12,6 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 import applicationRequest, {
   answerApplication,
@@ -19,6 +21,9 @@ import applicationRequest, {
 } from "@callbacks/student/rc/applyQuestions";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
+import resumeRequest, {
+  AllStudentResumeResponse,
+} from "@callbacks/student/rc/resume";
 
 const boxStyle = {
   width: { xs: "330px", md: "500px" },
@@ -39,20 +44,12 @@ function Apply() {
   } = useForm();
 
   const router = useRouter();
-  const { rcid, openingid, rsid } = router.query;
+  const { rcid, openingid } = router.query;
+  const rid = rcid as string;
 
   const { token } = useStore();
   const [questions, setQuestions] = useState<studentApplicationQuestions[]>();
-  useEffect(() => {
-    if (!rcid || !openingid) return;
-    const fetch = async () => {
-      const response = await applicationRequest
-        .getApplicationQuestion(token, rcid.toString(), openingid.toString())
-        .catch(() => ({ type: "null" } as studentApplicationQuestions));
-      setQuestions(response);
-    };
-    fetch();
-  }, [rcid, token, router, openingid]);
+  const [resumes, setResume] = useState<AllStudentResumeResponse[]>([]);
 
   const onSubmit = async (data: any) => {
     if (questions) {
@@ -64,12 +61,15 @@ function Apply() {
         };
         res.push(obj);
       });
-      if (rcid && openingid && rsid) {
+      if (rcid && openingid) {
         await applicationRequest.postApplicationAnswer(
           token,
-          rcid.toString(),
-          openingid.toString(),
-          { resume_id: parseInt(rsid.toString(), 10), answers: res }
+          rid,
+          openingid as string,
+          {
+            resume_id: data.resume,
+            answers: res,
+          }
         );
       }
     }
@@ -158,6 +158,23 @@ function Apply() {
     return <div />;
   };
 
+  useEffect(() => {
+    const getResume = async () => {
+      const resume = await resumeRequest.get(token, rid);
+      setResume(resume);
+    };
+    const fetchQuestions = async () => {
+      const response = await applicationRequest
+        .getApplicationQuestion(token, rid, openingid as string)
+        .catch(() => ({ type: "null" } as studentApplicationQuestions));
+      setQuestions(response);
+    };
+    if (router.isReady) {
+      fetchQuestions();
+      getResume();
+    }
+  }, [openingid, rid, router.isReady, token]);
+
   return (
     <div>
       <Meta title="RC - Openings - QnA" />
@@ -165,6 +182,20 @@ function Apply() {
         <Box sx={boxStyle}>
           <Stack spacing={4}>
             <Stack spacing={2} alignItems="flex-start">
+              <h2>Select Resume</h2>
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <Select defaultValue="" label="Resume" {...register("resume")}>
+                  <MenuItem value={0}>
+                    <em>None</em>
+                  </MenuItem>
+                  {resumes.map((resume) => {
+                    if (resume.verified.Bool && resume.verified.Valid) {
+                      return <MenuItem value={resume.ID}>{resume.ID}</MenuItem>;
+                    }
+                    return null;
+                  })}
+                </Select>
+              </FormControl>
               <h2>Application Questions</h2>
               {questions &&
                 questions.length > 0 &&
