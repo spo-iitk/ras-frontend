@@ -9,7 +9,7 @@ import {
 import { errorNotification } from "@callbacks/notifcation";
 
 export interface StudentType {
-  answers: any;
+  questions: any;
   ID: number;
   name: string;
   email: string;

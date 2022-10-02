@@ -316,14 +316,14 @@ function Index() {
       const response = await StudentRequest.get(token, rid, pid);
       if (response) {
         setRows(response);
-        let answers = response[0]?.answers;
-        if (answers != null) {
-          answers.forEach((index: number) => {
+        let questions = response[0]?.questions;
+        if (questions != null) {
+          questions.forEach((index: number) => {
             cols.push({
               field: `questionID-${index}`,
               headerName: `question-${index}`,
               hide: true,
-              valueGetter: (params: any) => params?.answers[index],
+              valueGetter: (params: any) => params?.questions[index],
             });
           });
         }
