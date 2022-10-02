@@ -60,7 +60,7 @@ const transformName = (name: string) => {
 };
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
-const columns: GridColDef[] = [
+const cols: GridColDef[] = [
   {
     field: "id",
     headerName: "Id",
@@ -266,6 +266,7 @@ function Index() {
   const [openEmailSender, setOpenEmailSender] = useState(false);
   const [proformaEvents, setProformaEvents] = useState<Event[]>([]);
   const [openResumeModal, setResumeModal] = useState(false);
+  const [columns, setColumns] = useState<any>(cols);
   const [rows, setRows] = useState<any>([]);
   const handleOpenEmailSender = () => {
     setOpenEmailSender(true);
@@ -313,7 +314,22 @@ function Index() {
 
     const fetch = async () => {
       const response = await StudentRequest.get(token, rid, pid);
-      if (response) setRows(response);
+      if (response) {
+        setRows(response);
+        let answers = response[0]?.answers;
+        if (answers != null) {
+          answers.forEach((index: number) => {
+            cols.push({
+              field: `questionID-${index}`,
+              headerName: `question-${index}`,
+              hide: true,
+              valueGetter: (params: any) => params?.answers[index],
+            });
+          });
+        }
+        setColumns(cols);
+      }
+      console.log(response);
       setLoading(false);
     };
     if (router.isReady) {
