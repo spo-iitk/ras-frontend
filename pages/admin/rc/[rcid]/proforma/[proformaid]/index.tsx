@@ -323,13 +323,18 @@ function Index() {
             headerName: `Question - ${question.question}`,
             hide: true,
             valueGetter: (params) => {
-              if (params.row.questions[qid] != null) {
+              if (
+                params.row.questions != null &&
+                params.row.questions[qid] != null
+              ) {
                 return params.row.questions[qid];
-              } else return "NOT ANSWERED";
+              }
+              return "NOT ANSWERED";
             },
           });
         });
       }
+      setColumns(cols);
       const response = await StudentRequest.get(token, rid, pid);
       if (response) setRows(response);
     };
