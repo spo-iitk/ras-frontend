@@ -36,6 +36,7 @@ import DownloadResume, {
   resumeDLModal,
 } from "@components/Modals/DownloadResume";
 import { errorNotification } from "@callbacks/notifcation";
+import UpdateApplyQuestion from "@callbacks/admin/rc/proforma/question";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -313,25 +314,27 @@ function Index() {
     };
 
     const fetch = async () => {
-      const response = await StudentRequest.get(token, rid, pid);
-      if (response) {
-        setRows(response);
-        let questions = response[0]?.questions;
-        if (questions != null) {
-          questions.forEach((index: number) => {
-            cols.push({
-              field: `questionID-${index}`,
-              headerName: `question-${index}`,
-              hide: true,
-              valueGetter: (params: any) => params?.questions[index],
-            });
+      const questions = await UpdateApplyQuestion.get(token, rid, pid);
+      if (questions) {
+        questions.forEach((question: any) => {
+          const qid = question.ID;
+          cols.push({
+            field: `questionID - ${qid}`,
+            headerName: `Question - ${question.question}`,
+            hide: true,
+            valueGetter: (params) => {
+              if (params.row.questions[qid] != null) {
+                return params.row.questions[qid];
+              } else return "NOT ANSWERED";
+            },
           });
-        }
-        setColumns(cols);
+        });
       }
-      console.log(response);
-      setLoading(false);
+      const response = await StudentRequest.get(token, rid, pid);
+      if (response) setRows(response);
     };
+    setLoading(false);
+
     if (router.isReady) {
       fetch();
       fetchProformaEvents();
