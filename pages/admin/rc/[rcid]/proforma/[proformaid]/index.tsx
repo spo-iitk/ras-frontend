@@ -61,7 +61,7 @@ const transformName = (name: string) => {
 };
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
-const cols: GridColDef[] = [
+const fixed_columns: GridColDef[] = [
   {
     field: "id",
     headerName: "Id",
@@ -267,7 +267,7 @@ function Index() {
   const [openEmailSender, setOpenEmailSender] = useState(false);
   const [proformaEvents, setProformaEvents] = useState<Event[]>([]);
   const [openResumeModal, setResumeModal] = useState(false);
-  const [columns, setColumns] = useState<any>(cols);
+  const [columns, setColumns] = useState<any>(fixed_columns);
   const [rows, setRows] = useState<any>([]);
   const handleOpenEmailSender = () => {
     setOpenEmailSender(true);
@@ -318,23 +318,25 @@ function Index() {
       if (questions) {
         questions.forEach((question: any) => {
           const qid = question.ID;
-          cols.push({
+          fixed_columns.push({
             field: `questionID - ${qid}`,
             headerName: `Question - ${question.question}`,
-            hide: true,
+            hide: false,
             valueGetter: (params) => {
               if (
                 params.row.questions != null &&
-                params.row.questions[qid] != null
+                typeof params.row.questions[qid] !== "undefined" &&
+                params.row.questions[qid] != null &&
+                params.row.questions[qid].trim() !== ""
               ) {
-                return params.row.questions[qid];
+                return params.row.questions[qid].trim();
               }
-              return "NOT ANSWERED";
+              return "Not Answered";
             },
           });
         });
       }
-      setColumns(cols);
+      setColumns(fixed_columns);
       const response = await StudentRequest.get(token, rid, pid);
       if (response) setRows(response);
     };
