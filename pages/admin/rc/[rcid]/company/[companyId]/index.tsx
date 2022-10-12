@@ -97,7 +97,8 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-  const { token, rcName } = useStore();
+  const { token, rcName, role } = useStore();
+  const [showExtraContent, setShowExtraContent] = useState(false);
   const [row, setRow] = useState<CompanyRc>({
     ID: 0,
     CreatedAt: "",
@@ -153,10 +154,12 @@ function Index() {
 
       setRows(response);
     };
-
-    getProforma();
+    if (role !== 103) {
+      setShowExtraContent(true);
+      getProforma();
+    }
     getCompanydata();
-  }, [token, rid, ID]);
+  }, [token, rid, ID, role]);
 
   const handleClick = () => {
     router.push(`/admin/company/${row.company_id}`);
@@ -165,7 +168,6 @@ function Index() {
     <div>
       <Meta title={`${row.company_name} - ${rcName}`} />
       <h2>{row.company_name}</h2>
-
       <Stack spacing={5} justifyContent="center" alignItems="center">
         <Stack
           justifyContent="center"
@@ -173,29 +175,31 @@ function Index() {
           spacing={2}
           direction={{ lg: "row", xs: "column" }}
         >
-          <Stack spacing={2} direction={{ sm: "row", xs: "column" }}>
-            <Button
-              sx={{ width: { xs: "280px" } }}
-              variant="contained"
-              onClick={handleClick}
-            >
-              Go to Company Master DB
-            </Button>
+          {showExtraContent && (
+            <Stack spacing={2} direction={{ sm: "row", xs: "column" }}>
+              <Button
+                sx={{ width: { xs: "280px" } }}
+                variant="contained"
+                onClick={handleClick}
+              >
+                Go to Company Master DB
+              </Button>
 
-            <Button
-              sx={{ width: { xs: "280px" } }}
-              variant="contained"
-              onClick={handleOpenNew}
-            >
-              ADD PPO/PIO
-            </Button>
-            <Modal open={openNew} onClose={handleCloseNew}>
-              <AddPPO
-                handleCloseNew={handleCloseNew}
-                cname={row.company_name}
-              />
-            </Modal>
-          </Stack>
+              <Button
+                sx={{ width: { xs: "280px" } }}
+                variant="contained"
+                onClick={handleOpenNew}
+              >
+                ADD PPO/PIO
+              </Button>
+              <Modal open={openNew} onClose={handleCloseNew}>
+                <AddPPO
+                  handleCloseNew={handleCloseNew}
+                  cname={row.company_name}
+                />
+              </Modal>
+            </Stack>
+          )}
         </Stack>
         <div>
           <Card
@@ -222,24 +226,32 @@ function Index() {
           </Card>
         </div>
       </Stack>
-      <br />
-      <br />
-      <Stack>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <h2>Company Proformas</h2>
-          <Stack direction="row" spacing={3}>
-            <IconButton href={`/admin/rc/${rid}/proforma/new`}>
-              <AddIcon />
-            </IconButton>
-          </Stack>
-        </Stack>
+      {showExtraContent && (
+        <>
+          <br />
+          <br />
+          <Stack>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <h2>Company Proformas</h2>
+              <Stack direction="row" spacing={3}>
+                <IconButton href={`/admin/rc/${rid}/proforma/new`}>
+                  <AddIcon />
+                </IconButton>
+              </Stack>
+            </Stack>
 
-        <DataGrid rows={rows} columns={columns} getRowId={(rows) => rows.ID} />
-      </Stack>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              getRowId={(rows) => rows.ID}
+            />
+          </Stack>
+        </>
+      )}
     </div>
   );
 }

@@ -50,6 +50,7 @@ function Index() {
     recruited: 0,
   });
   const { token, rcName, role } = useStore();
+  const [hideItems, setHideItems] = useState<boolean>(false);
   const [recCompany, setRecCompany] = useState<string[]>([]);
   const [eventSchd, setEventSchd] = useState<Event[]>([]);
   const [eventNotSchd, setEventNotSchd] = useState<Event[]>([]);
@@ -95,6 +96,7 @@ function Index() {
     if (role === 100 || role === 101) {
       fetchCompany();
     }
+    if (role === 103) setHideItems(true);
     fetchEvent();
     fetchProforma();
   }, [rid, router.isReady, token, role]);
@@ -135,522 +137,765 @@ function Index() {
     <div>
       <Meta title={`Admin Dashboard - ${rcName}`} />
       <Stack>
-        <Stack
-          spacing={3}
-          justifyContent="space-between"
-          alignItems="center"
-          direction="row"
-          sx={{ m: 5 }}
-        >
-          <Button
-            variant="contained"
-            endIcon={<EditIcon />}
-            sx={{ width: "150px" }}
-            onClick={handleOpenNew}
+        {!hideItems && (
+          <Stack
+            spacing={3}
+            justifyContent="space-between"
+            alignItems="center"
+            direction="row"
+            sx={{ m: 5 }}
           >
-            Edit
-          </Button>
-          <Modal open={openNew} onClose={handleCloseNew}>
-            <EditRCApplicationCap handleClose={handleCloseNew} />
-          </Modal>
-          <Button
-            variant="contained"
-            endIcon={<DeleteIcon />}
-            sx={{ width: "150px" }}
-            onClick={() => {
-              handleOpenDeleteModal();
-            }}
-          >
-            Delete
-          </Button>
-          <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
-            <DeleteConfirmation
-              handleClose={handleCloseDeleteModal}
-              setConfirmation={setConfirmation}
-            />
-          </Modal>
-        </Stack>
-        <Grid container justifyContent="space-evenly" spacing={2}>
-          <Grid item xs={6} md={3} sx={{ padding: 0 }}>
-            <Card
-              sx={{
-                height: { xs: 100, md: 200 },
-                border: `2px solid ${theme.palette.secondary.main}`,
-                backgroundColor: theme.palette.secondary.light,
-                borderRadius: 5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+            <Button
+              variant="contained"
+              endIcon={<EditIcon />}
+              sx={{ width: "150px" }}
+              onClick={handleOpenNew}
+            >
+              Edit
+            </Button>
+            <Modal open={openNew} onClose={handleCloseNew}>
+              <EditRCApplicationCap handleClose={handleCloseNew} />
+            </Modal>
+            <Button
+              variant="contained"
+              endIcon={<DeleteIcon />}
+              sx={{ width: "150px" }}
+              onClick={() => {
+                handleOpenDeleteModal();
               }}
             >
-              <CardContent>
-                <Typography
-                  color="text.secondary"
+              Delete
+            </Button>
+            <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+              <DeleteConfirmation
+                handleClose={handleCloseDeleteModal}
+                setConfirmation={setConfirmation}
+              />
+            </Modal>
+          </Stack>
+        )}
+        {!hideItems ? (
+          <>
+            <Grid container justifyContent="space-evenly" spacing={2}>
+              <Grid item xs={6} md={3} sx={{ padding: 0 }}>
+                <Card
                   sx={{
-                    textAlign: "center",
-                    fontWeight: "600",
-                    fontSize: { xs: "1rem", md: "1.5rem" },
+                    height: { xs: 100, md: 200 },
+                    border: `2px solid ${theme.palette.secondary.main}`,
+                    backgroundColor: theme.palette.secondary.light,
+                    borderRadius: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
-                  Total Enrolled
-                </Typography>
-
-                <Typography
-                  gutterBottom
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "700",
-                    fontSize: { xs: "1rem", md: "3rem" },
-                  }}
-                >
-                  {rcdata.registered_student}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Card
-              sx={{
-                height: { xs: 100, md: 200 },
-                border: `2px solid ${theme.palette.secondary.main}`,
-                backgroundColor: theme.palette.secondary.light,
-                borderRadius: 5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  color="text.secondary"
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "600",
-                    fontSize: { xs: "1rem", md: "1.5rem" },
-                  }}
-                >
-                  Total Placed
-                </Typography>
-
-                <Typography
-                  gutterBottom
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "700",
-                    fontSize: { xs: "1rem", md: "3rem" },
-                  }}
-                >
-                  {appdata.recruited}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Card
-              sx={{
-                height: { xs: 100, md: 200 },
-                border: `2px solid ${theme.palette.secondary.main}`,
-                backgroundColor: theme.palette.secondary.light,
-                borderRadius: 5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  color="text.secondary"
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "600",
-                    fontSize: { xs: "1rem", md: "1.5rem" },
-                  }}
-                >
-                  Total Company
-                </Typography>
-
-                <Typography
-                  gutterBottom
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "700",
-                    fontSize: { xs: "1rem", md: "3rem" },
-                  }}
-                >
-                  {rcdata.registered_company}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Card
-              sx={{
-                height: { xs: 100, md: 200 },
-                border: `2px solid ${theme.palette.secondary.main}`,
-                backgroundColor: theme.palette.secondary.light,
-                borderRadius: 5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  color="text.secondary"
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "600",
-                    fontSize: { xs: "1rem", md: "1.5rem" },
-                  }}
-                >
-                  No of Roles
-                </Typography>
-
-                <Typography
-                  gutterBottom
-                  sx={{
-                    textAlign: "center",
-                    fontWeight: "700",
-                    fontSize: { xs: "1rem", md: "3rem" },
-                  }}
-                >
-                  {appdata.roles}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2} justifyContent="space-evenly">
-          <Grid item xs={12} md={6}>
-            <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
-              <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
-                <Grid item xs={6}>
-                  <h3>Notices</h3>
-                  <h5 style={{ position: "relative", bottom: "1rem" }}>
-                    Posted by: SPO Team
-                  </h5>
-                </Grid>
-                <Grid item xs={6}>
-                  <h5
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      onClick={handleClick}
+                  <CardContent>
+                    <Typography
+                      color="text.secondary"
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "600",
+                        fontSize: { xs: "1rem", md: "1.5rem" },
+                      }}
                     >
-                      View All
-                    </Button>
-                  </h5>
-                </Grid>
+                      Total Enrolled
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "700",
+                        fontSize: { xs: "1rem", md: "3rem" },
+                      }}
+                    >
+                      {rcdata.registered_student}
+                    </Typography>
+                  </CardContent>
+                </Card>
               </Grid>
-              <hr />
-              <List
-                sx={{
-                  width: "100%",
-                  bgcolor: "background.paper",
-                  padding: "1rem",
-                }}
-              >
-                <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
-                  {notices.map((value, i) => {
-                    if (i < 4) {
-                      return (
-                        <Grid
-                          container
-                          sx={{ padding: "0px 1ch", marginBottom: "1rem" }}
+              <Grid item xs={6} md={3}>
+                <Card
+                  sx={{
+                    height: { xs: 100, md: 200 },
+                    border: `2px solid ${theme.palette.secondary.main}`,
+                    backgroundColor: theme.palette.secondary.light,
+                    borderRadius: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      variant="h5"
+                      color="text.secondary"
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "600",
+                        fontSize: { xs: "1rem", md: "1.5rem" },
+                      }}
+                    >
+                      Total Placed
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "700",
+                        fontSize: { xs: "1rem", md: "3rem" },
+                      }}
+                    >
+                      {appdata.recruited}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Card
+                  sx={{
+                    height: { xs: 100, md: 200 },
+                    border: `2px solid ${theme.palette.secondary.main}`,
+                    backgroundColor: theme.palette.secondary.light,
+                    borderRadius: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      variant="h5"
+                      color="text.secondary"
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "600",
+                        fontSize: { xs: "1rem", md: "1.5rem" },
+                      }}
+                    >
+                      Total Company
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "700",
+                        fontSize: { xs: "1rem", md: "3rem" },
+                      }}
+                    >
+                      {rcdata.registered_company}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <Card
+                  sx={{
+                    height: { xs: 100, md: 200 },
+                    border: `2px solid ${theme.palette.secondary.main}`,
+                    backgroundColor: theme.palette.secondary.light,
+                    borderRadius: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      variant="h5"
+                      color="text.secondary"
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "600",
+                        fontSize: { xs: "1rem", md: "1.5rem" },
+                      }}
+                    >
+                      No of Roles
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "700",
+                        fontSize: { xs: "1rem", md: "3rem" },
+                      }}
+                    >
+                      {appdata.roles}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2} justifyContent="space-evenly">
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{ margin: "2rem 0px", borderRadius: 5 }}
+                  elevation={5}
+                >
+                  <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
+                    <Grid item xs={6}>
+                      <h3>Notices</h3>
+                      <h5 style={{ position: "relative", bottom: "1rem" }}>
+                        Posted by: SPO Team
+                      </h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <h5
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                          onClick={handleClick}
                         >
-                          <Grid item xs={6}>
-                            <Typography>{value.title}</Typography>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Typography
-                              sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                color: theme.palette.secondary.main,
-                              }}
-                            >
-                              {new Date(value.CreatedAt).toLocaleDateString(
-                                "en-GB"
-                              )}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      );
-                    }
-                    return null;
-                  })}
-                </div>
-              </List>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
-              <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
-                <Grid item xs={6}>
-                  <h3>Recent Company Added</h3>
-                  <h5 style={{ position: "relative", bottom: "1rem" }}>
-                    Posted by: SPO Team
-                  </h5>
-                </Grid>
-                <Grid item xs={6}>
-                  <h5
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
+                          View All
+                        </Button>
+                      </h5>
+                    </Grid>
+                  </Grid>
+                  <hr />
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                      padding: "1rem",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      href={`/admin/rc/${rid}/company`}
-                    >
-                      View All
-                    </Button>
-                  </h5>
-                </Grid>
+                    <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                      {notices.map((value, i) => {
+                        if (i < 4) {
+                          return (
+                            <Grid
+                              container
+                              sx={{ padding: "0px 1ch", marginBottom: "1rem" }}
+                            >
+                              <Grid item xs={6}>
+                                <Typography>{value.title}</Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    color: theme.palette.secondary.main,
+                                  }}
+                                >
+                                  {new Date(value.CreatedAt).toLocaleDateString(
+                                    "en-GB"
+                                  )}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  </List>
+                </Card>
               </Grid>
-              <hr />
-              <List
-                sx={{
-                  width: "100%",
-                  bgcolor: "background.paper",
-                  padding: "1rem",
-                }}
-              >
-                <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
-                  {recCompany.map((value, i) => {
-                    if (i < 4) {
-                      return (
-                        <Grid
-                          container
-                          sx={{ padding: "0px 1ch", marginBottom: "1rem" }}
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{ margin: "2rem 0px", borderRadius: 5 }}
+                  elevation={5}
+                >
+                  <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
+                    <Grid item xs={6}>
+                      <h3>Recent Company Added</h3>
+                      <h5 style={{ position: "relative", bottom: "1rem" }}>
+                        Posted by: SPO Team
+                      </h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <h5
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                          href={`/admin/rc/${rid}/company`}
                         >
-                          <Grid item xs={6}>
-                            <Typography>{value}</Typography>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Typography
-                              sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                color: theme.palette.secondary.main,
-                              }}
-                            >
-                              Recently Added
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      );
-                    }
-                    return null;
-                  })}
-                </div>
-              </List>
-            </Card>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} justifyContent="space-evenly">
-          <Grid item xs={12} md={6}>
-            <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
-              <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
-                <Grid item xs={6}>
-                  <h3>Recent Proforma Added</h3>
-                  <h5 style={{ position: "relative", bottom: "1rem" }}>
-                    Posted by: SPO Team
-                  </h5>
-                </Grid>
-                <Grid item xs={6}>
-                  <h5
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
+                          View All
+                        </Button>
+                      </h5>
+                    </Grid>
+                  </Grid>
+                  <hr />
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                      padding: "1rem",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      href={`/admin/rc/${rid}/proforma`}
-                    >
-                      View All
-                    </Button>
-                  </h5>
-                </Grid>
-              </Grid>
-              <hr />
-              <List
-                sx={{
-                  width: "100%",
-                  bgcolor: "background.paper",
-                  padding: "1rem",
-                }}
-              >
-                <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
-                  {proforma.map((value, i) => {
-                    if (i < 4) {
-                      return (
-                        <Grid container sx={{ padding: "0px 1ch" }}>
-                          <Grid item xs={6}>
-                            <Typography>
-                              {value.company_name} - {value.role}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Typography
-                              sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                color: theme.palette.secondary.main,
-                              }}
+                    <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                      {recCompany.map((value, i) => {
+                        if (i < 4) {
+                          return (
+                            <Grid
+                              container
+                              sx={{ padding: "0px 1ch", marginBottom: "1rem" }}
                             >
-                              {new Date(value.CreatedAt).toLocaleString()}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      );
-                    }
-                    // eslint-disable-next-line react/jsx-no-useless-fragment
-                    return <></>;
-                  })}
-                </div>
-              </List>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
-              <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
-                <Grid item xs={6}>
-                  <h3>Scheduled Events</h3>
-                  <h5 style={{ position: "relative", bottom: "1rem" }}>
-                    Posted by: SPO Team
-                  </h5>
-                </Grid>
-                <Grid item xs={6}>
-                  <h5
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
+                              <Grid item xs={6}>
+                                <Typography>{value}</Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    color: theme.palette.secondary.main,
+                                  }}
+                                >
+                                  Recently Added
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  </List>
+                </Card>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} justifyContent="space-evenly">
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{ margin: "2rem 0px", borderRadius: 5 }}
+                  elevation={5}
+                >
+                  <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
+                    <Grid item xs={6}>
+                      <h3>Recent Proforma Added</h3>
+                      <h5 style={{ position: "relative", bottom: "1rem" }}>
+                        Posted by: SPO Team
+                      </h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <h5
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                          href={`/admin/rc/${rid}/proforma`}
+                        >
+                          View All
+                        </Button>
+                      </h5>
+                    </Grid>
+                  </Grid>
+                  <hr />
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                      padding: "1rem",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      href={`/admin/rc/${rid}/event`}
-                    >
-                      View All
-                    </Button>
-                  </h5>
-                </Grid>
+                    <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                      {proforma.map((value, i) => {
+                        if (i < 4) {
+                          return (
+                            <Grid container sx={{ padding: "0px 1ch" }}>
+                              <Grid item xs={6}>
+                                <Typography>
+                                  {value.company_name} - {value.role}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    color: theme.palette.secondary.main,
+                                  }}
+                                >
+                                  {new Date(value.CreatedAt).toLocaleString()}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        }
+                        // eslint-disable-next-line react/jsx-no-useless-fragment
+                        return <></>;
+                      })}
+                    </div>
+                  </List>
+                </Card>
               </Grid>
-              <hr />
-              <List
-                sx={{
-                  width: "100%",
-                  bgcolor: "background.paper",
-                  padding: "1rem",
-                }}
-              >
-                <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
-                  {eventSchd.map((value, i) => {
-                    if (i < 4) {
-                      return (
-                        <Grid container sx={{ padding: "0px 1ch" }}>
-                          <Grid item xs={6}>
-                            <Typography>{value.name}</Typography>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Typography
-                              sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                color: theme.palette.secondary.main,
-                              }}
-                            >
-                              {new Date(value.UpdatedAt).toLocaleString()}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      );
-                    }
-                    // eslint-disable-next-line react/jsx-no-useless-fragment
-                    return <></>;
-                  })}
-                </div>
-              </List>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Card sx={{ margin: "2rem 0px", borderRadius: 5 }} elevation={5}>
-              <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
-                <Grid item xs={6}>
-                  <h3>Unscheduled Events</h3>
-                  <h5 style={{ position: "relative", bottom: "1rem" }}>
-                    Posted by: SPO Team
-                  </h5>
-                </Grid>
-                <Grid item xs={6}>
-                  <h5
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{ margin: "2rem 0px", borderRadius: 5 }}
+                  elevation={5}
+                >
+                  <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
+                    <Grid item xs={6}>
+                      <h3>Scheduled Events</h3>
+                      <h5 style={{ position: "relative", bottom: "1rem" }}>
+                        Posted by: SPO Team
+                      </h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <h5
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                          href={`/admin/rc/${rid}/event`}
+                        >
+                          View All
+                        </Button>
+                      </h5>
+                    </Grid>
+                  </Grid>
+                  <hr />
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                      padding: "1rem",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-                      href={`/admin/rc/${rid}/event`}
-                    >
-                      View All
-                    </Button>
-                  </h5>
-                </Grid>
+                    <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                      {eventSchd.map((value, i) => {
+                        if (i < 4) {
+                          return (
+                            <Grid container sx={{ padding: "0px 1ch" }}>
+                              <Grid item xs={6}>
+                                <Typography>{value.name}</Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    color: theme.palette.secondary.main,
+                                  }}
+                                >
+                                  {new Date(value.UpdatedAt).toLocaleString()}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        }
+                        // eslint-disable-next-line react/jsx-no-useless-fragment
+                        return <></>;
+                      })}
+                    </div>
+                  </List>
+                </Card>
               </Grid>
-              <hr />
-              <List
-                sx={{
-                  width: "100%",
-                  bgcolor: "background.paper",
-                  padding: "1rem",
-                }}
-              >
-                {eventNotSchd.map((value, i) => {
-                  if (i < 4) {
-                    return (
-                      <div key={value.ID} style={{ margin: "15px 0px" }}>
-                        <Grid container sx={{ padding: "0px 1ch" }}>
-                          <Grid item xs={6}>
-                            <Typography>{value.name}</Typography>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Typography
-                              sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                color: theme.palette.secondary.main,
-                              }}
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{ margin: "2rem 0px", borderRadius: 5 }}
+                  elevation={5}
+                >
+                  <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
+                    <Grid item xs={6}>
+                      <h3>Unscheduled Events</h3>
+                      <h5 style={{ position: "relative", bottom: "1rem" }}>
+                        Posted by: SPO Team
+                      </h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <h5
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                          href={`/admin/rc/${rid}/event`}
+                        >
+                          View All
+                        </Button>
+                      </h5>
+                    </Grid>
+                  </Grid>
+                  <hr />
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                      padding: "1rem",
+                    }}
+                  >
+                    {eventNotSchd.map((value, i) => {
+                      if (i < 4) {
+                        return (
+                          <div key={value.ID} style={{ margin: "15px 0px" }}>
+                            <Grid container sx={{ padding: "0px 1ch" }}>
+                              <Grid item xs={6}>
+                                <Typography>{value.name}</Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    color: theme.palette.secondary.main,
+                                  }}
+                                >
+                                  {new Date(value.UpdatedAt).toLocaleString()}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </div>
+                        );
+                      }
+                      // eslint-disable-next-line react/jsx-no-useless-fragment
+                      return <></>;
+                    })}
+                  </List>
+                </Card>
+              </Grid>
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid container justifyContent="space-evenly" spacing={2}>
+              <Grid item xs={6} md={6} sx={{ padding: 0 }}>
+                <Card
+                  sx={{
+                    height: { xs: 100, md: 200 },
+                    border: `2px solid ${theme.palette.secondary.main}`,
+                    backgroundColor: theme.palette.secondary.light,
+                    borderRadius: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      color="text.secondary"
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "600",
+                        fontSize: { xs: "1rem", md: "1.5rem" },
+                      }}
+                    >
+                      Total Enrolled
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "700",
+                        fontSize: { xs: "1rem", md: "3rem" },
+                      }}
+                    >
+                      {rcdata.registered_student}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <Card
+                  sx={{
+                    height: { xs: 100, md: 200 },
+                    border: `2px solid ${theme.palette.secondary.main}`,
+                    backgroundColor: theme.palette.secondary.light,
+                    borderRadius: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CardContent>
+                    <Typography
+                      variant="h5"
+                      color="text.secondary"
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "600",
+                        fontSize: { xs: "1rem", md: "1.5rem" },
+                      }}
+                    >
+                      Total Company
+                    </Typography>
+
+                    <Typography
+                      gutterBottom
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "700",
+                        fontSize: { xs: "1rem", md: "3rem" },
+                      }}
+                    >
+                      {rcdata.registered_company}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} justifyContent="space-evenly">
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{ margin: "2rem 0px", borderRadius: 5 }}
+                  elevation={5}
+                >
+                  <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
+                    <Grid item xs={6}>
+                      <h3>Notices</h3>
+                      <h5 style={{ position: "relative", bottom: "1rem" }}>
+                        Posted by: SPO Team
+                      </h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <h5
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        {!hideItems && (
+                          <Button
+                            variant="contained"
+                            sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                            onClick={handleClick}
+                          >
+                            View All
+                          </Button>
+                        )}
+                      </h5>
+                    </Grid>
+                  </Grid>
+                  <hr />
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                      padding: "1rem",
+                    }}
+                  >
+                    <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                      {notices.map((value, i) => {
+                        if (i < 4) {
+                          return (
+                            <Grid
+                              container
+                              sx={{ padding: "0px 1ch", marginBottom: "1rem" }}
                             >
-                              {new Date(value.UpdatedAt).toLocaleString()}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      </div>
-                    );
-                  }
-                  // eslint-disable-next-line react/jsx-no-useless-fragment
-                  return <></>;
-                })}
-              </List>
-            </Card>
-          </Grid>
-        </Grid>
+                              <Grid item xs={6}>
+                                <Typography>{value.title}</Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    color: theme.palette.secondary.main,
+                                  }}
+                                >
+                                  {new Date(value.CreatedAt).toLocaleDateString(
+                                    "en-GB"
+                                  )}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  </List>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{ margin: "2rem 0px", borderRadius: 5 }}
+                  elevation={5}
+                >
+                  <Grid container spacing={1} sx={{ padding: "10px 3ch" }}>
+                    <Grid item xs={6}>
+                      <h3>Scheduled Events</h3>
+                      <h5 style={{ position: "relative", bottom: "1rem" }}>
+                        Posted by: SPO Team
+                      </h5>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <h5
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        {!hideItems && (
+                          <Button
+                            variant="contained"
+                            sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+                            href={`/admin/rc/${rid}/event`}
+                          >
+                            View All
+                          </Button>
+                        )}
+                      </h5>
+                    </Grid>
+                  </Grid>
+                  <hr />
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                      padding: "1rem",
+                    }}
+                  >
+                    <div style={{ margin: "15px 0px", minHeight: "9rem" }}>
+                      {eventSchd.map((value, i) => {
+                        if (i < 4) {
+                          return (
+                            <Grid container sx={{ padding: "0px 1ch" }}>
+                              <Grid item xs={6}>
+                                <Typography>{value.name}</Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Typography
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    color: theme.palette.secondary.main,
+                                  }}
+                                >
+                                  {new Date(value.UpdatedAt).toLocaleString()}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          );
+                        }
+                        // eslint-disable-next-line react/jsx-no-useless-fragment
+                        return <></>;
+                      })}
+                    </div>
+                  </List>
+                </Card>
+              </Grid>
+            </Grid>
+          </>
+        )}
       </Stack>
     </div>
   );
