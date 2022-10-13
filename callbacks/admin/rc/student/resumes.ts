@@ -29,6 +29,13 @@ export interface AllStudentResumeResponse {
   action_taken_by: string;
 }
 
+export interface StudentResumeResponse {
+  ID: number; // rsid
+  student_recruitment_cycle_id: number;
+  resume: string;
+  verified: nullBool;
+  action_taken_by: string;
+}
 export interface VerifyBody {
   verified: boolean;
 }
@@ -53,7 +60,7 @@ const adminResumeRequest = {
       }),
   get: (token: string, rid: string, sid: string) =>
     instance
-      .get<AllStudentResumeResponse>(
+      .get<StudentResumeResponse[]>(
         `/${rid}/student/${sid}/resume`,
         setConfig(token)
       )
@@ -63,7 +70,7 @@ const adminResumeRequest = {
           "Error in fetching data",
           err.response?.data?.error || err.message
         );
-        return {} as AllStudentResumeResponse;
+        return [] as StudentResumeResponse[];
       }),
   putVerify: (token: string, rid: string, rsid: string, body: VerifyBody) =>
     instance
