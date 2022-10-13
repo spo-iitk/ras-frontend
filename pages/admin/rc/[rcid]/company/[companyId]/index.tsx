@@ -156,8 +156,8 @@ function Index() {
     };
     if (role !== 103) {
       setShowExtraContent(true);
-      getProforma();
     }
+    getProforma();
     getCompanydata();
   }, [token, rid, ID, role]);
 
