@@ -226,32 +226,24 @@ function Index() {
           </Card>
         </div>
       </Stack>
-      {showExtraContent && (
-        <>
-          <br />
-          <br />
-          <Stack>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <h2>Company Proformas</h2>
-              <Stack direction="row" spacing={3}>
-                <IconButton href={`/admin/rc/${rid}/proforma/new`}>
-                  <AddIcon />
-                </IconButton>
-              </Stack>
-            </Stack>
-
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              getRowId={(rows) => rows.ID}
-            />
+      <br />
+      <br />
+      <Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <h2>Company Proformas</h2>
+          <Stack direction="row" spacing={3}>
+            <IconButton href={`/admin/rc/${rid}/proforma/new`}>
+              <AddIcon />
+            </IconButton>
           </Stack>
-        </>
-      )}
+        </Stack>
+
+        <DataGrid rows={rows} columns={columns} getRowId={(rows) => rows.ID} />
+      </Stack>
     </div>
   );
 }
