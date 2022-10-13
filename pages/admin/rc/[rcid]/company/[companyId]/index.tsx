@@ -12,7 +12,6 @@ import {
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -73,15 +72,13 @@ const columns: GridColDef[] = [
     headerName: "View Details",
     headerAlign: "center",
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`,
-        }}
+      <Button
+        href={`/admin/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}`}
+        variant="contained"
+        sx={{ width: "100%" }}
       >
-        <Button variant="contained" sx={{ width: "100%" }}>
-          View
-        </Button>
-      </Link>
+        View
+      </Button>
     ),
   },
 ];
@@ -233,13 +230,9 @@ function Index() {
           alignItems="center"
           justifyContent="space-between"
         >
-          <h2>Internship Roles</h2>
+          <h2>Company Proformas</h2>
           <Stack direction="row" spacing={3}>
-            <IconButton
-              onClick={() => {
-                router.push(`/admin/rc/${rid}/proforma/new`);
-              }}
-            >
+            <IconButton href={`/admin/rc/${rid}/proforma/new`}>
               <AddIcon />
             </IconButton>
           </Stack>

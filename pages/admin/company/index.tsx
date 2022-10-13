@@ -3,7 +3,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
 import { IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
@@ -17,6 +16,16 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Company Name",
+  },
+  {
+    field: "CreatedAt",
+    headerName: "Created At",
+    hide: true,
+  },
+  {
+    field: "UpdatedAt",
+    headerName: "Updated At",
+    hide: true,
   },
   {
     field: "tags",
@@ -42,9 +51,12 @@ const columns: GridColDef[] = [
         width="100%"
         justifyContent="space-between"
       >
-        <Link href={`/admin/company/${params.row.ID}`}>
-          <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
-        </Link>
+        <ActiveButton
+          href={`/admin/company/${params.row.ID}`}
+          sx={{ height: 30 }}
+        >
+          CLICK HERE
+        </ActiveButton>
       </Stack>
     ),
   },

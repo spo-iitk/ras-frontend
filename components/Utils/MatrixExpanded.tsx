@@ -22,7 +22,7 @@ import {
 } from "@components/Utils/matrixUtils";
 
 function MatrixExpanded({ data }: { data: string }) {
-  if (data?.length < 80)
+  if (data?.length < 110)
     return <Typography>Eligibility Matrix Not Found</Typography>;
   return (
     <TableContainer component={Paper}>

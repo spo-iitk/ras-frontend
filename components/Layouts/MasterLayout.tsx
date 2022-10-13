@@ -108,37 +108,40 @@ function MasterLayout({
         )}
 
         <List sx={style} component="nav" aria-label="mailbox folders">
-          {items?.userData.map((item) => (
-            <Link href={`${items.route}${item.id}`} passHref key={item.id}>
-              <ListItem
-                sx={{ borderRadius: 5 }}
-                button
-                selected={!!match(`${items.route}${item.id}`)}
-              >
-                <ListItemAvatar
-                  sx={{
-                    color: match(`${items.route}${item.id}`)
-                      ? theme.palette.secondary.contrastText
-                      : "white",
-                  }}
+          {items?.userData.map((item) => {
+            if (item?.hidden === true) return <div />;
+            return (
+              <Link href={`${items.route}${item.id}`} passHref key={item.id}>
+                <ListItem
+                  sx={{ borderRadius: 5 }}
+                  button
+                  selected={!!match(`${items.route}${item.id}`)}
                 >
-                  {item.avatar}
-                </ListItemAvatar>
-                <ListItemText>
-                  <h4
-                    style={{
-                      margin: 5,
+                  <ListItemAvatar
+                    sx={{
                       color: match(`${items.route}${item.id}`)
                         ? theme.palette.secondary.contrastText
                         : "white",
                     }}
                   >
-                    {item.name}
-                  </h4>
-                </ListItemText>
-              </ListItem>
-            </Link>
-          ))}
+                    {item.avatar}
+                  </ListItemAvatar>
+                  <ListItemText>
+                    <h4
+                      style={{
+                        margin: 5,
+                        color: match(`${items.route}${item.id}`)
+                          ? theme.palette.secondary.contrastText
+                          : "white",
+                      }}
+                    >
+                      {item.name}
+                    </h4>
+                  </ListItemText>
+                </ListItem>
+              </Link>
+            );
+          })}
           {items?.moveBack ? (
             <Link href={`${items.moveTo}`} passHref>
               <ListItem sx={{ borderRadius: 5 }} button>
@@ -259,41 +262,44 @@ function MasterLayout({
                 <div />
               )}
               <List sx={style} component="nav" aria-label="mailbox folders">
-                {items?.userData.map((item) => (
-                  <Link
-                    href={`${items.route}${item.id}`}
-                    passHref
-                    key={item.id}
-                  >
-                    <ListItem
-                      sx={{ borderRadius: 5 }}
-                      button
-                      selected={!!match(`${items.route}${item.id}`)}
+                {items?.userData.map((item) => {
+                  if (item?.hidden === true) return <div />;
+                  return (
+                    <Link
+                      href={`${items.route}${item.id}`}
+                      passHref
+                      key={item.id}
                     >
-                      <ListItemAvatar
-                        sx={{
-                          color: match(`${items.route}${item.id}`)
-                            ? theme.palette.secondary.contrastText
-                            : "white",
-                        }}
+                      <ListItem
+                        sx={{ borderRadius: 5 }}
+                        button
+                        selected={!!match(`${items.route}${item.id}`)}
                       >
-                        {item.avatar}
-                      </ListItemAvatar>
-                      <ListItemText>
-                        <h4
-                          style={{
-                            margin: 5,
+                        <ListItemAvatar
+                          sx={{
                             color: match(`${items.route}${item.id}`)
                               ? theme.palette.secondary.contrastText
                               : "white",
                           }}
                         >
-                          {item.name}
-                        </h4>
-                      </ListItemText>
-                    </ListItem>
-                  </Link>
-                ))}
+                          {item.avatar}
+                        </ListItemAvatar>
+                        <ListItemText>
+                          <h4
+                            style={{
+                              margin: 5,
+                              color: match(`${items.route}${item.id}`)
+                                ? theme.palette.secondary.contrastText
+                                : "white",
+                            }}
+                          >
+                            {item.name}
+                          </h4>
+                        </ListItemText>
+                      </ListItem>
+                    </Link>
+                  );
+                })}
                 {items?.moveBack ? (
                   <Link href={`${items.moveTo}`} passHref>
                     <ListItem sx={{ borderRadius: 5 }} button>

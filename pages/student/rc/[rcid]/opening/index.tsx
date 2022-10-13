@@ -53,19 +53,14 @@ function Openings() {
       align: "center",
       headerAlign: "center",
       renderCell: (params) => (
-        <Link
-          href={{
-            pathname: `${ROUTE_PREFIX}/proforma/[proformaid]`,
-            query: {
-              rcid: rid,
-              proformaid: params.row.ID,
-            },
-          }}
+        <Button
+          sx={{ width: "100%" }}
+          href={`/student/rc/${rid}/proforma/${params.row.ID}`}
+          variant="contained"
+          color="primary"
         >
-          <Button sx={{ width: "100%" }} variant="contained" color="primary">
-            View{" "}
-          </Button>
-        </Link>
+          View{" "}
+        </Button>
       ),
     },
     {

@@ -38,6 +38,7 @@ function Edit() {
   const router = useRouter();
   const { studentId } = router.query;
   const sId = (studentId || "").toString();
+
   useEffect(() => {
     const fetch = async () => {
       const student = await AdminStudentRequest.get(
@@ -47,8 +48,8 @@ function Edit() {
       setStudentData(student);
       reset(student);
     };
-    fetch();
-  }, [token, sId, reset]);
+    if (router.isReady) fetch();
+  }, [token, sId, reset, router]);
 
   const onSubmit = async (data: Student) => {
     let program_department_id = getId(
@@ -70,7 +71,6 @@ function Edit() {
       router.push(`/admin/student/${sId}`);
     }
   };
-
   return (
     <div>
       <Meta title={`${StudentData.name} - Edit Student Details`} />
@@ -174,6 +174,9 @@ function Edit() {
                       max: 9999,
                       min: 1000,
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -461,6 +464,9 @@ function Edit() {
                       max: 9999,
                       min: 1000,
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -509,6 +515,9 @@ function Edit() {
                       max: 9999,
                       min: 1000,
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -553,6 +562,9 @@ function Edit() {
                     {...register("entrance_exam_rank", {
                       setValueAs: (value) => parseInt(value, 10),
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -583,6 +595,9 @@ function Edit() {
                     {...register("category_rank", {
                       setValueAs: (value) => parseInt(value, 10),
                     })}
+                    onWheel={(event) =>
+                      (event.target as HTMLTextAreaElement).blur()
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

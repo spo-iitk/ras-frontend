@@ -250,7 +250,7 @@ function ForgotPass() {
               variant="outlined"
               {...registerOTP("user_id", {
                 required: true,
-                pattern: /^[^@]+@iitk\.ac\.in$/,
+                // pattern: /^[^@]+@iitk\.ac\.in$/,
               })}
               error={!!errorsOTP.user_id}
               helperText={errorsOTP.user_id && "Enter valid IITK email Id"}

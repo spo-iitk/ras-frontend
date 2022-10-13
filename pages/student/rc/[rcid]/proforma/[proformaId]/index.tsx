@@ -161,7 +161,7 @@ function Index() {
             </Grid>
             <Grid item xs={12}>
               <h3>Hiring Process</h3>
-              <StepperComp steps={row2} />
+              <StepperComp steps={row2} rcid={rcid as string} />
             </Grid>
           </Grid>
         </Stack>

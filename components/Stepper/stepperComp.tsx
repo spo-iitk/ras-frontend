@@ -8,15 +8,21 @@ import StepContent from "@mui/material/StepContent";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
-// import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import iconMap from "@components/Utils/IconMap";
 import { ProformaEvent } from "@callbacks/company/proforma";
 import { Event } from "@callbacks/admin/rc/proforma/event";
 // import useStore from "@store/store";
 
-function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
+function StepperComp({
+  steps,
+  rcid,
+}: {
+  steps: ProformaEvent[] | Event[];
+  rcid: string;
+}) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -30,6 +36,17 @@ function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  const router = useRouter();
+
+  const [showViewEventButton, setShowViewEventButton] = useState(false);
+
+  useEffect(() => {
+    if (router.isReady && router.pathname.startsWith("/admin")) {
+      setShowViewEventButton(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
 
   return (
     <Box
@@ -86,6 +103,15 @@ function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
                       })}
                     </h5>
                   )}
+                  {showViewEventButton && (
+                    <Button
+                      href={`/admin/rc/${rcid}/event/${steps[0].ID}`}
+                      variant="contained"
+                      target="_blank"
+                    >
+                      View Event
+                    </Button>
+                  )}
                 </Card>
                 <div>
                   <Button
@@ -93,7 +119,7 @@ function StepperComp({ steps }: { steps: ProformaEvent[] | Event[] }) {
                     onClick={handleNext}
                     sx={{ mt: 1, mr: 1 }}
                   >
-                    {index === steps.length - 1 ? "Finish" : "Continue"}
+                    {index === steps.length - 1 ? "Finish" : "Next"}
                   </Button>
                   <Button
                     disabled={index === 0}

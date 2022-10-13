@@ -1,6 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { Button } from "@mui/material";
 
 import AdminStudentRequest, {
@@ -25,6 +24,16 @@ const columns: GridColDef[] = [
     field: "program_department_id",
     headerName: "Program",
     valueGetter: (rowData) => getDeptProgram(rowData.value),
+  },
+  {
+    field: "CreatedAt",
+    headerName: "Created At",
+    hide: true,
+  },
+  {
+    field: "UpdatedAt",
+    headerName: "Updated At",
+    hide: true,
   },
   {
     field: "secondary_program_department_id",
@@ -183,15 +192,9 @@ const columns: GridColDef[] = [
     field: "button",
     headerName: "View Details",
     renderCell: (params) => (
-      <Link
-        href={{
-          pathname: `student/${params.row.ID}`,
-        }}
-      >
-        <Button variant="contained" fullWidth>
-          Click
-        </Button>
-      </Link>
+      <Button href={`student/${params.row.ID}`} variant="contained" fullWidth>
+        Click
+      </Button>
     ),
   },
 ];

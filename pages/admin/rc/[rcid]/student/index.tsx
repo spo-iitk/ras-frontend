@@ -7,7 +7,6 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import EditIcon from "@mui/icons-material/Edit";
-import Link from "next/link";
 
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
@@ -125,15 +124,16 @@ const columns: GridColDef[] = [
   },
   {
     field: "Actions",
-    headerName: "",
+    headerName: "Actions",
     align: "center",
     width: 100,
     renderCell: (params) => (
-      <Link
+      <Button
         href={`/admin/rc/${params.row.recruitment_cycle_id}/student/${params.row.id}`}
+        variant="contained"
       >
-        <Button variant="contained">View Details</Button>
-      </Link>
+        View Details
+      </Button>
     ),
   },
 ];
