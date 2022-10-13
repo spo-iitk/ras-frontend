@@ -11,7 +11,8 @@ import LayoutWrapper from "@components/Layouts/LayoutWrapper";
 import useStore from "@store/store";
 import { useProgressStore } from "@store/useProgress";
 
-const isAdmin = (role: number) => role === 100 || role === 101 || role === 102;
+const isAdmin = (role: number) =>
+  role === 100 || role === 101 || role === 102 || role === 103;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { role } = useStore();

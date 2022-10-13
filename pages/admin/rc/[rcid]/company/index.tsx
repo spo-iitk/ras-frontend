@@ -84,6 +84,7 @@ const columns: GridColDef[] = [
     width: 300,
     align: "center",
     headerAlign: "center",
+    hide: true,
   },
   {
     field: "viewdetails",
@@ -115,6 +116,7 @@ const columns: GridColDef[] = [
 ];
 
 function Index() {
+  const [showButton, setShowButton] = useState(false);
   const [openNew, setOpenNew] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const handleOpenEdit = () => {
@@ -132,7 +134,7 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const { token, rcName } = useStore();
+  const { token, rcName, role } = useStore();
   const [rows, setRow] = useState<CompanyRc[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -143,8 +145,9 @@ function Index() {
       setRow(response);
       setLoading(false);
     };
+    if (role !== 103) setShowButton(true);
     if (rid !== "") getCompanydata();
-  }, [token, rid]);
+  }, [token, rid, role]);
   return (
     <div>
       <Meta title={`Company List - ${rcName}`} />
@@ -153,16 +156,18 @@ function Index() {
           <Grid item xs={6}>
             <h2>Company</h2>
           </Grid>
-          <Grid item xs={6} style={gridMain}>
-            <Stack direction="row">
-              <IconButton onClick={handleOpenEdit}>
-                <EditIcon />
-              </IconButton>
-              <IconButton onClick={handleOpenNew}>
-                <AddIcon />
-              </IconButton>
-            </Stack>
-          </Grid>
+          {showButton && (
+            <Grid item xs={6} style={gridMain}>
+              <Stack direction="row">
+                <IconButton onClick={handleOpenEdit}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={handleOpenNew}>
+                  <AddIcon />
+                </IconButton>
+              </Stack>
+            </Grid>
+          )}
         </Grid>
 
         <DataGrid

@@ -143,7 +143,8 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const { token, rcName } = useStore();
+  const { token, rcName, role } = useStore();
+  const [showButtons, setShowButtons] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openEnroll, setOpenEnroll] = useState(false);
   const handleOpenEnroll = () => {
@@ -204,8 +205,9 @@ function Index() {
           );
         });
     };
+    if (role !== 103) setShowButtons(true);
     fetch();
-  }, [rid, token]);
+  }, [rid, token, role]);
   const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
@@ -223,20 +225,22 @@ function Index() {
         alignItems="center"
       >
         <h2>Students</h2>
-        <div>
-          <IconButton onClick={handleOpenNew}>
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={handleOpenUnFreeze}>
-            <HowToRegIcon />
-          </IconButton>
-          <IconButton onClick={handleOpenFreeze}>
-            <RemoveCircleOutlineIcon />
-          </IconButton>
-          <IconButton onClick={handleOpenEnroll}>
-            <AddIcon />
-          </IconButton>
-        </div>
+        {showButtons && (
+          <div>
+            <IconButton onClick={handleOpenNew}>
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={handleOpenUnFreeze}>
+              <HowToRegIcon />
+            </IconButton>
+            <IconButton onClick={handleOpenFreeze}>
+              <RemoveCircleOutlineIcon />
+            </IconButton>
+            <IconButton onClick={handleOpenEnroll}>
+              <AddIcon />
+            </IconButton>
+          </div>
+        )}
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
         <EditStudent
