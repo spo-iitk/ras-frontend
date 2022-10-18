@@ -306,7 +306,7 @@ function Index() {
     },
     {
       field: "options",
-      headerName: "",
+      headerName: "Accept/Reject Resume",
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
