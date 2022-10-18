@@ -31,6 +31,10 @@ export interface AllStudentResumeResponse {
 
 export interface StudentResumeResponse {
   ID: number; // rsid
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string;
+  recruitment_cycle_id: number;
   student_recruitment_cycle_id: number;
   resume: string;
   verified: nullBool;

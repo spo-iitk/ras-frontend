@@ -81,7 +81,7 @@ function Index() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const { token, rcName } = useStore();
+  const { token, rcName, role } = useStore();
   useEffect(() => {
     const fetchData = async () => {
       if (rid === undefined || rid === "") return;
@@ -182,7 +182,7 @@ function Index() {
         const handleCloseNew = () => {
           setOpenNew(false);
         };
-        if (!params.row.verified?.Valid) {
+        if (!params.row.verified?.Valid || role === 100) {
           return (
             <div>
               <Modal open={openNew} onClose={handleCloseNew}>
@@ -206,7 +206,7 @@ function Index() {
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified?.Valid) {
+        if (!cellValues.row.verified?.Valid || role === 100) {
           return (
             <Container>
               <AcceptResumeButton

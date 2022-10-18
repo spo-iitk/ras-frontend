@@ -154,7 +154,7 @@ function Index() {
   const { rcid, studentid } = useRouter().query;
   const rid = (rcid || "").toString();
   const sid = (studentid || "").toString();
-  const { token } = useStore();
+  const { token, role } = useStore();
   const [questionAnswer, setQuestionAnswer] =
     useState<studentEnrollResponse[]>();
   const [student, setStudent] = useState<Student>({ student_id: 0 } as Student);
@@ -234,6 +234,36 @@ function Index() {
       headerAlign: "center",
     },
     {
+      field: "CreatedAt",
+      headerName: "Created At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "UpdatedAt",
+      headerName: "Updated At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "DeletedAt",
+      headerName: "Deleted At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "recruitment_cycle_id",
+      headerName: "RID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "student_recruitment_cycle_id",
+      headerName: "SID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
       field: "resume",
       headerName: "Resume Link",
       sortable: false,
@@ -280,7 +310,7 @@ function Index() {
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified?.Valid) {
+        if (!cellValues.row.verified?.Valid || role === 100) {
           return (
             <Container>
               <AcceptResumeButton
