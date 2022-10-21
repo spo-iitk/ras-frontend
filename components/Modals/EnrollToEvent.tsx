@@ -48,7 +48,12 @@ function Enroll({
   const { token } = useStore();
   const onSubmit = async (data: EnrollForm) => {
     const tosend: RegisterStudentParams = {
-      emails: [...data.email.split(",").map((x) => x.trim())],
+      emails: [
+        ...data.email
+          .replace(/,\s+/g, ",")
+          .split(/[\n,\s+]/)
+          .map((x) => x.trim()),
+      ],
       event_id: parseInt(eid, 10),
     };
 

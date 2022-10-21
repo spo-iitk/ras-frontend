@@ -42,7 +42,12 @@ function AddPPO({
     const addPPO = async () => {
       const finData = {
         cid: Number(ID),
-        emails: [...data.emails.split(",").map((x) => x.trim())],
+        emails: [
+          ...data.emails
+            .replace(/,\s+/g, ",")
+            .split(/[\n,\s+]/)
+            .map((x) => x.trim()),
+        ],
       };
       const response = await PioPPO.post(token, rid, finData);
       if (response) {
