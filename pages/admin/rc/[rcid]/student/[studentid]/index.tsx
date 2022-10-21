@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  Container,
   Grid,
   Modal,
   Stack,
@@ -13,6 +14,10 @@ import { useRouter } from "next/router";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
+import adminResumeRequest, {
+  // AllStudentResumeResponse,
+  StudentResumeResponse,
+} from "@callbacks/admin/rc/student/resumes";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
@@ -26,13 +31,13 @@ import getStudentApplication, {
 import { CDN_URL } from "@callbacks/constants";
 import Clarification from "@components/Modals/clarification";
 
-// const transformName = (name: string) => {
-//   const nname = name.replace(`${CDN_URL}/view/`, "");
-//   const nameArray = nname.split(".");
-//   const newName = nameArray[0].slice(14, -33);
-//   const newNameWithExtension = `${newName}.${nameArray[1]}`;
-//   return newNameWithExtension;
-// };
+const transformName = (name: string) => {
+  const nname = name.replace(`${CDN_URL}/view/`, "");
+  const nameArray = nname.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
+};
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
@@ -97,14 +102,72 @@ const cols: GridColDef[] = [
   },
 ];
 
+function AcceptResumeButton(props: {
+  id: string;
+  updateCallback: () => Promise<void>;
+}) {
+  const { token } = useStore();
+  const { id, updateCallback } = props;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  return (
+    <Button
+      variant="contained"
+      sx={{
+        marginInlineEnd: "0.5rem",
+      }}
+      onClick={() => {
+        adminResumeRequest
+          .putVerify(token, rid, id, { verified: true })
+          .then(() => {
+            updateCallback();
+          });
+      }}
+    >
+      Accept
+    </Button>
+  );
+}
+
+function RejectResumeButton(props: {
+  id: string;
+  updateCallback: () => Promise<void>;
+}) {
+  const { token } = useStore();
+  const { id, updateCallback } = props;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  return (
+    <Button
+      variant="contained"
+      onClick={() => {
+        adminResumeRequest
+          .putVerify(token, rid, id, { verified: false })
+          .then(() => {
+            updateCallback();
+          });
+      }}
+    >
+      Reject
+    </Button>
+  );
+}
 function Index() {
   const { rcid, studentid } = useRouter().query;
-  const { token } = useStore();
+  const rid = (rcid || "").toString();
+  const sid = (studentid || "").toString();
+  const { token, role } = useStore();
   const [questionAnswer, setQuestionAnswer] =
     useState<studentEnrollResponse[]>();
   const [student, setStudent] = useState<Student>({ student_id: 0 } as Student);
 
   const [applications, setApplications] = useState<ApplicationResponse[]>([]);
+  const [studentResume, setStudentResume] = useState<StudentResumeResponse[]>(
+    []
+  );
+  // const [resumeVerificationStatus, setResumeVerificationStatus] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -130,11 +193,23 @@ function Index() {
         if (studentApplications && studentApplications.length > 0)
           setApplications(studentApplications);
         else setApplications([]);
+
+        const resume = await adminResumeRequest.get(token, rid, sid);
+        if (resume !== null && resume?.length > 0) {
+          setStudentResume(resume);
+        } else setStudentResume([]);
       }
     };
 
     fetchData();
-  }, [rcid, token, studentid]);
+  }, [rid, token, studentid, rcid, sid]);
+
+  const updateResumeStatus = React.useCallback(async () => {
+    if (rid === undefined || rid === "") return;
+    const res = await adminResumeRequest.get(token, rid, sid);
+    if (res !== null && res?.length > 0) setStudentResume(res);
+    else setStudentResume([]);
+  }, [rid, token, sid]);
 
   const handleVerify = async () => {
     if (rcid !== undefined && rcid !== "" && student !== undefined) {
@@ -154,6 +229,108 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
+
+  const resumeCols: GridColDef[] = [
+    {
+      field: "ID",
+      headerName: "Resume ID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "CreatedAt",
+      headerName: "Created At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "UpdatedAt",
+      headerName: "Updated At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "DeletedAt",
+      headerName: "Deleted At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "recruitment_cycle_id",
+      headerName: "RID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "student_recruitment_cycle_id",
+      headerName: "SID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "resume",
+      headerName: "Resume Link",
+      sortable: false,
+      align: "center",
+      width: 400,
+      headerAlign: "center",
+      valueGetter: (params) => getURL(params?.value),
+      renderCell: (params) => (
+        <Button
+          variant="contained"
+          sx={{ width: "100%" }}
+          onClick={() => {
+            window.open(params.value, "_blank");
+          }}
+        >
+          {transformName(params.value)}
+        </Button>
+      ),
+    },
+    {
+      field: "verified",
+      headerName: "Verification Status",
+      align: "center",
+      headerAlign: "center",
+      valueGetter: ({ value }) => {
+        if (value?.Valid) {
+          if (value?.Bool) return "Accepted";
+          return "Rejected";
+        }
+        if (!value?.Valid) return "Pending Verification";
+        return "Unkown";
+      },
+    },
+    {
+      field: "action_taken_by",
+      headerName: "Action Taken By",
+      align: "center",
+      headerAlign: "center",
+      hide: true,
+    },
+    {
+      field: "options",
+      headerName: "Accept/Reject Resume",
+      align: "center",
+      // eslint-disable-next-line consistent-return
+      renderCell: (cellValues) => {
+        if (!cellValues.row.verified?.Valid || role === 100) {
+          return (
+            <Container>
+              <AcceptResumeButton
+                id={cellValues.id.toString()}
+                updateCallback={updateResumeStatus}
+              />
+              <RejectResumeButton
+                id={cellValues.id.toString()}
+                updateCallback={updateResumeStatus}
+              />
+            </Container>
+          );
+        }
+      },
+    },
+  ];
 
   return (
     <div>
@@ -377,6 +554,15 @@ function Index() {
           </Stack>
         </Card>
       </Stack>
+      <div style={{ marginTop: 50 }}>
+        <h2>Verification Status</h2>
+        <DataGrid
+          heighted
+          columns={resumeCols}
+          rows={studentResume}
+          getRowId={(row) => row?.ID || 0}
+        />
+      </div>
       <div style={{ marginTop: 50 }}>
         <h2>Application Status</h2>
         <DataGrid rows={applications} columns={cols} />
