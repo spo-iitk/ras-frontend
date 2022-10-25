@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArticleIcon from "@mui/icons-material/Article";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -133,7 +135,12 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           const name = `${rc.name} `;
           setRcName(name);
           setRCName(name);
-        } else if (role === 100 || role === 101 || role === 102) {
+        } else if (
+          role === 100 ||
+          role === 101 ||
+          role === 102 ||
+          role === 103
+        ) {
           const response = await rcRequestAdmin.getAll(token);
           const rc = response.filter(
             (item: any) => item.ID === parseInt(rcid.toString(), 10)
@@ -158,7 +165,8 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
     if (token !== "") {
       if (role === 2) getCompany();
       if (role === 1) getStudent();
-      if (role === 100 || role === 101 || role === 102) getAdmin();
+      if (role === 100 || role === 101 || role === 102 || role === 103)
+        getAdmin();
 
       if (rcid && rcid !== "") {
         getRc();
@@ -400,16 +408,14 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
               name: "Master Database (Company)",
               id: "/company",
             }
-          : // eslint-disable-next-line react/jsx-no-useless-fragment
-            { avatar: <></>, name: "", id: "", hidden: true },
+          : { avatar: <></>, name: "", id: "", hidden: true },
         role === 100 || role === 101
           ? {
               avatar: <BarChartIcon />,
               name: "User Database",
               id: "/users",
             }
-          : // eslint-disable-next-line react/jsx-no-useless-fragment
-            { avatar: <></>, name: "", id: "", hidden: true },
+          : { avatar: <></>, name: "", id: "", hidden: true },
       ],
       extra: [
         {
@@ -441,16 +447,20 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           name: "Notices",
           id: "/notice",
         },
-        {
-          avatar: <ArticleIcon />,
-          name: "Proforma",
-          id: "/proforma",
-        },
-        {
-          avatar: <ArticleIcon />,
-          name: "Resume",
-          id: "/resume",
-        },
+        role === 100 || role === 101 || role === 102
+          ? {
+              avatar: <ArticleIcon />,
+              name: "Proforma",
+              id: "/proforma",
+            }
+          : { avatar: <></>, name: "", id: "", hidden: true },
+        role === 100 || role === 101 || role === 102
+          ? {
+              avatar: <ArticleIcon />,
+              name: "Resume",
+              id: "/resume",
+            }
+          : { avatar: <></>, name: "", id: "", hidden: true },
         {
           avatar: <ApartmentIcon />,
           name: "Company",
@@ -461,11 +471,13 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           name: "Students",
           id: "/student",
         },
-        {
-          avatar: <CalendarMonthIcon />,
-          name: "Events",
-          id: "/event",
-        },
+        role === 100 || role === 101 || role === 102
+          ? {
+              avatar: <CalendarMonthIcon />,
+              name: "Events",
+              id: "/event",
+            }
+          : { avatar: <></>, name: "", id: "", hidden: true },
         {
           avatar: <BarChartIcon />,
           name: "Stats",

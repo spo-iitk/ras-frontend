@@ -31,6 +31,9 @@ function Index() {
         case 102:
           router.push("/admin");
           break;
+        case 103:
+          router.push("/admin");
+          break;
         default:
           setToken("");
           router.push("/login");

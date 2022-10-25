@@ -114,7 +114,8 @@ function Event() {
   const [pid, setProformaID] = useState<number>(0);
   const [openNew, setOpenNew] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
-  const { token, rcName } = useStore();
+  const { token, rcName, role } = useStore();
+  const [showButtons, setShowButtons] = useState(false);
   const router = useRouter();
   const { rcid, eventId } = router.query;
   const rid = rcid as string;
@@ -144,7 +145,8 @@ function Event() {
     if (router.isReady) {
       getEvent();
     }
-  }, [rid, eid, token, router.isReady, reset, pid]);
+    if (role !== 103) setShowButtons(true);
+  }, [rid, eid, token, router.isReady, reset, pid, role]);
   return (
     <div>
       <Meta title={`Event Details - ${rcName}`} />
@@ -158,9 +160,11 @@ function Event() {
         <Stack spacing={3}>
           <Stack direction="row">
             <h2>View Event Details</h2>
-            <IconButton href={`/admin/rc/${rid}/event/${eid}/edit`}>
-              <EditIcon />
-            </IconButton>
+            {showButtons && (
+              <IconButton href={`/admin/rc/${rid}/event/${eid}/edit`}>
+                <EditIcon />
+              </IconButton>
+            )}
           </Stack>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Event Name</p>
@@ -248,20 +252,24 @@ function Event() {
               {...register("main_poc")}
             />
           </FormControl>
-          <Button
-            variant="contained"
-            sx={{ width: "100%" }}
-            href={`/admin/rc/${rid}/proforma/${pid}/view`}
-          >
-            View Proforma
-          </Button>
+          {showButtons && (
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              href={`/admin/rc/${rid}/proforma/${pid}/view`}
+            >
+              View Proforma
+            </Button>
+          )}
         </Stack>
       </Card>
       <Stack direction="row">
         <p style={{ fontWeight: 300 }}>Registered Students</p>
-        <IconButton onClick={handleOpenNew}>
-          <AddIcon />
-        </IconButton>
+        {showButtons && (
+          <IconButton onClick={handleOpenNew}>
+            <AddIcon />
+          </IconButton>
+        )}
       </Stack>
       <DataGrid columns={cols} getRowId={(row) => row.ID} rows={students} />
       <Modal open={openNew} onClose={handleCloseNew}>

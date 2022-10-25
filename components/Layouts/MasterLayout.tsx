@@ -86,9 +86,9 @@ function MasterLayout({
       <Stack spacing={3}>
         <Stack direction="row" spacing={2} alignItems="center">
           <Image
-            src="/images/logo/spoLogo.png"
+            src="/images/logo/dashboard_logo.png"
             alt="logo"
-            width={60}
+            width={245}
             height={60}
           />
         </Stack>
@@ -241,9 +241,9 @@ function MasterLayout({
             <Stack spacing={3}>
               <Stack direction="row" spacing={2} alignItems="center">
                 <Image
-                  src="/images/logo/spoLogo.png"
+                  src="/images/logo/dashboard_logo.png"
                   alt="logo"
-                  width={60}
+                  width={245}
                   height={60}
                 />
               </Stack>

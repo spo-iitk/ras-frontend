@@ -55,18 +55,20 @@ const columns: GridColDef[] = [
   {
     field: "id",
     headerName: "Id",
-    width: 100,
     hide: true,
   },
   {
     field: "company_name",
     headerName: "Company Name",
-    width: 250,
   },
   {
     field: "role",
     headerName: "Role",
-    width: 200,
+    hide: true,
+  },
+  {
+    field: "profile",
+    headerName: "Profile",
   },
   {
     field: "deadline",

@@ -25,7 +25,7 @@ const columns: GridColDef[] = [
   {
     field: "UpdatedAt",
     headerName: "Last Updated",
-    renderCell: (rowData) => new Date(rowData.value).toLocaleString(),
+    valueGetter: (rowData) => new Date(rowData.value).toLocaleString(),
   },
   {
     field: "company_id",
@@ -40,7 +40,7 @@ const columns: GridColDef[] = [
   {
     field: "is_approved",
     headerName: "Status",
-    renderCell: (params) =>
+    valueGetter: (params) =>
       // eslint-disable-next-line no-nested-ternary
       params.row.is_approved.Valid
         ? params.row.is_approved?.Bool
@@ -51,7 +51,7 @@ const columns: GridColDef[] = [
   {
     field: "deadline",
     headerName: "Application Deadline",
-    renderCell(params) {
+    valueGetter(params) {
       return `${
         params.row.deadline === 0
           ? "Date not Set"

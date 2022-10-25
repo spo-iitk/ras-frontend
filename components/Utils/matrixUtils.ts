@@ -211,8 +211,8 @@ export const func = {
     BS: 11,
     MT: 22,
     DoubleMajor: -1,
-    DualA: -1,
-    DualB: -1,
+    DualA: 115,
+    DualB: 116,
     DualC: -1,
     MDes: -1,
     MBA: -1,
@@ -533,6 +533,9 @@ export const rev = {
   81: "PhD-Mathematics",
   82: "PhD-SEE",
   114: "PhD-SSA",
+  // Stupidest thing ever written if it works.
+  115: "DualA-ES",
+  116: "DualB-ES",
 };
 
 export default { programExpanded, Branches, programCondensed, rev, func };

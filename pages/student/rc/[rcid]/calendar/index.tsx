@@ -64,7 +64,7 @@ const columns: GridColDef[] = [
     field: "View Details",
     renderCell: (params) => (
       <Button
-        href={`/student/rc/${params.row.recruitment_cycle_id}/calendar/${params.row.ID}`}
+        href={`/student/rc/${params.row.recruitment_cycle_id}/events/${params.row.ID}`}
         variant="contained"
         style={{ width: "100%" }}
       >
@@ -86,6 +86,23 @@ function Calendar() {
   const rid = rcid as string;
 
   const { token } = useStore();
+
+  const handleClick = () => {
+    if (rid === "1") {
+      window.open(
+        "https://calendar.google.com/calendar/u/1?cid=MXJpdDljbmgwMWc1cGUxZGhlMmgzYWJjMzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
+        "_blank"
+      );
+    } else if (rid === "2") {
+      window.open(
+        "https://calendar.google.com/calendar/u/1?cid=YjgwdnJrMTlpYnM3ZWxlbmsybmhybHFxazRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
+        "_blank"
+      );
+    } else {
+      console.log("error");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
@@ -140,6 +157,13 @@ function Calendar() {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          <Button
+            variant="contained"
+            style={{ width: "100%" }}
+            onClick={handleClick}
+          >
+            Import Google Calendar
+          </Button>
         </Grid>
         <Grid item xs={12} lg={8}>
           {activity.length > 0 ? (

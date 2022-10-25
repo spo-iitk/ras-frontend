@@ -36,6 +36,7 @@ import DownloadResume, {
   resumeDLModal,
 } from "@components/Modals/DownloadResume";
 import { errorNotification } from "@callbacks/notifcation";
+import UpdateApplyQuestion from "@callbacks/admin/rc/proforma/question";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -60,7 +61,7 @@ const transformName = (name: string) => {
 };
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
-const columns: GridColDef[] = [
+const fixed_columns: GridColDef[] = [
   {
     field: "id",
     headerName: "Id",
@@ -266,6 +267,7 @@ function Index() {
   const [openEmailSender, setOpenEmailSender] = useState(false);
   const [proformaEvents, setProformaEvents] = useState<Event[]>([]);
   const [openResumeModal, setResumeModal] = useState(false);
+  const [columns, setColumns] = useState<any>(fixed_columns);
   const [rows, setRows] = useState<any>([]);
   const handleOpenEmailSender = () => {
     setOpenEmailSender(true);
@@ -312,10 +314,34 @@ function Index() {
     };
 
     const fetch = async () => {
+      const questions = await UpdateApplyQuestion.get(token, rid, pid);
+      if (questions) {
+        questions.forEach((question: any) => {
+          const qid = question.ID;
+          fixed_columns.push({
+            field: `questionID - ${qid}`,
+            headerName: `Question - ${question.question}`,
+            hide: false,
+            valueGetter: (params) => {
+              if (
+                params.row.questions != null &&
+                typeof params.row.questions[qid] !== "undefined" &&
+                params.row.questions[qid] != null &&
+                params.row.questions[qid].trim() !== ""
+              ) {
+                return params.row.questions[qid].trim();
+              }
+              return "Not Answered";
+            },
+          });
+        });
+      }
+      setColumns(fixed_columns);
       const response = await StudentRequest.get(token, rid, pid);
       if (response) setRows(response);
-      setLoading(false);
     };
+    setLoading(false);
+
     if (router.isReady) {
       fetch();
       fetchProformaEvents();
