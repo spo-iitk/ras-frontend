@@ -310,7 +310,7 @@ function Index() {
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified?.Valid || role === 100) {
+        if (!cellValues.row.verified?.Valid || role === 100 || role === 101) {
           return (
             <Container>
               <AcceptResumeButton

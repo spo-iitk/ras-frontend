@@ -182,7 +182,7 @@ function Index() {
         const handleCloseNew = () => {
           setOpenNew(false);
         };
-        if (!params.row.verified?.Valid || role === 100) {
+        if (!params.row.verified?.Valid || role === 100 || role === 101) {
           return (
             <div>
               <Modal open={openNew} onClose={handleCloseNew}>
@@ -206,7 +206,7 @@ function Index() {
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified?.Valid || role === 100) {
+        if (!cellValues.row.verified?.Valid || role === 100 || role === 101) {
           return (
             <Container>
               <AcceptResumeButton
