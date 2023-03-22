@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from "axios";
 
-export const BASE_URL = "https://fair-rules-dig-14-139-38-194.loca.lt";
+export const BASE_URL = "https://arceo.serveo.net";
 
 export const AUTH_URL = `${BASE_URL}/api/auth`;
 export const RAS_URL = `${BASE_URL}/api/ras`;

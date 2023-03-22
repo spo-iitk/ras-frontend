@@ -416,6 +416,13 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
               id: "/users",
             }
           : { avatar: <></>, name: "", id: "", hidden: true },
+        role === 100 || role === 101
+          ? {
+              avatar: <BarChartIcon />,
+              name: "Master Database (Company HR",
+              id: "/companyHR",
+            }
+          : { avatar: <></>, name: "", id: "", hidden: true },
       ],
       extra: [
         {

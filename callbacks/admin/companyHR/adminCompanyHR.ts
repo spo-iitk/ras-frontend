@@ -9,12 +9,10 @@ import {
 } from "@callbacks/constants";
 import { errorNotification } from "@callbacks/notifcation";
 
-export interface CompanyHRParams {
+export interface CompanyHR {
   ID: number;
   CreatedAt: string;
   UpdatedAt: string;
-  company_id: string;
-  company: string;
   name: string;
   email: string;
   phone: string;
@@ -27,15 +25,15 @@ const adminCompanyHRInstance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
-const addCompanyRequest = {
+const CompanyHRRequest = {
   getAll: (token: string) =>
     adminCompanyHRInstance
-      .get<CompanyHRParams[]>("/hr", setConfig(token))
+      .get<CompanyHR[]>("/hr", setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Registration Failed", err.response?.data?.error);
-        return [] as CompanyHRParams[];
+        return [] as CompanyHR[];
       }),
 };
 
-export default addCompanyRequest;
+export default CompanyHRRequest;

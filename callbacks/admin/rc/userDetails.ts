@@ -14,8 +14,11 @@ export interface userDetailsType {
   last_login: string;
   refresh_token: string;
 }
-export interface returnUserDetailsType {
+export interface returnUsersDetailsType {
   users: userDetailsType[];
+}
+export interface returnUserDetailsType {
+  user: userDetailsType;
 }
 
 const instance = axios.create({
@@ -29,19 +32,33 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const userDetailsRequest = {
   getAll: (token: string) =>
     instance
-      .get<returnUserDetailsType>("users", setConfig(token))
+      .get<returnUsersDetailsType>("admins", setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return {} as returnUsersDetailsType;
+      }),
+  get: (token: string, user_id: number) =>
+    instance
+      .get<returnUserDetailsType>(`admins/${user_id}`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
         return {} as returnUserDetailsType;
       }),
-  get: (token: string, id: string) =>
+  updateRole: (token: string, user_id: number, new_role_id: number) =>
     instance
-      .get<userDetailsType>(`users/${id}`, setConfig(token))
-      .then(responseBody)
+      .put<returnUserDetailsType>(
+        `admins/${user_id}/role`,
+        { 
+          user_id: user_id,
+          new_role_id: new_role_id 
+        },
+        setConfig(token)
+      ).then(() => true)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
-        return {} as userDetailsType;
+        return false;
       }),
 };
 

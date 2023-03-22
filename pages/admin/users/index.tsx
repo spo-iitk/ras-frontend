@@ -6,11 +6,13 @@ import { useRouter } from "next/router";
 
 
 import useStore from "@store/store";
-import userDetailsRequest, { returnUserDetailsType, userDetailsType } from "@callbacks/admin/rc/userDetails";
+import userDetailsRequest, { returnUsersDetailsType, userDetailsType } from "@callbacks/admin/rc/userDetails";
 import { GridColDef } from "@mui/x-data-grid";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import { Button } from "@mui/material";
+import { Button, Modal, Switch } from "@mui/material";
+
+import ChangeUserRole from "@components/Modals/changeUserRole";
 
 const allRole: number[] = [100, 101, 102, 103];
 
@@ -34,40 +36,6 @@ function TabPanel(props: TabPanelProps) {
     </div>
   );
 }
-const columns: GridColDef[] = [
-  {
-    field: "ID",
-    headerName: "ID",
-  },
-  {
-    field: "name",
-    headerName: "Name",
-  },
-  {
-    field: "role_id",
-    headerName: "Role",
-  },
-  {
-    field: "is_active",
-    headerName: "Active Status",
-    sortable: false,
-  },
-  {
-    field: "last_login",
-    headerName: "Last Login",
-    width: 150,
-    sortable: false,
-  },
-  {
-    field: "button",
-    headerName: "View Details",
-    renderCell: (params) => (
-      <Button href={`users/${params.row.ID}`} variant="contained" fullWidth>
-        Click
-      </Button>
-    ),
-  }
-];
 function Users() {
   const router = useRouter();
   const { rcid } = router.query;
@@ -77,15 +45,84 @@ function Users() {
   const [tabRole, setTabRole] = useState(0);
   const [userData, setUserData] = useState<userDetailsType[]>([] as userDetailsType[]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [openRoleModal, setOpenRoleModal] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [role, setRole] = useState(0);
+  const [activityStatus, setActivityStatus] = useState(true);
+  const handleActivityStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setActivityStatus(event.target.checked);
+  };
   const handleChange = (event: React.SyntheticEvent,newValue: number) => {
     setTabRole(newValue);
   };
 
+  const handleOpenRoleModal = () => {
+    setOpenRoleModal(true);
+  };
+  const handleCloseRoleModal = (newRole: number) => {
+    if (newRole>0) {
+      userDetailsRequest.updateRole(token, userId, newRole);
+    }
+    setOpenRoleModal(false);
+  };
+  const handleEdit = (ID:number, role: number) => {
+    setUserId(ID);
+    setRole(role);
+    handleOpenRoleModal();
+  }
+
+  const columns: GridColDef[] = [
+    {
+      field: "ID",
+      headerName: "ID",
+    },
+    {
+      field: "name",
+      headerName: "Name",
+    },
+    {
+      field: "role_id",
+      headerName: "Role",
+    },
+    {
+      field: "is_active",
+      headerName: "Active Status",
+      sortable: false,
+    },
+    {
+      field: "last_login",
+      headerName: "Last Login",
+      width: 150,
+      sortable: false,
+      valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`
+    },
+    {
+      field: "button_role",
+      headerName: "Edit Role",
+      renderCell: (params) => (
+        <Button variant="contained" fullWidth onClick={() => {handleEdit(params.row.ID,params.row.role_id)}}>
+          Edit
+        </Button>
+      ),
+    },
+    {
+      field: "button_active",
+      headerName: "Toggle Active Status",
+      renderCell: (params) => (
+        <Switch
+          checked={params.row.is_active}
+          onChange={handleActivityStatusChange}
+          inputProps={{ 'aria-label': 'controlled' }}
+        />
+      )
+
+    }
+  ];
+
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
-      const res :returnUserDetailsType = await userDetailsRequest.getAll(token);
+      const res :returnUsersDetailsType = await userDetailsRequest.getAll(token);
       console.log(res.users)
       setUserData(res.users);
       setIsLoading(false);
@@ -97,6 +134,9 @@ function Users() {
       <Meta title="User Details" />
       <h2>Stats</h2>
       <Box sx={{ width: "100%" }}>
+      <Modal open={openRoleModal} onClose={handleCloseRoleModal}>
+        <ChangeUserRole role={role} handleClose={handleCloseRoleModal}/>
+      </Modal>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={tabRole}
