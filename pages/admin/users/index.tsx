@@ -48,9 +48,16 @@ function Users() {
   const [openRoleModal, setOpenRoleModal] = useState(false);
   const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
-  const [activityStatus, setActivityStatus] = useState(true);
-  const handleActivityStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setActivityStatus(event.target.checked);
+  const handleActivityStatusChange = async (event: React.ChangeEvent<HTMLInputElement>, user_id:number) => {
+    const toggle = await userDetailsRequest.toggleActive(token, user_id);
+    if (toggle) {
+      setUserData(userData.map((user) => {
+        if (user.ID === user_id) {
+          user.is_active = !user.is_active;
+        }
+        return user;
+      }));
+    }
   };
   const handleChange = (event: React.SyntheticEvent,newValue: number) => {
     setTabRole(newValue);
@@ -59,9 +66,17 @@ function Users() {
   const handleOpenRoleModal = () => {
     setOpenRoleModal(true);
   };
-  const handleCloseRoleModal = (newRole: number) => {
+  const handleCloseRoleModal = async (newRole: number) => {
     if (newRole>0) {
-      userDetailsRequest.updateRole(token, userId, newRole);
+      const succ = await userDetailsRequest.updateRole(token, userId, newRole);
+      if (succ) {
+        setUserData(userData.map((user) => {
+          if (user.ID === userId) {
+            user.role_id = newRole;
+          }
+          return user;
+        }));
+      }
     }
     setOpenRoleModal(false);
   };
@@ -111,7 +126,7 @@ function Users() {
       renderCell: (params) => (
         <Switch
           checked={params.row.is_active}
-          onChange={handleActivityStatusChange}
+          onChange={(event) => handleActivityStatusChange(event,params.row.ID)}
           inputProps={{ 'aria-label': 'controlled' }}
         />
       )
@@ -132,7 +147,6 @@ function Users() {
   return (
     <div>
       <Meta title="User Details" />
-      <h2>Stats</h2>
       <Box sx={{ width: "100%" }}>
       <Modal open={openRoleModal} onClose={handleCloseRoleModal}>
         <ChangeUserRole role={role} handleClose={handleCloseRoleModal}/>
@@ -156,7 +170,7 @@ function Users() {
               return(
                 <TabPanel value={tabRole} index={index}>
                   <div>
-                    <h2>Users&gt;</h2>
+                    <h2>Users&gt; {role}</h2>
                     <DataGrid
                       rows={userData.filter((user) => user.role_id === role)}
                       columns={columns}
