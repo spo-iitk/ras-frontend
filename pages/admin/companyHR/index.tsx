@@ -1,6 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import { Button } from "@mui/material";
 
 import CompanyHRRequest, {
   CompanyHR,
@@ -8,7 +7,6 @@ import CompanyHRRequest, {
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
-import { getDeptProgram } from "@components/Parser/parser";
 
 const columns: GridColDef[] = [
   {
@@ -16,13 +14,13 @@ const columns: GridColDef[] = [
     headerName: "ID",
     hide: true,
   },
-  {    
+  {
     field: "name",
     headerName: "Name",
   },
   {
     field: "email",
-    headerName: "Email"
+    headerName: "Email",
   },
   {
     field: "CreatedAt",
@@ -53,7 +51,7 @@ function Index() {
     const fetch = async () => {
       const companyHR = await CompanyHRRequest.getAll(token).catch(() => []);
       setRows(companyHR);
-      console.log(companyHR)
+      console.log(companyHR);
       setLoading(false);
     };
     fetch();

@@ -3,15 +3,16 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
-
-
-import useStore from "@store/store";
-import userDetailsRequest, { returnUsersDetailsType, userDetailsType } from "@callbacks/admin/rc/userDetails";
 import { GridColDef } from "@mui/x-data-grid";
-import DataGrid from "@components/DataGrid";
-import Meta from "@components/Meta";
 import { Button, Modal, Switch } from "@mui/material";
 
+import useStore from "@store/store";
+import userDetailsRequest, {
+  returnUsersDetailsType,
+  userDetailsType,
+} from "@callbacks/admin/rc/userDetails";
+import DataGrid from "@components/DataGrid";
+import Meta from "@components/Meta";
 import ChangeUserRole from "@components/Modals/changeUserRole";
 
 const allRole: number[] = [100, 101, 102, 103];
@@ -43,23 +44,31 @@ function Users() {
   const { token } = useStore();
 
   const [tabRole, setTabRole] = useState(0);
-  const [userData, setUserData] = useState<userDetailsType[]>([] as userDetailsType[]);
+  const [userData, setUserData] = useState<userDetailsType[]>(
+    [] as userDetailsType[]
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [openRoleModal, setOpenRoleModal] = useState(false);
   const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
-  const handleActivityStatusChange = async (event: React.ChangeEvent<HTMLInputElement>, user_id:number) => {
+  const handleActivityStatusChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    user_id: number
+  ) => {
     const toggle = await userDetailsRequest.toggleActive(token, user_id);
     if (toggle) {
-      setUserData(userData.map((user) => {
-        if (user.ID === user_id) {
-          user.is_active = !user.is_active;
-        }
-        return user;
-      }));
+      setUserData(
+        userData.map((user) => {
+          let temp = user;
+          if (user.ID === user_id) {
+            temp.is_active = !user.is_active;
+          }
+          return temp;
+        })
+      );
     }
   };
-  const handleChange = (event: React.SyntheticEvent,newValue: number) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabRole(newValue);
   };
 
@@ -67,24 +76,27 @@ function Users() {
     setOpenRoleModal(true);
   };
   const handleCloseRoleModal = async (newRole: number) => {
-    if (newRole>0) {
+    if (newRole > 0) {
       const succ = await userDetailsRequest.updateRole(token, userId, newRole);
       if (succ) {
-        setUserData(userData.map((user) => {
-          if (user.ID === userId) {
-            user.role_id = newRole;
-          }
-          return user;
-        }));
+        setUserData(
+          userData.map((user) => {
+            let temp = user;
+            if (user.ID === userId) {
+              temp.role_id = newRole;
+            }
+            return temp;
+          })
+        );
       }
     }
     setOpenRoleModal(false);
   };
-  const handleEdit = (ID:number, role: number) => {
+  const handleEdit = (ID: number, editRole: number) => {
     setUserId(ID);
-    setRole(role);
+    setRole(editRole);
     handleOpenRoleModal();
-  }
+  };
 
   const columns: GridColDef[] = [
     {
@@ -109,13 +121,20 @@ function Users() {
       headerName: "Last Login",
       width: 150,
       sortable: false,
-      valueGetter: ({ value }) => value && `${new Date(value).toLocaleString()}`
+      valueGetter: ({ value }) =>
+        value && `${new Date(value).toLocaleString()}`,
     },
     {
       field: "button_role",
       headerName: "Edit Role",
       renderCell: (params) => (
-        <Button variant="contained" fullWidth onClick={() => {handleEdit(params.row.ID,params.row.role_id)}}>
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={() => {
+            handleEdit(params.row.ID, params.row.role_id);
+          }}
+        >
           Edit
         </Button>
       ),
@@ -126,19 +145,20 @@ function Users() {
       renderCell: (params) => (
         <Switch
           checked={params.row.is_active}
-          onChange={(event) => handleActivityStatusChange(event,params.row.ID)}
-          inputProps={{ 'aria-label': 'controlled' }}
+          onChange={(event) => handleActivityStatusChange(event, params.row.ID)}
+          inputProps={{ "aria-label": "controlled" }}
         />
-      )
-
-    }
+      ),
+    },
   ];
 
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
-      const res :returnUsersDetailsType = await userDetailsRequest.getAll(token);
-      console.log(res.users)
+      const res: returnUsersDetailsType = await userDetailsRequest.getAll(
+        token
+      );
+      console.log(res.users);
       setUserData(res.users);
       setIsLoading(false);
     };
@@ -148,9 +168,9 @@ function Users() {
     <div>
       <Meta title="User Details" />
       <Box sx={{ width: "100%" }}>
-      <Modal open={openRoleModal} onClose={handleCloseRoleModal}>
-        <ChangeUserRole role={role} handleClose={handleCloseRoleModal}/>
-      </Modal>
+        <Modal open={openRoleModal} onClose={handleCloseRoleModal}>
+          <ChangeUserRole role={role} handleClose={handleCloseRoleModal} />
+        </Modal>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={tabRole}
@@ -163,38 +183,36 @@ function Users() {
             <Tab label="CHAIR" />
           </Tabs>
         </Box>
-        {
-          isLoading == false &&
-          allRole.map((role,index) => {
-            if(userData.length > 0)
-              return(
+        {isLoading === false &&
+          allRole.map((r, index) => {
+            if (userData.length > 0)
+              return (
                 <TabPanel value={tabRole} index={index}>
                   <div>
-                    <h2>Users&gt; {role}</h2>
+                    <h2>Users&gt; {r}</h2>
                     <DataGrid
-                      rows={userData.filter((user) => user.role_id === role)}
+                      rows={userData.filter((user) => user.role_id === r)}
                       columns={columns}
                       loading={isLoading}
                       getRowId={(row) => row.ID}
                     />
                   </div>
                 </TabPanel>
-              )
+              );
             return (
               <TabPanel value={tabRole} index={index}>
-              <div>
-                <h2>Users&gt;</h2>
-                <DataGrid
-                  rows={[]}
-                  columns={columns}
-                  loading={isLoading}
-                  getRowId={(row) => row.ID}
-                />
-              </div>
-            </TabPanel>
-            )
-            })
-        }
+                <div>
+                  <h2>Users&gt;</h2>
+                  <DataGrid
+                    rows={[]}
+                    columns={columns}
+                    loading={isLoading}
+                    getRowId={(row) => row.ID}
+                  />
+                </div>
+              </TabPanel>
+            );
+          })}
       </Box>
     </div>
   );

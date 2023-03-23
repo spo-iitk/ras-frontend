@@ -20,13 +20,20 @@ function ChangeUserRole({
   handleClose,
 }: {
   role: number;
+  // eslint-disable-next-line no-unused-vars
   handleClose: (newRole: number) => void;
 }) {
   const [newRole, setNewRole] = React.useState(role);
   return (
     <Box sx={boxStyle}>
       <h3>Change User Role:</h3>
-      <TextField id="role" label="User Role" variant="standard" value={newRole} onChange={(e) => setNewRole(parseInt(e.target.value,10))}/>
+      <TextField
+        id="role"
+        label="User Role"
+        variant="standard"
+        value={newRole}
+        onChange={(e) => setNewRole(parseInt(e.target.value, 10))}
+      />
       <Stack direction="row" spacing={3}>
         <Button
           variant="contained"
