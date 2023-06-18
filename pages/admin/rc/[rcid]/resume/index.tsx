@@ -78,6 +78,7 @@ function RejectResumeButton(props: {
 }
 function Index() {
   const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
+  const [openNewClarification, setOpenNewClarification] = useState(false);
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
@@ -175,17 +176,16 @@ function Index() {
       // eslint-disable-next-line consistent-return
       renderCell: (params) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [openNew, setOpenNew] = useState(false);
         const handleOpenNew = () => {
-          setOpenNew(true);
+          setOpenNewClarification(true);
         };
         const handleCloseNew = () => {
-          setOpenNew(false);
+          setOpenNewClarification(false);
         };
         if (!params.row.verified?.Valid || role === 100 || role === 101) {
           return (
             <div>
-              <Modal open={openNew} onClose={handleCloseNew}>
+              <Modal open={openNewClarification} onClose={handleCloseNew}>
                 <Clarification
                   handleCloseNew={handleCloseNew}
                   studentID={params.row.sid}
