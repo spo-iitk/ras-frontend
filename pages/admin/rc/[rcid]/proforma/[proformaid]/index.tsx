@@ -72,6 +72,11 @@ const fixed_columns: GridColDef[] = [
     field: "name",
     headerName: "Student Name",
     width: 250,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "roll_no",
@@ -81,6 +86,11 @@ const fixed_columns: GridColDef[] = [
     field: "email",
     headerName: "Email",
     width: 150,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "resume",
@@ -258,6 +268,11 @@ const fixed_columns: GridColDef[] = [
   {
     field: "personal_email",
     headerName: "Alternate Email",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
 ];
 

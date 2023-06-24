@@ -2,7 +2,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, IconButton, Modal, Stack } from "@mui/material";
+import { Button, IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
@@ -73,6 +73,11 @@ const columns: GridColDef[] = [
     field: "email",
     headerName: "Email",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "roll_no",

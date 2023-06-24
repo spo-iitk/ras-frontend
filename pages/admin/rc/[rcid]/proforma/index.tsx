@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
@@ -16,7 +16,15 @@ const columns: GridColDef[] = [
     headerName: "ID",
     hide: true,
   },
-  { field: "company_name", headerName: "Company Name" },
+  {
+    field: "company_name",
+    headerName: "Company Name",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
+  },
   {
     field: "CreatedAt",
     headerName: "Created At",
@@ -69,7 +77,13 @@ const columns: GridColDef[] = [
     valueParser: (value) => value?.split("@")[0],
     hide: true,
   },
-  { field: "active_hr", headerName: "Active HR" },
+  {
+    field: "active_hr", headerName: "Active HR",
+    renderCell: (params) => (
+    <Tooltip title={params.value}>
+      <div>{params.value}</div>
+    </Tooltip>
+  ), },
   { field: "role", headerName: "Role Name" },
   { field: "profile", headerName: "Profile" },
   {

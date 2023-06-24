@@ -7,6 +7,7 @@ import {
   Stack,
   TextField,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
@@ -49,6 +50,11 @@ const cols: GridColDef[] = [
   {
     field: "company_name",
     headerName: "Company Name",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "role",
@@ -57,6 +63,11 @@ const cols: GridColDef[] = [
   {
     field: "profile",
     headerName: "Profile",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "resume",

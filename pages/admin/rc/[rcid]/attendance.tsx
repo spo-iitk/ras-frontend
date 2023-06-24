@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
-import { Button, IconButton, Popover, Stack } from "@mui/material";
+import { Button, IconButton, Popover, Stack, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
@@ -40,11 +40,21 @@ function Index() {
       field: "CompanyName",
       headerName: "Company Name",
       width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "EventName",
       headerName: "Event Name",
       width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "StartTime",
@@ -60,6 +70,11 @@ function Index() {
       field: "Venue",
       headerName: "Venue",
       width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "ViewStudentsWiseDetails",

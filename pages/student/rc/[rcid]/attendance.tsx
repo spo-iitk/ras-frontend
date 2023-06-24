@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack } from "@mui/material";
+import { Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 
 import Meta from "@components/Meta";
@@ -17,11 +17,21 @@ const columns: GridColDef[] = [
     field: "companyName",
     headerName: "Company Name",
     width: 300,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "event",
     headerName: "Event",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "startTime",
@@ -37,6 +47,11 @@ const columns: GridColDef[] = [
     field: "venue",
     headerName: "Venue",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "status",

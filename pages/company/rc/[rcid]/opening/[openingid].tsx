@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 
@@ -31,6 +31,11 @@ const columns: GridColDef[] = [
     field: "email",
     headerName: "Email.",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "roll_no",

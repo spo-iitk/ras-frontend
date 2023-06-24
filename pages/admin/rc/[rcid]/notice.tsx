@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { IconButton, Modal, Stack } from "@mui/material";
+import { IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -93,6 +93,11 @@ const columns: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "CreatedAt",
@@ -102,6 +107,11 @@ const columns: GridColDef[] = [
   {
     field: "tags",
     headerName: "Tags",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "button1",
@@ -113,6 +123,7 @@ const columns: GridColDef[] = [
     filterable: false,
   },
 ];
+
 function Index() {
   const { token, rcName } = useStore();
   const router = useRouter();

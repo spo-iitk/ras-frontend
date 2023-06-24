@@ -1,5 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
+import Tooltip from "@mui/material/Tooltip";
 
 import CompanyHRRequest, {
   CompanyHR,
@@ -21,6 +22,11 @@ const columns: GridColDef[] = [
   {
     field: "email",
     headerName: "Email",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "CreatedAt",
