@@ -82,7 +82,7 @@ const layouts: layoutings = {
   adminPhaseDashBoard: MasterLayout,
 };
 
-function LayoutWrapper({ children }: { children: JSX.Element }) {
+function LayoutWrapper(this: any, { children }: { children: JSX.Element }) {
   let layoutType: string = children.type.layout;
   if (!layoutType) {
     layoutType = "none";
@@ -188,13 +188,15 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
     setToken,
     router,
   ]);
-  const photoLink = "https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/"+studentRoll+"_0.jpg"
+
+  
+  const photoLink = "https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/" + studentRoll + "_0.jpg";
   const dashbboard_items: fields[] = [
     {
       route: `/student`,
       isUser: true,
       userInfo: {
-        avatar: (studentRoll && studentRoll.length > 0) ? <Avatar src={photoLink} alt="photoURL" /> : <Avatar src="" alt="photoURL" />,
+        avatar: (studentRoll && studentRoll.length > 0) ? <Avatar src={photoLink} alt="User Photo" /> : <Avatar src="" alt="User Photo" />,
         name: studentName,
         id: "Student",
       },
@@ -240,8 +242,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       route: `/student/rc/${rcid}`,
       isUser: true,
       userInfo: {
-        avatar: (studentRoll && studentRoll.length > 0) ? <Avatar src={photoLink} alt="photoURL" /> : <Avatar src="" alt="photoURL" />,
-        // avatar: <AccountCircleIcon />,
+        avatar: (studentRoll && studentRoll.length > 0) ? <Avatar src={photoLink} alt="User Photo" /> : <Avatar src="" alt="User Photo" />,
         name: studentName,
         id: "Student",
       },
@@ -529,4 +530,5 @@ export default LayoutWrapper;
 function setStudentRoll(roll_no: string) {
   throw new Error("Function not implemented.");
 }
+
 
