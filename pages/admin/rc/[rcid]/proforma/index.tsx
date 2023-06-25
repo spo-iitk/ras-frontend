@@ -78,12 +78,14 @@ const columns: GridColDef[] = [
     hide: true,
   },
   {
-    field: "active_hr", headerName: "Active HR",
+    field: "active_hr",
+    headerName: "Active HR",
     renderCell: (params) => (
-    <Tooltip title={params.value}>
-      <div>{params.value}</div>
-    </Tooltip>
-  ), },
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
+  },
   { field: "role", headerName: "Role Name" },
   { field: "profile", headerName: "Profile" },
   {
