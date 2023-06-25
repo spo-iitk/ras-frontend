@@ -70,6 +70,20 @@ const addCompanyRequest = {
         );
         return { ID: 0 } as Company;
       }),
+  getLimited: (token: string, pageSize: number, lastFetchId: number) =>
+    adminCompanyInstance
+      .get<Company[]>(
+        `/limited?pageSize=${pageSize}&lastFetchedId=${lastFetchId}`,
+        setConfig(token)
+      )
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching data",
+          err.response?.data?.error || err.message
+        );
+        return [] as Company[];
+      }),
   update: (token: string, body: Company) =>
     adminCompanyInstance
       .put<StatusResponse, AxiosResponse<StatusResponse, Company>, Company>(
