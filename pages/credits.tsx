@@ -21,7 +21,7 @@ import useStore from "@store/store";
 
 const teamMembers = [
   {
-    src: "https://abhishekshree.xyz/static/images/dp.jpg",
+    src: "https://abhishekshree.github.io/static/images/dp.jpg",
     name: "Abhishek Shree",
     title: "Web Head, 2022-23",
     about: "Reads and consumes a lot of pop culture.",

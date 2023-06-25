@@ -1,5 +1,6 @@
 import { Button, Container, Modal, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid";
+// import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -74,6 +75,38 @@ function RejectResumeButton(props: {
     >
       Reject
     </Button>
+  );
+}
+
+function AskClarification(props: {
+  role: number;
+  sid: string;
+  row: AllStudentResumeResponse;
+}) {
+  const { role, sid, row } = props;
+  const [openNew, setOpenNew] = useState(false);
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+  const handleCloseNew = () => {
+    setOpenNew(false);
+  };
+  // if (!params.row.verified?.Valid || role === 100 || role === 101) {
+  return !row.verified?.Valid || role === 100 || role === 101 ? (
+    <div>
+      <Modal open={openNew} onClose={handleCloseNew}>
+        <Clarification
+          handleCloseNew={handleCloseNew}
+          studentID={sid}
+          context={`Your resume ${getURL(row.resume)}`}
+        />
+      </Modal>
+      <Button sx={{ height: 30 }} onClick={handleOpenNew}>
+        CLICK HERE
+      </Button>
+    </div>
+  ) : (
+    <div />
   );
 }
 function Index() {
@@ -167,38 +200,17 @@ function Index() {
       headerAlign: "center",
       hide: true,
     },
+
     {
       field: "AskClarification",
       headerName: "Ask Clarification",
       align: "center",
       headerAlign: "center",
       // eslint-disable-next-line consistent-return
-      renderCell: (params) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [openNew, setOpenNew] = useState(false);
-        const handleOpenNew = () => {
-          setOpenNew(true);
-        };
-        const handleCloseNew = () => {
-          setOpenNew(false);
-        };
-        if (!params.row.verified?.Valid || role === 100 || role === 101) {
-          return (
-            <div>
-              <Modal open={openNew} onClose={handleCloseNew}>
-                <Clarification
-                  handleCloseNew={handleCloseNew}
-                  studentID={params.row.sid}
-                  context={`Your resume ${getURL(params?.row?.resume)}`}
-                />
-              </Modal>
-              <Button sx={{ height: 30 }} onClick={handleOpenNew}>
-                CLICK HERE
-              </Button>
-            </div>
-          );
-        }
-      },
+      renderCell: (params) => (
+        <AskClarification role={role} sid={params.row.sid} row={params.row} />
+      ),
+      // eslint-disable-next-line react-hooks/rules-of-hooks
     },
     {
       field: "options",
