@@ -1,6 +1,7 @@
 import { Card, Grid, Stack, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
@@ -208,11 +209,9 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
       api_id: "disability",
     },
   ];
-
 function Profile() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
   const { token } = useStore();
-
   useEffect(() => {
     const fetch = async () => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -223,6 +222,7 @@ function Profile() {
     };
     fetch();
   }, [token]);
+  const photoLink = `https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${StudentData.roll_no}_0.jpg`;
   const handleValue = (val: string) => {
     switch (val) {
       case "dob":
@@ -239,6 +239,7 @@ function Profile() {
         return StudentData[val as keyof Student];
     }
   };
+
   return (
     <div>
       <Meta title="Profile - Student Dashboard" />
@@ -250,6 +251,7 @@ function Profile() {
           spacing={2}
         >
           <h2>Profile</h2>
+
           <Stack
             direction="row"
             alignItems="center"
@@ -272,6 +274,26 @@ function Profile() {
               {StudentData.is_verified === true ? "Verified" : "Not Verified"}
             </Button>
           </Stack>
+        </Stack>
+        <Stack justifyContent="center">
+          <Card
+            style={{ display: "flex", justifyContent: "center" }}
+            elevation={5}
+            sx={{
+              padding: 3,
+              borderRadius: "10px",
+              width: { xs: "330px", sm: "600px", margin: "0px auto" },
+            }}
+          >
+            <div style={{ width: "10em", height: "auto", borderRadius: "50%" }}>
+              <Image
+                src={photoLink}
+                alt="User Photo"
+                width={100}
+                height={100}
+              />
+            </div>
+          </Card>
         </Stack>
         <Stack justifyContent="center">
           <Card

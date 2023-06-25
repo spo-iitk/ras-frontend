@@ -250,7 +250,7 @@ function MasterLayout({
               <div style={{ height: 20 }} />
               {items?.isUser ? (
                 <AccountStyle>
-                  <Avatar src="" alt="photoURL" />
+                  {items.userInfo.avatar}
                   <Box sx={{ ml: 2 }}>
                     <h3 style={{ margin: 5 }}>{items.userInfo.name}</h3>
                     <h4 style={{ margin: 5, fontWeight: 400 }}>
