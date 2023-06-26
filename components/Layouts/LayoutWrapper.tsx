@@ -81,7 +81,7 @@ const layouts: layoutings = {
   adminPhaseDashBoard: MasterLayout,
 };
 
-function LayoutWrapper(this: any, { children }: { children: JSX.Element }) {
+function LayoutWrapper({ children }: { children: JSX.Element }) {
   let layoutType: string = children.type.layout;
   if (!layoutType) {
     layoutType = "none";

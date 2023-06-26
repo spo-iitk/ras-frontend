@@ -1,14 +1,16 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable prettier/prettier */
 import { Card, Grid, Stack, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 
 import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
 import { getDepartment, getProgram } from "@components/Parser/parser";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   [
     {
@@ -286,9 +288,7 @@ function Profile() {
               width: { xs: "330px", sm: "600px", margin: "0px auto" },
             }}
           >
-            <div style={{ width: "10em", height: "auto", borderRadius: "50%" }}>
-              <Image src={photoLink} alt="User Photo" />
-            </div>
+            <img src={photoLink} alt="Profile photo" style={{ width: "10em", height: "10em", borderRadius: "50%" }} />
           </Card>
         </Stack>
         <Stack justifyContent="center">
@@ -332,12 +332,12 @@ function Profile() {
                     <b>
                       {item.field === "12th Marks" &&
                         (parseFloat(handleValue("twelfth_marks")?.toString()) <=
-                        10
+                          10
                           ? "CGPA"
                           : "Percentage")}
                       {item.field === "10th Marks" &&
                         (parseFloat(handleValue("tenth_marks")?.toString()) <=
-                        10
+                          10
                           ? "CGPA"
                           : "Percentage")}
                     </b>
