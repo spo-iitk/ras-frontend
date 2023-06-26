@@ -8,6 +8,7 @@ import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
 import { getDepartment, getProgram } from "@components/Parser/parser";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   [
     {
@@ -286,12 +287,7 @@ function Profile() {
             }}
           >
             <div style={{ width: "10em", height: "auto", borderRadius: "50%" }}>
-              <Image
-                src={photoLink}
-                alt="User Photo"
-                width={100}
-                height={100}
-              />
+              <Image src={photoLink} alt="User Photo" />
             </div>
           </Card>
         </Stack>
