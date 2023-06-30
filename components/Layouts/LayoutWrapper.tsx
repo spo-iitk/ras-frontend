@@ -17,6 +17,7 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import StarsIcon from "@mui/icons-material/Stars";
 import People from "@mui/icons-material/People";
+import { Avatar } from "@mui/material";
 
 import useStore from "@store/store";
 import companyRequest from "@callbacks/company/company";
@@ -93,6 +94,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
 
   const [companyName, setCompanyName] = useState("Company");
   const [studentName, setStudentName] = useState("Student");
+  const [studentRoll, setStudentRoll] = useState("Student");
   const [email, setEmail] = useState("");
   const [rcName, setRcName] = useState("");
 
@@ -114,6 +116,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         setToken("");
       }
       setStudentName(response.name);
+      setStudentRoll(response.roll_no);
       setName(response.name);
     };
 
@@ -178,18 +181,43 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
     setCompanyName,
     setName,
     setStudentName,
+    setStudentRoll,
     rcid,
     setRCName,
     setToken,
     router,
   ]);
-
+  // fetching photo from oa portal and storing in local storage.
+  const photoLink = `https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${studentRoll}_0.jpg`;
+  const photoStorageKey = "userPhoto";
+  fetch(photoLink)
+    .then((response) => response.blob())
+    .then((blob) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const { result } = reader;
+        if (result !== null && typeof result === "string") {
+          localStorage.setItem(photoStorageKey, result);
+        }
+      };
+      reader.readAsDataURL(blob);
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error("Error fetching and storing photo:", error);
+    });
+  const storedPhoto = localStorage.getItem(photoStorageKey);
   const dashbboard_items: fields[] = [
     {
       route: `/student`,
       isUser: true,
       userInfo: {
-        avatar: <AccountCircleIcon />,
+        avatar:
+          studentRoll && studentRoll.length > 0 ? (
+            <Avatar src={storedPhoto || undefined} alt="User Photo" />
+          ) : (
+            <Avatar src="" alt="User Photo" />
+          ),
         name: studentName,
         id: "Student",
       },
@@ -235,7 +263,12 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
       route: `/student/rc/${rcid}`,
       isUser: true,
       userInfo: {
-        avatar: <AccountCircleIcon />,
+        avatar:
+          studentRoll && studentRoll.length > 0 ? (
+            <Avatar src={storedPhoto || undefined} alt="User Photo" />
+          ) : (
+            <Avatar src="" alt="User Photo" />
+          ),
         name: studentName,
         id: "Student",
       },

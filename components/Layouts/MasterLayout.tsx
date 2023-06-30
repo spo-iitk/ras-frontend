@@ -17,7 +17,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import theme from "@components/theme/theme";
 import dashboardstyles from "@styles/Dashboard.module.css";
@@ -51,10 +51,15 @@ function MasterLayout({
 }) {
   const { asPath } = useRouter();
   const match = (path: string) => path === asPath;
-  const [state, setState] = useState({
+  const [state] = useState({
     left: false,
   });
-
+  const drawerStateRef = useRef({
+    left: false,
+    right: false,
+    top: false,
+    bottom: false,
+  });
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -65,8 +70,8 @@ function MasterLayout({
       ) {
         return;
       }
-
-      setState({ ...state, [anchor]: open });
+      drawerStateRef.current = { ...drawerStateRef.current, [anchor]: open };
+      // setState({ ...state, [anchor]: open });
     };
 
   const list = (anchor: Anchor) => (
@@ -250,7 +255,7 @@ function MasterLayout({
               <div style={{ height: 20 }} />
               {items?.isUser ? (
                 <AccountStyle>
-                  <Avatar src="" alt="photoURL" />
+                  {items.userInfo.avatar}
                   <Box sx={{ ml: 2 }}>
                     <h3 style={{ margin: 5 }}>{items.userInfo.name}</h3>
                     <h4 style={{ margin: 5, fontWeight: 400 }}>
