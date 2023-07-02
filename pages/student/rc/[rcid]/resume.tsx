@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import {
   Box,
@@ -197,6 +197,18 @@ function Resume() {
     setSuccess(true);
     setLoading(false);
   };
+  const fetchLatestData = useCallback(async () => {
+    const resumeData = await resumeRequest.get(token, rid);
+    setAllResumes(resumeData);
+    const studentData = await enrollmentRequest.getStudentRC(token, rid);
+    if (studentData.ID) {
+      const progdept = getDeptProgram(studentData.program_department_id);
+      let filename = `${studentData.roll_no} ${studentData.name} ${progdept}`;
+      filename = filename.replace(/[^\w]/gi, "_");
+      filename = filename.toLowerCase();
+      setResumeName(`${filename}.pdf`);
+    }
+  }, [token, rid]);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -206,7 +218,7 @@ function Resume() {
     await resumeRequest.post(formData, token, rid);
     setFileSaved(null);
     handleClose();
-    window.location.reload();
+    fetchLatestData();
   };
 
   useEffect(() => {

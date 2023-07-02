@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
 import { IconButton, Modal, Stack } from "@mui/material";
@@ -66,6 +66,12 @@ function Index() {
   const { token } = useStore();
   const [rows, setRows] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const updateCompanyMD = useCallback(async () => {
+    let response = await addCompanyRequest.getall(token);
+    setRows(response);
+  }, [token]);
+
   useEffect(() => {
     const getCompanydata = async () => {
       let response = await addCompanyRequest.getall(token);
@@ -114,7 +120,10 @@ function Index() {
         />
       </Grid>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <AddCompanyMD handleCloseNew={handleCloseNew} />
+        <AddCompanyMD
+          handleCloseNew={handleCloseNew}
+          updateCompanyMD={updateCompanyMD}
+        />
       </Modal>
     </div>
   );

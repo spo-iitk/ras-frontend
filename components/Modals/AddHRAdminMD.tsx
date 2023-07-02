@@ -22,8 +22,10 @@ const boxStyle = {
 
 function AddHRMD({
   handleCloseNew,
+  updateHRDetails,
 }: {
   handleCloseNew: () => void;
+  updateHRDetails: () => Promise<void>;
 }): JSX.Element {
   const {
     register,
@@ -54,7 +56,8 @@ function AddHRMD({
         designation: "",
       });
       handleCloseNew();
-      window.location.reload();
+      updateHRDetails();
+      //
     }
   };
 

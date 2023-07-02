@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Grid, IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -37,12 +37,18 @@ function DeleteComapny(props: { id: string }) {
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
   };
+
+  const confirmDeleteCompany = useCallback(async () => {
+    if (confirmation) {
+      requestCompany.deleteCompany(token, rid, id);
+    }
+  }, [confirmation, id, rid, token]);
   useEffect(() => {
     if (confirmation) {
       requestCompany.deleteCompany(token, rid, id);
-      window.location.reload();
+      confirmDeleteCompany();
     }
-  }, [confirmation, id, rid, token]);
+  }, [confirmDeleteCompany, confirmation, id, rid, token]);
   return (
     <>
       <IconButton
@@ -138,6 +144,12 @@ function Index() {
   const [rows, setRow] = useState<CompanyRc[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const addCompanyDetails = useCallback(async () => {
+    if (rid === undefined || rid === "") return;
+    let response = await requestCompany.getall(token, rid);
+    setRow(response);
+  }, [token, rid]);
+
   useEffect(() => {
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
@@ -185,7 +197,10 @@ function Index() {
         />
       </Modal>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <AddCompany handleCloseNew={handleCloseNew} />
+        <AddCompany
+          handleCloseNew={handleCloseNew}
+          addCompanyDetails={addCompanyDetails}
+        />
       </Modal>
     </div>
   );

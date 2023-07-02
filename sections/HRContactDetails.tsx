@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import DataGrid from "@components/DataGrid";
@@ -45,12 +45,18 @@ function DeleteHR(props: { id: string }) {
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
   };
+  const confirmDeleteHR = useCallback(async () => {
+    if (confirmation) {
+      addCompanyRequest.deleteHR(token, id);
+    }
+  }, [confirmation, id, token]);
+
   useEffect(() => {
     if (confirmation) {
       addCompanyRequest.deleteHR(token, id);
-      window.location.reload();
+      confirmDeleteHR();
     }
-  }, [confirmation, id, token]);
+  }, [confirmDeleteHR, confirmation, id, token]);
   return (
     <>
       <IconButton
@@ -185,6 +191,13 @@ function HRContactDetails() {
   const router = useRouter();
   const companyId = router.query.companyId?.toString() || "";
   const [loading, setLoading] = useState(true);
+
+  const updateHRDetails = useCallback(async () => {
+    let response = await addCompanyRequest.getAllHR(token, companyId);
+    setHRRows(response);
+    setLoading(false);
+  }, [companyId, token]);
+
   useEffect(() => {
     const fetchHRDetails = async () => {
       let response = await addCompanyRequest.getAllHR(token, companyId);
@@ -219,7 +232,10 @@ function HRContactDetails() {
         />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <AddHRMD handleCloseNew={handleCloseNew} />
+        <AddHRMD
+          handleCloseNew={handleCloseNew}
+          updateHRDetails={updateHRDetails}
+        />
       </Modal>
     </div>
   );

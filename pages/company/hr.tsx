@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Grid, IconButton, Modal, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,6 +23,14 @@ function Overview(): JSX.Element {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  // const updateCompanyDetails = useCallback(async () => {
+  //   const getRC = async () => {
+  //     setLoading(true);
+  //     const response = await companyHRRequest.get(token);
+  //     if (response?.length > 0) setRows(response);
+  //     setLoading(false);
+  //   };
+  // }, [token]);
 
   useEffect(() => {
     const getRC = async () => {

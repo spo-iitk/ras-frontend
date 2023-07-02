@@ -25,7 +25,13 @@ const boxStyle = {
   alignItems: "center",
 };
 
-function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
+function AddCompany({
+  handleCloseNew,
+  addCompanyDetails,
+}: {
+  handleCloseNew: () => void;
+  addCompanyDetails: () => Promise<void>;
+}) {
   const {
     register,
     handleSubmit,
@@ -68,7 +74,7 @@ function AddCompany({ handleCloseNew }: { handleCloseNew: () => void }) {
       });
       handleCloseNew();
     }
-    window.location.reload();
+    addCompanyDetails();
   };
   return (
     <Box sx={boxStyle}>

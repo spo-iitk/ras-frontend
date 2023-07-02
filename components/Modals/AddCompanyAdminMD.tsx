@@ -21,7 +21,13 @@ const boxStyle = {
   alignItems: "center",
 };
 
-function AddCompanyMD({ handleCloseNew }: { handleCloseNew: () => void }) {
+function AddCompanyMD({
+  handleCloseNew,
+  updateCompanyMD,
+}: {
+  handleCloseNew: () => void;
+  updateCompanyMD: () => Promise<void>;
+}) {
   const {
     register,
     handleSubmit,
@@ -39,7 +45,7 @@ function AddCompanyMD({ handleCloseNew }: { handleCloseNew: () => void }) {
         description: "",
       });
       handleCloseNew();
-      window.location.reload();
+      updateCompanyMD();
     }
   };
 
