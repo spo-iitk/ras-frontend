@@ -25,6 +25,10 @@
     "prettier"
   ],
   "rules": {
+    "no-console":0,
+    "@typescript-eslint/no-explicit-any": "off",
+    "import/no-named-as-default": 0,
+    "@next/next/no-page-custom-font": "off",
     "jsx-a11y/label-has-associated-control": [
       "error",
       {

@@ -23,14 +23,12 @@ function Overview(): JSX.Element {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // const updateCompanyDetails = useCallback(async () => {
-  //   const getRC = async () => {
-  //     setLoading(true);
-  //     const response = await companyHRRequest.get(token);
-  //     if (response?.length > 0) setRows(response);
-  //     setLoading(false);
-  //   };
-  // }, [token]);
+  const updateCompanyDetails = useCallback(async () => {
+    setLoading(true);
+    const response = await companyHRRequest.get(token);
+    if (response?.length > 0) setRows(response);
+    setLoading(false);
+  }, [token]);
 
   useEffect(() => {
     const getRC = async () => {
@@ -80,7 +78,7 @@ function Overview(): JSX.Element {
     <div>
       <Meta title="Registered HRs" />
       <Stack>
-        <Grid container spacing={1} alignItems="center">
+        <Grid container spacing={1} alignItems="flex-start">
           <Grid item xs={6}>
             <h2>Registered HRs</h2>
           </Grid>
@@ -99,7 +97,10 @@ function Overview(): JSX.Element {
           getRowId={(row) => row.ID}
         />
         <Modal open={open} onClose={handleClose}>
-          <AddCompanyHR handleCloseNew={handleClose} />
+          <AddCompanyHR
+            handleCloseNew={handleClose}
+            updateHRDetails={updateCompanyDetails}
+          />
         </Modal>
       </Stack>
     </div>
