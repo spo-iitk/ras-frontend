@@ -187,6 +187,7 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
     setToken,
     router,
   ]);
+
   const photoLink = `https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${studentRoll}_0.jpg`;
   const dashbboard_items: fields[] = [
     {
@@ -532,5 +533,4 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
 
   return <Layouter items={dashbboard_items[Id]}>{children}</Layouter>;
 }
-
 export default LayoutWrapper;
