@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
 import { IconButton, Modal, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+// import { set } from "date-fns";
 
 import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
@@ -10,6 +11,8 @@ import Meta from "@components/Meta";
 import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
 import useStore from "@store/store";
 import AddCompanyMD from "@components/Modals/AddCompanyAdminMD";
+
+const batchSize = 100;
 
 const columns: GridColDef[] = [
   { field: "ID", headerName: "ID" },
@@ -66,14 +69,40 @@ function Index() {
   const { token } = useStore();
   const [rows, setRows] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const getCompanydata = async () => {
-      let response = await addCompanyRequest.getall(token);
-      setRows(response);
+  const startedFetching = useRef(false);
+
+  const getCompanyInBatch = useCallback(
+    async (pageSize: number, lastFetchId: number) => {
+      const res = await addCompanyRequest.getLimited(
+        token,
+        pageSize,
+        lastFetchId
+      );
+      setRows((prev) => [...prev, ...res]);
+      return res;
+    },
+    [token]
+  );
+
+  const getAllCompanies = useCallback(async () => {
+    let fetchedRecords = batchSize;
+    let lastFetchedId = 0;
+    while (fetchedRecords === batchSize) {
+      // eslint-disable-next-line no-await-in-loop
+      const res = await getCompanyInBatch(batchSize, lastFetchedId);
+      fetchedRecords = res.length;
+      lastFetchedId = res[res.length - 1].ID;
       setLoading(false);
-    };
-    getCompanydata();
-  }, [token]);
+    }
+  }, [getCompanyInBatch]);
+
+  useEffect(() => {
+    if (!startedFetching.current) {
+      getAllCompanies();
+    }
+    startedFetching.current = true;
+  }, [getAllCompanies, token]);
+
   const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
