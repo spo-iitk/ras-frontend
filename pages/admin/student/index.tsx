@@ -240,7 +240,7 @@ function Index() {
         // eslint-disable-next-line no-await-in-loop
         const res = await getStudentDataInBatch(batchSize, lastFetchedId, year);
         fetchedRecords = res.length;
-        lastFetchedId = res[res.length - 1].ID;
+        lastFetchedId = res[res.length - 1]?.ID;
         setLoading(false);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

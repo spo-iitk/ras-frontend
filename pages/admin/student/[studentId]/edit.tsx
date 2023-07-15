@@ -31,8 +31,8 @@ function Edit() {
   } = useForm<Student>({
     defaultValues: StudentData,
   });
-  const [dept, setDept] = useState<any>("");
-  const [deptSec, setDeptSec] = useState<any>("");
+  const [dept, setDept] = useState<string>("");
+  const [deptSec, setDeptSec] = useState<string>("");
 
   const { token } = useStore();
   const router = useRouter();
@@ -184,9 +184,10 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    value={StudentData?.department || ""}
                     {...register("department")}
                     onChange={(e) => {
-                      setDept(e.target.value);
+                      setDept(e.target.value as string);
                     }}
                   >
                     <MenuItem value="" />
@@ -204,6 +205,7 @@ function Edit() {
                     <Select
                       fullWidth
                       variant="standard"
+                      value={StudentData?.program || ""}
                       {...register("program")}
                     >
                       <MenuItem value="" />
@@ -243,9 +245,10 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    value={StudentData?.department_2 || ""}
                     {...register("department_2")}
                     onChange={(e) => {
-                      setDeptSec(e.target.value);
+                      setDeptSec(e.target.value as string);
                     }}
                   >
                     <MenuItem value="" />
@@ -263,6 +266,7 @@ function Edit() {
                     <Select
                       fullWidth
                       variant="standard"
+                      value={StudentData?.program_2 || ""}
                       {...register("program_2")}
                     >
                       <MenuItem value="" />
@@ -314,6 +318,7 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    value={StudentData?.preference || ""}
                     {...register("preference")}
                   >
                     <MenuItem value="" />
@@ -323,7 +328,12 @@ function Edit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
-                  <Select fullWidth variant="standard" {...register("gender")}>
+                  <Select
+                    fullWidth
+                    variant="standard"
+                    value={StudentData?.gender || ""}
+                    {...register("gender")}
+                  >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
@@ -441,6 +451,7 @@ function Edit() {
                       <TextField
                         {...params}
                         variant="standard"
+                        value={StudentData?.tenth_board || ""}
                         {...register("tenth_board")}
                       />
                     )}
@@ -488,6 +499,7 @@ function Edit() {
                   <Autocomplete
                     freeSolo
                     options={["CBSE", "ICSE"]}
+                    value={StudentData?.twelfth_board || "CBSE"}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -539,6 +551,8 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    defaultValue={StudentData?.entrance_exam as string}
+                    value={StudentData?.entrance_exam || ""}
                     {...register("entrance_exam")}
                   >
                     <MenuItem value="" />
@@ -572,6 +586,7 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    value={StudentData?.category || ""}
                     {...register("category")}
                   >
                     <MenuItem value="" />
@@ -658,6 +673,7 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    value={StudentData?.disability || "No"}
                     {...register("disability")}
                   >
                     <MenuItem value="Yes">Yes</MenuItem>

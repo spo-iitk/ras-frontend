@@ -218,17 +218,15 @@ function Details() {
   const { studentId } = router.query;
   const sId = (studentId || "").toString();
 
-  // const deleteStudentData = async () => {
-  //   await AdminStudentRequest.delete(token, parseInt(sId, 10));
-  // };
-
   const verify = async () => {
     await AdminStudentRequest.verify(token, sId, true);
+  };
+  const unVerify = async () => {
+    await AdminStudentRequest.verify(token, sId, false);
   };
 
   useEffect(() => {
     const fetch = async () => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const student = await AdminStudentRequest.get(
         token,
         parseInt(sId, 10)
@@ -279,16 +277,6 @@ function Details() {
             >
               Edit
             </Button>
-            {/* <Button
-              variant="contained"
-              sx={{ width: 150 }}
-              onClick={() => {
-                deleteStudentData();
-                router.push("/admin/student");
-              }}
-            >
-              Delete
-            </Button> */}
             <Button
               variant="contained"
               sx={{ width: 100 }}
@@ -298,6 +286,17 @@ function Details() {
               }}
             >
               Verify
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ width: 100 }}
+              onClick={() => {
+                unVerify();
+                router.push("/admin/student");
+              }}
+              color="error"
+            >
+              Unverify
             </Button>
           </Stack>
         </Stack>
