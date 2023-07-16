@@ -28,11 +28,20 @@ function Edit() {
     reset,
     formState: { errors },
     getValues,
+    watch,
   } = useForm<Student>({
     defaultValues: StudentData,
   });
-  const [dept, setDept] = useState<any>("");
-  const [deptSec, setDeptSec] = useState<any>("");
+  const watchPreference = watch("preference");
+  const watchGender = watch("gender");
+  const watchTenthBoard = watch("tenth_board");
+  const watchTwelfthBoard = watch("twelfth_board");
+  const watchEntranceExam = watch("entrance_exam");
+  const watchCategory = watch("category");
+  const watchDisability = watch("disability");
+
+  const [dept, setDept] = useState<string>("");
+  const [deptSec, setDeptSec] = useState<string>("");
 
   const { token } = useStore();
   const router = useRouter();
@@ -186,7 +195,7 @@ function Edit() {
                     variant="standard"
                     {...register("department")}
                     onChange={(e) => {
-                      setDept(e.target.value);
+                      setDept(e.target.value as string);
                     }}
                   >
                     <MenuItem value="" />
@@ -240,14 +249,7 @@ function Edit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Secondary Department</p>
-                  <Select
-                    fullWidth
-                    variant="standard"
-                    {...register("department_2")}
-                    onChange={(e) => {
-                      setDeptSec(e.target.value);
-                    }}
-                  >
+                  <Select fullWidth variant="standard">
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
                     {Branches.map((branch) => (
@@ -264,6 +266,9 @@ function Edit() {
                       fullWidth
                       variant="standard"
                       {...register("program_2")}
+                      onChange={(e) => {
+                        setDeptSec(e.target.value as string);
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -314,6 +319,7 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    value={watchPreference || ""}
                     {...register("preference")}
                   >
                     <MenuItem value="" />
@@ -323,7 +329,12 @@ function Edit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
-                  <Select fullWidth variant="standard" {...register("gender")}>
+                  <Select
+                    fullWidth
+                    variant="standard"
+                    value={watchGender || ""}
+                    {...register("gender")}
+                  >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
@@ -441,6 +452,7 @@ function Edit() {
                       <TextField
                         {...params}
                         variant="standard"
+                        value={watchTenthBoard || "CBSE"}
                         {...register("tenth_board")}
                       />
                     )}
@@ -488,6 +500,7 @@ function Edit() {
                   <Autocomplete
                     freeSolo
                     options={["CBSE", "ICSE"]}
+                    value={watchTwelfthBoard || "CBSE"}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -539,6 +552,8 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    defaultValue={StudentData?.entrance_exam as string}
+                    value={watchEntranceExam || ""}
                     {...register("entrance_exam")}
                   >
                     <MenuItem value="" />
@@ -572,6 +587,7 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    value={watchCategory || ""}
                     {...register("category")}
                   >
                     <MenuItem value="" />
@@ -658,6 +674,7 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    value={watchDisability || "No"}
                     {...register("disability")}
                   >
                     <MenuItem value="Yes">Yes</MenuItem>
