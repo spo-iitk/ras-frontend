@@ -69,12 +69,14 @@ function MasterLayout({
       setState({ ...state, [anchor]: open });
     };
 
-  const { token, setToken } = useStore();
+  const { token, role, setToken } = useStore();
   const router = useRouter();
 
   const [studentRoll, setStudentRoll] = useState("Student");
   useEffect(() => {
     const getStudent = async () => {
+      if (role !== 1) return;
+
       const response = await studentRequest.get(token);
       if (response.ID === -1) {
         router.push("/login");
