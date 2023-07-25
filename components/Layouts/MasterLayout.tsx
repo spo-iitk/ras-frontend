@@ -85,7 +85,7 @@ function MasterLayout({
       setStudentRoll(response.roll_no);
     };
     getStudent();
-  }, [router, setToken, token, studentRoll]);
+  }, [router, role, setToken, token, studentRoll]);
   const photoLink = `https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${studentRoll}_0.jpg`;
   const list = (anchor: Anchor) => (
     <Box
