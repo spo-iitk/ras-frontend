@@ -17,10 +17,12 @@ import ListItemText from "@mui/material/ListItemText";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
+import studentRequest from "@callbacks/student/student";
 import theme from "@components/theme/theme";
 import dashboardstyles from "@styles/Dashboard.module.css";
+import useStore from "@store/store";
 
 import { fields } from "./LayoutWrapper";
 
@@ -54,7 +56,6 @@ function MasterLayout({
   const [state, setState] = useState({
     left: false,
   });
-
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -65,10 +66,25 @@ function MasterLayout({
       ) {
         return;
       }
-
       setState({ ...state, [anchor]: open });
     };
 
+  const { token, setToken } = useStore();
+  const router = useRouter();
+
+  const [studentRoll, setStudentRoll] = useState("Student");
+  useEffect(() => {
+    const getStudent = async () => {
+      const response = await studentRequest.get(token);
+      if (response.ID === -1) {
+        router.push("/login");
+        setToken("");
+      }
+      setStudentRoll(response.roll_no);
+    };
+    getStudent();
+  }, [router, setToken, token, studentRoll]);
+  const photoLink = `https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${studentRoll}_0.jpg`;
   const list = (anchor: Anchor) => (
     <Box
       className={dashboardstyles.drawer}
@@ -95,7 +111,7 @@ function MasterLayout({
         <div style={{ height: 10 }} />
         {items?.isUser ? (
           <AccountStyle>
-            <Avatar src="" alt="photoURL" />
+            <Avatar src={photoLink} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <h3 style={{ margin: 5 }}>{items.userInfo.name}</h3>
               <h4 style={{ margin: 5, fontWeight: 400 }}>
@@ -250,7 +266,7 @@ function MasterLayout({
               <div style={{ height: 20 }} />
               {items?.isUser ? (
                 <AccountStyle>
-                  <Avatar src="" alt="photoURL" />
+                  {items.userInfo.avatar}
                   <Box sx={{ ml: 2 }}>
                     <h3 style={{ margin: 5 }}>{items.userInfo.name}</h3>
                     <h4 style={{ margin: 5, fontWeight: 400 }}>
