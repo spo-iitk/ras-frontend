@@ -89,6 +89,22 @@ const AdminStudentRequest = {
         errorNotification("Could Not Fetch Data", err.response?.data?.error);
         return { ID: 0 } as Student;
       }),
+  getLimited: (
+    token: string,
+    pageSize: number,
+    lastFetchedId: number,
+    batch: number
+  ) =>
+    instance
+      .get<Student[]>(
+        `/limited?pageSize=${pageSize}&lastFetchedId=${lastFetchedId}&batch=${batch}`,
+        setConfig(token)
+      )
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Could Not Fetch Data", err.response?.data?.error);
+        return [] as Student[];
+      }),
   update: (token: string, body: Student) =>
     instance
       .put<StatusResponse, AxiosResponse<StatusResponse, Student>, Student>(

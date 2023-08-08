@@ -11,6 +11,7 @@ import eventRequest, { Event } from "@callbacks/admin/rc/overview";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
+import calendarLinks from "@components/Utils/calendarUtils";
 
 const columns: GridColDef[] = [
   {
@@ -92,16 +93,8 @@ function Calendar() {
   const { token, rcName } = useStore();
 
   const handleClick = () => {
-    if (rid === "1") {
-      window.open(
-        "https://calendar.google.com/calendar/u/1?cid=MXJpdDljbmgwMWc1cGUxZGhlMmgzYWJjMzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
-        "_blank"
-      );
-    } else if (rid === "2") {
-      window.open(
-        "https://calendar.google.com/calendar/u/1?cid=YjgwdnJrMTlpYnM3ZWxlbmsybmhybHFxazRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",
-        "_blank"
-      );
+    if (calendarLinks.has(rid) !== undefined) {
+      window.open(calendarLinks.get(rid) as string, "_blank");
     } else {
       console.log("error");
     }

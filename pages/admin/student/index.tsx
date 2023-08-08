@@ -10,6 +10,8 @@ import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import { getDeptProgram } from "@components/Parser/parser";
 
+const batchSize = 100;
+
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -213,20 +215,77 @@ function Index() {
   const [rows, setRows] = useState<Student[]>([]);
   const { token } = useStore();
   const [loading, setLoading] = useState(true);
+  const [batch, setBatch] = useState<number>(
+    (new Date().getFullYear() % 100) - 2
+  );
+  const startedFetching = useRef(false);
+
+  const getStudentDataInBatch = useCallback(
+    async (pageSize: number, lastFetchedId: number, year: number) => {
+      const students = await AdminStudentRequest.getLimited(
+        token,
+        pageSize,
+        lastFetchedId,
+        year
+      );
+      setRows((prev) => [...prev, ...students]);
+      return students;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [token]
+  );
+
+  const getAllStudents = useCallback(
+    async (year: number) => {
+      let fetchedRecords = batchSize;
+      let lastFetchedId = 0;
+      while (fetchedRecords === batchSize) {
+        // eslint-disable-next-line no-await-in-loop
+        const res = await getStudentDataInBatch(batchSize, lastFetchedId, year);
+        fetchedRecords = res.length;
+        lastFetchedId = res[res.length - 1]?.ID;
+        setLoading(false);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [getStudentDataInBatch]
+  );
 
   useEffect(() => {
-    const fetch = async () => {
-      const students = await AdminStudentRequest.getAll(token).catch(() => []);
-      setRows(students);
-      setLoading(false);
-    };
-    fetch();
-  }, [token]);
+    if (!startedFetching.current) {
+      getAllStudents(Number(batch));
+    }
+    startedFetching.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getAllStudents, token]);
+
+  const handleChangeBatch = (e: SelectChangeEvent<number>) => {
+    setBatch(Number(e.target.value));
+    setRows([]);
+    getAllStudents(Number(e.target.value));
+  };
 
   return (
     <div>
       <Meta title="Master Student Database - Admin" />
       <h2>Master Database (Student)</h2>
+      <Stack direction="column" padding={1} alignItems="flex-start">
+        <Typography>Select Batch</Typography>
+        <Select
+          labelId="select-batch"
+          id="select-batch"
+          value={batch}
+          label="Batch"
+          onChange={handleChangeBatch}
+        >
+          {Array.from(
+            { length: (new Date().getFullYear() % 100) - 13 },
+            (_, n) => n + 12
+          ).map((year) => (
+            <MenuItem value={year}>Y{year}</MenuItem>
+          ))}
+        </Select>
+      </Stack>
       <DataGrid
         rows={rows}
         columns={columns}
