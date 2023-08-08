@@ -12,7 +12,11 @@
       "jsx": true
     }
   },
-  "plugins": ["@typescript-eslint", "react", "prettier"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "prettier"
+  ],
   "extends": [
     "airbnb",
     "airbnb/hooks",
@@ -25,13 +29,14 @@
     "prettier"
   ],
   "rules": {
-    "no-console": "off",
-    "import/no-named-as-default": 0,
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
         "required": {
-          "some": ["nesting", "id"]
+          "some": [
+            "nesting",
+            "id"
+          ]
         }
       }
     ],
@@ -39,34 +44,59 @@
       "error",
       {
         "required": {
-          "some": ["nesting", "id"]
+          "some": [
+            "nesting",
+            "id"
+          ]
         }
       }
     ],
-    "no-unused-vars": [2, { "vars": "all", "args": "after-used" }],
-    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "no-unused-vars": [
+      2,
+      {
+        "vars": "all",
+        "args": "after-used"
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
     "import/extensions": "off",
     "react/prop-types": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "react/jsx-key": "off",
-    "react/jsx-props-no-spreading": ["error", { "custom": "ignore" }],
-    "prettier/prettier": [
+    "react/jsx-props-no-spreading": [
       "error",
       {
-        "endOfLine": "auto"
+        "custom": "ignore"
       }
     ],
+    "prettier/prettier": "error",
     "react/no-unescaped-entities": "off",
-    "import/no-cycle": [0, { "ignoreExternal": true }],
+    "import/no-cycle": [
+      0,
+      {
+        "ignoreExternal": true
+      }
+    ],
     "prefer-const": "off",
     "camelcase": "off",
     // needed because of https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-use-before-define.md#how-to-use & https://stackoverflow.com/questions/63818415/react-was-used-before-it-was-defined
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": [
       "error",
-      { "functions": false, "classes": false, "variables": true }
+      {
+        "functions": false,
+        "classes": false,
+        "variables": true
+      }
     ],
-    "@typescript-eslint/no-explicit-any": "off",
     "import/order": [
       "error",
       {
@@ -74,13 +104,23 @@
           "external",
           "builtin",
           "internal",
-          ["parent", "sibling", "index"]
+          [
+            "parent",
+            "sibling",
+            "index"
+          ]
         ],
         "newlines-between": "always"
       }
     ],
     "eol-last": 1,
-    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxEOF": 0
+      }
+    ],
     "import/default": "off",
     "sort-imports": [
       "error",
@@ -88,7 +128,12 @@
         "ignoreCase": false,
         "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
+        "memberSyntaxSortOrder": [
+          "none",
+          "all",
+          "single",
+          "multiple"
+        ]
       }
     ]
   },
@@ -98,11 +143,23 @@
         "project": "."
       },
       "babel-module": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       },
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"],
-        "paths": ["src"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "paths": [
+          "src"
+        ]
       }
     }
   }
