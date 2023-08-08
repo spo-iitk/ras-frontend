@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { IconButton, Modal, Stack } from "@mui/material";
+import { IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -178,12 +178,16 @@ function Index() {
         >
           <h2>Notices</h2>
           <Stack direction="row" spacing={3}>
-            <IconButton onClick={handleOpenNew}>
-              <AddIcon />
-            </IconButton>
-            <IconButton onClick={handleOpenEdit}>
-              <EditIcon />
-            </IconButton>
+            <Tooltip title="Add Notice">
+              <IconButton onClick={handleOpenNew}>
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Edit Notice">
+              <IconButton onClick={handleOpenEdit}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </Stack>
 

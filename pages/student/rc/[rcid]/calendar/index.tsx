@@ -13,6 +13,7 @@ import Meta from "@components/Meta";
 import useStore from "@store/store";
 import eventsRequest from "@callbacks/student/rc/events";
 import calendarLinks from "@components/Utils/calendarUtils";
+import { errorNotification } from "@callbacks/notifcation";
 
 const columns: GridColDef[] = [
   {
@@ -92,7 +93,7 @@ function Calendar() {
     if (calendarLinks.has(rid) !== undefined) {
       window.open(calendarLinks.get(rid) as string, "_blank");
     } else {
-      console.log("error");
+      errorNotification("Error", "Calendar link not found");
     }
   };
 

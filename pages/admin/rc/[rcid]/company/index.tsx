@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, IconButton, Modal, Stack } from "@mui/material";
+import { Button, Grid, IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
@@ -159,12 +159,16 @@ function Index() {
           {showButton && (
             <Grid item xs={6} style={gridMain}>
               <Stack direction="row">
-                <IconButton onClick={handleOpenEdit}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton onClick={handleOpenNew}>
-                  <AddIcon />
-                </IconButton>
+                <Tooltip title="Edit Company">
+                  <IconButton onClick={handleOpenEdit}>
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Add Company">
+                  <IconButton onClick={handleOpenNew}>
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
               </Stack>
             </Grid>
           )}

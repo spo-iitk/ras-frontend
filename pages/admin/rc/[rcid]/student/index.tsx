@@ -2,11 +2,11 @@ import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, IconButton, Modal, Stack } from "@mui/material";
+import { Button, IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import EditIcon from "@mui/icons-material/Edit";
+import { AcUnit } from "@mui/icons-material";
 
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
@@ -227,18 +227,26 @@ function Index() {
         <h2>Students</h2>
         {showButtons && (
           <div>
-            <IconButton onClick={handleOpenNew}>
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={handleOpenUnFreeze}>
-              <HowToRegIcon />
-            </IconButton>
-            <IconButton onClick={handleOpenFreeze}>
-              <RemoveCircleOutlineIcon />
-            </IconButton>
-            <IconButton onClick={handleOpenEnroll}>
-              <AddIcon />
-            </IconButton>
+            <Tooltip title="Edit Student Data">
+              <IconButton onClick={handleOpenNew}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="UnFreeze Students">
+              <IconButton onClick={handleOpenUnFreeze}>
+                <HowToRegIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Freeze Students">
+              <IconButton onClick={handleOpenFreeze}>
+                <AcUnit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Enroll Students">
+              <IconButton onClick={handleOpenEnroll}>
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
           </div>
         )}
       </Stack>
