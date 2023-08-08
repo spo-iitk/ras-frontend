@@ -52,10 +52,10 @@ function MatrixExpanded({ data }: { data: string }) {
                   ] === -1 ? (
                     <RemoveIcon />
                   ) : data[
-                    func[branch as keyof typeof func][
-                    program as keyof programType
-                    ]
-                  ] === "1" ? (
+                      func[branch as keyof typeof func][
+                        program as keyof programType
+                      ]
+                    ] === "1" ? (
                     <CheckIcon sx={{ color: "green" }} />
                   ) : (
                     <CloseIcon sx={{ color: "red" }} />
