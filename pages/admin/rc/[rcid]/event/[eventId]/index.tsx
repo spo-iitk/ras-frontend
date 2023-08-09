@@ -24,6 +24,7 @@ import eventRequest, { EventDetails } from "@callbacks/admin/rc/proforma/event";
 import EnrollToEvent from "@components/Modals/EnrollToEvent";
 import { Student } from "@callbacks/admin/rc/student/getStudents";
 import { getDeptProgram } from "@components/Parser/parser";
+import requestProforma from "@callbacks/admin/rc/adminproforma";
 
 const cols: GridColDef[] = [
   {
@@ -109,6 +110,7 @@ const cols: GridColDef[] = [
 ];
 
 function Event() {
+  const [companyName, setCompanyName] = useState<string>("");
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [endTime, setEndTime] = useState<Date | null>(new Date());
   const [pid, setProformaID] = useState<number>(0);
@@ -136,6 +138,8 @@ function Event() {
         pid.toString(),
         eid
       );
+      const company = await requestProforma.get(token, rid, pid.toString());
+      setCompanyName(company.company_name);
       setStudents(all_students);
       setProformaID(res.proforma_id);
       setStartTime(new Date(res.start_time));
@@ -157,6 +161,7 @@ function Event() {
           width: { xs: "330px", md: "500px", margin: "0px auto" },
         }}
       >
+        <h2>{companyName}</h2>
         <Stack spacing={3}>
           <Stack direction="row">
             <h2>View Event Details</h2>

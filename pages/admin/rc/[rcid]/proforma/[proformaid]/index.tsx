@@ -263,7 +263,7 @@ const fixed_columns: GridColDef[] = [
 
 function Index() {
   const { register, handleSubmit, reset } = useForm<ProformaEmailRequest>();
-
+  const [companyName, setCompanyName] = useState("");
   const [openEmailSender, setOpenEmailSender] = useState(false);
   const [proformaEvents, setProformaEvents] = useState<Event[]>([]);
   const [openResumeModal, setResumeModal] = useState(false);
@@ -337,6 +337,8 @@ function Index() {
         });
       }
       setColumns(fixed_columns);
+      const company = await requestProforma.get(token, rid, pid);
+      setCompanyName(company.company_name);
       const response = await StudentRequest.get(token, rid, pid);
       if (response) setRows(response);
     };
@@ -346,7 +348,7 @@ function Index() {
       fetch();
       fetchProformaEvents();
     }
-  }, [token, router.isReady, rid, pid, setLoading]);
+  }, [token, router.isReady, setCompanyName, rid, pid, setLoading]);
 
   const sendEmail = async (data: ProformaEmailRequest) => {
     const response = await requestProforma.email(token, rid, pid, data);
@@ -386,6 +388,7 @@ function Index() {
   return (
     <div>
       <Meta title={`${pid} - Proforma`} />
+      <h2>{companyName}</h2>
       <Stack
         spacing={2}
         justifyContent="center"
