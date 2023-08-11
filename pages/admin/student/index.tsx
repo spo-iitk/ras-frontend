@@ -202,7 +202,7 @@ const columns: GridColDef[] = [
     headerName: "View Details",
     renderCell: (params) => (
       <Button href={`student/${params.row.ID}`} variant="contained" fullWidth>
-        Click
+        View Details
       </Button>
     ),
   },
@@ -277,7 +277,7 @@ function Index() {
         >
           {Array.from(
             { length: (new Date().getFullYear() % 100) - 13 },
-            (_, n) => n + 12
+            (_, n) => n + 14
           ).map((year) => (
             <MenuItem value={year}>Y{year}</MenuItem>
           ))}
