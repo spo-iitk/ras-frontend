@@ -94,7 +94,7 @@ function Calendar() {
   const { token, rcName } = useStore();
 
   const handleClick = () => {
-    if (calendarLinks.has(rid) !== undefined) {
+    if (calendarLinks.get(rid) !== undefined) {
       window.open(calendarLinks.get(rid) as string, "_blank");
     } else {
       errorNotification("Error", "Calendar link not found");
