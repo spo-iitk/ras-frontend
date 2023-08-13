@@ -20,6 +20,7 @@ import EditCompanyMD from "@components/Modals/EditCompanyAdminMD";
 import useStore from "@store/store";
 import CompanyHistory from "sections/CompanyHistory";
 import HRContactDetails from "sections/HRContactDetails";
+import InactiveHRContactDetails from "sections/InactiveHRs";
 import PastHires from "sections/PastHires";
 import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
@@ -198,6 +199,7 @@ function Index() {
             <Tab label="HR Contact" />
             <Tab label="Past Hires" />
             <Tab label="Company History" />
+            <Tab label="Inactive HRs" />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -208,6 +210,9 @@ function Index() {
         </TabPanel>
         <TabPanel value={value} index={2}>
           <CompanyHistory />
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+        <InactiveHRContactDetails />
         </TabPanel>
       </Box>
     </div>

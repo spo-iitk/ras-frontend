@@ -158,6 +158,17 @@ const addCompanyRequest = {
         return false;
       });
   },
+  getAllInactiveHR: (token: string, company_id: string) =>
+    adminCompanyInstance
+      .get<HR[]>(`/${company_id}/inactive-hrs`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching HR Data",
+          err.response?.data?.error || err.message
+        );
+        return [] as HR[];
+      }),
 };
 
 export default addCompanyRequest;
