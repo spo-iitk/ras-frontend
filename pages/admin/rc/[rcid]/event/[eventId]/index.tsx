@@ -6,6 +6,7 @@ import {
   Modal,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -175,6 +176,14 @@ function Event() {
   const { rcid, eventId } = router.query;
   const rid = rcid as string;
   const eid = eventId as string;
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
   const { register, reset } = useForm<EventDetails>();
   const handleOpenNew = () => {
     setOpenNew(true);
@@ -204,6 +213,13 @@ function Event() {
     }
     if (role !== 103) setShowButtons(true);
   }, [rid, eid, token, router.isReady, reset, pid, role]);
+  useEffect(() => {
+    if (confirmation) {
+      if (rid === undefined || rid === "") return;
+      eventRequest.deleteAll(token, rid, eid);
+      window.location.reload();
+    }
+  }, [confirmation, eid, rid, token]);
   return (
     <div>
       <Meta title={`Event Details - ${rcName}`} />
@@ -324,10 +340,29 @@ function Event() {
       <Stack direction="row">
         <h2>Registered Students</h2>
         {showButtons && (
-          <IconButton onClick={handleOpenNew}>
-            <AddIcon />
-          </IconButton>
+          <>
+            <Tooltip title="Enroll">
+              <IconButton onClick={handleOpenNew}>
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete All">
+              <IconButton
+                onClick={() => {
+                  handleOpenDeleteModal();
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </>
         )}
+        <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+          <DeleteConfirmation
+            handleClose={handleCloseDeleteModal}
+            setConfirmation={setConfirmation}
+          />
+        </Modal>
       </Stack>
       <DataGrid columns={cols} getRowId={(row) => row.ID} rows={students} />
       <Modal open={openNew} onClose={handleCloseNew}>
