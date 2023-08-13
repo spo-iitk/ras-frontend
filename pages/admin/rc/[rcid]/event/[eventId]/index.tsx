@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -17,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { GridColDef } from "@mui/x-data-grid";
 
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
 import Meta from "@components/Meta";
@@ -26,6 +28,48 @@ import { Student } from "@callbacks/admin/rc/student/getStudents";
 import { getDeptProgram } from "@components/Parser/parser";
 import requestProforma from "@callbacks/admin/rc/adminproforma";
 
+function HandleEvent(props: { sid: string }) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
+  const { sid } = props;
+  const { eventId } = router.query;
+  const eid = eventId as string;
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+
+  useEffect(() => {
+    if (confirmation) {
+      if (rid === undefined || rid === "") return;
+      eventRequest.delete(token, rid, eid, sid);
+      window.location.reload();
+    }
+  }, [confirmation, eid, rid, sid, token]);
+  return (
+    <Stack spacing={3} direction="row">
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </Stack>
+  );
+}
 const cols: GridColDef[] = [
   {
     field: "CreatedAt",
@@ -106,6 +150,15 @@ const cols: GridColDef[] = [
     headerName: "Recruitment Cycle Id",
     width: 150,
     hide: true,
+  },
+  {
+    field: "button1",
+    headerName: "Delete",
+    renderCell: (params) => <HandleEvent sid={params.row.ID} />,
+    width: 100,
+    align: "left",
+    sortable: false,
+    filterable: false,
   },
 ];
 
@@ -269,7 +322,7 @@ function Event() {
         </Stack>
       </Card>
       <Stack direction="row">
-        <p style={{ fontWeight: 300 }}>Registered Students</p>
+        <h2>Registered Students</h2>
         {showButtons && (
           <IconButton onClick={handleOpenNew}>
             <AddIcon />
