@@ -212,7 +212,7 @@ function Index() {
           <CompanyHistory />
         </TabPanel>
         <TabPanel value={value} index={3}>
-        <InactiveHRContactDetails />
+          <InactiveHRContactDetails />
         </TabPanel>
       </Box>
     </div>
