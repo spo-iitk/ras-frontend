@@ -32,19 +32,7 @@ function Index() {
     registered_student: 0,
     registered_company: 0,
   });
-  const [notices, setNotice] = useState<NoticeParams[]>([
-    {
-      ID: 0,
-      recruitment_cycle_id: 0,
-      title: "I",
-      description: "",
-      tags: "",
-      attachment: "",
-      created_by: "",
-      CreatedAt: "",
-      last_reminder_at: 0,
-    },
-  ]);
+  const [notices, setNotice] = useState<NoticeParams[]>([]);
   const [appdata, setApp] = useState<APPCount>({
     roles: 0,
     recruited: 0,
