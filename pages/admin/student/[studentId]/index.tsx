@@ -225,6 +225,10 @@ function Details() {
     await AdminStudentRequest.verify(token, sId, false);
   };
 
+  const makeEditable = async () => {
+    await AdminStudentRequest.makeEditable(token, sId);
+  };
+
   useEffect(() => {
     const fetch = async () => {
       const student = await AdminStudentRequest.get(
@@ -297,6 +301,17 @@ function Details() {
               color="error"
             >
               Unverify
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ width: 100 }}
+              onClick={() => {
+                makeEditable();
+                router.push("/admin/student");
+              }}
+              color="error"
+            >
+              Make Editable
             </Button>
           </Stack>
         </Stack>
