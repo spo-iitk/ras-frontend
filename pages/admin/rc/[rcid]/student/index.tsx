@@ -7,7 +7,6 @@ import AddIcon from "@mui/icons-material/Add";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import EditIcon from "@mui/icons-material/Edit";
 import SyncIcon from "@mui/icons-material/Sync";
-import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
 import { AcUnit } from "@mui/icons-material";
 
 import DataGrid from "@components/DataGrid";
@@ -22,7 +21,6 @@ import Freeze from "@components/Modals/Freeze";
 import Unfreeze from "@components/Modals/Unfreeze";
 import { getDeptProgram } from "@components/Parser/parser";
 import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
-import Deregister from "@components/Modals/DeregisterStudentsConfirmation";
 
 function DeleteStudents(props: { id: string }) {
   const { token } = useStore();
@@ -158,13 +156,13 @@ function Index() {
     setOpenEnroll(false);
   };
 
-  const [openDeregister, setOpenDeregister] = useState(false);
-  const handleOpenDeregister = () => {
-    setOpenDeregister(true);
-  };
-  const handleCloseDeregister = () => {
-    setOpenDeregister(false);
-  };
+  // const [openDeregister, setOpenDeregister] = useState(false);
+  // const handleOpenDeregister = () => {
+  //   setOpenDeregister(true);
+  // };
+  // const handleCloseDeregister = () => {
+  //   setOpenDeregister(false);
+  // };
 
   const fetchAllStudents = useCallback(async () => {
     if (rid === undefined || rid === "") return;
@@ -250,7 +248,8 @@ function Index() {
         <h2>Students</h2>
         {showButtons && (
           <div>
-            <Tooltip title="Deregister All Students">
+            {/* Feature Not In Use */}
+            {/* <Tooltip title="Deregister All Students">
               {role === 100 || role === 101 ? (
                 <IconButton onClick={handleOpenDeregister}>
                   <GroupRemoveIcon />
@@ -258,7 +257,7 @@ function Index() {
               ) : (
                 <div />
               )}
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip title="Edit Student Data">
               {role === 100 ? (
                 <IconButton onClick={handleOpenNew}>
@@ -299,9 +298,9 @@ function Index() {
           rcid={rid}
         />
       </Modal>
-      <Modal open={openDeregister} onClose={handleCloseDeregister}>
+      {/* <Modal open={openDeregister} onClose={handleCloseDeregister}>
         <Deregister handleClose={handleCloseDeregister} rid={rid} />
-      </Modal>
+      </Modal> */}
       <Modal open={openEnroll} onClose={handleCloseEnroll}>
         <Enroll handleClose={handleCloseEnroll} />
       </Modal>

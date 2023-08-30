@@ -302,17 +302,23 @@ function Details() {
             >
               Unverify
             </Button>
-            <Button
-              variant="contained"
-              sx={{ width: 100 }}
-              onClick={() => {
-                makeEditable();
-                router.push("/admin/student");
-              }}
-              color="error"
-            >
-              Make Editable
-            </Button>
+            {StudentData.is_editable ? (
+              <Button variant="contained" sx={{ width: 100 }} color="error">
+                Student can edit details
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{ width: 100 }}
+                onClick={() => {
+                  makeEditable();
+                  router.push("/admin/student");
+                }}
+                color="error"
+              >
+                Give Edit Access
+              </Button>
+            )}
           </Stack>
         </Stack>
         <Stack justifyContent="center">
