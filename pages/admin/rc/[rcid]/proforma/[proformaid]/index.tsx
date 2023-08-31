@@ -306,7 +306,6 @@ function Index() {
 
   const onClickHideDetails = () => hideDetails(true);
   const onClickShowDetails = () => hideDetails(false);
-  
   useEffect(() => {
     const fetchProformaEvents = async () => {
       const response = await eventRequest.getAll(token, rid, pid);
