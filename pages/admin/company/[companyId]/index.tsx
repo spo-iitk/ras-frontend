@@ -204,7 +204,7 @@ function Index() {
           <HRContactDetails />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {/* <PastHires data={}/> */}
+          <PastHires />
         </TabPanel>
         <TabPanel value={value} index={2}>
           <CompanyHistory />
