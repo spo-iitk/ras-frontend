@@ -117,7 +117,7 @@ function ProfileEdit() {
           change.
         </h4>
         <h4 style={{ fontWeight: 500 }}>
-          Already registered studenst registering for the new placement season
+          Already verified students registering for the new placement season
           can edit some of the allowed fields below
         </h4>
         <form style={{ marginBottom: 10 }}>
