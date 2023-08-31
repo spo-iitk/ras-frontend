@@ -223,6 +223,7 @@ function Profile() {
       setStudentData(student);
     };
     fetch();
+    console.log(StudentData);
   }, [token]);
   const photoLink = `https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${StudentData.roll_no}_0.jpg`;
   const handleValue = (val: string) => {

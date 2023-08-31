@@ -16,7 +16,8 @@ import Meta from "@components/Meta";
 import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
 import { Branches, func, programType } from "@components/Utils/matrixUtils";
-import { getId } from "@components/Parser/parser";
+import { getDepartment, getId,getProgram } from "@components/Parser/parser";
+import { ST } from "next/dist/shared/lib/utils";
 
 function ProfileEdit() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
@@ -31,22 +32,76 @@ function ProfileEdit() {
   });
   const [dept, setDept] = useState<any>("");
   const [deptSec, setDeptSec] = useState<any>("");
+  const [progm, setProgram]=useState<any>("");
+  const [progmSec, setProgramSec] = useState<any>("");
+  const [preference, setPreference] = useState<any>("");
+  const [specialization, setSpecialization] = useState<any>("");
+  const [gender,setGender]=useState<any>("");
+  const [verified,setVerified] = useState<any>(false);
+
+  const [details,setDetails] = useState({
+    preference:"",
+    specialization:"",
+    gender:"",
+    disability: "",
+    dob:"",
+    expected_graduation_year:"",
+    tenth_board:"",
+    tenth_year:"",
+    tenth_marks:"",
+    twelfth_board:"",
+    twelfth_year:"",
+    twelfth_marks:"",
+    entrance_exam:"",
+    entrance_exam_rank:"",
+    category:"",
+    category_rank:"",
+    personal_email:"",
+    current_address:"",
+    permanent_address:"",
+    friend_name:"",
+    friend_phone:"",
+    current_cpi: "",
+    ug_cpi: "",
+
+
+  })
+  const handleChanges=(e)=>{
+    const {name ,value} = e.target
+    setDetails((prev)=>{
+      return {...prev,[name]:value}
+    })
+    ;
+    console.log(details)
+  }
+
 
   const { token } = useStore();
   const router = useRouter();
-  useEffect(() => {
-    const fetch = async () => {
-      const student = await studentRequest
-        .get(token)
-        .catch(() => ({ ID: 0 } as Student));
+  const fetch = async () => {
+    const student = await studentRequest
+      .get(token)
+      .catch(() => ({ ID: 0 } as Student));
 
-      setStudentData(student);
-      reset({
-        name: student.name,
-        iitk_email: student.iitk_email,
-        roll_no: student.roll_no,
-      });
-    };
+    setStudentData(student);
+    setDetails(student);
+    console.log(student);
+    setDept(getDepartment(student.program_department_id));
+    setDeptSec(getDepartment(student.secondary_program_department_id));
+    setProgram(getProgram(student.program_department_id));
+    console.log(getProgram(student.program_department_id))
+    setProgramSec(getProgram(student.secondary_program_department_id));
+    setSpecialization(student.specialization);
+    setPreference(String(student.preference));
+    setGender(String(student.gender));
+    setVerified(student.is_verified);
+    reset({
+      name: student.name,
+      iitk_email: student.iitk_email,
+      roll_no: student.roll_no,
+    });
+  };
+  useEffect(() => {
     fetch();
   }, [token, reset]);
 
@@ -163,10 +218,14 @@ function ProfileEdit() {
                 <Grid item xs={12} sm={6}>
                   <p>Expected Year of Graduation</p>
                   <TextField
+                  value={details.expected_graduation_year}
+                  name="expected_graduation_year"
                     fullWidth
                     type="number"
                     id="standard-basic"
                     variant="standard"
+                    // readOnly={verified}
+                    // disabled={verified}
                     error={!!errors.expected_graduation_year}
                     helperText={
                       errors.expected_graduation_year
@@ -181,13 +240,17 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Department</p>
                   <Select
+                  value={dept}
                     fullWidth
                     variant="standard"
+                    readOnly={verified}
+
                     {...register("department")}
                     onChange={(e) => {
                       setDept(e.target.value);
@@ -206,9 +269,17 @@ function ProfileEdit() {
                   <p>Program</p>
                   {dept !== "" ? (
                     <Select
+                    value={progm}
                       fullWidth
                       variant="standard"
+                    // disabled={verified}
+                    readOnly={verified}
+
+
                       {...register("program")}
+                      onChange={(e) => {
+                        setProgram(e.target.value);
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -234,8 +305,16 @@ function ProfileEdit() {
                   ) : (
                     <Select
                       fullWidth
+                      value={progm}
                       variant="standard"
+                    // disabled={verified}
+                    readOnly={verified}
+
+
                       {...register("program")}
+                      onChange={(e) => {
+                        setProgram(e.target.value);
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -246,6 +325,11 @@ function ProfileEdit() {
                   <p>Secondary Department</p>
                   <Select
                     fullWidth
+                    value={deptSec}
+                    // disabled={verified}
+                    readOnly={verified}
+
+
                     variant="standard"
                     {...register("department_2")}
                     onChange={(e) => {
@@ -265,9 +349,17 @@ function ProfileEdit() {
                   <p>Secondary Program</p>
                   {deptSec !== "" ? (
                     <Select
+                    value={progmSec}
                       fullWidth
                       variant="standard"
+                    // disabled={verified}
+                    readOnly={verified}
+
+
                       {...register("program_2")}
+                      onChange={(e) => {
+                        setProgramSec(e.target.value);
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -293,8 +385,16 @@ function ProfileEdit() {
                   ) : (
                     <Select
                       fullWidth
+                      value={progmSec}
+                    // disabled={verified}
+                    readOnly={verified}
+
+
                       variant="standard"
                       {...register("program_2")}
+                      onChange={(e) => {
+                        setProgramSec(e.target.value);
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -306,10 +406,15 @@ function ProfileEdit() {
                   <p>Specialization</p>
                   <TextField
                     fullWidth
+                    value={details.specialization}
+                    // disabled={verified}
+
+                    name='specialization'
                     type="text"
                     id="standard-basic"
                     variant="standard"
                     {...register("specialization")}
+                    onChange={handleChanges}
                   />
                 </Grid>
 
@@ -317,8 +422,15 @@ function ProfileEdit() {
                   <p>Preference</p>
                   <Select
                     fullWidth
+                    value={preference}
+                    // disabled={verified}
+
+                    name="preference"
                     variant="standard"
                     {...register("preference")}
+                    onChange={(e) => {
+                      setPreference(e.target.value);
+                    }}
                   >
                     <MenuItem value="" />
                     <MenuItem value="Academic">Academic</MenuItem>
@@ -327,10 +439,10 @@ function ProfileEdit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
-                  <Select fullWidth variant="standard" {...register("gender")}>
+                  <Select fullWidth value={gender} name='gender' disabled={verified} variant="standard" {...register("gender")} onChange={(e)=>setGender(e.target.value)}>
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
-                    <MenuItem value="Male">Male</MenuItem>
+                    <MenuItem value="Male">Male</MenuItem>  
                     <MenuItem value="Female">Female</MenuItem>
                   </Select>
                 </Grid>
@@ -338,10 +450,14 @@ function ProfileEdit() {
                   <p>Personal Email</p>
                   <TextField
                     fullWidth
+                    value={details.personal_email}
+                    name="personal_email"
+                    // disabled={verified}
                     type="text"
                     id="standard-basic"
                     variant="standard"
                     {...register("personal_email")}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -349,6 +465,9 @@ function ProfileEdit() {
                   <TextField
                     fullWidth
                     type="date"
+                    name="dob"
+                    disabled={verified}
+                    value={details.dob}
                     id="standard-basic"
                     variant="standard"
                     {...register("dob", {
@@ -358,6 +477,7 @@ function ProfileEdit() {
                         return epoch;
                       },
                     })}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -366,12 +486,17 @@ function ProfileEdit() {
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    name="phone"
+                    value={details.phone}
+                    // disabled={verified}
                     variant="standard"
                     error={!!errors.phone}
                     helperText={
                       errors.phone ? "Contact No. must contain 10 digits!" : ""
                     }
                     {...register("phone", { minLength: 10, maxLength: 10 })}
+                    onChange={handleChanges}
+
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -381,6 +506,9 @@ function ProfileEdit() {
                     type="text"
                     id="standard-basic"
                     variant="standard"
+                    name="alternate_phone"
+                    // disabled={verified}
+                    value={details.alternate_phone}
                     error={!!errors.alternate_phone}
                     helperText={
                       errors.phone
@@ -391,6 +519,8 @@ function ProfileEdit() {
                       minLength: 10,
                       maxLength: 10,
                     })}
+                    onChange={handleChanges}
+
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -399,6 +529,9 @@ function ProfileEdit() {
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    name="whatsapp_number"
+                    // disabled={verified}
+                    value={details.whatsapp_number}
                     variant="standard"
                     error={!!errors.whatsapp_number}
                     helperText={
@@ -410,6 +543,7 @@ function ProfileEdit() {
                       minLength: 10,
                       maxLength: 10,
                     })}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -418,10 +552,14 @@ function ProfileEdit() {
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    name="current_cpi"
+                    disabled={verified}
+                    value={details.current_cpi}
                     variant="standard"
                     {...register("current_cpi", {
                       setValueAs: (value) => parseFloat(value),
                     })}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -429,20 +567,30 @@ function ProfileEdit() {
                   <TextField
                     fullWidth
                     type="text"
+                    name="ug_cpi"
+                    disabled={verified}
+                    value={details.ug_cpi}
                     id="standard-basic"
                     variant="standard"
                     {...register("ug_cpi", {
                       setValueAs: (value) => parseFloat(value),
                     })}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>10th Board</p>
                   <Autocomplete
                     freeSolo
+                    name="tenth_board"
+                    value={details.tenth_board}
+                    disabled={verified}
                     options={["CBSE", "ICSE"]}
+                    onChange={handleChanges}
+
                     renderInput={(params) => (
                       <TextField
+                      
                         {...params}
                         variant="standard"
                         {...register("tenth_board")}
@@ -456,6 +604,9 @@ function ProfileEdit() {
                     fullWidth
                     type="number"
                     id="standard-basic"
+                    name="tenth_year"
+                    disabled={verified}
+                    value={details.tenth_year}
                     variant="standard"
                     error={!!errors.tenth_year}
                     helperText={
@@ -471,6 +622,7 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -479,21 +631,31 @@ function ProfileEdit() {
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    name="tenth_marks"
+                    disabled={verified}
+                    value={details.tenth_marks}
                     variant="standard"
                     {...register("tenth_marks", {
                       setValueAs: (value) => parseFloat(value),
                       min: 0,
                       max: 100,
                     })}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>12th Board</p>
                   <Autocomplete
                     freeSolo
+                    name="twelfth_board"
+                    value={details.twelfth_board}
+                    disabled={verified}
                     options={["CBSE", "ICSE"]}
+                    onChange={handleChanges}
+
                     renderInput={(params) => (
                       <TextField
+                      
                         {...params}
                         variant="standard"
                         {...register("twelfth_board")}
@@ -507,6 +669,9 @@ function ProfileEdit() {
                     fullWidth
                     type="number"
                     id="standard-basic"
+                    name="twelfth_year"
+                    disabled={verified}
+                    value={details.twelfth_year}
                     variant="standard"
                     error={!!errors.twelfth_year}
                     helperText={
@@ -522,6 +687,7 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -529,6 +695,9 @@ function ProfileEdit() {
                   <TextField
                     fullWidth
                     type="text"
+                    name="twelfth_marks"
+                    disabled={verified}
+                    value={details.twelfth_marks}
                     id="standard-basic"
                     variant="standard"
                     {...register("twelfth_marks", {
@@ -536,6 +705,7 @@ function ProfileEdit() {
                       min: 0,
                       max: 100,
                     })}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -543,7 +713,11 @@ function ProfileEdit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    name="entrance_exam"
+                    disabled={verified}
+                    value={details.entrance_exam}
                     {...register("entrance_exam")}
+                    onChange={handleChanges}
                   >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
@@ -562,6 +736,9 @@ function ProfileEdit() {
                     fullWidth
                     type="number"
                     id="standard-basic"
+                    name="entrance_exam_rank"
+                    disabled={verified}
+                    value={details.entrance_exam_rank}
                     variant="standard"
                     {...register("entrance_exam_rank", {
                       setValueAs: (value) => parseInt(value, 10),
@@ -569,6 +746,7 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -576,7 +754,11 @@ function ProfileEdit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    name="category"
+                    value={details.category}
+                    disabled={verified}
                     {...register("category")}
+                    onChange={handleChanges}
                   >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
@@ -594,6 +776,9 @@ function ProfileEdit() {
                   <TextField
                     fullWidth
                     type="number"
+                    name="category"
+                    value={details.category_rank}
+                    disabled={verified}
                     id="standard-basic"
                     variant="standard"
                     {...register("category_rank", {
@@ -602,6 +787,7 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -609,11 +795,15 @@ function ProfileEdit() {
                   <TextField
                     fullWidth
                     type="text"
+                    name="current_address"
+                    value={details.current_address}
+                    // disabled={verified}
                     id="standard-basic"
                     variant="standard"
                     multiline
                     minRows={3}
                     {...register("current_address")}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -622,10 +812,14 @@ function ProfileEdit() {
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    name="permanent_address"
+                    // disabled={verified}
+                    value={details.permanent_address}
                     variant="standard"
                     multiline
                     minRows={3}
                     {...register("permanent_address")}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -633,9 +827,13 @@ function ProfileEdit() {
                   <TextField
                     fullWidth
                     type="text"
+                    name="friend_name"
+                    value={details.friend_name}
+                    // disabled={verified}
                     id="standard-basic"
                     variant="standard"
                     {...register("friend_name")}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -644,6 +842,9 @@ function ProfileEdit() {
                     fullWidth
                     type="text"
                     id="standard-basic"
+                    name="friend_phone"
+                    value={details.friend_phone}
+                    // disabled={verified}
                     error={!!errors.friend_phone}
                     helperText={
                       errors.friend_phone
@@ -655,6 +856,7 @@ function ProfileEdit() {
                       minLength: 10,
                       maxLength: 10,
                     })}
+                    onChange={handleChanges}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -662,7 +864,11 @@ function ProfileEdit() {
                   <Select
                     fullWidth
                     variant="standard"
+                    name="disability"
+                    disabled={verified}
+                    value={details.disability}
                     {...register("disability")}
+                    onChange={handleChanges}
                   >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
