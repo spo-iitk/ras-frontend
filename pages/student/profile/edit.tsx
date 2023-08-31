@@ -116,6 +116,10 @@ function ProfileEdit() {
           PS. If your profile is already verified, it will be reverted upon any
           change.
         </h4>
+        <h4 style={{ fontWeight: 500 }}>
+          Already registered studenst registering for the new placement season
+          can edit some of the allowed fields below
+        </h4>
         <form style={{ marginBottom: 10 }}>
           <Stack justifyContent="center">
             <Card
@@ -192,6 +196,7 @@ function ProfileEdit() {
                     onChange={(e) => {
                       setDept(e.target.value);
                     }}
+                    disabled={StudentData.is_verified}
                   >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
@@ -209,6 +214,7 @@ function ProfileEdit() {
                       fullWidth
                       variant="standard"
                       {...register("program")}
+                      disabled={StudentData.is_verified}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -236,6 +242,7 @@ function ProfileEdit() {
                       fullWidth
                       variant="standard"
                       {...register("program")}
+                      disabled={StudentData.is_verified}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -251,6 +258,7 @@ function ProfileEdit() {
                     onChange={(e) => {
                       setDeptSec(e.target.value);
                     }}
+                    disabled={StudentData.is_verified}
                   >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
@@ -268,6 +276,7 @@ function ProfileEdit() {
                       fullWidth
                       variant="standard"
                       {...register("program_2")}
+                      disabled={StudentData.is_verified}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -295,6 +304,7 @@ function ProfileEdit() {
                       fullWidth
                       variant="standard"
                       {...register("program_2")}
+                      disabled={StudentData.is_verified}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -327,7 +337,12 @@ function ProfileEdit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Gender</p>
-                  <Select fullWidth variant="standard" {...register("gender")}>
+                  <Select
+                    fullWidth
+                    variant="standard"
+                    {...register("gender")}
+                    disabled={StudentData.is_verified}
+                  >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
@@ -358,6 +373,7 @@ function ProfileEdit() {
                         return epoch;
                       },
                     })}
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -422,6 +438,7 @@ function ProfileEdit() {
                     {...register("current_cpi", {
                       setValueAs: (value) => parseFloat(value),
                     })}
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -434,6 +451,7 @@ function ProfileEdit() {
                     {...register("ug_cpi", {
                       setValueAs: (value) => parseFloat(value),
                     })}
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -448,6 +466,7 @@ function ProfileEdit() {
                         {...register("tenth_board")}
                       />
                     )}
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -471,6 +490,7 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -485,6 +505,7 @@ function ProfileEdit() {
                       min: 0,
                       max: 100,
                     })}
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -499,6 +520,7 @@ function ProfileEdit() {
                         {...register("twelfth_board")}
                       />
                     )}
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -522,6 +544,7 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -536,6 +559,7 @@ function ProfileEdit() {
                       min: 0,
                       max: 100,
                     })}
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -544,6 +568,7 @@ function ProfileEdit() {
                     fullWidth
                     variant="standard"
                     {...register("entrance_exam")}
+                    disabled={StudentData.is_verified}
                   >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
@@ -569,6 +594,7 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -577,6 +603,7 @@ function ProfileEdit() {
                     fullWidth
                     variant="standard"
                     {...register("category")}
+                    disabled={StudentData.is_verified}
                   >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
@@ -602,6 +629,7 @@ function ProfileEdit() {
                     onWheel={(event) =>
                       (event.target as HTMLTextAreaElement).blur()
                     }
+                    disabled={StudentData.is_verified}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -663,6 +691,7 @@ function ProfileEdit() {
                     fullWidth
                     variant="standard"
                     {...register("disability")}
+                    disabled={StudentData.is_verified}
                   >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
