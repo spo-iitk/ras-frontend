@@ -72,7 +72,6 @@ function ProfileEdit() {
       return {...prev,[name]:value}
     })
     ;
-    console.log(details)
   }
 
 
@@ -85,7 +84,6 @@ function ProfileEdit() {
 
     setStudentData(student);
     setDetails(student);
-    console.log(student);
     setDept(getDepartment(student.program_department_id));
     setDeptSec(getDepartment(student.secondary_program_department_id));
     setProgram(getProgram(student.program_department_id));
