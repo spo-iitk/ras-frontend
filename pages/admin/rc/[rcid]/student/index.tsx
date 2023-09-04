@@ -1,11 +1,12 @@
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import EditIcon from "@mui/icons-material/Edit";
+import SyncIcon from "@mui/icons-material/Sync";
 import { AcUnit } from "@mui/icons-material";
 
 import DataGrid from "@components/DataGrid";
@@ -15,6 +16,7 @@ import { errorNotification } from "@callbacks/notifcation";
 import EditStudent from "@components/Modals/EditStudentDetails";
 import Meta from "@components/Meta";
 import Enroll from "@components/Modals/Enroll";
+import Sync from "@components/Modals/Sync";
 import Freeze from "@components/Modals/Freeze";
 import Unfreeze from "@components/Modals/Unfreeze";
 import { getDeptProgram } from "@components/Parser/parser";
@@ -154,6 +156,59 @@ function Index() {
     setOpenEnroll(false);
   };
 
+  // const [openDeregister, setOpenDeregister] = useState(false);
+  // const handleOpenDeregister = () => {
+  //   setOpenDeregister(true);
+  // };
+  // const handleCloseDeregister = () => {
+  //   setOpenDeregister(false);
+  // };
+
+  const fetchAllStudents = useCallback(async () => {
+    if (rid === undefined || rid === "") return;
+    await getStudents
+      .getAllStudents(token, rid)
+      .then((res) => {
+        setRows(
+          res.map((student: Student) => ({
+            created_at: student.CreatedAt,
+            deleted_at: student.DeletedAt,
+            updated_at: student.UpdatedAt,
+            comment: student.comment,
+            id: student.ID,
+            ID: student.ID,
+            name: student.name,
+            email: student.email,
+            cpi: student.cpi,
+            program_department_id: student.program_department_id,
+            secondary_program_department_id:
+              student.secondary_program_department_id,
+            recruitment_cycle_id: student.recruitment_cycle_id,
+            student_id: student.student_id,
+            is_frozen: student.is_frozen,
+            type: student.type,
+            roll_no: student.roll_no,
+          }))
+        );
+        setLoading(false);
+      })
+      .catch((err) => {
+        errorNotification(
+          "Failed to get Students",
+          err.response?.data?.message
+        );
+      });
+  }, [rid, token]);
+
+  const [openSync, setOpenSync] = useState(false);
+  const handleOpenSync = () => {
+    setOpenSync(true);
+  };
+  const handleCloseSync = () => {
+    fetchAllStudents();
+    setOpenSync(false);
+  };
+
   const [openFreeze, setOpenFreeze] = useState(false);
   const handleOpenFreeze = () => {
     setOpenFreeze(true);
@@ -169,45 +224,11 @@ function Index() {
   const handleCloseUnFreeze = () => {
     setOpenUnFreeze(false);
   };
+
   useEffect(() => {
-    const fetch = async () => {
-      if (rid === undefined || rid === "") return;
-      await getStudents
-        .getAllStudents(token, rid)
-        .then((res) => {
-          setRows(
-            res.map((student: Student) => ({
-              created_at: student.CreatedAt,
-              deleted_at: student.DeletedAt,
-              updated_at: student.UpdatedAt,
-              comment: student.comment,
-              id: student.ID,
-              ID: student.ID,
-              name: student.name,
-              email: student.email,
-              cpi: student.cpi,
-              program_department_id: student.program_department_id,
-              secondary_program_department_id:
-                student.secondary_program_department_id,
-              recruitment_cycle_id: student.recruitment_cycle_id,
-              student_id: student.student_id,
-              is_frozen: student.is_frozen,
-              type: student.type,
-              roll_no: student.roll_no,
-            }))
-          );
-          setLoading(false);
-        })
-        .catch((err) => {
-          errorNotification(
-            "Failed to get Students",
-            err.response?.data?.message
-          );
-        });
-    };
     if (role !== 103) setShowButtons(true);
-    fetch();
-  }, [rid, token, role]);
+    fetchAllStudents();
+  }, [rid, token, role, fetchAllStudents]);
   const [openNew, setOpenNew] = useState(false);
   const handleOpenNew = () => {
     setOpenNew(true);
@@ -227,9 +248,28 @@ function Index() {
         <h2>Students</h2>
         {showButtons && (
           <div>
+            {/* Feature Not In Use */}
+            {/* <Tooltip title="Deregister All Students">
+              {role === 100 || role === 101 ? (
+                <IconButton onClick={handleOpenDeregister}>
+                  <GroupRemoveIcon />
+                </IconButton>
+              ) : (
+                <div />
+              )}
+            </Tooltip> */}
             <Tooltip title="Edit Student Data">
-              <IconButton onClick={handleOpenNew}>
-                <EditIcon />
+              {role === 100 ? (
+                <IconButton onClick={handleOpenNew}>
+                  <EditIcon />
+                </IconButton>
+              ) : (
+                <div />
+              )}
+            </Tooltip>
+            <Tooltip title="Sync Student Data with Master">
+              <IconButton onClick={handleOpenSync}>
+                <SyncIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="UnFreeze Students">
@@ -258,8 +298,14 @@ function Index() {
           rcid={rid}
         />
       </Modal>
+      {/* <Modal open={openDeregister} onClose={handleCloseDeregister}>
+        <Deregister handleClose={handleCloseDeregister} rid={rid} />
+      </Modal> */}
       <Modal open={openEnroll} onClose={handleCloseEnroll}>
         <Enroll handleClose={handleCloseEnroll} />
+      </Modal>
+      <Modal open={openSync} onClose={handleCloseSync}>
+        <Sync handleClose={handleCloseSync} rid={rid} />
       </Modal>
       <Modal open={openFreeze} onClose={handleCloseFreeze}>
         <Freeze handleClose={handleCloseFreeze} rid={rid} />

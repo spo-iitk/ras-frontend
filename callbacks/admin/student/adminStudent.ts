@@ -135,6 +135,27 @@ const AdminStudentRequest = {
         errorNotification("Could Not Update", err.response?.data?.error);
         return false;
       }),
+  makeEditable: (token: string, sid: string) =>
+    instance
+      .put<StatusResponse, AxiosResponse<StatusResponse, Student>, Student>(
+        `/${sid}/editable`,
+        {} as Student,
+        setConfig(token)
+      )
+      .then((res) => {
+        successNotification(
+          "Successfully made student editable",
+          res.data.status
+        );
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Could not complete request",
+          err.response?.data?.error
+        );
+        return false;
+      }),
 };
 
 export default AdminStudentRequest;
