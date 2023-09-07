@@ -1,4 +1,4 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -22,9 +22,33 @@ function Proforma() {
       field: "ID",
       headerName: "ID",
     },
-    { field: "company_name", headerName: "Company Name" },
-    { field: "role", headerName: "Role Name" },
-    { field: "profile", headerName: "Profile" },
+    {
+      field: "company_name",
+      headerName: "Company Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "role",
+      headerName: "Role Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "profile",
+      headerName: "Profile",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
     {
       field: "deadline",
       headerName: "Application Deadline",

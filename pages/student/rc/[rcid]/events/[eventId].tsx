@@ -1,4 +1,11 @@
-import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
+import {
+  Button,
+  Card,
+  FormControl,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
@@ -49,11 +56,21 @@ const cols: GridColDef[] = [
     field: "name",
     headerName: "Name",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "email",
     headerName: "Email",
     width: 150,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "program_department_id",

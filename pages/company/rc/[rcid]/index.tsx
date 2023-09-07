@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, IconButton, Modal, Stack } from "@mui/material";
+import { Button, IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GridColDef } from "@mui/x-data-grid";
@@ -104,10 +104,20 @@ function Overview() {
     {
       field: "role",
       headerName: "Role Type",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "profile",
       headerName: "Profile",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "is_approved",

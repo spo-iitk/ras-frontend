@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, IconButton, Modal, Stack } from "@mui/material";
+import { Grid, IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -57,14 +57,29 @@ function Overview(): JSX.Element {
     {
       field: "name",
       headerName: "HR Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "email",
       headerName: "Email",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "designation",
       headerName: "Designation",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
   ];
 
