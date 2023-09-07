@@ -1,6 +1,6 @@
 import React from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { Stack } from "@mui/material";
+import { Stack, Tooltip } from "@mui/material";
 
 import Meta from "@components/Meta";
 import DataGrid from "@components/DataGrid";
@@ -15,6 +15,11 @@ const columns: GridColDef[] = [
     field: "Name",
     headerName: "Name",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "Roll_no",
@@ -25,11 +30,21 @@ const columns: GridColDef[] = [
     field: "Company_Name",
     headerName: "Company Name",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "Designation",
     headerName: "Designation",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "Program",

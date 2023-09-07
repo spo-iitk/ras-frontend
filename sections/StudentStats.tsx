@@ -1,5 +1,6 @@
 import React from "react";
 import { GridColDef } from "@mui/x-data-grid";
+import { Tooltip } from "@mui/material";
 
 import Meta from "@components/Meta";
 import { StudentStats as StatsType } from "@callbacks/admin/rc/stats";
@@ -28,10 +29,20 @@ const columns: GridColDef[] = [
   {
     field: "company_name",
     headerName: "Company Name",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "profile",
     headerName: "Profile",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "Program Department",

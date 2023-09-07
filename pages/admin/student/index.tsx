@@ -6,6 +6,7 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 
@@ -28,6 +29,11 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Name",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "program_department_id",
@@ -87,11 +93,21 @@ const columns: GridColDef[] = [
   {
     field: "iitk_email",
     headerName: "IITK Email",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "personal_email",
     headerName: "Personal Email",
     hide: true,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "phone",

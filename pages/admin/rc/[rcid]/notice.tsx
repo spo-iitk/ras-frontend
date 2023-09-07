@@ -93,6 +93,11 @@ const columns: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "CreatedAt",
@@ -102,6 +107,11 @@ const columns: GridColDef[] = [
   {
     field: "tags",
     headerName: "Tags",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "button1",

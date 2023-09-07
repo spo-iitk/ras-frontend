@@ -70,11 +70,21 @@ const columns: GridColDef[] = [
     field: "name",
     headerName: "Name",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "email",
     headerName: "Email",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "roll_no",

@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { IconButton, Modal, Stack } from "@mui/material";
+import { IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/router";
@@ -66,6 +66,11 @@ const columns: GridColDef[] = [
     field: "question",
     headerName: "Question",
     width: 300,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "options",

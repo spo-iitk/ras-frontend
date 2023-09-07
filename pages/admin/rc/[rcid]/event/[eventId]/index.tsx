@@ -6,6 +6,7 @@ import {
   Modal,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -60,11 +61,21 @@ const cols: GridColDef[] = [
     field: "name",
     headerName: "Name",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "email",
     headerName: "Email",
     width: 150,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "program_department_id",
