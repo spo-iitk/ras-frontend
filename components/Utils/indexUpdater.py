@@ -30,7 +30,7 @@ Branches = [
     "PHY",
     "CGS",
     "DES",
-    "IME",
+    "MS",
     "MSP",
     "NET",
     "PSE",
@@ -56,7 +56,7 @@ SDS = "SDS"
 PHY = "PHY"
 CGS = "CGS"
 DES = "DES"
-IME = "IME"
+MS = "MS"
 MSP = "MSP"
 NET = "NET"
 PSE = "PSE"
@@ -306,7 +306,7 @@ master = {
         MSc: -1,
         MSR: -1,
     },
-    IME: {
+    MS: {
         BT: -1,
         BS: -1,
         MT: 23,
