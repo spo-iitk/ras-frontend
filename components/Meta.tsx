@@ -27,7 +27,7 @@ function Meta({
 Meta.defaultProps = {
   title: "Recruitment Automation System",
   description: "",
-  keywords: "automation, recuitment, systrem",
+  keywords: "automation, recuitment, system",
 };
 
 export default Meta;
