@@ -85,8 +85,14 @@ function ProformaNew() {
               multiline
               variant="standard"
               error={!!errors.role}
-              helperText={errors.role && "This field is required"}
-              {...register("role", { required: true })}
+              helperText={errors.role?.message}
+              {...register("role", {
+                required: "Role is required",
+                maxLength: {
+                  value: 100,
+                  message: "Role length should be less than 100",
+                },
+              })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -99,8 +105,14 @@ function ProformaNew() {
               multiline
               variant="standard"
               error={!!errors.profile}
-              helperText={errors.profile && "This field is required"}
-              {...register("profile", { required: true })}
+              helperText={errors.profile?.message}
+              {...register("profile", {
+                required: "Profile is required",
+                maxLength: {
+                  value: 100,
+                  message: "Profile length should be less than 100",
+                },
+              })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
