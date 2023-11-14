@@ -28,8 +28,7 @@ function Proforma() {
     {
       field: "deadline",
       headerName: "Application Deadline",
-      renderCell: ({ value }) =>
-      `${new Date(value).toLocaleString("en-GB")}`,
+      renderCell: ({ value }) => `${new Date(value).toLocaleString("en-GB")}`,
       type: "dateTime",
     },
     {
