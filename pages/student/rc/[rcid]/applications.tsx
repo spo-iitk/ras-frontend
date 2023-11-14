@@ -73,15 +73,16 @@ const columns: GridColDef[] = [
   {
     field: "deadline",
     headerName: "Application Deadline",
-    valueGetter: ({ value }) =>
-      value && `${new Date(value).toLocaleString("en-GB")}`,
-    width: 200,
+    renderCell: ({ value }) =>
+      `${new Date(value).toLocaleString("en-GB")}`,
+    type: "dateTime",
   },
   {
     field: "applied_on",
     headerName: "Applied On",
-    valueGetter: ({ value }) =>
-      value && `${new Date(value).toLocaleString("en-GB")}`,
+    renderCell: ({ value }) =>
+      `${new Date(value).toLocaleString("en-GB")}`,
+    type: "dateTime",
   },
   {
     field: "resume",

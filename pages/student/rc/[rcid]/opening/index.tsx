@@ -42,9 +42,9 @@ function Openings() {
     {
       field: "deadline",
       headerName: "Application Deadline",
-      renderCell(params) {
-        return new Date(params.value).toLocaleString();
-      },
+      renderCell: ({ value }) =>
+      `${new Date(value).toLocaleString("en-GB")}`,
+      type: "dateTime",
     },
     {
       field: "proforma",
