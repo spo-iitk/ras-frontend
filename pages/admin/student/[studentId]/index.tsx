@@ -213,7 +213,7 @@ const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   ];
 function Details() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
-  const { token } = useStore();
+  const {role,  token } = useStore();
   const router = useRouter();
   const { studentId } = router.query;
   const sId = (studentId || "").toString();
@@ -332,7 +332,7 @@ function Details() {
           >
             <Grid container spacing={5} sx={{ padding: 3 }}>
               {info.map((item) => (
-                <Grid item xs={12} sm={6} key={item.field}>
+                (!(role == 103 && (item.field == "Entrance Exam Rank" || item.field == "Category" || item.field == "Category Rank")))?<Grid item xs={12} sm={6} key={item.field}>
                   <p>{item.field}</p>
                   <TextField
                     fullWidth
@@ -348,7 +348,7 @@ function Details() {
                     }
                     minRows={3}
                   />
-                </Grid>
+                </Grid>:<Grid />
               ))}
             </Grid>
           </Card>
