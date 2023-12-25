@@ -267,11 +267,15 @@ function Index() {
                 <div />
               )}
             </Tooltip>
-            <Tooltip title="Sync Student Data with Master">
-              <IconButton onClick={handleOpenSync}>
-                <SyncIcon />
-              </IconButton>
-            </Tooltip>
+            {role === 100 ? (
+              <Tooltip title="Sync Student Data with Master">
+                <IconButton onClick={handleOpenSync}>
+                  <SyncIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <div />
+            )}
             <Tooltip title="UnFreeze Students">
               <IconButton onClick={handleOpenUnFreeze}>
                 <HowToRegIcon />

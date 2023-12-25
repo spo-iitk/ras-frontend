@@ -73,15 +73,14 @@ const columns: GridColDef[] = [
   {
     field: "deadline",
     headerName: "Application Deadline",
-    valueGetter: ({ value }) =>
-      value && `${new Date(value).toLocaleString("en-GB")}`,
-    width: 200,
+    renderCell: ({ value }) => `${new Date(value).toLocaleString("en-GB")}`,
+    type: "dateTime",
   },
   {
     field: "applied_on",
     headerName: "Applied On",
-    valueGetter: ({ value }) =>
-      value && `${new Date(value).toLocaleString("en-GB")}`,
+    renderCell: ({ value }) => `${new Date(value).toLocaleString("en-GB")}`,
+    type: "dateTime",
   },
   {
     field: "resume",
@@ -124,6 +123,14 @@ const columns: GridColDef[] = [
   },
 ];
 
+const applicationCompanyCount = (applications: ApplicationType[]) => {
+  const companies = new Set<string>();
+  applications.forEach((application) => {
+    companies.add(application.company_name);
+  });
+  return companies.size;
+};
+
 function Applications() {
   const router = useRouter();
   const { rcid } = router.query;
@@ -159,7 +166,8 @@ function Applications() {
         </Grid>
         <Grid item xs={12} md={6} sx={sideTextStyle}>
           <h2>
-            Total Applications : {applications ? applications?.length : 0}
+            Total Applications :
+            {applications && applicationCompanyCount(applications)}
           </h2>
         </Grid>
       </Grid>
