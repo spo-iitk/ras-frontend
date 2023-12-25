@@ -68,7 +68,7 @@ function Index({
   loading = false,
   heighted = false,
 }: paramsType) {
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(25);
 
   const cols = columns.map((col) => ({
     ...col,
