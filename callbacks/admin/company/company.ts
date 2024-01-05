@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 // import { showNotification } from "@mantine/notifications";
 
 import {
+  ADMIN_APPLICATION_URL,
   ADMIN_COMPANY_URL,
   ErrorType,
   SERVER_ERROR,
@@ -31,6 +32,8 @@ const adminCompanyInstance = axios.create({
   timeout: 15000,
   timeoutErrorMessage: SERVER_ERROR,
 });
+
+
 
 const addCompanyRequest = {
   post: (body: Company, token: string) =>

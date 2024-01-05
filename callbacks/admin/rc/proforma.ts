@@ -14,6 +14,7 @@ interface nullBool {
   Bool: boolean;
   Valid: boolean;
 }
+
 export interface ProformaType {
   ID: number;
   CreatedAt: string;
@@ -46,6 +47,41 @@ const instance = axios.create({
   timeout: 15000,
   timeoutErrorMessage: SERVER_ERROR,
 });
+
+export const getCompanyRecruitCountRequest = {
+  post: (token: string, cids: number[]) =>
+  instance
+    .post<StatusResponse, AxiosResponse<StatusResponse, number[]>>(
+      `/rc/0/company/count`,
+      cids,
+      setConfig(token)
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err: ErrorType) => {
+      errorNotification("Registration Failed", err.response?.data?.error);
+      return {ppoCount: 0, recruitCount: 0};
+    }),
+}
+
+
+
+export const getCompanyStatsRequest = {
+  get: (token: string,rcid: string, cid: string) =>
+  instance
+      .get(`/rc/${rcid}/company/${cid}/stats`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching data",
+          err.response?.data?.error || err.message
+        );
+        return {student: []};
+      }),
+};
+
+
 
 const requestProforma = {
   get: (token: string, rcid: string, cid: string) =>

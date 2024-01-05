@@ -28,6 +28,7 @@ export interface StudentStats {
   type: string;
 }
 
+
 export interface BranchStats {
   program_department_id: number;
   total: number;
