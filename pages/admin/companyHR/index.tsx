@@ -51,7 +51,6 @@ function Index() {
     const fetch = async () => {
       const companyHR = await CompanyHRRequest.getAll(token).catch(() => []);
       setRows(companyHR);
-      console.log(companyHR);
       setLoading(false);
     };
     fetch();

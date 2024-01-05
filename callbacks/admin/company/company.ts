@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from "axios";
 // import { showNotification } from "@mantine/notifications";
 
 import {
-  ADMIN_APPLICATION_URL,
   ADMIN_COMPANY_URL,
   ErrorType,
   SERVER_ERROR,

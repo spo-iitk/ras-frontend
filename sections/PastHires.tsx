@@ -37,7 +37,7 @@ const PastHireColumns: GridColDef[] = [
     width: 300,
   },
   {
-    field: "PPO",
+    field: "PIOPPO",
     headerName: "No. of PIO/PPO",
     width: 300,
   },
@@ -45,7 +45,7 @@ const PastHireColumns: GridColDef[] = [
     field: "ViewStudents",
     headerName: "View Students",
     width: 300,
-    renderCell: (params) => (
+    renderCell: () => (
       <Stack
         direction="row"
         alignItems="center"
@@ -103,7 +103,6 @@ function PastHires() {
   const router = useRouter();
   const companyId = router.query.companyId?.toString() || "";
   const [showGrid, setShowGrid] = useState(false);
-  const [crid,setCrid]=useState<number>(0);
   const [rows,setRows]=useState<any>({student:[]});
   const [pastHireRows,setPastRows]  = useState<any>([]);
   const [loading,setLoading] =useState(false);
@@ -129,8 +128,7 @@ function PastHires() {
     const getRCs=async()=>{
       try {
         let response=await getCompanyRCIDRequest.get(token, companyId);
-        console.log("Response",response);
-        const newPastHireRows: { id: any;rid:any, RecruitmentDrive: any; TotalHires:any;PPO:any }[] = [];
+        const newPastHireRows: { id: any;rid:any, RecruitmentDrive: any; TotalHires:any;PIOPPO:any }[] = [];
 
         const cidArray:number[]=[];
         for(let i=0;i<response.length;i++){
@@ -144,12 +142,10 @@ function PastHires() {
             rid:response[i].recruitment_cycle_id,
             RecruitmentDrive: `${response[i].type} ${response[i].phase}`,
             TotalHires: countResponse.recruitCounts[response[i].id] || 0,
-            PPO: countResponse.ppoCount[response[i].id] || 0,
+            PIOPPO: countResponse.ppoCount[response[i].id] || 0,
 
           });
         }
-        console.log(newPastHireRows);
-        
         setPastRows(newPastHireRows);
         setLoading(false);
         

@@ -52,7 +52,6 @@ function Stats() {
     const getData = async () => {
       setIsLoading(true);
       const res = await statRequest.getAll(token, rid);
-      console.log(res);
       setStatsData(res);
       setIsLoading(false);
     };
