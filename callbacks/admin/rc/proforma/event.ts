@@ -90,7 +90,7 @@ const eventRequest = {
       }),
   delete: (token: string, rcid: string, eid: string, sid: string) =>
     instance
-      .delete(`/rc/${rcid}/event/${eid}/${sid}`, setConfig(token))
+      .delete(`/rc/${rcid}/event/${eid}/student/${sid}`, setConfig(token))
       .then(() => {
         successNotification("Student deleted successfully", "");
         return true;
