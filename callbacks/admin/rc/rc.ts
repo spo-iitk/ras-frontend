@@ -37,7 +37,22 @@ export interface rcEdit {
   inactive?: boolean;
   application_count_cap?: number;
 }
-export const rcRequest = {
+
+export const getCompanyRCIDRequest = {
+  get: (token: string, cid: string) =>
+    instance
+      .get(`/0/company/${cid}/ids`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "No Record Found",
+          err.response?.data?.error || err.message
+        );
+        return null;
+      }),
+};
+
+const rcRequest = {
   getAll: (token: string) =>
     instance
       .get<RC[]>("", setConfig(token))
