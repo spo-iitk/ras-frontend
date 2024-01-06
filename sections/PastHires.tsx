@@ -2,24 +2,25 @@ import { IconButton, Stack } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
-import {  getCompanyRecruitCountRequest, getCompanyStatsRequest } from "@callbacks/admin/rc/proforma";
+import {
+  getCompanyRecruitCountRequest,
+  getCompanyStatsRequest,
+} from "@callbacks/admin/rc/proforma";
 import useStore from "@store/store";
-import { useRouter } from "next/router";
 import { getDeptProgram } from "@components/Parser/parser";
-import  { getCompanyRCIDRequest } from "@callbacks/admin/rc/rc";
-
-
+import { getCompanyRCIDRequest } from "@callbacks/admin/rc/rc";
 
 const PastHireColumns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
     width: 150,
-  },  
+  },
   {
     field: "rid",
     headerName: "RecruitmentCycleID",
@@ -52,7 +53,7 @@ const PastHireColumns: GridColDef[] = [
         width="100%"
         justifyContent="space-between"
       >
-        <ActiveButton sx={{ height: 30}}>CLICK HERE</ActiveButton>
+        <ActiveButton sx={{ height: 30 }}>CLICK HERE</ActiveButton>
         <IconButton>
           <MoreVertIcon />
         </IconButton>
@@ -77,11 +78,11 @@ const PastHireDataColumns: GridColDef[] = [
     width: 375,
   },
   {
-    field:'email',
-    headerName:'Email',
-    hide:true,
-    width:300,
-    },
+    field: "email",
+    headerName: "Email",
+    hide: true,
+    width: 300,
+  },
   {
     field: "roll_no",
     headerName: "Roll No.",
@@ -92,10 +93,8 @@ const PastHireDataColumns: GridColDef[] = [
     headerName: "Branch",
     sortable: false,
     valueGetter: (params) => getDeptProgram(params.row.program_department_id),
-  }
+  },
 ];
-
-
 
 // const pastHireRows: never[] = [];
 function PastHires() {
@@ -103,79 +102,102 @@ function PastHires() {
   const router = useRouter();
   const companyId = router.query.companyId?.toString() || "";
   const [showGrid, setShowGrid] = useState(false);
-  const [rows,setRows]=useState<any>({student:[]});
-  const [pastHireRows,setPastRows]  = useState<any>([]);
-  const [loading,setLoading] =useState(false);
-
+  const [rows, setRows] = useState<any>({ student: [] });
+  const [pastHireRows, setPastRows] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
 
   // Add a function to handle button click
-  const handleButtonClick = async(id: number,cid :number) => {
+  const handleButtonClick = async (id: number, cid: number) => {
     setLoading(true);
     setShowGrid(true);
-    let response = await getCompanyStatsRequest.get(token, id.toString(), cid.toString());
+    let response = await getCompanyStatsRequest.get(
+      token,
+      id.toString(),
+      cid.toString()
+    );
     if (response.student) {
       setRows(response);
-    }
-    else{
-      setRows({student:[]});
+    } else {
+      setRows({ student: [] });
     }
     setLoading(false);
-    
-
   };
-  useEffect(()=>{
+  useEffect(() => {
     setLoading(true);
-    const getRCs=async()=>{
-      try {
-        let response=await getCompanyRCIDRequest.get(token, companyId);
-        const newPastHireRows: { id: any;rid:any, RecruitmentDrive: any; TotalHires:any;PIOPPO:any }[] = [];
+    const getRCs = async () => {
+        let response = await getCompanyRCIDRequest.get(token, companyId);
+        const newPastHireRows: {
+          id: any;
+          rid: any;
+          RecruitmentDrive: any;
+          TotalHires: any;
+          PIOPPO: any;
+        }[] = [];
 
-        const cidArray:number[]=[];
-        for(let i=0;i<response.length;i++){
+        const cidArray: number[] = [];
+        for (let i = 0; i < response.length; i += 1) {
           cidArray.push(response[i].id);
-
         }
-        let countResponse=await getCompanyRecruitCountRequest.post(token,cidArray);
-        for(let i=0;i<response.length;i++){
+        let countResponse = await getCompanyRecruitCountRequest.post(
+          token,
+          cidArray
+        );
+        for (let i = 0; i < response.length; i += 1) {
           newPastHireRows.push({
             id: response[i].id,
-            rid:response[i].recruitment_cycle_id,
+            rid: response[i].recruitment_cycle_id,
             RecruitmentDrive: `${response[i].type} ${response[i].phase}`,
             TotalHires: countResponse.recruitCounts[response[i].id] || 0,
             PIOPPO: countResponse.ppoCount[response[i].id] || 0,
-
           });
         }
         setPastRows(newPastHireRows);
         setLoading(false);
         
-      } catch (error) {
-        
-      }
-    }
+    };
     getRCs();
-  },[])
+  }, [token, companyId]);
 
   return (
     <div>
       <Stack>
-        <Stack 
-        direction="row"
-        spacing={3}
-        alignItems="center"
-        justifyContent="space-between"
+        <Stack
+          direction="row"
+          spacing={3}
+          alignItems="center"
+          justifyContent="space-between"
         >
           <h2>Past Hires</h2>
           <div>
-            {showGrid && 
-            <IconButton onClick={()=>{setShowGrid(false)}}>
-              <ArrowBackIcon />
-            </IconButton>}
-        </div>
+            {showGrid && (
+              <IconButton
+                onClick={() => {
+                  setShowGrid(false);
+                }}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+            )}
+          </div>
         </Stack>
       </Stack>
-      {showGrid ? <DataGrid rows={rows.student} columns={PastHireDataColumns} getRowId={(row) => row.id} loading={loading}/> : 
-      <DataGrid rows={pastHireRows} columns={PastHireColumns} onCellClick={(param)=>{handleButtonClick(param.row.rid,param.row.id)}} loading={loading} />}
+      {showGrid ? (
+        <DataGrid
+          rows={rows.student}
+          columns={PastHireDataColumns}
+          getRowId={(row) => row.id}
+          loading={loading}
+        />
+      ) : (
+        <DataGrid
+          rows={pastHireRows}
+          columns={PastHireColumns}
+          onCellClick={(param) => {
+            handleButtonClick(param.row.rid, param.row.id);
+          }}
+          loading={loading}
+        />
+      )}
     </div>
   );
 }

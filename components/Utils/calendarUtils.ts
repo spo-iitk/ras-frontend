@@ -1,4 +1,4 @@
-export const calendarLinks = new Map([
+const calendarLinks = new Map([
   [
     "1",
     "https://calendar.google.com/calendar/u/1?cid=MXJpdDljbmgwMWc1cGUxZGhlMmgzYWJjMzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ",

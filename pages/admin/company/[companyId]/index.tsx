@@ -14,7 +14,7 @@ import {
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-import addCompanyRequest, { Company} from "@callbacks/admin/company/company";
+import addCompanyRequest, { Company } from "@callbacks/admin/company/company";
 import Meta from "@components/Meta";
 import EditCompanyMD from "@components/Modals/EditCompanyAdminMD";
 import useStore from "@store/store";
@@ -56,15 +56,13 @@ function Index() {
     description: "",
   });
   useEffect(() => {
-    
-    
     const fetchCompanyDetails = async () => {
       let response = await addCompanyRequest.get(token, companyId);
       setCompanyData(response);
     };
-    if (router.isReady){
-       fetchCompanyDetails();
-      }
+    if (router.isReady) {
+      fetchCompanyDetails();
+    }
   }, [companyId, router.isReady, token]);
 
   const [openEditComp, setOpenEditComp] = useState(false);

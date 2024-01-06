@@ -32,8 +32,6 @@ const adminCompanyInstance = axios.create({
   timeoutErrorMessage: SERVER_ERROR,
 });
 
-
-
 const addCompanyRequest = {
   post: (body: Company, token: string) =>
     adminCompanyInstance

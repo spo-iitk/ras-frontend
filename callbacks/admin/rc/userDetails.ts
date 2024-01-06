@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-import { successNotification,errorNotification } from "@callbacks/notifcation";
+import { errorNotification, successNotification } from "@callbacks/notifcation";
 
 import { AUTH_URL, ErrorType, SERVER_ERROR, setConfig } from "../../constants";
 
@@ -51,14 +51,14 @@ const userDetailsRequest = {
       .put<returnUserDetailsType>(
         `admins/${user_id}/role`,
         {
-          user_id: user_id,
-          new_role_id: new_role_id,
+          user_id,
+          new_role_id,
         },
         setConfig(token)
       )
       .then(() => {
         successNotification("Success", "Role updated successfully");
-        return true
+        return true;
       })
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
@@ -66,10 +66,10 @@ const userDetailsRequest = {
       }),
   toggleActive: (token: string, user_id: number) =>
     instance
-      .put(`admins/${user_id}/active`, { user_id: user_id }, setConfig(token))
+      .put(`admins/${user_id}/active`, { user_id }, setConfig(token))
       .then(() => {
         successNotification("Success", "Active status updated successfully");
-        return true
+        return true;
       })
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);

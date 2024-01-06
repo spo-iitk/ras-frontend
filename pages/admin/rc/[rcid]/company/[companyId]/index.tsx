@@ -140,13 +140,11 @@ function Index() {
   ];
 
   useEffect(() => {
-    
     const getCompanydata = async () => {
       if (rid === undefined || rid === "") return;
       if (ID === undefined || ID === "") return;
       let response = await requestCompany.get(token, rid, ID);
       setRow(response);
-      
     };
 
     const getProforma = async () => {
@@ -154,7 +152,6 @@ function Index() {
       if (ID === undefined || ID === "") return;
       let response = await requestProforma.getall(token, rid, ID);
       setRows(response);
-      
     };
     if (role !== 103) {
       setShowExtraContent(true);

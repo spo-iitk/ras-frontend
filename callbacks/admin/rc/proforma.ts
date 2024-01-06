@@ -50,26 +50,22 @@ const instance = axios.create({
 
 export const getCompanyRecruitCountRequest = {
   post: (token: string, cids: number[]) =>
-  instance
-    .post<StatusResponse, AxiosResponse<StatusResponse, number[]>>(
-      `/rc/0/company/count`,
-      cids,
-      setConfig(token)
-    )
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err: ErrorType) => {
-      errorNotification("Registration Failed", err.response?.data?.error);
-      return {ppoCount: 0, recruitCount: 0};
-    }),
-}
-
-
+    instance
+      .post<StatusResponse, AxiosResponse<StatusResponse, number[]>>(
+        `/rc/0/company/count`,
+        cids,
+        setConfig(token)
+      )
+      .then((res) => res.data)
+      .catch((err: ErrorType) => {
+        errorNotification("Registration Failed", err.response?.data?.error);
+        return { ppoCount: 0, recruitCount: 0 };
+      }),
+};
 
 export const getCompanyStatsRequest = {
-  get: (token: string,rcid: string, cid: string) =>
-  instance
+  get: (token: string, rcid: string, cid: string) =>
+    instance
       .get(`/rc/${rcid}/company/${cid}/stats`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
@@ -77,11 +73,9 @@ export const getCompanyStatsRequest = {
           "Error in fetching data",
           err.response?.data?.error || err.message
         );
-        return {student: []};
+        return { student: [] };
       }),
 };
-
-
 
 const requestProforma = {
   get: (token: string, rcid: string, cid: string) =>

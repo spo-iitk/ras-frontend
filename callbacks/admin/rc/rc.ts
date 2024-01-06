@@ -38,9 +38,9 @@ export interface rcEdit {
   application_count_cap?: number;
 }
 
-export const getCompanyRCIDRequest={
-  get: (token: string,cid: string) =>
-  instance
+export const getCompanyRCIDRequest = {
+  get: (token: string, cid: string) =>
+    instance
       .get(`/0/company/${cid}/ids`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
@@ -50,9 +50,9 @@ export const getCompanyRCIDRequest={
         );
         return null;
       }),
-}
+};
 
-export const rcRequest = {
+const rcRequest = {
   getAll: (token: string) =>
     instance
       .get<RC[]>("", setConfig(token))
