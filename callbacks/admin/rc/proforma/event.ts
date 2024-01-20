@@ -88,6 +88,32 @@ const eventRequest = {
         errorNotification("Error", err.response?.data?.error || err.message);
         return false;
       }),
+  delete: (token: string, rcid: string, eid: string, sid: string) =>
+    instance
+      .delete(`/rc/${rcid}/event/${eid}/student/${sid}`, setConfig(token))
+      .then(() => {
+        successNotification("Student deleted successfully", "");
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in deleting notice",
+          err.response?.data?.error || err.message
+        );
+      }),
+  deleteAll: (token: string, rcid: string, eid: string) =>
+    instance
+      .delete(`/rc/${rcid}/event/${eid}/student`, setConfig(token))
+      .then(() => {
+        successNotification("Students deleted successfully", "");
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in deleting notice",
+          err.response?.data?.error || err.message
+        );
+      }),
   postStudents: (
     token: string,
     rcid: string,
