@@ -172,7 +172,7 @@ const addCompanyRequest = {
   },
   getCompanyHistory: (token: string, companyId: string) =>
     adminRcInstance
-      .get<CompanyHistory[]>(`/${companyId}/history`, setConfig(token))
+      .get<CompanyHistory[]>(`/company/${companyId}/history`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification(
