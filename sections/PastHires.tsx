@@ -125,35 +125,35 @@ function PastHires() {
   useEffect(() => {
     setLoading(true);
     const getRCs = async () => {
-        let response = await getCompanyRCIDRequest.get(token, companyId);
-        const newPastHireRows: {
-          id: any;
-          rid: any;
-          RecruitmentDrive: any;
-          TotalHires: any;
-          PIOPPO: any;
-        }[] = [];
+      let response = await getCompanyRCIDRequest.get(token, companyId);
+      const newPastHireRows: {
+        id: any;
+        rid: any;
+        RecruitmentDrive: any;
+        TotalHires: any;
+        PIOPPO: any;
+      }[] = [];
 
-        const cidArray: number[] = [];
-        for (let i = 0; i < response.length; i += 1) {
-          cidArray.push(response[i].id);
-        }
-        let countResponse = await getCompanyRecruitCountRequest.post(
-          token,
-          cidArray
-        );
-        for (let i = 0; i < response.length; i += 1) {
-          newPastHireRows.push({
-            id: response[i].id,
-            rid: response[i].recruitment_cycle_id,
-            RecruitmentDrive: `${response[i].type} ${response[i].phase}`,
-            TotalHires: countResponse.recruitCounts[response[i].id] || 0,
-            PIOPPO: countResponse.ppoCount[response[i].id] || 0,
-          });
-        }
-        setPastRows(newPastHireRows);
-        setLoading(false);
-        
+      const cidArray: number[] = [];
+      for (let i = 0; i < response.length; i += 1) {
+        cidArray.push(response[i].id);
+      }
+      let countResponse: any = await getCompanyRecruitCountRequest.post(
+        token,
+        cidArray
+      );
+      console.log(countResponse);
+      for (let i = 0; i < response.length; i += 1) {
+        newPastHireRows.push({
+          id: response[i].id,
+          rid: response[i].recruitment_cycle_id,
+          RecruitmentDrive: `${response[i].type} ${response[i].phase}`,
+          TotalHires: countResponse.recruitCounts[response[i].id] || 0,
+          PIOPPO: countResponse.ppoCount[response[i].id] || 0,
+        });
+      }
+      setPastRows(newPastHireRows);
+      setLoading(false);
     };
     getRCs();
   }, [token, companyId]);

@@ -34,6 +34,18 @@ export interface BranchStats {
   pre_offer: number;
   recruited: number;
 }
+// export interface PastHireStats{
+//   recruitCounts:
+// }
+
+export interface CountResponse {
+  recruitCounts: {
+    [key: string]: number;
+  };
+  ppoCount: {
+    [key: string]: number;
+  };
+}
 
 export interface Stats {
   student: StudentStats[];

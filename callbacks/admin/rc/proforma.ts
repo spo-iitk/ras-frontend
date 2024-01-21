@@ -9,6 +9,7 @@ import {
   setConfig,
 } from "@callbacks/constants";
 import { errorNotification, successNotification } from "@callbacks/notifcation";
+import { CountResponse } from "./stats";
 
 interface nullBool {
   Bool: boolean;
@@ -51,7 +52,7 @@ const instance = axios.create({
 export const getCompanyRecruitCountRequest = {
   post: (token: string, cids: number[]) =>
     instance
-      .post<StatusResponse, AxiosResponse<StatusResponse, number[]>>(
+      .post<StatusResponse, AxiosResponse<CountResponse>>(
         `/rc/0/company/count`,
         cids,
         setConfig(token)

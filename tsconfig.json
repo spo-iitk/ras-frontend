@@ -1,5 +1,5 @@
-{ 
-    "compilerOptions": {
+{
+  "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -19,7 +19,7 @@
       "@styles/*": ["styles/*"],
       "@components/*": ["components/*"],
       "@callbacks/*": ["callbacks/*"],
-      "@store/*": ["store/*"],
+      "@store/*": ["store/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
