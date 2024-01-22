@@ -17,12 +17,12 @@ const CompanyHistoryColumns: GridColDef[] = [
     width: 150,
   },
   {
-    field: "RecruitmentDrive",
+    field: "recruitmentCycleID",
     headerName: "Recruitment Drive",
     flex: 1,
   },
   {
-    field: "Comments",
+    field: "comments",
     headerName: "Comments",
     flex: 1,
     renderCell: (params) => (
