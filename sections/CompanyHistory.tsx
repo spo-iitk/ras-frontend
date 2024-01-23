@@ -1,8 +1,7 @@
-import { FormControl, IconButton, Stack, TextField } from "@mui/material";
+import { FormControl, Stack, TextField } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import DataGrid from "@components/DataGrid";
 import addCompanyRequest, {
@@ -42,9 +41,6 @@ const CompanyHistoryColumns: GridColDef[] = [
             disabled
           />
         </FormControl>
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
       </Stack>
     ),
   },
