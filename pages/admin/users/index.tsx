@@ -108,6 +108,10 @@ function Users() {
       headerName: "Name",
     },
     {
+      field: "user_id",
+      headerName: "User ID",
+    },
+    {
       field: "role_id",
       headerName: "Role",
     },
