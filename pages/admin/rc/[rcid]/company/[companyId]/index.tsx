@@ -7,6 +7,7 @@ import {
   IconButton,
   Modal,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -30,11 +31,21 @@ const columns: GridColDef[] = [
     field: "role",
     headerName: "Designation",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "profile",
     headerName: "Profile",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "is_approved",
@@ -66,6 +77,11 @@ const columns: GridColDef[] = [
   {
     field: "active_hr",
     headerName: "Active HR",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "button",

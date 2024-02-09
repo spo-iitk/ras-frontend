@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 
@@ -14,10 +14,20 @@ const columns: GridColDef[] = [
   {
     field: "role",
     headerName: "Role name",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "profile",
     headerName: "Profile",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "deadline",

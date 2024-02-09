@@ -113,6 +113,11 @@ function AddCompany() {
             />
           )}
         />
+        <Typography>
+          By clicking Enroll, I agree to accept the policy subject to the terms
+          and conditions prescribed by the Students' Placement Office, IIT
+          Kanpur
+        </Typography>
         <Stack direction="row" spacing={2} style={{ justifyContent: "center" }}>
           <Button
             variant="contained"

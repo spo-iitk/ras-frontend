@@ -1,9 +1,13 @@
-import { FormControl, IconButton, Stack, TextField } from "@mui/material";
+import { FormControl, Stack, TextField } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import React from "react";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 import DataGrid from "@components/DataGrid";
+import addCompanyRequest, {
+  CompanyHistory,
+} from "@callbacks/admin/company/company";
+import useStore from "@store/store";
 
 const CompanyHistoryColumns: GridColDef[] = [
   {
@@ -12,15 +16,15 @@ const CompanyHistoryColumns: GridColDef[] = [
     width: 150,
   },
   {
-    field: "RecruitmentDrive",
+    field: "recruitmentCycleID",
     headerName: "Recruitment Drive",
     flex: 1,
   },
   {
-    field: "Comments",
+    field: "comments",
     headerName: "Comments",
     flex: 1,
-    renderCell: () => (
+    renderCell: (params) => (
       <Stack
         direction="row"
         alignItems="center"
@@ -32,20 +36,37 @@ const CompanyHistoryColumns: GridColDef[] = [
             label="Comment"
             id="comment"
             variant="standard"
+            value={params.row.Comments}
             sx={{ minWidth: "20vw" }}
+            disabled
           />
         </FormControl>
-        <IconButton>
-          <MoreVertIcon />
-        </IconButton>
       </Stack>
     ),
   },
 ];
 
-const companyHistoryRows: never[] = [];
-
 function CompanyHistory() {
+  const [companyHistoryRows, setCompanyHistoryRows] = useState<
+    CompanyHistory[]
+  >([]);
+  const { token } = useStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchCompanyHistory = async () => {
+      const companyId = router.query.companyId?.toString() || "";
+
+      const historyData = await addCompanyRequest.getCompanyHistory(
+        token,
+        companyId
+      );
+      setCompanyHistoryRows(historyData);
+    };
+
+    fetchCompanyHistory();
+  }, [router.query.companyId, token]);
+
   return (
     <div>
       <Stack>

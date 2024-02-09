@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from "axios";
 
 import {
   ADMIN_COMPANY_URL,
+  ADMIN_RC_URL,
   ErrorType,
   SERVER_ERROR,
   StatusResponse,
@@ -26,8 +27,19 @@ export interface HR {
   phone: string;
   designation: string;
 }
+export interface CompanyHistory {
+  id: number;
+  recruitmentDrive: string;
+  comments: string;
+}
 const adminCompanyInstance = axios.create({
   baseURL: ADMIN_COMPANY_URL,
+  timeout: 15000,
+  timeoutErrorMessage: SERVER_ERROR,
+});
+
+const adminRcInstance = axios.create({
+  baseURL: ADMIN_RC_URL,
   timeout: 15000,
   timeoutErrorMessage: SERVER_ERROR,
 });
@@ -158,9 +170,19 @@ const addCompanyRequest = {
         return false;
       });
   },
+  getCompanyHistory: (token: string, companyId: string) =>
+    adminRcInstance
+      .get<CompanyHistory[]>(`/company/${companyId}/history`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching Company History",
+          err.response?.data?.error || err.message
+        );
+        return [] as CompanyHistory[];
+      }),
 };
 
 export default addCompanyRequest;
-
 // get compnay, edit company, bulk add company
 // delete

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -36,9 +36,33 @@ function Openings() {
       headerName: "ID",
       hide: true,
     },
-    { field: "company_name", headerName: "Company Name" },
-    { field: "role", headerName: "Role Name" },
-    { field: "profile", headerName: "Profile" },
+    {
+      field: "company_name",
+      headerName: "Company Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "role",
+      headerName: "Role Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "profile",
+      headerName: "Profile",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
     {
       field: "deadline",
       headerName: "Application Deadline",

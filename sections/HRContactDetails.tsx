@@ -7,6 +7,7 @@ import {
   Modal,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
@@ -138,11 +139,21 @@ const HRcotactDetailsColumns: GridColDef[] = [
     field: "name",
     headerName: "HR Name",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "email",
     headerName: "HR E-mail",
     width: 200,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "phone",
@@ -153,6 +164,11 @@ const HRcotactDetailsColumns: GridColDef[] = [
     field: "designation",
     headerName: "Designation",
     width: 250,
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "button1",

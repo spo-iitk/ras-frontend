@@ -597,7 +597,7 @@ function ProfileEdit() {
                     disabled={StudentData.is_verified}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                   <p>Category</p>
                   <Select
                     fullWidth
@@ -631,7 +631,7 @@ function ProfileEdit() {
                     }
                     disabled={StudentData.is_verified}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <p>Current Address</p>
                   <TextField

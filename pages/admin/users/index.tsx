@@ -4,7 +4,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
 import { GridColDef } from "@mui/x-data-grid";
-import { Button, Modal, Switch } from "@mui/material";
+import { Button, Modal, Switch, Tooltip } from "@mui/material";
 
 import useStore from "@store/store";
 import userDetailsRequest, {
@@ -106,6 +106,15 @@ function Users() {
     {
       field: "name",
       headerName: "Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "user_id",
+      headerName: "User ID",
     },
     {
       field: "role_id",

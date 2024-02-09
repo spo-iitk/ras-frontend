@@ -1,4 +1,4 @@
-import { Button, Container, Modal, Stack } from "@mui/material";
+import { Button, Container, Modal, Stack, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid";
 // import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid";
@@ -150,10 +150,20 @@ function Index() {
     {
       field: "name",
       headerName: "Student Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "email",
       headerName: "Student Email",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "roll_no",
