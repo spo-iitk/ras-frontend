@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
-import { IconButton, Modal, Stack } from "@mui/material";
+import { IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 // import { set } from "date-fns";
 
@@ -19,6 +19,11 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Company Name",
+    renderCell: (params) => (
+      <Tooltip title={params.value}>
+        <div>{params.value}</div>
+      </Tooltip>
+    ),
   },
   {
     field: "CreatedAt",
