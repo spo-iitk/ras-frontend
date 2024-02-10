@@ -103,13 +103,13 @@ function AuthHR(props: { id: string; Name: string }) {
       <Modal open={openAuthHR} onClose={handleCloseAuthHR}>
         <Box sx={boxStyle}>
           <Stack spacing={3}>
-            <h2>Enter New Password</h2>
+            <h2>Generate New Password</h2>
             <Button
               variant="contained"
               sx={{ width: "100%" }}
               onClick={handleSubmit}
             >
-              Submit
+              Generate
             </Button>
           </Stack>
         </Box>
