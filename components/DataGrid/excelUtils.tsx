@@ -1,7 +1,12 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 
-function downloadExcel(rows, columns, name, rcname) {
+function downloadExcel(
+  rows: any[],
+  columns: any[],
+  name: string,
+  rcname: string
+) {
   const wb = new ExcelJS.Workbook();
   wb.creator = name;
   wb.lastModifiedBy = name;
@@ -10,11 +15,13 @@ function downloadExcel(rows, columns, name, rcname) {
   wb.modified = new Date();
   const ws = wb.addWorksheet("Sheet 1");
 
-  const headers = columns.map((column) => column.headerName);
+  const headers = columns.map(
+    (column: { headerName: any }) => column.headerName
+  );
   ws.addRow(headers);
 
-  rows.forEach((row) => {
-    const rowData = columns.map((column) => {
+  rows.forEach((row: { [x: string]: any }) => {
+    const rowData = columns.map((column: { field: any }) => {
       const { field } = column;
       return row[field] || "";
     });
