@@ -6,12 +6,20 @@ import {
   GridCellParams,
   GridColDef,
   // GridRowHeightParams,
-  GridToolbar,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarFilterButton,
   MuiEvent,
 } from "@mui/x-data-grid";
+import Button from "@mui/material/Button";
 import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
+import DownloadIcon from "@mui/icons-material/Download";
+
+import useStore from "@store/store";
+
+import downloadExcel from "./excelUtils";
 
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
@@ -45,6 +53,16 @@ function CustomNoRowsOverlay() {
     </StyledGridOverlay>
   );
 }
+
+function CustomToolbar({ handleDownload }: { handleDownload: () => void }) {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <Button startIcon={<DownloadIcon />} onClick={handleDownload} />
+    </GridToolbarContainer>
+  );
+}
 interface paramsType {
   rows: any[];
   columns: GridColDef[];
@@ -69,6 +87,11 @@ function Index({
   heighted = false,
 }: paramsType) {
   const [pageSize, setPageSize] = useState<number>(25);
+  const { name, rcName } = useStore();
+
+  const handleDownload = () => {
+    downloadExcel(rows, columns, name, rcName);
+  };
 
   const cols = columns.map((col) => ({
     ...col,
@@ -82,7 +105,8 @@ function Index({
         rows={rows}
         columns={cols}
         components={{
-          Toolbar: GridToolbar,
+          // eslint-disable-next-line react/no-unstable-nested-components
+          Toolbar: () => <CustomToolbar handleDownload={handleDownload} />,
           NoRowsOverlay: CustomNoRowsOverlay,
         }}
         componentsProps={{
