@@ -7,7 +7,10 @@ import AddIcon from "@mui/icons-material/Add";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import EditIcon from "@mui/icons-material/Edit";
 import SyncIcon from "@mui/icons-material/Sync";
+import Download from "@mui/icons-material/Download";
 import { AcUnit } from "@mui/icons-material";
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
 
 import DataGrid from "@components/DataGrid";
 import useStore from "@store/store";
@@ -149,13 +152,38 @@ const columns: GridColDef[] = [
     ),
   },
 ];
+
+function downloadExcel(rows, columns, name) {
+  const wb = new ExcelJS.Workbook();
+  wb.creator = name;
+  wb.lastModifiedBy = name;
+  wb.created = new Date(1985, 8, 30);
+  wb.modified = new Date();
+  wb.lastPrinted = new Date(2016, 9, 27);
+  const ws = wb.addWorksheet("Sheet 1");
+
+  const headers = columns.map((column) => column.headerName);
+  ws.addRow(headers);
+
+  rows.forEach((row) => {
+    const rowData = columns.map((column) => {
+      const { field } = column;
+      return row[field] || "";
+    });
+    ws.addRow(rowData);
+  });
+
+  wb.xlsx.writeBuffer().then((excelBuffer) => {
+    saveAs(new Blob([excelBuffer]), "students.xlsx");
+  });
+}
 function Index() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows, setRows] = useState<any>([]);
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
-  const { token, rcName, role } = useStore();
+  const { token, rcName, role, name } = useStore();
   const [showButtons, setShowButtons] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openEnroll, setOpenEnroll] = useState(false);
@@ -209,6 +237,10 @@ function Index() {
         );
       });
   }, [rid, token]);
+
+  const handleDownloadExcel = () => {
+    downloadExcel(rows, columns, name);
+  };
 
   const [openSync, setOpenSync] = useState(false);
   const handleOpenSync = () => {
@@ -268,6 +300,15 @@ function Index() {
                 <div />
               )}
             </Tooltip> */}
+            <Tooltip title="Download Table Data">
+              {role === 100 ? (
+                <IconButton onClick={handleDownloadExcel}>
+                  <Download />
+                </IconButton>
+              ) : (
+                <div />
+              )}
+            </Tooltip>
             <Tooltip title="Edit Student Data">
               {role === 100 ? (
                 <IconButton onClick={handleOpenNew}>
