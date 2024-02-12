@@ -5,7 +5,8 @@ function downloadExcel(
   rows: any[],
   columns: any[],
   name: string,
-  user_id: string
+  user_id: string,
+  page_name: string
 ) {
   const wb = new ExcelJS.Workbook();
   wb.creator = `${name} | ${user_id}`;
@@ -29,7 +30,7 @@ function downloadExcel(
   });
 
   wb.xlsx.writeBuffer().then((excelBuffer) => {
-    saveAs(new Blob([excelBuffer]), `data.xlsx`);
+    saveAs(new Blob([excelBuffer]), `${page_name}.xlsx`);
   });
 }
 

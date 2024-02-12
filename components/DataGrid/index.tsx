@@ -94,8 +94,11 @@ function Index({
   const { name, role, token, setToken } = useStore();
   const router = useRouter();
   const [userId, setUserId] = useState("");
+  const [pageName, setPageName] = useState("");
 
   useEffect(() => {
+    setPageName(document.title);
+
     const getCompany = async () => {
       const response = await companyRequest.get(token);
       if (response.name === "error401" && response.email === "error401") {
@@ -131,7 +134,7 @@ function Index({
   }, [role, userId, router, token, setToken]);
 
   const handleDownload = () => {
-    downloadExcel(rows, columns, name, userId);
+    downloadExcel(rows, columns, name, userId, pageName);
   };
   const cols = columns.map((col) => ({
     ...col,
