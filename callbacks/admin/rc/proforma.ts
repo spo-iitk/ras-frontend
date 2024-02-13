@@ -9,6 +9,7 @@ import {
   setConfig,
 } from "@callbacks/constants";
 import { errorNotification, successNotification } from "@callbacks/notifcation";
+import { CountResponse } from "./stats";
 
 interface nullBool {
   Bool: boolean;
@@ -88,6 +89,35 @@ const requestProforma = {
           err.response?.data?.error || err.message
         );
         return [] as ProformaType[];
+      }),
+};
+
+export const getCompanyRecruitCountRequest = {
+  post: (token: string, cids: number[]) =>
+    instance
+      .post<StatusResponse, AxiosResponse<CountResponse>>(
+        `/rc/0/company/count`,
+        cids,
+        setConfig(token)
+      )
+      .then((res) => res.data)
+      .catch((err: ErrorType) => {
+        errorNotification("Registration Failed", err.response?.data?.error);
+        return { ppoCount: 0, recruitCount: 0 };
+      }),
+};
+
+export const getCompanyStatsRequest = {
+  get: (token: string, rcid: string, cid: string) =>
+    instance
+      .get(`/rc/${rcid}/company/${cid}/stats`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching data",
+          err.response?.data?.error || err.message
+        );
+        return { student: [] };
       }),
 };
 

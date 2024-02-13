@@ -40,6 +40,15 @@ export interface Stats {
   branch: BranchStats[];
 }
 
+export interface CountResponse {
+  recruitCounts: {
+    [key: string]: number;
+  };
+  ppoCount: {
+    [key: string]: number;
+  };
+}
+
 const instance = axios.create({
   baseURL: ADMIN_APPLICATION_URL,
   timeout: 15000,
