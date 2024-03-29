@@ -6,12 +6,24 @@ import {
   GridCellParams,
   GridColDef,
   // GridRowHeightParams,
-  GridToolbar,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarFilterButton,
   MuiEvent,
 } from "@mui/x-data-grid";
+import Button from "@mui/material/Button";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DownloadIcon from "@mui/icons-material/Download";
+
+import companyRequest from "@callbacks/company/company";
+import studentRequest from "@callbacks/student/student";
+import whoami from "@callbacks/auth/whoami";
+import useStore from "@store/store";
+
+import downloadExcel from "./excelUtils";
 
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
@@ -45,6 +57,16 @@ function CustomNoRowsOverlay() {
     </StyledGridOverlay>
   );
 }
+
+function CustomToolbar({ handleDownload }: { handleDownload: () => void }) {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <Button startIcon={<DownloadIcon />} onClick={handleDownload} />
+    </GridToolbarContainer>
+  );
+}
 interface paramsType {
   rows: any[];
   columns: GridColDef[];
@@ -69,7 +91,51 @@ function Index({
   heighted = false,
 }: paramsType) {
   const [pageSize, setPageSize] = useState<number>(25);
+  const { name, role, token, setToken } = useStore();
+  const router = useRouter();
+  const [userId, setUserId] = useState("");
+  const [pageName, setPageName] = useState("");
 
+  useEffect(() => {
+    setPageName(document.title);
+
+    const getCompany = async () => {
+      const response = await companyRequest.get(token);
+      if (response.name === "error401" && response.email === "error401") {
+        router.push("/login");
+        setToken("");
+      }
+      setUserId(response.email.split("@")[0]);
+    };
+
+    const getStudent = async () => {
+      const response = await studentRequest.get(token);
+      if (response.ID === -1) {
+        router.push("/login");
+        setToken("");
+      }
+      setUserId(response.iitk_email.split("@")[0]);
+    };
+
+    const getAdmin = async () => {
+      const response = await whoami.get(token);
+      if (response.name === "error401" && response.user_id === "error401") {
+        router.push("/login");
+        setToken("");
+      }
+      setUserId(response.user_id.split("@")[0]);
+    };
+    if (token !== "") {
+      if (role === 2) getCompany();
+      if (role === 1) getStudent();
+      if (role === 100 || role === 101 || role === 102 || role === 103)
+        getAdmin();
+    }
+  }, [role, userId, router, token, setToken]);
+
+  const handleDownload = () => {
+    downloadExcel(rows, columns, name, userId, pageName);
+  };
   const cols = columns.map((col) => ({
     ...col,
     flex: 1,
@@ -82,7 +148,8 @@ function Index({
         rows={rows}
         columns={cols}
         components={{
-          Toolbar: GridToolbar,
+          // eslint-disable-next-line react/no-unstable-nested-components
+          Toolbar: () => <CustomToolbar handleDownload={handleDownload} />,
           NoRowsOverlay: CustomNoRowsOverlay,
         }}
         componentsProps={{
