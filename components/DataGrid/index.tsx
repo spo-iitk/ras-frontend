@@ -9,7 +9,6 @@ import {
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarFilterButton,
-  GridToolbarQuickFilter,
   MuiEvent,
 } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
@@ -65,11 +64,6 @@ function CustomToolbar({ handleDownload }: { handleDownload: () => void }) {
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <Button startIcon={<DownloadIcon />} onClick={handleDownload} />
-      <Box flexGrow={1} />
-      <GridToolbarQuickFilter
-        showQuickFilter
-        quickFilterProps={{ debounceMs: 500 }}
-      />
     </GridToolbarContainer>
   );
 }
@@ -157,6 +151,12 @@ function Index({
           // eslint-disable-next-line react/no-unstable-nested-components
           Toolbar: () => <CustomToolbar handleDownload={handleDownload} />,
           NoRowsOverlay: CustomNoRowsOverlay,
+        }}
+        componentsProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
         }}
         disableDensitySelector
         pageSize={pageSize}
