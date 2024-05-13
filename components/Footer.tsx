@@ -101,21 +101,30 @@ function Footer() {
                   <Typography variant="body2">Department Brochure</Typography>
                 </a>
                 <a
-                  href="https://spo.iitk.ac.in/companies#ipolicy"
+                  href="https://spo.iitk.ac.in/companies"
                   target="_blank"
                   rel="noreferrer"
                 >
                   <Typography variant="body2">
-                    Intern Policy (Company)
+                    Intern and Placement Policy (Company)
                   </Typography>
                 </a>
                 <a
-                  href="https://spo.iitk.ac.in/docs/2021-22/Internship-Policy-2021-22.pdf"
+                  href="https://spo.iitk.ac.in/assets/2023-24/Internship-Policy-2023-24.pdf"
                   target="_blank"
                   rel="noreferrer"
                 >
                   <Typography variant="body2">
                     Intern Policy (Student)
+                  </Typography>
+                </a>
+                <a
+                  href="https://spo.iitk.ac.in/assets/2023-24/Placement_Policy_2023-24.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Typography variant="body2">
+                    Placement Policy (Student)
                   </Typography>
                 </a>
                 <a
