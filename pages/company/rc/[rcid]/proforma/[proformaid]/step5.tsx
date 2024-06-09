@@ -1,182 +1,469 @@
+import AddIcon from "@mui/icons-material/Add";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
-  Autocomplete,
-  Button,
   Card,
+  Drawer,
   FormControl,
+  IconButton,
+  ListItemAvatar,
+  ListItemButton,
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Paper from "@mui/material/Paper";
+import Step from "@mui/material/Step";
+import StepContent from "@mui/material/StepContent";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 
+import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
+import eventRequest from "@callbacks/company/rc/proforma/event";
 import useStore from "@store/store";
-import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
-import companyRequest, { HR } from "@callbacks/company/company";
+import { successNotification } from "@callbacks/notifcation";
 
-const ROUTE = "/company/rc/[rcId]";
+const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step6";
 
+type Anchor = "top" | "left" | "bottom" | "right";
+
+const style = {
+  width: "100%",
+  maxWidth: 360,
+};
+
+const textFieldColor = "#000000";
+const textFieldSX = {
+  input: {
+    "-webkit-text-fill-color": `${textFieldColor} !important`,
+    color: `${textFieldColor} !important`,
+    fontWeight: "bold",
+  },
+};
 function Step5() {
   const router = useRouter();
   const { rcid, proformaid } = router.query;
-  const rid = (rcid || "").toString();
-  const pid = (proformaid || "").toString();
   const { token } = useStore();
-  const [fetchData, setFetch] = useState<ProformaType>({
-    ID: 0,
-  } as ProformaType);
-  const [HRdata, setHR] = useState<HR>({ name: "", hr1: "", hr2: "", hr3: "" });
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ProformaType>({
-    defaultValues: fetchData,
+  const [array, setArray] = useState<any>([]);
+
+  const { register, handleSubmit, control, reset, getValues, setValue } =
+    useForm();
+  const { fields, append, remove } = useFieldArray<
+    FieldValues,
+    "fieldArray",
+    "ID"
+  >({
+    control,
+    name: "fieldArray",
   });
-  const handleNext = async (data: ProformaType) => {
-    const info = {
-      ...data,
-      ID: parseInt(pid, 10),
+  useEffect(() => {
+    const fetchStep4 = async () => {
+      if (router.isReady) {
+        const response = await eventRequest.getAll(
+          token,
+          (rcid || "").toString(),
+          (proformaid || "").toString()
+        );
+        let arrays_temp: {
+          label: string;
+          duration: string;
+          ID: number;
+        }[] = [];
+        for (let i = 0; i < response.length; i += 1) {
+          const obj = {
+            label: response[i].name,
+            duration: (response[i].duration || "").toString(),
+            ID: response[i].ID,
+          };
+          arrays_temp.push(obj);
+        }
+        setArray(arrays_temp);
+        reset({ fieldArray: arrays_temp });
+      }
     };
-    const res = await proformaRequest.put(token, rid, info);
-    if (res) {
-      reset({
-        additional_eligibility: "",
-        message_for_cordinator: "",
-        active_hr: "",
-      });
-      router.push({
-        pathname: ROUTE,
-        query: { rcId: rid },
-      });
+    fetchStep4();
+  }, [token, proformaid, rcid, router.isReady, reset]);
+  const [activeStep, setActiveStep] = useState(0);
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
+  const tiles = [
+    {
+      label: "Pre-Placement Talk",
+      duration: "0 Min",
+    },
+    {
+      label: "Resume Shortlisting",
+      duration: "0 Min",
+    },
+    {
+      label: "Group Discussion",
+      duration: "0 Min",
+    },
+    {
+      label: "Technical Test",
+      duration: "0 Min",
+    },
+    {
+      label: "Aptitude Test",
+      duration: "0 Min",
+    },
+    {
+      label: "Technical Interview",
+      duration: "0 Min",
+    },
+    {
+      label: "HR Interview",
+      duration: "0 Min",
+    },
+    {
+      label: "Other",
+      duration: "0 Min",
+    },
+  ];
+
+  const [state, setState] = useState({
+    bottom: false,
+  });
+
+  const toggleDrawer =
+    (anchor: Anchor, open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+
+      setState({ ...state, [anchor]: open });
+    };
+
+  const handleAdd = (id: number) => {
+    append({
+      label: tiles[id].label,
+      duration: tiles[id].duration,
+    });
+    setActiveStep(fields.length + 1);
+  };
+
+  const handleDelete = async (index: number) => {
+    if (fields[index].ID !== undefined) {
+      const response = await eventRequest.delete(
+        token,
+        (rcid || "").toString(),
+        fields[index].ID.toString()
+      );
+      if (response) {
+        remove(index);
+        setActiveStep(index);
+        router.reload();
+      }
+    } else {
+      successNotification("Step deleted successfully", "");
+      remove(index);
+      setActiveStep(index);
     }
   };
-  useEffect(() => {
-    if (!(rid && pid)) return;
-    const getStep5 = async () => {
-      const data = await proformaRequest.get(token, rid, pid);
-      const hr = await companyRequest.getHR(token, rid);
-      setHR(hr);
-      setFetch(data);
-      reset(data);
-    };
-    getStep5();
-  }, [rid, pid, token, reset]);
+
+  const list = (anchor: Anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+      padding="10px"
+      height="70vh"
+    >
+      <Stack spacing={3}>
+        <div style={{ height: 10 }} />
+        <List sx={style} component="nav" aria-label="mailbox folders">
+          {tiles.map((tile, index) => (
+            <ListItemButton
+              onClick={() => {
+                handleAdd(index);
+              }}
+              key={tile.label}
+            >
+              <ListItem sx={{ borderRadius: 5 }} button>
+                <ListItemAvatar sx={{}}>{iconMap[tile.label]}</ListItemAvatar>
+                <ListItemText>
+                  <h4>{tile.label}</h4>
+                </ListItemText>
+              </ListItem>
+            </ListItemButton>
+          ))}
+        </List>
+      </Stack>
+    </Box>
+  );
 
   return (
-    <div>
-      <Meta title="Step 5 - Additional Information" />
-      <Card
-        elevation={5}
-        sx={{
-          padding: 3,
-          width: { xs: "330px", sm: "600px", margin: "0px auto" },
-        }}
-      >
-        <Stack spacing={3}>
-          <h2>Step 5/5 : Additional Information</h2>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Additional Eligibility Criteria</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              minRows={3}
-              variant="standard"
-              error={!!errors.additional_eligibility}
-              helperText={
-                errors.additional_eligibility && "This field is required!"
-              }
-              {...register("additional_eligibility")}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Message for Placement Coordinator</p>
-            <TextField
-              id="Cname"
-              required
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              multiline
-              minRows={5}
-              variant="standard"
-              error={!!errors.message_for_cordinator}
-              helperText={
-                errors.message_for_cordinator && "This field is required!"
-              }
-              {...register("message_for_cordinator")}
-            />
-          </FormControl>
+    <div style={{ marginBottom: 20 }}>
+      <Meta title="Step 5 - Add Hiring Process" />
+      <Stack spacing={4}>
+        <h2>Step 5/6 - Add Hiring Process</h2>
+        <Stack
+          spacing={3}
+          justifyContent="center"
+          alignItems={{ xs: "center", md: "flex-start" }}
+          direction={{ xs: "column", md: "row" }}
+        >
+          <div>
+            <Stepper activeStep={activeStep} orientation="vertical">
+              <Step>
+                <StepLabel>
+                  <Card sx={{ padding: 2, width: "300px" }}>
+                    <Stack spacing={3}>
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Stack direction="row" spacing={2} alignItems="center">
+                          {iconMap.Applications}
 
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Select Active HR</p>
-            <Autocomplete
-              disablePortal
-              id="select-active-hr"
-              options={[
-                {
-                  id: 1,
-                  label: HRdata.hr1,
-                },
-                {
-                  id: 2,
-                  label: HRdata.hr2,
-                },
-                {
-                  id: 3,
-                  label: HRdata.hr3,
-                },
-              ]}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  fullWidth
-                  variant="standard"
-                  error={!!errors.active_hr}
-                  helperText={errors.active_hr && "This field is required!"}
-                  {...register("active_hr", { required: true })}
-                />
-              )}
-            />
-          </FormControl>
-
-          <Stack
-            spacing={3}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Button
-              variant="contained"
-              sx={{ width: "50%" }}
-              disabled={!router.isReady || rid === ""}
-              onClick={handleSubmit(handleNext)}
-            >
-              Submit
-            </Button>
-            <Button
-              variant="contained"
-              sx={{ width: "50%" }}
-              onClick={() => {
-                reset({
-                  additional_eligibility: "",
-                  message_for_cordinator: "",
-                  active_hr: "",
-                });
-              }}
-            >
-              Reset
-            </Button>
-          </Stack>
+                          <TextField
+                            variant="standard"
+                            disabled
+                            value="Applications"
+                            sx={textFieldSX}
+                          />
+                        </Stack>
+                      </Stack>
+                    </Stack>
+                  </Card>
+                </StepLabel>
+                <StepContent>
+                  <Box sx={{ mb: 2 }}>
+                    <div>
+                      <Button
+                        variant="contained"
+                        onClick={handleNext}
+                        sx={{ mt: 1, mr: 1 }}
+                      >
+                        Continue
+                      </Button>
+                      <Button
+                        disabled
+                        onClick={handleBack}
+                        sx={{ mt: 1, mr: 1 }}
+                      >
+                        Back
+                      </Button>
+                    </div>
+                  </Box>
+                </StepContent>
+              </Step>
+              {fields.map((step, index) => (
+                <Step key={step.ID}>
+                  <StepLabel>
+                    <Card sx={{ padding: 2, width: "300px" }}>
+                      <Stack spacing={3}>
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <Stack
+                            direction="row"
+                            spacing={2}
+                            alignItems="center"
+                          >
+                            {iconMap[getValues(`fieldArray.${index}.label`)]}
+                            {!iconMap[
+                              getValues(`fieldArray.${index}.label`)
+                            ] && <AttachFileIcon fontSize="large" />}
+                            <TextField
+                              variant="standard"
+                              disabled={
+                                getValues(`fieldArray.${index}.label`) !==
+                                "Other"
+                              }
+                              sx={textFieldSX}
+                              {...register(`fieldArray.${index}.label`)}
+                            />
+                          </Stack>
+                          {index === activeStep - 1 ? (
+                            <IconButton onClick={() => handleDelete(index)}>
+                              <DeleteForeverIcon />
+                            </IconButton>
+                          ) : null}
+                        </Stack>
+                        <FormControl sx={{ mt: 1 }}>
+                          <TextField
+                            label="Duration"
+                            defaultValue="0"
+                            variant="outlined"
+                            {...register(`fieldArray.${index}.duration`)}
+                          />
+                        </FormControl>
+                      </Stack>
+                    </Card>
+                  </StepLabel>
+                  <StepContent>
+                    <Box sx={{ mb: 2 }}>
+                      <div>
+                        <Button
+                          variant="contained"
+                          onClick={handleNext}
+                          sx={{ mt: 1, mr: 1 }}
+                        >
+                          {index === fields.length - 1 ? "Finish" : "Continue"}
+                        </Button>
+                        <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
+                          Back
+                        </Button>
+                      </div>
+                    </Box>
+                  </StepContent>
+                </Step>
+              ))}
+            </Stepper>
+            {activeStep === fields.length + 1 && (
+              <Paper square elevation={0} sx={{ p: 3 }}>
+                <Typography>
+                  All steps completed - you&apos;re finished
+                </Typography>
+                <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                  Reset
+                </Button>
+              </Paper>
+            )}
+          </div>
+          <div>
+            <Stack spacing={3} sx={{ display: { xs: "none", md: "block" } }}>
+              {tiles.map((tile, index) => (
+                <Card sx={{ padding: 3, width: "350px" }} key={tile.label}>
+                  <Stack
+                    spacing={3}
+                    alignItems="center"
+                    justifyContent="space-between"
+                    direction="row"
+                  >
+                    <div>
+                      <Stack direction="row" spacing={3} alignItems="center">
+                        {iconMap[tile.label]}
+                        <Typography variant="subtitle1" fontWeight={600}>
+                          {tile.label}
+                        </Typography>
+                      </Stack>
+                    </div>
+                    <div>
+                      <IconButton onClick={() => handleAdd(index)}>
+                        <AddIcon />
+                      </IconButton>
+                    </div>
+                  </Stack>
+                </Card>
+              ))}
+            </Stack>
+          </div>
         </Stack>
-      </Card>
+        <Stack direction="row" justifyContent="center" alignItems="center">
+          <IconButton
+            onClick={toggleDrawer("bottom", true)}
+            sx={{
+              display: { xs: "block", md: "none" },
+            }}
+          >
+            <AddCircleOutlineIcon fontSize="large" />
+          </IconButton>
+        </Stack>
+        <Drawer
+          anchor="bottom"
+          open={state.bottom}
+          onClose={toggleDrawer("bottom", false)}
+        >
+          {list("left")}
+        </Drawer>
+        <Stack spacing={3} justifyContent="center" direction="row">
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "50%", md: "20%" } }}
+            onClick={handleSubmit(async (data) => {
+              const { fieldArray } = data;
+              let push = 1;
+              let count = 0;
+              // eslint-disable-next-line no-loop-func
+              for (let i = 0; i < fieldArray.length; i += 1) {
+                fieldArray[i].proforma_id = parseInt(
+                  (proformaid || "").toString(),
+                  10
+                );
+                fieldArray[i].sequence = 5 * (i + 1);
+                fieldArray[i].name = fieldArray[i].label;
+
+                let response = false;
+                if (count < array.length) {
+                  fieldArray[i].ID = array[i].ID;
+                  setValue("fieldArray", [{ id: array[i].ID }]);
+                  // eslint-disable-next-line no-await-in-loop
+                  response = await eventRequest.put(
+                    token,
+                    fieldArray[i],
+                    (rcid || "").toString()
+                  );
+                } else {
+                  // eslint-disable-next-line no-await-in-loop
+                  response = await eventRequest.post(
+                    token,
+                    fieldArray[i],
+                    (rcid || "").toString()
+                  );
+                }
+                count += 1;
+                if (!response) {
+                  push = 0;
+                  break;
+                }
+              }
+              if (push) {
+                router.push({
+                  pathname: ROUTE,
+                  query: { rcid, proformaid },
+                });
+              }
+            })}
+          >
+            Next
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ width: { xs: "50%", md: "20%" } }}
+            onClick={() =>
+              reset({
+                fieldArray: array,
+              })
+            }
+          >
+            Reset
+          </Button>
+        </Stack>
+      </Stack>
     </div>
   );
 }
-
 Step5.layout = "companyPhaseDashboard";
 export default Step5;
