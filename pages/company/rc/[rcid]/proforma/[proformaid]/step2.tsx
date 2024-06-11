@@ -1,389 +1,227 @@
-import { Button, Card, IconButton, Stack } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { useRouter } from "next/router";
+import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import RemoveIcon from "@mui/icons-material/Remove";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
-import {
-  Branches,
-  func,
-  programExpanded,
-  programType,
-} from "@components/Utils/matrixUtils";
 import Meta from "@components/Meta";
-import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
+import RichText from "@components/Editor/RichText";
 import useStore from "@store/store";
+import proformaRequest, { ProformaType } from "@callbacks/company/proforma";
 
-const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step3";
+const ROUTE = "/company/rc/[rcId]/proforma/[proformaid]/step3";
 
 function Step2() {
-  const [str, setStr] = useState(new Array(130 + 1).join("0"));
   const router = useRouter();
-  const { token } = useStore();
   const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
   const pid = (proformaid || "").toString();
-  useEffect(() => {
-    if (!(rid && pid)) return;
-    const getStep2 = async () => {
-      const data = await proformaRequest.get(token, rid, pid);
-      if (data.eligibility.length > 110) setStr(data.eligibility);
-    };
-    getStep2();
-  }, [rid, pid, token]);
-  const handleNext = async () => {
+  const { token } = useStore();
+  const [desc, changeDesc] = useState("");
+  const [fetchData, setFetch] = useState<ProformaType>({
+    ID: 0,
+  } as ProformaType);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ProformaType>({
+    defaultValues: fetchData,
+  });
+  const handleNext = async (data: ProformaType) => {
     const info = {
-      eligibility: str,
+      ...data,
       ID: parseInt(pid, 10),
-    } as ProformaType;
-    await proformaRequest.put(token, rid, info).then(() => {
+      job_description: desc,
+    };
+    const response = await proformaRequest.put(token, rid, info);
+    if (response) {
+      reset({
+        profile: "",
+        job_description: "",
+        tentative_job_location: "",
+        min_hires: "",
+      });
+      changeDesc("");
       router.push({
         pathname: ROUTE,
-        query: { rcid: rid, proformaid: pid },
+        query: { rcId: rid, proformaid: pid },
       });
-    });
-  };
-
-  const handleCheckAll = () => {
-    setStr(new Array(130 + 1).join("1"));
-  };
-
-  const handleReset = () => {
-    setStr(new Array(130 + 1).join("0"));
-  };
-
-  const handleProgramWise = (programName: string[]) => {
-    let newStr = str;
-    Branches.forEach((branch) => {
-      programName.forEach((program) => {
-        const idx =
-          func[branch as keyof typeof func][program as keyof programType];
-        if (idx !== -1) {
-          newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-        }
-      });
-    });
-    setStr(newStr);
-  };
-
-  const handleBranchWise = (branchName: string) => {
-    let newStr = str;
-    programExpanded.forEach((programName) => {
-      const idx =
-        func[branchName as keyof typeof func][programName as keyof programType];
-      if (idx !== -1) {
-        newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-      }
-    });
-    setStr(newStr);
-  };
-
-  const handleCheck = (branch: string, program: string[]) => {
-    let newStr = str;
-    program.forEach((programName) => {
-      const idx =
-        func[branch as keyof typeof func][programName as keyof programType];
-      if (idx !== -1) {
-        if (str[idx] === "1") {
-          newStr = `${newStr.substring(0, idx)}0${newStr.substring(idx + 1)}`;
-        } else {
-          newStr = `${newStr.substring(0, idx)}1${newStr.substring(idx + 1)}`;
-        }
-      }
-    });
-    setStr(newStr);
-  };
-
-  const handleExamSelection = (exam: string) => {
-    switch (exam) {
-      case "JEE":
-        handleProgramWise([
-          "BT",
-          "BS",
-          "DoubleMajor",
-          "DualA",
-          "DualB",
-          "DualC",
-        ]);
-        break;
-      case "JAM":
-        handleProgramWise(["MSc"]);
-        break;
-      case "CAT":
-        handleProgramWise(["MBA"]);
-        break;
-      case "GATE":
-        handleProgramWise(["MT", "MSR", "MDes"]);
-        break;
-      case "CEED":
-        handleProgramWise(["MDes"]);
-        break;
-      default:
-        break;
     }
   };
 
+  useEffect(() => {
+    const getStep1 = async () => {
+      const data = await proformaRequest.get(token, rid, pid);
+      setFetch(data);
+      reset(data);
+      changeDesc(data.job_description);
+    };
+    if (rid && pid) getStep1();
+  }, [rid, pid, token, reset]);
+
   return (
     <div>
-      <Meta title="Step 2 - New Opening" />
-      <Card sx={{ padding: 3 }}>
-        <h2>Step 2/5 (Eligibility Matrix)</h2>
-        <Stack spacing={4} alignItems="center">
-          <Stack spacing={1}>
-            <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton onClick={handleCheckAll}>
-                <CheckCircleIcon />
-              </IconButton>
-              <h3>Select all</h3>
-            </Stack>
-            <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton onClick={() => handleExamSelection("JEE")}>
-                <CheckCircleIcon />
-              </IconButton>
-              <h3>
-                Select all branches and programmes coming from JEE Advanced
-              </h3>
-            </Stack>
-            <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton onClick={() => handleExamSelection("GATE")}>
-                <CheckCircleIcon />
-              </IconButton>
-              <h3>Select all branches and programmes coming from GATE</h3>
-            </Stack>
-            <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton onClick={() => handleExamSelection("JAM")}>
-                <CheckCircleIcon />
-              </IconButton>
-              <h3>Select all branches and programmes coming from JAM</h3>
-            </Stack>
-            <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton onClick={() => handleExamSelection("CAT")}>
-                <CheckCircleIcon />
-              </IconButton>
-              <h3>Select all branches and programmes coming from CAT</h3>
-            </Stack>
-            <Stack spacing={4} direction="row" alignItems="center">
-              <IconButton onClick={() => handleExamSelection("CEED")}>
-                <CheckCircleIcon />
-              </IconButton>
-              <h3>Select all branches and programmes coming from CEED</h3>
-            </Stack>
-          </Stack>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    align="center"
-                    width={100}
-                    sx={{ fontWeight: 600 }}
-                  >
-                    Program
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={100}
-                    sx={{ fontWeight: 600 }}
-                  >
-                    <Button
-                      onClick={() =>
-                        handleProgramWise(["BT", "BS", "DoubleMajor"])
-                      }
-                    >
-                      BT / BS / Double Major
-                    </Button>
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={100}
-                    sx={{ fontWeight: 600 }}
-                  >
-                    <Button
-                      onClick={() => handleProgramWise(["MT", "MSc", "MSR"])}
-                    >
-                      MT / MSc /MSR
-                    </Button>
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={100}
-                    sx={{ fontWeight: 600 }}
-                  >
-                    <Button
-                      onClick={() =>
-                        handleProgramWise(["DualA", "DualB", "DualC"])
-                      }
-                    >
-                      Dual
-                    </Button>
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={100}
-                    sx={{ fontWeight: 600 }}
-                  >
-                    <Button onClick={() => handleProgramWise(["MDes"])}>
-                      MDes
-                    </Button>
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={100}
-                    sx={{ fontWeight: 600 }}
-                  >
-                    <Button onClick={() => handleProgramWise(["MBA"])}>
-                      MBA
-                    </Button>
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={100}
-                    sx={{ fontWeight: 600 }}
-                  >
-                    <Button onClick={() => handleProgramWise(["PhD"])}>
-                      PhD
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {Branches.map((branch) => (
-                  <TableRow>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      sx={{ fontWeight: 600 }}
-                    >
-                      <Button onClick={() => handleBranchWise(branch)}>
-                        {branch}
-                      </Button>
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].BT === -1 &&
-                      func[branch as keyof typeof func].BS === -1 &&
-                      func[branch as keyof typeof func].DoubleMajor === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].BT] === "1" ||
-                            str[func[branch as keyof typeof func].BS] === "1" ||
-                            str[
-                              func[branch as keyof typeof func].DoubleMajor
-                            ] === "1"
-                          }
-                          onClick={() =>
-                            handleCheck(branch, ["BT", "BS", "DoubleMajor"])
-                          }
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].MT === -1 &&
-                      func[branch as keyof typeof func].MSc === -1 &&
-                      func[branch as keyof typeof func].MSR === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].MT] === "1" ||
-                            str[func[branch as keyof typeof func].MSc] ===
-                              "1" ||
-                            str[func[branch as keyof typeof func].MSR] === "1"
-                          }
-                          onClick={() =>
-                            handleCheck(branch, ["MT", "MSc", "MSR"])
-                          }
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].DualA === -1 &&
-                      func[branch as keyof typeof func].DualB === -1 &&
-                      func[branch as keyof typeof func].DualC === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].DualA] ===
-                              "1" ||
-                            str[func[branch as keyof typeof func].DualB] ===
-                              "1" ||
-                            str[func[branch as keyof typeof func].DualC] === "1"
-                          }
-                          onClick={() =>
-                            handleCheck(branch, ["DualA", "DualB", "DualC"])
-                          }
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].MDes === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].MDes] === "1"
-                          }
-                          onClick={() => handleCheck(branch, ["MDes"])}
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].MBA === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].MBA] === "1"
-                          }
-                          onClick={() => handleCheck(branch, ["MBA"])}
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].PhD === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].PhD] === "1"
-                          }
-                          onClick={() => handleCheck(branch, ["PhD"])}
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+      <Meta title="Step 2 - Job Profile" />
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "330px", sm: "600px", margin: "0px auto" },
+        }}
+      >
+        <Stack spacing={3}>
+          <h2>Step 2/6 : Job Profile</h2>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Job Title/Designation</p>
+            <TextField
+              id="title"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.profile}
+              helperText={errors.profile?.message}
+              {...register("profile", {
+                required: "Profile is required",
+                maxLength: {
+                  value: 100,
+                  message: "Profile length should be less than 100",
+                },
+              })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
+            <TextField
+              id="TentativeJobLoaction"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.tentative_job_location}
+              helperText={
+                errors.tentative_job_location && "This field is required"
+              }
+              {...register("tentative_job_location", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Job Description</p>
+            <RichText
+              value={desc}
+              onChange={changeDesc}
+              style={{ minHeight: 200 }}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Minimum no. of hires</p>
+            <TextField
+              id="MinHires"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.min_hires}
+              helperText={
+                errors.tentative_job_location && "This field is required"
+              }
+              {...register("min_hires", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Expected total no. of hires</p>
+            <TextField
+              id="TotHires"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.total_hires}
+              helperText={errors.total_hires && "This field is required"}
+              {...register("total_hires", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Required Skill Set</p>
+            <TextField
+              id="Skills"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.skill_set}
+              helperText={errors.skill_set && "This field is required"}
+              {...register("skill_set", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>CPI criteria (if any)</p>
+            <TextField
+              id="CPI"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.cpi_criteria}
+              helperText={errors.cpi_criteria && "This field is required"}
+              {...register("cpi_criteria", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>
+              Is the position also open for PwD/DAP (If no, specify the nature
+              of disability)
+            </p>
+            <TextField
+              id="Skills"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.pwd}
+              helperText={errors.pwd && "This field is required"}
+              {...register("pwd", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Backlog eligibilty</p>
+            <TextField
+              id="Backlog"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.backlog_eligibility}
+              helperText={
+                errors.backlog_eligibility && "This field is required"
+              }
+              {...register("backlog_eligibility", { required: true })}
+            />
+          </FormControl>
           <Stack
+            spacing={3}
             direction="row"
-            spacing={5}
-            sx={{ width: { xs: "330px", md: "500px" } }}
+            justifyContent="center"
+            alignItems="center"
           >
             <Button
               variant="contained"
-              sx={{ width: "100%" }}
+              sx={{ width: "50%" }}
               disabled={!router.isReady || rid === "" || pid === ""}
-              onClick={handleNext}
+              onClick={handleSubmit(handleNext)}
             >
               Next
             </Button>
-            <Button
-              variant="contained"
-              sx={{ width: "100%" }}
-              onClick={handleReset}
-            >
+            <Button variant="contained" sx={{ width: "50%" }}>
               Reset
             </Button>
           </Stack>
