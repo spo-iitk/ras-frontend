@@ -190,16 +190,6 @@ function Step4() {
               {...register("relocation_bonus")}
             />
           </FormControl>
-          {fetchData.ID !== 0 && (
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Package Details</p>
-              <RichText
-                value={pkgDetails}
-                onChange={changePkg}
-                style={{ minHeight: 200 }}
-              />
-            </FormControl>
-          )}
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Bond Details</p>
             <TextField
@@ -287,6 +277,16 @@ function Step4() {
               {...register("perks")}
             />
           </FormControl>
+          {fetchData.ID !== 0 && (
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Total CTC</p>
+              <RichText
+                value={pkgDetails}
+                onChange={changePkg}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+          )}
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Medical Requirements</p>
             <TextField
