@@ -25,22 +25,24 @@ function MatrixCondensed({ data }: { data: string }) {
               Program
             </TableCell>
             <TableCell align="center" width={100} sx={{ fontWeight: 600 }}>
-              BT / BS / Double Major
+              Bachelor of Technology / Bachelor of Science / Double Major (BT /
+              BS / Double Major)
             </TableCell>
             <TableCell align="center" width={100} sx={{ fontWeight: 600 }}>
-              MT / MSc /MSR
+              Master of Technology / Master of Science / Master of Science by
+              Research (MT / MSc / MSR)
             </TableCell>
             <TableCell align="center" width={100} sx={{ fontWeight: 600 }}>
-              Dual
+              Dual Degree
             </TableCell>
             <TableCell align="center" width={100} sx={{ fontWeight: 600 }}>
-              MDes
+              Master of Design (MDes)
             </TableCell>
             <TableCell align="center" width={100} sx={{ fontWeight: 600 }}>
-              MBA
+              Master of Business Administration (MBA)
             </TableCell>
             <TableCell align="center" width={100} sx={{ fontWeight: 600 }}>
-              PhD
+              Doctor of Philosophy (PhD)
             </TableCell>
           </TableRow>
         </TableHead>

@@ -1,16 +1,16 @@
 export const programExpanded = [
-  "BT",
-  "BS",
+  "Bachelor of Technology",
+  "Bachelor of Science",
   "DoubleMajor",
   "DualA",
   "DualB",
   "DualC",
-  "MT",
-  "MSR",
-  "MSc",
-  "MDes",
-  "MBA",
-  "PhD",
+  "Master of Technology",
+  "Master of Science by Research",
+  "Master of Science",
+  "Master of Design",
+  "Master of Business Administration",
+  "Doctor of Philosophy",
 ];
 
 export const programCondensed = [
@@ -23,30 +23,30 @@ export const programCondensed = [
 ];
 
 export const Branches = [
-  "AE",
-  "BSBE",
-  "CE",
-  "CHE",
-  "CSE",
-  "EE",
-  "MSE",
-  "ME",
-  "CHM",
-  "ECO",
-  "ES",
-  "MTH",
-  "SDS",
-  "PHY",
-  "CGS",
-  "DES",
-  "MS",
-  "MSP",
-  "NET",
-  "PSE",
-  "Stats",
-  "HSS",
-  "Mathematics",
-  "SEE",
+"Aerospace Engineering (AE)",
+"Biological Sciences and Bioengineering (BSBE)",
+"Civil Engineering (CE)",
+"Chemical Engineering (CHE)",
+"Computer Science and Engineering (CSE)",
+"Electrical Engineering (EE)",
+"Material Science and Engineering (MSE)",
+"Mechanical Engineering (ME)",
+"Chemistry (CH)",
+"Economics (ECO)",
+"Earth Sciences (ES)",
+"Mathematics and Scientific Computing (MTH)",
+"Statistics and Data Science (SDS)",
+"Physics (Ph)",
+"Cognitive Science (CGS)",
+"Design (DES)",
+"Management Studies (MS)",
+"Materials Science Programme (MSP)",
+"Nuclear Engineering and Technology (NET)",
+"Photonics Science and Engineering (PSE)",
+"Statistics (Stats)",
+"Humanities and Social Sciences (HSS)",
+"Mathematics",
+"Sustainable Energy Engineering (SEE)",
   "SSA",
 ];
 
@@ -66,7 +66,7 @@ export type programType = {
 };
 
 export const func = {
-  AE: {
+  "Aerospace Engineering (AE)": {
     BT: 1,
     BS: -1,
     MT: 14,
@@ -80,7 +80,7 @@ export const func = {
     MSc: -1,
     MSR: 85,
   },
-  BSBE: {
+  "Biological Sciences and Bioengineering (BSBE)": {
     BT: 2,
     BS: -1,
     MT: 15,
@@ -94,7 +94,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  CE: {
+  "Civil Engineering (CE)": {
     BT: 3,
     BS: -1,
     MT: 16,
@@ -108,7 +108,7 @@ export const func = {
     MSc: -1,
     MSR: 86,
   },
-  CHE: {
+  "Chemical Engineering (CHE)": {
     BT: 4,
     BS: -1,
     MT: 17,
@@ -122,7 +122,7 @@ export const func = {
     MSc: -1,
     MSR: 87,
   },
-  CSE: {
+  "Computer Science and Engineering (CSE)": {
     BT: 5,
     BS: -1,
     MT: 18,
@@ -136,7 +136,7 @@ export const func = {
     MSc: -1,
     MSR: 88,
   },
-  EE: {
+  "Electrical Engineering (EE)": {
     BT: 6,
     BS: -1,
     MT: 19,
@@ -150,7 +150,7 @@ export const func = {
     MSc: -1,
     MSR: 89,
   },
-  MSE: {
+  "Material Science and Engineering (MSE)": {
     BT: 7,
     BS: -1,
     MT: 20,
@@ -164,7 +164,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  ME: {
+  "Mechanical Engineering (ME)": {
     BT: 8,
     BS: -1,
     MT: 21,
@@ -178,7 +178,7 @@ export const func = {
     MSc: -1,
     MSR: 90,
   },
-  CHM: {
+  "Chemistry (CH)": {
     BT: -1,
     BS: 9,
     MT: -1,
@@ -192,7 +192,7 @@ export const func = {
     MSc: 107,
     MSR: -1,
   },
-  ECO: {
+  "Economics (ECO)": {
     BT: -1,
     BS: 10,
     MT: -1,
@@ -206,7 +206,7 @@ export const func = {
     MSc: 108,
     MSR: -1,
   },
-  ES: {
+  "Earth Sciences (ES)": {
     BT: -1,
     BS: 11,
     MT: 22,
@@ -220,7 +220,7 @@ export const func = {
     MSc: 109,
     MSR: -1,
   },
-  MTH: {
+  "Mathematics and Scientific Computing (MTH)": {
     BT: -1,
     BS: 12,
     MT: -1,
@@ -234,7 +234,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  SDS: {
+  "Statistics and Data Science (SDS)": {
     BT: -1,
     BS: 95,
     MT: -1,
@@ -248,7 +248,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  PHY: {
+  "Physics (Ph)": {
     BT: -1,
     BS: 13,
     MT: -1,
@@ -262,7 +262,7 @@ export const func = {
     MSc: 110,
     MSR: -1,
   },
-  CGS: {
+  "Cognitive Science (CGS)": {
     BT: -1,
     BS: -1,
     MT: -1,
@@ -276,7 +276,7 @@ export const func = {
     MSc: -1,
     MSR: 91,
   },
-  DES: {
+  "Design (DES)": {
     BT: -1,
     BS: -1,
     MT: -1,
@@ -290,7 +290,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  MS: {
+  "Management Studies (MS)": {
     BT: -1,
     BS: -1,
     MT: 23,
@@ -304,7 +304,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  MSP: {
+  "Materials Science Programme (MSP)": {
     BT: -1,
     BS: -1,
     MT: 24,
@@ -318,7 +318,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  NET: {
+  "Nuclear Engineering and Technology (NET)": {
     BT: -1,
     BS: -1,
     MT: 25,
@@ -332,7 +332,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  PSE: {
+  "Photonics Science and Engineering (PSE)": {
     BT: -1,
     BS: -1,
     MT: 26,
@@ -346,7 +346,7 @@ export const func = {
     MSc: -1,
     MSR: 93,
   },
-  Stats: {
+  "Statistics (Stats)": {
     BT: -1,
     BS: -1,
     MT: -1,
@@ -360,7 +360,7 @@ export const func = {
     MSc: 83,
     MSR: -1,
   },
-  HSS: {
+  "Humanities and Social Sciences (HSS)": {
     BT: -1,
     BS: -1,
     MT: -1,
@@ -388,7 +388,7 @@ export const func = {
     MSc: 84,
     MSR: -1,
   },
-  SEE: {
+  "Sustainable Energy Engineering (SEE)": {
     BT: -1,
     BS: -1,
     MT: 27,
