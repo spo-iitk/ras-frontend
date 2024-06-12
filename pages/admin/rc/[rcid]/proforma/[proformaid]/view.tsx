@@ -28,10 +28,6 @@ function View() {
   const PID = router.query.proformaid;
   const rid = (rcid || "").toString();
   const ID = (PID || "").toString();
-  const [ctc, setCtc] = useState("");
-  const [jd, setJd] = useState("");
-  const [pd, setPd] = useState("");
-  const [isFetched, setisFetched] = useState(false);
   const [row, setRow] = useState<AdminProformaType>({
     ID: 0,
   } as AdminProformaType);
@@ -43,10 +39,6 @@ function View() {
         setRow(response);
         let response2 = await eventRequest.getAll(token, rid, ID);
         setRow2(response2);
-        setCtc(response.cost_to_company);
-        setJd(response.job_description);
-        setPd(response.package_details);
-        setisFetched(true);
       }
     };
     getCompanydata();

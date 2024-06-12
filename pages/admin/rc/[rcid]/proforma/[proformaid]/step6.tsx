@@ -148,25 +148,6 @@ function Step6() {
               )}
             />
           </FormControl>
-
-          <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>CPI Cutoff</p>
-            <TextField
-              id="Cname"
-              required
-              type="number"
-              sx={{ marginLeft: "5 rem" }}
-              fullWidth
-              minRows={5}
-              variant="standard"
-              error={!!errors.cpi_cutoff}
-              helperText={errors.cpi_cutoff && "This field is required!"}
-              {...register("cpi_cutoff", {
-                setValueAs: (value: string) => parseFloat(value),
-              })}
-              onWheel={(event) => (event.target as HTMLTextAreaElement).blur()}
-            />
-          </FormControl>
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Deadline</p>
             <TextField
