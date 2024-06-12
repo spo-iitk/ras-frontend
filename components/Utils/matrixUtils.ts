@@ -47,7 +47,7 @@ export const Branches = [
 "Humanities and Social Sciences (HSS)",
 "Mathematics",
 "Sustainable Energy Engineering (SEE)",
-  "SSA",
+  "Space Science and Astronomy (SSA)",
 ];
 
 export type programType = {
@@ -402,7 +402,7 @@ export const func = {
     MSc: -1,
     MSR: 94,
   },
-  SSA: {
+  "Space Science and Astronomy (SSA)": {
     BT: -1,
     BS: -1,
     MT: 106,
