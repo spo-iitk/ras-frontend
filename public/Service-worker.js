@@ -1,4 +1,4 @@
-// public/service-worker.js
+
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
