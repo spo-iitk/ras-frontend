@@ -1,4 +1,5 @@
-import { Button,
+import {
+  Button,
   Card,
   Checkbox,
   FormControl,
@@ -129,6 +130,7 @@ function ProformaNew() {
               id="Cname"
               disabled
               required
+              value={company}
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
@@ -143,6 +145,7 @@ function ProformaNew() {
               required
               fullWidth
               multiline
+              helperText={errors.company_name && "This field is required"}
               variant="standard"
               {...register("postal_address", {
                 required: "Postal Address is required",
