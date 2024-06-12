@@ -39,7 +39,32 @@ export interface AdminProformaType {
   additional_eligibility: string;
   message_for_cordinator: string;
   company_name: string;
-  cpi_cutoff: number;
+  postal_address: string;
+  establishment_date: string;
+  total_employees: string;
+  social_media: string;
+  website: string;
+  turnover: string;
+  type_of_org: string;
+  head_office: string;
+  min_hires: string;
+  total_hires: string;
+  skill_set: string;
+  pwd: string;
+  cpi_criteria: string;
+  backlog_eligibility: string;
+  ctc_inr: string;
+  ctc_fr: string;
+  gross: string;
+  take_home: string;
+  base: string;
+  joining_bonus: string;
+  relocation_bonus: string;
+  first_ctc: string;
+  medical_allowance: string;
+  retention_bonus: string;
+  deductions: string;
+  perks: string;
 }
 
 export interface ProformaResponse {
