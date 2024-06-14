@@ -1,6 +1,6 @@
 import { Button, Card, FormControl, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import Meta from "@components/Meta";
@@ -18,8 +18,7 @@ function Step3() {
   const rid = (rcid || "").toString();
   const pid = (proformaid || "").toString();
   const { token } = useStore();
-  const [ctc, changeCTC] = useState("");
-  const [pkgDetails, changePkg] = useState("");
+  const [desc, changeDesc] = useState("");
   const [fetchData, setFetch] = useState<AdminProformaType>({
     ID: 0,
   } as AdminProformaType);
@@ -28,7 +27,6 @@ function Step3() {
     handleSubmit,
     reset,
     formState: { errors },
-    control,
   } = useForm<AdminProformaType>({
     defaultValues: fetchData,
   });
@@ -36,18 +34,17 @@ function Step3() {
     const info = {
       ...data,
       ID: parseInt(pid, 10),
-      package_details: pkgDetails,
-      cost_to_company: ctc,
+      job_description: desc,
     };
     const response = await requestProforma.put(token, rid, info);
     if (response) {
       reset({
-        bond: false,
-        bond_details: "",
-        medical_requirements: "",
+        profile: "",
+        job_description: "",
+        tentative_job_location: "",
+        min_hires: "",
       });
-      changeCTC("");
-      changePkg("");
+      changeDesc("");
       router.push({
         pathname: ROUTE,
         query: { rcId: rid, proformaid: pid },
@@ -60,15 +57,14 @@ function Step3() {
       const data = await requestProforma.get(token, rid, pid);
       setFetch(data);
       reset(data);
-      changeCTC(data.cost_to_company);
-      changePkg(data.package_details);
+      changeDesc(data.job_description);
     };
     if (rid && pid) getStep3();
   }, [rid, pid, token, reset]);
 
   return (
     <div>
-      <Meta title="Step 3/5 - Package Details" />
+      <Meta title="Step 3 - Job Profile" />
       <Card
         elevation={5}
         sx={{
@@ -77,58 +73,131 @@ function Step3() {
         }}
       >
         <Stack spacing={3}>
-          <h2>Step 3 : Package Details</h2>
-          {fetchData.ID !== 0 && (
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Cost to Company</p>
-              <RichText
-                value={ctc}
-                onChange={changeCTC}
-                style={{ minHeight: 200 }}
-              />
-            </FormControl>
-          )}
-          {fetchData.ID !== 0 && (
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Package Details</p>
-              <RichText
-                value={pkgDetails}
-                onChange={changePkg}
-                style={{ minHeight: 200 }}
-              />
-            </FormControl>
-          )}
+          <h2>Step 3 : Job Profile</h2>
           <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Bond Details</p>
+            <p style={{ fontWeight: 300 }}>Job Title/Designation</p>
             <TextField
-              id="Cname"
-              required
-              disabled={useWatch({ control, name: "bond" }) === true}
+              id="title"
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
-              minRows={3}
               variant="standard"
-              error={!!errors.bond_details}
-              helperText={errors.bond_details && "This field is required"}
-              {...register("bond_details")}
+              error={!!errors.profile}
+              helperText={errors.profile?.message}
+              {...register("profile", {
+                maxLength: {
+                  value: 100,
+                  message: "Profile length should be less than 100",
+                },
+              })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
-            <p style={{ fontWeight: 300 }}>Medical Requirements</p>
+            <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
             <TextField
-              id="Cname"
-              required
+              id="TentativeJobLoaction"
               sx={{ marginLeft: "5 rem" }}
               fullWidth
               multiline
-              minRows={4}
               variant="standard"
-              error={!!errors.medical_requirements}
+              error={!!errors.tentative_job_location}
               helperText={
-                errors.medical_requirements && "This field is required"
+                errors.tentative_job_location && "This field is required"
               }
-              {...register("medical_requirements")}
+              {...register("tentative_job_location")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Job Description</p>
+            <RichText
+              value={desc}
+              onChange={changeDesc}
+              style={{ minHeight: 200 }}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Minimum no. of hires</p>
+            <TextField
+              id="MinHires"
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.min_hires}
+              helperText={
+                errors.tentative_job_location && "This field is required"
+              }
+              {...register("min_hires", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Expected total no. of hires</p>
+            <TextField
+              id="TotHires"
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.total_hires}
+              helperText={errors.total_hires && "This field is required"}
+              {...register("total_hires", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Required Skill Set</p>
+            <TextField
+              id="Skills"
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.skill_set}
+              helperText={errors.skill_set && "This field is required"}
+              {...register("skill_set", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>CPI criteria (if any)</p>
+            <TextField
+              id="CPI"
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.cpi_criteria}
+              helperText={errors.cpi_criteria && "This field is required"}
+              {...register("cpi_criteria", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>
+              Is the position also open for PwD/DAP (If no, specify the nature
+              of disability)
+            </p>
+            <TextField
+              id="Skills"
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.pwd}
+              helperText={errors.pwd && "This field is required"}
+              {...register("pwd", { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Backlog eligibilty</p>
+            <TextField
+              id="Backlog"
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.backlog_eligibility}
+              helperText={
+                errors.backlog_eligibility && "This field is required"
+              }
+              {...register("backlog_eligibility", { required: true })}
             />
           </FormControl>
           <Stack

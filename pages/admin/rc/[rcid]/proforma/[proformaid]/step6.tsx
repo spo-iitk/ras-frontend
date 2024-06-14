@@ -1,0 +1,204 @@
+import {
+  Autocomplete,
+  Button,
+  Card,
+  FormControl,
+  Stack,
+  TextField,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+
+import Meta from "@components/Meta";
+import useStore from "@store/store";
+import requestProforma, {
+  AdminProformaType,
+} from "@callbacks/admin/rc/adminproforma";
+import requestCompanyHR, { HR } from "@callbacks/admin/rc/companyhr";
+
+const ROUTE = "/admin/rc/[rcId]";
+function Step6() {
+  const router = useRouter();
+  const { rcid, proformaid } = router.query;
+  const rid = (rcid || "").toString();
+  const pid = (proformaid || "").toString();
+  const { token } = useStore();
+  const [fetchData, setFetch] = useState<AdminProformaType>({
+    ID: 0,
+  } as AdminProformaType);
+  const [HRdata, setHR] = useState<HR>({ name: "", hr1: "", hr2: "", hr3: "" });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<AdminProformaType>({
+    defaultValues: fetchData,
+  });
+  const handleNext = async (data: AdminProformaType) => {
+    const info = {
+      ...data,
+      ID: parseInt(pid, 10),
+    };
+    const res = await requestProforma.put(token, rid, info);
+    if (res) {
+      reset({
+        additional_eligibility: "",
+        message_for_cordinator: "",
+        active_hr: "",
+      });
+      router.push({
+        pathname: `${ROUTE}/proforma`,
+        query: { rcId: rid },
+      });
+    }
+  };
+  useEffect(() => {
+    if (!(rid && pid)) return;
+    const getStep6 = async () => {
+      const data = await requestProforma.get(token, rid, pid);
+      const hr = await requestCompanyHR.getHR(
+        token,
+        rid,
+        data.company_recruitment_cycle_id
+      );
+      setHR(hr);
+      setFetch(data);
+      reset(data);
+    };
+    getStep6();
+  }, [rid, pid, token, reset]);
+
+  return (
+    <div>
+      <Meta title="Step 6 - Additional Information" />
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "330px", sm: "600px", margin: "0px auto" },
+        }}
+      >
+        <Stack spacing={3}>
+          <h2>Step 6 : Additional Information</h2>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Additional Eligibility Criteria</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              minRows={3}
+              variant="standard"
+              error={!!errors.additional_eligibility}
+              helperText={
+                errors.additional_eligibility && "This field is required!"
+              }
+              {...register("additional_eligibility")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Message for Placement Coordinator</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              minRows={5}
+              variant="standard"
+              error={!!errors.message_for_cordinator}
+              helperText={
+                errors.message_for_cordinator && "This field is required!"
+              }
+              {...register("message_for_cordinator")}
+            />
+          </FormControl>
+
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Select Active HR</p>
+            <Autocomplete
+              disablePortal
+              id="select-active-hr"
+              options={[
+                {
+                  id: 1,
+                  label: HRdata.hr1,
+                },
+                {
+                  id: 2,
+                  label: HRdata.hr2,
+                },
+                {
+                  id: 3,
+                  label: HRdata.hr3,
+                },
+              ]}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  variant="standard"
+                  error={!!errors.active_hr}
+                  helperText={errors.active_hr && "This field is required!"}
+                  {...register("active_hr", { required: true })}
+                />
+              )}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Deadline</p>
+            <TextField
+              id="Cname"
+              type="datetime-local"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              minRows={5}
+              variant="standard"
+              error={!!errors.deadline}
+              helperText={errors.deadline && "This field is required!"}
+              {...register("deadline", {
+                setValueAs: (value: string) => new Date(value).getTime(),
+              })}
+            />
+          </FormControl>
+
+          <Stack
+            spacing={3}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              disabled={!router.isReady || rid === ""}
+              onClick={handleSubmit(handleNext)}
+            >
+              Submit
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={() => {
+                reset({
+                  additional_eligibility: "",
+                  message_for_cordinator: "",
+                  active_hr: "",
+                });
+              }}
+            >
+              Reset
+            </Button>
+          </Stack>
+        </Stack>
+      </Card>
+    </div>
+  );
+}
+
+Step6.layout = "adminPhaseDashBoard";
+export default Step6;
