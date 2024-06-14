@@ -143,7 +143,7 @@ function Step2() {
     <div>
       <Meta title="Step 2 - New Opening" />
       <Card sx={{ padding: 3 }}>
-        <h2>Step 2/5 (Eligibility Matrix)</h2>
+        <h2>Step 2 (Eligibility Matrix)</h2>
         <Stack spacing={4} alignItems="center">
           <Stack spacing={1}>
             <Stack spacing={4} direction="row" alignItems="center">
