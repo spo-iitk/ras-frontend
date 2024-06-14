@@ -64,10 +64,12 @@ function Step4() {
     if (rid && pid) getStep3();
   }, [rid, pid, token, reset]);
 
-  return (
-    <div>
-      <Meta title="Step 4 - Package Details" />
-      <Card
+  // Conditional rendering based on rcid
+  if (+rid % 2 === 0) {
+    return (
+      <div>
+        <Meta title="Step 4 - Package Details" />
+        <Card
         elevation={5}
         sx={{
           padding: 3,
@@ -324,9 +326,163 @@ function Step4() {
           </Stack>
         </Stack>
       </Card>
+      </div>
+    );
+  } else {
+  return (
+    <div>
+      <Meta title="Step 4 - Stipend Details" />
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "330px", sm: "600px", margin: "0px auto" },
+        }}
+      >
+        <Stack spacing={3}>
+          <h2>Step 4/6 : Stipend Details</h2>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Stipend (per month) (In INR)</p>
+            <TextField
+              id="stipend-inr"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.ctc_inr}
+              helperText={errors.ctc_inr && "This field is required"}
+              {...register("ctc_inr",  { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Stipend (per month) (in foreign currency)</p>
+            <TextField
+              id="ctc_fr"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.ctc_fr}
+              helperText={
+                errors.ctc_fr && "This field is required"
+              }
+              {...register("ctc_fr" ,  { required: true })}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Accommodation provided / Trip Fare</p>
+            <TextField
+              id="accommodation"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.accommodation}
+              helperText={
+                errors.accommodation && "This field is required"
+              }
+              {...register("accommodation")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>PPO provision on Performance</p>
+            <TextField
+              id="package_details"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.package_details}
+              helperText={
+                errors.package_details && "This field is required"
+              }
+              {...register("package_details")}
+            />
+          </FormControl>
+          {fetchData.ID !== 0 && (
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Tentative CTC for PPO Select</p>
+              <RichText
+                value={ctc}
+                onChange={changeCTC}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+          )}
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Tentative date of confirming of PPOs </p>
+            <TextField
+              id="ppo_confirming_date"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.ppo_confirming_date}
+              helperText={errors.ppo_confirming_date && "This field is required"}
+              {...register("ppo_confirming_date")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>
+              Any other perks/benefits/components company wants to declare
+            </p>
+            <TextField
+              id="Perks"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              variant="standard"
+              error={!!errors.perks}
+              helperText={errors.perks && "This field is required"}
+              {...register("perks")}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1 }}>
+            <p style={{ fontWeight: 300 }}>Medical Requirements</p>
+            <TextField
+              id="Cname"
+              required
+              sx={{ marginLeft: "5 rem" }}
+              fullWidth
+              multiline
+              minRows={4}
+              variant="standard"
+              error={!!errors.medical_requirements}
+              helperText={
+                errors.medical_requirements && "This field is required"
+              }
+              {...register("medical_requirements")}
+            />
+          </FormControl>
+          <Stack
+            spacing={3}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              disabled={!router.isReady || rid === "" || pid === ""}
+              onClick={handleSubmit(handleNext)}
+            >
+              Next
+            </Button>
+            <Button variant="contained" sx={{ width: "50%" }}>
+              Reset
+            </Button>
+          </Stack>
+        </Stack>
+      </Card>
     </div>
   );
 }
-
+}
 Step4.layout = "companyPhaseDashboard";
 export default Step4;

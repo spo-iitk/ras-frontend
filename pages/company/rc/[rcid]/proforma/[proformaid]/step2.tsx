@@ -60,6 +60,7 @@ function Step2() {
     if (rid && pid) getStep1();
   }, [rid, pid, token, reset]);
 
+  if (+rid % 2 === 0) {
   return (
     <div>
       <Meta title="Step 2 - Job Profile" />
@@ -229,6 +230,158 @@ function Step2() {
       </Card>
     </div>
   );
+  } else {
+    return (
+      <div>
+        <Meta title="Step 2 - Internship Profile" />
+        <Card
+          elevation={5}
+          sx={{
+            padding: 3,
+            width: { xs: "330px", sm: "600px", margin: "0px auto" },
+          }}
+        >
+          <Stack spacing={3}>
+            <h2>Step 2/6 : Internship Profile</h2>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Job Title/Designation</p>
+              <TextField
+                id="title"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.profile}
+                helperText={errors.profile?.message}
+                {...register("profile", {
+                  required: "Profile is required",
+                  maxLength: {
+                    value: 100,
+                    message: "Profile length should be less than 100",
+                  },
+                })}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
+              <TextField
+                id="TentativeJobLoaction"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.tentative_job_location}
+                helperText={
+                  errors.tentative_job_location && "This field is required"
+                }
+                {...register("tentative_job_location", { required: true })}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Job Description</p>
+              <RichText
+                value={desc}
+                onChange={changeDesc}
+                style={{ minHeight: 200 }}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Preferred period of Internship</p>
+              <TextField
+                id="internship_period"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.internship_period}
+                helperText={errors.internship_period && "This field is required"}
+                {...register("internship_period", { required: true })}
+              />
+              </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Minimum no. of hires</p>
+              <TextField
+                id="MinHires"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.min_hires}
+                helperText={
+                  errors.tentative_job_location && "This field is required"
+                }
+                {...register("min_hires", { required: true })}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Expected total no. of hires</p>
+              <TextField
+                id="TotHires"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.total_hires}
+                helperText={errors.total_hires && "This field is required"}
+                {...register("total_hires", { required: true })}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>Required Skill Set</p>
+              <TextField
+                id="Skills"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.skill_set}
+                helperText={errors.skill_set && "This field is required"}
+                {...register("skill_set", { required: true })}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>CPI criteria (if any)</p>
+              <TextField
+                id="CPI"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.cpi_criteria}
+                helperText={errors.cpi_criteria && "This field is required"}
+                {...register("cpi_criteria", { required: true })}
+              />
+            </FormControl>
+            <Stack
+              spacing={3}
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Button
+                variant="contained"
+                sx={{ width: "50%" }}
+                disabled={!router.isReady || rid === "" || pid === ""}
+                onClick={handleSubmit(handleNext)}
+              >
+                Next
+              </Button>
+              <Button variant="contained" sx={{ width: "50%" }}>
+                Reset
+              </Button>
+            </Stack>
+          </Stack>
+        </Card>
+      </div>
+    );
+  }
 }
 
 Step2.layout = "companyPhaseDashboard";

@@ -65,6 +65,9 @@ export interface ProformaType {
   retention_bonus: string;
   deductions: string;
   perks: string;
+  accommodation : string;
+  ppo_confirming_date : string
+  internship_period: string;
 }
 export interface ProformaEvent {
   ID: number;
