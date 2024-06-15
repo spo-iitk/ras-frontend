@@ -17,7 +17,7 @@ function Step4() {
   const pid = (proformaid || "").toString();
   const { token } = useStore();
   const [ctc, changeCTC] = useState("");
-  // const [pkgDetails, changePkg] = useState("");
+  const [pkgDetails, changePkg] = useState("");
   const [fetchData, setFetch] = useState<ProformaType>({
     ID: 0,
   } as ProformaType);
@@ -34,7 +34,7 @@ function Step4() {
     const info = {
       ...data,
       ID: parseInt(pid, 10),
-      // package_details: pkgDetails,
+      package_details: pkgDetails,
       cost_to_company: ctc,
     };
     const response = await proformaRequest.put(token, rid, info);
@@ -45,7 +45,7 @@ function Step4() {
         medical_requirements: "",
       });
       changeCTC("");
-      // changePkg("");
+      changePkg("");
       router.push({
         pathname: ROUTE,
         query: { rcId: rid, proformaid: pid },
@@ -60,7 +60,7 @@ function Step4() {
       setFetch(data);
       reset(data);
       changeCTC(data.cost_to_company);
-      // changePkg(data.package_details);
+      changePkg(data.package_details);
     };
     if (rid && pid) getStep3();
   }, [rid, pid, token, reset]);
@@ -391,20 +391,16 @@ function Step4() {
                 {...register("accommodation", { required: true })}
               />
             </FormControl>
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>PPO provision on Performance</p>
-              <TextField
-                id="package_details"
-                required
-                sx={{ marginLeft: "5 rem" }}
-                fullWidth
-                multiline
-                variant="standard"
-                error={!!errors.package_details}
-                helperText={errors.package_details && "This field is required"}
-                {...register("package_details", { required: true })}
-              />
-            </FormControl>
+            {fetchData.ID !== 0 && (
+              <FormControl sx={{ m: 1 }}>
+                <p style={{ fontWeight: 300 }}>PPO provision on Performance</p>
+                <RichText
+                  value={pkgDetails}
+                  onChange={changePkg}
+                  style={{ minHeight: 200 }}
+                />
+              </FormControl>
+            )}
             {fetchData.ID !== 0 && (
               <FormControl sx={{ m: 1 }}>
                 <p style={{ fontWeight: 300 }}>Tentative CTC for PPO Select</p>
