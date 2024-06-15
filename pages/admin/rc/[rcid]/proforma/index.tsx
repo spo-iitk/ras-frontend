@@ -79,7 +79,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "hide_details",
-    headerName: "Deatils Hidden",
+    headerName: "Details Hidden",
   },
   {
     field: "action_taken_by",
