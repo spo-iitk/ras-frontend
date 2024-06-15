@@ -1,9 +1,17 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, IconButton, Modal, Stack, Tooltip } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Modal,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 import DataGrid from "@components/DataGrid";
 import addCompanyRequest, { HR } from "@callbacks/admin/company/company";
@@ -61,9 +69,26 @@ function DeleteHR(props: { id: string }) {
     </>
   );
 }
-function AuthHR(props: { id: string; Name: string }) {
+function AuthHR(props: { id: string; name: string }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<HRAuthResponse>();
   const { token } = useStore();
-  const { id, Name } = props;
+  const det = props;
+
+  const handleAuthHR = (data: HRAuthResponse) => {
+    const authHR = async () => {
+      const finData = { ...data, user_id: det.id, name: det.name };
+      const response = await HRAuth.post(token, finData);
+      if (response) {
+        reset({ password: "" });
+      }
+    };
+    authHR();
+  };
   const [openAuthHR, setOpenAuthHR] = useState(false);
   const handleOpenAuthHR = () => {
     setOpenAuthHR(true);
@@ -71,30 +96,6 @@ function AuthHR(props: { id: string; Name: string }) {
   const handleCloseAuthHR = () => {
     setOpenAuthHR(false);
   };
-  const handleSubmit = () => {
-    const authHR = async () => {
-      const randomPwd = generateRandomPassword();
-      const newPwd: HRAuthResponse = { password: randomPwd };
-      const finData = { ...newPwd, user_id: id, name: Name };
-      let response = await HRAuth.post(token, finData);
-      if (response) {
-        handleCloseAuthHR();
-      }
-    };
-    authHR();
-  };
-
-  function generateRandomPassword(length = 12) {
-    const charset =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,<>?";
-    let password = "";
-    for (let i = 0; i < length; i += 1) {
-      const randomIndex = Math.floor(Math.random() * charset.length);
-      password += charset[randomIndex];
-    }
-    return password;
-  }
-
   return (
     <div>
       <ActiveButton sx={{ height: 30 }} onClick={handleOpenAuthHR}>
@@ -103,13 +104,22 @@ function AuthHR(props: { id: string; Name: string }) {
       <Modal open={openAuthHR} onClose={handleCloseAuthHR}>
         <Box sx={boxStyle}>
           <Stack spacing={3}>
-            <h2>Generate New Password</h2>
+            <h2>Enter New Password</h2>
+            <TextField
+              label="Enter New Password"
+              id="password"
+              type="password"
+              variant="standard"
+              {...register("password", { required: true })}
+              error={!!errors.password}
+              helperText={errors.password && "Password is required"}
+            />
             <Button
               variant="contained"
               sx={{ width: "100%" }}
-              onClick={handleSubmit}
+              onClick={handleSubmit(handleAuthHR)}
             >
-              Generate
+              Submit
             </Button>
           </Stack>
         </Box>
@@ -128,21 +138,11 @@ const HRcotactDetailsColumns: GridColDef[] = [
     field: "name",
     headerName: "HR Name",
     width: 200,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
   },
   {
     field: "email",
     headerName: "HR E-mail",
     width: 200,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
   },
   {
     field: "phone",
@@ -153,11 +153,6 @@ const HRcotactDetailsColumns: GridColDef[] = [
     field: "designation",
     headerName: "Designation",
     width: 250,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
   },
   {
     field: "button1",
@@ -171,7 +166,7 @@ const HRcotactDetailsColumns: GridColDef[] = [
     field: "button2",
     headerName: "Send Authorization Mail",
     renderCell: (params) => (
-      <AuthHR id={params.row.email} Name={params.row.name} />
+      <AuthHR id={params.row.email} name={params.row.name} />
     ),
     width: 100,
   },

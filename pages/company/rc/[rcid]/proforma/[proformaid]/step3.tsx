@@ -198,7 +198,8 @@ function Step3() {
                         handleProgramWise(["BT", "BS", "DoubleMajor"])
                       }
                     >
-                      BT / BS / Double Major
+                      Bachelor of Technology / Bachelor of Science / Double
+                      Major
                     </Button>
                   </TableCell>
                   <TableCell
@@ -209,7 +210,8 @@ function Step3() {
                     <Button
                       onClick={() => handleProgramWise(["MT", "MSc", "MSR"])}
                     >
-                      MT / MSc /MSR
+                      Master of Technology/Master of Science/Master of Science
+                      by Research
                     </Button>
                   </TableCell>
                   <TableCell
@@ -222,7 +224,8 @@ function Step3() {
                         handleProgramWise(["DualA", "DualB", "DualC"])
                       }
                     >
-                      Dual
+                      Dual(Bachelor of Technology/Bachelor of Science + Master
+                      of Technology/Master of Science)
                     </Button>
                   </TableCell>
                   <TableCell
@@ -231,7 +234,7 @@ function Step3() {
                     sx={{ fontWeight: 600 }}
                   >
                     <Button onClick={() => handleProgramWise(["MDes"])}>
-                      MDes
+                      Master of Design
                     </Button>
                   </TableCell>
                   <TableCell
@@ -240,7 +243,7 @@ function Step3() {
                     sx={{ fontWeight: 600 }}
                   >
                     <Button onClick={() => handleProgramWise(["MBA"])}>
-                      MBA
+                      Master of Business Administration
                     </Button>
                   </TableCell>
                   <TableCell
@@ -249,7 +252,7 @@ function Step3() {
                     sx={{ fontWeight: 600 }}
                   >
                     <Button onClick={() => handleProgramWise(["PhD"])}>
-                      PhD
+                      Doctor of Philosophy
                     </Button>
                   </TableCell>
                 </TableRow>
