@@ -183,6 +183,7 @@ function Index() {
   const [studentResume, setStudentResume] = useState<StudentResumeResponse[]>(
     []
   );
+  const router = useRouter();
   // const [resumeVerificationStatus, setResumeVerificationStatus] = useState("");
 
   useEffect(() => {
@@ -234,7 +235,7 @@ function Index() {
         { ...student, is_verified: true },
         rcid.toString()
       );
-      window.location.reload();
+      router.push(`/admin/student/${sid}`);
     }
   };
 

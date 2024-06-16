@@ -60,95 +60,6 @@ function DeleteStudents(props: { id: string }) {
   );
 }
 
-const columns: GridColDef[] = [
-  {
-    field: "id",
-    headerName: "ID",
-    width: 100,
-  },
-  {
-    field: "name",
-    headerName: "Name",
-    width: 200,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 200,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
-  },
-  {
-    field: "roll_no",
-    headerName: "Roll No.",
-    width: 100,
-  },
-  {
-    field: "cpi",
-    headerName: "CPI",
-    width: 100,
-  },
-  {
-    field: "program_department_id",
-    headerName: "Department",
-    width: 100,
-    valueGetter: (params) => getDeptProgram(params.value),
-  },
-  {
-    field: "secondary_program_department_id",
-    headerName: "Secondary Department",
-    width: 200,
-    valueGetter: (params) => getDeptProgram(params.value),
-  },
-  {
-    field: "student_id",
-    headerName: "Student ID",
-    width: 100,
-    hide: true,
-  },
-  {
-    field: "is_frozen",
-    headerName: "Frozen",
-    width: 100,
-  },
-  {
-    field: "type",
-    headerName: "Type",
-    width: 100,
-  },
-  {
-    field: "options",
-    headerName: "",
-    align: "center",
-    width: 100,
-    hide: true,
-    renderCell: (cellValues) => (
-      <DeleteStudents id={cellValues.id.toString()} />
-    ),
-  },
-  {
-    field: "Actions",
-    headerName: "Actions",
-    align: "center",
-    width: 100,
-    renderCell: (params) => (
-      <Button
-        href={`/admin/rc/${params.row.recruitment_cycle_id}/student/${params.row.id}`}
-        variant="contained"
-      >
-        View Details
-      </Button>
-    ),
-  },
-];
 function Index() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows, setRows] = useState<any>([]);
@@ -165,7 +76,99 @@ function Index() {
   const handleCloseEnroll = () => {
     setOpenEnroll(false);
   };
-
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 100,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "roll_no",
+      headerName: "Roll No.",
+      width: 100,
+    },
+    {
+      field: "cpi",
+      headerName: "CPI",
+      width: 100,
+    },
+    {
+      field: "program_department_id",
+      headerName: "Department",
+      width: 100,
+      valueGetter: (params) => getDeptProgram(params.value),
+    },
+    {
+      field: "secondary_program_department_id",
+      headerName: "Secondary Department",
+      width: 200,
+      valueGetter: (params) => getDeptProgram(params.value),
+    },
+    {
+      field: "student_id",
+      headerName: "Student ID",
+      width: 100,
+      hide: true,
+    },
+    {
+      field: "is_frozen",
+      headerName: "Frozen",
+      width: 100,
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      width: 100,
+    },
+    {
+      field: "options",
+      headerName: "",
+      align: "center",
+      width: 100,
+      hide: true,
+      renderCell: (cellValues) => (
+        <DeleteStudents id={cellValues.id.toString()} />
+      ),
+    },
+    {
+      field: "Actions",
+      headerName: "Actions",
+      align: "center",
+      width: 100,
+      renderCell: (params) => (
+        <Button
+          onClick={() =>
+            router.push(
+              `/admin/rc/${params.row.recruitment_cycle_id}/student/${params.row.id}`
+            )
+          }
+          variant="contained"
+        >
+          View Details
+        </Button>
+      ),
+    },
+  ];
   // const [openDeregister, setOpenDeregister] = useState(false);
   // const handleOpenDeregister = () => {
   //   setOpenDeregister(true);

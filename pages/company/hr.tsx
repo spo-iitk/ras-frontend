@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Grid, IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,6 +23,10 @@ function Overview(): JSX.Element {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const updateHR = useCallback(async () => {
+    const response = await companyHRRequest.get(token);
+    if (response?.length > 0) setRows(response);
+  }, [token]);
 
   useEffect(() => {
     const getRC = async () => {
@@ -106,7 +110,7 @@ function Overview(): JSX.Element {
           getRowId={(row) => row.ID}
         />
         <Modal open={open} onClose={handleClose}>
-          <AddCompanyHR handleCloseNew={handleClose} />
+          <AddCompanyHR handleCloseNew={handleClose} updateHR={updateHR} />
         </Modal>
       </Stack>
     </div>

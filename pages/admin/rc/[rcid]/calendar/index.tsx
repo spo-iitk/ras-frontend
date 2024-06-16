@@ -14,73 +14,6 @@ import useStore from "@store/store";
 import calendarLinks from "@components/Utils/calendarUtils";
 import { errorNotification } from "@callbacks/notifcation";
 
-const columns: GridColDef[] = [
-  {
-    field: "ID",
-    headerName: "ID",
-    hide: true,
-  },
-  {
-    field: "company_name",
-    headerName: "Company Name",
-  },
-  {
-    field: "role",
-    headerName: "Role",
-    hide: true,
-  },
-  {
-    field: "profile",
-    headerName: "Profile",
-  },
-  {
-    field: "name",
-    headerName: "Event Name",
-  },
-  {
-    field: "CreatedAt",
-    headerName: "Created At",
-    renderCell: (params) =>
-      new Date(params.row.CreatedAt).toLocaleDateString("en-GB"),
-    hide: true,
-  },
-  {
-    field: "UpdatedAt",
-    headerName: "Updated At",
-    renderCell: (params) =>
-      new Date(params.row.UpdatedAt).toLocaleDateString("en-GB"),
-    hide: true,
-  },
-  {
-    field: "duration",
-    headerName: "Event Duration",
-    hide: true,
-  },
-  {
-    field: "start_time",
-    headerName: "Start Time",
-    renderCell: (params) =>
-      new Date(params.row.start_time).toLocaleTimeString(),
-  },
-  {
-    field: "sequence",
-    headerName: "Sequence",
-    hide: true,
-  },
-  {
-    field: "View Details",
-    renderCell: (params) => (
-      <Button
-        href={`/admin/rc/${params.row.recruitment_cycle_id}/event/${params.row.ID}`}
-        variant="contained"
-        style={{ width: "100%" }}
-      >
-        View Details
-      </Button>
-    ),
-  },
-];
-
 function Calendar() {
   const [value, setValue] = useState<Date | null>(new Date());
   const [activity, setActivity] = useState<Event[]>([]);
@@ -92,6 +25,77 @@ function Calendar() {
   const rid = rcid as string;
 
   const { token, rcName } = useStore();
+
+  const columns: GridColDef[] = [
+    {
+      field: "ID",
+      headerName: "ID",
+      hide: true,
+    },
+    {
+      field: "company_name",
+      headerName: "Company Name",
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      hide: true,
+    },
+    {
+      field: "profile",
+      headerName: "Profile",
+    },
+    {
+      field: "name",
+      headerName: "Event Name",
+    },
+    {
+      field: "CreatedAt",
+      headerName: "Created At",
+      renderCell: (params) =>
+        new Date(params.row.CreatedAt).toLocaleDateString("en-GB"),
+      hide: true,
+    },
+    {
+      field: "UpdatedAt",
+      headerName: "Updated At",
+      renderCell: (params) =>
+        new Date(params.row.UpdatedAt).toLocaleDateString("en-GB"),
+      hide: true,
+    },
+    {
+      field: "duration",
+      headerName: "Event Duration",
+      hide: true,
+    },
+    {
+      field: "start_time",
+      headerName: "Start Time",
+      renderCell: (params) =>
+        new Date(params.row.start_time).toLocaleTimeString(),
+    },
+    {
+      field: "sequence",
+      headerName: "Sequence",
+      hide: true,
+    },
+    {
+      field: "View Details",
+      renderCell: (params) => (
+        <Button
+          onClick={() => {
+            router.push(
+              `/admin/rc/${params.row.recruitment_cycle_id}/event/${params.row.ID}`
+            );
+          }}
+          variant="contained"
+          style={{ width: "100%" }}
+        >
+          View Details
+        </Button>
+      ),
+    },
+  ];
 
   const handleClick = () => {
     if (calendarLinks.get(rid) !== undefined) {

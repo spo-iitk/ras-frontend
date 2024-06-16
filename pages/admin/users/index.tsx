@@ -167,7 +167,6 @@ function Users() {
       const res: returnUsersDetailsType = await userDetailsRequest.getAll(
         token
       );
-      console.log(res.users);
       setUserData(res.users);
       setIsLoading(false);
     };

@@ -2,8 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid";
 import { IconButton, Modal, Stack, Tooltip } from "@mui/material";
+// eslint-disable-next-line import/order
 import AddIcon from "@mui/icons-material/Add";
 // import { set } from "date-fns";
+
+import { useRouter } from "next/router";
 
 import DataGrid from "@components/DataGrid";
 import ActiveButton from "@components/Buttons/ActiveButton";
@@ -14,63 +17,65 @@ import AddCompanyMD from "@components/Modals/AddCompanyAdminMD";
 
 const batchSize = 100;
 
-const columns: GridColDef[] = [
-  { field: "ID", headerName: "ID" },
-  {
-    field: "name",
-    headerName: "Company Name",
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
-  },
-  {
-    field: "CreatedAt",
-    headerName: "Created At",
-    hide: true,
-  },
-  {
-    field: "UpdatedAt",
-    headerName: "Updated At",
-    hide: true,
-  },
-  {
-    field: "tags",
-    headerName: "Tags",
-  },
-  {
-    field: "website",
-    headerName: "Website",
-  },
-  {
-    field: "description",
-    headerName: "Description",
-    hide: true,
-  },
-  {
-    field: "view_details",
-    headerName: "View Details",
-
-    renderCell: (params) => (
-      <Stack
-        direction="row"
-        alignItems="center"
-        width="100%"
-        justifyContent="space-between"
-      >
-        <ActiveButton
-          href={`/admin/company/${params.row.ID}`}
-          sx={{ height: 30 }}
-        >
-          CLICK HERE
-        </ActiveButton>
-      </Stack>
-    ),
-  },
-];
-
 function Index() {
+  const router = useRouter();
+  const columns: GridColDef[] = [
+    { field: "ID", headerName: "ID" },
+    {
+      field: "name",
+      headerName: "Company Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "CreatedAt",
+      headerName: "Created At",
+      hide: true,
+    },
+    {
+      field: "UpdatedAt",
+      headerName: "Updated At",
+      hide: true,
+    },
+    {
+      field: "tags",
+      headerName: "Tags",
+    },
+    {
+      field: "website",
+      headerName: "Website",
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      hide: true,
+    },
+    {
+      field: "view_details",
+      headerName: "View Details",
+
+      renderCell: (params) => (
+        <Stack
+          direction="row"
+          alignItems="center"
+          width="100%"
+          justifyContent="space-between"
+        >
+          <ActiveButton
+            onClick={() => {
+              router.push(`/admin/company/${params.row.ID}`);
+            }}
+            sx={{ height: 30 }}
+          >
+            CLICK HERE
+          </ActiveButton>
+        </Stack>
+      ),
+    },
+  ];
   const { token } = useStore();
   const [rows, setRows] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
@@ -148,7 +153,10 @@ function Index() {
         />
       </Grid>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <AddCompanyMD handleCloseNew={handleCloseNew} />
+        <AddCompanyMD
+          handleCloseNew={handleCloseNew}
+          updateCompanies={getAllCompanies}
+        />
       </Modal>
     </div>
   );

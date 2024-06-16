@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Grid, IconButton, Modal, Stack, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,9 +23,12 @@ const gridMain = {
   justifyContent: "right",
 };
 
-function DeleteComapny(props: { id: string }) {
+function DeleteComapny(props: {
+  id: string;
+  setRow: React.Dispatch<React.SetStateAction<CompanyRc[]>>;
+}) {
   const { token } = useStore();
-  const { id } = props;
+  const { id, setRow } = props;
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
@@ -38,11 +41,15 @@ function DeleteComapny(props: { id: string }) {
     setDeleteModal(false);
   };
   useEffect(() => {
+    const deleteCompany = async () => {
+      await requestCompany.deleteCompany(token, rid, id);
+      let response = await requestCompany.getall(token, rid);
+      setRow(response);
+    };
     if (confirmation) {
-      requestCompany.deleteCompany(token, rid, id);
-      window.location.reload();
+      deleteCompany();
     }
-  }, [confirmation, id, rid, token]);
+  }, [confirmation, id, rid, token, router, setRow]);
   return (
     <>
       <IconButton
@@ -61,59 +68,6 @@ function DeleteComapny(props: { id: string }) {
     </>
   );
 }
-
-const columns: GridColDef[] = [
-  {
-    field: "ID",
-    headerName: "ID",
-    width: 90,
-  },
-  {
-    field: "company_name",
-    headerName: "Company",
-    width: 300,
-  },
-  {
-    field: "CreatedAt",
-    headerName: "Registered on",
-    valueGetter: ({ value }) =>
-      value &&
-      `${new Date(value).toLocaleDateString("en-GB")} ${new Date(
-        value
-      ).toLocaleTimeString()}`,
-    width: 300,
-    align: "center",
-    headerAlign: "center",
-    hide: true,
-  },
-  {
-    field: "viewdetails",
-    headerName: "View Details",
-    width: 400,
-    sortable: false,
-    align: "center",
-    headerAlign: "center",
-    renderCell: (params) => (
-      <Button
-        href={`${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.ID}`}
-        variant="contained"
-        sx={{ width: "80%" }}
-      >
-        View
-      </Button>
-    ),
-  },
-  {
-    field: "options",
-    headerName: "",
-    width: 100,
-    align: "center",
-    hide: true,
-    renderCell: (cellValues) => (
-      <DeleteComapny id={cellValues.row.ID.toString()} />
-    ),
-  },
-];
 
 function Index() {
   const [showButton, setShowButton] = useState(false);
@@ -137,6 +91,62 @@ function Index() {
   const { token, rcName, role } = useStore();
   const [rows, setRow] = useState<CompanyRc[]>([]);
   const [loading, setLoading] = useState(true);
+  const updateCompanies = useCallback(async () => {
+    const response = await requestCompany.getall(token, rid);
+    setRow(response);
+  }, [token, rid]);
+  const columns: GridColDef[] = [
+    {
+      field: "ID",
+      headerName: "ID",
+      width: 90,
+    },
+    {
+      field: "company_name",
+      headerName: "Company",
+      width: 300,
+    },
+    {
+      field: "CreatedAt",
+      headerName: "Registered on",
+      valueGetter: ({ value }) =>
+        value &&
+        `${new Date(value).toLocaleDateString("en-GB")} ${new Date(
+          value
+        ).toLocaleTimeString()}`,
+      width: 300,
+      align: "center",
+      headerAlign: "center",
+      hide: true,
+    },
+    {
+      field: "viewdetails",
+      headerName: "View Details",
+      width: 400,
+      sortable: false,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Button
+          href={`${BASE_ROUTE}/${params.row.recruitment_cycle_id}/company/${params.row.ID}`}
+          variant="contained"
+          sx={{ width: "80%" }}
+        >
+          View
+        </Button>
+      ),
+    },
+    {
+      field: "options",
+      headerName: "",
+      width: 100,
+      align: "center",
+      hide: true,
+      renderCell: (cellValues) => (
+        <DeleteComapny id={cellValues.row.ID.toString()} setRow={setRow} />
+      ),
+    },
+  ];
 
   useEffect(() => {
     const getCompanydata = async () => {
@@ -189,7 +199,10 @@ function Index() {
         />
       </Modal>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <AddCompany handleCloseNew={handleCloseNew} />
+        <AddCompany
+          handleCloseNew={handleCloseNew}
+          updateCompany={updateCompanies}
+        />
       </Modal>
     </div>
   );
