@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import DataGrid from "@components/DataGrid";
@@ -195,6 +195,13 @@ function HRContactDetails() {
       fetchHRDetails();
     }
   }, [companyId, router.isReady, token]);
+
+  const updateCompanyHR = useCallback(async () => {
+    let response = await addCompanyRequest.getAllHR(token, companyId);
+    setHRRows(response);
+    setLoading(false);
+  }, [token, companyId]);
+
   return (
     <div>
       <Stack>
@@ -219,7 +226,7 @@ function HRContactDetails() {
         />
       </Stack>
       <Modal open={openNew} onClose={handleCloseNew}>
-        <AddHRMD handleCloseNew={handleCloseNew} />
+        <AddHRMD handleCloseNew={handleCloseNew} updateHR={updateCompanyHR} />
       </Modal>
     </div>
   );

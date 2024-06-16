@@ -50,7 +50,6 @@ function HandleEvent(props: { sid: string }) {
     if (confirmation) {
       if (rid === undefined || rid === "") return;
       eventRequest.delete(token, rid, eid, sid);
-      window.location.reload();
     }
   }, [confirmation, eid, rid, sid, token]);
   return (
@@ -71,107 +70,6 @@ function HandleEvent(props: { sid: string }) {
     </Stack>
   );
 }
-const cols: GridColDef[] = [
-  {
-    field: "CreatedAt",
-    headerName: "Created At",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "DeletedAt",
-    headerName: "Deleted At",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "ID",
-    headerName: "Id",
-    width: 100,
-  },
-  {
-    field: "UpdatedAt",
-    headerName: "Updated At",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "comment",
-    headerName: "Comment",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "name",
-    headerName: "Name",
-    width: 200,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 150,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
-  },
-  {
-    field: "program_department_id",
-    headerName: "Department",
-    width: 200,
-    valueGetter: (params) => getDeptProgram(params.value),
-  },
-  {
-    field: "secondary_program_department_id",
-    headerName: "Secondary Department",
-    width: 200,
-    valueGetter: (params) => getDeptProgram(params.value),
-  },
-  {
-    field: "is_frozen",
-    headerName: "Frozen",
-    width: 100,
-    hide: true,
-  },
-  {
-    field: "is_verified",
-    headerName: "Verified",
-    width: 100,
-    hide: true,
-  },
-  {
-    field: "student_id",
-    headerName: "Student Id",
-    width: 100,
-    hide: true,
-  },
-  {
-    field: "type",
-    headerName: "Type",
-    width: 150,
-  },
-  {
-    field: "recruitment_cycle_id",
-    headerName: "Recruitment Cycle Id",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "button1",
-    headerName: "Delete",
-    renderCell: (params) => <HandleEvent sid={params.row.ID} />,
-    width: 100,
-    align: "left",
-    sortable: false,
-    filterable: false,
-  },
-];
 
 function Event() {
   const [companyName, setCompanyName] = useState<string>("");
@@ -227,9 +125,111 @@ function Event() {
     if (confirmation) {
       if (rid === undefined || rid === "") return;
       eventRequest.deleteAll(token, rid, eid);
-      window.location.reload();
+      setStudents([]);
     }
   }, [confirmation, eid, rid, token]);
+
+  const cols: GridColDef[] = [
+    {
+      field: "CreatedAt",
+      headerName: "Created At",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "DeletedAt",
+      headerName: "Deleted At",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "ID",
+      headerName: "Id",
+      width: 100,
+    },
+    {
+      field: "UpdatedAt",
+      headerName: "Updated At",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "comment",
+      headerName: "Comment",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 150,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "program_department_id",
+      headerName: "Department",
+      width: 200,
+      valueGetter: (params) => getDeptProgram(params.value),
+    },
+    {
+      field: "secondary_program_department_id",
+      headerName: "Secondary Department",
+      width: 200,
+      valueGetter: (params) => getDeptProgram(params.value),
+    },
+    {
+      field: "is_frozen",
+      headerName: "Frozen",
+      width: 100,
+      hide: true,
+    },
+    {
+      field: "is_verified",
+      headerName: "Verified",
+      width: 100,
+      hide: true,
+    },
+    {
+      field: "student_id",
+      headerName: "Student Id",
+      width: 100,
+      hide: true,
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      width: 150,
+    },
+    {
+      field: "recruitment_cycle_id",
+      headerName: "Recruitment Cycle Id",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "button1",
+      headerName: "Delete",
+      renderCell: (params) => <HandleEvent sid={params.row.ID} />,
+      width: 100,
+      align: "left",
+      sortable: false,
+      filterable: false,
+    },
+  ];
   return (
     <div>
       <Meta title={`Event Details - ${rcName}`} />
@@ -340,7 +340,9 @@ function Event() {
             <Button
               variant="contained"
               sx={{ width: "100%" }}
-              href={`/admin/rc/${rid}/proforma/${pid}/view`}
+              onClick={() => {
+                router.push(`/admin/rc/${rid}/proforma/${pid}/view`);
+              }}
             >
               View Proforma
             </Button>

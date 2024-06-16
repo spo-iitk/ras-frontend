@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
 import InactiveButton from "@components/Buttons/InactiveButton";
+// eslint-disable-next-line import/no-named-as-default
 import rcRequest, { RC } from "@callbacks/admin/rc/rc";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import useStore from "@store/store";
