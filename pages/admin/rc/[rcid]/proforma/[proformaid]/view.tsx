@@ -10,6 +10,7 @@ import requestProforma, {
   AdminProformaType,
 } from "@callbacks/admin/rc/adminproforma";
 import eventRequest, { Event } from "@callbacks/admin/rc/proforma/event";
+import RichText from "@components/Editor/RichText";
 
 const textFieldColor = "#ff0000";
 const textFieldSX = {
@@ -26,8 +27,11 @@ function View() {
   const router = useRouter();
   const { rcid } = router.query;
   const PID = router.query.proformaid;
+  const [ctc, setCtc] = useState("");
+  const [pd, setPd] = useState("");
   const rid = (rcid || "").toString();
   const ID = (PID || "").toString();
+  const [isFetched, setisFetched] = useState(false);
   const [row, setRow] = useState<AdminProformaType>({
     ID: 0,
   } as AdminProformaType);
@@ -39,6 +43,9 @@ function View() {
         setRow(response);
         let response2 = await eventRequest.getAll(token, rid, ID);
         setRow2(response2);
+        setCtc(response.cost_to_company);
+        setPd(response.package_details);
+        setisFetched(true);
       }
     };
     getCompanydata();
@@ -698,7 +705,7 @@ function View() {
                   <TextField
                     multiline
                     fullWidth
-                    value={row.total_employees}
+                    value={row.total_hires}
                     InputProps={{
                       style: { textAlign: "center" },
                       readOnly: true,
@@ -776,18 +783,11 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="package_details" padding={0}>
-                  <h4>PPO provision on Performance</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.package_details}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
+                <Grid item xs={12} md={6} key="pd">
+                  <h3>PPO provision on Performance</h3>
+                  {isFetched && (
+                    <RichText onChange={setPd} readOnly value={pd} />
+                  )}
                 </Grid>
                 <Grid item xs={12} md={6} key="base" padding={0}>
                   <h4>Tentative date of confirming of PPOs</h4>
@@ -815,19 +815,11 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="ctc" padding={0}>
-                  <h4>Tentative CTC for PPO Select</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    minRows={4}
-                    value={row.cost_to_company}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
+                <Grid item xs={12} md={6} key="pd">
+                  <h3>Tentative CTC for PPO Selects</h3>
+                  {isFetched && (
+                    <RichText onChange={setCtc} readOnly value={ctc} />
+                  )}
                 </Grid>
                 <Grid item xs={12} md={6} key="MedReq">
                   <h4>Medical Requirements</h4>
