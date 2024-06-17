@@ -531,7 +531,7 @@ function View() {
         >
           <Stack spacing={2} alignItems="center">
             <Grid container spacing={2} margin={0}>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12} md={12} key="company-deets">
                   <h2 style={{ textAlign: "center" }}>Company Details</h2>
                 </Grid>
@@ -642,7 +642,7 @@ function View() {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12} md={12} key="company-deets">
                   <h2 style={{ textAlign: "center" }}>Internship Details</h2>
                 </Grid>
@@ -726,7 +726,7 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="pwd" padding={0}>
+                <Grid item xs={12} md={12} key="pwd" padding={0}>
                   <h4>Preferred period of Internship</h4>
                   <TextField
                     multiline
@@ -740,7 +740,7 @@ function View() {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12} md={12} key="pd" padding={0}>
                   <h2 style={{ textAlign: "center" }}>Stipend Details</h2>
                 </Grid>
@@ -784,7 +784,7 @@ function View() {
                   />
                 </Grid>
                 <Grid item xs={12} md={6} key="pd">
-                  <h3>PPO provision on Performance</h3>
+                  <h4>PPO provision on Performance</h4>
                   {isFetched && (
                     <RichText onChange={setPd} readOnly value={pd} />
                   )}
@@ -815,8 +815,8 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="pd">
-                  <h3>Tentative CTC for PPO Selects</h3>
+                <Grid item xs={12} md={6} key="ctc">
+                  <h4>Tentative CTC for PPO Selects</h4>
                   {isFetched && (
                     <RichText onChange={setCtc} readOnly value={ctc} />
                   )}
@@ -835,7 +835,7 @@ function View() {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12}>
                   <h2 style={{ textAlign: "center" }}>Eligibility</h2>
                   <MatrixExpanded data={data} />
