@@ -770,6 +770,18 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
+                <Grid item xs={12} md={6} key="ctc">
+                  <h4>Tentative CTC for PPO Selects</h4>
+                  {isFetched && (
+                    <RichText onChange={setCtc} readOnly value={ctc} />
+                  )}
+                </Grid>
+                <Grid item xs={12} md={6} key="pd">
+                  <h4>PPO provision on Performance</h4>
+                  {isFetched && (
+                    <RichText onChange={setPd} readOnly value={pd} />
+                  )}
+                </Grid>
                 <Grid item xs={12} md={6} key="accommodation" padding={0}>
                   <h4>Accommodation provided / Trip Fare</h4>
                   <TextField
@@ -782,12 +794,6 @@ function View() {
                     }}
                     sx={textFieldSX}
                   />
-                </Grid>
-                <Grid item xs={12} md={6} key="pd">
-                  <h4>PPO provision on Performance</h4>
-                  {isFetched && (
-                    <RichText onChange={setPd} readOnly value={pd} />
-                  )}
                 </Grid>
                 <Grid item xs={12} md={6} key="base" padding={0}>
                   <h4>Tentative date of confirming of PPOs</h4>
@@ -814,12 +820,6 @@ function View() {
                     }}
                     sx={textFieldSX}
                   />
-                </Grid>
-                <Grid item xs={12} md={6} key="ctc">
-                  <h4>Tentative CTC for PPO Selects</h4>
-                  {isFetched && (
-                    <RichText onChange={setCtc} readOnly value={ctc} />
-                  )}
                 </Grid>
                 <Grid item xs={12} md={6} key="MedReq">
                   <h4>Medical Requirements</h4>
