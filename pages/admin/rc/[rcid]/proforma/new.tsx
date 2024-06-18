@@ -138,7 +138,7 @@ function ProformaNew() {
               }}
             />
           </FormControl>
-          <FormControl sx={{ m: 1 }}>
+          {/* <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Company Name</p>
             <TextField
               id="Cname"
@@ -152,7 +152,7 @@ function ProformaNew() {
               helperText={errors.company_name?.message}
               {...register("company_name", { required: true })}
             />
-          </FormControl>
+          </FormControl> */}
           <FormControl sx={{ m: 1 }}>
             <p style={{ fontWeight: 300 }}>Postal Address</p>
             <TextField
