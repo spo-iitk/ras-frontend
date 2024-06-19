@@ -15,8 +15,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 
 import {
-  Branches,
-  func,
+  // BranchesExpanded,
+  // Branches,
+  BranchesExpanded,
+  // func,
+  funcExpanded,
   programExpanded,
   programType,
 } from "@components/Utils/matrixUtils";
@@ -40,19 +43,19 @@ function MatrixExpanded({ data }: { data: string }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Branches.map((branch) => (
+          {BranchesExpanded.map((branch) => (
             <TableRow>
               <TableCell component="th" scope="row" sx={{ fontWeight: 600 }}>
                 {branch}
               </TableCell>
               {programExpanded.map((program) => (
                 <TableCell width={100} align="center">
-                  {func[branch as keyof typeof func][
+                  {funcExpanded[branch as keyof typeof funcExpanded][
                     program as keyof programType
                   ] === -1 ? (
                     <RemoveIcon />
                   ) : data[
-                      func[branch as keyof typeof func][
+                      funcExpanded[branch as keyof typeof funcExpanded][
                         program as keyof programType
                       ]
                     ] === "1" ? (
