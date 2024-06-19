@@ -29,7 +29,12 @@ function ProformaNew() {
   const [industrySectorsString, setIndustrySectorsString] =
     useState<string>("");
   const { token, name } = useStore();
-  const { register, handleSubmit, reset } = useForm<ProformaType>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ProformaType>({
     defaultValues: { company_name: name },
   });
 
@@ -88,7 +93,9 @@ function ProformaNew() {
               fullWidth
               multiline
               variant="standard"
-              {...register("company_name")}
+              error={!!errors.company_name}
+              helperText={errors.company_name?.message}
+              {...register("company_name", { required: true })}
             />
           </FormControl>
           <FormControl sx={{ m: 1 }}>
@@ -99,6 +106,8 @@ function ProformaNew() {
               fullWidth
               multiline
               variant="standard"
+              error={!!errors.postal_address}
+              helperText={errors.postal_address?.message}
               {...register("postal_address", {
                 required: "Postal Address is required",
               })}
@@ -113,6 +122,8 @@ function ProformaNew() {
               required
               fullWidth
               variant="standard"
+              error={!!errors.establishment_date}
+              helperText={errors.establishment_date?.message}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -129,6 +140,8 @@ function ProformaNew() {
               required
               fullWidth
               variant="standard"
+              error={!!errors.total_employees}
+              helperText={errors.total_employees?.message}
               {...register("total_employees", {
                 required: "Number of Employees is required",
               })}
@@ -152,6 +165,8 @@ function ProformaNew() {
               required
               fullWidth
               variant="standard"
+              error={!!errors.website}
+              helperText={errors.website?.message}
               {...register("website", {
                 required: "Website is required",
               })}
@@ -165,6 +180,8 @@ function ProformaNew() {
               required
               fullWidth
               variant="standard"
+              error={!!errors.turnover}
+              helperText={errors.turnover?.message}
               {...register("turnover", {
                 required: "Company Turnover is required",
               })}
@@ -178,6 +195,7 @@ function ProformaNew() {
               required
               fullWidth
               variant="standard"
+              error={!!errors.company_name}
               {...register("type_of_org", {
                 required: "Type of Organization is required",
               })}
@@ -211,7 +229,11 @@ function ProformaNew() {
               id="mncDetails"
               fullWidth
               variant="standard"
-              {...register("head_office")}
+              error={!!errors.head_office}
+              helperText={errors.head_office?.message}
+              {...register("head_office", {
+                required: "Company Turnover is required",
+              })}
             />
           </FormControl>
 
@@ -221,6 +243,7 @@ function ProformaNew() {
               id="NatureOfBusiness"
               multiple
               fullWidth
+              required
               variant="standard"
               value={industrySectors}
               onChange={handleIndustrySectorChange}

@@ -97,7 +97,7 @@ function Step2() {
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Tentative Job Location</p>
+              <p style={{ fontWeight: 300 }}>Tentative Job Location / online</p>
               <TextField
                 id="TentativeJobLoaction"
                 required
