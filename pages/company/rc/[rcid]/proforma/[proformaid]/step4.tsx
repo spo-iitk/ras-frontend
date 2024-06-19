@@ -103,11 +103,9 @@ function Step4() {
                 fullWidth
                 multiline
                 variant="standard"
-                error={!!errors.medical_requirements}
-                helperText={
-                  errors.medical_requirements && "This field is required"
-                }
-                {...register("medical_requirements")}
+                error={!!errors.ctc_fr}
+                helperText={errors.ctc_fr && "This field is required"}
+                {...register("ctc_fr")}
               />
             </FormControl>
             {fetchData.ID !== 0 && (
