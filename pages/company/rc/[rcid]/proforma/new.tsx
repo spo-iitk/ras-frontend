@@ -195,7 +195,7 @@ function ProformaNew() {
               required
               fullWidth
               variant="standard"
-              error={!!errors.company_name}
+              error={!!errors.type_of_org}
               {...register("type_of_org", {
                 required: "Type of Organization is required",
               })}
