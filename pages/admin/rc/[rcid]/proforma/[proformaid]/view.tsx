@@ -67,7 +67,7 @@ function View() {
         >
           <Stack spacing={2} alignItems="center">
             <Grid container spacing={2} margin={0}>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12} md={12} key="company-deets">
                   <h2 style={{ textAlign: "center" }}>Company Details</h2>
                 </Grid>
@@ -178,7 +178,7 @@ function View() {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12} md={12} key="company-deets">
                   <h2 style={{ textAlign: "center" }}>Job Details</h2>
                 </Grid>
@@ -289,7 +289,7 @@ function View() {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12} md={12} key="pd" padding={0}>
                   <h2 style={{ textAlign: "center" }}>Package Details</h2>
                 </Grid>
@@ -319,18 +319,11 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="ctc" padding={0}>
+                <Grid item xs={12} md={6} key="ctc">
                   <h4>Cost To Company</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.cost_to_company}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
+                  {isFetched && (
+                    <RichText onChange={setCtc} readOnly value={ctc} />
+                  )}
                 </Grid>
                 <Grid item xs={12} md={6} key="gross" padding={0}>
                   <h4>Gross (per annum)</h4>
@@ -462,18 +455,11 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="tot-ctc" padding={0}>
+                <Grid item xs={12} md={6} key="ctc">
                   <h4>Total CTC</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.package_details}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
+                  {isFetched && (
+                    <RichText onChange={setPd} readOnly value={pd} />
+                  )}
                 </Grid>
                 <Grid item xs={12} md={6} key="bond">
                   <h4>Bond Details</h4>
@@ -502,7 +488,7 @@ function View() {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12}>
                   <h2 style={{ textAlign: "center" }}>Eligibility</h2>
                   <MatrixExpanded data={data} />
