@@ -350,6 +350,73 @@ function Profile() {
             </Grid>
           </Card>
         </Stack>
+        <Stack justifyContent="center" style={{ marginBottom: "1rem" }}>
+          <Card
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            elevation={5}
+            sx={{
+              padding: 3,
+              borderRadius: "10px",
+              width: { xs: "330px", sm: "600px", margin: "0px auto" },
+            }}
+          >
+            <div
+              className="container"
+              style={{
+                padding: "1rem",
+                margin: "1rem",
+              }}
+            >
+              <label htmlFor="pingala">Upload Pingala Page : </label>
+              <input type="file" name="pingala" id="pingala" />
+            </div>
+            <div
+              className="container"
+              style={{
+                padding: "1rem",
+                margin: "1rem",
+              }}
+            >
+              <label htmlFor="10th">Upload 10th Result : </label>
+              <input type="file" name="10th" id="10th" />
+            </div>
+            <div
+              className="container"
+              style={{
+                padding: "1rem",
+                margin: "1rem",
+              }}
+            >
+              <label htmlFor="12th">Upload 12th result : </label>
+              <input type="file" name="12th" id="12th" />
+            </div>
+            <div
+              className="container"
+              style={{
+                padding: "1rem",
+                margin: "1rem",
+              }}
+            >
+              <label htmlFor="mains">Upload JEE Mains Result : </label>
+              <input type="file" name="mains" id="mains" />
+            </div>
+            <div
+              className="container"
+              style={{
+                padding: "1rem",
+                margin: "1rem",
+              }}
+            >
+              <label htmlFor="advanced">Upload Advanced Result : </label>
+              <input type="file" name="advanced" id="advanced" />
+            </div>
+          </Card>
+        </Stack>
       </Stack>
     </div>
   );
