@@ -10,6 +10,7 @@ import FeedIcon from "@mui/icons-material/Feed";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import SummarizeIcon from "@mui/icons-material/Summarize";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import GroupsIcon from "@mui/icons-material/Groups";
@@ -267,6 +268,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           avatar: <ArticleIcon />,
           name: "Manage Resume",
           id: "/resume",
+        },
+        {
+          avatar: <SummarizeIcon />,
+          name: "Manage PVFs",
+          id: "/pvf",
         },
         {
           avatar: <TravelExploreIcon />,
