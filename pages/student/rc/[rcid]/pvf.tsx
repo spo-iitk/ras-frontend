@@ -9,12 +9,13 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
+import DataGrid from "@components/DataGrid";
 import pvfRequest, { PvfsParams, PvfsType } from "@callbacks/student/rc/pvf";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
@@ -53,10 +54,19 @@ function PVF() {
   };
 
   const columns: GridColDef[] = [
-    { field: "ID", headerName: "ID" },
+    {
+      field: "ID",
+      headerName: "PVF ID",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "company_university_name",
       headerName: "Company / University Name",
+      width: 250,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => (
         <Tooltip title={params.value}>
           <div>{params.value}</div>
@@ -66,6 +76,9 @@ function PVF() {
     {
       field: "role",
       headerName: "Role Name",
+      align: "center",
+      headerAlign: "center",
+      width: 250,
       renderCell: (params) => (
         <Tooltip title={params.value}>
           <div>{params.value}</div>
@@ -75,6 +88,9 @@ function PVF() {
     {
       field: "mentor_name",
       headerName: "Mentor Name",
+      align: "center",
+      headerAlign: "center",
+      width: 250,
       renderCell: (params) => (
         <Tooltip title={params.value}>
           <div>{params.value}</div>
@@ -84,6 +100,9 @@ function PVF() {
     {
       field: "mentor_email",
       headerName: "Mentor Email",
+      align: "center",
+      headerAlign: "center",
+      width: 250,
       renderCell: (params) => (
         <Tooltip title={params.value}>
           <div>{params.value}</div>
@@ -93,6 +112,8 @@ function PVF() {
     {
       field: "Actions",
       headerName: "Actions",
+      align: "center",
+      headerAlign: "center",
       width: 200,
       renderCell: (params) => (
         <Button
@@ -129,6 +150,7 @@ function PVF() {
       getProforma();
     }
   }, [router.isReady, rid, token]);
+
   return (
     <>
       <div>
