@@ -717,11 +717,7 @@ function View() {
                 <Grid item xs={12} md={12} key="ctc">
                   <h4>Job Description</h4>
                   {isFetched && (
-                    <RichText
-                      onChange={setJd}
-                      readOnly
-                      value={row.job_description}
-                    />
+                    <RichText onChange={setJd} readOnly value={jd} />
                   )}
                 </Grid>
               </Grid>
