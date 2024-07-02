@@ -701,7 +701,7 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={12} key="pwd" padding={0}>
+                <Grid item xs={12} md={6} key="int-per" padding={0}>
                   <h4>Preferred period of Internship</h4>
                   <TextField
                     multiline
