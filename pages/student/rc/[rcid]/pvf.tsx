@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  CircularProgress,
+  Fab,
   FormControl,
   Grid,
   IconButton,
@@ -12,13 +14,25 @@ import {
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import CheckIcon from "@mui/icons-material/Check";
+import SaveIcon from "@mui/icons-material/Save";
+import CloseIcon from "@mui/icons-material/Close";
+import AvTimerIcon from "@mui/icons-material/AvTimer";
+import styled from "@emotion/styled";
+import { green } from "@mui/material/colors";
 
-import DataGrid from "@components/DataGrid";
-import pvfRequest, { PvfsParams, PvfsType } from "@callbacks/student/rc/pvf";
-import Meta from "@components/Meta";
+import { errorNotification } from "@callbacks/notifcation";
 import useStore from "@store/store";
+import DataGrid from "@components/DataGrid";
+import pvfRequest, {
+  AllStudentPvfResponse,
+  PvfsParams,
+  PvfsType,
+} from "@callbacks/student/rc/pvf";
+import Meta from "@components/Meta";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 const gridMain = {
   width: "100%",
@@ -38,6 +52,9 @@ const boxStyle = {
   boxShadow: 24,
   p: 4,
 };
+const Input = styled("input")({
+  display: "none",
+});
 
 function PVF() {
   const [rows, setRows] = useState<PvfsParams[]>([]);
@@ -45,8 +62,33 @@ function PVF() {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = rcid as string;
+  const [allPvf, setAllPvf] = useState<AllStudentPvfResponse[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [fileSaved, setFileSaved] = useState<File | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<PvfsType>();
+
+  const handleButtonClick = () => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+    }
+  };
+
+  const buttonSx = {
+    ...(success && {
+      bgcolor: green[500],
+      "&:hover": {
+        bgcolor: green[700],
+      },
+    }),
+  };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -110,33 +152,102 @@ function PVF() {
       ),
     },
     {
-      field: "Actions",
-      headerName: "Actions",
+      field: "is_approved",
+      headerName: "Status",
+      renderCell: (params) =>
+        params.row.is_approved.Valid ? (
+          params.row.is_approved.Bool ? (
+            <Button
+              variant="outlined"
+              sx={{ borderRadius: "10px", width: "80%", color: "green" }}
+              color="success"
+              startIcon={<CheckIcon sx={{ color: "green" }} />}
+            >
+              Accepted
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              sx={{ borderRadius: "10px", width: "80%", color: "red" }}
+              color="error"
+              startIcon={<CloseIcon sx={{ color: "red" }} />}
+            >
+              Rejected
+            </Button>
+          )
+        ) : (
+          <Button
+            variant="outlined"
+            sx={{ borderRadius: "10px", width: "80%" }}
+            startIcon={<AvTimerIcon />}
+          >
+            Pending by SPO
+          </Button>
+        ),
+    },
+    {
+      field: "proforma",
+      headerName: "View Proforma",
+      width: 200,
+      sortable: false,
       align: "center",
       headerAlign: "center",
-      width: 200,
       renderCell: (params) => (
-        <Button
+        <ActiveButton
           href={`/student/rc/${rid}/pvf/${params.row.ID}`}
-          variant="contained"
-          color="primary"
+          sx={{ height: 30, width: "100%" }}
         >
           View PVF
-        </Button>
+        </ActiveButton>
       ),
     },
   ];
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<PvfsType>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (event: { target: { files: any } }) => {
+    const { files } = event.target;
 
-  const onSubmit: SubmitHandler<PvfsType> = async (data) => {
-    await pvfRequest.post(token, rid, data);
-    handleClose();
-    // Reload data after submitting
+    // if (
+    //   allPvf.filter(
+    //     (pvf) => !(pvf.verified.Valid && !pvf.verified.Bool)
+    //   ).length >= 5
+    // ) {
+    //   errorNotification("You can only upload 5 pvf", "Cannot upload");
+    //   setLoading(false);
+    //   return;
+    // }
+
+    if (!(files && files.length > 0)) {
+      setLoading(false);
+      return;
+    }
+
+    const file = files[0];
+
+    if (file.size > 256000) {
+      errorNotification("File size too large", "Max file size is about 200KB");
+      setLoading(false);
+      return;
+    }
+
+    // if (file.name !== resumeName) {
+    //   errorNotification(
+    //     "File must follow the name constraint",
+    //     `Expected File name: ${resumeName}`
+    //   );
+    //   setLoading(false);
+    //   return;
+    // }
+
+    setFileSaved(file);
+    setSuccess(true);
+    setLoading(false);
+  };
+  const onSubmit = async (data: PvfsType) => {
+    await pvfRequest.post(token, rid, {
+      ...data,
+      recruitment_cycle_id: parseInt(rid, 10),
+    });
   };
 
   useEffect(() => {
@@ -191,10 +302,10 @@ function PVF() {
                 multiline
                 variant="standard"
                 error={!!errors.company_university_name}
-                helperText={
-                  errors.company_university_name && "This field is required"
-                }
-                {...register("company_university_name")}
+                helperText={errors.company_university_name?.message}
+                {...register("company_university_name", {
+                  required: "This field is required",
+                })}
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
@@ -207,7 +318,7 @@ function PVF() {
                 variant="standard"
                 error={!!errors.role}
                 helperText={errors.role && "This field is required"}
-                {...register("role")}
+                {...register("role", { required: true })}
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
@@ -220,7 +331,9 @@ function PVF() {
                 variant="standard"
                 error={!!errors.duration}
                 helperText={errors.duration && "This field is required"}
-                {...register("duration")}
+                {...register("duration", {
+                  required: "This field is required",
+                })}
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
@@ -233,7 +346,9 @@ function PVF() {
                 variant="standard"
                 error={!!errors.mentor_name}
                 helperText={errors.mentor_name && "This field is required"}
-                {...register("mentor_name")}
+                {...register("mentor_name", {
+                  required: "This field is required",
+                })}
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
@@ -248,7 +363,9 @@ function PVF() {
                 helperText={
                   errors.mentor_designation && "This field is required"
                 }
-                {...register("mentor_designation")}
+                {...register("mentor_designation", {
+                  required: "This field is required",
+                })}
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
@@ -261,9 +378,41 @@ function PVF() {
                 variant="standard"
                 error={!!errors.mentor_email}
                 helperText={errors.mentor_email && "This field is required"}
-                {...register("mentor_email")}
+                {...register("mentor_email", {
+                  required: "This field is required",
+                })}
               />
             </FormControl>
+            <label htmlFor="icon-button-file">
+              <Input
+                accept="application/pdf"
+                id="icon-button-file"
+                type="file"
+                onChange={handleChange}
+                // required
+              />
+              <Fab
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+                sx={buttonSx}
+                onClick={handleButtonClick}
+              >
+                {success ? <CheckIcon /> : <SaveIcon />}
+                {loading && (
+                  <CircularProgress
+                    size={68}
+                    sx={{
+                      color: green[500],
+                      position: "absolute",
+                      top: -6,
+                      left: -6,
+                      zIndex: 1,
+                    }}
+                  />
+                )}
+              </Fab>
+            </label>
             <Stack justifyContent="center" alignItems="center">
               <Button
                 variant="contained"

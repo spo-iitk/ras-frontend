@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-import { errorNotification } from "@callbacks/notifcation";
+import { errorNotification, successNotification } from "@callbacks/notifcation";
 import {
   ErrorType,
   SERVER_ERROR,
@@ -16,16 +16,23 @@ const instance = axios.create({
 });
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+
+interface nullBool {
+  Bool: boolean;
+  Valid: boolean;
+}
+
 export interface PvfsParams {
   ID: number;
   company_university_name: string;
   role: string;
-  // description: string;
-  // duration: string;
+  description: string;
+  duration: string;
   mentor_name: string;
-  // mentor_designation: string;
+  mentor_designation: string;
   mentor_email: string;
   isVerifed: boolean;
+  recruitment_cycle_id: number;
 }
 
 export interface PvfsType {
@@ -36,6 +43,18 @@ export interface PvfsType {
   mentor_name: string;
   mentor_designation: string;
   mentor_email: string;
+  recruitment_cycle_id: number;
+}
+export interface AllStudentPvfResponse {
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string | null;
+  student_recruitment_cycle_id: number;
+  recruitment_cycle_id: number;
+  pvf: string;
+  verified: nullBool;
+  action_taken_by: string;
 }
 
 const pvfRequest = {
@@ -58,6 +77,14 @@ const pvfRequest = {
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
         return {} as PvfsParams[];
+      }),
+  get: (token: string, rcid: string, pid: string) =>
+    instance
+      .get<PvfsParams>(`/application/rc/${rcid}/pvf/${pid}`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return {} as PvfsParams;
       }),
 };
 
