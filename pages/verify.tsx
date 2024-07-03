@@ -36,9 +36,16 @@ const textFieldSX = {
 };
 
 function Verify() {
+  // let urlToken: string;
   const [loading, setLoading] = useState(true);
-  const { token } = useStore();
+  // const { token } = useStore();
   const router = useRouter();
+  // console.log(router.query);
+  // const queryToken = router.query.token;
+  const [urlToken] = Array.isArray(router.query.token)
+    ? router.query.token
+    : [router.query.token || ""];
+  // console.log(urlToken);
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
   // const { rcid } = router.query;
@@ -47,14 +54,11 @@ function Verify() {
   const [row, setRow] = useState<PvfsParams>();
   const pid = "1";
   const acceptPvf = () => {
-    pvfVerificationRequest.put(token, rid, {
+    pvfVerificationRequest.put(urlToken, rid, {
       ID: parseInt(pid, 10),
       is_approved: { Valid: true, Bool: true },
       is_verified: { Valid: true, Bool: true },
     } as PvfsParams);
-  };
-  const verify = async () => {
-    await pvfVerificationRequest.verify(token, "1", pid, true);
   };
   const buttonSx = {
     ...(success && {
@@ -119,14 +123,17 @@ function Verify() {
   };
   useEffect(() => {
     const getProforma = async () => {
-      const res = await pvfVerificationRequest.get(token, rid, pid);
-      setRow(res);
-      setLoading(false);
+      if (urlToken != null) {
+        console.log(urlToken);
+        const res = await pvfVerificationRequest.get(urlToken, rid, pid);
+        setRow(res);
+        setLoading(false);
+      }
     };
     // if (router.isReady) {
     getProforma();
     // }
-  }, [rid, token, pid]);
+  }, [rid, urlToken, pid]);
 
   return (
     <div style={{ padding: "0 2rem", margin: "4rem 0" }}>
