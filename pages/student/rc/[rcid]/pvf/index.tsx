@@ -99,16 +99,16 @@ function PVF() {
     console.log(rows);
     setOpen(false);
   };
-  const handleFileSubmit = async (event: { preventDefault: () => void }) => {
-    event.preventDefault();
+  // const handleFileSubmit = async (event: { preventDefault: () => void }) => {
+  //   event.preventDefault();
 
-    const formData = new FormData();
-    formData.append("file", fileSaved !== null ? fileSaved : new Blob());
-    // await pvfRequest.post(formData, token, rid);
-    setFileSaved(null);
-    handleClose();
-    window.location.reload();
-  };
+  //   const formData = new FormData();
+  //   formData.append("file", fileSaved !== null ? fileSaved : new Blob());
+  //   // await pvfRequest.post(formData, token, rid);
+  //   setFileSaved(null);
+  //   handleClose();
+  //   window.location.reload();
+  // };
   const columns: GridColDef[] = [
     {
       field: "ID",
