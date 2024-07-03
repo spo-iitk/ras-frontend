@@ -18,21 +18,16 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
-import CloseIcon from "@mui/icons-material/Close";
-import AvTimerIcon from "@mui/icons-material/AvTimer";
 import styled from "@emotion/styled";
 import { green } from "@mui/material/colors";
 
 import { errorNotification } from "@callbacks/notifcation";
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
-import pvfRequest, {
-  AllStudentPvfResponse,
-  PvfsParams,
-  PvfsType,
-} from "@callbacks/student/rc/pvf";
+import pvfRequest, { PvfsParams } from "@callbacks/student/rc/pvf";
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
+import { CDN_URL } from "@callbacks/constants";
 
 const gridMain = {
   width: "100%",
@@ -56,13 +51,22 @@ const Input = styled("input")({
   display: "none",
 });
 
+const transformName = (name: string) => {
+  const nname = name.replace(`${CDN_URL}/view/`, "");
+  const nameArray = nname.split(".");
+  const newName = nameArray[0].slice(14, -33);
+  const newNameWithExtension = `${newName}.${nameArray[1]}`;
+  return newNameWithExtension;
+};
+
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
+
 function PVF() {
   const [rows, setRows] = useState<PvfsParams[]>([]);
   const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
   const rid = rcid as string;
-  const [allPvf, setAllPvf] = useState<AllStudentPvfResponse[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [fileSaved, setFileSaved] = useState<File | null>(null);
@@ -72,7 +76,7 @@ function PVF() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PvfsType>();
+  } = useForm<PvfsParams>();
 
   const handleButtonClick = () => {
     if (!loading) {
@@ -92,9 +96,19 @@ function PVF() {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
+    console.log(rows);
     setOpen(false);
   };
+  const handleFileSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
 
+    const formData = new FormData();
+    formData.append("file", fileSaved !== null ? fileSaved : new Blob());
+    // await pvfRequest.post(formData, token, rid);
+    setFileSaved(null);
+    handleClose();
+    window.location.reload();
+  };
   const columns: GridColDef[] = [
     {
       field: "ID",
@@ -152,42 +166,38 @@ function PVF() {
       ),
     },
     {
-      field: "is_approved",
-      headerName: "Status",
-      renderCell: (params) =>
-        params.row.is_approved.Valid ? (
-          params.row.is_approved.Bool ? (
-            <Button
-              variant="outlined"
-              sx={{ borderRadius: "10px", width: "80%", color: "green" }}
-              color="success"
-              startIcon={<CheckIcon sx={{ color: "green" }} />}
-            >
-              Accepted
-            </Button>
-          ) : (
-            <Button
-              variant="outlined"
-              sx={{ borderRadius: "10px", width: "80%", color: "red" }}
-              color="error"
-              startIcon={<CloseIcon sx={{ color: "red" }} />}
-            >
-              Rejected
-            </Button>
-          )
-        ) : (
-          <Button
-            variant="outlined"
-            sx={{ borderRadius: "10px", width: "80%" }}
-            startIcon={<AvTimerIcon />}
-          >
-            Pending by SPO
-          </Button>
-        ),
+      field: "filename",
+      headerName: "PVF Link",
+      sortable: false,
+      align: "center",
+      headerAlign: "center",
+      valueGetter: (params) => getURL(params?.value),
+      renderCell: (params) => (
+        <Button
+          variant="contained"
+          sx={{ width: "100%" }}
+          onClick={() => {
+            window.open(params.value, "_blank");
+          }}
+        >
+          {transformName(params.value)}
+        </Button>
+      ),
     },
     {
-      field: "proforma",
-      headerName: "View Proforma",
+      field: "is_verified",
+      headerName: "Status",
+      valueGetter: (params) =>
+        // eslint-disable-next-line no-nested-ternary
+        params.row.is_verified.Valid
+          ? params.row.is_verified?.Bool
+            ? "Approved"
+            : "Rejected"
+          : "Pending",
+    },
+    {
+      field: "pvf",
+      headerName: "View PVF",
       width: 200,
       sortable: false,
       align: "center",
@@ -243,11 +253,16 @@ function PVF() {
     setSuccess(true);
     setLoading(false);
   };
-  const onSubmit = async (data: PvfsType) => {
-    await pvfRequest.post(token, rid, {
+  const onSubmit = async (data: PvfsParams) => {
+    const formData = new FormData();
+    formData.append("file", fileSaved !== null ? fileSaved : new Blob());
+    await pvfRequest.post(token, rid, formData, {
       ...data,
       recruitment_cycle_id: parseInt(rid, 10),
     });
+    setFileSaved(null);
+    handleClose();
+    window.location.reload();
   };
 
   useEffect(() => {

@@ -46,6 +46,13 @@ function Verify() {
   let rid = "1";
   const [row, setRow] = useState<PvfsParams>();
   const pid = "1";
+  const acceptPvf = () => {
+    pvfVerificationRequest.put(token, rid, {
+      ID: parseInt(pid, 10),
+      is_approved: { Valid: true, Bool: true },
+      is_verified: { Valid: true, Bool: true },
+    } as PvfsParams);
+  };
   const verify = async () => {
     await pvfVerificationRequest.verify(token, "1", pid, true);
   };
@@ -270,7 +277,7 @@ function Verify() {
               >
                 <ActiveButton
                   onClick={() => {
-                    verify();
+                    acceptPvf();
                     // router.push("/application/rc/");
                   }}
                   variant="contained"

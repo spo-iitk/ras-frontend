@@ -28,23 +28,38 @@ const pvfVerificationRequest = {
         errorNotification("Error", err.response?.data?.error || err.message);
         return {} as PvfsParams;
       }),
-  verify: (token: string, rcid: string, pid: string, verifyy: boolean) =>
+  // verify: (token: string, rcid: string, pid: string, verifyy: boolean) =>
+  //   instance
+  //     .put<
+  //       StatusResponse,
+  //       AxiosResponse<StatusResponse, PvfsParams>,
+  //       PvfsParams
+  //     >(
+  //       `/application/rc/${rcid}/pvf/${pid}/verify`,
+  //       { isVerifed: verifyy } as PvfsParams,
+  //       setConfig(token)
+  //     )
+  //     .then((res) => {
+  //       successNotification("Student Data Updated", res.data.status);
+  //       return true;
+  //     })
+  //     .catch((err: ErrorType) => {
+  //       errorNotification("Could Not Update", err.response?.data?.error);
+  //       return false;
+  //     }),
+  put: (token: string, rcid: string, body: PvfsParams) =>
     instance
       .put<
         StatusResponse,
         AxiosResponse<StatusResponse, PvfsParams>,
         PvfsParams
-      >(
-        `/application/rc/${rcid}/pvf/${pid}/verify`,
-        { isVerifed: verifyy } as PvfsParams,
-        setConfig(token)
-      )
+      >(`application/rc/${rcid}/pvf`, body, setConfig(token))
       .then((res) => {
-        successNotification("Student Data Updated", res.data.status);
+        successNotification("Updated Proforma", res.data.status);
         return true;
       })
       .catch((err: ErrorType) => {
-        errorNotification("Could Not Update", err.response?.data?.error);
+        errorNotification("Updation Failed", err.response?.data?.error);
         return false;
       }),
 };

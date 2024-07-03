@@ -1,13 +1,20 @@
 import axios, { AxiosResponse } from "axios";
 
-import { errorNotification, successNotification } from "@callbacks/notifcation";
+import { errorNotification } from "@callbacks/notifcation";
 import {
+  CDN_URL,
   ErrorType,
   SERVER_ERROR,
   STUDENT_URL,
   StatusResponse,
   setConfig,
 } from "@callbacks/constants";
+
+const cdn_instance = axios.create({
+  baseURL: CDN_URL,
+  timeout: 15000,
+  timeoutErrorMessage: SERVER_ERROR,
+});
 
 const instance = axios.create({
   baseURL: STUDENT_URL,
@@ -22,6 +29,11 @@ interface nullBool {
   Valid: boolean;
 }
 
+export interface PvfResponse {
+  message: string;
+  filename: string;
+}
+
 export interface PvfsParams {
   ID: number;
   company_university_name: string;
@@ -31,44 +43,42 @@ export interface PvfsParams {
   mentor_name: string;
   mentor_designation: string;
   mentor_email: string;
-  isVerifed: boolean;
+  is_verified: nullBool;
+  is_approved: nullBool;
   recruitment_cycle_id: number;
-}
-
-export interface PvfsType {
-  company_university_name: string;
-  role: string;
-  duration: string;
-  description: string;
-  mentor_name: string;
-  mentor_designation: string;
-  mentor_email: string;
-  recruitment_cycle_id: number;
-}
-export interface AllStudentPvfResponse {
-  ID: number;
-  CreatedAt: string;
-  UpdatedAt: string;
-  DeletedAt: string | null;
-  student_recruitment_cycle_id: number;
-  recruitment_cycle_id: number;
-  pvf: string;
-  verified: nullBool;
-  action_taken_by: string;
+  filename: string;
 }
 
 const pvfRequest = {
-  post: (token: string, rid: string, body: PvfsType) =>
-    instance
-      .post<StatusResponse, AxiosResponse<StatusResponse, PvfsType>, PvfsType>(
-        `/application/rc/${rid}/pvf`,
-        body,
-        setConfig(token)
+  post: (token: string, rid: string, document: FormData, body: PvfsParams) =>
+    cdn_instance
+      .post<PvfResponse, AxiosResponse<PvfResponse, FormData>, FormData>(
+        "/upload",
+        document,
+        {
+          headers: {
+            token,
+            rid,
+          },
+        }
       )
-      .then(responseBody)
+      .then((response) => {
+        body.filename = response.data.filename;
+        return instance
+          .post<
+            StatusResponse,
+            AxiosResponse<StatusResponse, PvfsParams>,
+            PvfsParams
+          >(`/application/rc/${rid}/pvf`, body, setConfig(token))
+          .then((res) => res.data)
+          .catch((err: ErrorType) => {
+            errorNotification("Submission Failed", err.response?.data?.error);
+            throw err; // Throw error to handle it in the outer catch
+          });
+      })
       .catch((err: ErrorType) => {
-        errorNotification("Submission Failed", err.response?.data?.error);
-        // return { pid: 0 } as NewProformaResponse;
+        errorNotification("Upload Failed", err.response?.data?.error);
+        return { message: "", filename: "" } as PvfResponse;
       }),
   getAll: (token: string, rcid: string) =>
     instance
