@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArticleIcon from "@mui/icons-material/Article";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -217,6 +218,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           name: "Profile",
           id: "/profile",
         },
+        {
+          avatar: <FileCopyIcon />,
+          name: "Documents",
+          id: "/documents",
+        },
       ],
       extra: [
         {
@@ -422,6 +428,13 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
               avatar: <BarChartIcon />,
               name: "Master Database (Company)",
               id: "/company",
+            }
+          : { avatar: <></>, name: "", id: "", hidden: true },
+        role === 100 || role === 101
+          ? {
+              avatar: <BarChartIcon />,
+              name: "Master Database (Documents)",
+              id: "/documents",
             }
           : { avatar: <></>, name: "", id: "", hidden: true },
         role === 100 || role === 101
