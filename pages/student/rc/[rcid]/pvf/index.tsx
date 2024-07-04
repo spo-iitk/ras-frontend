@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  Fab,
   FormControl,
   Grid,
   IconButton,
@@ -10,17 +9,23 @@ import {
   Stack,
   TextField,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from "@mui/icons-material/Edit";
+import AvTimerIcon from "@mui/icons-material/AvTimer";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 import styled from "@emotion/styled";
 import { green } from "@mui/material/colors";
 
+import InactiveButton from "@components/Buttons/InactiveButton";
 import { errorNotification } from "@callbacks/notifcation";
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
@@ -28,6 +33,7 @@ import pvfRequest, { PvfsParams } from "@callbacks/student/rc/pvf";
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import { CDN_URL } from "@callbacks/constants";
+import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
 const gridMain = {
   width: "100%",
@@ -60,7 +66,53 @@ const transformName = (name: string) => {
 };
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
+function DeleteProforma({
+  id,
+  updateCallback,
+}: {
+  id: string;
+  updateCallback: () => Promise<void>;
+}) {
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  const { token } = useStore();
 
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
+  useEffect(() => {
+    if (confirmation) {
+      if (rid === undefined || rid === "") return;
+      pvfRequest.delete(token, rid, id).then(() => {
+        updateCallback();
+      });
+    }
+  }, [confirmation, id, rid, token, updateCallback]);
+  return (
+    <>
+      <IconButton
+        onClick={() => {
+          handleOpenDeleteModal();
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <DeleteConfirmation
+          handleClose={handleCloseDeleteModal}
+          setConfirmation={setConfirmation}
+        />
+      </Modal>
+    </>
+  );
+}
 function PVF() {
   const [rows, setRows] = useState<PvfsParams[]>([]);
   const { token } = useStore();
@@ -76,7 +128,7 @@ function PVF() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PvfsParams>();
+  } = useForm<PvfsParams>({});
 
   const handleButtonClick = () => {
     if (!loading) {
@@ -84,7 +136,45 @@ function PVF() {
       setLoading(true);
     }
   };
+  const renderStatusButton = (params: any) => {
+    const { is_verified } = params.row;
 
+    if (!is_verified.Valid) {
+      return (
+        <Button
+          variant="outlined"
+          sx={{ borderRadius: "10px", width: "80%" }}
+          startIcon={<AvTimerIcon />}
+        >
+          Pending by SPO
+        </Button>
+      );
+    }
+
+    if (is_verified.Bool) {
+      return (
+        <Button
+          variant="outlined"
+          sx={{ borderRadius: "10px", width: "80%", color: "green" }}
+          color="success"
+          startIcon={<CheckIcon sx={{ color: "green" }} />}
+        >
+          Accepted
+        </Button>
+      );
+    }
+
+    return (
+      <Button
+        variant="outlined"
+        sx={{ borderRadius: "10px", width: "80%", color: "red" }}
+        color="error"
+        startIcon={<CloseIcon sx={{ color: "red" }} />}
+      >
+        Rejected
+      </Button>
+    );
+  };
   const buttonSx = {
     ...(success && {
       bgcolor: green[500],
@@ -93,10 +183,17 @@ function PVF() {
       },
     }),
   };
+  const updateTable = useCallback(async () => {
+    const getall = async () => {
+      const data = await pvfRequest.getAll(token, rid);
+      setRows(data);
+    };
+    if (router.isReady && rid !== "") getall();
+  }, [token, rid, router]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
-    console.log(rows);
+    // console.log(rows);
     setOpen(false);
   };
   // const handleFileSubmit = async (event: { preventDefault: () => void }) => {
@@ -129,30 +226,30 @@ function PVF() {
         </Tooltip>
       ),
     },
-    {
-      field: "role",
-      headerName: "Role Name",
-      align: "center",
-      headerAlign: "center",
-      width: 250,
-      renderCell: (params) => (
-        <Tooltip title={params.value}>
-          <div>{params.value}</div>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "mentor_name",
-      headerName: "Mentor Name",
-      align: "center",
-      headerAlign: "center",
-      width: 250,
-      renderCell: (params) => (
-        <Tooltip title={params.value}>
-          <div>{params.value}</div>
-        </Tooltip>
-      ),
-    },
+    // {
+    //   field: "role",
+    //   headerName: "Role Name",
+    //   align: "center",
+    //   headerAlign: "center",
+    //   width: 250,
+    //   renderCell: (params) => (
+    //     <Tooltip title={params.value}>
+    //       <div>{params.value}</div>
+    //     </Tooltip>
+    //   ),
+    // },
+    // {
+    //   field: "mentor_name",
+    //   headerName: "Mentor Name",
+    //   align: "center",
+    //   headerAlign: "center",
+    //   width: 250,
+    //   renderCell: (params) => (
+    //     <Tooltip title={params.value}>
+    //       <div>{params.value}</div>
+    //     </Tooltip>
+    //   ),
+    // },
     {
       field: "mentor_email",
       headerName: "Mentor Email",
@@ -167,7 +264,7 @@ function PVF() {
     },
     {
       field: "filename",
-      headerName: "PVF Link",
+      headerName: "Uploaded PVF ",
       sortable: false,
       align: "center",
       headerAlign: "center",
@@ -187,13 +284,9 @@ function PVF() {
     {
       field: "is_verified",
       headerName: "Status",
-      valueGetter: (params) =>
-        // eslint-disable-next-line no-nested-ternary
-        params.row.is_verified.Valid
-          ? params.row.is_verified?.Bool
-            ? "Approved"
-            : "Rejected"
-          : "Pending",
+      align: "center",
+      headerAlign: "center",
+      renderCell: renderStatusButton,
     },
     {
       field: "pvf",
@@ -210,6 +303,32 @@ function PVF() {
           View PVF
         </ActiveButton>
       ),
+    },
+    {
+      field: "delete",
+      headerName: "Delete/Edit",
+      width: 200,
+      sortable: false,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => {
+        if (params.row?.is_verified?.Valid)
+          return (
+            <InactiveButton sx={{ height: 30, width: "100%" }}>
+              Cannot edit
+            </InactiveButton>
+          );
+        return (
+          <>
+            <DeleteProforma id={params.row.ID} updateCallback={updateTable} />
+            <IconButton
+            // href={`/company/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}/step1`}
+            >
+              <EditIcon />
+            </IconButton>
+          </>
+        );
+      },
     },
   ];
 
@@ -398,7 +517,58 @@ function PVF() {
                 })}
               />
             </FormControl>
-            <label htmlFor="icon-button-file">
+            <Grid
+              item
+              xs={12}
+              md={6}
+              key="upload"
+              // paddingTop={2}
+              padding={0}
+              display="flex"
+              gap="1rem"
+              alignItems="center"
+              // marginTop={8}
+            >
+              <label htmlFor="icon-button-file">
+                <Input
+                  accept="application/pdf"
+                  id="icon-button-file"
+                  type="file"
+                  onChange={handleChange}
+                  // required
+                />
+                <Button
+                  variant="contained"
+                  // color="primary"
+                  aria-label="upload picture"
+                  component="span"
+                  sx={buttonSx}
+                  onClick={handleButtonClick}
+                >
+                  {success ? (
+                    <CheckIcon />
+                  ) : (
+                    <span style={{ alignItems: "center", display: "flex" }}>
+                      <SaveIcon sx={{ marginRight: "10px" }} /> Upload PVF
+                    </span>
+                  )}
+                  {loading && (
+                    <CircularProgress
+                      size={30}
+                      sx={{
+                        color: green[500],
+                        position: "absolute",
+                        // top: -6,
+                        // left: -6,
+                        zIndex: 1,
+                      }}
+                    />
+                  )}
+                </Button>
+              </label>
+              <Typography variant="subtitle1">{fileSaved?.name}</Typography>
+            </Grid>
+            {/* <label htmlFor="icon-button-file">
               <Input
                 accept="application/pdf"
                 id="icon-button-file"
@@ -427,12 +597,20 @@ function PVF() {
                   />
                 )}
               </Fab>
-            </label>
+            </label> */}
             <Stack justifyContent="center" alignItems="center">
               <Button
                 variant="contained"
-                sx={{ width: "30%" }}
-                onClick={handleSubmit(onSubmit)}
+                sx={{ width: "30%", marginTop: "30px" }}
+                // onClick={handleSubmit(onSubmit)}
+                onClick={() => {
+                  if (fileSaved != null) {
+                    console.log("clicked");
+                    handleSubmit(onSubmit)();
+                  } else {
+                    errorNotification("Upload PVF!!", "");
+                  }
+                }}
               >
                 Submit
               </Button>

@@ -38,7 +38,7 @@ export interface PvfsParams {
   ID: number;
   company_university_name: string;
   role: string;
-  description: string;
+  remarks: string;
   duration: string;
   mentor_name: string;
   mentor_designation: string;
@@ -63,13 +63,16 @@ const pvfRequest = {
         }
       )
       .then((response) => {
-        body.filename = response.data.filename;
+        const updatedBody = {
+          ...body,
+          filename: response.data.filename,
+        };
         return instance
           .post<
             StatusResponse,
             AxiosResponse<StatusResponse, PvfsParams>,
             PvfsParams
-          >(`/application/rc/${rid}/pvf`, body, setConfig(token))
+          >(`/application/rc/${rid}/pvf`, updatedBody, setConfig(token))
           .then((res) => res.data)
           .catch((err: ErrorType) => {
             errorNotification("Submission Failed", err.response?.data?.error);
@@ -92,6 +95,27 @@ const pvfRequest = {
     instance
       .get<PvfsParams>(`/application/rc/${rcid}/pvf/${pid}`, setConfig(token))
       .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        return {} as PvfsParams;
+      }),
+  delete: (token: string, rcid: string, pid: string) =>
+    instance
+      .delete<PvfsParams>(
+        `/application/rc/${rcid}/pvf/${pid}`,
+        setConfig(token)
+      )
+      .then(() => {
+        // cdn_instance.delete<De, AxiosResponse<PvfResponse, FormData>, FormData>(
+        //   "/delete",
+        //   {
+        //     headers: {
+        //       token,
+        //       rcid,
+        //     },
+        //   }
+        // );
+      })
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
         return {} as PvfsParams;
