@@ -71,10 +71,9 @@ function Verify() {
   const [success, setSuccess] = useState(false);
   const [isVerified, setIsVerifed] = useState<boolean>();
   const [remarks, setRemarks] = useState("");
-  const rid = typeof router.query.rid === "string" ? router.query.rid : "2";
+  // const rid = typeof router.query.rid === "string" ? router.query.rid : "1";
   // let rid = "1";
   const [row, setRow] = useState<PvfsParams>();
-  const pid = "1";
 
   useEffect(() => {
     const getProforma = async () => {
@@ -90,7 +89,7 @@ function Verify() {
       }
     };
     getProforma();
-  }, [urlToken, pid, rid]);
+  }, [urlToken, rid]);
 
   const acceptPvf = () => {
     const formData = new FormData();
