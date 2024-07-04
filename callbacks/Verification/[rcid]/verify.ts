@@ -46,7 +46,7 @@ const pvfVerificationRequest = {
             StatusResponse,
             AxiosResponse<StatusResponse, PvfsParams>,
             PvfsParams
-          >(`/rc/${rid}/pvf`, updatedBody, setConfig(token))
+          >(`/pvf`, updatedBody, setConfig(token))
           .then(() => {
             successNotification("Succefully Verified PVF", "");
             return true;
@@ -56,21 +56,21 @@ const pvfVerificationRequest = {
             return false;
           });
       }),
-  get: (token: string, rcid: string) =>
+  get: (token: string) =>
     instance
-      .get<PvfsParams>(`/rc/${rcid}/pvf`, setConfig(token))
+      .get<PvfsParams>(`/pvf`, setConfig(token))
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
         return {} as PvfsParams;
       }),
-  put: (token: string, rcid: string, body: PvfsParams) =>
+  put: (token: string, body: PvfsParams) =>
     instance
       .put<
         StatusResponse,
         AxiosResponse<StatusResponse, PvfsParams>,
         PvfsParams
-      >(`rc/${rcid}/pvf`, body, setConfig(token))
+      >(`/pvf`, body, setConfig(token))
       .then(() => {
         successNotification("Succefully Verified PVF", "");
         return true;

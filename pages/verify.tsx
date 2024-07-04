@@ -8,6 +8,7 @@ import {
   Modal,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -56,7 +57,8 @@ const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 function Verify() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  // const { token } = useStore();
+  const [openApprove, setOpenApprove] = useState(false);
+  const [openDeny, setOpenDeny] = useState(false);
   const router = useRouter();
   // const { rid } = router.query;
   // const { rcid } = router.query;
@@ -65,7 +67,7 @@ function Verify() {
   //   ? router.query.token
   //   : [router.query.token || ""];
   const urlToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFrc2hhdDIzQGlpdGsuYWMuaW4iLCJwaWQiOjIzLCJyaWQiOjEsImV4cCI6MTcyMDczODI4OSwiaWF0IjoxNzIwMTMzNDg5LCJpc3MiOiJyYXMifQ._GbzOJnybANpnAXVscB0Be6jv4i-C0LVstP_fAKp-gM";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFrc2hhdDIzQGlpdGsuYWMuaW4iLCJwaWQiOjI0LCJyaWQiOjEsImV4cCI6MTcyMDczOTU5OCwiaWF0IjoxNzIwMTM0Nzk4LCJpc3MiOiJyYXMifQ.ueXxCpdyM2xfkHUpZnHvuQcQrqlDXikmAWluokByaTs";
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
   const [isVerified, setIsVerifed] = useState<boolean>();
@@ -80,18 +82,15 @@ function Verify() {
       if (urlToken != null) {
         // console.log(urlToken);
         // console.log(rid);
-        const res = await pvfVerificationRequest.get(urlToken, rid);
+        const res = await pvfVerificationRequest.get(urlToken);
         setRow(res);
-        // setIsVerifed(false);
         if (res.is_verified) {
           setIsVerifed(res.is_verified.Valid);
         }
         setLoading(false);
       }
     };
-    // if (router.isReady) {
     getProforma();
-    // }
   }, [urlToken, pid, rid]);
 
   const acceptPvf = () => {
@@ -100,13 +99,11 @@ function Verify() {
     if (fileSaved != null) {
       pvfVerificationRequest.post(urlToken, rid, formData, {
         remarks,
-        is_approved: { Valid: true, Bool: true },
         is_verified: { Valid: true, Bool: true },
       } as PvfsParams);
     } else {
-      pvfVerificationRequest.put(urlToken, rid, {
+      pvfVerificationRequest.put(urlToken, {
         remarks,
-        is_approved: { Valid: true, Bool: true },
         is_verified: { Valid: true, Bool: true },
       } as PvfsParams);
     }
@@ -115,9 +112,8 @@ function Verify() {
     router.push("/login");
   };
   const rejectPvf = () => {
-    pvfVerificationRequest.put(urlToken, rid, {
+    pvfVerificationRequest.put(urlToken, {
       remarks,
-      is_approved: { Valid: true, Bool: false },
       is_verified: { Valid: true, Bool: false },
     } as PvfsParams);
     setFileSaved(null);
@@ -134,14 +130,6 @@ function Verify() {
     width: "100%",
   };
 
-  // const [row, setRow] = useState<PvfsParams>({
-  //   ID: 0,
-  // } as PvfsParams);
-  //   const {
-  //     register,
-  //     // handleSubmit,
-  //     formState: { errors },
-  //   } = useForm<PvfsType>();
   const handleButtonClick = () => {
     if (!loading) {
       setSuccess(false);
@@ -387,7 +375,7 @@ function Verify() {
                       // } else {
                       //   errorNotification("Please Upload Signed File", "");
                       // }
-                      setOpen(true);
+                      setOpenApprove(true);
                     }}
                     variant="contained"
                     sx={{ width: "50%" }}
@@ -400,7 +388,7 @@ function Verify() {
                     sx={{ width: "50%" }}
                     onClick={() => {
                       // setOpen(true);
-                      rejectPvf();
+                      setOpenDeny(true);
                     }}
                     // onClick={handleSubmit(onSubmit)}
                   >
@@ -410,24 +398,55 @@ function Verify() {
               </Grid>
             </Grid>
           </Stack>
-          <Modal open={open} onClose={() => setOpen(false)}>
+          <Modal open={openApprove} onClose={() => setOpenApprove(false)}>
             <Box sx={boxStyle}>
               <Box sx={{ textAlign: "center" }}>
-                <h2>Confirmation !</h2>
+                <h2>Confirmation!</h2>
+                <Typography sx={{ textAlign: "center" }}>
+                  You won't be able to access it again or change it after
+                  confirmation
+                </Typography>
               </Box>
               <Stack spacing={2}>
                 <FormControl sx={{ m: 1 }} />
                 <Stack justifyContent="center" alignItems="center">
-                  <Button
+                  <ActiveButton
                     variant="contained"
                     sx={{ width: "30%" }}
                     onClick={() => {
                       acceptPvf();
-                      setOpen(false);
+                      setOpenApprove(false);
                     }}
                   >
-                    Continue
-                  </Button>
+                    Approve
+                  </ActiveButton>
+                </Stack>
+              </Stack>
+            </Box>
+          </Modal>
+          <Modal open={openDeny} onClose={() => setOpenDeny(false)}>
+            <Box sx={boxStyle}>
+              <Box sx={{ textAlign: "center" }}>
+                <h2>Confirmation!</h2>
+                <Typography sx={{ textAlign: "center" }}>
+                  You won't be able to access it again or change it after
+                  confirmation
+                </Typography>
+              </Box>
+              <Stack spacing={2}>
+                <FormControl sx={{ m: 0 }} />
+
+                <Stack justifyContent="center" alignItems="center">
+                  <InactiveButton
+                    variant="contained"
+                    sx={{ width: "30%" }}
+                    onClick={() => {
+                      rejectPvf();
+                      setOpenDeny(false);
+                    }}
+                  >
+                    Deny
+                  </InactiveButton>
                 </Stack>
               </Stack>
             </Box>
