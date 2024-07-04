@@ -136,6 +136,7 @@ function PVF() {
       setLoading(true);
     }
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderStatusButton = (params: any) => {
     const { is_verified } = params.row;
 
@@ -605,7 +606,6 @@ function PVF() {
                 // onClick={handleSubmit(onSubmit)}
                 onClick={() => {
                   if (fileSaved != null) {
-                    console.log("clicked");
                     handleSubmit(onSubmit)();
                   } else {
                     errorNotification("Upload PVF!!", "");

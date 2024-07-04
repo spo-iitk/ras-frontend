@@ -70,7 +70,7 @@ function Verify() {
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
   const [isVerified, setIsVerifed] = useState<boolean>();
-  const [remarks, setRemarks] = useState("");
+  const [remark, setRemark] = useState("");
   // const rid = typeof router.query.rid === "string" ? router.query.rid : "1";
 
   let rid = "1";
@@ -97,12 +97,12 @@ function Verify() {
     formData.append("file", fileSaved !== null ? fileSaved : new Blob());
     if (fileSaved != null) {
       pvfVerificationRequest.post(urlToken, rid, formData, {
-        remarks,
+        remarks: remark,
         is_verified: { Valid: true, Bool: true },
       } as PvfsParams);
     } else {
       pvfVerificationRequest.put(urlToken, {
-        remarks,
+        remarks: remark,
         is_verified: { Valid: true, Bool: true },
       } as PvfsParams);
     }
@@ -112,7 +112,7 @@ function Verify() {
   };
   const rejectPvf = () => {
     pvfVerificationRequest.put(urlToken, {
-      remarks,
+      remarks: remark,
       is_verified: { Valid: true, Bool: false },
     } as PvfsParams);
     setFileSaved(null);
@@ -135,6 +135,7 @@ function Verify() {
       setLoading(true);
     }
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
 
@@ -278,9 +279,9 @@ function Verify() {
                     fullWidth
                     minRows={4}
                     // value={row?.remarks}
-                    value={remarks}
+                    value={remark}
                     onChange={(e) => {
-                      setRemarks(e.target.value);
+                      setRemark(e.target.value);
                     }}
                     InputProps={{
                       style: { textAlign: "center" },
@@ -309,7 +310,8 @@ function Verify() {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      window.open(getURL(row!.filename), "_blank");
+                      const url = getURL(row?.filename ?? "");
+                      window.open(url, "_blank");
                     }}
                     sx={{ height: 60, width: "100%" }}
                   >

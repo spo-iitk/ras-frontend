@@ -133,6 +133,19 @@ function View() {
                   sx={textFieldSX}
                 />
               </Grid>
+              <Grid item xs={12} md={12} key="turnover" padding={0}>
+                <h4>Remarks By Prof</h4>
+                <TextField
+                  multiline
+                  fullWidth
+                  value={row.remarks}
+                  InputProps={{
+                    style: { textAlign: "center" },
+                    readOnly: true,
+                  }}
+                  sx={textFieldSX}
+                />
+              </Grid>
             </Grid>
             {/* <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
               <Grid item xs={12} md={12} key="company-deets">
