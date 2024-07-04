@@ -56,7 +56,6 @@ const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
 function Verify() {
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = useState(false);
   const [openApprove, setOpenApprove] = useState(false);
   const [openDeny, setOpenDeny] = useState(false);
   const router = useRouter();
