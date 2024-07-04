@@ -72,7 +72,8 @@ function Verify() {
   const [isVerified, setIsVerifed] = useState<boolean>();
   const [remarks, setRemarks] = useState("");
   // const rid = typeof router.query.rid === "string" ? router.query.rid : "1";
-  // let rid = "1";
+
+  let rid = "1";
   const [row, setRow] = useState<PvfsParams>();
 
   useEffect(() => {
