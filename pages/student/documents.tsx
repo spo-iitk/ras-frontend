@@ -21,6 +21,7 @@ import { styled } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
 import SaveIcon from "@mui/icons-material/Save";
 
+import studentRequest, { Student } from "@callbacks/student/student";
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
 import Meta from "@components/Meta";
@@ -29,6 +30,7 @@ import documentRequest, {
 } from "@callbacks/student/rc/documents";
 import { CDN_URL } from "@callbacks/constants";
 import { errorNotification } from "@callbacks/notifcation";
+import { getDeptProgram } from "@components/Parser/parser";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -64,6 +66,12 @@ const columns: GridColDef[] = [
   {
     field: "ID",
     headerName: "Document ID",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "type",
+    headerName: "Document Type",
     align: "center",
     headerAlign: "center",
   },
@@ -135,30 +143,66 @@ const Input = styled("input")({
   display: "none",
 });
 
-function Resume() {
+const fileNames = ["10th_marks", "12th_marks", "pingala", "mains", "advanced"];
+
+const modalHeaders = [
+  "10th Marksheet",
+  "12th Marksheet",
+  "Pingala Transcript",
+  "JEE Mains Result",
+  "JEE Advanced  Result",
+];
+
+function Documents() {
   const router = useRouter();
+  const [fileName, setFileName] = useState<string>("");
+  const [currentHeading, setCurrentHeading] = useState<string>("");
+  const [currentFile, setCurrentFile] = useState<string>("");
   const [fileSaved, setFileSaved] = useState<File | null>(null);
+  const [studentData, setStudent] = useState<Student>({ ID: 0 } as Student);
   const { token } = useStore();
   const [allDocuments, setAllDocuments] = useState<
     AllStudentDocumentsResponse[]
   >([]);
   const [open, setOpen] = useState(false);
+  const [UploadOpen, setUploadOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (event: any) => {
+    let name = `${fileNames[parseInt(event.target.id, 10)]}_${fileName}.pdf`;
+    let heading = modalHeaders[parseInt(event.target.id, 10)];
+    setCurrentFile(name);
+    setCurrentHeading(heading);
+    setOpen(true);
+  };
   const handleClose = () => {
     setOpen(false);
     setSuccess(false);
     setFileSaved(null);
     setLoading(false);
+    setCurrentFile("");
+    setCurrentHeading("");
+  };
+
+  const handleUploadOpen = () => setUploadOpen(true);
+  const handleUploadClose = () => setUploadOpen(false);
+
+  const isDisabled = (name: string) => {
+    let result = false;
+    allDocuments.forEach((doc) => {
+      if (doc.type === name) {
+        result = true;
+      }
+    });
+    return result;
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
 
-    if (allDocuments.filter((document) => !document.verified).length >= 5) {
+    if (allDocuments.filter((doc) => !doc.verified).length >= 5) {
       errorNotification("You can only upload 5 documents", "Cannot upload");
       setLoading(false);
       return;
@@ -177,6 +221,15 @@ function Resume() {
       return;
     }
 
+    if (file.name !== currentFile) {
+      errorNotification(
+        "File must follow the name constraint",
+        `Expected File Name: ${currentFile}`
+      );
+      setLoading(false);
+      return;
+    }
+
     setFileSaved(file);
     setSuccess(true);
     setLoading(false);
@@ -189,23 +242,44 @@ function Resume() {
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
+    let doc = { ID: 0 } as AllStudentDocumentsResponse;
+    doc.sid = studentData.ID;
+    doc.type = currentHeading;
     const formData = new FormData();
+    formData.append("type", currentFile);
     formData.append("file", fileSaved !== null ? fileSaved : new Blob());
-    await documentRequest.post(formData, token);
+
+    await documentRequest.post(formData, token, doc);
     setFileSaved(null);
     handleClose();
     fetchData();
   };
 
   useEffect(() => {
+    const fetchStudent = async () => {
+      const student = await studentRequest
+        .get(token)
+        .catch(() => ({ ID: 0 } as Student));
+      if (student.ID) {
+        const progdept = getDeptProgram(student.program_department_id);
+        let name = `${student.roll_no.split("@")[0]} ${
+          student.name
+        } ${progdept}`;
+        name = name.replace(/[^\w]/gi, "_");
+        name = name.toLowerCase();
+        setFileName(name);
+        setStudent(student);
+      }
+    };
+
     if (router.isReady) {
       fetchData();
+      fetchStudent();
     }
 
     setLoading(false);
     setSuccess(false);
-  }, [fetchData, router.isReady]);
+  }, [fetchData, token, router.isReady]);
 
   const handleButtonClick = () => {
     if (!loading) {
@@ -233,7 +307,7 @@ function Resume() {
           </Grid>
           <Grid item xs={6} style={gridMain}>
             <div>
-              <IconButton onClick={handleOpen}>
+              <IconButton onClick={handleUploadOpen}>
                 <AddIcon />
               </IconButton>
             </div>
@@ -270,9 +344,16 @@ function Resume() {
       </div>
       <Modal open={open} onClose={handleClose}>
         <Box sx={boxStyle}>
-          <h2 style={{ margin: "0 auto 25px auto", padding: "0 auto" }}>
-            Upload Document
+          <h2
+            style={{
+              margin: "0 auto 25px auto",
+              padding: "0 auto",
+              textTransform: "capitalize",
+            }}
+          >
+            Upload {currentHeading}
           </h2>
+          <p>File Name: {currentFile}</p>
           <form onSubmit={handleSubmit}>
             <Box
               sx={{
@@ -326,8 +407,35 @@ function Resume() {
           </form>
         </Box>
       </Modal>
+      <Modal open={UploadOpen} onClose={handleUploadClose}>
+        <Box sx={boxStyle}>
+          <h2>Documents to upload: </h2>
+          <Box
+            sx={{
+              m: 5,
+              position: "relative",
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            {modalHeaders.map((name, index) => (
+              <Button
+                variant="contained"
+                sx={{ m: 1 }}
+                fullWidth
+                id={index.toString()}
+                onClick={handleOpen}
+                disabled={isDisabled(name)}
+              >
+                {name}
+              </Button>
+            ))}
+          </Box>
+        </Box>
+      </Modal>
     </>
   );
 }
-Resume.layout = "studentDashboard";
-export default Resume;
+Documents.layout = "studentDashboard";
+export default Documents;

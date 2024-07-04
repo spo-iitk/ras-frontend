@@ -21,10 +21,12 @@ interface nullBool {
 }
 
 export interface AllStudentDocumentsResponse {
-  name: string;
-  email: string;
+  ID: number;
+  CreatedAt: string | null;
+  UpdatedAt: string | null;
+  DeletedAt: string | null;
   sid: number;
-  rsid: number;
+  type: string;
   path: string;
   verified: boolean;
   action_taken_by: string;
@@ -35,8 +37,6 @@ export interface StudentDocumentsResponse {
   CreatedAt: string;
   UpdatedAt: string;
   DeletedAt: string;
-  recruitment_cycle_id: number;
-  student_recruitment_cycle_id: number;
   path: string;
   verified: boolean;
   action_taken_by: string;
@@ -74,10 +74,24 @@ const adminDocumentsRequest = {
         );
         return [] as StudentDocumentsResponse[];
       }),
-  putVerify: (token: string, docid: string, body: VerifyBody) =>
+  getByType: (token: string, type: string) =>
+    instance
+      .get<AllStudentDocumentsResponse[]>(
+        `/documents/type/${type}`,
+        setConfig(token)
+      )
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error infetching data",
+          err.response?.data?.error || err.message
+        );
+        return [] as AllStudentDocumentsResponse[];
+      }),
+  putVerify: (token: string, docid: number, body: VerifyBody) =>
     instance
       .put<SuccessResponse, AxiosResponse<SuccessResponse>>(
-        `/documents/${docid}/verify`,
+        `/document/${docid}/verify`,
         body,
         setConfig(token)
       )

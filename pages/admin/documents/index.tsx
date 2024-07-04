@@ -1,4 +1,13 @@
-import { Button, Container, Modal, Stack } from "@mui/material";
+import {
+  Button,
+  Container,
+  MenuItem,
+  Modal,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 // import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid";
@@ -24,8 +33,17 @@ const transformName = (name: string) => {
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
+const documentTypes = [
+  "10th Marksheet",
+  "12th Marksheet",
+  "Pingala Transcript",
+  "JEE Mains Result",
+  "JEE Advanced  Result",
+  "All",
+];
+
 function AcceptDocumentButton(props: {
-  docid: string;
+  docid: number;
   updateCallback: () => Promise<void>;
 }) {
   const { token } = useStore();
@@ -50,7 +68,7 @@ function AcceptDocumentButton(props: {
 }
 
 function RejectResumeButton(props: {
-  docid: string;
+  docid: number;
   updateCallback: () => Promise<void>;
 }) {
   const { token } = useStore();
@@ -103,24 +121,33 @@ function AskClarification(props: {
   );
 }
 function Index() {
+  const [type, setType] = useState<string>(documentTypes[5]);
   const [allDocuments, setAllDocuments] = useState<
     AllStudentDocumentsResponse[]
   >([]);
   const { token, role } = useStore();
-  useEffect(() => {
-    const fetchData = async () => {
+
+  const updateTable = React.useCallback(async () => {
+    if (type === "All") {
       const res = await adminDocumentsRequest.getAll(token);
       if (res !== null && res?.length > 0) setAllDocuments(res);
       else setAllDocuments([]);
-    };
-    fetchData();
-  }, [token]);
+    } else {
+      const res = await adminDocumentsRequest.getByType(token, type);
+      if (res !== null && res?.length > 0) setAllDocuments(res);
+      else setAllDocuments([]);
+    }
+  }, [token, type]);
 
-  const updateTable = React.useCallback(async () => {
-    const res = await adminDocumentsRequest.getAll(token);
-    if (res !== null && res?.length > 0) setAllDocuments(res);
-    else setAllDocuments([]);
-  }, [token]);
+  useEffect(() => {
+    updateTable();
+  }, [updateTable]);
+
+  const handleChangeType = (e: SelectChangeEvent<string>) => {
+    setType(e.target.value);
+    setAllDocuments([]);
+    updateTable();
+  };
 
   const columns: GridColDef[] = [
     {
@@ -136,6 +163,11 @@ function Index() {
       field: "UpdatedAt",
       headerName: "Updated At",
       hide: true,
+    },
+    {
+      field: "type",
+      headerName: "Document Type",
+      hide: false,
     },
     // {
     //   field: "name",
@@ -222,11 +254,11 @@ function Index() {
           return (
             <Container>
               <AcceptDocumentButton
-                docid={cellValues.row.ID.toString()}
+                docid={cellValues.row.ID}
                 updateCallback={updateTable}
               />
               <RejectResumeButton
-                docid={cellValues.row.ID.toString()}
+                docid={cellValues.row.ID}
                 updateCallback={updateTable}
               />
             </Container>
@@ -239,6 +271,20 @@ function Index() {
   return (
     <div>
       <Meta title="Documents Dashboard" />
+      <Stack direction="column" padding={1} alignItems="flex-start">
+        <Typography>Select Type</Typography>
+        <Select
+          labelId="select-type"
+          id="select-type"
+          value={type}
+          label="Type"
+          onChange={handleChangeType}
+        >
+          {documentTypes.map((doctype) => (
+            <MenuItem value={doctype}>{doctype}</MenuItem>
+          ))}
+        </Select>
+      </Stack>
       <Grid container alignItems="center">
         <Grid item xs={12}>
           <Stack

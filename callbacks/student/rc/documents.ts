@@ -30,6 +30,8 @@ export interface DocumentResponse {
 
 export interface DocumentsBackendParams {
   path: string;
+  type: string;
+  sid: number;
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -40,18 +42,18 @@ interface nullBool {
 
 export interface AllStudentDocumentsResponse {
   ID: number;
-  CreatedAt: string;
-  UpdatedAt: string;
+  CreatedAt: string | null;
+  UpdatedAt: string | null;
   DeletedAt: string | null;
-  student_recruitment_cycle_id: number;
-  recruitment_cycle_id: number;
-  resume: string;
+  sid: number;
+  type: string;
+  path: string;
   verified: boolean;
   action_taken_by: string;
 }
 
 const documentRequest = {
-  post: (body: FormData, token: string) =>
+  post: (body: FormData, token: string, doc: AllStudentDocumentsResponse) =>
     cdn_instance
       .post<
         DocumentResponse,
@@ -74,6 +76,8 @@ const documentRequest = {
               `/document`,
               {
                 path: response.data.filename,
+                type: doc.type,
+                sid: doc.sid,
               },
               setConfig(token)
             )
