@@ -135,8 +135,8 @@ function Verify() {
       setLoading(true);
     }
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (event: { target: { files: any } }) => {
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
 
     // if (

@@ -35,6 +35,10 @@ import ActiveButton from "@components/Buttons/ActiveButton";
 import { CDN_URL } from "@callbacks/constants";
 import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 
+interface Params {
+  row: PvfsParams;
+}
+
 const gridMain = {
   width: "100%",
   display: "flex",
@@ -136,8 +140,8 @@ function PVF() {
       setLoading(true);
     }
   };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderStatusButton = (params: any) => {
+
+  const renderStatusButton = (params: Params) => {
     const { is_verified } = params.row;
 
     if (!is_verified.Valid) {
@@ -333,8 +337,7 @@ function PVF() {
     },
   ];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (event: { target: { files: any } }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
 
     // if (
