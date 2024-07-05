@@ -59,22 +59,22 @@ function Verify() {
   const [openApprove, setOpenApprove] = useState(false);
   const [openDeny, setOpenDeny] = useState(false);
   const router = useRouter();
-  // const { rid } = router.query;
-  // const { rcid } = router.query;
-  // const rid = (rcid || "").toString();
-  // const [urlToken] = Array.isArray(router.query.token)
-  //   ? router.query.token
-  //   : [router.query.token || ""];
-  const urlToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFrc2hhdDIzQGlpdGsuYWMuaW4iLCJwaWQiOjI0LCJyaWQiOjEsImV4cCI6MTcyMDczOTU5OCwiaWF0IjoxNzIwMTM0Nzk4LCJpc3MiOiJyYXMifQ.ueXxCpdyM2xfkHUpZnHvuQcQrqlDXikmAWluokByaTs";
+  const [pvfName, setPvfName] = useState<string>("");
+  const { rcid, token } = router.query;
+  const rid = (rcid || "").toString();
+  const urlToken = (token || "").toString();
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
   const [isVerified, setIsVerifed] = useState<boolean>();
   const [remark, setRemark] = useState("");
-  // const rid = typeof router.query.rid === "string" ? router.query.rid : "1";
-
-  let rid = "1";
   const [row, setRow] = useState<PvfsParams>();
+  const transformName = (name: string) => {
+    const nname = name.replace(`${CDN_URL}/view/`, "");
+    const nameArray = nname.split(".");
+    const newName = nameArray[0].slice(14, -33);
+    const newNameWithExtension = `${newName}.${nameArray[1]}`;
+    return newNameWithExtension;
+  };
 
   useEffect(() => {
     const getProforma = async () => {
@@ -85,6 +85,7 @@ function Verify() {
         setRow(res);
         if (res.is_verified) {
           setIsVerifed(res.is_verified.Valid);
+          setPvfName(transformName(res.filename_student));
         }
         setLoading(false);
       }
@@ -162,14 +163,14 @@ function Verify() {
       return;
     }
 
-    // if (file.name !== resumeName) {
-    //   errorNotification(
-    //     "File must follow the name constraint",
-    //     `Expected File name: ${resumeName}`
-    //   );
-    //   setLoading(false);
-    //   return;
-    // }
+    if (file.name !== pvfName) {
+      errorNotification(
+        "File must follow the name constraint",
+        `Expected File name: ${pvfName}`
+      );
+      setLoading(false);
+      return;
+    }
 
     setFileSaved(file);
     setSuccess(true);
@@ -323,7 +324,7 @@ function Verify() {
                   <label htmlFor="icon-button-file">
                     <Input
                       accept="application/pdf"
-                      id="icon-butt   on-file"
+                      id="icon-button-file"
                       type="file"
                       onChange={handleChange}
                       // required

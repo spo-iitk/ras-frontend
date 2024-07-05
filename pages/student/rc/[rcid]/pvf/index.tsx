@@ -34,6 +34,8 @@ import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import { CDN_URL } from "@callbacks/constants";
 import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
+import enrollmentRequest from "@callbacks/student/rc/enrollQuestion";
+import { getDeptProgram } from "@components/Parser/parser";
 
 interface Params {
   row: PvfsParams;
@@ -127,6 +129,7 @@ function PVF() {
   const [loading, setLoading] = useState(true);
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
+  const [pvfName, setPvfName] = useState<string>("");
 
   const {
     register,
@@ -201,16 +204,7 @@ function PVF() {
     // console.log(rows);
     setOpen(false);
   };
-  // const handleFileSubmit = async (event: { preventDefault: () => void }) => {
-  //   event.preventDefault();
 
-  //   const formData = new FormData();
-  //   formData.append("file", fileSaved !== null ? fileSaved : new Blob());
-  //   // await pvfRequest.post(formData, token, rid);
-  //   setFileSaved(null);
-  //   handleClose();
-  //   window.location.reload();
-  // };
   const columns: GridColDef[] = [
     {
       field: "ID",
@@ -361,14 +355,14 @@ function PVF() {
       return;
     }
 
-    // if (file.name !== resumeName) {
-    //   errorNotification(
-    //     "File must follow the name constraint",
-    //     `Expected File name: ${resumeName}`
-    //   );
-    //   setLoading(false);
-    //   return;
-    // }
+    if (file.name !== pvfName) {
+      errorNotification(
+        "File must follow the name constraint",
+        `Expected File name: ${pvfName}`
+      );
+      setLoading(false);
+      return;
+    }
 
     setFileSaved(file);
     setSuccess(true);
@@ -387,6 +381,16 @@ function PVF() {
   };
 
   useEffect(() => {
+    const fetchStudent = async () => {
+      const student_data = await enrollmentRequest.getStudentRC(token, rid);
+      if (student_data.ID) {
+        const progdept = getDeptProgram(student_data.program_department_id);
+        let filename = `${student_data.roll_no} ${student_data.name} ${progdept}`;
+        filename = filename.replace(/[^\w]/gi, "_");
+        filename = filename.toLowerCase();
+        setPvfName(`${filename}.pdf`);
+      }
+    };
     const getProforma = async () => {
       const res = await pvfRequest.getAll(token, rid);
       setRows(res);
@@ -395,6 +399,7 @@ function PVF() {
 
     if (router.isReady) {
       getProforma();
+      fetchStudent();
     }
   }, [router.isReady, rid, token]);
 

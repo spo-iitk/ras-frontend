@@ -21,6 +21,8 @@ import useStore from "@store/store";
 import pvfRequest, { PvfsParams } from "@callbacks/student/rc/pvf";
 import { CDN_URL } from "@callbacks/constants";
 import { errorNotification } from "@callbacks/notifcation";
+import enrollmentRequest from "@callbacks/student/rc/enrollQuestion";
+import { getDeptProgram } from "@components/Parser/parser";
 
 const textFieldColor = "#ff0000";
 const textFieldSX = {
@@ -46,6 +48,7 @@ function View() {
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [pvfName, setPvfName] = useState<string>("");
   //   const ID = (PID || "").toString();
   // const [isFetched, setisFetched] = useState(false);
   const [row, setRow] = useState<PvfsParams>({
@@ -65,6 +68,16 @@ function View() {
   useEffect(() => {
     let data: PvfsParams;
     if (!(rid && pid)) return;
+    const fetchStudent = async () => {
+      const student_data = await enrollmentRequest.getStudentRC(token, rid);
+      if (student_data.ID) {
+        const progdept = getDeptProgram(student_data.program_department_id);
+        let filename = `${student_data.roll_no} ${student_data.name} ${progdept}`;
+        filename = filename.replace(/[^\w]/gi, "_");
+        filename = filename.toLowerCase();
+        setPvfName(`${filename}.pdf`);
+      }
+    };
     const getPVFDetails = async () => {
       data = await pvfRequest.get(token, rid, pid);
       setRow(data);
@@ -72,6 +85,7 @@ function View() {
       reset(data);
     };
     getPVFDetails();
+    fetchStudent();
   }, [rid, pid, token, reset]);
 
   const onSubmit = async (data: PvfsParams) => {
@@ -117,14 +131,14 @@ function View() {
       return;
     }
 
-    // if (file.name !== resumeName) {
-    //   errorNotification(
-    //     "File must follow the name constraint",
-    //     `Expected File name: ${resumeName}`
-    //   );
-    //   setLoading(false);
-    //   return;
-    // }
+    if (file.name !== pvfName) {
+      errorNotification(
+        "File must follow the name constraint",
+        `Expected File name: ${pvfName}`
+      );
+      setLoading(false);
+      return;
+    }
 
     setFileSaved(file);
     setSuccess(true);

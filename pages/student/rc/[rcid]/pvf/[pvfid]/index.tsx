@@ -25,34 +25,33 @@ function View() {
   const PID = router.query.pvfid;
   const rid = (rcid || "").toString();
   const ID = (PID || "").toString();
-  const [status, setStatus] = useState<string>("");
-  // const [isFetched, setisFetched] = useState(false);
+  // const [status, setStatus] = useState<string>("");
   const [row, setRow] = useState<PvfsParams>({
     ID: 0,
   } as PvfsParams);
-  const getStatus = (isVerified: any) => {
-    if (isVerified) {
-      if (!isVerified.Valid) {
-        return "Pending by SPO";
-      }
-      if (isVerified.Bool) {
-        return "Approved";
-      }
-      return "Rejected";
-    }
-    return "";
-  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // const getStatus = (isVerified: any) => {
+  //   if (isVerified) {
+  //     if (!isVerified.Valid) {
+  //       return "Pending by SPO";
+  //     }
+  //     if (isVerified.Bool) {
+  //       return "Approved";
+  //     }
+  //     return "Rejected";
+  //   }
+  //   return "";
+  // };
   useEffect(() => {
     const getPVFDetails = async () => {
       if (router.isReady) {
         let response = await pvfRequest.get(token, rid, ID);
         setRow(response);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setStatus(getStatus(row.is_verified));
         // setisFetched(true);
       }
     };
     getPVFDetails();
+    // setStatus(getStatus(row.is_verified));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, rid, ID, router.isReady]);
   let content;
@@ -189,7 +188,7 @@ function View() {
                   <span>View Student Uploaded PVF</span>
                 </Button>
                 <Button
-                  disabled={row?.filename_mentor != null ?? false}
+                  disabled={row?.filename_mentor === ""}
                   variant="contained"
                   onClick={() => {
                     const url = getURL(row?.filename_mentor ?? "");
@@ -201,7 +200,8 @@ function View() {
                   <span>View Mentor Uploaded PVF</span>
                 </Button>
               </Grid>
-              <Grid item xs={12} md={12} key="status" padding={0}>
+              {/* removed for now  */}
+              {/* <Grid item xs={12} md={12} key="status" padding={0}>
                 <h4>Status</h4>
                 <TextField
                   multiline
@@ -213,97 +213,8 @@ function View() {
                   }}
                   sx={textFieldSX}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
-            {/* <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
-              <Grid item xs={12} md={12} key="company-deets">
-                <h2 style={{ textAlign: "center" }}>Internship Details</h2>
-              </Grid>
-              <Grid item xs={12} md={6} key="profile" padding={0}>
-                <h4>Profile</h4>
-                <TextField
-                  multiline
-                  fullWidth
-                  minRows={4}
-                  value={row.profile}
-                  InputProps={{
-                    style: { textAlign: "center" },
-                    readOnly: true,
-                  }}
-                  sx={textFieldSX}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} key="skills" padding={0}>
-                <h4>Required Skill Set</h4>
-                <TextField
-                  multiline
-                  fullWidth
-                  minRows={4}
-                  value={row.skill_set}
-                  InputProps={{
-                    style: { textAlign: "center" },
-                    readOnly: true,
-                  }}
-                  sx={textFieldSX}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} key="tjobloc" padding={0}>
-                <h4>Tentative Job Location / online</h4>
-                <TextField
-                  multiline
-                  fullWidth
-                  value={row.tentative_job_location}
-                  InputProps={{
-                    style: { textAlign: "center" },
-                    readOnly: true,
-                  }}
-                  sx={textFieldSX}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} key="min-hires" padding={0}>
-                <h4>Minimum Number of Hires</h4>
-                <TextField
-                  multiline
-                  fullWidth
-                  value={row.min_hires}
-                  InputProps={{
-                    style: { textAlign: "center" },
-                    readOnly: true,
-                  }}
-                  sx={textFieldSX}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} key="tot-hires" padding={0}>
-                <h4>Expected Total Number of Hires</h4>
-                <TextField
-                  multiline
-                  fullWidth
-                  value={row.total_hires}
-                  InputProps={{
-                    style: { textAlign: "center" },
-                    readOnly: true,
-                  }}
-                  sx={textFieldSX}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} key="int-per" padding={0}>
-                <h4>Preferred period of Internship</h4>
-                <TextField
-                  multiline
-                  fullWidth
-                  value={row.internship_period}
-                  InputProps={{
-                    style: { textAlign: "center" },
-                    readOnly: true,
-                  }}
-                  sx={textFieldSX}
-                />
-              </Grid>
-              <Grid item xs={12} md={12} key="ctc">
-                <h4>Job Description</h4>
-                {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
-              </Grid>
-            </Grid> */}
           </Grid>
         </Stack>
       </Card>
