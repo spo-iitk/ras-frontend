@@ -364,7 +364,9 @@ function Details() {
           </Card>
         </Stack>
       </Stack>
-      <DocumentGrid />
+      <div className="" style={{ margin: "2rem 0" }}>
+        <DocumentGrid />
+      </div>
     </div>
   );
 }
