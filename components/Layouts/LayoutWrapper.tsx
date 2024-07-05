@@ -484,6 +484,13 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           : { avatar: <></>, name: "", id: "", hidden: true },
         role === 100 || role === 101 || role === 102
           ? {
+              avatar: <SummarizeIcon />,
+              name: "Manage PVFs",
+              id: "/pvf",
+            }
+          : { avatar: <></>, name: "", id: "", hidden: true },
+        role === 100 || role === 101 || role === 102
+          ? {
               avatar: <ArticleIcon />,
               name: "Resume",
               id: "/resume",

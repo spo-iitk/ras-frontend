@@ -7,7 +7,7 @@ export const RAS_URL = `${BASE_URL}/api/ras`;
 
 export const STUDENT_URL = `${BASE_URL}/api/student`;
 export const COMPANY_URL = `${BASE_URL}/api/company`;
-
+export const VERIFICATION_URL = `${BASE_URL}/api/verification`;
 export const ADMIN_RC_URL = `${BASE_URL}/api/admin/rc`;
 export const ADMIN_STUDENT_URL = `${BASE_URL}/api/admin/student`;
 export const ADMIN_COMPANY_URL = `${BASE_URL}/api/admin/company`;
