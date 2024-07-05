@@ -1,10 +1,12 @@
-import { Card, Grid, Stack, TextField } from "@mui/material";
+import { Button, Card, Grid, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
 import Meta from "@components/Meta";
 import useStore from "@store/store";
 import pvfRequest, { PvfsParams } from "@callbacks/student/rc/pvf";
+import { CDN_URL } from "@callbacks/constants";
 
 const textFieldColor = "#ff0000";
 const textFieldSX = {
@@ -14,15 +16,16 @@ const textFieldSX = {
     fontWeight: "bold",
   },
 };
+const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
 function View() {
   const { token } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
   const PID = router.query.pvfid;
-
   const rid = (rcid || "").toString();
   const ID = (PID || "").toString();
+  const [status, setStatus] = useState<string>("");
   // const [isFetched, setisFetched] = useState(false);
   const [row, setRow] = useState<PvfsParams>({
     ID: 0,
@@ -32,16 +35,30 @@ function View() {
       if (router.isReady) {
         let response = await pvfRequest.get(token, rid, ID);
         setRow(response);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const getStatus = (isVerified: any) => {
+          if (isVerified) {
+            if (!isVerified.Valid) {
+              return "Pending by SPO";
+            }
+            if (isVerified.Bool) {
+              return "Approved";
+            }
+            return "Rejected";
+          }
+          return "";
+        };
+        setStatus(getStatus(row.is_verified));
         // setisFetched(true);
       }
     };
     getPVFDetails();
-  }, [token, rid, ID, router.isReady]);
+  }, [token, rid, ID, router.isReady, row.is_verified]);
   let content;
   content = (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title={`${PID} - Proforma Details`} />
-      <h2>Proforma</h2>
+      <Meta title={`${PID} - PVF Details`} />
+      {/* <h2>Manage PVF</h2> */}
       <Card
         elevation={5}
         sx={{
@@ -52,10 +69,10 @@ function View() {
         <Stack spacing={2} alignItems="center">
           <Grid container spacing={2} margin={0}>
             <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
-              <Grid item xs={12} md={12} key="company-deets">
+              <Grid item xs={12} md={12} key="pvf-details">
                 <h2 style={{ textAlign: "center" }}>PVF Details</h2>
               </Grid>
-              <Grid item xs={12} md={6} key="name" padding={0}>
+              <Grid item xs={12} md={6} key="comp_name" padding={0}>
                 <h4>Company / University Name</h4>
                 <TextField
                   multiline
@@ -68,7 +85,7 @@ function View() {
                   sx={textFieldSX}
                 />
               </Grid>
-              <Grid item xs={12} md={6} key="address" padding={0}>
+              <Grid item xs={12} md={6} key="role" padding={0}>
                 <h4>Role</h4>
                 <TextField
                   multiline
@@ -81,7 +98,7 @@ function View() {
                   sx={textFieldSX}
                 />
               </Grid>
-              <Grid item xs={12} md={6} key="num-emp" padding={0}>
+              <Grid item xs={12} md={6} key="dur" padding={0}>
                 <h4>Duration</h4>
                 <TextField
                   multiline
@@ -94,7 +111,7 @@ function View() {
                   sx={textFieldSX}
                 />
               </Grid>
-              <Grid item xs={12} md={6} key="social" padding={0}>
+              <Grid item xs={12} md={6} key="name" padding={0}>
                 <h4>Mentor Name</h4>
                 <TextField
                   multiline
@@ -107,7 +124,7 @@ function View() {
                   sx={textFieldSX}
                 />
               </Grid>
-              <Grid item xs={12} md={6} key="website" padding={0}>
+              <Grid item xs={12} md={6} key="email" padding={0}>
                 <h4>Mentor Email</h4>
                 <TextField
                   multiline
@@ -120,7 +137,7 @@ function View() {
                   sx={textFieldSX}
                 />
               </Grid>
-              <Grid item xs={12} md={6} key="turnover" padding={0}>
+              <Grid item xs={12} md={6} key="designation" padding={0}>
                 <h4>Mentor Designation</h4>
                 <TextField
                   multiline
@@ -133,12 +150,62 @@ function View() {
                   sx={textFieldSX}
                 />
               </Grid>
-              <Grid item xs={12} md={12} key="turnover" padding={0}>
+              <Grid item xs={12} md={12} key="remark" padding={0}>
                 <h4>Remarks By Prof</h4>
                 <TextField
                   multiline
                   fullWidth
+                  minRows={4}
                   value={row.remarks}
+                  InputProps={{
+                    style: { textAlign: "center" },
+                    readOnly: true,
+                  }}
+                  sx={textFieldSX}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                md={12}
+                key="file"
+                padding={0}
+                marginBottom={7}
+                display="flex"
+                justifyContent="center"
+                alignContent="center"
+                gap="3rem"
+              >
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    const url = getURL(row?.filename_student ?? "");
+                    window.open(url, "_blank");
+                  }}
+                  sx={{ height: 60, width: "100%" }}
+                >
+                  <CloudDownloadIcon sx={{ marginRight: "10px" }} />
+                  <span>View Student Uploaded PVF</span>
+                </Button>
+                <Button
+                  disabled={row?.filename_mentor != null ?? false}
+                  variant="contained"
+                  onClick={() => {
+                    const url = getURL(row?.filename_mentor ?? "");
+                    window.open(url, "_blank");
+                  }}
+                  sx={{ height: 60, width: "100%" }}
+                >
+                  <CloudDownloadIcon sx={{ marginRight: "10px" }} />
+                  <span>View Mentor Uploaded PVF</span>
+                </Button>
+              </Grid>
+              <Grid item xs={12} md={12} key="status" padding={0}>
+                <h4>Status</h4>
+                <TextField
+                  multiline
+                  fullWidth
+                  value={status}
                   InputProps={{
                     style: { textAlign: "center" },
                     readOnly: true,

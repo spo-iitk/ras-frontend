@@ -268,7 +268,7 @@ function PVF() {
       ),
     },
     {
-      field: "filename",
+      field: "filename_student",
       headerName: "Uploaded PVF ",
       sortable: false,
       align: "center",
@@ -326,9 +326,7 @@ function PVF() {
         return (
           <>
             <DeleteProforma id={params.row.ID} updateCallback={updateTable} />
-            <IconButton
-            // href={`/company/rc/${params.row.recruitment_cycle_id}/proforma/${params.row.ID}/step1`}
-            >
+            <IconButton href={`/student/rc/${rid}/pvf/${params.row.ID}/edit`}>
               <EditIcon />
             </IconButton>
           </>

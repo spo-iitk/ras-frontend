@@ -310,7 +310,7 @@ function Verify() {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      const url = getURL(row?.filename ?? "");
+                      const url = getURL(row?.filename_student ?? "");
                       window.open(url, "_blank");
                     }}
                     sx={{ height: 60, width: "100%" }}
@@ -323,7 +323,7 @@ function Verify() {
                   <label htmlFor="icon-button-file">
                     <Input
                       accept="application/pdf"
-                      id="icon-button-file"
+                      id="icon-butt   on-file"
                       type="file"
                       onChange={handleChange}
                       // required
