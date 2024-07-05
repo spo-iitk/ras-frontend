@@ -8,6 +8,7 @@ import {
   Fab,
   Grid,
   IconButton,
+  Input,
   Modal,
   Stack,
   Typography,
@@ -107,8 +108,8 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) =>
-      params.row.verified ? (
-        params.row.verified ? (
+      params.row.verified?.Valid ? (
+        params.row.verified?.Bool ? (
           <Button
             variant="outlined"
             sx={{ borderRadius: "10px", width: "80%", color: "green" }}
@@ -137,13 +138,31 @@ const columns: GridColDef[] = [
         </Button>
       ),
   },
+  // {
+  //   field: "remove",
+  //   headerName: "Remove Document",
+  //   align: "center",
+  //   headerAlign: "center",
+  //   renderCell: () => (
+  //     <Button variant="outlined" sx={{ color: "red" }}>
+  //       DELETE
+  //     </Button>
+  //   ),
+  // },
 ];
 
-const Input = styled("input")({
+const FileInput = styled("input")({
   display: "none",
 });
 
-const fileNames = ["10th_marks", "12th_marks", "pingala", "mains", "advanced"];
+const fileNames = [
+  "10th_marks",
+  "12th_marks",
+  "pingala",
+  "mains",
+  "advanced",
+  "others",
+];
 
 const modalHeaders = [
   "10th Marksheet",
@@ -151,6 +170,7 @@ const modalHeaders = [
   "Pingala Transcript",
   "JEE Mains Result",
   "JEE Advanced  Result",
+  "Others",
 ];
 
 function Documents() {
@@ -166,10 +186,30 @@ function Documents() {
   >([]);
   const [open, setOpen] = useState(false);
   const [UploadOpen, setUploadOpen] = useState(false);
+  const [typeModal, setTypeModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleOpen = (event: any) => {
+    if (typeModal) {
+      let error = false;
+      allDocuments.forEach((doc) => {
+        if (doc.type === currentHeading) error = true;
+      });
+      if (error) {
+        errorNotification(
+          "Duplicate Document",
+          "You have already uploaded this document"
+        );
+        return;
+      }
+      setOpen(true);
+      return;
+    }
+    if (event.target.id === "5") {
+      setTypeModal(true);
+      return;
+    }
     let name = `${fileNames[parseInt(event.target.id, 10)]}_${fileName}.pdf`;
     let heading = modalHeaders[parseInt(event.target.id, 10)];
     setCurrentFile(name);
@@ -185,13 +225,28 @@ function Documents() {
     setCurrentHeading("");
   };
 
+  const handleTypeChange = (event: { target: { value: string } }) => {
+    let name = event.target.value;
+    name = name.toLowerCase().split(" ").join("_");
+    if (name.length !== 0) setCurrentFile(`${name}_${fileName}.pdf`);
+    else setCurrentFile("");
+    setCurrentHeading(event.target.value);
+  };
+
+  const handleTypeClose = () => {
+    setTypeModal(false);
+  };
+
   const handleUploadOpen = () => setUploadOpen(true);
   const handleUploadClose = () => setUploadOpen(false);
 
   const isDisabled = (name: string) => {
+    if (name === "Others") {
+      return false;
+    }
     let result = false;
     allDocuments.forEach((doc) => {
-      if (doc.type === name) {
+      if (doc.type === name && doc.verified.Bool) {
         result = true;
       }
     });
@@ -201,12 +256,6 @@ function Documents() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
-
-    if (allDocuments.filter((doc) => !doc.verified).length >= 5) {
-      errorNotification("You can only upload 5 documents", "Cannot upload");
-      setLoading(false);
-      return;
-    }
 
     if (!(files && files.length > 0)) {
       setLoading(false);
@@ -246,10 +295,9 @@ function Documents() {
     doc.sid = studentData.ID;
     doc.type = currentHeading;
     const formData = new FormData();
-    formData.append("type", currentFile);
     formData.append("file", fileSaved !== null ? fileSaved : new Blob());
 
-    await documentRequest.post(formData, token, doc);
+    await documentRequest.post(formData, token, doc, studentData.ID);
     setFileSaved(null);
     handleClose();
     fetchData();
@@ -323,6 +371,10 @@ function Documents() {
               The maximum permissible file size is <b>200KB</b>.{" "}
             </li>
             <li>
+              Be careful while uploading documents because you can only upload a
+              document <b>once</b>.{" "}
+            </li>
+            <li>
               You have to upload the following documents:
               <ol>
                 <li>10th Marksheet</li>
@@ -330,6 +382,7 @@ function Documents() {
                 <li>Pingala Verification</li>
                 <li>JEE Mains Result</li>
                 <li>JEE Advanced Result</li>
+                <li>Any other necessary document</li>
               </ol>
             </li>
           </ol>
@@ -365,7 +418,7 @@ function Documents() {
             >
               <Stack spacing={2} justifyContent="center" alignItems="center">
                 <label htmlFor="icon-button-file">
-                  <Input
+                  <FileInput
                     accept="application/pdf"
                     id="icon-button-file"
                     type="file"
@@ -432,6 +485,34 @@ function Documents() {
               </Button>
             ))}
           </Box>
+        </Box>
+      </Modal>
+      <Modal open={typeModal} onClose={handleTypeClose}>
+        <Box sx={boxStyle}>
+          <h2>Specify Document Type: </h2>
+          <Box
+            sx={{
+              m: 5,
+              position: "relative",
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <Input
+              type="text"
+              onChange={handleTypeChange}
+              sx={{ textTransform: "capitalize" }}
+            />
+          </Box>
+          <Button
+            variant="contained"
+            fullWidth
+            disabled={!currentFile.length}
+            onClick={handleOpen}
+          >
+            Upload
+          </Button>
         </Box>
       </Modal>
     </>

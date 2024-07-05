@@ -1,18 +1,10 @@
-import {
-  Button,
-  Container,
-  MenuItem,
-  Modal,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Modal } from "@mui/material";
 import Grid from "@mui/material/Grid";
 // import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import adminDocumentsRequest, {
   AllStudentDocumentsResponse,
@@ -32,15 +24,6 @@ const transformName = (name: string) => {
 };
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
-
-const documentTypes = [
-  "10th Marksheet",
-  "12th Marksheet",
-  "Pingala Transcript",
-  "JEE Mains Result",
-  "JEE Advanced  Result",
-  "All",
-];
 
 function AcceptDocumentButton(props: {
   docid: number;
@@ -120,34 +103,32 @@ function AskClarification(props: {
     <div />
   );
 }
-function Index() {
-  const [type, setType] = useState<string>(documentTypes[5]);
+function DocumentGrid() {
   const [allDocuments, setAllDocuments] = useState<
     AllStudentDocumentsResponse[]
   >([]);
+  const router = useRouter();
   const { token, role } = useStore();
+  const { query } = router;
+  let { studentId } = query;
+  if (!studentId) {
+    studentId = query.studentid;
+  }
 
   const updateTable = React.useCallback(async () => {
-    if (type === "All") {
-      const res = await adminDocumentsRequest.getAll(token);
-      if (res !== null && res?.length > 0) setAllDocuments(res);
-      else setAllDocuments([]);
-    } else {
-      const res = await adminDocumentsRequest.getByType(token, type);
+    if (router.isReady) {
+      const res = await adminDocumentsRequest.getBySid(
+        token,
+        studentId as string
+      );
       if (res !== null && res?.length > 0) setAllDocuments(res);
       else setAllDocuments([]);
     }
-  }, [token, type]);
+  }, [token, studentId, router.isReady]);
 
   useEffect(() => {
     updateTable();
   }, [updateTable]);
-
-  const handleChangeType = (e: SelectChangeEvent<string>) => {
-    setType(e.target.value);
-    setAllDocuments([]);
-    updateTable();
-  };
 
   const columns: GridColDef[] = [
     {
@@ -217,8 +198,8 @@ function Index() {
       align: "center",
       headerAlign: "center",
       valueGetter: ({ value }) => {
-        if (value) {
-          if (value) return "Accepted";
+        if (value?.Valid) {
+          if (value?.Bool) return "Accepted";
           return "Rejected";
         }
         if (!value?.Valid) return "Pending Verification";
@@ -246,7 +227,7 @@ function Index() {
     },
     {
       field: "options",
-      headerName: "",
+      headerName: "Accept/Reject Document",
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
@@ -271,31 +252,7 @@ function Index() {
   return (
     <div>
       <Meta title="Documents Dashboard" />
-      <Stack direction="column" padding={1} alignItems="flex-start">
-        <Typography>Select Type</Typography>
-        <Select
-          labelId="select-type"
-          id="select-type"
-          value={type}
-          label="Type"
-          onChange={handleChangeType}
-        >
-          {documentTypes.map((doctype) => (
-            <MenuItem value={doctype}>{doctype}</MenuItem>
-          ))}
-        </Select>
-      </Stack>
       <Grid container alignItems="center">
-        <Grid item xs={12}>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <h2>Documents</h2>
-          </Stack>
-        </Grid>
-
         <DataGrid
           rows={allDocuments}
           getRowId={(row) => row.ID}
@@ -306,5 +263,4 @@ function Index() {
   );
 }
 
-Index.layout = "adminDashBoard";
-export default Index;
+export default DocumentGrid;

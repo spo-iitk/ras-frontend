@@ -48,12 +48,17 @@ export interface AllStudentDocumentsResponse {
   sid: number;
   type: string;
   path: string;
-  verified: boolean;
+  verified: nullBool;
   action_taken_by: string;
 }
 
 const documentRequest = {
-  post: (body: FormData, token: string, doc: AllStudentDocumentsResponse) =>
+  post: (
+    body: FormData,
+    token: string,
+    doc: AllStudentDocumentsResponse,
+    sid: number
+  ) =>
     cdn_instance
       .post<
         DocumentResponse,
@@ -77,7 +82,7 @@ const documentRequest = {
               {
                 path: response.data.filename,
                 type: doc.type,
-                sid: doc.sid,
+                sid,
               },
               setConfig(token)
             )

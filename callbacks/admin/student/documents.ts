@@ -38,7 +38,7 @@ export interface StudentDocumentsResponse {
   UpdatedAt: string;
   DeletedAt: string;
   path: string;
-  verified: boolean;
+  verified: nullBool;
   action_taken_by: string;
 }
 export interface VerifyBody {
@@ -83,7 +83,18 @@ const adminDocumentsRequest = {
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification(
-          "Error infetching data",
+          "Error in fetching data",
+          err.response?.data?.error || err.message
+        );
+        return [] as AllStudentDocumentsResponse[];
+      }),
+  getBySid: (token: string, sid: string | string[]) =>
+    instance
+      .get<AllStudentDocumentsResponse[]>(`/${sid}/documents`, setConfig(token))
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification(
+          "Error in fetching data",
           err.response?.data?.error || err.message
         );
         return [] as AllStudentDocumentsResponse[];

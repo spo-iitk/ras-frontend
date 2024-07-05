@@ -31,6 +31,7 @@ import getStudentApplication, {
 } from "@callbacks/admin/rc/student/getApplications";
 import { CDN_URL } from "@callbacks/constants";
 import Clarification from "@components/Modals/clarification";
+import DocumentGrid from "@components/DocumentGrid";
 
 const transformName = (name: string) => {
   const nname = name.replace(`${CDN_URL}/view/`, "");
@@ -578,6 +579,10 @@ function Index() {
           rows={studentResume}
           getRowId={(row) => row?.ID || 0}
         />
+      </div>
+      <div style={{ marginTop: 50 }}>
+        <h2>Document Status</h2>
+        <DocumentGrid />
       </div>
       <div style={{ marginTop: 50 }}>
         <h2>Application Status</h2>
