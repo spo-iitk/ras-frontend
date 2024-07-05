@@ -30,30 +30,31 @@ function View() {
   const [row, setRow] = useState<PvfsParams>({
     ID: 0,
   } as PvfsParams);
+  const getStatus = (isVerified: any) => {
+    if (isVerified) {
+      if (!isVerified.Valid) {
+        return "Pending by SPO";
+      }
+      if (isVerified.Bool) {
+        return "Approved";
+      }
+      return "Rejected";
+    }
+    return "";
+  };
   useEffect(() => {
     const getPVFDetails = async () => {
       if (router.isReady) {
         let response = await pvfRequest.get(token, rid, ID);
         setRow(response);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const getStatus = (isVerified: any) => {
-          if (isVerified) {
-            if (!isVerified.Valid) {
-              return "Pending by SPO";
-            }
-            if (isVerified.Bool) {
-              return "Approved";
-            }
-            return "Rejected";
-          }
-          return "";
-        };
         setStatus(getStatus(row.is_verified));
         // setisFetched(true);
       }
     };
     getPVFDetails();
-  }, [token, rid, ID, router.isReady, row.is_verified]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, rid, ID, router.isReady]);
   let content;
   content = (
     <div style={{ padding: "0 2rem", marginBottom: 20 }}>
