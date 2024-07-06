@@ -78,7 +78,7 @@ function Verify() {
 
   useEffect(() => {
     const getProforma = async () => {
-      if (urlToken != null) {
+      if (urlToken !== "") {
         // console.log(urlToken);
         // console.log(rid);
         const res = await pvfVerificationRequest.get(urlToken);

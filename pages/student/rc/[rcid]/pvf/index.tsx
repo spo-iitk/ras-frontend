@@ -52,17 +52,18 @@ const boxStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
+  width: 500,
   bgcolor: "background.paper",
   border: "white solid 2px",
   borderRadius: "10px",
   boxShadow: 24,
-  p: 4,
+  // p: 2,
+  paddingX: 4,
+  paddingY: 2,
 };
 const Input = styled("input")({
   display: "none",
 });
-
 const transformName = (name: string) => {
   const nname = name.replace(`${CDN_URL}/view/`, "");
   const nameArray = nname.split(".");
@@ -433,14 +434,13 @@ function PVF() {
           <Box sx={{ textAlign: "center" }}>
             <h2>Create New PVF</h2>
           </Box>
-          <Stack spacing={2}>
+          <Stack spacing={1}>
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>Company / University Name</p>
               <TextField
                 id="company_university_name"
                 required
                 fullWidth
-                multiline
                 variant="standard"
                 error={!!errors.company_university_name}
                 helperText={errors.company_university_name?.message}
@@ -455,7 +455,6 @@ function PVF() {
                 id="role"
                 required
                 fullWidth
-                multiline
                 variant="standard"
                 error={!!errors.role}
                 helperText={errors.role && "This field is required"}
@@ -468,7 +467,6 @@ function PVF() {
                 id="duration"
                 required
                 fullWidth
-                multiline
                 variant="standard"
                 error={!!errors.duration}
                 helperText={errors.duration && "This field is required"}
@@ -483,7 +481,6 @@ function PVF() {
                 id="mentor_name"
                 required
                 fullWidth
-                multiline
                 variant="standard"
                 error={!!errors.mentor_name}
                 helperText={errors.mentor_name && "This field is required"}
@@ -498,7 +495,6 @@ function PVF() {
                 id="mentor_designation"
                 required
                 fullWidth
-                multiline
                 variant="standard"
                 error={!!errors.mentor_designation}
                 helperText={
@@ -515,7 +511,6 @@ function PVF() {
                 id="mentor_email"
                 required
                 fullWidth
-                multiline
                 variant="standard"
                 error={!!errors.mentor_email}
                 helperText={errors.mentor_email && "This field is required"}
@@ -608,7 +603,7 @@ function PVF() {
             <Stack justifyContent="center" alignItems="center">
               <Button
                 variant="contained"
-                sx={{ width: "30%", marginTop: "30px" }}
+                sx={{ width: "30%", marginTop: "20px" }}
                 // onClick={handleSubmit(onSubmit)}
                 onClick={() => {
                   if (fileSaved != null) {
