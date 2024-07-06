@@ -83,7 +83,6 @@ export const rcRequest = {
       }),
 };
 
-
 export const getCompanyRCIDRequest = {
   get: (token: string, cid: string) =>
     instance

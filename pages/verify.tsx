@@ -59,32 +59,33 @@ function Verify() {
   const [openApprove, setOpenApprove] = useState(false);
   const [openDeny, setOpenDeny] = useState(false);
   const router = useRouter();
-  // const { rid } = router.query;
-  // const { rcid } = router.query;
-  // const rid = (rcid || "").toString();
-  // const [urlToken] = Array.isArray(router.query.token)
-  //   ? router.query.token
-  //   : [router.query.token || ""];
-  const urlToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFrc2hhdDIzQGlpdGsuYWMuaW4iLCJwaWQiOjI0LCJyaWQiOjEsImV4cCI6MTcyMDczOTU5OCwiaWF0IjoxNzIwMTM0Nzk4LCJpc3MiOiJyYXMifQ.ueXxCpdyM2xfkHUpZnHvuQcQrqlDXikmAWluokByaTs";
+  const [pvfName, setPvfName] = useState<string>("");
+  const { rcid, token } = router.query;
+  const rid = (rcid || "").toString();
+  const urlToken = (token || "").toString();
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
   const [isVerified, setIsVerifed] = useState<boolean>();
   const [remark, setRemark] = useState("");
-  // const rid = typeof router.query.rid === "string" ? router.query.rid : "1";
-
-  let rid = "1";
   const [row, setRow] = useState<PvfsParams>();
+  const transformName = (name: string) => {
+    const nname = name.replace(`${CDN_URL}/view/`, "");
+    const nameArray = nname.split(".");
+    const newName = nameArray[0].slice(14, -33);
+    const newNameWithExtension = `${newName}.${nameArray[1]}`;
+    return newNameWithExtension;
+  };
 
   useEffect(() => {
     const getProforma = async () => {
-      if (urlToken != null) {
+      if (urlToken !== "") {
         // console.log(urlToken);
         // console.log(rid);
         const res = await pvfVerificationRequest.get(urlToken);
         setRow(res);
         if (res.is_verified) {
           setIsVerifed(res.is_verified.Valid);
+          setPvfName(transformName(res.filename_student));
         }
         setLoading(false);
       }
@@ -162,14 +163,14 @@ function Verify() {
       return;
     }
 
-    // if (file.name !== resumeName) {
-    //   errorNotification(
-    //     "File must follow the name constraint",
-    //     `Expected File name: ${resumeName}`
-    //   );
-    //   setLoading(false);
-    //   return;
-    // }
+    if (file.name !== pvfName) {
+      errorNotification(
+        "File must follow the name constraint",
+        `Expected File name: ${pvfName}`
+      );
+      setLoading(false);
+      return;
+    }
 
     setFileSaved(file);
     setSuccess(true);
@@ -273,12 +274,11 @@ function Verify() {
                   />
                 </Grid>
                 <Grid item xs={12} md={12} key="type" padding={0}>
-                  <h4>Remarks</h4>
+                  <h4>Write your Remarks</h4>
                   <TextField
                     multiline
                     fullWidth
                     minRows={4}
-                    // value={row?.remarks}
                     value={remark}
                     onChange={(e) => {
                       setRemark(e.target.value);
@@ -310,7 +310,7 @@ function Verify() {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      const url = getURL(row?.filename ?? "");
+                      const url = getURL(row?.filename_student ?? "");
                       window.open(url, "_blank");
                     }}
                     sx={{ height: 60, width: "100%" }}
@@ -350,8 +350,6 @@ function Verify() {
                           sx={{
                             color: green[500],
                             position: "absolute",
-                            // top: -6,
-                            // left: -6,
                             zIndex: 1,
                           }}
                         />
@@ -388,10 +386,8 @@ function Verify() {
                     variant="contained"
                     sx={{ width: "50%" }}
                     onClick={() => {
-                      // setOpen(true);
                       setOpenDeny(true);
                     }}
-                    // onClick={handleSubmit(onSubmit)}
                   >
                     Deny
                   </InactiveButton>

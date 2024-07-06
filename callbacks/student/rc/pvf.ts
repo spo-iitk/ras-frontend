@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-import { errorNotification } from "@callbacks/notifcation";
+import { errorNotification, successNotification } from "@callbacks/notifcation";
 import {
   CDN_URL,
   ErrorType,
@@ -46,7 +46,11 @@ export interface PvfsParams {
   is_verified: nullBool;
   is_approved: nullBool;
   recruitment_cycle_id: number;
-  filename: string;
+  filename_student: string;
+  filename_mentor: string;
+  roll_no?: string;
+  name?: string;
+  iitk_email?: string;
 }
 
 const pvfRequest = {
@@ -65,7 +69,7 @@ const pvfRequest = {
       .then((response) => {
         const updatedBody = {
           ...body,
-          filename: response.data.filename,
+          filename_student: response.data.filename,
         };
         return instance
           .post<
@@ -119,6 +123,68 @@ const pvfRequest = {
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
         return {} as PvfsParams;
+      }),
+  editWithoutFile: (
+    token: string,
+    rcid: string,
+    pid: string,
+    body: PvfsParams
+  ) =>
+    instance
+      .put<
+        StatusResponse,
+        AxiosResponse<StatusResponse, PvfsParams>,
+        PvfsParams
+      >(`/application/rc/${rcid}/pvf/${pid}`, body, setConfig(token))
+      .then(() => {
+        successNotification("PVF Edited Succefully", "");
+        return true;
+      })
+      .catch((err: ErrorType) => {
+        errorNotification("PVF Edit Failed", err.response?.data?.error);
+        return false;
+      }),
+  editWithFile: (
+    token: string,
+    rid: string,
+    pid: string,
+    document: FormData,
+    body: PvfsParams
+  ) =>
+    cdn_instance
+      .post<PvfResponse, AxiosResponse<PvfResponse, FormData>, FormData>(
+        "/upload",
+        document,
+        {
+          headers: {
+            token,
+            rid,
+          },
+        }
+      )
+      .then((response) => {
+        const updatedBody = {
+          ...body,
+          filename_student: response.data.filename,
+        };
+        return instance
+          .put<
+            StatusResponse,
+            AxiosResponse<StatusResponse, PvfsParams>,
+            PvfsParams
+          >(`/application/rc/${rid}/pvf/${pid}`, updatedBody, setConfig(token))
+          .then(() => {
+            successNotification("PVF Edited Succefully", "");
+            return true;
+          })
+          .catch((err: ErrorType) => {
+            errorNotification("PVF Edit Failed", err.response?.data?.error);
+            return false;
+          });
+      })
+      .catch((err: ErrorType) => {
+        errorNotification("Upload Failed", err.response?.data?.error);
+        return { message: "", filename: "" } as PvfResponse;
       }),
 };
 
