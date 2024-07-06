@@ -346,20 +346,7 @@ function Index() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="cpi" padding={0}>
-                  <h4>CPI Criteria</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.cpi_criteria}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
-                </Grid>
-                <Grid item xs={12} md={12} key="pwd" padding={0}>
+                <Grid item xs={12} md={6} key="pwd" padding={0}>
                   <h4>Preferred period of Internship</h4>
                   <TextField
                     multiline
@@ -371,6 +358,16 @@ function Index() {
                     }}
                     sx={textFieldSX}
                   />
+                </Grid>
+                <Grid item xs={12} md={12} key="ctc">
+                  <h4>Job Description</h4>
+                  {isFetched && (
+                    <RichText
+                      onChange={setJd}
+                      readOnly
+                      value={row.job_description}
+                    />
+                  )}
                 </Grid>
               </Grid>
               <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
