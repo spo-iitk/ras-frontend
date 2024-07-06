@@ -274,12 +274,11 @@ function Verify() {
                   />
                 </Grid>
                 <Grid item xs={12} md={12} key="type" padding={0}>
-                  <h4>Remarks</h4>
+                  <h4>Write your Remarks</h4>
                   <TextField
                     multiline
                     fullWidth
                     minRows={4}
-                    // value={row?.remarks}
                     value={remark}
                     onChange={(e) => {
                       setRemark(e.target.value);
@@ -351,8 +350,6 @@ function Verify() {
                           sx={{
                             color: green[500],
                             position: "absolute",
-                            // top: -6,
-                            // left: -6,
                             zIndex: 1,
                           }}
                         />
@@ -389,10 +386,8 @@ function Verify() {
                     variant="contained"
                     sx={{ width: "50%" }}
                     onClick={() => {
-                      // setOpen(true);
                       setOpenDeny(true);
                     }}
-                    // onClick={handleSubmit(onSubmit)}
                   >
                     Deny
                   </InactiveButton>

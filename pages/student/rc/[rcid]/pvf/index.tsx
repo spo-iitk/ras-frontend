@@ -13,19 +13,16 @@ import {
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
-import EditIcon from "@mui/icons-material/Edit";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
-import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 import styled from "@emotion/styled";
 import { green } from "@mui/material/colors";
 
-import InactiveButton from "@components/Buttons/InactiveButton";
 import { errorNotification } from "@callbacks/notifcation";
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
@@ -33,12 +30,16 @@ import pvfRequest, { PvfsParams } from "@callbacks/student/rc/pvf";
 import Meta from "@components/Meta";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import { CDN_URL } from "@callbacks/constants";
-import DeleteConfirmation from "@components/Modals/DeleteConfirmation";
 import enrollmentRequest from "@callbacks/student/rc/enrollQuestion";
 import { getDeptProgram } from "@components/Parser/parser";
 
 interface Params {
   row: PvfsParams;
+}
+interface StudentInfo {
+  roll_no: string;
+  name: string;
+  iitk_email: string;
 }
 
 const gridMain = {
@@ -73,53 +74,53 @@ const transformName = (name: string) => {
 };
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
-function DeleteProforma({
-  id,
-  updateCallback,
-}: {
-  id: string;
-  updateCallback: () => Promise<void>;
-}) {
-  const router = useRouter();
-  const { rcid } = router.query;
-  const rid = (rcid || "").toString();
-  const { token } = useStore();
+// function DeleteProforma({
+//   id,
+//   updateCallback,
+// }: {
+//   id: string;
+//   updateCallback: () => Promise<void>;
+// }) {
+//   const router = useRouter();
+//   const { rcid } = router.query;
+//   const rid = (rcid || "").toString();
+//   const { token } = useStore();
 
-  const [openDeleteModal, setDeleteModal] = useState(false);
-  const [confirmation, setConfirmation] = useState(false);
+//   const [openDeleteModal, setDeleteModal] = useState(false);
+//   const [confirmation, setConfirmation] = useState(false);
 
-  const handleOpenDeleteModal = () => {
-    setDeleteModal(true);
-  };
-  const handleCloseDeleteModal = () => {
-    setDeleteModal(false);
-  };
-  useEffect(() => {
-    if (confirmation) {
-      if (rid === undefined || rid === "") return;
-      pvfRequest.delete(token, rid, id).then(() => {
-        updateCallback();
-      });
-    }
-  }, [confirmation, id, rid, token, updateCallback]);
-  return (
-    <>
-      <IconButton
-        onClick={() => {
-          handleOpenDeleteModal();
-        }}
-      >
-        <DeleteIcon />
-      </IconButton>
-      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
-        <DeleteConfirmation
-          handleClose={handleCloseDeleteModal}
-          setConfirmation={setConfirmation}
-        />
-      </Modal>
-    </>
-  );
-}
+//   const handleOpenDeleteModal = () => {
+//     setDeleteModal(true);
+//   };
+//   const handleCloseDeleteModal = () => {
+//     setDeleteModal(false);
+//   };
+//   useEffect(() => {
+//     if (confirmation) {
+//       if (rid === undefined || rid === "") return;
+//       pvfRequest.delete(token, rid, id).then(() => {
+//         updateCallback();
+//       });
+//     }
+//   }, [confirmation, id, rid, token, updateCallback]);
+//   return (
+//     <>
+//       <IconButton
+//         onClick={() => {
+//           handleOpenDeleteModal();
+//         }}
+//       >
+//         <DeleteIcon />
+//       </IconButton>
+//       <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+//         <DeleteConfirmation
+//           handleClose={handleCloseDeleteModal}
+//           setConfirmation={setConfirmation}
+//         />
+//       </Modal>
+//     </>
+//   );
+// }
 function PVF() {
   const [rows, setRows] = useState<PvfsParams[]>([]);
   const { token } = useStore();
@@ -131,6 +132,7 @@ function PVF() {
   const [fileSaved, setFileSaved] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
   const [pvfName, setPvfName] = useState<string>("");
+  const [studentDetails, setStudentDetails] = useState<StudentInfo>();
 
   const {
     register,
@@ -192,13 +194,13 @@ function PVF() {
       },
     }),
   };
-  const updateTable = useCallback(async () => {
-    const getall = async () => {
-      const data = await pvfRequest.getAll(token, rid);
-      setRows(data);
-    };
-    if (router.isReady && rid !== "") getall();
-  }, [token, rid, router]);
+  // const updateTable = useCallback(async () => {
+  //   const getall = async () => {
+  //     const data = await pvfRequest.getAll(token, rid);
+  //     setRows(data);
+  //   };
+  //   if (router.isReady && rid !== "") getall();
+  // }, [token, rid, router]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -304,30 +306,30 @@ function PVF() {
         </ActiveButton>
       ),
     },
-    {
-      field: "delete",
-      headerName: "Delete/Edit",
-      width: 200,
-      sortable: false,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) => {
-        if (params.row?.is_verified?.Valid)
-          return (
-            <InactiveButton sx={{ height: 30, width: "100%" }}>
-              Cannot edit
-            </InactiveButton>
-          );
-        return (
-          <>
-            <DeleteProforma id={params.row.ID} updateCallback={updateTable} />
-            <IconButton href={`/student/rc/${rid}/pvf/${params.row.ID}/edit`}>
-              <EditIcon />
-            </IconButton>
-          </>
-        );
-      },
-    },
+    // {
+    //   field: "delete",
+    //   headerName: "Delete/Edit",
+    //   width: 200,
+    //   sortable: false,
+    //   align: "center",
+    //   headerAlign: "center",
+    //   renderCell: (params) => {
+    //     if (params.row?.is_verified?.Valid)
+    //       return (
+    //         <InactiveButton sx={{ height: 30, width: "100%" }}>
+    //           Cannot edit
+    //         </InactiveButton>
+    //       );
+    //     return (
+    //       <>
+    //         <DeleteProforma id={params.row.ID} updateCallback={updateTable} />
+    //         <IconButton href={`/student/rc/${rid}/pvf/${params.row.ID}/edit`}>
+    //           <EditIcon />
+    //         </IconButton>
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -375,6 +377,9 @@ function PVF() {
     await pvfRequest.post(token, rid, formData, {
       ...data,
       recruitment_cycle_id: parseInt(rid, 10),
+      name: studentDetails?.name,
+      roll_no: studentDetails?.roll_no,
+      iitk_email: studentDetails?.iitk_email,
     });
     setFileSaved(null);
     handleClose();
@@ -390,6 +395,11 @@ function PVF() {
         filename = filename.replace(/[^\w]/gi, "_");
         filename = filename.toLowerCase();
         setPvfName(`${filename}.pdf`);
+        setStudentDetails({
+          roll_no: student_data.roll_no,
+          name: student_data.name,
+          iitk_email: student_data.email,
+        });
       }
     };
     const getProforma = async () => {
@@ -528,12 +538,10 @@ function PVF() {
               xs={12}
               md={6}
               key="upload"
-              // paddingTop={2}
               padding={0}
               display="flex"
               gap="1rem"
               alignItems="center"
-              // marginTop={8}
             >
               <label htmlFor="icon-button-file">
                 <Input
@@ -541,11 +549,9 @@ function PVF() {
                   id="icon-button-file"
                   type="file"
                   onChange={handleChange}
-                  // required
                 />
                 <Button
                   variant="contained"
-                  // color="primary"
                   aria-label="upload picture"
                   component="span"
                   sx={buttonSx}
@@ -564,8 +570,6 @@ function PVF() {
                       sx={{
                         color: green[500],
                         position: "absolute",
-                        // top: -6,
-                        // left: -6,
                         zIndex: 1,
                       }}
                     />
@@ -574,36 +578,6 @@ function PVF() {
               </label>
               <Typography variant="subtitle1">{fileSaved?.name}</Typography>
             </Grid>
-            {/* <label htmlFor="icon-button-file">
-              <Input
-                accept="application/pdf"
-                id="icon-button-file"
-                type="file"
-                onChange={handleChange}
-                // required
-              />
-              <Fab
-                color="primary"
-                aria-label="upload picture"
-                component="span"
-                sx={buttonSx}
-                onClick={handleButtonClick}
-              >
-                {success ? <CheckIcon /> : <SaveIcon />}
-                {loading && (
-                  <CircularProgress
-                    size={68}
-                    sx={{
-                      color: green[500],
-                      position: "absolute",
-                      top: -6,
-                      left: -6,
-                      zIndex: 1,
-                    }}
-                  />
-                )}
-              </Fab>
-            </label> */}
             <Stack justifyContent="center" alignItems="center">
               <Button
                 variant="contained"

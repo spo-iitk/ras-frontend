@@ -1,7 +1,9 @@
 import {
+  Box,
   Button,
   Card,
   Container,
+  FormControl,
   Grid,
   Modal,
   Stack,
@@ -14,9 +16,14 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckIcon from "@mui/icons-material/Check";
+import AvTimerIcon from "@mui/icons-material/AvTimer";
+import CloseIcon from "@mui/icons-material/Close";
 
+import adminPvfRequest, {
+  AllStudentPvfResponse,
+} from "@callbacks/admin/rc/pvf";
 import adminResumeRequest, {
-  // AllStudentResumeResponse,
   StudentResumeResponse,
 } from "@callbacks/admin/rc/student/resumes";
 import DataGrid from "@components/DataGrid";
@@ -31,6 +38,8 @@ import getStudentApplication, {
 } from "@callbacks/admin/rc/student/getApplications";
 import { CDN_URL } from "@callbacks/constants";
 import Clarification from "@components/Modals/clarification";
+import InactiveButton from "@components/Buttons/InactiveButton";
+import ActiveButton from "@components/Buttons/ActiveButton";
 
 const transformName = (name: string) => {
   const nname = name.replace(`${CDN_URL}/view/`, "");
@@ -39,9 +48,27 @@ const transformName = (name: string) => {
   const newNameWithExtension = `${newName}.${nameArray[1]}`;
   return newNameWithExtension;
 };
-
+const boxStyle = {
+  position: "absolute" as const,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "white solid 2px",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+};
+interface Params {
+  row: AllStudentPvfResponse;
+}
+interface RejectParams {
+  open: boolean;
+  id: string;
+  remarks: string;
+}
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
-
 const cols: GridColDef[] = [
   {
     field: "id",
@@ -145,7 +172,30 @@ function AcceptResumeButton(props: {
     </Button>
   );
 }
-
+function GenerateAuthButton(props: {
+  id: string;
+  rid: string;
+  isGenerated: boolean;
+  updateCallback: () => Promise<void>;
+}) {
+  const { token } = useStore();
+  const { id, rid, isGenerated, updateCallback } = props;
+  return (
+    <Button
+      variant="contained"
+      sx={{
+        marginInlineEnd: "0.5rem",
+      }}
+      onClick={() => {
+        adminPvfRequest.generateAuth(token, rid, id).then(() => {
+          updateCallback();
+        });
+      }}
+    >
+      {isGenerated ? "Re-Send Link" : "Send Link"}
+    </Button>
+  );
+}
 function RejectResumeButton(props: {
   id: string;
   updateCallback: () => Promise<void>;
@@ -166,10 +216,81 @@ function RejectResumeButton(props: {
           });
       }}
     >
-      Reject
+      Reject PVF
     </Button>
   );
 }
+function RejectPvfButton(props: {
+  id: string;
+  remarks: string;
+  setOpenDeny: React.Dispatch<React.SetStateAction<RejectParams>>;
+  updateCallback: () => Promise<void>;
+}) {
+  const { token } = useStore();
+  const { id, remarks, setOpenDeny, updateCallback } = props;
+  const router = useRouter();
+  const { rcid } = router.query;
+  const rid = (rcid || "").toString();
+  return (
+    <InactiveButton
+      variant="contained"
+      onClick={() => {
+        adminPvfRequest
+          .update(token, rid, {
+            remarks,
+            ID: Number(id),
+            is_verified: { Valid: true, Bool: false },
+          } as AllStudentPvfResponse)
+          .then(() => {
+            updateCallback();
+            setOpenDeny({ open: false, id: "0", remarks: "" });
+          });
+      }}
+    >
+      Reject
+    </InactiveButton>
+  );
+}
+const renderStatusButton = (params: Params) => {
+  const { is_verified } = params.row;
+
+  if (!is_verified.Valid) {
+    return (
+      <Button
+        variant="outlined"
+        sx={{ borderRadius: "10px", width: "80%" }}
+        startIcon={<AvTimerIcon />}
+      >
+        Pending by SPO
+      </Button>
+    );
+  }
+
+  if (is_verified.Bool) {
+    return (
+      <Button
+        variant="outlined"
+        sx={{ borderRadius: "10px", width: "80%", color: "green" }}
+        color="success"
+        startIcon={<CheckIcon sx={{ color: "green" }} />}
+      >
+        Accepted
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      variant="outlined"
+      sx={{ borderRadius: "10px", width: "80%", color: "red" }}
+      color="error"
+      startIcon={<CloseIcon sx={{ color: "red" }} />}
+    >
+      Rejected
+    </Button>
+  );
+};
+
 function Index() {
   const { rcid, studentid } = useRouter().query;
   const rid = (rcid || "").toString();
@@ -178,11 +299,17 @@ function Index() {
   const [questionAnswer, setQuestionAnswer] =
     useState<studentEnrollResponse[]>();
   const [student, setStudent] = useState<Student>({ student_id: 0 } as Student);
-
   const [applications, setApplications] = useState<ApplicationResponse[]>([]);
   const [studentResume, setStudentResume] = useState<StudentResumeResponse[]>(
     []
   );
+  const [studentPVF, setStudentPVF] = useState<AllStudentPvfResponse[]>([]);
+  const [openDeny, setOpenDeny] = useState<RejectParams>({
+    open: false,
+    id: "0",
+    remarks: "",
+  });
+  const [remarks, setRemarks] = useState("");
   // const [resumeVerificationStatus, setResumeVerificationStatus] = useState("");
 
   useEffect(() => {
@@ -214,6 +341,11 @@ function Index() {
         if (resume !== null && resume?.length > 0) {
           setStudentResume(resume);
         } else setStudentResume([]);
+
+        const pvf = await adminPvfRequest.getAllStudent(token, rid, sid);
+        if (pvf != null && pvf.length > 0) {
+          setStudentPVF(pvf);
+        } else setStudentPVF(pvf);
       }
     };
 
@@ -226,6 +358,12 @@ function Index() {
     if (res !== null && res?.length > 0) setStudentResume(res);
     else setStudentResume([]);
   }, [rid, token, sid]);
+  const updatePVFStatus = React.useCallback(async () => {
+    if (rid === undefined || rid === "") return;
+    const res = await adminPvfRequest.getAll(token, rid);
+    if (res !== null && res?.length > 0) setStudentPVF(res);
+    else setStudentPVF([]);
+  }, [rid, token]);
 
   const handleVerify = async () => {
     if (rcid !== undefined && rcid !== "" && student !== undefined) {
@@ -245,7 +383,6 @@ function Index() {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-
   const resumeCols: GridColDef[] = [
     {
       field: "ID",
@@ -344,6 +481,142 @@ function Index() {
             </Container>
           );
         }
+      },
+    },
+  ];
+  const pvfCols: GridColDef[] = [
+    {
+      field: "ID",
+      headerName: "PVF ID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "CreatedAt",
+      headerName: "Created At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "UpdatedAt",
+      headerName: "Updated At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "DeletedAt",
+      headerName: "Deleted At",
+      align: "center",
+      hide: true,
+    },
+    {
+      field: "recruitment_cycle_id",
+      headerName: "RID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "student_recruitment_cycle_id",
+      headerName: "SID",
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "filename_student",
+      headerName: "PVF Link",
+      sortable: false,
+      align: "center",
+      width: 400,
+      headerAlign: "center",
+      valueGetter: (params) => getURL(params?.value),
+      renderCell: (params) => (
+        <Button
+          variant="contained"
+          sx={{ width: "100%" }}
+          onClick={() => {
+            window.open(params.value, "_blank");
+          }}
+        >
+          {transformName(params.value)}
+        </Button>
+      ),
+    },
+    {
+      field: "verified",
+      headerName: "Verification Status",
+      align: "center",
+      headerAlign: "center",
+      renderCell: renderStatusButton,
+    },
+    {
+      field: "pvf",
+      headerName: "View PVF",
+      sortable: false,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <ActiveButton
+          href={`/admin/rc/${rid}/pvf/${params.row.ID}`}
+          sx={{ height: 30, width: "100%" }}
+        >
+          View PVF
+        </ActiveButton>
+      ),
+    },
+    {
+      field: "options",
+      headerName: "Genarate Link",
+      align: "center",
+      headerAlign: "center",
+      width: 500,
+      renderCell: (cellValues) => {
+        if (!cellValues.row.is_verified?.Valid) {
+          return (
+            <Container>
+              <GenerateAuthButton
+                isGenerated={!!cellValues.row.is_approved?.Valid}
+                rid={rid}
+                id={cellValues.id.toString()}
+                updateCallback={updatePVFStatus}
+              />
+            </Container>
+          );
+        }
+        return (
+          <InactiveButton sx={{ height: 30, width: "100%" }}>
+            Action is Taken
+          </InactiveButton>
+        );
+      },
+    },
+    {
+      field: "option",
+      headerName: "Reject",
+      align: "center",
+      headerAlign: "center",
+      width: 500,
+      renderCell: (cellValues) => {
+        if (!cellValues.row.is_verified?.Valid) {
+          return (
+            <Button
+              variant="contained"
+              onClick={() => {
+                setOpenDeny({
+                  open: true,
+                  id: cellValues.id.toString(),
+                  remarks,
+                });
+              }}
+            >
+              Reject
+            </Button>
+          );
+        }
+        return (
+          <InactiveButton sx={{ height: 30, width: "100%" }}>
+            Action is Taken
+          </InactiveButton>
+        );
       },
     },
   ];
@@ -571,7 +844,7 @@ function Index() {
         </Card>
       </Stack>
       <div style={{ marginTop: 50 }}>
-        <h2>Verification Status</h2>
+        <h2>Resume Verification Status</h2>
         <DataGrid
           heighted
           columns={resumeCols}
@@ -580,9 +853,62 @@ function Index() {
         />
       </div>
       <div style={{ marginTop: 50 }}>
+        <h2>PVF Verification Status</h2>
+        <DataGrid
+          heighted
+          columns={pvfCols}
+          rows={studentPVF}
+          getRowId={(row) => row?.ID || 0}
+        />
+      </div>
+      <div style={{ marginTop: 50 }}>
         <h2>Application Status</h2>
         <DataGrid rows={applications} columns={cols} />
       </div>
+      <Modal
+        open={openDeny.open}
+        onClose={() => {
+          setOpenDeny({ open: false, id: "0", remarks: "" });
+          setRemarks("");
+        }}
+      >
+        <Box sx={boxStyle}>
+          <Box sx={{ textAlign: "center" }}>
+            <h2>Confirmation!</h2>
+            <Typography sx={{ textAlign: "center" }}>
+              You won't be able to change it after confirmation
+            </Typography>
+          </Box>
+          <Stack spacing={2}>
+            <FormControl sx={{ m: 1 }}>
+              <h4>Write your Remarks</h4>
+              <TextField
+                multiline
+                fullWidth
+                minRows={2}
+                // value={row?.remarks}
+                value={remarks}
+                onChange={(e) => {
+                  setRemarks(e.target.value);
+                }}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  // readOnly: true,
+                }}
+              />
+            </FormControl>
+
+            <Stack justifyContent="center" alignItems="center">
+              <RejectPvfButton
+                remarks={remarks}
+                setOpenDeny={setOpenDeny}
+                id={openDeny.id}
+                updateCallback={updatePVFStatus}
+              />
+            </Stack>
+          </Stack>
+        </Box>
+      </Modal>
     </div>
   );
 }

@@ -48,6 +48,9 @@ export interface PvfsParams {
   recruitment_cycle_id: number;
   filename_student: string;
   filename_mentor: string;
+  roll_no?: string;
+  name?: string;
+  iitk_email?: string;
 }
 
 const pvfRequest = {
