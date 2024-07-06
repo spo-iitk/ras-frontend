@@ -436,7 +436,9 @@ function PVF() {
           </Box>
           <Stack spacing={1}>
             <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Company / University Name</p>
+              <p style={{ fontWeight: 300, fontSize: ".8rem" }}>
+                Company / University Name
+              </p>
               <TextField
                 id="company_university_name"
                 required
@@ -450,7 +452,7 @@ function PVF() {
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Role</p>
+              <p style={{ fontWeight: 300, fontSize: ".8rem" }}>Role</p>
               <TextField
                 id="role"
                 required
@@ -462,7 +464,7 @@ function PVF() {
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Duration</p>
+              <p style={{ fontWeight: 300, fontSize: ".8rem" }}>Duration</p>
               <TextField
                 id="duration"
                 required
@@ -476,7 +478,7 @@ function PVF() {
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Mentor Name</p>
+              <p style={{ fontWeight: 300, fontSize: ".8rem" }}>Mentor Name</p>
               <TextField
                 id="mentor_name"
                 required
@@ -490,7 +492,9 @@ function PVF() {
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Mentor Designation</p>
+              <p style={{ fontWeight: 300, fontSize: ".8rem" }}>
+                Mentor Designation
+              </p>
               <TextField
                 id="mentor_designation"
                 required
@@ -506,7 +510,7 @@ function PVF() {
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Mentor Email</p>
+              <p style={{ fontWeight: 300, fontSize: ".8rem" }}>Mentor Email</p>
               <TextField
                 id="mentor_email"
                 required
