@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArticleIcon from "@mui/icons-material/Article";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -217,6 +218,11 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
           avatar: <AccountCircleIcon />,
           name: "Profile",
           id: "/profile",
+        },
+        {
+          avatar: <FileCopyIcon />,
+          name: "Documents",
+          id: "/documents",
         },
       ],
       extra: [

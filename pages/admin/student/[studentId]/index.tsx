@@ -9,6 +9,7 @@ import AdminStudentRequest, {
 } from "@callbacks/admin/student/adminStudent";
 import useStore from "@store/store";
 import { getDepartment, getProgram } from "@components/Parser/parser";
+import DocumentGrid from "@components/DocumentGrid";
 
 const info: { field: string; value: string; disabled: boolean; api_id: any }[] =
   [
@@ -363,6 +364,10 @@ function Details() {
           </Card>
         </Stack>
       </Stack>
+      <div className="" style={{ margin: "2rem 0" }}>
+        <h2>Documents</h2>
+        <DocumentGrid />
+      </div>
     </div>
   );
 }

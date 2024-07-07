@@ -38,6 +38,7 @@ import getStudentApplication, {
 } from "@callbacks/admin/rc/student/getApplications";
 import { CDN_URL } from "@callbacks/constants";
 import Clarification from "@components/Modals/clarification";
+import DocumentGrid from "@components/DocumentGrid";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import ActiveButton from "@components/Buttons/ActiveButton";
 
@@ -851,6 +852,10 @@ function Index() {
           rows={studentResume}
           getRowId={(row) => row?.ID || 0}
         />
+      </div>
+      <div style={{ marginTop: 50 }}>
+        <h2>Document Verification Status</h2>
+        <DocumentGrid />
       </div>
       <div style={{ marginTop: 50 }}>
         <h2>PVF Verification Status</h2>
