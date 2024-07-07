@@ -855,7 +855,7 @@ function Index() {
       </div>
       <div style={{ marginTop: 50 }}>
         <h2>Document Verification Status</h2>
-        <DocumentGrid />
+        <DocumentGrid studentId={`${student.student_id}`} />
       </div>
       <div style={{ marginTop: 50 }}>
         <h2>PVF Verification Status</h2>

@@ -10,7 +10,7 @@ import adminDocumentsRequest, {
   AllStudentDocumentsResponse,
 } from "@callbacks/admin/student/documents";
 import DataGrid from "@components/DataGrid";
-import Clarification from "@components/Modals/clarification";
+import Clarification from "@components/Modals/docClarification";
 import Meta from "@components/Meta";
 import useStore from "@store/store";
 import { CDN_URL } from "@callbacks/constants";
@@ -103,17 +103,13 @@ function AskClarification(props: {
     <div />
   );
 }
-function DocumentGrid() {
+function DocumentGrid(props: { studentId: string }) {
   const [allDocuments, setAllDocuments] = useState<
     AllStudentDocumentsResponse[]
   >([]);
   const router = useRouter();
   const { token, role } = useStore();
-  const { query } = router;
-  let { studentId } = query;
-  if (!studentId) {
-    studentId = query.studentid;
-  }
+  const { studentId } = props;
 
   const updateTable = React.useCallback(async () => {
     if (router.isReady) {
