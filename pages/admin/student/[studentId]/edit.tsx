@@ -447,7 +447,7 @@ function Edit() {
                   <p>10th Board</p>
                   <Autocomplete
                     freeSolo
-                    options={["CBSE", "ICSE"]}
+                    options={["CBSE", "ICSE", "Other"]}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -499,7 +499,7 @@ function Edit() {
                   <p>12th Board</p>
                   <Autocomplete
                     freeSolo
-                    options={["CBSE", "ICSE"]}
+                    options={["CBSE", "ICSE", "Other"]}
                     value={watchTwelfthBoard || "CBSE"}
                     renderInput={(params) => (
                       <TextField

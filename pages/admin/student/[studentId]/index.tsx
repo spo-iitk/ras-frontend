@@ -366,7 +366,7 @@ function Details() {
       </Stack>
       <div className="" style={{ margin: "2rem 0" }}>
         <h2>Documents</h2>
-        <DocumentGrid />
+        <DocumentGrid studentId={studentId as string} />
       </div>
     </div>
   );
