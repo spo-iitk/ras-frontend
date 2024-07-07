@@ -270,8 +270,8 @@ function Documents() {
 
     const file = files[0];
 
-    if (file.size > 256000) {
-      errorNotification("File size too large", "Max file size is about 200KB");
+    if (file.size > 1280000) {
+      errorNotification("File size too large", "Max file size is about 1MB");
       setLoading(false);
       return;
     }
@@ -374,7 +374,7 @@ function Documents() {
               Documents should be in <b>PDF</b> format only.
             </li>
             <li>
-              The maximum permissible file size is <b>200KB</b>.{" "}
+              The maximum permissible file size is <b>1MB</b>.{" "}
             </li>
             <li>
               Be careful while uploading documents because you can only upload a
