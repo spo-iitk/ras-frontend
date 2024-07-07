@@ -360,10 +360,10 @@ function Index() {
   }, [rid, token, sid]);
   const updatePVFStatus = React.useCallback(async () => {
     if (rid === undefined || rid === "") return;
-    const res = await adminPvfRequest.getAll(token, rid);
+    const res = await adminPvfRequest.getAllStudent(token, rid, sid);
     if (res !== null && res?.length > 0) setStudentPVF(res);
     else setStudentPVF([]);
-  }, [rid, token]);
+  }, [rid, token, sid]);
 
   const handleVerify = async () => {
     if (rcid !== undefined && rcid !== "" && student !== undefined) {
