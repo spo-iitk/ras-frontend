@@ -246,8 +246,14 @@ function Documents() {
     }
     let result = false;
     allDocuments.forEach((doc) => {
-      if (doc.type === name && doc.verified.Bool) {
-        result = true;
+      if (doc.type === name) {
+        if (doc.verified.Valid) {
+          if (doc.verified.Bool) {
+            result = true;
+          }
+        } else {
+          result = true;
+        }
       }
     });
     return result;
@@ -372,7 +378,7 @@ function Documents() {
             </li>
             <li>
               Be careful while uploading documents because you can only upload a
-              document <b>once</b>.{" "}
+              document <b>once</b> before being verified.{" "}
             </li>
             <li>
               You have to upload the following documents:

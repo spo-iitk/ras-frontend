@@ -365,6 +365,7 @@ function Details() {
         </Stack>
       </Stack>
       <div className="" style={{ margin: "2rem 0" }}>
+        <h2>Documents</h2>
         <DocumentGrid />
       </div>
     </div>
