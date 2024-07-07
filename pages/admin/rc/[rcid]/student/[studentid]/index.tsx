@@ -523,6 +523,22 @@ function Index() {
       headerAlign: "center",
     },
     {
+      field: "mentor_email",
+      headerName: "Mentor Email",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "verified",
+      headerName: "Verification Status",
+      align: "center",
+      headerAlign: "center",
+      renderCell: renderStatusButton,
+    },
+    {
       field: "filename_student",
       headerName: "PVF Link",
       sortable: false,
@@ -541,13 +557,6 @@ function Index() {
           {transformName(params.value)}
         </Button>
       ),
-    },
-    {
-      field: "verified",
-      headerName: "Verification Status",
-      align: "center",
-      headerAlign: "center",
-      renderCell: renderStatusButton,
     },
     {
       field: "pvf",
