@@ -447,7 +447,6 @@ function Index() {
             sx={{ width: { xs: "280px" }, height: "40px" }}
             variant="contained"
             href={`/admin/rc/${rid}/proforma/${pid}/step1`}
-            disabled={role === 102}
           >
             Update Proforma
           </Button>
