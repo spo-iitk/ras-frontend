@@ -296,7 +296,7 @@ function Index() {
   const handleCloseResumeModal = () => {
     setResumeModal(false);
   };
-  const { token } = useStore();
+  const { token, role } = useStore();
   const router = useRouter();
   const { rcid, proformaid } = router.query;
   const rid = rcid as string;
@@ -447,6 +447,7 @@ function Index() {
             sx={{ width: { xs: "280px" }, height: "40px" }}
             variant="contained"
             href={`/admin/rc/${rid}/proforma/${pid}/step1`}
+            disabled={role === 102}
           >
             Update Proforma
           </Button>

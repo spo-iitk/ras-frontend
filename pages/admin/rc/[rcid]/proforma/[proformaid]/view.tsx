@@ -23,7 +23,7 @@ const textFieldSX = {
 const data1 = new Array(100 + 1).join("0");
 
 function View() {
-  const { token } = useStore();
+  const { token, role } = useStore();
   const router = useRouter();
   const { rcid } = router.query;
   const PID = router.query.proformaid;
@@ -225,32 +225,36 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="min-hires" padding={0}>
-                  <h4>Minimum Number of Hires</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.min_hires}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} key="tot-hires" padding={0}>
-                  <h4>Expected Total Number of Hires</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.total_employees}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
-                </Grid>
+                {role !== 102 && (
+                  <Grid item xs={12} md={6} key="min-hires" padding={0}>
+                    <h4>Minimum Number of Hires</h4>
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={row.min_hires}
+                      InputProps={{
+                        style: { textAlign: "center" },
+                        readOnly: true,
+                      }}
+                      sx={textFieldSX}
+                    />
+                  </Grid>
+                )}
+                {role !== 102 && (
+                  <Grid item xs={12} md={6} key="tot-hires" padding={0}>
+                    <h4>Expected Total Number of Hires</h4>
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={row.total_employees}
+                      InputProps={{
+                        style: { textAlign: "center" },
+                        readOnly: true,
+                      }}
+                      sx={textFieldSX}
+                    />
+                  </Grid>
+                )}
                 <Grid item xs={12} md={6} key="cpi" padding={0}>
                   <h4>CPI Criteria</h4>
                   <TextField
@@ -776,19 +780,21 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="base" padding={0}>
-                  <h4>Tentative date of confirming of PPOs</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.ppo_confirming_date}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
-                </Grid>
+                {role !== 102 && (
+                  <Grid item xs={12} md={6} key="base" padding={0}>
+                    <h4>Tentative date of confirming of PPOs</h4>
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={row.ppo_confirming_date}
+                      InputProps={{
+                        style: { textAlign: "center" },
+                        readOnly: true,
+                      }}
+                      sx={textFieldSX}
+                    />
+                  </Grid>
+                )}
                 <Grid item xs={12} md={6} key="perks" padding={0}>
                   <h4>Perks</h4>
                   <TextField
