@@ -408,11 +408,15 @@ function Documents() {
               margin: "0 auto 25px auto",
               padding: "0 auto",
               textTransform: "capitalize",
+              wordBreak: "break-all",
+              whiteSpace: "normal",
             }}
           >
             Upload {currentHeading}
           </h2>
-          <p>File Name: {currentFile}</p>
+          <p style={{ wordBreak: "break-all", whiteSpace: "normal" }}>
+            File Name: {currentFile}
+          </p>
           <form onSubmit={handleSubmit}>
             <Box
               sx={{

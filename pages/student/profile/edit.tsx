@@ -458,7 +458,7 @@ function ProfileEdit() {
                   <p>10th Board</p>
                   <Autocomplete
                     freeSolo
-                    options={["CBSE", "ICSE", "Other"]}
+                    options={["CBSE", "ICSE", "Please Specify"]}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -512,7 +512,7 @@ function ProfileEdit() {
                   <p>12th Board</p>
                   <Autocomplete
                     freeSolo
-                    options={["CBSE", "ICSE", "Other"]}
+                    options={["CBSE", "ICSE", "Please Specify"]}
                     renderInput={(params) => (
                       <TextField
                         {...params}

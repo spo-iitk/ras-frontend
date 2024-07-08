@@ -463,18 +463,44 @@ function Index() {
       hide: true,
     },
     {
-      field: "options",
-      headerName: "Accept/Reject Resume",
+      field: "acceot",
+      headerName: "Accept Resume",
+      headerAlign: "center",
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified?.Valid || role === 100 || role === 101) {
+        if (
+          !cellValues.row.verified?.Valid ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
           return (
             <Container>
               <AcceptResumeButton
                 id={cellValues.id.toString()}
                 updateCallback={updateResumeStatus}
               />
+            </Container>
+          );
+        }
+      },
+    },
+    {
+      field: "reject",
+      headerName: "Reject Resume",
+      headerAlign: "center",
+      align: "center",
+      // eslint-disable-next-line consistent-return
+      renderCell: (cellValues) => {
+        if (
+          !cellValues.row.verified?.Valid ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
+          return (
+            <Container>
               <RejectResumeButton
                 id={cellValues.id.toString()}
                 updateCallback={updateResumeStatus}

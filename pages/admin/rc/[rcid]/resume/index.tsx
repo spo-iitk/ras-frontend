@@ -92,7 +92,10 @@ function AskClarification(props: {
     setOpenNew(false);
   };
   // if (!params.row.verified?.Valid || role === 100 || role === 101) {
-  return !row.verified?.Valid || role === 100 || role === 101 ? (
+  return !row.verified?.Valid ||
+    role === 100 ||
+    role === 101 ||
+    role === 102 ? (
     <div>
       <Modal open={openNew} onClose={handleCloseNew}>
         <Clarification
@@ -223,12 +226,42 @@ function Index() {
       // eslint-disable-next-line react-hooks/rules-of-hooks
     },
     {
-      field: "options",
-      headerName: "",
+      field: "accept",
+      headerName: "Accept Resume",
+      align: "center",
+      headerAlign: "center",
+      // eslint-disable-next-line consistent-return
+      renderCell: (cellValues) => {
+        if (
+          !cellValues.row.verified?.Valid ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
+          return (
+            <Container>
+              <AcceptResumeButton
+                id={cellValues.id.toString()}
+                updateCallback={updateTable}
+              />
+            </Container>
+          );
+        }
+      },
+    },
+    {
+      field: "reject",
+      headerName: "Reject Resume",
+      headerAlign: "center",
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified?.Valid || role === 100 || role === 101) {
+        if (
+          !cellValues.row.verified?.Valid ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
           return (
             <Container>
               <AcceptResumeButton
