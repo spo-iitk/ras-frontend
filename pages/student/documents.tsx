@@ -408,6 +408,8 @@ function Documents() {
               margin: "0 auto 25px auto",
               padding: "0 auto",
               textTransform: "capitalize",
+              wordBreak: "break-all",
+              whiteSpace: "normal",
             }}
           >
             Upload {currentHeading}
