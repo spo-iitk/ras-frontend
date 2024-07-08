@@ -91,8 +91,8 @@ function Index({
           toolbar: {
             showQuickFilter: true,
             quickFilterProps: { debounceMs: 500 },
-            printOptions: { disableToolbarButton: role === 103 || role === 1 },
-            csvOptions: { disableToolbarButton: role === 103 || role === 1 },
+            printOptions: { disableToolbarButton: role === 102 || role === 1 },
+            csvOptions: { disableToolbarButton: role === 102 || role === 1 },
           },
         }}
         disableDensitySelector
