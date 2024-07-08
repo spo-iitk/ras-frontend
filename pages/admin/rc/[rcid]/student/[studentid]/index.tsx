@@ -68,6 +68,7 @@ interface RejectParams {
   id: string;
   remarks: string;
 }
+
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 const cols: GridColDef[] = [
   {
@@ -169,6 +170,32 @@ function AcceptResumeButton(props: {
       }}
     >
       Accept
+    </Button>
+  );
+}
+function GenerateAuthForAllButton(props: {
+  sid: string;
+  rid: string;
+  setIsOpenSend: React.Dispatch<React.SetStateAction<boolean>>;
+  updateCallback: () => Promise<void>;
+}) {
+  const { token } = useStore();
+  const { sid, rid, setIsOpenSend, updateCallback } = props;
+  return (
+    <Button
+      variant="contained"
+      sx={{
+        height: "40px",
+        marginInlineEnd: "0.5rem",
+        marginTop: "40px",
+      }}
+      onClick={() => {
+        adminPvfRequest.generateAuthForAllPVF(token, rid, sid);
+        updateCallback();
+        setIsOpenSend(false);
+      }}
+    >
+      Send Link to All
     </Button>
   );
 }
@@ -309,6 +336,7 @@ function Index() {
     id: "0",
     remarks: "",
   });
+  const [isOpenSend, setIsOpenSend] = useState(false);
   const [remarks, setRemarks] = useState("");
   // const [resumeVerificationStatus, setResumeVerificationStatus] = useState("");
 
@@ -862,7 +890,24 @@ function Index() {
         />
       </div>
       <div style={{ marginTop: 50 }}>
-        <h2>PVF Verification Status</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h2 style={{ textAlign: "left" }}>PVF Verification Status</h2>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setIsOpenSend(true);
+            }}
+          >
+            Send Link to All
+          </Button>
+        </div>
+
         <DataGrid
           heighted
           columns={pvfCols}
@@ -912,6 +957,31 @@ function Index() {
                 remarks={remarks}
                 setOpenDeny={setOpenDeny}
                 id={openDeny.id}
+                updateCallback={updatePVFStatus}
+              />
+            </Stack>
+          </Stack>
+        </Box>
+      </Modal>
+      <Modal
+        open={isOpenSend}
+        onClose={() => {
+          setIsOpenSend(false);
+        }}
+      >
+        <Box sx={boxStyle}>
+          <Box sx={{ textAlign: "center" }}>
+            <h2>Confirmation!</h2>
+            <Typography sx={{ textAlign: "center" }}>
+              Kindly ensure that PVF details entered by student are correct.
+            </Typography>
+          </Box>
+          <Stack spacing={2}>
+            <Stack justifyContent="center" alignItems="center">
+              <GenerateAuthForAllButton
+                sid={sid}
+                rid={rid}
+                setIsOpenSend={setIsOpenSend}
                 updateCallback={updatePVFStatus}
               />
             </Stack>
