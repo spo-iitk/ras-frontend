@@ -296,7 +296,7 @@ function Index() {
   const handleCloseResumeModal = () => {
     setResumeModal(false);
   };
-  const { token, role } = useStore();
+  const { token } = useStore();
   const router = useRouter();
   const { rcid, proformaid } = router.query;
   const rid = rcid as string;
