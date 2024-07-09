@@ -23,6 +23,7 @@ const instance = axios.create({
   timeout: 15000,
   timeoutErrorMessage: SERVER_ERROR,
 });
+
 export interface ResumeResponse {
   message: string;
   filename: string;
@@ -30,6 +31,7 @@ export interface ResumeResponse {
 
 export interface ResumeBackendParams {
   resume: string;
+  resume_type: string; // Include resume_type here
 }
 
 interface nullBool {
@@ -47,6 +49,7 @@ export interface AllStudentResumeResponse {
   resume: string;
   verified: nullBool;
   action_taken_by: string;
+  resume_type: string;
 }
 
 const resumeRequest = {
@@ -62,32 +65,31 @@ const resumeRequest = {
           },
         }
       )
-      .then(
-        // second api call to backend instance
-        (response: AxiosResponse<ResumeResponse>) =>
-          instance
-            .post<
-              StatusResponse,
-              AxiosResponse<ResumeResponse, ResumeBackendParams>,
-              ResumeBackendParams
-            >(
-              `/rc/${rid}/resume`,
-              {
-                resume: response.data.filename,
-              },
-              setConfig(token)
-            )
-            .then(() => {
-              successNotification("Success", "Resume uploaded");
-              return responseBody;
-            })
-            .catch((err: ErrorType) => {
-              errorNotification(
-                "Error",
-                err.response?.data?.error || err.message
-              );
-              return { status: "error" } as StatusResponse;
-            })
+      .then((response: AxiosResponse<ResumeResponse>) =>
+        instance
+          .post<
+            StatusResponse,
+            AxiosResponse<ResumeResponse, ResumeBackendParams>,
+            ResumeBackendParams
+          >(
+            `/rc/${rid}/resume`,
+            {
+              resume: response.data.filename,
+              resume_type: body.get("resumeType") as string,
+            },
+            setConfig(token)
+          )
+          .then(() => {
+            successNotification("Success", "Resume uploaded");
+            return responseBody;
+          })
+          .catch((err: ErrorType) => {
+            errorNotification(
+              "Error",
+              err.response?.data?.error || err.message
+            );
+            return { status: "error" } as StatusResponse;
+          })
       )
       .catch((err: ErrorType) => {
         errorNotification("Upload Failed", err.response?.data?.error);

@@ -6,9 +6,12 @@ import {
   Button,
   CircularProgress,
   Fab,
+  FormControlLabel,
   Grid,
   IconButton,
   Modal,
+  Radio,
+  RadioGroup,
   Stack,
   Typography,
 } from "@mui/material";
@@ -101,6 +104,7 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) =>
+      // eslint-disable-next-line no-nested-ternary
       params.row.verified.Valid ? (
         params.row.verified.Bool ? (
           <Button
@@ -131,6 +135,12 @@ const columns: GridColDef[] = [
         </Button>
       ),
   },
+  {
+    field: "resume_type",
+    headerName: "Resume Type",
+    align: "center",
+    headerAlign: "center",
+  },
 ];
 
 const Input = styled("input")({
@@ -148,6 +158,7 @@ function Resume() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [resumeType, setResumeType] = useState<string>("SINGLE");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -157,7 +168,6 @@ function Resume() {
     setLoading(false);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
 
@@ -201,12 +211,22 @@ function Resume() {
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
+    if (!fileSaved) {
+      errorNotification("No file selected", "Please select a file to upload.");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append("file", fileSaved !== null ? fileSaved : new Blob());
-    await resumeRequest.post(formData, token, rid);
-    setFileSaved(null);
-    handleClose();
-    window.location.reload();
+    formData.append("file", fileSaved);
+    formData.append("resumeType", resumeType); // Add the resumeType to the form data
+
+    try {
+      setFileSaved(null);
+      handleClose();
+      window.location.reload();
+    } catch (error: any) {
+      errorNotification("Upload Failed", error.message);
+    }
   };
 
   useEffect(() => {
@@ -251,6 +271,12 @@ function Resume() {
     }),
   };
 
+  const handleResumeTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setResumeType((event.target as HTMLInputElement).value);
+  };
+
   return (
     <>
       <div>
@@ -274,13 +300,13 @@ function Resume() {
               Resume should be in <b>PDF</b> format only.
             </li>
             <li>
-              The maximum permissible file size is <b>200KB</b>.{" "}
+              The maximum permissible file size is <b>200KB</b>.
             </li>
             <li>
               You can have at most 5 verified (including pending) resumes.
             </li>
             <li>
-              Each of your resume name should be <b>{resumeName}</b>
+              Each of your resume names should be <b>{resumeName}</b>
             </li>
           </ol>
         </div>
@@ -298,6 +324,24 @@ function Resume() {
             Upload Resume
           </h2>
           <form onSubmit={handleSubmit}>
+            <RadioGroup
+              aria-label="resume-type"
+              name="resume-type"
+              value={resumeType}
+              onChange={handleResumeTypeChange}
+              row
+            >
+              <FormControlLabel
+                value="SINGLE"
+                control={<Radio />}
+                label="Single Resume"
+              />
+              <FormControlLabel
+                value="MASTER"
+                control={<Radio />}
+                label="Master Resume"
+              />
+            </RadioGroup>
             <Box
               sx={{
                 m: 5,
