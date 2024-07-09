@@ -220,16 +220,11 @@ function Resume() {
     formData.append("file", fileSaved);
     formData.append("resumeType", resumeType); // Add the resumeType to the form data
 
-    console.log("Submitting form data:", formData);
-
     try {
-      const response = await resumeRequest.post(formData, token, rid);
-      console.log("Upload response:", response);
       setFileSaved(null);
       handleClose();
       window.location.reload();
-    } catch (error) {
-      console.error("Upload error:", error);
+    } catch (error: any) {
       errorNotification("Upload Failed", error.message);
     }
   };
