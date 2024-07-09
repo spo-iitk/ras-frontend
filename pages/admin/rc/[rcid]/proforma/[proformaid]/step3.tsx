@@ -17,7 +17,7 @@ function Step3() {
   const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
   const pid = (proformaid || "").toString();
-  const { token } = useStore();
+  const { token, role } = useStore();
   const [desc, changeDesc] = useState("");
   const [fetchData, setFetch] = useState<AdminProformaType>({
     ID: 0,
@@ -121,36 +121,40 @@ function Step3() {
                 style={{ minHeight: 200 }}
               />
             </FormControl>
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Minimum no. of hires</p>
-              <TextField
-                id="MinHires"
-                required
-                sx={{ marginLeft: "5 rem" }}
-                fullWidth
-                multiline
-                variant="standard"
-                error={!!errors.min_hires}
-                helperText={
-                  errors.tentative_job_location && "This field is required"
-                }
-                {...register("min_hires", { required: true })}
-              />
-            </FormControl>
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Expected total no. of hires</p>
-              <TextField
-                id="TotHires"
-                required
-                sx={{ marginLeft: "5 rem" }}
-                fullWidth
-                multiline
-                variant="standard"
-                error={!!errors.total_hires}
-                helperText={errors.total_hires && "This field is required"}
-                {...register("total_hires", { required: true })}
-              />
-            </FormControl>
+            {role !== 102 && (
+              <FormControl sx={{ m: 1 }}>
+                <p style={{ fontWeight: 300 }}>Minimum no. of hires</p>
+                <TextField
+                  id="MinHires"
+                  required
+                  sx={{ marginLeft: "5 rem" }}
+                  fullWidth
+                  multiline
+                  variant="standard"
+                  error={!!errors.min_hires}
+                  helperText={
+                    errors.tentative_job_location && "This field is required"
+                  }
+                  {...register("min_hires", { required: true })}
+                />
+              </FormControl>
+            )}
+            {role !== 102 && (
+              <FormControl sx={{ m: 1 }}>
+                <p style={{ fontWeight: 300 }}>Expected total no. of hires</p>
+                <TextField
+                  id="TotHires"
+                  required
+                  sx={{ marginLeft: "5 rem" }}
+                  fullWidth
+                  multiline
+                  variant="standard"
+                  error={!!errors.total_hires}
+                  helperText={errors.total_hires && "This field is required"}
+                  {...register("total_hires", { required: true })}
+                />
+              </FormControl>
+            )}
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>Required Skill Set</p>
               <TextField
@@ -307,36 +311,40 @@ function Step3() {
                 {...register("internship_period", { required: true })}
               />
             </FormControl>
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Minimum no. of hires</p>
-              <TextField
-                id="MinHires"
-                required
-                sx={{ marginLeft: "5 rem" }}
-                fullWidth
-                multiline
-                variant="standard"
-                error={!!errors.min_hires}
-                helperText={
-                  errors.tentative_job_location && "This field is required"
-                }
-                {...register("min_hires", { required: true })}
-              />
-            </FormControl>
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>Expected total no. of hires</p>
-              <TextField
-                id="TotHires"
-                required
-                sx={{ marginLeft: "5 rem" }}
-                fullWidth
-                multiline
-                variant="standard"
-                error={!!errors.total_hires}
-                helperText={errors.total_hires && "This field is required"}
-                {...register("total_hires", { required: true })}
-              />
-            </FormControl>
+            {role !== 102 && (
+              <FormControl sx={{ m: 1 }}>
+                <p style={{ fontWeight: 300 }}>Minimum no. of hires</p>
+                <TextField
+                  id="MinHires"
+                  required
+                  sx={{ marginLeft: "5 rem" }}
+                  fullWidth
+                  multiline
+                  variant="standard"
+                  error={!!errors.min_hires}
+                  helperText={
+                    errors.tentative_job_location && "This field is required"
+                  }
+                  {...register("min_hires", { required: true })}
+                />
+              </FormControl>
+            )}{" "}
+            {role !== 102 && (
+              <FormControl sx={{ m: 1 }}>
+                <p style={{ fontWeight: 300 }}>Expected total no. of hires</p>
+                <TextField
+                  id="TotHires"
+                  required
+                  sx={{ marginLeft: "5 rem" }}
+                  fullWidth
+                  multiline
+                  variant="standard"
+                  error={!!errors.total_hires}
+                  helperText={errors.total_hires && "This field is required"}
+                  {...register("total_hires", { required: true })}
+                />
+              </FormControl>
+            )}
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>Required Skill Set</p>
               <TextField

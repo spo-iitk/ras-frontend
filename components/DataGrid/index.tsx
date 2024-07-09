@@ -13,6 +13,8 @@ import Image from "next/image";
 import * as React from "react";
 import { useState } from "react";
 
+import useStore from "@store/store";
+
 const StyledGridOverlay = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -75,7 +77,7 @@ function Index({
     flex: 1,
     minWidth: 150,
   }));
-
+  const { role } = useStore() || 0;
   return (
     <div style={{ height: 500, width: "100%" }}>
       <DataGrid
@@ -89,6 +91,8 @@ function Index({
           toolbar: {
             showQuickFilter: true,
             quickFilterProps: { debounceMs: 500 },
+            printOptions: { disableToolbarButton: role === 102 || role === 1 },
+            csvOptions: { disableToolbarButton: role === 102 || role === 1 },
           },
         }}
         disableDensitySelector

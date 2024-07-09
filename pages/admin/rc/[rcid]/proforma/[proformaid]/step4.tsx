@@ -16,7 +16,7 @@ function Step4() {
   const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
   const pid = (proformaid || "").toString();
-  const { token } = useStore();
+  const { token, role } = useStore();
   const [ctc, changeCTC] = useState("");
   const [pkgDetails, changePkg] = useState("");
   const [fetchData, setFetch] = useState<AdminProformaType>({
@@ -407,26 +407,28 @@ function Step4() {
                 />
               </FormControl>
             )}
-            <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300 }}>
-                Tentative date of confirming of PPOs
-              </p>
-              <TextField
-                id="ppo_confirming_date"
-                type="date"
-                required
-                fullWidth
-                variant="standard"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                error={!!errors.ppo_confirming_date}
-                helperText={errors.ppo_confirming_date?.message}
-                {...register("ppo_confirming_date", {
-                  required: "Date of Confirming PPO is required",
-                })}
-              />
-            </FormControl>
+            {role !== 102 && (
+              <FormControl sx={{ m: 1 }}>
+                <p style={{ fontWeight: 300 }}>
+                  Tentative date of confirming of PPOs
+                </p>
+                <TextField
+                  id="ppo_confirming_date"
+                  type="date"
+                  required
+                  fullWidth
+                  variant="standard"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  error={!!errors.ppo_confirming_date}
+                  helperText={errors.ppo_confirming_date?.message}
+                  {...register("ppo_confirming_date", {
+                    required: "Date of Confirming PPO is required",
+                  })}
+                />
+              </FormControl>
+            )}
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>
                 Any other perks/benefits/components company wants to declare

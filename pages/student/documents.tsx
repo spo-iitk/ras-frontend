@@ -189,6 +189,7 @@ function Documents() {
   const [typeModal, setTypeModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [fileSize, setFileSize] = useState(1280000);
 
   const handleOpen = (event: any) => {
     if (typeModal) {
@@ -208,8 +209,10 @@ function Documents() {
     }
     if (event.target.id === "5") {
       setTypeModal(true);
+      setFileSize(2560000);
       return;
     }
+    setFileSize(1280000);
     let name = `${fileNames[parseInt(event.target.id, 10)]}_${fileName}.pdf`;
     let heading = modalHeaders[parseInt(event.target.id, 10)];
     setCurrentFile(name);
@@ -270,8 +273,11 @@ function Documents() {
 
     const file = files[0];
 
-    if (file.size > 1280000) {
-      errorNotification("File size too large", "Max file size is about 1MB");
+    if (file.size > fileSize) {
+      errorNotification(
+        "File size too large",
+        `Max file size is about ${fileSize === 1280000 ? "1MB" : "2MB"}`
+      );
       setLoading(false);
       return;
     }
@@ -408,11 +414,15 @@ function Documents() {
               margin: "0 auto 25px auto",
               padding: "0 auto",
               textTransform: "capitalize",
+              wordBreak: "break-all",
+              whiteSpace: "normal",
             }}
           >
             Upload {currentHeading}
           </h2>
-          <p>File Name: {currentFile}</p>
+          <p style={{ wordBreak: "break-all", whiteSpace: "normal" }}>
+            File Name: {currentFile}
+          </p>
           <form onSubmit={handleSubmit}>
             <Box
               sx={{

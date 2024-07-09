@@ -86,7 +86,7 @@ function AskClarification(props: {
     setOpenNew(false);
   };
   // if (!params.row.verified?.Valid || role === 100 || role === 101) {
-  return !row.verified || role === 100 || role === 101 ? (
+  return !row.verified || role === 100 || role === 101 || role === 102 ? (
     <div>
       <Modal open={openNew} onClose={handleCloseNew}>
         <Clarification
@@ -222,18 +222,44 @@ function DocumentGrid(props: { studentId: string }) {
       // eslint-disable-next-line react-hooks/rules-of-hooks
     },
     {
-      field: "options",
-      headerName: "Accept/Reject Document",
+      field: "accept",
+      headerName: "Accept Document",
       align: "center",
+      headerAlign: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified || role === 100 || role === 101) {
+        if (
+          !cellValues.row.verified ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
           return (
             <Container>
               <AcceptDocumentButton
                 docid={cellValues.row.ID}
                 updateCallback={updateTable}
               />
+            </Container>
+          );
+        }
+      },
+    },
+    {
+      field: "reject",
+      headerName: "Reject Document",
+      align: "center",
+      headerAlign: "center",
+      // eslint-disable-next-line consistent-return
+      renderCell: (cellValues) => {
+        if (
+          !cellValues.row.verified ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
+          return (
+            <Container>
               <RejectResumeButton
                 docid={cellValues.row.ID}
                 updateCallback={updateTable}
