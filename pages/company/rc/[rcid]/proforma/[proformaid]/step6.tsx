@@ -174,7 +174,7 @@ function Step5() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Annexure 1
+                    AIPC Guidelines
                   </Link>
                   .
                 </Typography>
