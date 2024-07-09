@@ -934,6 +934,21 @@ function Index() {
             Send Link to All
           </Button>
         </div>
+        <DataGrid
+          heighted
+          columns={pvfCols}
+          rows={studentPVF}
+          getRowId={(row) => row?.ID || 0}
+        />
+      </div>
+      <div style={{ marginTop: 50 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        />
         <h2>Document Verification Status</h2>
         <DocumentGrid studentId={`${student.student_id}`} />
       </div>
