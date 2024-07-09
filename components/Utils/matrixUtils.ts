@@ -31,12 +31,12 @@ export const BranchesExpanded = [
   "EE",
   "MSE",
   "ME",
-  "CH",
+  "CHM",
   "ECO",
   "ES",
   "MTH",
   "SDS",
-  "Ph",
+  "PHY",
   "CGS",
   "DES",
   "MS",
@@ -59,12 +59,12 @@ export const Branches = [
   "Electrical Engineering (EE)",
   "Material Science and Engineering (MSE)",
   "Mechanical Engineering (ME)",
-  "Chemistry (CH)",
+  "Chemistry (CHM)",
   "Economics (ECO)",
   "Earth Sciences (ES)",
   "Mathematics and Scientific Computing (MTH)",
   "Statistics and Data Science (SDS)",
-  "Physics (Ph)",
+  "Physics (PHY)",
   "Cognitive Science (CGS)",
   "Design (DES)",
   "Management Studies (MS)",
@@ -206,7 +206,7 @@ export const func = {
     MSc: -1,
     MSR: 90,
   },
-  "Chemistry (CH)": {
+  "Chemistry (CHM)": {
     BT: -1,
     BS: 9,
     MT: -1,
@@ -276,7 +276,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  "Physics (Ph)": {
+  "Physics (PHY)": {
     BT: -1,
     BS: 13,
     MT: -1,
@@ -559,7 +559,7 @@ export const funcExpanded = {
     MSc: -1,
     MSR: 90,
   },
-  CH: {
+  CHM: {
     BT: -1,
     BS: 9,
     MT: -1,
@@ -629,7 +629,7 @@ export const funcExpanded = {
     MSc: -1,
     MSR: -1,
   },
-  Ph: {
+  PHY: {
     BT: -1,
     BS: 13,
     MT: -1,

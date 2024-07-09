@@ -2,9 +2,13 @@ import {
   Autocomplete,
   Button,
   Card,
+  Checkbox,
   FormControl,
+  FormControlLabel,
+  Link,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -35,6 +39,8 @@ function Step5() {
   } = useForm<ProformaType>({
     defaultValues: fetchData,
   });
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+
   const handleNext = async (data: ProformaType) => {
     const info = {
       ...data,
@@ -53,6 +59,11 @@ function Step5() {
       });
     }
   };
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsCheckboxChecked(event.target.checked);
+  };
+
   useEffect(() => {
     if (!(rid && pid)) return;
     const getStep5 = async () => {
@@ -144,6 +155,33 @@ function Step5() {
             />
           </FormControl>
 
+          <FormControl sx={{ m: 1 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isCheckboxChecked}
+                  onChange={handleCheckboxChange}
+                  inputProps={{
+                    "aria-label": "Checkbox to enable submit button",
+                  }}
+                />
+              }
+              label={
+                <Typography>
+                  Accept the terms given in{" "}
+                  <Link
+                    href="https://spo.iitk.ac.in/assets/companies_links/Annexure-1-Revised.docx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Annexure 1
+                  </Link>
+                  .
+                </Typography>
+              }
+            />
+          </FormControl>
+
           <Stack
             spacing={3}
             direction="row"
@@ -153,7 +191,7 @@ function Step5() {
             <Button
               variant="contained"
               sx={{ width: "50%" }}
-              disabled={!router.isReady || rid === ""}
+              disabled={!isCheckboxChecked || !router.isReady || rid === ""}
               onClick={handleSubmit(handleNext)}
             >
               Submit
@@ -167,6 +205,7 @@ function Step5() {
                   message_for_cordinator: "",
                   active_hr: "",
                 });
+                setIsCheckboxChecked(false);
               }}
             >
               Reset
