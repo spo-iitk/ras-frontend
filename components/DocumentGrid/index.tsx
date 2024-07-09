@@ -86,7 +86,7 @@ function AskClarification(props: {
     setOpenNew(false);
   };
   // if (!params.row.verified?.Valid || role === 100 || role === 101) {
-  return !row.verified || role === 100 || role === 101 ? (
+  return !row.verified || role === 100 || role === 101 || role === 102 ? (
     <div>
       <Modal open={openNew} onClose={handleCloseNew}>
         <Clarification
