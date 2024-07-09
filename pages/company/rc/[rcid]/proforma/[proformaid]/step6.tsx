@@ -168,7 +168,7 @@ function Step5() {
               }
               label={
                 <Typography>
-                  Accept the terms given in{" "}
+                  Hereby I accept{" "}
                   <Link
                     href="https://spo.iitk.ac.in/assets/companies_links/Annexure-1-Revised.docx"
                     target="_blank"
