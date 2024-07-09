@@ -38,6 +38,7 @@ import getStudentApplication, {
 } from "@callbacks/admin/rc/student/getApplications";
 import { CDN_URL } from "@callbacks/constants";
 import Clarification from "@components/Modals/clarification";
+import DocumentGrid from "@components/DocumentGrid";
 import InactiveButton from "@components/Buttons/InactiveButton";
 import ActiveButton from "@components/Buttons/ActiveButton";
 
@@ -490,18 +491,44 @@ function Index() {
       hide: true,
     },
     {
-      field: "options",
-      headerName: "Accept/Reject Resume",
+      field: "acceot",
+      headerName: "Accept Resume",
+      headerAlign: "center",
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified?.Valid || role === 100 || role === 101) {
+        if (
+          !cellValues.row.verified?.Valid ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
           return (
             <Container>
               <AcceptResumeButton
                 id={cellValues.id.toString()}
                 updateCallback={updateResumeStatus}
               />
+            </Container>
+          );
+        }
+      },
+    },
+    {
+      field: "reject",
+      headerName: "Reject Resume",
+      headerAlign: "center",
+      align: "center",
+      // eslint-disable-next-line consistent-return
+      renderCell: (cellValues) => {
+        if (
+          !cellValues.row.verified?.Valid ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
+          return (
+            <Container>
               <RejectResumeButton
                 id={cellValues.id.toString()}
                 updateCallback={updateResumeStatus}
@@ -907,13 +934,8 @@ function Index() {
             Send Link to All
           </Button>
         </div>
-
-        <DataGrid
-          heighted
-          columns={pvfCols}
-          rows={studentPVF}
-          getRowId={(row) => row?.ID || 0}
-        />
+        <h2>Document Verification Status</h2>
+        <DocumentGrid studentId={`${student.student_id}`} />
       </div>
       <div style={{ marginTop: 50 }}>
         <h2>Application Status</h2>

@@ -352,8 +352,8 @@ function PVF() {
 
     const file = files[0];
 
-    if (file.size > 256000) {
-      errorNotification("File size too large", "Max file size is about 200KB");
+    if (file.size > 1280000) {
+      errorNotification("File size too large", "Max file size is about 1MB");
       setLoading(false);
       return;
     }

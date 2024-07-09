@@ -1,4 +1,4 @@
-import { Button, Container, Modal, Stack, Tooltip } from "@mui/material";
+import { Button, Container, Modal } from "@mui/material";
 import Grid from "@mui/material/Grid";
 // import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid";
@@ -6,12 +6,12 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
+import adminDocumentsRequest, {
+  AllStudentDocumentsResponse,
+} from "@callbacks/admin/student/documents";
 import DataGrid from "@components/DataGrid";
-import Clarification from "@components/Modals/clarification";
+import Clarification from "@components/Modals/docClarification";
 import Meta from "@components/Meta";
-import adminResumeRequest, {
-  AllStudentResumeResponse,
-} from "@callbacks/admin/rc/student/resumes";
 import useStore from "@store/store";
 import { CDN_URL } from "@callbacks/constants";
 
@@ -25,15 +25,12 @@ const transformName = (name: string) => {
 
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
-function AcceptResumeButton(props: {
-  id: string;
+function AcceptDocumentButton(props: {
+  docid: number;
   updateCallback: () => Promise<void>;
 }) {
   const { token } = useStore();
-  const { id, updateCallback } = props;
-  const router = useRouter();
-  const { rcid } = router.query;
-  const rid = (rcid || "").toString();
+  const { docid, updateCallback } = props;
   return (
     <Button
       variant="contained"
@@ -41,8 +38,8 @@ function AcceptResumeButton(props: {
         marginInlineEnd: "0.5rem",
       }}
       onClick={() => {
-        adminResumeRequest
-          .putVerify(token, rid, id, { verified: true })
+        adminDocumentsRequest
+          .putVerify(token, docid, { verified: true })
           .then(() => {
             updateCallback();
           });
@@ -54,20 +51,17 @@ function AcceptResumeButton(props: {
 }
 
 function RejectResumeButton(props: {
-  id: string;
+  docid: number;
   updateCallback: () => Promise<void>;
 }) {
   const { token } = useStore();
-  const { id, updateCallback } = props;
-  const router = useRouter();
-  const { rcid } = router.query;
-  const rid = (rcid || "").toString();
+  const { docid, updateCallback } = props;
   return (
     <Button
       variant="contained"
       onClick={() => {
-        adminResumeRequest
-          .putVerify(token, rid, id, { verified: false })
+        adminDocumentsRequest
+          .putVerify(token, docid, { verified: false })
           .then(() => {
             updateCallback();
           });
@@ -81,7 +75,7 @@ function RejectResumeButton(props: {
 function AskClarification(props: {
   role: number;
   sid: string;
-  row: AllStudentResumeResponse;
+  row: AllStudentDocumentsResponse;
 }) {
   const { role, sid, row } = props;
   const [openNew, setOpenNew] = useState(false);
@@ -92,16 +86,13 @@ function AskClarification(props: {
     setOpenNew(false);
   };
   // if (!params.row.verified?.Valid || role === 100 || role === 101) {
-  return !row.verified?.Valid ||
-    role === 100 ||
-    role === 101 ||
-    role === 102 ? (
+  return !row.verified || role === 100 || role === 101 ? (
     <div>
       <Modal open={openNew} onClose={handleCloseNew}>
         <Clarification
           handleCloseNew={handleCloseNew}
           studentID={sid}
-          context={`Your resume ${getURL(row.resume)}`}
+          context={`Your documents ${getURL(row.path)}`}
         />
       </Modal>
       <Button sx={{ height: 30 }} onClick={handleOpenNew}>
@@ -112,33 +103,33 @@ function AskClarification(props: {
     <div />
   );
 }
-function Index() {
-  const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
+function DocumentGrid(props: { studentId: string }) {
+  const [allDocuments, setAllDocuments] = useState<
+    AllStudentDocumentsResponse[]
+  >([]);
   const router = useRouter();
-  const { rcid } = router.query;
-  const rid = (rcid || "").toString();
-  const { token, rcName, role } = useStore();
-  useEffect(() => {
-    const fetchData = async () => {
-      if (rid === undefined || rid === "") return;
-      const res = await adminResumeRequest.getAll(token, rid);
-      if (res !== null && res?.length > 0) setAllResumes(res);
-      else setAllResumes([]);
-    };
-    fetchData();
-  }, [token, rid]);
+  const { token, role } = useStore();
+  const { studentId } = props;
 
   const updateTable = React.useCallback(async () => {
-    if (rid === undefined || rid === "") return;
-    const res = await adminResumeRequest.getAll(token, rid);
-    if (res !== null && res?.length > 0) setAllResumes(res);
-    else setAllResumes([]);
-  }, [token, rid]);
+    if (router.isReady) {
+      const res = await adminDocumentsRequest.getBySid(
+        token,
+        studentId as string
+      );
+      if (res !== null && res?.length > 0) setAllDocuments(res);
+      else setAllDocuments([]);
+    }
+  }, [token, studentId, router.isReady]);
+
+  useEffect(() => {
+    updateTable();
+  }, [updateTable]);
 
   const columns: GridColDef[] = [
     {
-      field: "rsid",
-      headerName: "Resume ID",
+      field: "ID",
+      headerName: "Document ID",
     },
     {
       field: "CreatedAt",
@@ -151,30 +142,35 @@ function Index() {
       hide: true,
     },
     {
-      field: "name",
-      headerName: "Student Name",
-      renderCell: (params) => (
-        <Tooltip title={params.value}>
-          <div>{params.value}</div>
-        </Tooltip>
-      ),
+      field: "type",
+      headerName: "Document Type",
+      hide: false,
     },
+    // {
+    //   field: "name",
+    //   headerName: "Student Name",
+    //   renderCell: (params) => (
+    //     <Tooltip title={params.value}>
+    //       <div>{params.value}</div>
+    //     </Tooltip>
+    //   ),
+    // },
+    // {
+    //   field: "email",
+    //   headerName: "Student Email",
+    //   renderCell: (params) => (
+    //     <Tooltip title={params.value}>
+    //       <div>{params.value}</div>
+    //     </Tooltip>
+    //   ),
+    // },
+    // {
+    //   field: "roll_no",
+    //   headerName: "Student Roll No",
+    // },
     {
-      field: "email",
-      headerName: "Student Email",
-      renderCell: (params) => (
-        <Tooltip title={params.value}>
-          <div>{params.value}</div>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "roll_no",
-      headerName: "Student Roll No",
-    },
-    {
-      field: "resume",
-      headerName: "Resume Link",
+      field: "path",
+      headerName: "Documents Link",
       sortable: false,
       align: "center",
       width: 400,
@@ -227,21 +223,21 @@ function Index() {
     },
     {
       field: "accept",
-      headerName: "Accept Resume",
+      headerName: "Accept Document",
       align: "center",
       headerAlign: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
         if (
-          !cellValues.row.verified?.Valid ||
+          !cellValues.row.verified ||
           role === 100 ||
           role === 101 ||
           role === 102
         ) {
           return (
             <Container>
-              <AcceptResumeButton
-                id={cellValues.id.toString()}
+              <AcceptDocumentButton
+                docid={cellValues.row.ID}
                 updateCallback={updateTable}
               />
             </Container>
@@ -251,25 +247,21 @@ function Index() {
     },
     {
       field: "reject",
-      headerName: "Reject Resume",
-      headerAlign: "center",
+      headerName: "Reject Document",
       align: "center",
+      headerAlign: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
         if (
-          !cellValues.row.verified?.Valid ||
+          !cellValues.row.verified ||
           role === 100 ||
           role === 101 ||
           role === 102
         ) {
           return (
             <Container>
-              <AcceptResumeButton
-                id={cellValues.id.toString()}
-                updateCallback={updateTable}
-              />
               <RejectResumeButton
-                id={cellValues.id.toString()}
+                docid={cellValues.row.ID}
                 updateCallback={updateTable}
               />
             </Container>
@@ -281,21 +273,11 @@ function Index() {
 
   return (
     <div>
-      <Meta title={`Resume Dashboard - ${rcName}`} />
+      <Meta title="Documents Dashboard" />
       <Grid container alignItems="center">
-        <Grid item xs={12}>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <h2>Resume</h2>
-          </Stack>
-        </Grid>
-
         <DataGrid
-          rows={allResumes}
-          getRowId={(row) => row.rsid}
+          rows={allDocuments}
+          getRowId={(row) => row.ID}
           columns={columns}
         />
       </Grid>
@@ -303,5 +285,4 @@ function Index() {
   );
 }
 
-Index.layout = "adminPhaseDashBoard";
-export default Index;
+export default DocumentGrid;
