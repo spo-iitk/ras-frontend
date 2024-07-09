@@ -1,4 +1,4 @@
-import { Button, Container, Modal, Stack, Tooltip } from "@mui/material";
+import { Button, Modal, Stack, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
@@ -90,7 +90,10 @@ function AskClarification(props: {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-  return !row.verified?.Valid || role === 100 || role === 101 || role === 102? (
+  return !row.verified?.Valid ||
+    role === 100 ||
+    role === 101 ||
+    role === 102 ? (
     <div>
       <Modal open={openNew} onClose={handleCloseNew}>
         <Clarification
@@ -223,23 +226,43 @@ function Index() {
       ),
     },
     {
-      field: "options",
-      headerName: "",
+      field: "accept",
+      headerName: "Accept",
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (!cellValues.row.verified?.Valid || role === 100 || role === 101 || role === 102) {
+        if (
+          !cellValues.row.verified?.Valid ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
           return (
-            <Container>
-              <AcceptResumeButton
-                id={cellValues.id.toString()}
-                updateCallback={updateTable}
-              />
-              <RejectResumeButton
-                id={cellValues.id.toString()}
-                updateCallback={updateTable}
-              />
-            </Container>
+            <AcceptResumeButton
+              id={cellValues.id.toString()}
+              updateCallback={updateTable}
+            />
+          );
+        }
+      },
+    },
+    {
+      field: "reject",
+      headerName: "Reject",
+      align: "center",
+      // eslint-disable-next-line consistent-return
+      renderCell: (cellValues) => {
+        if (
+          !cellValues.row.verified?.Valid ||
+          role === 100 ||
+          role === 101 ||
+          role === 102
+        ) {
+          return (
+            <RejectResumeButton
+              id={cellValues.id.toString()}
+              updateCallback={updateTable}
+            />
           );
         }
       },
