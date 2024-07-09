@@ -1,6 +1,5 @@
 import { Button, Container, Modal, Stack, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid";
-// import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -91,11 +90,7 @@ function AskClarification(props: {
   const handleCloseNew = () => {
     setOpenNew(false);
   };
-  // if (!params.row.verified?.Valid || role === 100 || role === 101) {
-  return !row.verified?.Valid ||
-    role === 100 ||
-    role === 101 ||
-    role === 102 ? (
+  return !row.verified?.Valid || role === 100 || role === 101 ? (
     <div>
       <Modal open={openNew} onClose={handleCloseNew}>
         <Clarification
@@ -112,6 +107,7 @@ function AskClarification(props: {
     <div />
   );
 }
+
 function Index() {
   const [allResumes, setAllResumes] = useState<AllStudentResumeResponse[]>([]);
   const router = useRouter();
@@ -173,6 +169,10 @@ function Index() {
       headerName: "Student Roll No",
     },
     {
+      field: "resume_type",
+      headerName: "Resume Type",
+    },
+    {
       field: "resume",
       headerName: "Resume Link",
       sortable: false,
@@ -203,7 +203,7 @@ function Index() {
           return "Rejected";
         }
         if (!value?.Valid) return "Pending Verification";
-        return "Unkown";
+        return "Unknown";
       },
     },
     {
@@ -213,55 +213,22 @@ function Index() {
       headerAlign: "center",
       hide: true,
     },
-
     {
       field: "AskClarification",
       headerName: "Ask Clarification",
       align: "center",
       headerAlign: "center",
-      // eslint-disable-next-line consistent-return
       renderCell: (params) => (
         <AskClarification role={role} sid={params.row.sid} row={params.row} />
       ),
-      // eslint-disable-next-line react-hooks/rules-of-hooks
     },
     {
-      field: "accept",
-      headerName: "Accept Resume",
-      align: "center",
-      headerAlign: "center",
-      // eslint-disable-next-line consistent-return
-      renderCell: (cellValues) => {
-        if (
-          !cellValues.row.verified?.Valid ||
-          role === 100 ||
-          role === 101 ||
-          role === 102
-        ) {
-          return (
-            <Container>
-              <AcceptResumeButton
-                id={cellValues.id.toString()}
-                updateCallback={updateTable}
-              />
-            </Container>
-          );
-        }
-      },
-    },
-    {
-      field: "reject",
-      headerName: "Reject Resume",
-      headerAlign: "center",
+      field: "options",
+      headerName: "",
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (
-          !cellValues.row.verified?.Valid ||
-          role === 100 ||
-          role === 101 ||
-          role === 102
-        ) {
+        if (!cellValues.row.verified?.Valid || role === 100 || role === 101) {
           return (
             <Container>
               <AcceptResumeButton
@@ -292,7 +259,6 @@ function Index() {
             <h2>Resume</h2>
           </Stack>
         </Grid>
-
         <DataGrid
           rows={allResumes}
           getRowId={(row) => row.rsid}
