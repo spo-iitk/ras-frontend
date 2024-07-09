@@ -679,32 +679,36 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} key="min-hires" padding={0}>
-                  <h4>Minimum Number of Hires</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.min_hires}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} key="tot-hires" padding={0}>
-                  <h4>Expected Total Number of Hires</h4>
-                  <TextField
-                    multiline
-                    fullWidth
-                    value={row.total_hires}
-                    InputProps={{
-                      style: { textAlign: "center" },
-                      readOnly: true,
-                    }}
-                    sx={textFieldSX}
-                  />
-                </Grid>
+                {role !== 102 && (
+                  <Grid item xs={12} md={6} key="min-hires" padding={0}>
+                    <h4>Minimum Number of Hires</h4>
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={row.min_hires}
+                      InputProps={{
+                        style: { textAlign: "center" },
+                        readOnly: true,
+                      }}
+                      sx={textFieldSX}
+                    />
+                  </Grid>
+                )}
+                {role !== 102 && (
+                  <Grid item xs={12} md={6} key="tot-hires" padding={0}>
+                    <h4>Expected Total Number of Hires</h4>
+                    <TextField
+                      multiline
+                      fullWidth
+                      value={row.total_hires}
+                      InputProps={{
+                        style: { textAlign: "center" },
+                        readOnly: true,
+                      }}
+                      sx={textFieldSX}
+                    />
+                  </Grid>
+                )}
                 <Grid item xs={12} md={6} key="int-per" padding={0}>
                   <h4>Preferred period of Internship</h4>
                   <TextField
