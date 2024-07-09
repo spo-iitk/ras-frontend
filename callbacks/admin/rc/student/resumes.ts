@@ -27,6 +27,7 @@ export interface AllStudentResumeResponse {
   resume: string;
   verified: nullBool;
   action_taken_by: string;
+  resume_type: string;
 }
 
 export interface StudentResumeResponse {
