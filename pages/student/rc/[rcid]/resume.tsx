@@ -221,6 +221,7 @@ function Resume() {
     formData.append("resumeType", resumeType); // Add the resumeType to the form data
 
     try {
+      await resumeRequest.post(formData, token, rid);
       setFileSaved(null);
       handleClose();
       window.location.reload();
