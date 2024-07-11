@@ -244,7 +244,7 @@ function RejectResumeButton(props: {
           });
       }}
     >
-      Reject PVF
+      Reject
     </Button>
   );
 }
