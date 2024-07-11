@@ -244,7 +244,7 @@ function RejectResumeButton(props: {
           });
       }}
     >
-      Reject PVF
+      Reject
     </Button>
   );
 }
@@ -492,9 +492,9 @@ function Index() {
     },
     {
       field: "acceot",
-      headerName: "Accept Resume",
-      headerAlign: "center",
+      headerName: "Accept",
       align: "center",
+      headerAlign: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
         if (
@@ -504,21 +504,26 @@ function Index() {
           role === 102
         ) {
           return (
-            <Container>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+            >
               <AcceptResumeButton
                 id={cellValues.id.toString()}
                 updateCallback={updateResumeStatus}
               />
-            </Container>
+            </Box>
           );
         }
       },
     },
     {
       field: "reject",
-      headerName: "Reject Resume",
-      headerAlign: "center",
+      headerName: "Reject",
       align: "center",
+      headerAlign: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
         if (
@@ -528,12 +533,17 @@ function Index() {
           role === 102
         ) {
           return (
-            <Container>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+            >
               <RejectResumeButton
                 id={cellValues.id.toString()}
                 updateCallback={updateResumeStatus}
               />
-            </Container>
+            </Box>
           );
         }
       },

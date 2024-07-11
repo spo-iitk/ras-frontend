@@ -31,7 +31,7 @@ export interface ResumeResponse {
 
 export interface ResumeBackendParams {
   resume: string;
-  resume_type: string; // Include resume_type here
+  resume_type: string;
 }
 
 interface nullBool {

@@ -104,7 +104,6 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) =>
-      // eslint-disable-next-line no-nested-ternary
       params.row.verified.Valid ? (
         params.row.verified.Bool ? (
           <Button
@@ -218,9 +217,10 @@ function Resume() {
 
     const formData = new FormData();
     formData.append("file", fileSaved);
-    formData.append("resumeType", resumeType); // Add the resumeType to the form data
+    formData.append("resumeType", resumeType);
 
     try {
+      await resumeRequest.post(formData, token, rid);
       setFileSaved(null);
       handleClose();
       window.location.reload();
