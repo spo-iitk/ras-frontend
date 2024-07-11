@@ -218,7 +218,7 @@ function Resume() {
 
     const formData = new FormData();
     formData.append("file", fileSaved);
-    formData.append("resumeType", resumeType); // Add the resumeType to the form data
+    formData.append("resumeType", resumeType);
 
     try {
       await resumeRequest.post(formData, token, rid);
