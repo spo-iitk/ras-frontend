@@ -104,7 +104,6 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) =>
-      // eslint-disable-next-line no-nested-ternary
       params.row.verified.Valid ? (
         params.row.verified.Bool ? (
           <Button
