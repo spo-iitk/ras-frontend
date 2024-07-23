@@ -93,6 +93,17 @@ const adminPvfRequest = {
         errorNotification("Error", err.response?.data?.error || err.message);
         throw err;
       }),
+  generateAuthForAllPVF: (token: string, rid: string, sid: string) =>
+    instance
+      .get<StatusResponse>(
+        `/rc/${rid}/pvf/student/${sid}/verification/send`,
+        setConfig(token)
+      )
+      .then(responseBody)
+      .catch((err: ErrorType) => {
+        errorNotification("Error", err.response?.data?.error || err.message);
+        throw err;
+      }),
   delete: (token: string, rid: string, pid: string) =>
     instance
       .delete<StatusResponse>(`/${rid}/pvf/${pid}`, setConfig(token))

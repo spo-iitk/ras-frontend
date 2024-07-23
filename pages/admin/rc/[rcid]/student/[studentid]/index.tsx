@@ -69,6 +69,7 @@ interface RejectParams {
   id: string;
   remarks: string;
 }
+
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 const cols: GridColDef[] = [
   {
@@ -173,6 +174,32 @@ function AcceptResumeButton(props: {
     </Button>
   );
 }
+function GenerateAuthForAllButton(props: {
+  sid: string;
+  rid: string;
+  setIsOpenSend: React.Dispatch<React.SetStateAction<boolean>>;
+  updateCallback: () => Promise<void>;
+}) {
+  const { token } = useStore();
+  const { sid, rid, setIsOpenSend, updateCallback } = props;
+  return (
+    <Button
+      variant="contained"
+      sx={{
+        height: "40px",
+        marginInlineEnd: "0.5rem",
+        marginTop: "40px",
+      }}
+      onClick={() => {
+        adminPvfRequest.generateAuthForAllPVF(token, rid, sid);
+        updateCallback();
+        setIsOpenSend(false);
+      }}
+    >
+      Send Link to All
+    </Button>
+  );
+}
 function GenerateAuthButton(props: {
   id: string;
   rid: string;
@@ -217,7 +244,7 @@ function RejectResumeButton(props: {
           });
       }}
     >
-      Reject PVF
+      Reject
     </Button>
   );
 }
@@ -310,6 +337,7 @@ function Index() {
     id: "0",
     remarks: "",
   });
+  const [isOpenSend, setIsOpenSend] = useState(false);
   const [remarks, setRemarks] = useState("");
   // const [resumeVerificationStatus, setResumeVerificationStatus] = useState("");
 
@@ -464,9 +492,9 @@ function Index() {
     },
     {
       field: "acceot",
-      headerName: "Accept Resume",
-      headerAlign: "center",
+      headerName: "Accept",
       align: "center",
+      headerAlign: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
         if (
@@ -476,21 +504,26 @@ function Index() {
           role === 102
         ) {
           return (
-            <Container>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+            >
               <AcceptResumeButton
                 id={cellValues.id.toString()}
                 updateCallback={updateResumeStatus}
               />
-            </Container>
+            </Box>
           );
         }
       },
     },
     {
       field: "reject",
-      headerName: "Reject Resume",
-      headerAlign: "center",
+      headerName: "Reject",
       align: "center",
+      headerAlign: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
         if (
@@ -500,12 +533,17 @@ function Index() {
           role === 102
         ) {
           return (
-            <Container>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+            >
               <RejectResumeButton
                 id={cellValues.id.toString()}
                 updateCallback={updateResumeStatus}
               />
-            </Container>
+            </Box>
           );
         }
       },
@@ -889,17 +927,40 @@ function Index() {
         />
       </div>
       <div style={{ marginTop: 50 }}>
-        <h2>Document Verification Status</h2>
-        <DocumentGrid studentId={`${student.student_id}`} />
-      </div>
-      <div style={{ marginTop: 50 }}>
-        <h2>PVF Verification Status</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h2 style={{ textAlign: "left" }}>PVF Verification Status</h2>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setIsOpenSend(true);
+            }}
+          >
+            Send Link to All
+          </Button>
+        </div>
         <DataGrid
           heighted
           columns={pvfCols}
           rows={studentPVF}
           getRowId={(row) => row?.ID || 0}
         />
+      </div>
+      <div style={{ marginTop: 50 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        />
+        <h2>Document Verification Status</h2>
+        <DocumentGrid studentId={`${student.student_id}`} />
       </div>
       <div style={{ marginTop: 50 }}>
         <h2>Application Status</h2>
@@ -943,6 +1004,31 @@ function Index() {
                 remarks={remarks}
                 setOpenDeny={setOpenDeny}
                 id={openDeny.id}
+                updateCallback={updatePVFStatus}
+              />
+            </Stack>
+          </Stack>
+        </Box>
+      </Modal>
+      <Modal
+        open={isOpenSend}
+        onClose={() => {
+          setIsOpenSend(false);
+        }}
+      >
+        <Box sx={boxStyle}>
+          <Box sx={{ textAlign: "center" }}>
+            <h2>Confirmation!</h2>
+            <Typography sx={{ textAlign: "center" }}>
+              Kindly ensure that PVF details entered by student are correct.
+            </Typography>
+          </Box>
+          <Stack spacing={2}>
+            <Stack justifyContent="center" alignItems="center">
+              <GenerateAuthForAllButton
+                sid={sid}
+                rid={rid}
+                setIsOpenSend={setIsOpenSend}
                 updateCallback={updatePVFStatus}
               />
             </Stack>
