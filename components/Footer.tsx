@@ -110,7 +110,7 @@ function Footer() {
                   </Typography>
                 </a>
                 <a
-                  href="https://spo.iitk.ac.in/assets/2023-24/Internship-Policy-2023-24.pdf"
+                  href="https://spo.iitk.ac.in/assets/2023-24/Internship-Policy-2024-25.pdf"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -119,7 +119,7 @@ function Footer() {
                   </Typography>
                 </a>
                 <a
-                  href="https://spo.iitk.ac.in/assets/2023-24/Placement_Policy_2023-24.pdf"
+                  href="https://spo.iitk.ac.in/assets/2023-24/Placement_Policy_2024-25.pdf"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -242,14 +242,14 @@ function Footer() {
                 </Typography>
               </a>
               <a
-                href="https://spo.iitk.ac.in/assets/2023-24/Internship-Policy-2023-24.pdf"
+                href="https://spo.iitk.ac.in/assets/2023-24/Internship-Policy-2024-25.pdf"
                 target="_blank"
                 rel="noreferrer"
               >
                 <Typography variant="body2">Intern Policy (Student)</Typography>
               </a>
               <a
-                href="https://spo.iitk.ac.in/assets/2023-24/Placement_Policy_2023-24.pdf"
+                href="https://spo.iitk.ac.in/assets/2023-24/Placement_Policy_2024-25.pdf"
                 target="_blank"
                 rel="noreferrer"
               >
