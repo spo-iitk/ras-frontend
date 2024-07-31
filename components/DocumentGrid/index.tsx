@@ -279,6 +279,7 @@ function DocumentGrid(props: { studentId: string }) {
           rows={allDocuments}
           getRowId={(row) => row.ID}
           columns={columns}
+          heighted
         />
       </Grid>
     </div>
