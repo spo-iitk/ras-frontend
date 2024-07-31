@@ -234,12 +234,12 @@ function LayoutWrapper({ children }: { children: JSX.Element }) {
         {
           avatar: <ArticleIcon />,
           name: "Intern Policy",
-          id: "https://spo.iitk.ac.in/assets/2023-24/Internship-Policy-2023-24.pdf",
+          id: "https://spo.iitk.ac.in/assets/2023-24/Internship-Policy-2024-25.pdf",
         },
         {
           avatar: <ArticleIcon />,
           name: "Placement Policy",
-          id: "https://spo.iitk.ac.in/assets/2023-24/Placement_Policy_2023-24.pdf",
+          id: "https://spo.iitk.ac.in/assets/2023-24/Placement_Policy_2024-25.pdf",
         },
         {
           avatar: <StarsIcon />,
