@@ -110,7 +110,11 @@ function Openings() {
               <em>None</em>
             </MenuItem>
             {resumes.map((resume) => {
-              if (resume.verified.Bool && resume.verified.Valid) {
+              if (
+                resume.verified.Bool &&
+                resume.verified.Valid &&
+                resume.resume_type === "SINGLE"
+              ) {
                 return <MenuItem value={resume.ID}>{resume.ID}</MenuItem>;
               }
               return null;
