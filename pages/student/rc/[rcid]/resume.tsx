@@ -170,16 +170,39 @@ function Resume() {
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
 
-    if (
-      allResumes.filter(
-        (resume) => !(resume.verified.Valid && !resume.verified.Bool)
-      ).length >= 5
-    ) {
-      errorNotification("You can only upload 5 resumes", "Cannot upload");
+    // Filter for verified and pending resumes
+    const verifiedOrPendingResumes = allResumes.filter(
+      (resume) => !(resume.verified.Valid && !resume.verified.Bool)
+    );
+    const singleResumes = verifiedOrPendingResumes.filter(
+      (resume) => resume.resume_type === "SINGLE"
+    );
+    // Count how many MASTER type resumes exist that are not rejected
+    const masterResumes = verifiedOrPendingResumes.filter(
+      (resume) => resume.resume_type === "MASTER"
+    );
+
+    // Check if the user already has 5 verified or pending resumes
+    if (resumeType === "SINGLE" && singleResumes.length >= 5) {
+      errorNotification(
+        "You can only upload 5 Single resumes",
+        "Cannot upload"
+      );
       setLoading(false);
       return;
     }
 
+    // Check if there's already a pending or accepted MASTER resume
+    if (resumeType === "MASTER" && masterResumes.length >= 1) {
+      errorNotification(
+        "You can only upload one MASTER resume unless the existing one is rejected",
+        "Cannot upload"
+      );
+      setLoading(false);
+      return;
+    }
+
+    // Proceed if all conditions are satisfied
     if (!(files && files.length > 0)) {
       setLoading(false);
       return;
