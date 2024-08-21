@@ -64,7 +64,8 @@ function View() {
           elevation={5}
           sx={{
             padding: 3,
-            width: { xs: "320px", sm: "1000px", margin: "0px auto" },
+            width: { xs: "100%", md: "800px" },
+            margin: "0px auto",
           }}
         >
           <Stack spacing={2} alignItems="center">
@@ -518,7 +519,8 @@ function View() {
           elevation={5}
           sx={{
             padding: 3,
-            width: { xs: "320px", sm: "1000px", margin: "0px auto" },
+            width: { xs: "100%", md: "800px" },
+            margin: "0px auto",
           }}
         >
           <Stack spacing={2} alignItems="center">
