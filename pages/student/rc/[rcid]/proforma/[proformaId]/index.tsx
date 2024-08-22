@@ -79,6 +79,30 @@ function Index() {
               />
             </Grid>
             <Grid item xs={12} md={6} key="bnature">
+              <h3>Stipend (INR)</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.ctc_inr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="bnature">
+              <h3>Stipend (Foreign Currency)</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.ctc_fr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="bnature">
               <h3>Nature of Business</h3>
               <TextField
                 multiline
