@@ -299,7 +299,7 @@ function Verify() {
                 <Grid
                   item
                   xs={12}
-                  md={6}
+                  md={12}
                   key="view"
                   padding={0}
                   marginBottom={7}
@@ -319,7 +319,7 @@ function Verify() {
                     <span>View Student Uploaded PVF</span>
                   </Button>
                 </Grid>
-                <Grid item xs={12} md={6} key="upload" padding={0}>
+                {/* <Grid item xs={12} md={6} key="upload" padding={0}>
                   <label htmlFor="icon-button-file">
                     <Input
                       accept="application/pdf"
@@ -356,7 +356,7 @@ function Verify() {
                       )}
                     </Button>
                   </label>
-                </Grid>
+                </Grid> */}
                 <Grid
                   item
                   xs={12}
