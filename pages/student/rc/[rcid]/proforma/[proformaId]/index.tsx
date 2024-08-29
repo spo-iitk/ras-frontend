@@ -105,7 +105,7 @@ function Index() {
               />
             </Grid>
             <Grid item xs={12} md={6} key="tjobloc">
-              <h3>Tentative Job Location</h3>
+              <h3>Tentative Job Location/Online</h3>
               <TextField
                 multiline
                 fullWidth
@@ -117,16 +117,79 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
+            <Grid item xs={12} md={6} key="tjobloc">
+              <h3>Required Skill Set</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.skill_set}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="tjobloc">
+              <h3>Accomodation Provided / Trip Fare</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.accommodation}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="tjobloc">
+              <h3>Preferred Period of Internship</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.internship_period}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="bnature">
+              <h3>Stipend (INR)</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.ctc_inr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="bnature">
+              <h3>Stipend (Foreign Currency)</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.ctc_fr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
             <Grid item xs={12} md={12} key="jd">
               <h3>Job Description</h3>
               {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
             </Grid>
             <Grid item xs={12} md={12} key="ctc">
-              <h3>Cost to Company</h3>
+              <h3>Tentative CTC for PPO</h3>
               {isFetched && <RichText onChange={setCtc} readOnly value={ctc} />}
             </Grid>
             <Grid item xs={12} md={12} key="pd">
-              <h3>Package Details</h3>
+              <h3>PPO provision on performance</h3>
               {isFetched && <RichText onChange={setPd} readOnly value={pd} />}
             </Grid>
             <Grid item xs={12} md={6} key="bond">
