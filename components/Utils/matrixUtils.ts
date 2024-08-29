@@ -293,7 +293,7 @@ export const func = {
   "Cognitive Science (CGS)": {
     BT: -1,
     BS: -1,
-    MT: 92,
+    MT: 117,
     DoubleMajor: -1,
     DualA: -1,
     DualB: -1,
@@ -917,6 +917,7 @@ export const rev = {
   // Stupidest thing ever written if it works.
   115: "DualA-ES",
   116: "DualB-ES",
+  117: "MT-CGS",
 };
 
 export default { programExpanded, Branches, programCondensed, rev, func };
