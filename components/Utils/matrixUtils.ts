@@ -7,7 +7,7 @@ export const programExpanded = [
   "DualC",
   "MT",
   "MSR",
-  "MS",
+  "MSc",
   "MDes",
   "MBA",
   "PhD",
