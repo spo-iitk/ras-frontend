@@ -187,7 +187,7 @@ function View() {
                   <CloudDownloadIcon sx={{ marginRight: "10px" }} />
                   <span>View Student Uploaded PVF</span>
                 </Button>
-                {/* <Button
+                <Button
                   disabled={row?.filename_mentor === ""}
                   variant="contained"
                   onClick={() => {
@@ -198,7 +198,7 @@ function View() {
                 >
                   <CloudDownloadIcon sx={{ marginRight: "10px" }} />
                   <span>View Mentor Uploaded PVF</span>
-                </Button> */}
+                </Button>
               </Grid>
               {/* removed for now  */}
               {/* <Grid item xs={12} md={12} key="status" padding={0}>
