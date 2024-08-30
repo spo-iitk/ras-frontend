@@ -2,7 +2,7 @@ import {
   Box,
   Button,
   Card,
-  // CircularProgress,
+  CircularProgress,
   FormControl,
   Grid,
   Modal,
@@ -12,26 +12,25 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-// import { green } from "@mui/material/colors";
-// import CheckIcon from "@mui/icons-material/Check";
-// import SaveIcon from "@mui/icons-material/Save";
+import { green } from "@mui/material/colors";
+import CheckIcon from "@mui/icons-material/Check";
+import SaveIcon from "@mui/icons-material/Save";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-// import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import Meta from "@components/Meta";
 import { PvfsParams } from "@callbacks/student/rc/pvf";
 import ActiveButton from "@components/Buttons/ActiveButton";
 import InactiveButton from "@components/Buttons/InactiveButton";
-// import { errorNotification } from "@callbacks/notifcation";
+import { errorNotification } from "@callbacks/notifcation";
 import { CDN_URL } from "@callbacks/constants";
 import pvfVerificationRequest from "@callbacks/Verification/[rcid]/verify";
 
 import Custom404 from "./404";
 
-//  removed for now
-// const Input = styled("input")({
-//   display: "none",
-// });
+const Input = styled("input")({
+  display: "none",
+});
 const textFieldColor = "#ff0000";
 const textFieldSX = {
   input: {
@@ -56,28 +55,26 @@ const boxStyle = {
 const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 
 function Verify() {
-  // removed for now
-  // const [loading, setLoading] = useState(true);
-  // const [pvfName, setPvfName] = useState<string>("");
-  // const [success, setSuccess] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   const [openApprove, setOpenApprove] = useState(false);
   const [openDeny, setOpenDeny] = useState(false);
   const router = useRouter();
+  const [pvfName, setPvfName] = useState<string>("");
   const { rcid, token } = router.query;
   const rid = (rcid || "").toString();
   const urlToken = (token || "").toString();
   const [fileSaved, setFileSaved] = useState<File | null>(null);
+  const [success, setSuccess] = useState(false);
   const [isVerified, setIsVerifed] = useState<boolean>();
   const [remark, setRemark] = useState("");
   const [row, setRow] = useState<PvfsParams>();
-  // const transformName = (name: string) => {
-  //   const nname = name.replace(`${CDN_URL}/view/`, "");
-  //   const nameArray = nname.split(".");
-  //   const newName = nameArray[0].slice(14, -33);
-  //   const newNameWithExtension = `${newName}.${nameArray[1]}`;
-  //   return newNameWithExtension;
-  // };
+  const transformName = (name: string) => {
+    const nname = name.replace(`${CDN_URL}/view/`, "");
+    const nameArray = nname.split(".");
+    const newName = nameArray[0].slice(14, -33);
+    const newNameWithExtension = `${newName}.${nameArray[1]}`;
+    return newNameWithExtension;
+  };
 
   useEffect(() => {
     const getProforma = async () => {
@@ -88,9 +85,9 @@ function Verify() {
         setRow(res);
         if (res.is_verified) {
           setIsVerifed(res.is_verified.Valid);
-          // setPvfName(transformName(res.filename_student));
+          setPvfName(transformName(res.filename_student));
         }
-        // setLoading(false);
+        setLoading(false);
       }
     };
     getProforma();
@@ -122,65 +119,63 @@ function Verify() {
     setFileSaved(null);
     router.push("/login");
   };
-  //  removed for now
-  // const buttonSx = {
-  //   ...(success && {
-  //     bgcolor: green[500],
-  //     "&:hover": {
-  //       bgcolor: green[700],
-  //     },
-  //   }),
-  //   height: 60,
-  //   width: "100%",
-  // };
+  const buttonSx = {
+    ...(success && {
+      bgcolor: green[500],
+      "&:hover": {
+        bgcolor: green[700],
+      },
+    }),
+    height: 60,
+    width: "100%",
+  };
 
-  //  removed for now
-  // const handleButtonClick = () => {
-  //   if (!loading) {
-  //     setSuccess(false);
-  //     setLoading(true);
-  //   }
-  // };
-  // removed for now
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { files } = event.target;
+  const handleButtonClick = () => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+    }
+  };
 
-  //   // if (
-  //   //   allPvf.filter(
-  //   //     (pvf) => !(pvf.verified.Valid && !pvf.verified.Bool)
-  //   //   ).length >= 5
-  //   // ) {
-  //   //   errorNotification("You can only upload 5 pvf", "Cannot upload");
-  //   //   setLoading(false);
-  //   //   return;
-  //   // }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
 
-  //   if (!(files && files.length > 0)) {
-  //     setLoading(false);
-  //     return;
-  //   }
+    // if (
+    //   allPvf.filter(
+    //     (pvf) => !(pvf.verified.Valid && !pvf.verified.Bool)
+    //   ).length >= 5
+    // ) {
+    //   errorNotification("You can only upload 5 pvf", "Cannot upload");
+    //   setLoading(false);
+    //   return;
+    // }
 
-  //   const file = files[0];
+    if (!(files && files.length > 0)) {
+      setLoading(false);
+      return;
+    }
 
-  //   if (file.size > 1280000) {
-  //     errorNotification("File size too large", "Max file size is about 1MB");
-  //     setLoading(false);
-  //     return;
-  //   }
+    const file = files[0];
 
-  //   if (file.name !== pvfName) {
-  //     errorNotification(
-  //       "File must follow the name constraint",
-  //       `Expected File name: ${pvfName}`
-  //     );
-  //     setLoading(false);
-  //     return;
-  //   }
+    if (file.size > 1280000) {
+      errorNotification("File size too large", "Max file size is about 1MB");
+      setLoading(false);
+      return;
+    }
 
-  //   setFileSaved(file);
-  //   setSuccess(true);
-  //   setLoading(false);
-  // };
+    if (file.name !== pvfName) {
+      errorNotification(
+        "File must follow the name constraint",
+        `Expected File name: ${pvfName}`
+      );
+      setLoading(false);
+      return;
+    }
+
+    setFileSaved(file);
+    setSuccess(true);
+    setLoading(false);
+  };
 
   let content;
   if (!isVerified) {
@@ -304,7 +299,7 @@ function Verify() {
                 <Grid
                   item
                   xs={12}
-                  md={12}
+                  md={6}
                   key="view"
                   padding={0}
                   marginBottom={7}
@@ -324,7 +319,7 @@ function Verify() {
                     <span>View Student Uploaded PVF</span>
                   </Button>
                 </Grid>
-                {/* <Grid item xs={12} md={6} key="upload" padding={0}>
+                <Grid item xs={12} md={6} key="upload" padding={0}>
                   <label htmlFor="icon-button-file">
                     <Input
                       accept="application/pdf"
@@ -361,7 +356,7 @@ function Verify() {
                       )}
                     </Button>
                   </label>
-                </Grid> */}
+                </Grid>
                 <Grid
                   item
                   xs={12}
