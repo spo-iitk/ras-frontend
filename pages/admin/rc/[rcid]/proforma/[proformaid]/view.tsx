@@ -711,6 +711,19 @@ function View() {
                     />
                   </Grid>
                 )}
+                <Grid item xs={12} md={6} key="cpi" padding={0}>
+                  <h4>CPI Criteria</h4>
+                  <TextField
+                    multiline
+                    fullWidth
+                    value={row.cpi_criteria}
+                    InputProps={{
+                      style: { textAlign: "center" },
+                      readOnly: true,
+                    }}
+                    sx={textFieldSX}
+                  />
+                </Grid>
                 <Grid item xs={12} md={6} key="int-per" padding={0}>
                   <h4>Preferred period of Internship</h4>
                   <TextField
@@ -806,6 +819,7 @@ function View() {
                   <TextField
                     multiline
                     fullWidth
+                    minRows={4}
                     value={row.perks}
                     InputProps={{
                       style: { textAlign: "center" },

@@ -293,7 +293,7 @@ export const func = {
   "Cognitive Science (CGS)": {
     BT: -1,
     BS: -1,
-    MT: -1,
+    MT: 117,
     DoubleMajor: -1,
     DualA: -1,
     DualB: -1,
