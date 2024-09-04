@@ -247,7 +247,7 @@ function View() {
                     <TextField
                       multiline
                       fullWidth
-                      value={row.total_employees}
+                      value={row.total_hires}
                       InputProps={{
                         style: { textAlign: "center" },
                         readOnly: true,

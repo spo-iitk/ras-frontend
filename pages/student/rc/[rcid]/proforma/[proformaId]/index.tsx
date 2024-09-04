@@ -51,10 +51,9 @@ function Index() {
     };
     getCompanydata();
   }, [token, rid, ID, data]);
-  return (
-    <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title="RC - Company - Proforma" />
-      <h2>Proforma</h2>
+  let content;
+  if (+rid % 2 === 0) {
+    content = (
       <Card
         elevation={5}
         sx={{
@@ -229,6 +228,145 @@ function Index() {
           </Grid>
         </Stack>
       </Card>
+    );
+  } else {
+    content = (
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "100%", md: "800px" },
+          margin: "0px auto",
+        }}
+      >
+        <Stack spacing={2}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12} key="bnature">
+              <h3>Company Name</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.company_name}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="bnature">
+              <h3>Nature of Business</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.role}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="bnature">
+              <h3>Profile</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.profile}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="tjobloc">
+              <h3>Tentative Job Location/Online</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.tentative_job_location}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="tjobloc">
+              <h3>Required Skill Set</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.skill_set}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="tjobloc">
+              <h3>Accomodation Provided / Trip Fare</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.accommodation}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} key="jd">
+              <h3>Job Description</h3>
+              {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
+            </Grid>
+            <Grid item xs={12} md={6} key="bond">
+              <h3>Bond Details</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.bond_details}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="MedReq">
+              <h3>Medical Requirements</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.medical_requirements}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <h3>Eligibility</h3>
+              <MatrixExpanded data={data} />
+            </Grid>
+            <Grid item xs={12}>
+              <h3>Hiring Process</h3>
+              <StepperComp steps={row2} rcid={rcid as string} />
+            </Grid>
+          </Grid>
+        </Stack>
+      </Card>
+    );
+  }
+  return (
+    <div style={{ padding: "0 2rem", marginBottom: 20 }}>
+      <Meta title="RC - Company - Proforma" />
+      <h2>Proforma</h2>
+      {content}
     </div>
   );
 }
