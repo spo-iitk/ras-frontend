@@ -52,7 +52,7 @@ function Index() {
     getCompanydata();
   }, [token, rid, ID, data]);
   let content;
-  if (+rid % 2 === 0) {
+  if (+rid % 2 === 1) {
     content = (
       <Card
         elevation={5}
@@ -322,6 +322,10 @@ function Index() {
             <Grid item xs={12} md={12} key="jd">
               <h3>Job Description</h3>
               {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
+            </Grid>
+            <Grid item xs={12} md={12} key="jd">
+              <h3>Package Details</h3>
+              {isFetched && <RichText onChange={setJd} readOnly value={pd} />}
             </Grid>
             <Grid item xs={12} md={6} key="bond">
               <h3>Bond Details</h3>
