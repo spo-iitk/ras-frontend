@@ -179,6 +179,20 @@ function Step2() {
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>CPI Cutoff</p>
+              <TextField
+                id="CPI_Cutoff"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.cpi_cutoff}
+                helperText={errors.cpi_cutoff && "This field is required"}
+                {...register("cpi_cutoff", { required: true })}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>
                 Is the position also open for PwD/DAP (If no, specify the nature
                 of disability)

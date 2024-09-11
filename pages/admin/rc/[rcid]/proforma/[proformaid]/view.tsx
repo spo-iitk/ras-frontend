@@ -269,6 +269,19 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
+                <Grid item xs={12} md={6} key="cpi" padding={0}>
+                  <h4>CPI Cutoff</h4>
+                  <TextField
+                    multiline
+                    fullWidth
+                    value={row.cpi_cutoff}
+                    InputProps={{
+                      style: { textAlign: "center" },
+                      readOnly: true,
+                    }}
+                    sx={textFieldSX}
+                  />
+                </Grid>
                 <Grid item xs={12} md={6} key="pwd" padding={0}>
                   <h4>Availability for PWD/DAP</h4>
                   <TextField
@@ -717,6 +730,19 @@ function View() {
                     multiline
                     fullWidth
                     value={row.cpi_criteria}
+                    InputProps={{
+                      style: { textAlign: "center" },
+                      readOnly: true,
+                    }}
+                    sx={textFieldSX}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} key="cpi" padding={0}>
+                  <h4>CPI Cutoff</h4>
+                  <TextField
+                    multiline
+                    fullWidth
+                    value={row.cpi_cutoff}
                     InputProps={{
                       style: { textAlign: "center" },
                       readOnly: true,

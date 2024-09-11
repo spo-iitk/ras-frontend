@@ -68,6 +68,7 @@ export interface ProformaType {
   accommodation: string;
   ppo_confirming_date: string;
   internship_period: string;
+  cpi_cutoff: number;
 }
 export interface ProformaEvent {
   ID: number;
