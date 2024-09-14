@@ -200,6 +200,18 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
+            <Grid item xs={12} md={12} key="perks">
+              <h3>Perks</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.perks}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
             <Grid item xs={12} md={12} key="jd">
               <h3>Job Description</h3>
               {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
@@ -366,6 +378,18 @@ function Index() {
                 multiline
                 fullWidth
                 value={row.ctc_fr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} key="perks">
+              <h3>Perks</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.perks}
                 InputProps={{
                   readOnly: true,
                 }}
