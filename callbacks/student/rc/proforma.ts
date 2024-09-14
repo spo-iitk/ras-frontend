@@ -19,6 +19,7 @@ export interface ProformaParams {
   profile: string;
   set_deadline: number;
   resume: string;
+  cpi_cutoff: number;
 }
 
 const instance = axios.create({

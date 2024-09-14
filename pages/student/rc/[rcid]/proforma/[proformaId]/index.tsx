@@ -51,10 +51,9 @@ function Index() {
     };
     getCompanydata();
   }, [token, rid, ID, data]);
-  return (
-    <div style={{ padding: "0 2rem", marginBottom: 20 }}>
-      <Meta title="RC - Company - Proforma" />
-      <h2>Proforma</h2>
+  let content;
+  if (+rid % 2 === 1) {
+    content = (
       <Card
         elevation={5}
         sx={{
@@ -65,7 +64,10 @@ function Index() {
       >
         <Stack spacing={2}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={12} key="bnature">
+            <Grid item xs={12} md={12} key="company-deets">
+              <h2 style={{ textAlign: "center" }}>Company Details</h2>
+            </Grid>
+            <Grid item xs={12} md={12} key="name">
               <h3>Company Name</h3>
               <TextField
                 multiline
@@ -78,12 +80,11 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="bnature">
+            <Grid item xs={12} md={12} key="bnature">
               <h3>Nature of Business</h3>
               <TextField
                 multiline
                 fullWidth
-                minRows={4}
                 value={row.role}
                 InputProps={{
                   readOnly: true,
@@ -91,7 +92,10 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="bnature">
+            <Grid item xs={12} md={12} key="internship-deets">
+              <h2 style={{ textAlign: "center" }}>Internship Details</h2>
+            </Grid>
+            <Grid item xs={12} md={6} key="profile">
               <h3>Profile</h3>
               <TextField
                 multiline
@@ -117,7 +121,7 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="tjobloc">
+            <Grid item xs={12} md={6} key="skill">
               <h3>Required Skill Set</h3>
               <TextField
                 multiline
@@ -130,7 +134,34 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="tjobloc">
+            <Grid item xs={12} md={12} key="stipend-deets">
+              <h2 style={{ textAlign: "center" }}>Stipend Details</h2>
+            </Grid>
+            <Grid item xs={12} md={6} key="inr">
+              <h3>Stipend (INR)</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.ctc_inr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="foreig">
+              <h3>Stipend (Foreign Currency)</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.ctc_fr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="accom">
               <h3>Accomodation Provided / Trip Fare</h3>
               <TextField
                 multiline
@@ -143,7 +174,7 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="tjobloc">
+            <Grid item xs={12} md={6} key="period">
               <h3>Preferred Period of Internship</h3>
               <TextField
                 multiline
@@ -156,24 +187,12 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="bnature">
-              <h3>Stipend (INR)</h3>
+            <Grid item xs={12} md={12} key="perks">
+              <h3>Perks</h3>
               <TextField
                 multiline
                 fullWidth
-                value={row.ctc_inr}
-                InputProps={{
-                  readOnly: true,
-                }}
-                sx={textFieldSX}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} key="bnature">
-              <h3>Stipend (Foreign Currency)</h3>
-              <TextField
-                multiline
-                fullWidth
-                value={row.ctc_fr}
+                value={row.perks}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -229,6 +248,177 @@ function Index() {
           </Grid>
         </Stack>
       </Card>
+    );
+  } else {
+    content = (
+      <Card
+        elevation={5}
+        sx={{
+          padding: 3,
+          width: { xs: "100%", md: "800px" },
+          margin: "0px auto",
+        }}
+      >
+        <Stack spacing={2}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12} key="company-deets" padding={0}>
+              <h2 style={{ textAlign: "center" }}>Company Details</h2>
+            </Grid>
+            <Grid item xs={12} md={12} key="name">
+              <h3>Company Name</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.company_name}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} key="bnature">
+              <h3>Nature of Business</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.role}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} key="job-deets" padding={0}>
+              <h2 style={{ textAlign: "center" }}>Job Details</h2>
+            </Grid>
+            <Grid item xs={12} md={6} key="profile">
+              <h3>Profile</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.profile}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="skill">
+              <h3>Required Skill Set</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.skill_set}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="tjobloc">
+              <h3>Tentative Job Location/Online</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.tentative_job_location}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} key="package-deets" padding={0}>
+              <h2 style={{ textAlign: "center" }}>Package Details</h2>
+            </Grid>
+            <Grid item xs={12} md={6} key="inr">
+              <h3>Stipend (INR)</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.ctc_inr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="foreign">
+              <h3>Stipend (Foreign Currency)</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.ctc_fr}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} key="perks">
+              <h3>Perks</h3>
+              <TextField
+                multiline
+                fullWidth
+                value={row.perks}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} key="jd">
+              <h3>Job Description</h3>
+              {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
+            </Grid>
+            <Grid item xs={12} md={6} key="bond">
+              <h3>Bond Details</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.bond_details}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="MedReq">
+              <h3>Medical Requirements</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.medical_requirements}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <h3>Eligibility</h3>
+              <MatrixExpanded data={data} />
+            </Grid>
+            <Grid item xs={12}>
+              <h3>Hiring Process</h3>
+              <StepperComp steps={row2} rcid={rcid as string} />
+            </Grid>
+          </Grid>
+        </Stack>
+      </Card>
+    );
+  }
+  console.log(content);
+  return (
+    <div style={{ padding: "0 2rem", marginBottom: 20 }}>
+      <Meta title="RC - Company - Proforma" />
+      <h2>Proforma</h2>
+      {content}
     </div>
   );
 }

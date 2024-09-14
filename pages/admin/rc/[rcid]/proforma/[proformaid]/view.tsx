@@ -247,7 +247,7 @@ function View() {
                     <TextField
                       multiline
                       fullWidth
-                      value={row.total_employees}
+                      value={row.total_hires}
                       InputProps={{
                         style: { textAlign: "center" },
                         readOnly: true,
@@ -262,6 +262,19 @@ function View() {
                     multiline
                     fullWidth
                     value={row.cpi_criteria}
+                    InputProps={{
+                      style: { textAlign: "center" },
+                      readOnly: true,
+                    }}
+                    sx={textFieldSX}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} key="cpi" padding={0}>
+                  <h4>CPI Cutoff</h4>
+                  <TextField
+                    multiline
+                    fullWidth
+                    value={row.cpi_cutoff}
                     InputProps={{
                       style: { textAlign: "center" },
                       readOnly: true,
@@ -294,6 +307,12 @@ function View() {
                     }}
                     sx={textFieldSX}
                   />
+                </Grid>
+                <Grid item xs={12} md={12} key="jd">
+                  <h4>Job Description</h4>
+                  {isFetched && (
+                    <RichText onChange={setJd} readOnly value={jd} />
+                  )}
                 </Grid>
               </Grid>
               <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
@@ -724,6 +743,19 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
+                <Grid item xs={12} md={6} key="cpi" padding={0}>
+                  <h4>CPI Cutoff</h4>
+                  <TextField
+                    multiline
+                    fullWidth
+                    value={row.cpi_cutoff}
+                    InputProps={{
+                      style: { textAlign: "center" },
+                      readOnly: true,
+                    }}
+                    sx={textFieldSX}
+                  />
+                </Grid>
                 <Grid item xs={12} md={6} key="int-per" padding={0}>
                   <h4>Preferred period of Internship</h4>
                   <TextField
@@ -737,7 +769,7 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={12} key="ctc">
+                <Grid item xs={12} md={12} key="jd">
                   <h4>Job Description</h4>
                   {isFetched && (
                     <RichText onChange={setJd} readOnly value={jd} />
