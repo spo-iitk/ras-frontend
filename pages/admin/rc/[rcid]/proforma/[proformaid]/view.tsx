@@ -308,6 +308,12 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
+                <Grid item xs={12} md={12} key="jd">
+                  <h4>Job Description</h4>
+                  {isFetched && (
+                    <RichText onChange={setJd} readOnly value={jd} />
+                  )}
+                </Grid>
               </Grid>
               <Grid container spacing={2} sx={{ marginBottom: "40px" }}>
                 <Grid item xs={12} md={12} key="pd" padding={0}>
@@ -763,7 +769,7 @@ function View() {
                     sx={textFieldSX}
                   />
                 </Grid>
-                <Grid item xs={12} md={12} key="ctc">
+                <Grid item xs={12} md={12} key="jd">
                   <h4>Job Description</h4>
                   {isFetched && (
                     <RichText onChange={setJd} readOnly value={jd} />

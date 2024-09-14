@@ -108,19 +108,6 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="cpi_criteria">
-              <h3>CPI Criteria</h3>
-              <TextField
-                multiline
-                fullWidth
-                minRows={4}
-                value={row.cpi_criteria}
-                InputProps={{
-                  readOnly: true,
-                }}
-                sx={textFieldSX}
-              />
-            </Grid>
             <Grid item xs={12} md={6} key="tjobloc">
               <h3>Tentative Job Location/Online</h3>
               <TextField
@@ -325,19 +312,6 @@ function Index() {
                 fullWidth
                 minRows={4}
                 value={row.skill_set}
-                InputProps={{
-                  readOnly: true,
-                }}
-                sx={textFieldSX}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} key="cpi_criteria">
-              <h3>CPI Criteria</h3>
-              <TextField
-                multiline
-                fullWidth
-                minRows={4}
-                value={row.cpi_criteria}
                 InputProps={{
                   readOnly: true,
                 }}
