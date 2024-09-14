@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
   Box,
   Button,
@@ -327,6 +328,18 @@ function Index() {
           </InactiveButton>
         );
       },
+    },
+    {
+      field: "remarks",
+      headerName: "Remarks",
+      align: "center",
+      headerAlign: "center",
+      width: 500,
+      renderCell: (params) => (
+        <Tooltip title={params.row.remarks}>
+          <div>{params.row.remarks}</div>
+        </Tooltip>
+      ),
     },
   ];
 
