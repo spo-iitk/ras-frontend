@@ -249,7 +249,14 @@ function Edit() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <p>Secondary Department</p>
-                  <Select fullWidth variant="standard">
+                  <Select
+                    fullWidth
+                    variant="standard"
+                    {...register("department_2")}
+                    onChange={(e) => {
+                      setDeptSec(e.target.value as string);
+                    }}
+                  >
                     <MenuItem value="" />
                     <MenuItem value="NA">None</MenuItem>
                     {Branches.map((branch) => (
@@ -266,9 +273,6 @@ function Edit() {
                       fullWidth
                       variant="standard"
                       {...register("program_2")}
-                      onChange={(e) => {
-                        setDeptSec(e.target.value as string);
-                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
