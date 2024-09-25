@@ -16,7 +16,7 @@ export const programExpanded = [
 export const programCondensed = [
   "BT/BS/Double Major",
   "Dual",
-  "MT/MSc/MSR",
+  "MT/MS/MSR",
   "MDes",
   "MBA",
   "PhD",
@@ -89,7 +89,7 @@ export type programType = {
   MDes: number;
   MBA: number;
   PhD: number;
-  MSc: number;
+  MS: number;
   MSR: number;
 };
 
@@ -105,7 +105,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 63,
-    MSc: -1,
+    MS: -1,
     MSR: 85,
   },
   "Biological Sciences and Bioengineering (BSBE)": {
@@ -119,7 +119,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 64,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   "Civil Engineering (CE)": {
@@ -133,7 +133,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 65,
-    MSc: -1,
+    MS: -1,
     MSR: 86,
   },
   "Chemical Engineering (CHE)": {
@@ -147,7 +147,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 66,
-    MSc: -1,
+    MS: -1,
     MSR: 87,
   },
   "Computer Science and Engineering (CSE)": {
@@ -161,7 +161,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 67,
-    MSc: -1,
+    MS: -1,
     MSR: 88,
   },
   "Electrical Engineering (EE)": {
@@ -175,7 +175,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 68,
-    MSc: -1,
+    MS: -1,
     MSR: 89,
   },
   "Material Science and Engineering (MSE)": {
@@ -189,7 +189,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 69,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   "Mechanical Engineering (ME)": {
@@ -203,7 +203,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 70,
-    MSc: -1,
+    MS: -1,
     MSR: 90,
   },
   "Chemistry (CHM)": {
@@ -217,7 +217,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 111,
-    MSc: 107,
+    MS: 107,
     MSR: -1,
   },
   "Economics (ECO)": {
@@ -231,7 +231,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 112,
-    MSc: 108,
+    MS: 108,
     MSR: -1,
   },
   "Earth Sciences (ES)": {
@@ -245,7 +245,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 71,
-    MSc: 109,
+    MS: 109,
     MSR: -1,
   },
   "Mathematics and Scientific Computing (MTH)": {
@@ -259,7 +259,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 72,
-    MSc: -1,
+    MS: 84,
     MSR: -1,
   },
   "Statistics and Data Science (SDS)": {
@@ -273,7 +273,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: -1,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   "Physics (PHY)": {
@@ -287,7 +287,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 73,
-    MSc: 110,
+    MS: 110,
     MSR: -1,
   },
   "Cognitive Science (CGS)": {
@@ -301,7 +301,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 74,
-    MSc: -1,
+    MS: -1,
     MSR: 91,
   },
   "Design (DES)": {
@@ -315,7 +315,7 @@ export const func = {
     MDes: 61,
     MBA: -1,
     PhD: 75,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   "Management Studies (MS)": {
@@ -329,7 +329,7 @@ export const func = {
     MDes: -1,
     MBA: 62,
     PhD: 76,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   "Materials Science Programme (MSP)": {
@@ -343,7 +343,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 113,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   "Nuclear Engineering and Technology (NET)": {
@@ -357,7 +357,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 77,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   "Photonics Science and Engineering (PSE)": {
@@ -371,7 +371,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 78,
-    MSc: -1,
+    MS: -1,
     MSR: 93,
   },
   "Statistics (Stats)": {
@@ -385,7 +385,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 79,
-    MSc: 83,
+    MS: 83,
     MSR: -1,
   },
   "Humanities and Social Sciences (HSS)": {
@@ -399,7 +399,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 80,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   Mathematics: {
@@ -413,7 +413,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 81,
-    MSc: 84,
+    MS: 84,
     MSR: -1,
   },
   "Sustainable Energy Engineering (SEE)": {
@@ -427,7 +427,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 82,
-    MSc: -1,
+    MS: -1,
     MSR: 94,
   },
   "Space Science and Astronomy (SSA)": {
@@ -441,7 +441,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 114,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
 };
@@ -458,7 +458,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 63,
-    MSc: -1,
+    MS: -1,
     MSR: 85,
   },
   BSBE: {
@@ -472,7 +472,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 64,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   CE: {
@@ -486,7 +486,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 65,
-    MSc: -1,
+    MS: -1,
     MSR: 86,
   },
   CHE: {
@@ -500,7 +500,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 66,
-    MSc: -1,
+    MS: -1,
     MSR: 87,
   },
   CSE: {
@@ -514,7 +514,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 67,
-    MSc: -1,
+    MS: -1,
     MSR: 88,
   },
   EE: {
@@ -528,7 +528,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 68,
-    MSc: -1,
+    MS: -1,
     MSR: 89,
   },
   MSE: {
@@ -542,7 +542,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 69,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   ME: {
@@ -556,7 +556,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 70,
-    MSc: -1,
+    MS: -1,
     MSR: 90,
   },
   CHM: {
@@ -570,7 +570,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 111,
-    MSc: 107,
+    MS: 107,
     MSR: -1,
   },
   ECO: {
@@ -584,7 +584,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 112,
-    MSc: 108,
+    MS: 108,
     MSR: -1,
   },
   ES: {
@@ -598,7 +598,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 71,
-    MSc: 109,
+    MS: 109,
     MSR: -1,
   },
   MTH: {
@@ -612,7 +612,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 72,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   SDS: {
@@ -626,7 +626,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: -1,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   PHY: {
@@ -640,7 +640,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 73,
-    MSc: 110,
+    MS: 110,
     MSR: -1,
   },
   CGS: {
@@ -654,7 +654,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 74,
-    MSc: -1,
+    MS: -1,
     MSR: 91,
   },
   DES: {
@@ -668,7 +668,7 @@ export const funcExpanded = {
     MDes: 61,
     MBA: -1,
     PhD: 75,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   MS: {
@@ -682,7 +682,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: 62,
     PhD: 76,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   MSP: {
@@ -696,7 +696,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 113,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   NET: {
@@ -710,7 +710,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 77,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   PSE: {
@@ -724,7 +724,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 78,
-    MSc: -1,
+    MS: -1,
     MSR: 93,
   },
   Stats: {
@@ -738,7 +738,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 79,
-    MSc: 83,
+    MS: 83,
     MSR: -1,
   },
   HSS: {
@@ -752,7 +752,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 80,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
   Mathematics: {
@@ -766,7 +766,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 81,
-    MSc: 84,
+    MS: 84,
     MSR: -1,
   },
   SEE: {
@@ -780,7 +780,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 82,
-    MSc: -1,
+    MS: -1,
     MSR: 94,
   },
   SSA: {
@@ -794,7 +794,7 @@ export const funcExpanded = {
     MDes: -1,
     MBA: -1,
     PhD: 114,
-    MSc: -1,
+    MS: -1,
     MSR: -1,
   },
 };
@@ -882,12 +882,12 @@ export const rev = {
   92: "<DELETED>MSR-EEM</DELETED>", // extra
   93: "MSR-PSE",
   94: "MSR-SEE",
-  107: "MSc-CHM",
-  108: "MSc-ECO",
-  109: "MSc-ES",
-  110: "MSc-PHY",
-  83: "MSc-Stats",
-  84: "MSc-Mathematics",
+  107: "MS-CHM",
+  108: "MS-ECO",
+  109: "MS-ES",
+  110: "MS-PHY",
+  83: "MS-Stats",
+  84: "MS-Mathematics",
   61: "MDes-DES",
   62: "MBA-MS",
   63: "PhD-AE",
