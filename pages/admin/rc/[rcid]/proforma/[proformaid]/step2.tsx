@@ -123,7 +123,7 @@ function Step2() {
         ]);
         break;
       case "JAM":
-        handleMultipleProgramWise(["MS"]);
+        handleMultipleProgramWise(["MSc"]);
         break;
       case "CAT":
         handleMultipleProgramWise(["MBA"]);
