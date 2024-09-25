@@ -7,7 +7,7 @@ export const programExpanded = [
   "DualC",
   "MT",
   "MSR",
-  "MS",
+  "MSc",
   "MDes",
   "MBA",
   "PhD",
@@ -259,7 +259,7 @@ export const func = {
     MDes: -1,
     MBA: -1,
     PhD: 72,
-    MSc: -1,
+    MSc: 84,
     MSR: -1,
   },
   "Statistics and Data Science (SDS)": {
