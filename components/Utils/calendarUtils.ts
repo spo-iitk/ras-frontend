@@ -27,6 +27,10 @@ export const calendarLinks = new Map([
     "9",
     "https://calendar.google.com/calendar/embed?src=b3523c7a46297c89d30ab84f53d62c15506e3e35af5cb3cf351cbeda41830580%40group.calendar.google.com&ctz=Asia%2FKolkata",
   ],
+  [
+    "10",
+    "https://calendar.google.com/calendar/embed?src=aa7afddc14a3f04662ce9afce8cadc5ac962180b96458640537511f4fed14e72%40group.calendar.google.com&ctz=Asia%2FKolkata",
+  ],
 ]);
 
 export default calendarLinks;
