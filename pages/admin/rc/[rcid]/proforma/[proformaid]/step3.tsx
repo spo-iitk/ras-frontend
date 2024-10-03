@@ -169,7 +169,7 @@ function Step3() {
                 {...register("skill_set", { required: true })}
               />
             </FormControl>
-            <FormControl sx={{ m: 1 }}>
+            {/* <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>CPI criteria (if any)</p>
               <TextField
                 id="CPI"
@@ -182,7 +182,7 @@ function Step3() {
                 helperText={errors.cpi_criteria && "This field is required"}
                 {...register("cpi_criteria", { required: true })}
               />
-            </FormControl>
+            </FormControl> */}
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300 }}>CPI Cutoff</p>
               <TextField
