@@ -194,7 +194,10 @@ function Step3() {
                 variant="standard"
                 error={!!errors.cpi_cutoff}
                 helperText={errors.cpi_cutoff && "This field is required"}
-                {...register("cpi_cutoff", { required: true })}
+                {...register("cpi_cutoff", {
+                  required: true,
+                  setValueAs: (value) => parseFloat(value),
+                })}
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
