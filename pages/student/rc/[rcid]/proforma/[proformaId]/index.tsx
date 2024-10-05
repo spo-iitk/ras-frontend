@@ -305,19 +305,6 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="skill">
-              <h3>Required Skill Set</h3>
-              <TextField
-                multiline
-                fullWidth
-                minRows={4}
-                value={row.skill_set}
-                InputProps={{
-                  readOnly: true,
-                }}
-                sx={textFieldSX}
-              />
-            </Grid>
             <Grid item xs={12} md={6} key="tjobloc">
               <h3>Tentative Job Location/Online</h3>
               <TextField
@@ -331,32 +318,163 @@ function Index() {
                 sx={textFieldSX}
               />
             </Grid>
+            <Grid item xs={12} md={12} key="skill">
+              <h3>Required Skill Set</h3>
+              <TextField
+                multiline
+                fullWidth
+                minRows={4}
+                value={row.skill_set}
+                InputProps={{
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} key="jd">
+              <h3>Job Description</h3>
+              {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
+            </Grid>
             <Grid item xs={12} md={12} key="package-deets" padding={0}>
               <h2 style={{ textAlign: "center" }}>Package Details</h2>
             </Grid>
-            <Grid item xs={12} md={6} key="inr">
-              <h3>Stipend (INR)</h3>
+            <Grid item xs={12} md={6} key="ctc-inr" padding={0}>
+              <h4>CTC (in INR) </h4>
               <TextField
                 multiline
                 fullWidth
                 value={row.ctc_inr}
                 InputProps={{
+                  style: { textAlign: "center" },
                   readOnly: true,
                 }}
                 sx={textFieldSX}
               />
             </Grid>
-            <Grid item xs={12} md={6} key="foreign">
-              <h3>Stipend (Foreign Currency)</h3>
+            <Grid item xs={12} md={6} key="ctc-fr" padding={0}>
+              <h4>CTC (in foreign currency) </h4>
               <TextField
                 multiline
                 fullWidth
                 value={row.ctc_fr}
                 InputProps={{
+                  style: { textAlign: "center" },
                   readOnly: true,
                 }}
                 sx={textFieldSX}
               />
+            </Grid>
+            <Grid item xs={12} md={6} key="ctc">
+              <h4>Cost To Company</h4>
+              {isFetched && <RichText onChange={setCtc} readOnly value={ctc} />}
+            </Grid>
+            <Grid item xs={12} md={6} key="gross" padding={0}>
+              <h4>Gross (per annum)</h4>
+              <TextField
+                multiline
+                fullWidth
+                value={row.gross}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="take-home" padding={0}>
+              <h4>Fixed take home salary (per annum)</h4>
+              <TextField
+                multiline
+                fullWidth
+                value={row.take_home}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="base" padding={0}>
+              <h4>Base Salary</h4>
+              <TextField
+                multiline
+                fullWidth
+                value={row.base}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="join-bonus" padding={0}>
+              <h4>Joining Bonus</h4>
+              <TextField
+                multiline
+                fullWidth
+                value={row.joining_bonus}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="reloc-bonus" padding={0}>
+              <h4>Relocation Bonus</h4>
+              <TextField
+                multiline
+                fullWidth
+                value={row.relocation_bonus}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="reten-bonus" padding={0}>
+              <h4>Retention Bonus</h4>
+              <TextField
+                multiline
+                fullWidth
+                value={row.retention_bonus}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="deductions" padding={0}>
+              <h4>Deductions</h4>
+              <TextField
+                multiline
+                fullWidth
+                value={row.deductions}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="first-year-ctc" padding={0}>
+              <h4>1st Year CTC</h4>
+              <TextField
+                multiline
+                fullWidth
+                value={row.first_ctc}
+                InputProps={{
+                  style: { textAlign: "center" },
+                  readOnly: true,
+                }}
+                sx={textFieldSX}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} key="ctc">
+              <h4>Total CTC</h4>
+              {isFetched && <RichText onChange={setPd} readOnly value={pd} />}
             </Grid>
             <Grid item xs={12} md={12} key="perks">
               <h3>Perks</h3>
@@ -369,10 +487,6 @@ function Index() {
                 }}
                 sx={textFieldSX}
               />
-            </Grid>
-            <Grid item xs={12} md={12} key="jd">
-              <h3>Job Description</h3>
-              {isFetched && <RichText onChange={setJd} readOnly value={jd} />}
             </Grid>
             <Grid item xs={12} md={6} key="bond">
               <h3>Bond Details</h3>
