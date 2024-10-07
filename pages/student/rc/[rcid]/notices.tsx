@@ -59,6 +59,7 @@ function Notices() {
     attachment: "",
     created_by: "",
     CreatedAt: "",
+    daedline: "",
     last_reminder_at: 0,
   });
 
