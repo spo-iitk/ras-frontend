@@ -55,11 +55,11 @@ function Notices() {
     recruitment_cycle_id: 0,
     title: "",
     description: "",
+    deadline: "",
     tags: "",
     attachment: "",
     created_by: "",
     CreatedAt: "",
-    daedline: "",
     last_reminder_at: 0,
   });
 
