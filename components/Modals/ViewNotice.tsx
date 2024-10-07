@@ -20,7 +20,7 @@ const boxStyle = {
   maxHeight: "90vh",
 };
 function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
-  const value = currentNotice.CreatedAt;
+  let value = currentNotice.CreatedAt;
   const publishedDateAndTime = `${new Date(value).toLocaleDateString(
     "en-GB"
   )} ${new Date(value).toLocaleTimeString()}`;
