@@ -139,6 +139,7 @@ function Index() {
     attachment: "",
     created_by: "",
     CreatedAt: "",
+    deadline: "",
     last_reminder_at: 0,
   });
 
