@@ -59,6 +59,7 @@ function EditNotice({
     created_by: "",
     CreatedAt: "",
     last_reminder_at: 0,
+    deadline: "",
   });
   const [isFetched, setisFetched] = useState(false);
 
@@ -68,27 +69,19 @@ function EditNotice({
     formState: { errors },
     reset,
   } = useForm<NoticeResponse>();
-  const handleEditNotice = (data: NoticeResponse) => {
-    const editNotice = async () => {
-      const finData = {
-        ...data,
-        subject: data.title,
-        recruitment_cycle_id: 0,
-        description,
-      };
-      await noticeRequest.put(token, rid, finData).then(() => {
-        const fetch = async () => {
-          if (rid === undefined || rid === "") return;
-          const Newnotice: NoticeParams[] = await noticeRequest.getAll(
-            token,
-            rid
-          );
-          setNotice(Newnotice);
-        };
-        fetch();
-      });
+
+  const handleEditNotice = async (data: NoticeResponse) => {
+    const finData = {
+      ...data,
+      subject: data.title,
+      recruitment_cycle_id: 0,
+      description,
     };
-    editNotice();
+    await noticeRequest.put(token, rid, finData).then(async () => {
+      if (rid === undefined || rid === "") return;
+      const newNotices: NoticeParams[] = await noticeRequest.getAll(token, rid);
+      setNotice(newNotices);
+    });
     handleCloseEdit();
   };
 
@@ -100,23 +93,34 @@ function EditNotice({
     };
     getAllNotices();
   }, [token, rid]);
-  const handleChange = (value: any) => {
-    for (let i = 0; i < notices.length; i += 1) {
-      if (notices[i].ID === value) {
-        reset(notices[i]);
-        setDescription(notices[i].description);
-        setCurrNotice(notices[i]);
-        setisFetched(true);
-        break;
-      }
+
+  const handleChange = (value: unknown) => {
+    const selectedNotice = notices.find((notice) => notice.ID === value);
+    if (selectedNotice) {
+      reset(selectedNotice);
+      setDescription(selectedNotice.description);
+      setCurrNotice(selectedNotice);
+      setisFetched(true);
     }
   };
+
+  const formatDate = (date: string): string =>
+    date === "0001-01-01T00:00:00Z" ? "N/A" : new Date(date).toLocaleString();
+
+  const publishedDateAndTime = `${new Date(
+    currNotice.CreatedAt
+  ).toLocaleDateString("en-GB")} ${new Date(
+    currNotice.CreatedAt
+  ).toLocaleTimeString()}`;
+  const isOpeningTag = currNotice.tags.includes("opening");
+  const deadlineDate = formatDate(currNotice.deadline);
+
   return (
     <Box sx={boxStyle}>
       <Stack spacing={3}>
         <h2>Edit Notice</h2>
         <FormControl sx={{ m: 1 }}>
-          <InputLabel id="edit-student">Select ID</InputLabel>
+          <InputLabel id="edit-notice">Select ID</InputLabel>
           <Select
             label="ID"
             id="ID"
@@ -127,7 +131,9 @@ function EditNotice({
             }}
           >
             {notices.map((notice: NoticeParams) => (
-              <MenuItem value={notice.ID}>{notice.ID}</MenuItem>
+              <MenuItem key={notice.ID} value={notice.ID}>
+                {notice.ID}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -136,8 +142,16 @@ function EditNotice({
           id="title"
           variant="filled"
           {...register("title", { required: true })}
-          error={!!errors.subject}
-          helperText={errors.subject && "Title is required"}
+          error={!!errors.title}
+          helperText={errors.title && "Title is required"}
+        />
+        <TextField
+          label="Published Date and Time"
+          variant="standard"
+          value={publishedDateAndTime}
+          InputProps={{
+            readOnly: true,
+          }}
         />
         <TextField
           label="Tags (csv)"
@@ -147,6 +161,16 @@ function EditNotice({
           error={!!errors.tags}
           helperText={errors.tags && "Tags are required"}
         />
+        {isOpeningTag && (
+          <TextField
+            label="Deadline"
+            variant="standard"
+            value={deadlineDate}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        )}
         <small style={{ fontWeight: 300 }}>Description</small>
         {isFetched && (
           <RichTextEditor onChange={setDescription} value={description} />
