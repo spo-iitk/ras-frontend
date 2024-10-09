@@ -140,6 +140,7 @@ function Index() {
     created_by: "",
     CreatedAt: "",
     last_reminder_at: 0,
+    deadline: "",
   });
 
   const [openView, setOpenView] = useState(false);
