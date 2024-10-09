@@ -19,6 +19,7 @@ export interface NoticeParams {
   created_by: string;
   CreatedAt: string;
   last_reminder_at: number;
+  deadline: string;
 }
 export interface NoticeResponse {
   title: string;

@@ -20,10 +20,17 @@ const boxStyle = {
   maxHeight: "90vh",
 };
 function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
-  let value = currentNotice.CreatedAt;
+  const value = currentNotice.CreatedAt;
   const publishedDateAndTime = `${new Date(value).toLocaleDateString(
     "en-GB"
   )} ${new Date(value).toLocaleTimeString()}`;
+  const isOpeningTag = currentNotice.tags.includes("opening");
+  function formatDeadline(deadline: string): string {
+    return deadline === "0001-01-01T00:00:00Z"
+      ? "N/A"
+      : new Date(deadline).toLocaleString();
+  }
+  const deadlineDate = formatDeadline(currentNotice.deadline);
   return (
     <Box sx={boxStyle} className="modalScroll">
       <Stack spacing={3}>
@@ -55,6 +62,17 @@ function ViewNotice({ currentNotice }: { currentNotice: NoticeParams }) {
             readOnly: true,
           }}
         />
+        {isOpeningTag && (
+          <TextField
+            multiline
+            label="Deadline"
+            defaultValue={deadlineDate}
+            variant="standard"
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        )}
         <small style={{ fontWeight: 300 }}>Description</small>
         <RichText
           // eslint-disable-next-line @typescript-eslint/no-empty-function
