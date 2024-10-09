@@ -144,7 +144,9 @@ function EditNotice({
           {...register("title", { required: true })}
           error={!!errors.title}
           helperText={errors.title && "Title is required"}
+          InputLabelProps={{ shrink: true }} // This will prevent the overlap
         />
+
         <TextField
           label="Published Date and Time"
           variant="standard"
@@ -152,7 +154,9 @@ function EditNotice({
           InputProps={{
             readOnly: true,
           }}
+          InputLabelProps={{ shrink: true }} // This will prevent the overlap
         />
+
         <TextField
           label="Tags (csv)"
           id="tags"
@@ -160,7 +164,9 @@ function EditNotice({
           {...register("tags", { required: true })}
           error={!!errors.tags}
           helperText={errors.tags && "Tags are required"}
+          InputLabelProps={{ shrink: true }} // This will prevent the overlap
         />
+
         {isOpeningTag && (
           <TextField
             label="Deadline"
