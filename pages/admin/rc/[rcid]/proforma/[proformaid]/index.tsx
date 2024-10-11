@@ -534,7 +534,12 @@ function Index() {
               </div>
             </Stack>
 
-            <DataGrid rows={rows} columns={columns} loading={loading} />
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              loading={loading}
+              isVisibleToRole102
+            />
           </Stack>
         </Grid>
         <Grid item xs={12}>
