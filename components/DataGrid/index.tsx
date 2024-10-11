@@ -60,6 +60,7 @@ interface paramsType {
   getRowId?: (row: any) => string;
   loading?: boolean;
   heighted?: boolean;
+  isVisibleToRole102?: boolean;
 }
 
 function Index({
@@ -69,6 +70,7 @@ function Index({
   getRowId,
   loading = false,
   heighted = false,
+  isVisibleToRole102 = false,
 }: paramsType) {
   const [pageSize, setPageSize] = useState<number>(25);
 
@@ -91,7 +93,10 @@ function Index({
           toolbar: {
             showQuickFilter: true,
             quickFilterProps: { debounceMs: 500 },
-            printOptions: { disableToolbarButton: role === 102 || role === 1 },
+            printOptions: {
+              disableToolbarButton:
+                (role === 102 && !isVisibleToRole102) || role === 1,
+            },
             csvOptions: { disableToolbarButton: role === 102 || role === 1 },
           },
         }}

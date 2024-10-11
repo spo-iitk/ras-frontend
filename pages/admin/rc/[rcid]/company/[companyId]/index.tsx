@@ -258,7 +258,12 @@ function Index() {
           </Stack>
         </Stack>
 
-        <DataGrid rows={rows} columns={columns} getRowId={(rows) => rows.ID} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          getRowId={(rows) => rows.ID}
+          isVisibleToRole102
+        />
       </Stack>
     </div>
   );
