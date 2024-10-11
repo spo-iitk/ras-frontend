@@ -97,7 +97,10 @@ function Index({
               disableToolbarButton:
                 (role === 102 && !isVisibleToRole102) || role === 1,
             },
-            csvOptions: { disableToolbarButton: role === 102 || role === 1 },
+            csvOptions: {
+              disableToolbarButton:
+                (role === 102 && !isVisibleToRole102) || role === 1,
+            },
           },
         }}
         disableDensitySelector
