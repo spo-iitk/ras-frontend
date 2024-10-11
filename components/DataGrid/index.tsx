@@ -63,6 +63,20 @@ interface paramsType {
   isVisibleToRole102?: boolean;
 }
 
+/**
+ * DataGrid component for rendering a data grid with customizable rows, columns, and various options.
+ *
+ * @param {Object} props - The properties object.
+ * @param {Array} props.rows - The data rows to be displayed in the grid.
+ * @param {Array} props.columns - The column definitions for the grid.
+ * @param {Function} props.onCellClick - Callback function to handle cell click events.
+ * @param {Function} props.getRowId - Function to get the unique identifier for each row.
+ * @param {boolean} [props.loading=false] - Flag to indicate if the grid is in a loading state.
+ * @param {boolean} [props.heighted=false] - Flag to control the auto height behavior of the grid.
+ * @param {boolean} [props.isVisibleToRole102=false] - Flag to control visibility of certain toolbar options for role 102.
+ *
+ * @returns {JSX.Element} The rendered data grid component.
+ */
 function Index({
   rows,
   columns,
