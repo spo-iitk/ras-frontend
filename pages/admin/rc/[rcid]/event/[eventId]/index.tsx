@@ -374,7 +374,12 @@ function Event() {
           />
         </Modal>
       </Stack>
-      <DataGrid columns={cols} getRowId={(row) => row.ID} rows={students} />
+      <DataGrid
+        columns={cols}
+        getRowId={(row) => row.ID}
+        rows={students}
+        isVisibleToRole102
+      />
       <Modal open={openNew} onClose={handleCloseNew}>
         <EnrollToEvent
           handleClose={handleCloseNew}

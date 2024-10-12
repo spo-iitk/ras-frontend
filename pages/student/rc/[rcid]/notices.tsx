@@ -60,6 +60,7 @@ function Notices() {
     created_by: "",
     CreatedAt: "",
     last_reminder_at: 0,
+    deadline: "",
   });
 
   useEffect(() => {
