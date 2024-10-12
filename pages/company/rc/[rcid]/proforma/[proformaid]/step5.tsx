@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -343,9 +344,10 @@ function Step5() {
                               });
                               setActiveStep(fields.length + 1);
                             }
-                            setActiveStep((prevActiveStep) => prevActiveStep + 1);  
-                          }
-                        }
+                            setActiveStep(
+                              (prevActiveStep) => prevActiveStep + 1
+                            );
+                          }}
                           sx={{ mt: 1, mr: 1 }}
                         >
                           {index === fields.length - 1 ? "Finish" : "Continue"}
