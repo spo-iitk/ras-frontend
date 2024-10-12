@@ -427,7 +427,7 @@ function Step5() {
               const { fieldArray } = data;
               let push = 1;
               let count = 0;
-              // eslint-disable-next-line no-loop-func
+              // eslint-disable-next-line no-loop-fun
               for (let i = 0; i < fieldArray.length; i += 1) {
                 fieldArray[i].proforma_id = parseInt(
                   (proformaid || "").toString(),
