@@ -162,7 +162,6 @@ function Step5() {
     };
 
   const handleAdd = (id: number) => {
-    // eslint-disable-next-line eqeqeq
     if (fields.length == 0) {
       append({
         label: "Applications",
@@ -344,8 +343,7 @@ function Step5() {
                               });
                               setActiveStep(fields.length + 1);
                             }
-                            // eslint-disable-next-line prettier/prettier
-                            setActiveStep((prevActiveStep) => prevActiveStep + 1);                       // eslint-disable-next-line prettier/prettier
+                            setActiveStep((prevActiveStep) => prevActiveStep + 1);  
                           }
                         }
                           sx={{ mt: 1, mr: 1 }}
