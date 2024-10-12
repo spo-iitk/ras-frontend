@@ -67,6 +67,7 @@ function Step5() {
     control,
     name: "fieldArray",
   });
+
   useEffect(() => {
     const fetchStep4 = async () => {
       if (router.isReady) {
@@ -161,6 +162,14 @@ function Step5() {
     };
 
   const handleAdd = (id: number) => {
+    // eslint-disable-next-line eqeqeq
+    if (fields.length == 0) {
+      append({
+        label: "Applications",
+        duration: "0 min",
+      });
+      setActiveStep(fields.length + 1);
+    }
     append({
       label: tiles[id].label,
       duration: tiles[id].duration,
@@ -327,7 +336,18 @@ function Step5() {
                       <div>
                         <Button
                           variant="contained"
-                          onClick={handleNext}
+                          onClick={() => {
+                            if (index === fields.length - 1) {
+                              append({
+                                label: "Recuited",
+                                duration: "0 min",
+                              });
+                              setActiveStep(fields.length + 1);
+                            }
+                            // eslint-disable-next-line prettier/prettier
+                            setActiveStep((prevActiveStep) => prevActiveStep + 1);                       // eslint-disable-next-line prettier/prettier
+                          }
+                        }
                           sx={{ mt: 1, mr: 1 }}
                         >
                           {index === fields.length - 1 ? "Finish" : "Continue"}
