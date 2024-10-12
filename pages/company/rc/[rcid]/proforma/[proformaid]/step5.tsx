@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -33,6 +34,7 @@ import Meta from "@components/Meta";
 import eventRequest from "@callbacks/company/rc/proforma/event";
 import useStore from "@store/store";
 import { successNotification } from "@callbacks/notifcation";
+import { Key } from "react";
 
 const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step6";
 
@@ -67,6 +69,7 @@ function Step5() {
     control,
     name: "fieldArray",
   });
+
   useEffect(() => {
     const fetchStep4 = async () => {
       if (router.isReady) {
@@ -96,11 +99,11 @@ function Step5() {
   }, [token, proformaid, rcid, router.isReady, reset]);
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep: number) => prevActiveStep - 1);
   };
 
   const handleReset = () => {
@@ -161,6 +164,13 @@ function Step5() {
     };
 
   const handleAdd = (id: number) => {
+    if (fields.length == 0) {
+      append({
+        label: "Applications",
+        duration: "0 min",
+      });
+      setActiveStep(fields.length + 1);
+    }
     append({
       label: tiles[id].label,
       duration: tiles[id].duration,
@@ -276,7 +286,7 @@ function Step5() {
                   </Box>
                 </StepContent>
               </Step>
-              {fields.map((step, index) => (
+              {fields.map((step: { ID: Key | null | undefined; }, index: number) => (
                 <Step key={step.ID}>
                   <StepLabel>
                     <Card sx={{ padding: 2, width: "300px" }}>
@@ -327,7 +337,18 @@ function Step5() {
                       <div>
                         <Button
                           variant="contained"
-                          onClick={handleNext}
+                          onClick={() => {
+                            if (index === fields.length - 1) {
+                              append({
+                                label: "Recuited",
+                                duration: "0 min",
+                              });
+                              setActiveStep(fields.length + 1);
+                            }
+                            setActiveStep(
+                              (prevActiveStep: number) => prevActiveStep + 1
+                            );
+                          }}
                           sx={{ mt: 1, mr: 1 }}
                         >
                           {index === fields.length - 1 ? "Finish" : "Continue"}
