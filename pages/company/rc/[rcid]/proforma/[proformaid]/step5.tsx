@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import AddIcon from "@mui/icons-material/Add";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -27,14 +26,13 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
 import eventRequest from "@callbacks/company/rc/proforma/event";
 import useStore from "@store/store";
 import { successNotification } from "@callbacks/notifcation";
-import { Key } from "react";
 
 const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step6";
 
@@ -48,8 +46,8 @@ const style = {
 const textFieldColor = "#000000";
 const textFieldSX = {
   input: {
-    "-webkit-text-fill-color": ${textFieldColor} !important,
-    color: ${textFieldColor} !important,
+    "-webkit-text-fill-color": `${textFieldColor} !important`,
+    color: `${textFieldColor} !important`,
     fontWeight: "bold",
   },
 };
@@ -164,7 +162,7 @@ function Step5() {
     };
 
   const handleAdd = (id: number) => {
-    if (fields.length == 0) {
+    if (fields.length === 0) {
       append({
         label: "Applications",
         duration: "0 min",
@@ -286,81 +284,85 @@ function Step5() {
                   </Box>
                 </StepContent>
               </Step>
-              {fields.map((step: { ID: Key | null | undefined; }, index: number) => (
-                <Step key={step.ID}>
-                  <StepLabel>
-                    <Card sx={{ padding: 2, width: "300px" }}>
-                      <Stack spacing={3}>
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          justifyContent="space-between"
-                        >
+              {fields.map(
+                (step: { ID: Key | null | undefined }, index: number) => (
+                  <Step key={step.ID}>
+                    <StepLabel>
+                      <Card sx={{ padding: 2, width: "300px" }}>
+                        <Stack spacing={3}>
                           <Stack
                             direction="row"
-                            spacing={2}
                             alignItems="center"
+                            justifyContent="space-between"
                           >
-                            {iconMap[getValues(fieldArray.${index}.label)]}
-                            {!iconMap[
-                              getValues(fieldArray.${index}.label)
-                            ] && <AttachFileIcon fontSize="large" />}
-                            <TextField
-                              variant="standard"
-                              disabled={
-                                getValues(fieldArray.${index}.label) !==
-                                "Other"
-                              }
-                              sx={textFieldSX}
-                              {...register(fieldArray.${index}.label)}
-                            />
+                            <Stack
+                              direction="row"
+                              spacing={2}
+                              alignItems="center"
+                            >
+                              {iconMap[getValues(`fieldArray.${index}.label`)]}
+                              {!iconMap[
+                                getValues(`fieldArray.${index}.label`)
+                              ] && <AttachFileIcon fontSize="large" />}
+                              <TextField
+                                variant="standard"
+                                disabled={
+                                  getValues(`fieldArray.${index}.label`) !==
+                                  "Other"
+                                }
+                                sx={textFieldSX}
+                                {...register(`fieldArray.${index}.label`)}
+                              />
+                            </Stack>
+                            {index === activeStep - 1 ? (
+                              <IconButton onClick={() => handleDelete(index)}>
+                                <DeleteForeverIcon />
+                              </IconButton>
+                            ) : null}
                           </Stack>
-                          {index === activeStep - 1 ? (
-                            <IconButton onClick={() => handleDelete(index)}>
-                              <DeleteForeverIcon />
-                            </IconButton>
-                          ) : null}
+                          <FormControl sx={{ mt: 1 }}>
+                            <TextField
+                              label="Duration"
+                              defaultValue="0"
+                              variant="outlined"
+                              {...register(`fieldArray.${index}.duration`)}
+                            />
+                          </FormControl>
                         </Stack>
-                        <FormControl sx={{ mt: 1 }}>
-                          <TextField
-                            label="Duration"
-                            defaultValue="0"
-                            variant="outlined"
-                            {...register(fieldArray.${index}.duration)}
-                          />
-                        </FormControl>
-                      </Stack>
-                    </Card>
-                  </StepLabel>
-                  <StepContent>
-                    <Box sx={{ mb: 2 }}>
-                      <div>
-                        <Button
-                          variant="contained"
-                          onClick={() => {
-                            if (index === fields.length - 1) {
-                              append({
-                                label: "Recuited",
-                                duration: "0 min",
-                              });
-                              setActiveStep(fields.length + 1);
-                            }
-                            setActiveStep(
-                              (prevActiveStep: number) => prevActiveStep + 1
-                            );
-                          }}
-                          sx={{ mt: 1, mr: 1 }}
-                        >
-                          {index === fields.length - 1 ? "Finish" : "Continue"}
-                        </Button>
-                        <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                          Back
-                        </Button>
-                      </div>
-                    </Box>
-                  </StepContent>
-                </Step>
-              ))}
+                      </Card>
+                    </StepLabel>
+                    <StepContent>
+                      <Box sx={{ mb: 2 }}>
+                        <div>
+                          <Button
+                            variant="contained"
+                            onClick={() => {
+                              if (index === fields.length - 1) {
+                                append({
+                                  label: "Recuited",
+                                  duration: "0 min",
+                                });
+                                setActiveStep(fields.length + 1);
+                              }
+                              setActiveStep(
+                                (prevActiveStep: number) => prevActiveStep + 1
+                              );
+                            }}
+                            sx={{ mt: 1, mr: 1 }}
+                          >
+                            {index === fields.length - 1
+                              ? "Finish"
+                              : "Continue"}
+                          </Button>
+                          <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
+                            Back
+                          </Button>
+                        </div>
+                      </Box>
+                    </StepContent>
+                  </Step>
+                )
+              )}
             </Stepper>
             {activeStep === fields.length + 1 && (
               <Paper square elevation={0} sx={{ p: 3 }}>
@@ -427,7 +429,6 @@ function Step5() {
               const { fieldArray } = data;
               let push = 1;
               let count = 0;
-              // eslint-disable-next-line no-loop-fun
               for (let i = 0; i < fieldArray.length; i += 1) {
                 fieldArray[i].proforma_id = parseInt(
                   (proformaid || "").toString(),
