@@ -26,7 +26,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 
 import iconMap from "@components/Utils/IconMap";
 import Meta from "@components/Meta";
@@ -67,6 +67,7 @@ function Step5() {
     control,
     name: "fieldArray",
   });
+
   useEffect(() => {
     const fetchStep4 = async () => {
       if (router.isReady) {
@@ -96,11 +97,11 @@ function Step5() {
   }, [token, proformaid, rcid, router.isReady, reset]);
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep: number) => prevActiveStep - 1);
   };
 
   const handleReset = () => {
@@ -161,6 +162,13 @@ function Step5() {
     };
 
   const handleAdd = (id: number) => {
+    if (fields.length === 0) {
+      append({
+        label: "Applications",
+        duration: "0 min",
+      });
+      setActiveStep(fields.length + 1);
+    }
     append({
       label: tiles[id].label,
       duration: tiles[id].duration,
@@ -276,70 +284,85 @@ function Step5() {
                   </Box>
                 </StepContent>
               </Step>
-              {fields.map((step, index) => (
-                <Step key={step.ID}>
-                  <StepLabel>
-                    <Card sx={{ padding: 2, width: "300px" }}>
-                      <Stack spacing={3}>
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          justifyContent="space-between"
-                        >
+              {fields.map(
+                (step: { ID: Key | null | undefined }, index: number) => (
+                  <Step key={step.ID}>
+                    <StepLabel>
+                      <Card sx={{ padding: 2, width: "300px" }}>
+                        <Stack spacing={3}>
                           <Stack
                             direction="row"
-                            spacing={2}
                             alignItems="center"
+                            justifyContent="space-between"
                           >
-                            {iconMap[getValues(`fieldArray.${index}.label`)]}
-                            {!iconMap[
-                              getValues(`fieldArray.${index}.label`)
-                            ] && <AttachFileIcon fontSize="large" />}
-                            <TextField
-                              variant="standard"
-                              disabled={
-                                getValues(`fieldArray.${index}.label`) !==
-                                "Other"
-                              }
-                              sx={textFieldSX}
-                              {...register(`fieldArray.${index}.label`)}
-                            />
+                            <Stack
+                              direction="row"
+                              spacing={2}
+                              alignItems="center"
+                            >
+                              {iconMap[getValues(`fieldArray.${index}.label`)]}
+                              {!iconMap[
+                                getValues(`fieldArray.${index}.label`)
+                              ] && <AttachFileIcon fontSize="large" />}
+                              <TextField
+                                variant="standard"
+                                disabled={
+                                  getValues(`fieldArray.${index}.label`) !==
+                                  "Other"
+                                }
+                                sx={textFieldSX}
+                                {...register(`fieldArray.${index}.label`)}
+                              />
+                            </Stack>
+                            {index === activeStep - 1 ? (
+                              <IconButton onClick={() => handleDelete(index)}>
+                                <DeleteForeverIcon />
+                              </IconButton>
+                            ) : null}
                           </Stack>
-                          {index === activeStep - 1 ? (
-                            <IconButton onClick={() => handleDelete(index)}>
-                              <DeleteForeverIcon />
-                            </IconButton>
-                          ) : null}
+                          <FormControl sx={{ mt: 1 }}>
+                            <TextField
+                              label="Duration"
+                              defaultValue="0"
+                              variant="outlined"
+                              {...register(`fieldArray.${index}.duration`)}
+                            />
+                          </FormControl>
                         </Stack>
-                        <FormControl sx={{ mt: 1 }}>
-                          <TextField
-                            label="Duration"
-                            defaultValue="0"
-                            variant="outlined"
-                            {...register(`fieldArray.${index}.duration`)}
-                          />
-                        </FormControl>
-                      </Stack>
-                    </Card>
-                  </StepLabel>
-                  <StepContent>
-                    <Box sx={{ mb: 2 }}>
-                      <div>
-                        <Button
-                          variant="contained"
-                          onClick={handleNext}
-                          sx={{ mt: 1, mr: 1 }}
-                        >
-                          {index === fields.length - 1 ? "Finish" : "Continue"}
-                        </Button>
-                        <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                          Back
-                        </Button>
-                      </div>
-                    </Box>
-                  </StepContent>
-                </Step>
-              ))}
+                      </Card>
+                    </StepLabel>
+                    <StepContent>
+                      <Box sx={{ mb: 2 }}>
+                        <div>
+                          <Button
+                            variant="contained"
+                            onClick={() => {
+                              if (index === fields.length - 1) {
+                                append({
+                                  label: "Recuited",
+                                  duration: "0 min",
+                                });
+                                setActiveStep(fields.length + 1);
+                              }
+                              setActiveStep(
+                                (prevActiveStep: number) => prevActiveStep + 1
+                              );
+                            }}
+                            sx={{ mt: 1, mr: 1 }}
+                          >
+                            {index === fields.length - 1
+                              ? "Finish"
+                              : "Continue"}
+                          </Button>
+                          <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
+                            Back
+                          </Button>
+                        </div>
+                      </Box>
+                    </StepContent>
+                  </Step>
+                )
+              )}
             </Stepper>
             {activeStep === fields.length + 1 && (
               <Paper square elevation={0} sx={{ p: 3 }}>
@@ -406,7 +429,6 @@ function Step5() {
               const { fieldArray } = data;
               let push = 1;
               let count = 0;
-              // eslint-disable-next-line no-loop-func
               for (let i = 0; i < fieldArray.length; i += 1) {
                 fieldArray[i].proforma_id = parseInt(
                   (proformaid || "").toString(),
