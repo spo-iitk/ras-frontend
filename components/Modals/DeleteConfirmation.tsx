@@ -25,7 +25,7 @@ function DeleteConfirmation({
 }) {
   return (
     <Box sx={boxStyle}>
-      <h3>Are you sure you want to Delete?</h3>
+      <h3>Are you sure you want to delete all students?</h3>
       <Stack direction="row" spacing={3}>
         <Button
           variant="contained"

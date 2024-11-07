@@ -29,12 +29,15 @@ import { Student } from "@callbacks/admin/rc/student/getStudents";
 import { getDeptProgram } from "@components/Parser/parser";
 import requestProforma from "@callbacks/admin/rc/adminproforma";
 
-function HandleEvent(props: { sid: string }) {
+function HandleEvent(props: {
+  sid: string;
+  updateCallback: () => Promise<void>;
+}) {
   const router = useRouter();
   const { rcid } = router.query;
   const rid = (rcid || "").toString();
   const { token } = useStore();
-  const { sid } = props;
+  const { sid, updateCallback } = props;
   const { eventId } = router.query;
   const eid = eventId as string;
   const [openDeleteModal, setDeleteModal] = useState(false);
@@ -49,10 +52,11 @@ function HandleEvent(props: { sid: string }) {
   useEffect(() => {
     if (confirmation) {
       if (rid === undefined || rid === "") return;
-      eventRequest.delete(token, rid, eid, sid);
-      window.location.reload();
+      eventRequest.delete(token, rid, eid, sid).then(() => {
+        updateCallback();
+      });
     }
-  }, [confirmation, eid, rid, sid, token]);
+  }, [confirmation, eid, rid, sid, token, updateCallback]);
   return (
     <Stack spacing={3} direction="row">
       <IconButton
@@ -71,108 +75,6 @@ function HandleEvent(props: { sid: string }) {
     </Stack>
   );
 }
-const cols: GridColDef[] = [
-  {
-    field: "CreatedAt",
-    headerName: "Created At",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "DeletedAt",
-    headerName: "Deleted At",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "ID",
-    headerName: "Id",
-    width: 100,
-  },
-  {
-    field: "UpdatedAt",
-    headerName: "Updated At",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "comment",
-    headerName: "Comment",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "name",
-    headerName: "Name",
-    width: 200,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 150,
-    renderCell: (params) => (
-      <Tooltip title={params.value}>
-        <div>{params.value}</div>
-      </Tooltip>
-    ),
-  },
-  {
-    field: "program_department_id",
-    headerName: "Department",
-    width: 200,
-    valueGetter: (params) => getDeptProgram(params.value),
-  },
-  {
-    field: "secondary_program_department_id",
-    headerName: "Secondary Department",
-    width: 200,
-    valueGetter: (params) => getDeptProgram(params.value),
-  },
-  {
-    field: "is_frozen",
-    headerName: "Frozen",
-    width: 100,
-    hide: true,
-  },
-  {
-    field: "is_verified",
-    headerName: "Verified",
-    width: 100,
-    hide: true,
-  },
-  {
-    field: "student_id",
-    headerName: "Student Id",
-    width: 100,
-    hide: true,
-  },
-  {
-    field: "type",
-    headerName: "Type",
-    width: 150,
-  },
-  {
-    field: "recruitment_cycle_id",
-    headerName: "Recruitment Cycle Id",
-    width: 150,
-    hide: true,
-  },
-  {
-    field: "button1",
-    headerName: "Delete",
-    renderCell: (params) => <HandleEvent sid={params.row.ID} />,
-    width: 100,
-    align: "left",
-    sortable: false,
-    filterable: false,
-  },
-];
-
 function Event() {
   const [companyName, setCompanyName] = useState<string>("");
   const [startTime, setStartTime] = useState<Date | null>(new Date());
@@ -198,38 +100,145 @@ function Event() {
   const handleOpenNew = () => {
     setOpenNew(true);
   };
+  const updateTable = React.useCallback(async () => {
+    const res = await eventRequest.get(token, rid, eid);
+    const all_students = await eventRequest.getStudents(
+      token,
+      rid,
+      pid.toString(),
+      eid
+    );
+    const company = await requestProforma.get(token, rid, pid.toString());
+    setCompanyName(company.company_name);
+    setStudents(all_students);
+    setProformaID(res.proforma_id);
+    setStartTime(new Date(res.start_time));
+    setEndTime(new Date(res.end_time));
+    reset(res);
+  }, [token, rid, eid, pid, reset]);
+
   const handleCloseNew = () => {
     setOpenNew(false);
+    updateTable();
   };
+
+  const cols: GridColDef[] = [
+    {
+      field: "CreatedAt",
+      headerName: "Created At",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "DeletedAt",
+      headerName: "Deleted At",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "ID",
+      headerName: "Id",
+      width: 100,
+    },
+    {
+      field: "UpdatedAt",
+      headerName: "Updated At",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "comment",
+      headerName: "Comment",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 150,
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "program_department_id",
+      headerName: "Department",
+      width: 200,
+      valueGetter: (params) => getDeptProgram(params.value),
+    },
+    {
+      field: "secondary_program_department_id",
+      headerName: "Secondary Department",
+      width: 200,
+      valueGetter: (params) => getDeptProgram(params.value),
+    },
+    {
+      field: "is_frozen",
+      headerName: "Frozen",
+      width: 100,
+      hide: true,
+    },
+    {
+      field: "is_verified",
+      headerName: "Verified",
+      width: 100,
+      hide: true,
+    },
+    {
+      field: "student_id",
+      headerName: "Student Id",
+      width: 100,
+      hide: true,
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      width: 150,
+    },
+    {
+      field: "recruitment_cycle_id",
+      headerName: "Recruitment Cycle Id",
+      width: 150,
+      hide: true,
+    },
+    {
+      field: "button1",
+      headerName: "Delete",
+      renderCell: (params) => (
+        <HandleEvent sid={params.row.ID} updateCallback={updateTable} />
+      ),
+      width: 100,
+      align: "left",
+      sortable: false,
+      filterable: false,
+    },
+  ];
+
   useEffect(() => {
-    const getEvent = async () => {
-      const res = await eventRequest.get(token, rid, eid);
-      const all_students = await eventRequest.getStudents(
-        token,
-        rid,
-        pid.toString(),
-        eid
-      );
-      const company = await requestProforma.get(token, rid, pid.toString());
-      setCompanyName(company.company_name);
-      setStudents(all_students);
-      setProformaID(res.proforma_id);
-      setStartTime(new Date(res.start_time));
-      setEndTime(new Date(res.end_time));
-      reset(res);
-    };
     if (router.isReady) {
-      getEvent();
+      updateTable();
     }
     if (role !== 103) setShowButtons(true);
-  }, [rid, eid, token, router.isReady, reset, pid, role]);
+  }, [role, router.isReady, updateTable]);
   useEffect(() => {
     if (confirmation) {
       if (rid === undefined || rid === "") return;
-      eventRequest.deleteAll(token, rid, eid);
-      window.location.reload();
+      eventRequest.deleteAll(token, rid, eid).then(() => updateTable());
+      setConfirmation(false);
     }
-  }, [confirmation, eid, rid, token]);
+  }, [confirmation, eid, rid, token, updateTable]);
   return (
     <div>
       <Meta title={`Event Details - ${rcName}`} />
