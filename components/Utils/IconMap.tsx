@@ -7,6 +7,7 @@ import HandshakeIcon from "@mui/icons-material/Handshake";
 import MonitorIcon from "@mui/icons-material/Monitor";
 import PeopleIcon from "@mui/icons-material/People";
 import ScreenshotMonitorIcon from "@mui/icons-material/ScreenshotMonitor";
+import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
 const iconMap: { [key: string]: React.ReactElement } = {
   Applications: <AssignmentIcon fontSize="large" />,
@@ -18,6 +19,7 @@ const iconMap: { [key: string]: React.ReactElement } = {
   "Technical Interview": <PeopleIcon fontSize="large" />,
   "HR Interview": <HandshakeIcon fontSize="large" />,
   Recruited: <AttachFileIcon fontSize="large" />,
+  "Walk in": <DirectionsWalkIcon fontSize="large" />,
   Other: <AttachFileIcon fontSize="large" />,
 };
 
