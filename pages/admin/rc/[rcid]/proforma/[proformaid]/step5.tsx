@@ -128,7 +128,7 @@ function Step5() {
       duration: "0 Min",
     },
     {
-      label: "Walk in",
+      label: "Walk In",
       duration: "0 Min",
     },
     {

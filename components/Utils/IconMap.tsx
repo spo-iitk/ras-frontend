@@ -19,7 +19,7 @@ const iconMap: { [key: string]: React.ReactElement } = {
   "Technical Interview": <PeopleIcon fontSize="large" />,
   "HR Interview": <HandshakeIcon fontSize="large" />,
   Recruited: <AttachFileIcon fontSize="large" />,
-  "Walk in": <DirectionsWalkIcon fontSize="large" />,
+  "Walk In": <DirectionsWalkIcon fontSize="large" />,
   Other: <AttachFileIcon fontSize="large" />,
 };
 
