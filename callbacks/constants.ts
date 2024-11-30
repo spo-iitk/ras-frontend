@@ -12,6 +12,7 @@ export const ADMIN_RC_URL = `${BASE_URL}/api/admin/rc`;
 export const ADMIN_STUDENT_URL = `${BASE_URL}/api/admin/student`;
 export const ADMIN_COMPANY_URL = `${BASE_URL}/api/admin/company`;
 export const ADMIN_APPLICATION_URL = `${BASE_URL}/api/admin/application`;
+export const ADMIN_URL = `${BASE_URL}/api/admin`;
 
 export const CDN_URL = `${BASE_URL}/cdn`;
 

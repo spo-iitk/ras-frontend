@@ -11,6 +11,7 @@ import { errorNotification, successNotification } from "@callbacks/notifcation";
 export interface studentApplicationQuestions {
   ID: number;
   proforma_id: number;
+  event: string;
   type: string;
   question: string;
   options: string;
@@ -37,7 +38,10 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 const applicationRequest = {
   getApplicationQuestion: (token: string, rcid: string, pid: string) =>
     instance
-      .get(`/application/rc/${rcid}/opening/${pid}`, setConfig(token))
+      .get<studentApplicationQuestions[]>(
+        `/application/rc/${rcid}/opening/${pid}`,
+        setConfig(token)
+      )
       .then(responseBody)
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);

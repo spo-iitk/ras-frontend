@@ -64,6 +64,7 @@ function AddApplyQuestion({
       );
       if (response) {
         reset({
+          event: "",
           question: "",
           mandatory: false,
           options: "",
@@ -81,6 +82,18 @@ function AddApplyQuestion({
       <Stack spacing={3}>
         <FormControl onSubmit={handleSubmit(onSubmit)}>
           <h2 style={{ margin: "20px 0px 50px 0px" }}>Additional Questions</h2>
+          <FormControl sx={{ m: 1 }}>
+            <InputLabel id="Event">Application / Walk In Interview</InputLabel>
+            <Select
+              labelId="Event"
+              label="Event"
+              variant="standard"
+              {...register("event")}
+            >
+              <MenuItem value="Application">Application</MenuItem>
+              <MenuItem value="Walk In">Walk In</MenuItem>
+            </Select>
+          </FormControl>
           <FormControl sx={{ m: 1 }}>
             <InputLabel id="Type-of-Ques">Type of Question</InputLabel>
             <Select
