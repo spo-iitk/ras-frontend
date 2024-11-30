@@ -14,6 +14,7 @@ export interface QuestionProforma {
   qid: number;
   CreatedAt: string;
   UpdatedAt: string;
+  event: string;
   type: string;
   question: string;
   recruitment_cycle_id: number;

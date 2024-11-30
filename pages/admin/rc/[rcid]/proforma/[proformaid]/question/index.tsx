@@ -58,6 +58,11 @@ const columns: GridColDef[] = [
     width: 150,
   },
   {
+    field: "event",
+    headerName: "Event",
+    width: 150,
+  },
+  {
     field: "type",
     headerName: "Question Type",
     width: 300,

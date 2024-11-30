@@ -48,8 +48,8 @@ function Apply() {
     const fetch = async () => {
       const response = await applicationRequest
         .getApplicationQuestion(token, rcid.toString(), openingid.toString())
-        .catch(() => ({ type: "null" } as studentApplicationQuestions));
-      setQuestions(response);
+        .catch(() => [{ type: "null" }] as studentApplicationQuestions[]);
+      setQuestions(response.filter((question) => question.event === "Walk In"));
     };
     fetch();
   }, [rcid, token, router, openingid]);
@@ -165,7 +165,7 @@ function Apply() {
         <Box sx={boxStyle}>
           <Stack spacing={4}>
             <Stack spacing={2} alignItems="flex-start">
-              <h2>Application Questions</h2>
+              <h2>Walk In Questions</h2>
               {questions &&
                 questions.length > 0 &&
                 questions.map((question, index) => (

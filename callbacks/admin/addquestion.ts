@@ -13,6 +13,7 @@ export interface QuestionType {
   ID: number;
   CreatedAt: string;
   UpdatedAt: string;
+  event: string;
   type: string;
   question: string;
   recruitment_cycle_id: number;

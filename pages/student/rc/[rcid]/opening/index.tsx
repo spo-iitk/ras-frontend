@@ -16,6 +16,7 @@ import sProformaRequest, {
 import resumeRequest, {
   AllStudentResumeResponse,
 } from "@callbacks/student/rc/resume";
+import { ProformaEvent } from "@callbacks/company/proforma";
 
 const ROUTE_PREFIX = "/student/rc/[rcid]";
 
@@ -26,6 +27,9 @@ function Openings() {
   const { rcid } = router.query;
   const rid = rcid as string;
   const [rows, setRows] = useState<ProformaParams[]>([]);
+  const [row2, setRow2] = useState<
+    (ProformaEvent & { company_name: string })[]
+  >([]);
   const [resumes, setResume] = useState<AllStudentResumeResponse[]>([]);
   const [selected, setSelected] = useState<string[]>(
     Array(rows.length).fill("")
@@ -133,7 +137,7 @@ function Openings() {
       renderCell: (params) => (
         <Link
           href={{
-            pathname: `${ROUTE_PREFIX}/opening/[openingId]/apply`,
+            pathname: `${ROUTE_PREFIX}/opening/[openingId]/application`,
             query: {
               rcid: rid,
               openingId: params.row.ID,
@@ -153,12 +157,142 @@ function Openings() {
       ),
     },
   ];
+  const walkInColumns: GridColDef[] = [
+    {
+      field: "ID",
+      headerName: "ID",
+      hide: true,
+    },
+    {
+      field: "company_name",
+      headerName: "Company Name",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "start_time",
+      headerName: "Start Time",
+      renderCell: (params) => (
+        <Tooltip title={params.value}>
+          <div>{params.value}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "duration",
+      headerName: "Duration",
+      renderCell: ({ value }) => `${value}`,
+      type: "dateTime",
+    },
+    {
+      field: "proforma_id",
+      headerName: "Proforma",
+      width: 200,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Button
+          sx={{ width: "100%" }}
+          href={`/student/rc/${rid}/proforma/${params.row.proforma_id}`}
+          variant="contained"
+          color="primary"
+        >
+          View{" "}
+        </Button>
+      ),
+    },
+    {
+      field: "resume",
+      headerName: "Select Resume",
+      width: 200,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+          <Select
+            id={params.row.ID.toString()}
+            name={params.row.ID.toString()}
+            defaultValue=""
+            label="Resume"
+            value={selected[params.row.ID]}
+            onChange={(e) => {
+              let temp = [...selected];
+              temp[params.row.ID] = e.target.value;
+              setSelected(temp);
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {resumes.map((resume) => {
+              if (
+                resume.verified.Bool &&
+                resume.verified.Valid &&
+                resume.resume_type === "SINGLE"
+              ) {
+                return <MenuItem value={resume.ID}>{resume.ID}</MenuItem>;
+              }
+              return null;
+            })}
+          </Select>
+        </FormControl>
+      ),
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 200,
+      sortable: false,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Link
+          href={{
+            pathname: `${ROUTE_PREFIX}/opening/[openingId]/walkin`,
+            query: {
+              rcid: rid,
+              openingId: params.row.proforma_id,
+              rsid: selected[params.row.ID],
+            },
+          }}
+        >
+          <Button
+            disabled={selected[params.row.ID] === ""}
+            sx={{ width: "100%" }}
+            variant="contained"
+            color="primary"
+          >
+            Apply
+          </Button>
+        </Link>
+      ),
+    },
+  ];
 
   useEffect(() => {
+    const getEvents = async (res: ProformaParams[]) => {
+      let walkIns: (ProformaEvent & { company_name: string })[] = [];
+      await Promise.all(
+        res.map(async (proforma) => {
+          const ID = (proforma.ID || "").toString();
+          const events = await sProformaRequest.getEvent(token, rid, ID);
+          events.forEach((event) => {
+            if (event.name === "Walk In") {
+              walkIns.push({ ...event, company_name: proforma.company_name });
+            }
+          });
+        })
+      );
+      setRow2(walkIns);
+    };
     const getProforma = async () => {
       const res = await sProformaRequest.getAllOpenings(token, rid);
       setRows(res);
       setSelected(Array(res.length).fill(""));
+      getEvents(res);
     };
     const getResume = async () => {
       const resume = await resumeRequest.get(token, rid);
@@ -172,9 +306,21 @@ function Openings() {
   return (
     <div>
       <Meta title="RC - Openings" />
-      <Stack>
+      <Stack spacing={2}>
         <h2>Job Openings</h2>
-        <DataGrid rows={rows} columns={columns} getRowId={(row) => row.ID} />
+        <DataGrid
+          heighted
+          rows={rows}
+          columns={columns}
+          getRowId={(row) => row.ID}
+        />
+        <h2>Walk Ins</h2>
+        <DataGrid
+          heighted
+          rows={row2}
+          columns={walkInColumns}
+          getRowId={(row) => row.ID}
+        />
       </Stack>
     </div>
   );
