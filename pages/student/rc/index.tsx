@@ -29,10 +29,10 @@ function LinkButton({ params }: any) {
     <Button
       variant="contained"
       sx={{ width: "100%" }}
-      disabled={frozen}
-      href={`rc/${params.row.ID}`}
+    
+      href={`rc/${params.row.ID}/stats`}
     >
-      {frozen ? frozenStr : "View Details"}
+      {frozen ? "STATS" : "View Details"}
     </Button>
   );
 }
