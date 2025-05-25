@@ -31,7 +31,7 @@ function LinkButton({ params }: any) {
       sx={{ width: "100%" }}
       href={`rc/${params.row.ID}/stats`}
     >
-      {frozen ? "STATS" : "View Details"}
+      {frozen ? "View Stats" : "View Details"}
     </Button>
   );
 }
