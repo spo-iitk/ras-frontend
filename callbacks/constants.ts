@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from "axios";
 
-export const BASE_URL = "http://localhost:80";
+export const BASE_URL = "https://placement.iitk.ac.in";
 
 export const AUTH_URL = `${BASE_URL}/api/auth`;
 export const RAS_URL = `${BASE_URL}/api/ras`;
@@ -12,7 +12,6 @@ export const ADMIN_RC_URL = `${BASE_URL}/api/admin/rc`;
 export const ADMIN_STUDENT_URL = `${BASE_URL}/api/admin/student`;
 export const ADMIN_COMPANY_URL = `${BASE_URL}/api/admin/company`;
 export const ADMIN_APPLICATION_URL = `${BASE_URL}/api/admin/application`;
-export const ADMIN_URL = `${BASE_URL}/api/admin`;
 
 export const CDN_URL = `${BASE_URL}/cdn`;
 
