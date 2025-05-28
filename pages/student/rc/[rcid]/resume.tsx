@@ -15,6 +15,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { TextField, MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
@@ -158,6 +159,8 @@ function Resume() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [resumeType, setResumeType] = useState<string>("SINGLE");
+  const [resumeTag, setResumeTag] = useState<string>("");
+
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -241,6 +244,12 @@ function Resume() {
     const formData = new FormData();
     formData.append("file", fileSaved);
     formData.append("resumeType", resumeType);
+    formData.append("file", fileSaved);
+    formData.append("resumeType", resumeType);
+    if (resumeType === "SINGLE") {
+      formData.append("resumeTag", resumeTag);
+    }
+
 
     try {
       await resumeRequest.post(formData, token, rid);
@@ -354,6 +363,27 @@ function Resume() {
               onChange={handleResumeTypeChange}
               row
             >
+              {resumeType === "SINGLE" && (
+                <TextField
+                  select
+                  label="Role"
+                  value={resumeTag}
+                  onChange={e => setResumeTag(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                >
+                  <MenuItem value="SDE">SDE</MenuItem>
+                  <MenuItem value="Product Management">Product Management</MenuItem>
+                  <MenuItem value="Analyst">Analyst</MenuItem>
+                  <MenuItem value="Consulting">Consulting</MenuItem>
+                  <MenuItem value="Mechanical Core">Mechanical Core</MenuItem>
+                  <MenuItem value="CHE Core">CHE Core</MenuItem>
+                  <MenuItem value="MSE Core">MSE Core</MenuItem>
+                  <MenuItem value="BSBE Core">BSBE Core</MenuItem>
+                  <MenuItem value="Quant">Quant</MenuItem>
+                  <MenuItem value="Others">Others</MenuItem>
+                </TextField>
+              )}
               <FormControlLabel
                 value="SINGLE"
                 control={<Radio />}
