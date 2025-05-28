@@ -176,6 +176,10 @@ function Index() {
       headerName: "Resume Type",
     },
     {
+      field: "resume_tag",
+      headerName: "Resume Tag",
+    },
+    {
       field: "resume",
       headerName: "Resume Link",
       sortable: false,
