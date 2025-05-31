@@ -14,6 +14,7 @@ import adminResumeRequest, {
 import useStore from "@store/store";
 import { CDN_URL } from "@callbacks/constants";
 
+
 const transformName = (name: string) => {
   const nname = name.replace(`${CDN_URL}/view/`, "");
   const nameArray = nname.split(".");
@@ -174,6 +175,17 @@ function Index() {
     {
       field: "resume_type",
       headerName: "Resume Type",
+    },
+    {
+      field: "resume_tag",
+      headerName: "Resume Tag",
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.value || "No tag"}>
+          <div>{params.value || "—"}</div>
+        </Tooltip>
+      ),
     },
     {
       field: "resume",
