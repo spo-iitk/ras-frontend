@@ -13,6 +13,7 @@ import adminResumeRequest, {
 } from "@callbacks/admin/rc/student/resumes";
 import useStore from "@store/store";
 import { CDN_URL } from "@callbacks/constants";
+
 const transformName = (name: string) => {
   const nname = name.replace(`${CDN_URL}/view/`, "");
   const nameArray = nname.split(".");
