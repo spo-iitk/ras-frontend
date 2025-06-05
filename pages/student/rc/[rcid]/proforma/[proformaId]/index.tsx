@@ -162,7 +162,7 @@ function Index() {
               />
             </Grid>
             <Grid item xs={12} md={6} key="accom">
-              <h3>Accomodation Provided / Trip Fare</h3>
+              <h3>Accommodation Provided / Trip Fare</h3>
               <TextField
                 multiline
                 fullWidth
