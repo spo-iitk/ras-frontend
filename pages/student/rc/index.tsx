@@ -13,7 +13,7 @@ import enrollmentRequest from "@callbacks/student/rc/enrollQuestion";
 function LinkButton({ params }: any) {
   const { token } = useStore();
   const [frozen, setFrozen] = useState(false);
-  const [frozenStr, setFrozenStr] = useState("Frozen");
+  // const [frozenStr, setFrozenStr] = useState("Frozen");
   useEffect(() => {
     const fetch = async () => {
       const student = await enrollmentRequest.getStudentRC(
@@ -21,18 +21,13 @@ function LinkButton({ params }: any) {
         params.row.ID
       );
       setFrozen(student.is_frozen || !params.row.is_active);
-      if (student.comment !== "") setFrozenStr(student.comment);
+      // if (student.comment !== "") setFrozenStr(student.comment);
     };
     fetch();
   }, [token, params]);
   return (
-    <Button
-      variant="contained"
-      sx={{ width: "100%" }}
-    
-      href={`rc/${params.row.ID}/stats`}
-    >
-      {frozen ? "STATS" : "View Details"}
+    <Button variant="contained"sx={{ width: "100%" }}href={`rc/${params.row.ID}/stats`}>
+      {frozen ? "View Stats" : "View Details"}
     </Button>
   );
 }

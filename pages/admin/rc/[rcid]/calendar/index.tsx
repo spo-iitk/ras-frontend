@@ -105,9 +105,12 @@ function Calendar() {
     const fetchData = async () => {
       if (router.isReady) {
         let response = await eventRequest.getAll(token, rid);
-        for (let i = 0; i < response.length; i += 1) {
-          response[i].recruitment_cycle_id = rid;
-        }
+        response = response.map((e) => ({
+          ...e,
+          recruitment_cycle_id: rid,
+          start_time: e.start_time * 1000,
+          end_time: e.end_time * 1000,
+        }));
         setEvents(response);
       }
     };
