@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { GridColDef } from "@mui/x-data-grid";
 import {
   Box,
@@ -16,17 +17,15 @@ import {
   Radio,
   RadioGroup,
   Select,
-  SelectChangeEvent,
   Stack,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { green } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
-import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
-import { styled } from "@mui/material/styles";
-import { green } from "@mui/material/colors";
 import SaveIcon from "@mui/icons-material/Save";
 
 import { getDeptProgram } from "@components/Parser/parser";
@@ -38,7 +37,7 @@ import resumeRequest, {
 } from "@callbacks/student/rc/resume";
 import { CDN_URL } from "@callbacks/constants";
 import enrollmentRequest from "@callbacks/student/rc/enrollQuestion";
-import { errorNotification } from "@callbacks/notifcation";
+import { errorNotification } from "@callbacks/notification";
 
 const boxStyle = {
   position: "absolute" as const,
@@ -180,7 +179,7 @@ function Resume() {
     setResumeTag("");
   };
 
-  const handleChange = (event: { target: { files: any } }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
 
     const verifiedOrPendingResumes = allResumes.filter(
@@ -252,7 +251,7 @@ function Resume() {
     setLoading(false);
   };
 
-  const handleSubmit = async (event: { preventDefault: () => void }) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!fileSaved) {
@@ -317,7 +316,9 @@ function Resume() {
     }),
   };
 
-  const handleResumeTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleResumeTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setResumeType(event.target.value);
   };
 
@@ -408,7 +409,9 @@ function Resume() {
                   <MenuItem value="ME Core">Mechanical Core</MenuItem>
                   <MenuItem value="EE Core">Electrical Core</MenuItem>
                   <MenuItem value="Analyst">Analyst</MenuItem>
-                  <MenuItem value="Product Management">Product Management</MenuItem>
+                  <MenuItem value="Product Management">
+                    Product Management
+                  </MenuItem>
                   <MenuItem value="SDE">SDE</MenuItem>
                   <MenuItem value="Consulting">Consulting</MenuItem>
                   <MenuItem value="MSE Core">MSE Core</MenuItem>
