@@ -321,6 +321,11 @@ function Resume() {
     }),
   };
 
+  const handleResumeTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setResumeType(event.target.value);
+  };
+
+
   const handleResumeTagChange = (event: SelectChangeEvent<string>) => {
     setResumeTag(event.target.value);
   };
