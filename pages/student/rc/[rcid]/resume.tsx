@@ -20,6 +20,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
@@ -179,9 +180,7 @@ function Resume() {
     setResumeTag("");
   };
 
-  const handleChange = (
-    event: { target: { files: any } }
-  ) => {
+  const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
 
     const verifiedOrPendingResumes = allResumes.filter(
@@ -322,7 +321,6 @@ function Resume() {
     setResumeType(event.target.value);
   };
 
-
   const handleResumeTagChange = (event: SelectChangeEvent<string>) => {
     setResumeTag(event.target.value);
   };
@@ -410,11 +408,7 @@ function Resume() {
                   <MenuItem value="ME Core">Mechanical Core</MenuItem>
                   <MenuItem value="EE Core">Electrical Core</MenuItem>
                   <MenuItem value="Analyst">Analyst</MenuItem>
-                  <MenuItem
-                    value="Product Management"
-                  >
-                    Product Management
-                  </MenuItem>
+                  <MenuItem value="Product Management">Product Management</MenuItem>
                   <MenuItem value="SDE">SDE</MenuItem>
                   <MenuItem value="Consulting">Consulting</MenuItem>
                   <MenuItem value="MSE Core">MSE Core</MenuItem>
