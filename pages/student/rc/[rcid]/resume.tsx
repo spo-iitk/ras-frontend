@@ -7,20 +7,19 @@ import {
   CircularProgress,
   Fab,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   FormControlLabel,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
   Modal,
   Radio,
   RadioGroup,
+  Select,
+  SelectChangeEvent,
   Stack,
   Typography,
-  SelectChangeEvent,
 } from "@mui/material";
-
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
@@ -29,7 +28,6 @@ import AvTimerIcon from "@mui/icons-material/AvTimer";
 import { styled } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
 import SaveIcon from "@mui/icons-material/Save";
-
 import { getDeptProgram } from "@components/Parser/parser";
 import useStore from "@store/store";
 import DataGrid from "@components/DataGrid";
@@ -181,9 +179,10 @@ function Resume() {
     setResumeTag("");
   };
 
-  const handleChange = (event: { target: { files: any } }) => {
+  const handleChange = (
+    event: { target: { files: any } }
+  ) => {
     const { files } = event.target;
-
 
     const verifiedOrPendingResumes = allResumes.filter(
       (resume) => !(resume.verified.Valid && !resume.verified.Bool)
@@ -196,7 +195,6 @@ function Resume() {
       (resume) => resume.resume_type === "MASTER"
     );
 
-
     if (resumeType === "SINGLE" && singleResumes.length >= 5) {
       errorNotification(
         "You can only upload 5 Single resumes",
@@ -205,7 +203,6 @@ function Resume() {
       setLoading(false);
       return;
     }
-
 
     if (resumeType === "MASTER" && masterResumes.length >= 1) {
       errorNotification(
@@ -413,7 +410,11 @@ function Resume() {
                   <MenuItem value="ME Core">Mechanical Core</MenuItem>
                   <MenuItem value="EE Core">Electrical Core</MenuItem>
                   <MenuItem value="Analyst">Analyst</MenuItem>
-                  <MenuItem value="Product Management">Product Management</MenuItem>
+                  <MenuItem
+                    value="Product Management"
+                  >
+                    Product Management
+                  </MenuItem>
                   <MenuItem value="SDE">SDE</MenuItem>
                   <MenuItem value="Consulting">Consulting</MenuItem>
                   <MenuItem value="MSE Core">MSE Core</MenuItem>
