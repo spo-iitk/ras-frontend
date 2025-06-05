@@ -325,13 +325,6 @@ function Resume() {
     setResumeTag(event.target.value);
   };
 
-
-  const handleResumeTagChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setResumeTag(event.target.value as string);
-  };
-
   return (
     <>
       <div>
