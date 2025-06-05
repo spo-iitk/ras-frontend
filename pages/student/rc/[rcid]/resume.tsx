@@ -18,7 +18,9 @@ import {
   RadioGroup,
   Stack,
   Typography,
+  SelectChangeEvent,
 } from "@mui/material";
+
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 import CheckIcon from "@mui/icons-material/Check";
@@ -319,11 +321,10 @@ function Resume() {
     }),
   };
 
-  const handleResumeTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setResumeType((event.target as HTMLInputElement).value);
+  const handleResumeTagChange = (event: SelectChangeEvent<string>) => {
+    setResumeTag(event.target.value);
   };
+
 
   const handleResumeTagChange = (
     event: React.ChangeEvent<{ value: unknown }>
