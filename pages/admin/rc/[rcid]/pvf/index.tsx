@@ -134,21 +134,21 @@ function GenerateAuthButton(props: {
   id: string;
   rid: string;
   isGenerated: boolean;
-  pvfExpiry?: string | null;
+  pvfExpiry: string | null;
   updateCallback: () => Promise<void>;
-  
 }) {
   const { token } = useStore();
-  const { id, rid, isGenerated, updateCallback } = props;
+  const { id, rid, isGenerated, pvfExpiry, updateCallback } = props;
   return (
     <Button
       variant="contained"
       sx={{
         marginInlineEnd: "0.5rem",
       }}
-      disabled={(props.pvfExpiry !== null) &&
-      (props.pvfExpiry !== undefined) &&
-      (new Date(props.pvfExpiry) > new Date())
+      disabled={
+        pvfExpiry !== null &&
+        pvfExpiry !== undefined &&
+        new Date(pvfExpiry) > new Date()
       }
       onClick={() => {
         adminPvfRequest.generateAuth(token, rid, id).then(() => {
@@ -296,7 +296,7 @@ function Index() {
                 pvfExpiry={cellValues.row.pvf_expiry?.Time ?? null}
                 updateCallback={updateTable}
               />
-              </Container>
+            </Container>
           );
         }
         return (
