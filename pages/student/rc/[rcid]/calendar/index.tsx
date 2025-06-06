@@ -14,7 +14,7 @@ import useStore from "@store/store";
 import eventsRequest from "@callbacks/student/rc/events";
 import calendarLinks from "@components/Utils/calendarUtils";
 import { errorNotification } from "@callbacks/notifcation";
-
+import {  parse } from 'date-fns';
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -75,6 +75,10 @@ const columns: GridColDef[] = [
     ),
   },
 ];
+const isSameDay = (d1: Date, d2: Date) =>
+  d1.getFullYear() === d2.getFullYear() &&
+  d1.getMonth() === d2.getMonth() &&
+  d1.getDate() === d2.getDate();
 
 function Calendar() {
   const [value, setValue] = useState<Date | null>(new Date());
@@ -104,8 +108,8 @@ function Calendar() {
         response = response.map((e) => ({
           ...e,
           recruitment_cycle_id: rid,
-          start_time: e.start_time * 1000,
-          end_time: e.end_time * 1000,
+          start_time: Number(e.start_time), 
+  end_time: Number(e.end_time),
         }));
         setEvents(response);
       }
@@ -113,18 +117,15 @@ function Calendar() {
     if (router.isReady) fetchData();
   }, [rid, router.isReady, token]);
 
-  useEffect(() => {
-    setActivity(
-      events.filter(
-        (e) => new Date(e.start_time).toDateString() === value?.toDateString()
-      )
-    );
-    setRows(
-      events.filter(
-        (e) => new Date(e.start_time).toDateString() === value?.toDateString()
-      )
-    );
-  }, [value, events]);
+useEffect(() => {
+  const filtered = events.filter((e, i) => {
+    const eventDate = new Date(e.start_time);
+    const match = isSameDay(eventDate, value as Date);
+ return match;
+  });
+  setActivity(filtered);
+  setRows(filtered);
+}, [value, events]);
 
   return (
     <div>
