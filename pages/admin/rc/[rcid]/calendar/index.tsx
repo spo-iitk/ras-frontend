@@ -107,12 +107,12 @@ function Calendar() {
   useEffect(() => {
     const fetchData = async () => {
       if (router.isReady) {
-         let response = await eventRequest.getAll(token, rid);
+        let response = await eventRequest.getAll(token, rid);
         response = response.map((e) => ({
           ...e,
           recruitment_cycle_id: rid,
-            start_time: Number(e.start_time), 
-  end_time: Number(e.end_time),
+          start_time: Number(e.start_time),
+          end_time: Number(e.end_time),
         }));
         setEvents(response);
       }
@@ -120,16 +120,16 @@ function Calendar() {
     if (router.isReady) fetchData();
   }, [rid, router.isReady, token]);
 
- useEffect(() => {
-   const filtered = events.filter((e, i) => {
-     const eventDate = new Date(e.start_time);
-     const match = isSameDay(eventDate, value as Date);
-  return match;
-   });
-   setActivity(filtered);
-   setRows(filtered);
- }, [value, events]);
- 
+  useEffect(() => {
+    const filtered = events.filter((e, i) => {
+      const eventDate = new Date(e.start_time);
+      const match = isSameDay(eventDate, value as Date);
+      return match;
+    });
+    setActivity(filtered);
+    setRows(filtered);
+  }, [value, events]);
+
   return (
     <div>
       <h2>Calendar</h2>

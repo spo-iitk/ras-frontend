@@ -14,7 +14,7 @@ import useStore from "@store/store";
 import eventsRequest from "@callbacks/student/rc/events";
 import calendarLinks from "@components/Utils/calendarUtils";
 import { errorNotification } from "@callbacks/notifcation";
-import {  parse } from 'date-fns';
+import { parse } from "date-fns";
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -105,11 +105,11 @@ function Calendar() {
     const fetchData = async () => {
       if (router.isReady) {
         let response = await eventsRequest.getAll(token, rid);
-        response = response.map((e) => ({
+        response = response.map((e: { start_time: any; end_time: any }) => ({
           ...e,
           recruitment_cycle_id: rid,
-          start_time: Number(e.start_time), 
-  end_time: Number(e.end_time),
+          start_time: Number(e.start_time),
+          end_time: Number(e.end_time),
         }));
         setEvents(response);
       }
@@ -117,15 +117,15 @@ function Calendar() {
     if (router.isReady) fetchData();
   }, [rid, router.isReady, token]);
 
-useEffect(() => {
-  const filtered = events.filter((e, i) => {
-    const eventDate = new Date(e.start_time);
-    const match = isSameDay(eventDate, value as Date);
- return match;
-  });
-  setActivity(filtered);
-  setRows(filtered);
-}, [value, events]);
+  useEffect(() => {
+    const filtered = events.filter((e, i) => {
+      const eventDate = new Date(e.start_time);
+      const match = isSameDay(eventDate, value as Date);
+      return match;
+    });
+    setActivity(filtered);
+    setRows(filtered);
+  }, [value, events]);
 
   return (
     <div>
