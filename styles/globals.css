@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap");
 
 html,
 body {
@@ -21,11 +21,11 @@ a {
   padding: 0 1.5rem;
 }
 
-.modalScroll{
-  -ms-overflow-style: none; 
-  scrollbar-width: none;  
+.modalScroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.modalScroll::-webkit-scrollbar { 
+.modalScroll::-webkit-scrollbar {
   display: none;
 }
