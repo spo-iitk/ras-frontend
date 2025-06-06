@@ -75,6 +75,10 @@ const columns: GridColDef[] = [
     ),
   },
 ];
+const isSameDay = (d1: Date, d2: Date) =>
+  d1.getFullYear() === d2.getFullYear() &&
+  d1.getMonth() === d2.getMonth() &&
+  d1.getDate() === d2.getDate();
 
 function Calendar() {
   const [value, setValue] = useState<Date | null>(new Date());
@@ -101,9 +105,12 @@ function Calendar() {
     const fetchData = async () => {
       if (router.isReady) {
         let response = await eventsRequest.getAll(token, rid);
-        for (let i = 0; i < response.length; i += 1) {
-          response[i].recruitment_cycle_id = rid;
-        }
+        response = response.map((e: { start_time: any; end_time: any }) => ({
+          ...e,
+          recruitment_cycle_id: rid,
+          start_time: Number(e.start_time),
+          end_time: Number(e.end_time),
+        }));
         setEvents(response);
       }
     };
@@ -111,16 +118,13 @@ function Calendar() {
   }, [rid, router.isReady, token]);
 
   useEffect(() => {
-    setActivity(
-      events.filter(
-        (e) => new Date(e.start_time).toDateString() === value?.toDateString()
-      )
-    );
-    setRows(
-      events.filter(
-        (e) => new Date(e.start_time).toDateString() === value?.toDateString()
-      )
-    );
+    const filtered = events.filter((e) => {
+      const eventDate = new Date(e.start_time);
+      const match = isSameDay(eventDate, value as Date);
+      return match;
+    });
+    setActivity(filtered);
+    setRows(filtered);
   }, [value, events]);
 
   return (
@@ -168,7 +172,7 @@ function Calendar() {
               heighted
             />
           ) : (
-            <h2>No event scheduled</h2>
+            <h2>No event scheduld</h2>
           )}
         </Grid>
       </Grid>
