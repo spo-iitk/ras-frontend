@@ -176,6 +176,17 @@ function Index() {
       headerName: "Resume Type",
     },
     {
+      field: "resume_tag",
+      headerName: "Resume Tag",
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.value || "No tag"}>
+          <div>{params.value || "—"}</div>
+        </Tooltip>
+      ),
+    },
+    {
       field: "resume",
       headerName: "Resume Link",
       sortable: false,
