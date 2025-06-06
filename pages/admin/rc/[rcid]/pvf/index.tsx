@@ -134,16 +134,22 @@ function GenerateAuthButton(props: {
   id: string;
   rid: string;
   isGenerated: boolean;
+  pvfExpiry: string | null;
   updateCallback: () => Promise<void>;
 }) {
   const { token } = useStore();
-  const { id, rid, isGenerated, updateCallback } = props;
+  const { id, rid, isGenerated, pvfExpiry, updateCallback } = props;
   return (
     <Button
       variant="contained"
       sx={{
         marginInlineEnd: "0.5rem",
       }}
+      disabled={
+        pvfExpiry !== null &&
+        pvfExpiry !== undefined &&
+        new Date(pvfExpiry) > new Date()
+      }
       onClick={() => {
         adminPvfRequest.generateAuth(token, rid, id).then(() => {
           updateCallback();
@@ -287,6 +293,7 @@ function Index() {
                 isGenerated={!!cellValues.row.is_approved?.Valid}
                 rid={rid}
                 id={cellValues.id.toString()}
+                pvfExpiry={cellValues.row.pvf_expiry?.Time ?? null}
                 updateCallback={updateTable}
               />
             </Container>
