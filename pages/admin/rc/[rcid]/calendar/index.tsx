@@ -13,6 +13,7 @@ import Meta from "@components/Meta";
 import useStore from "@store/store";
 import calendarLinks from "@components/Utils/calendarUtils";
 import { errorNotification } from "@callbacks/notifcation";
+
 const isSameDay = (d1: Date, d2: Date) =>
   d1.getFullYear() === d2.getFullYear() &&
   d1.getMonth() === d2.getMonth() &&
@@ -121,7 +122,7 @@ function Calendar() {
   }, [rid, router.isReady, token]);
 
   useEffect(() => {
-    const filtered = events.filter((e, i) => {
+    const filtered = events.filter((e) => {
       const eventDate = new Date(e.start_time);
       const match = isSameDay(eventDate, value as Date);
       return match;

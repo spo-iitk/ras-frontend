@@ -36,7 +36,10 @@ const zip = {
           window.open(
             `http://placement.iitk.ac.in/cdn/zip/${res.data.filename}`
           );
-          return {filename : res.data.filename, message: "Zipping Sucessful"} as ZipResponse;
+          return {
+            filename: res.data.filename,
+            message: "Zipping Sucessful",
+          } as ZipResponse;
         }
       })
       .catch((err: ErrorType) => {

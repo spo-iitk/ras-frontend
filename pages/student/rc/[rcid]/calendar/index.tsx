@@ -14,7 +14,7 @@ import useStore from "@store/store";
 import eventsRequest from "@callbacks/student/rc/events";
 import calendarLinks from "@components/Utils/calendarUtils";
 import { errorNotification } from "@callbacks/notifcation";
-import { parse } from "date-fns";
+
 const columns: GridColDef[] = [
   {
     field: "ID",
@@ -118,7 +118,7 @@ function Calendar() {
   }, [rid, router.isReady, token]);
 
   useEffect(() => {
-    const filtered = events.filter((e, i) => {
+    const filtered = events.filter((e) => {
       const eventDate = new Date(e.start_time);
       const match = isSameDay(eventDate, value as Date);
       return match;

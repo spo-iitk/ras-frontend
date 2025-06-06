@@ -1,16 +1,16 @@
-@media(max-width:950px){
-    .image{
-        display: none;
-    }
+@media (max-width: 950px) {
+  .image {
+    display: none;
+  }
 }
 
-@media(max-width:1200px){
-    .creditsimage{
-        display: none;
-    }
+@media (max-width: 1200px) {
+  .creditsimage {
+    display: none;
+  }
 }
 
-.tiles:hover{
-    transform: scale(1.05);
-    transition: all 200ms ease-in-out;
+.tiles:hover {
+  transform: scale(1.05);
+  transition: all 200ms ease-in-out;
 }
