@@ -5,7 +5,9 @@ import {
   FormControl,
   Grid,
   IconButton,
+  MenuItem,
   Modal,
+  Select,
   Stack,
   TextField,
   Tooltip,
@@ -502,22 +504,22 @@ function PVF() {
               />
             </FormControl>
             <FormControl sx={{ m: 1 }}>
-              <p style={{ fontWeight: 300, fontSize: ".8rem" }}>
-                Mentor Designation
-              </p>
-              <TextField
+              <p style={{ fontWeight: 300, fontSize: ".8rem" }} id="mentor-designation-label">Mentor Designation</p>
+              <Select
+                labelId="mentor-designation-label"
                 id="mentor_designation"
-                required
-                fullWidth
-                variant="standard"
-                error={!!errors.mentor_designation}
-                helperText={
-                  errors.mentor_designation && "This field is required"
-                }
                 {...register("mentor_designation", {
                   required: "This field is required",
                 })}
-              />
+                defaultValue=""
+              >
+                <MenuItem value="">Select</MenuItem>
+                <MenuItem value="Mr">Mr</MenuItem>
+                <MenuItem value="Mrs">Mrs</MenuItem>
+                <MenuItem value="Ms">Ms</MenuItem>
+                <MenuItem value="Dr">Dr</MenuItem>
+                <MenuItem value="Prof">Prof</MenuItem>
+              </Select>
             </FormControl>
             <FormControl sx={{ m: 1 }}>
               <p style={{ fontWeight: 300, fontSize: ".8rem" }}>Mentor Email</p>
