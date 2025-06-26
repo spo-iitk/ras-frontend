@@ -512,6 +512,7 @@ function PVF() {
               </p>
               <Select
                 labelId="mentor-designation-label"
+                required
                 id="mentor_designation"
                 {...register("mentor_designation", {
                   required: "This field is required",
