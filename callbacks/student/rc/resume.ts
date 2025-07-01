@@ -32,6 +32,7 @@ export interface ResumeResponse {
 export interface ResumeBackendParams {
   resume: string;
   resume_type: string;
+  resume_tag: string;
 }
 
 interface nullBool {
@@ -76,6 +77,7 @@ const resumeRequest = {
             {
               resume: response.data.filename,
               resume_type: body.get("resumeType") as string,
+              resume_tag: body.get("resumeTag") as string,
             },
             setConfig(token)
           )
