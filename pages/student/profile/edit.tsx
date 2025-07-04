@@ -41,11 +41,7 @@ function ProfileEdit() {
         .catch(() => ({ ID: 0 } as Student));
 
       setStudentData(student);
-      reset({
-        name: student.name,
-        iitk_email: student.iitk_email,
-        roll_no: student.roll_no,
-      });
+      reset(student);
     };
     fetch();
   }, [token, reset]);
