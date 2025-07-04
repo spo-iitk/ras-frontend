@@ -173,16 +173,16 @@ const columns: GridColDef[] = [
     headerName: "Entrance Exam Rank",
     hide: true,
   },
-  {
-    field: "category",
-    headerName: "Category",
-    hide: true,
-  },
-  {
-    field: "category_rank",
-    headerName: "Category Rank",
-    hide: true,
-  },
+  // {
+  //   field: "category",
+  //   headerName: "Category",
+  //   hide: true,
+  // },
+  // {
+  //   field: "category_rank",
+  //   headerName: "Category Rank",
+  //   hide: true,
+  // },
   {
     field: "current_address",
     headerName: "Current Address",
