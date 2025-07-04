@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-import { successNotification,errorNotification } from "@callbacks/notifcation";
+import { successNotification, errorNotification } from "@callbacks/notifcation";
 
 import { AUTH_URL, ErrorType, SERVER_ERROR, setConfig } from "../../constants";
 
@@ -58,7 +58,7 @@ const userDetailsRequest = {
       )
       .then(() => {
         successNotification("Success", "Role updated successfully");
-        return true
+        return true;
       })
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
@@ -69,7 +69,7 @@ const userDetailsRequest = {
       .put(`admins/${user_id}/active`, { user_id: user_id }, setConfig(token))
       .then(() => {
         successNotification("Success", "Active status updated successfully");
-        return true
+        return true;
       })
       .catch((err: ErrorType) => {
         errorNotification("Error", err.response?.data?.error || err.message);
