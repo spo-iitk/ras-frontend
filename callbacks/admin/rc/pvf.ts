@@ -52,6 +52,7 @@ export interface AllStudentPvfResponse {
   roll_no: string;
   name: string;
   iitk_email: string;
+  pvf_expiry: string;
 }
 
 const adminPvfRequest = {
