@@ -212,12 +212,6 @@ function Resume() {
       return;
     }
 
-    if (!resumeTag) {
-      errorNotification("No role selected", "Please select a role.");
-      setLoading(false);
-      return;
-    }
-
     if (resumeType === "SINGLE" && !resumeTag) {
       errorNotification("No role selected", "Please select a role.");
       setLoading(false);
@@ -471,7 +465,7 @@ function Resume() {
               type="submit"
               variant="contained"
               fullWidth
-              disabled={!success || !resumeTag}
+              disabled={!success || (resumeType === "SINGLE" && !resumeTag)}
             >
               Upload
             </Button>
