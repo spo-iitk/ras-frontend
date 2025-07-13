@@ -376,6 +376,23 @@ function Step3() {
                 {...register("skill_set", { required: true })}
               />
             </FormControl>
+            <FormControl sx={{ m: 1 }}>
+              <p style={{ fontWeight: 300 }}>CPI Cutoff</p>
+              <TextField
+                id="CPI_Cutoff"
+                required
+                sx={{ marginLeft: "5 rem" }}
+                fullWidth
+                multiline
+                variant="standard"
+                error={!!errors.cpi_cutoff}
+                helperText={errors.cpi_cutoff && "This field is required"}
+                {...register("cpi_cutoff", {
+                  required: true,
+                  setValueAs: (value) => parseFloat(value),
+                })}
+              />
+            </FormControl>
             <Stack
               spacing={3}
               direction="row"
