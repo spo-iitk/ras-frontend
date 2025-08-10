@@ -40,7 +40,7 @@ function Edit() {
   const watchTenthBoard = watch("tenth_board");
   const watchTwelfthBoard = watch("twelfth_board");
   const watchEntranceExam = watch("entrance_exam");
-  const watchCategory = watch("category");
+  // const watchCategory = watch("category");
   const watchDisability = watch("disability");
 
   const [dept, setDept] = useState<string>("");
@@ -639,7 +639,7 @@ function Edit() {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                   <p>Category</p>
                   <Select
                     fullWidth
@@ -672,7 +672,7 @@ function Edit() {
                       (event.target as HTMLTextAreaElement).blur()
                     }
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <p>Current Address</p>
                   <TextField
