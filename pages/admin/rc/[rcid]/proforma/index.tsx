@@ -65,11 +65,10 @@ const columns: GridColDef[] = [
     field: "deadline",
     headerName: "Application Deadline",
     valueGetter(params) {
-      return `${
-        params.row.deadline === 0
-          ? "Date not Set"
-          : new Date(params.value).toLocaleString()
-      }`;
+      return `${params.row.deadline === 0
+        ? "Date not Set"
+        : new Date(params.value).toLocaleString()
+        }`;
     },
     renderCell: (params) => (
       <Tooltip title={params.value}>
