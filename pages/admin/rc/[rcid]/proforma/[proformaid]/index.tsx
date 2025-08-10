@@ -401,7 +401,9 @@ function Index() {
   };
   return (
     <div>
-      <Meta title={`${pid} - ${company?.company_name} - ${company?.role} - Proforma`} />
+      <Meta
+        title={`${pid} - ${company?.company_name} - ${company?.role} - Proforma`}
+      />
       <h2>{company?.company_name}</h2>
       <Stack
         spacing={2}
