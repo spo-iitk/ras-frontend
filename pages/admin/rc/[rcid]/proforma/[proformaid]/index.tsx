@@ -352,8 +352,8 @@ function Index() {
         });
       }
       setColumns(fixed_columns);
-      const company_ = await requestProforma.get(token, rid, pid);
-      setCompany(company_);
+      const companyData = await requestProforma.get(token, rid, pid);
+      setCompany(companyData);
       const response = await StudentRequest.get(token, rid, pid);
       if (response) setRows(response);
     };
