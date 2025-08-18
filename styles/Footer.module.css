@@ -1,13 +1,13 @@
 .footerMobile {
-    display: none;
+  display: none;
 }
 
-@media(max-width:1000px) {
-    .footer {
-        display: none;
-    }
+@media (max-width: 1000px) {
+  .footer {
+    display: none;
+  }
 
-    .footerMobile {
-        display: block;
-    }
+  .footerMobile {
+    display: block;
+  }
 }
