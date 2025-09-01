@@ -41,11 +41,7 @@ function ProfileEdit() {
         .catch(() => ({ ID: 0 } as Student));
 
       setStudentData(student);
-      reset({
-        name: student.name,
-        iitk_email: student.iitk_email,
-        roll_no: student.roll_no,
-      });
+      reset(student);
     };
     fetch();
   }, [token, reset]);
@@ -630,8 +626,8 @@ function ProfileEdit() {
                       (event.target as HTMLTextAreaElement).blur()
                     }
                     disabled={StudentData.is_verified}
-                  />
-                </Grid> */}
+                  /> */}
+                {/* </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <p>Current Address</p>
                   <TextField

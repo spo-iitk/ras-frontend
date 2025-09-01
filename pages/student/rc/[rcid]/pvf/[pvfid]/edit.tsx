@@ -3,6 +3,8 @@ import {
   Card,
   CircularProgress,
   Grid,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -268,22 +270,21 @@ function View() {
               </Grid>
               <Grid item xs={12} md={6} key="designation" padding={0}>
                 <h4>Mentor Designation</h4>
-                <TextField
-                  multiline
-                  fullWidth
-                  helperText={
-                    errors.mentor_designation && "This field is required"
-                  }
-                  variant="standard"
+                <Select
+                  labelId="mentor-designation-label"
+                  id="mentor_designation"
                   {...register("mentor_designation", {
                     required: "This field is required",
                   })}
-                  //   value={row.company_university_name}
-                  //   InputProps={{
-                  //     style: { textAlign: "center" },
-                  //   }}
-                  sx={textFieldSX}
-                />
+                  defaultValue=""
+                >
+                  <MenuItem value="">Select</MenuItem>
+                  <MenuItem value="Mr">Mr</MenuItem>
+                  <MenuItem value="Mrs">Mrs</MenuItem>
+                  <MenuItem value="Ms">Ms</MenuItem>
+                  <MenuItem value="Dr">Dr</MenuItem>
+                  <MenuItem value="Prof">Prof</MenuItem>
+                </Select>
               </Grid>
               {/* <Grid item xs={12} md={6} key="upload" padding={0} /> */}
               <Grid

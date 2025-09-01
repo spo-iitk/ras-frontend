@@ -17,8 +17,13 @@ import AdminStudentRequest, {
   Student,
 } from "@callbacks/admin/student/adminStudent";
 import useStore from "@store/store";
-import { Branches, func, programType } from "@components/Utils/matrixUtils";
-import { getId } from "@components/Parser/parser";
+import {
+  Branches,
+  BranchesExpanded,
+  func,
+  programType,
+} from "@components/Utils/matrixUtils";
+import { getDepartment, getId, getProgram } from "@components/Parser/parser";
 
 function Edit() {
   const [StudentData, setStudentData] = useState<Student>({ ID: 0 } as Student);
@@ -29,15 +34,13 @@ function Edit() {
     formState: { errors },
     getValues,
     watch,
-  } = useForm<Student>({
-    defaultValues: StudentData,
-  });
+  } = useForm<Student>({});
   const watchPreference = watch("preference");
   const watchGender = watch("gender");
   const watchTenthBoard = watch("tenth_board");
   const watchTwelfthBoard = watch("twelfth_board");
   const watchEntranceExam = watch("entrance_exam");
-  const watchCategory = watch("category");
+  // const watchCategory = watch("category");
   const watchDisability = watch("disability");
 
   const [dept, setDept] = useState<string>("");
@@ -55,7 +58,36 @@ function Edit() {
         parseInt(sId, 10)
       ).catch(() => ({ ID: 0 } as Student));
       setStudentData(student);
-      reset(student);
+
+      setDept(
+        Branches[
+          BranchesExpanded.indexOf(getDepartment(student.program_department_id))
+        ]
+      );
+      setDeptSec(
+        Branches[
+          BranchesExpanded.indexOf(
+            getDepartment(student.secondary_program_department_id)
+          )
+        ]
+      );
+      reset({
+        ...student,
+        department:
+          Branches[
+            BranchesExpanded.indexOf(
+              getDepartment(student.program_department_id)
+            )
+          ],
+        program: getProgram(student.program_department_id),
+        department_2:
+          Branches[
+            BranchesExpanded.indexOf(
+              getDepartment(student.secondary_program_department_id)
+            )
+          ],
+        program_2: getProgram(student.secondary_program_department_id),
+      });
     };
     if (router.isReady) fetch();
   }, [token, sId, reset, router]);
@@ -193,9 +225,10 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
-                    {...register("department")}
+                    value={watch("department") || ""}
                     onChange={(e) => {
                       setDept(e.target.value as string);
+                      reset({ ...getValues(), department: e.target.value });
                     }}
                   >
                     <MenuItem value="" />
@@ -213,12 +246,16 @@ function Edit() {
                     <Select
                       fullWidth
                       variant="standard"
-                      {...register("program")}
+                      value={watch("program") || ""}
+                      onChange={(e) => {
+                        reset({ ...getValues(), program: e.target.value });
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
-                      {dept !== "" &&
+                      {dept &&
                         dept !== "NA" &&
+                        func[dept as keyof typeof func] &&
                         Object.keys(func[dept as keyof typeof func]).map(
                           (program: any) => {
                             if (
@@ -240,7 +277,10 @@ function Edit() {
                     <Select
                       fullWidth
                       variant="standard"
-                      {...register("program")}
+                      value={watch("program") || ""}
+                      onChange={(e) => {
+                        reset({ ...getValues(), program: e.target.value });
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -252,9 +292,10 @@ function Edit() {
                   <Select
                     fullWidth
                     variant="standard"
-                    {...register("department_2")}
+                    value={watch("department_2") || ""}
                     onChange={(e) => {
                       setDeptSec(e.target.value as string);
+                      reset({ ...getValues(), department_2: e.target.value });
                     }}
                   >
                     <MenuItem value="" />
@@ -272,12 +313,16 @@ function Edit() {
                     <Select
                       fullWidth
                       variant="standard"
-                      {...register("program_2")}
+                      value={watch("program_2") || ""}
+                      onChange={(e) => {
+                        reset({ ...getValues(), program_2: e.target.value });
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
-                      {deptSec !== "" &&
+                      {deptSec &&
                         deptSec !== "NA" &&
+                        func[deptSec as keyof typeof func] &&
                         Object.keys(func[deptSec as keyof typeof func]).map(
                           (program: any) => {
                             if (
@@ -299,7 +344,10 @@ function Edit() {
                     <Select
                       fullWidth
                       variant="standard"
-                      {...register("program_2")}
+                      value={watch("program_2") || ""}
+                      onChange={(e) => {
+                        reset({ ...getValues(), program_2: e.target.value });
+                      }}
                     >
                       <MenuItem value="" />
                       <MenuItem value="NA">None</MenuItem>
@@ -362,6 +410,11 @@ function Edit() {
                     type="date"
                     id="standard-basic"
                     variant="standard"
+                    // value={
+                    //   watch("dob")
+                    //     ? new Date(watch("dob")).toISOString().split("T")[0]
+                    //     : ""
+                    // }
                     {...register("dob", {
                       setValueAs: (date) => {
                         const d = new Date(date);
@@ -586,7 +639,7 @@ function Edit() {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                   <p>Category</p>
                   <Select
                     fullWidth
@@ -619,7 +672,7 @@ function Edit() {
                       (event.target as HTMLTextAreaElement).blur()
                     }
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <p>Current Address</p>
                   <TextField
