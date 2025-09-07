@@ -501,7 +501,7 @@ export const func = {
     BTM:-1,
     BSM:-1,
   },
-  "Unmanned Aerial Systems ( AEUAS )": {
+  "Unmanned Aerial Systems (AEUAS)": {
     BT: -1,
     BS: -1,
     MT: 107,
