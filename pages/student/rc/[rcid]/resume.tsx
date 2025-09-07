@@ -6,12 +6,17 @@ import {
   Button,
   CircularProgress,
   Fab,
+  FormControl,
   FormControlLabel,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
   Modal,
   Radio,
   RadioGroup,
+  Select,
+  SelectChangeEvent,
   Stack,
   Typography,
 } from "@mui/material";
@@ -140,6 +145,12 @@ const columns: GridColDef[] = [
     align: "center",
     headerAlign: "center",
   },
+  {
+    field: "resume_tag",
+    headerName: "Resume Tag",
+    align: "center",
+    headerAlign: "center",
+  },
 ];
 
 const Input = styled("input")({
@@ -158,6 +169,7 @@ function Resume() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [resumeType, setResumeType] = useState<string>("SINGLE");
+  const [resumeTag, setResumeTag] = useState<string>("");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -165,24 +177,23 @@ function Resume() {
     setSuccess(false);
     setFileSaved(null);
     setLoading(false);
+    setResumeTag("");
   };
 
   const handleChange = (event: { target: { files: any } }) => {
     const { files } = event.target;
 
-    // Filter for verified and pending resumes
     const verifiedOrPendingResumes = allResumes.filter(
       (resume) => !(resume.verified.Valid && !resume.verified.Bool)
     );
     const singleResumes = verifiedOrPendingResumes.filter(
       (resume) => resume.resume_type === "SINGLE"
     );
-    // Count how many MASTER type resumes exist that are not rejected
+
     const masterResumes = verifiedOrPendingResumes.filter(
       (resume) => resume.resume_type === "MASTER"
     );
 
-    // Check if the user already has 5 verified or pending resumes
     if (resumeType === "SINGLE" && singleResumes.length >= 5) {
       errorNotification(
         "You can only upload 5 Single resumes",
@@ -192,12 +203,17 @@ function Resume() {
       return;
     }
 
-    // Check if there's already a pending or accepted MASTER resume
     if (resumeType === "MASTER" && masterResumes.length >= 1) {
       errorNotification(
         "You can only upload one MASTER resume unless the existing one is rejected",
         "Cannot upload"
       );
+      setLoading(false);
+      return;
+    }
+
+    if (resumeType === "SINGLE" && !resumeTag) {
+      errorNotification("No role selected", "Please select a role.");
       setLoading(false);
       return;
     }
@@ -241,6 +257,7 @@ function Resume() {
     const formData = new FormData();
     formData.append("file", fileSaved);
     formData.append("resumeType", resumeType);
+    formData.append("resumeTag", resumeTag);
 
     try {
       await resumeRequest.post(formData, token, rid);
@@ -297,7 +314,11 @@ function Resume() {
   const handleResumeTypeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setResumeType((event.target as HTMLInputElement).value);
+    setResumeType(event.target.value);
+  };
+
+  const handleResumeTagChange = (event: SelectChangeEvent<string>) => {
+    setResumeTag(event.target.value);
   };
 
   return (
@@ -330,6 +351,9 @@ function Resume() {
             </li>
             <li>
               Each of your resume names should be <b>{resumeName}</b>
+            </li>
+            <li>
+              Select the appropriate <b>Role</b> before uploading.
             </li>
           </ol>
         </div>
@@ -365,6 +389,37 @@ function Resume() {
                 label="Master Resume"
               />
             </RadioGroup>
+
+            {resumeType === "SINGLE" && (
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <InputLabel id="resume-tag-label">Role</InputLabel>
+                <Select
+                  labelId="resume-tag-label"
+                  id="resume-tag-select"
+                  value={resumeTag}
+                  label="Role"
+                  onChange={handleResumeTagChange}
+                  required
+                >
+                  <MenuItem value="ME Core">Mechanical Core</MenuItem>
+                  <MenuItem value="EE Core">Electrical Core</MenuItem>
+                  <MenuItem value="Analyst">Analyst</MenuItem>
+                  <MenuItem value="Product Management">
+                    Product Management
+                  </MenuItem>
+                  <MenuItem value="SDE">SDE</MenuItem>
+                  <MenuItem value="Consulting">Consulting</MenuItem>
+                  <MenuItem value="MSE Core">MSE Core</MenuItem>
+                  <MenuItem value="CHE Core">CHE Core</MenuItem>
+                  <MenuItem value="AE Core">AE Core</MenuItem>
+                  <MenuItem value="Quant">Quant</MenuItem>
+                  <MenuItem value="Others">Others</MenuItem>
+                  <MenuItem value="BSBE Core">BSBE Core</MenuItem>
+                  <MenuItem value="CE Core">CE Core</MenuItem>
+                </Select>
+              </FormControl>
+            )}
+
             <Box
               sx={{
                 m: 5,
@@ -410,7 +465,7 @@ function Resume() {
               type="submit"
               variant="contained"
               fullWidth
-              disabled={!success}
+              disabled={!success || (resumeType === "SINGLE" && !resumeTag)}
             >
               Upload
             </Button>
