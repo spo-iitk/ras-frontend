@@ -416,6 +416,9 @@ function Resume() {
                   <MenuItem value="Others">Others</MenuItem>
                   <MenuItem value="BSBE Core">BSBE Core</MenuItem>
                   <MenuItem value="CE Core">CE Core</MenuItem>
+                  <MenuItem value="UI/UX">UI/UX</MenuItem>
+                  <MenuItem value="Product Design">Product Design</MenuItem>
+                  <MenuItem value="EE Core">EE Core</MenuItem>
                 </Select>
               </FormControl>
             )}
