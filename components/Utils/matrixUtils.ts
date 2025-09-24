@@ -1,6 +1,8 @@
 export const programExpanded = [
   "BT",
   "BS",
+  "BTM",
+  "BSM",
   "DoubleMajor",
   "DualA",
   "DualB",
@@ -11,8 +13,6 @@ export const programExpanded = [
   "MDes",
   "MBA",
   "PhD",
-  "BTM",
-  "BSM",
 ];
 
 export const programCondensed = [
