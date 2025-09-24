@@ -86,8 +86,8 @@ export const Branches = [
 export type programType = {
   BT: number;
   BS: number;
-  BTM: number,
-  BSM: number,
+  BTM: number;
+  BSM: number;
   MT: number;
   DoubleMajor: number;
   DualA: number;
