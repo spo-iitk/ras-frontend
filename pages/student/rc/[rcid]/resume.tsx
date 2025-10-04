@@ -73,9 +73,14 @@ const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 const columns: GridColDef[] = [
   {
     field: "ID",
-    headerName: "Resume ID",
+    headerName: "Resume",
     align: "center",
     headerAlign: "center",
+    renderCell: (params) => {
+      const id = params.row.resume_id ?? params.row.ID ?? params.row.rsid;
+      const tag = params.row.resume_tag;
+      return `${id}${tag ? `_${tag}` : ""}`;
+    },
   },
   {
     field: "resume",
@@ -208,6 +213,12 @@ function Resume() {
         "You can only upload one MASTER resume unless the existing one is rejected",
         "Cannot upload"
       );
+      setLoading(false);
+      return;
+    }
+
+    if (!resumeTag) {
+      errorNotification("No role selected", "Please select a role.");
       setLoading(false);
       return;
     }
@@ -409,16 +420,15 @@ function Resume() {
                   </MenuItem>
                   <MenuItem value="SDE">SDE</MenuItem>
                   <MenuItem value="Consulting">Consulting</MenuItem>
+                  <MenuItem value="BSBE Core">BSBE Core</MenuItem>
                   <MenuItem value="MSE Core">MSE Core</MenuItem>
                   <MenuItem value="CHE Core">CHE Core</MenuItem>
                   <MenuItem value="AE Core">AE Core</MenuItem>
                   <MenuItem value="Quant">Quant</MenuItem>
-                  <MenuItem value="Others">Others</MenuItem>
-                  <MenuItem value="BSBE Core">BSBE Core</MenuItem>
                   <MenuItem value="CE Core">CE Core</MenuItem>
                   <MenuItem value="UI/UX">UI/UX</MenuItem>
                   <MenuItem value="Product Design">Product Design</MenuItem>
-                  <MenuItem value="EE Core">EE Core</MenuItem>
+                  <MenuItem value="Others">Others</MenuItem>
                 </Select>
               </FormControl>
             )}
@@ -468,7 +478,7 @@ function Resume() {
               type="submit"
               variant="contained"
               fullWidth
-              disabled={!success || (resumeType === "SINGLE" && !resumeTag)}
+              disabled={!success || !resumeTag}
             >
               Upload
             </Button>
