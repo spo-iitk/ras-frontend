@@ -107,7 +107,11 @@ const columns: GridColDef[] = [
           window.open(params.value, "_blank");
         }}
       >
-        Resume Id: {params.row.resume_id}
+        {(() => {
+          const id = params.row.resume_id;
+          const tag = params.row.resume_tag;
+          return `Resume: ${id}${tag ? `_${tag}` : ""}`;
+        })()}
       </Button>
     ),
   },

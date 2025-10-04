@@ -73,9 +73,14 @@ const getURL = (url: string) => `${CDN_URL}/view/${url}`;
 const columns: GridColDef[] = [
   {
     field: "ID",
-    headerName: "Resume ID",
+    headerName: "Resume",
     align: "center",
     headerAlign: "center",
+    renderCell: (params) => {
+      const id = params.row.resume_id ?? params.row.ID ?? params.row.rsid;
+      const tag = params.row.resume_tag;
+      return `${id}${tag ? `_${tag}` : ""}`;
+    },
   },
   {
     field: "resume",
@@ -208,6 +213,12 @@ function Resume() {
         "You can only upload one MASTER resume unless the existing one is rejected",
         "Cannot upload"
       );
+      setLoading(false);
+      return;
+    }
+
+    if (!resumeTag) {
+      errorNotification("No role selected", "Please select a role.");
       setLoading(false);
       return;
     }
