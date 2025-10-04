@@ -479,7 +479,8 @@ function Resume() {
               type="submit"
               variant="contained"
               fullWidth
-              disabled={!success || (resumeType === "SINGLE" && !resumeTag)}            >
+              disabled={!success || (resumeType === "SINGLE" && !resumeTag)}
+            >
               Upload
             </Button>
           </form>
