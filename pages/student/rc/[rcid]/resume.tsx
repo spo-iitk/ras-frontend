@@ -420,15 +420,16 @@ function Resume() {
                   </MenuItem>
                   <MenuItem value="SDE">SDE</MenuItem>
                   <MenuItem value="Consulting">Consulting</MenuItem>
-                  <MenuItem value="BSBE Core">BSBE Core</MenuItem>
                   <MenuItem value="MSE Core">MSE Core</MenuItem>
                   <MenuItem value="CHE Core">CHE Core</MenuItem>
                   <MenuItem value="AE Core">AE Core</MenuItem>
                   <MenuItem value="Quant">Quant</MenuItem>
+                  <MenuItem value="Others">Others</MenuItem>
+                  <MenuItem value="BSBE Core">BSBE Core</MenuItem>
                   <MenuItem value="CE Core">CE Core</MenuItem>
                   <MenuItem value="UI/UX">UI/UX</MenuItem>
                   <MenuItem value="Product Design">Product Design</MenuItem>
-                  <MenuItem value="Others">Others</MenuItem>
+                  <MenuItem value="EE Core">EE Core</MenuItem>
                 </Select>
               </FormControl>
             )}
