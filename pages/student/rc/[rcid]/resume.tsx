@@ -217,12 +217,6 @@ function Resume() {
       return;
     }
 
-    if (!resumeTag) {
-      errorNotification("No role selected", "Please select a role.");
-      setLoading(false);
-      return;
-    }
-
     if (resumeType === "SINGLE" && !resumeTag) {
       errorNotification("No role selected", "Please select a role.");
       setLoading(false);
