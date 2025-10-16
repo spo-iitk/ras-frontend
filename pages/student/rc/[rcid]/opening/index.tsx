@@ -119,7 +119,15 @@ function Openings() {
                 resume.verified.Valid &&
                 resume.resume_type === "SINGLE"
               ) {
-                return <MenuItem value={resume.ID}>{resume.ID}</MenuItem>;
+                return (
+                  <MenuItem value={resume.ID} key={resume.ID}>
+                    {`${resume.ID}${
+                      (resume as any).resume_tag
+                        ? `_${(resume as any).resume_tag}`
+                        : ""
+                    }`}
+                  </MenuItem>
+                );
               }
               return null;
             })}
@@ -233,7 +241,15 @@ function Openings() {
                 resume.verified.Valid &&
                 resume.resume_type === "SINGLE"
               ) {
-                return <MenuItem value={resume.ID}>{resume.ID}</MenuItem>;
+                return (
+                  <MenuItem value={resume.ID} key={`m2-${resume.ID}`}>
+                    {`${resume.ID}${
+                      (resume as any).resume_tag
+                        ? `_${(resume as any).resume_tag}`
+                        : ""
+                    }`}
+                  </MenuItem>
+                );
               }
               return null;
             })}
