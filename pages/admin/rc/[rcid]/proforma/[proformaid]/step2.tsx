@@ -27,7 +27,7 @@ import requestProforma, {
 const ROUTE = "/admin/rc/[rcid]/proforma/[proformaid]/step3";
 
 function Step2() {
-  const [str, setStr] = useState(new Array(125 + 1).join("0"));
+  const [str, setStr] = useState(new Array(133 + 1).join("0"));
   const router = useRouter();
   const { rcid, proformaid } = router.query;
   const rid = (rcid || "").toString();
@@ -55,11 +55,11 @@ function Step2() {
   };
 
   const handleCheckAll = () => {
-    setStr(new Array(125 + 1).join("1"));
+    setStr(new Array(133 + 1).join("1"));
   };
 
   const handleReset = () => {
-    setStr(new Array(125 + 1).join("0"));
+    setStr(new Array(133 + 1).join("0"));
   };
 
   const handleProgramWise = (programName: string) => {
@@ -120,6 +120,8 @@ function Step2() {
           "DualA",
           "DualB",
           "DualC",
+          "BTM",
+          "BSM"
         ]);
         break;
       case "JAM":

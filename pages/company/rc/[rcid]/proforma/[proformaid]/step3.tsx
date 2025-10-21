@@ -25,7 +25,7 @@ import useStore from "@store/store";
 const ROUTE = "/company/rc/[rcid]/proforma/[proformaid]/step4";
 
 function Step3() {
-  const [str, setStr] = useState(new Array(130 + 1).join("0"));
+  const [str, setStr] = useState(new Array(133 + 1).join("0"));
   const router = useRouter();
   const { token } = useStore();
   const { rcid, proformaid } = router.query;
@@ -53,11 +53,11 @@ function Step3() {
   };
 
   const handleCheckAll = () => {
-    setStr(new Array(130 + 1).join("1"));
+    setStr(new Array(133 + 1).join("1"));
   };
 
   const handleReset = () => {
-    setStr(new Array(130 + 1).join("0"));
+    setStr(new Array(133 + 1).join("0"));
   };
 
   const handleProgramWise = (programName: string[]) => {
@@ -112,6 +112,8 @@ function Step3() {
           "DualA",
           "DualB",
           "DualC",
+          "BTM",
+          "BSM",
         ]);
         break;
       case "JAM":
@@ -208,6 +210,19 @@ function Step3() {
                     sx={{ fontWeight: 600 }}
                   >
                     <Button
+                      onClick={() =>
+                        handleProgramWise(["BTM", "BSM"])
+                      }
+                    >
+                      BTM /BSM
+                    </Button>
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    width={100}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    <Button
                       onClick={() => handleProgramWise(["MT", "MSc", "MSR"])}
                     >
                       Master of Technology/Master of Science/Master of Science
@@ -285,6 +300,22 @@ function Step3() {
                           }
                           onClick={() =>
                             handleCheck(branch, ["BT", "BS", "DoubleMajor"])
+                          }
+                        />
+                      )}
+                    </TableCell>
+                    <TableCell width={100} align="center">
+                      {func[branch as keyof typeof func].BTM === -1 &&
+                      func[branch as keyof typeof func].BSM === -1 ? (
+                        <RemoveIcon />
+                      ) : (
+                        <Checkbox
+                          checked={
+                            str[func[branch as keyof typeof func].BTM] === "1" ||
+                            str[func[branch as keyof typeof func].BSM] === "1"
+                          }
+                          onClick={() =>
+                            handleCheck(branch, ["BTM", "BSM"])
                           }
                         />
                       )}
