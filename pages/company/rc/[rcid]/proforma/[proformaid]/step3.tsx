@@ -209,11 +209,7 @@ function Step3() {
                     width={100}
                     sx={{ fontWeight: 600 }}
                   >
-                    <Button
-                      onClick={() =>
-                        handleProgramWise(["BTM", "BSM"])
-                      }
-                    >
+                    <Button onClick={() => handleProgramWise(["BTM", "BSM"])}>
                       BTM /BSM
                     </Button>
                   </TableCell>
@@ -311,12 +307,11 @@ function Step3() {
                       ) : (
                         <Checkbox
                           checked={
-                            str[func[branch as keyof typeof func].BTM] === "1" ||
+                            str[func[branch as keyof typeof func].BTM] ===
+                              "1" ||
                             str[func[branch as keyof typeof func].BSM] === "1"
                           }
-                          onClick={() =>
-                            handleCheck(branch, ["BTM", "BSM"])
-                          }
+                          onClick={() => handleCheck(branch, ["BTM", "BSM"])}
                         />
                       )}
                     </TableCell>

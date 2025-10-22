@@ -121,7 +121,7 @@ function Step2() {
           "DualB",
           "DualC",
           "BTM",
-          "BSM"
+          "BSM",
         ]);
         break;
       case "JAM":
