@@ -71,7 +71,7 @@ export const Branches = [
   "Physics (PHY)",
   "Cognitive Science (CGS)",
   "Design (DES)",
-  "Management Studies (MS)",
+  "Management Sciences (Industrial & Management Engineering) (MS)",
   "Materials Science Programme (MSP)",
   "Nuclear Engineering and Technology (NET)",
   "Photonics Science and Engineering (PSE)",
@@ -357,7 +357,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  "Management Studies (MS)": {
+  "Management Sciences (Industrial & Management Engineering) (MS)": {
     BT: -1,
     BS: -1,
     BTM: -1,
