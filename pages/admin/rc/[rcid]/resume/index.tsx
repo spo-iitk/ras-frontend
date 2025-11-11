@@ -231,12 +231,7 @@ function Index() {
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (
-          !cellValues.row.verified?.Valid ||
-          role === 100 ||
-          role === 101 ||
-          role === 102
-        ) {
+        if (!cellValues.row.verified?.Valid || role === 100 || role === 101) {
           return (
             <AcceptResumeButton
               id={cellValues.id.toString()}
@@ -252,12 +247,7 @@ function Index() {
       align: "center",
       // eslint-disable-next-line consistent-return
       renderCell: (cellValues) => {
-        if (
-          !cellValues.row.verified?.Valid ||
-          role === 100 ||
-          role === 101 ||
-          role === 102
-        ) {
+        if (!cellValues.row.verified?.Valid || role === 100 || role === 101) {
           return (
             <RejectResumeButton
               id={cellValues.id.toString()}
