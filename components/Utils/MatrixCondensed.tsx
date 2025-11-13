@@ -28,6 +28,9 @@ function MatrixCondensed({ data }: { data: string }) {
               Bachelor of Technology / Bachelor of Science / Double Major (BT /
               BS / Double Major)
             </TableCell>
+            <TableCell align="center" sx={{ fontWeight: 600 }}>
+              BTM / BSM
+            </TableCell>
             <TableCell align="center" width={100} sx={{ fontWeight: 600 }}>
               Master of Technology / Master of Science / Master of Science by
               Research (MT / MSc / MSR)
@@ -61,6 +64,17 @@ function MatrixCondensed({ data }: { data: string }) {
                   data[func[branch as keyof typeof func].BS] === "1" ||
                   data[func[branch as keyof typeof func].DoubleMajor] ===
                     "1" ? (
+                  <CheckIcon sx={{ color: "green" }} />
+                ) : (
+                  <CloseIcon sx={{ color: "red" }} />
+                )}
+              </TableCell>
+              <TableCell width={100} align="center">
+                {func[branch as keyof typeof func].BTM === -1 &&
+                func[branch as keyof typeof func].BSM === -1 ? (
+                  <RemoveIcon />
+                ) : data[func[branch as keyof typeof func].BTM] === "1" ||
+                  data[func[branch as keyof typeof func].BSM] === "1" ? (
                   <CheckIcon sx={{ color: "green" }} />
                 ) : (
                   <CloseIcon sx={{ color: "red" }} />
