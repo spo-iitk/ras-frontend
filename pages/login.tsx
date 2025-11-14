@@ -65,6 +65,7 @@ function Login() {
 
   const router = useRouter();
   const onLogin = async (data: LoginParams) => {
+    data.user_id = data.user_id.toLowerCase();
     setLoading(true);
     const response = await loginRequest.post(data);
     if (response.token !== "") {

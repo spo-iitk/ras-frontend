@@ -33,6 +33,7 @@ function SignUpRecruiter() {
   const [loading, setLoading] = useState(false);
 
   const handleOpen = async (data: SignUpCompanyParams) => {
+    data.email = data.email.toLowerCase();
     setLoading(true);
     const response = await companySignUpRequest.post(data);
     if (response) {
