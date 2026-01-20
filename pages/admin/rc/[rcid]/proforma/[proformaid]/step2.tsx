@@ -55,11 +55,11 @@ function Step2() {
   };
 
   const handleCheckAll = () => {
-    setStr(new Array(133 + 1).join("1"));
+    setStr(new Array(139 + 1).join("1"));
   };
 
   const handleReset = () => {
-    setStr(new Array(133 + 1).join("0"));
+    setStr(new Array(139 + 1).join("0"));
   };
 
   const handleProgramWise = (programName: string) => {
