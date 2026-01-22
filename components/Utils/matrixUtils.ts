@@ -519,7 +519,7 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
-  "Kotak Sustainability School(KSS)": {
+  "Kotak Sustainability School (KSS)": {
     BT: 134,
     BS: -1,
     BTM: -1,
