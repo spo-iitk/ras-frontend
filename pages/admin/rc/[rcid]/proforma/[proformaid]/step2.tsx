@@ -212,39 +212,41 @@ function Step2() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Branches.map((branch) => (
-                  <TableRow>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      sx={{ fontWeight: 600 }}
-                    >
-                      <Button onClick={() => handleBranchWise(branch)}>
-                        {branch}
-                      </Button>
-                    </TableCell>
-                    {programExpanded.map((program) => (
-                      <TableCell width={100} align="center">
-                        {func[branch as keyof typeof func][
-                          program as keyof programType
-                        ] === -1 ? (
-                          <RemoveIcon />
-                        ) : (
-                          <Checkbox
-                            checked={
-                              str[
-                                func[branch as keyof typeof func][
-                                  program as keyof programType
-                                ]
-                              ] === "1"
-                            }
-                            onClick={() => handleCheck(branch, program)}
-                          />
-                        )}
+                {Branches.map((branch) => {
+                  const branchData = func[branch as keyof typeof func];
+
+                  if (!branchData) return null;
+
+                  return (
+                    <TableRow key={branch}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        sx={{ fontWeight: 600 }}
+                      >
+                        <Button onClick={() => handleBranchWise(branch)}>
+                          {branch}
+                        </Button>
                       </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
+                      {programExpanded.map((program) => (
+                        <TableCell width={100} align="center" key={program}>
+                          {branchData[program as keyof programType] === -1 ? (
+                            <RemoveIcon />
+                          ) : (
+                            <Checkbox
+                              checked={
+                                str[
+                                  branchData[program as keyof programType]
+                                ] === "1"
+                              }
+                              onClick={() => handleCheck(branch, program)}
+                            />
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>

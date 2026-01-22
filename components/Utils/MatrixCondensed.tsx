@@ -16,6 +16,11 @@ import CheckIcon from "@mui/icons-material/Check";
 import { Branches, func } from "@components/Utils/matrixUtils";
 
 function MatrixCondensed({ data }: { data: string }) {
+  // Return null if data is not provided or is invalid
+  if (!data || data.length < 110) {
+    return null;
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -60,9 +65,9 @@ function MatrixCondensed({ data }: { data: string }) {
                 func[branch as keyof typeof func].BS === -1 &&
                 func[branch as keyof typeof func].DoubleMajor === -1 ? (
                   <RemoveIcon />
-                ) : data[func[branch as keyof typeof func].BT] === "1" ||
-                  data[func[branch as keyof typeof func].BS] === "1" ||
-                  data[func[branch as keyof typeof func].DoubleMajor] ===
+                ) : data?.[func[branch as keyof typeof func].BT] === "1" ||
+                  data?.[func[branch as keyof typeof func].BS] === "1" ||
+                  data?.[func[branch as keyof typeof func].DoubleMajor] ===
                     "1" ? (
                   <CheckIcon sx={{ color: "green" }} />
                 ) : (
@@ -73,8 +78,8 @@ function MatrixCondensed({ data }: { data: string }) {
                 {func[branch as keyof typeof func].BTM === -1 &&
                 func[branch as keyof typeof func].BSM === -1 ? (
                   <RemoveIcon />
-                ) : data[func[branch as keyof typeof func].BTM] === "1" ||
-                  data[func[branch as keyof typeof func].BSM] === "1" ? (
+                ) : data?.[func[branch as keyof typeof func].BTM] === "1" ||
+                  data?.[func[branch as keyof typeof func].BSM] === "1" ? (
                   <CheckIcon sx={{ color: "green" }} />
                 ) : (
                   <CloseIcon sx={{ color: "red" }} />
@@ -85,9 +90,9 @@ function MatrixCondensed({ data }: { data: string }) {
                 func[branch as keyof typeof func].MSc === -1 &&
                 func[branch as keyof typeof func].MSR === -1 ? (
                   <RemoveIcon />
-                ) : data[func[branch as keyof typeof func].MT] === "1" ||
-                  data[func[branch as keyof typeof func].MSc] === "1" ||
-                  data[func[branch as keyof typeof func].MSR] === "1" ? (
+                ) : data?.[func[branch as keyof typeof func].MT] === "1" ||
+                  data?.[func[branch as keyof typeof func].MSc] === "1" ||
+                  data?.[func[branch as keyof typeof func].MSR] === "1" ? (
                   <CheckIcon sx={{ color: "green" }} />
                 ) : (
                   <CloseIcon sx={{ color: "red" }} />
@@ -98,9 +103,9 @@ function MatrixCondensed({ data }: { data: string }) {
                 func[branch as keyof typeof func].DualB === -1 &&
                 func[branch as keyof typeof func].DualC === -1 ? (
                   <RemoveIcon />
-                ) : data[func[branch as keyof typeof func].DualA] === "1" ||
-                  data[func[branch as keyof typeof func].DualB] === "1" ||
-                  data[func[branch as keyof typeof func].DualC] === "1" ? (
+                ) : data?.[func[branch as keyof typeof func].DualA] === "1" ||
+                  data?.[func[branch as keyof typeof func].DualB] === "1" ||
+                  data?.[func[branch as keyof typeof func].DualC] === "1" ? (
                   <CheckIcon sx={{ color: "green" }} />
                 ) : (
                   <CloseIcon sx={{ color: "red" }} />
@@ -109,7 +114,7 @@ function MatrixCondensed({ data }: { data: string }) {
               <TableCell width={100} align="center">
                 {func[branch as keyof typeof func].MDes === -1 ? (
                   <RemoveIcon />
-                ) : data[func[branch as keyof typeof func].MDes] === "1" ? (
+                ) : data?.[func[branch as keyof typeof func].MDes] === "1" ? (
                   <CheckIcon sx={{ color: "green" }} />
                 ) : (
                   <CloseIcon sx={{ color: "red" }} />
@@ -118,7 +123,7 @@ function MatrixCondensed({ data }: { data: string }) {
               <TableCell width={100} align="center">
                 {func[branch as keyof typeof func].MBA === -1 ? (
                   <RemoveIcon />
-                ) : data[func[branch as keyof typeof func].MBA] === "1" ? (
+                ) : data?.[func[branch as keyof typeof func].MBA] === "1" ? (
                   <CheckIcon sx={{ color: "green" }} />
                 ) : (
                   <CloseIcon sx={{ color: "red" }} />
@@ -127,7 +132,7 @@ function MatrixCondensed({ data }: { data: string }) {
               <TableCell width={100} align="center">
                 {func[branch as keyof typeof func].PhD === -1 ? (
                   <RemoveIcon />
-                ) : data[func[branch as keyof typeof func].PhD] === "1" ? (
+                ) : data?.[func[branch as keyof typeof func].PhD] === "1" ? (
                   <CheckIcon sx={{ color: "green" }} />
                 ) : (
                   <CloseIcon sx={{ color: "red" }} />
