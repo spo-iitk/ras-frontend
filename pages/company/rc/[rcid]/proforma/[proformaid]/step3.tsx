@@ -53,11 +53,11 @@ function Step3() {
   };
 
   const handleCheckAll = () => {
-    setStr(new Array(133 + 1).join("1"));
+    setStr(new Array(139 + 1).join("1"));
   };
 
   const handleReset = () => {
-    setStr(new Array(133 + 1).join("0"));
+    setStr(new Array(139 + 1).join("0"));
   };
 
   const handleProgramWise = (programName: string[]) => {
@@ -269,129 +269,120 @@ function Step3() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Branches.map((branch) => (
-                  <TableRow>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      sx={{ fontWeight: 600 }}
-                    >
-                      <Button onClick={() => handleBranchWise(branch)}>
-                        {branch}
-                      </Button>
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].BT === -1 &&
-                      func[branch as keyof typeof func].BS === -1 &&
-                      func[branch as keyof typeof func].DoubleMajor === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].BT] === "1" ||
-                            str[func[branch as keyof typeof func].BS] === "1" ||
-                            str[
-                              func[branch as keyof typeof func].DoubleMajor
-                            ] === "1"
-                          }
-                          onClick={() =>
-                            handleCheck(branch, ["BT", "BS", "DoubleMajor"])
-                          }
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].BTM === -1 &&
-                      func[branch as keyof typeof func].BSM === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].BTM] ===
-                              "1" ||
-                            str[func[branch as keyof typeof func].BSM] === "1"
-                          }
-                          onClick={() => handleCheck(branch, ["BTM", "BSM"])}
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].MT === -1 &&
-                      func[branch as keyof typeof func].MSc === -1 &&
-                      func[branch as keyof typeof func].MSR === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].MT] === "1" ||
-                            str[func[branch as keyof typeof func].MSc] ===
-                              "1" ||
-                            str[func[branch as keyof typeof func].MSR] === "1"
-                          }
-                          onClick={() =>
-                            handleCheck(branch, ["MT", "MSc", "MSR"])
-                          }
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].DualA === -1 &&
-                      func[branch as keyof typeof func].DualB === -1 &&
-                      func[branch as keyof typeof func].DualC === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].DualA] ===
-                              "1" ||
-                            str[func[branch as keyof typeof func].DualB] ===
-                              "1" ||
-                            str[func[branch as keyof typeof func].DualC] === "1"
-                          }
-                          onClick={() =>
-                            handleCheck(branch, ["DualA", "DualB", "DualC"])
-                          }
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].MDes === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].MDes] === "1"
-                          }
-                          onClick={() => handleCheck(branch, ["MDes"])}
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].MBA === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].MBA] === "1"
-                          }
-                          onClick={() => handleCheck(branch, ["MBA"])}
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell width={100} align="center">
-                      {func[branch as keyof typeof func].PhD === -1 ? (
-                        <RemoveIcon />
-                      ) : (
-                        <Checkbox
-                          checked={
-                            str[func[branch as keyof typeof func].PhD] === "1"
-                          }
-                          onClick={() => handleCheck(branch, ["PhD"])}
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {Branches.map((branch) => {
+                  const branchData = func[branch as keyof typeof func];
+                  if (!branchData) return null;
+                  return (
+                    <TableRow key={branch}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        sx={{ fontWeight: 600 }}
+                      >
+                        <Button onClick={() => handleBranchWise(branch)}>
+                          {branch}
+                        </Button>
+                      </TableCell>
+                      <TableCell width={100} align="center">
+                        {branchData.BT === -1 &&
+                        branchData.BS === -1 &&
+                        branchData.DoubleMajor === -1 ? (
+                          <RemoveIcon />
+                        ) : (
+                          <Checkbox
+                            checked={
+                              str[branchData.BT] === "1" ||
+                              str[branchData.BS] === "1" ||
+                              str[branchData.DoubleMajor] === "1"
+                            }
+                            onClick={() =>
+                              handleCheck(branch, ["BT", "BS", "DoubleMajor"])
+                            }
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell width={100} align="center">
+                        {branchData.BTM === -1 && branchData.BSM === -1 ? (
+                          <RemoveIcon />
+                        ) : (
+                          <Checkbox
+                            checked={
+                              str[branchData.BTM] === "1" ||
+                              str[branchData.BSM] === "1"
+                            }
+                            onClick={() => handleCheck(branch, ["BTM", "BSM"])}
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell width={100} align="center">
+                        {branchData.MT === -1 &&
+                        branchData.MSc === -1 &&
+                        branchData.MSR === -1 ? (
+                          <RemoveIcon />
+                        ) : (
+                          <Checkbox
+                            checked={
+                              str[branchData.MT] === "1" ||
+                              str[branchData.MSc] === "1" ||
+                              str[branchData.MSR] === "1"
+                            }
+                            onClick={() =>
+                              handleCheck(branch, ["MT", "MSc", "MSR"])
+                            }
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell width={100} align="center">
+                        {branchData.DualA === -1 &&
+                        branchData.DualB === -1 &&
+                        branchData.DualC === -1 ? (
+                          <RemoveIcon />
+                        ) : (
+                          <Checkbox
+                            checked={
+                              str[branchData.DualA] === "1" ||
+                              str[branchData.DualB] === "1" ||
+                              str[branchData.DualC] === "1"
+                            }
+                            onClick={() =>
+                              handleCheck(branch, ["DualA", "DualB", "DualC"])
+                            }
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell width={100} align="center">
+                        {branchData.MDes === -1 ? (
+                          <RemoveIcon />
+                        ) : (
+                          <Checkbox
+                            checked={str[branchData.MDes] === "1"}
+                            onClick={() => handleCheck(branch, ["MDes"])}
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell width={100} align="center">
+                        {branchData.MBA === -1 ? (
+                          <RemoveIcon />
+                        ) : (
+                          <Checkbox
+                            checked={str[branchData.MBA] === "1"}
+                            onClick={() => handleCheck(branch, ["MBA"])}
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell width={100} align="center">
+                        {branchData.PhD === -1 ? (
+                          <RemoveIcon />
+                        ) : (
+                          <Checkbox
+                            checked={str[branchData.PhD] === "1"}
+                            onClick={() => handleCheck(branch, ["PhD"])}
+                          />
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>

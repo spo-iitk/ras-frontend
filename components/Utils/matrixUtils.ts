@@ -52,6 +52,7 @@ export const BranchesExpanded = [
   "SEE",
   "SPASE",
   "AEUAS",
+  "KSS",
 ];
 
 export const Branches = [
@@ -81,6 +82,7 @@ export const Branches = [
   "Sustainable Energy Engineering (SEE)",
   "Space, Planetary & Astronomical Sciences & Engineering (SPASE)",
   "Unmanned Aerial Systems (AEUAS)",
+  "Kotak Sustainability School (KSS)",
 ];
 
 export type programType = {
@@ -517,6 +519,22 @@ export const func = {
     MSc: -1,
     MSR: -1,
   },
+  "Kotak Sustainability School (KSS)": {
+    BT: 134,
+    BS: -1,
+    BTM: -1,
+    BSM: -1,
+    MT: 135,
+    DoubleMajor: -1,
+    DualA: 136,
+    DualB: 137,
+    DualC: 138,
+    MDes: -1,
+    MBA: -1,
+    PhD: 139,
+    MSc: -1,
+    MSR: -1,
+  },
 };
 
 export const funcExpanded = {
@@ -936,6 +954,22 @@ export const funcExpanded = {
     MSc: -1,
     MSR: -1,
   },
+  KSS: {
+    BT: 134,
+    BS: -1,
+    BTM: -1,
+    BSM: -1,
+    MT: 135,
+    DoubleMajor: -1,
+    DualA: 136,
+    DualB: 137,
+    DualC: 138,
+    MDes: -1,
+    MBA: -1,
+    PhD: 139,
+    MSc: -1,
+    MSR: -1,
+  },
 };
 
 export const rev = {
@@ -1073,6 +1107,12 @@ export const rev = {
   131: "BSM-SDS",
   132: "BSM-PHY",
   133: "MT-AEUAS",
+  134: "BT-KSS",
+  135: "MT-KSS",
+  136: "DualA-KSS",
+  137: "DualB-KSS",
+  138: "DualC-KSS",
+  139: "Phd-KSS",
 };
 
 export default { programExpanded, Branches, programCondensed, rev, func };
