@@ -50,6 +50,15 @@ const columns: GridColDef[] = [
     sortable: false,
     valueGetter: (params) => getDeptProgram(params.row.program_department_id),
   },
+ {
+  field: "time",
+  headerName: "Time",
+  renderCell: (params) => (
+    <Tooltip title={params.value}>
+      <div>{new Date(params.value).toLocaleString()}</div>
+    </Tooltip>
+  )
+}
 ];
 
 function StudentStats(params: { data: StatsType[]; isLoading: boolean }) {
