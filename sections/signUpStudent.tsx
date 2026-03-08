@@ -41,6 +41,7 @@ function SignUpStudent() {
   const handleEmailOtpSubmit = async (data: OTPParams) => {
     setValue("user_id", data.user_id);
     setLoading(true);
+    data.user_id = data.user_id.toLowerCase();
     const response = await otpRequest.post(data);
     setEmailStatus(response);
     setLoading(false);
