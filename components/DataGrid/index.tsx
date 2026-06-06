@@ -61,6 +61,7 @@ interface paramsType {
   loading?: boolean;
   heighted?: boolean;
   isVisibleToRole102?: boolean;
+  exportFileName?: string;
 }
 
 /**
@@ -85,6 +86,7 @@ function Index({
   loading = false,
   heighted = false,
   isVisibleToRole102 = false,
+  exportFileName,
 }: paramsType) {
   const [pageSize, setPageSize] = useState<number>(25);
 
@@ -114,6 +116,7 @@ function Index({
             csvOptions: {
               disableToolbarButton:
                 (role === 102 && !isVisibleToRole102) || role === 1,
+              fileName: exportFileName,
             },
           },
         }}

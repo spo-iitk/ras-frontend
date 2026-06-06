@@ -540,6 +540,9 @@ function Index() {
               columns={columns}
               loading={loading}
               isVisibleToRole102
+              exportFileName={
+                company ? `${company.role}-${company.company_name}` : undefined
+              }
             />
           </Stack>
         </Grid>
