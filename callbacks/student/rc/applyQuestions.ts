@@ -16,6 +16,7 @@ export interface studentApplicationQuestions {
   question: string;
   options: string;
   answer: string;
+  mandatory: boolean;
 }
 
 export interface answerApplication {

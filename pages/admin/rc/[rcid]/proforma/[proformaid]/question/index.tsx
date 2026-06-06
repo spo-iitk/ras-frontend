@@ -82,6 +82,11 @@ const columns: GridColDef[] = [
     headerName: "Options",
     width: 300,
   },
+    {
+    field: "mandatory",
+    headerName: "Mandatory",
+    width: 100,
+  },
   {
     field: "delete",
     headerName: "",
