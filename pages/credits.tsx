@@ -29,12 +29,12 @@ const teamMembers = [
     website: "https://abhishekshree.github.io",
   },
   {
-    src: "https://1-harshit.github.io/avatar.jpg",
+    src: "https://harshitraj.xyz/avatar.jpg",
     name: "Harshit Raj",
     title: "Web Head, 2022-23",
     about: "Living on the edge and not falling.",
     linkedin: "https://www.linkedin.com/in/1-harshit/",
-    website: "https://1-harshit.github.io",
+    website: "https://harshitraj.xyz",
   },
   {
     src: "https://manas-gupta.vercel.app/images/dp.jpg?auto=format&fit=max&w=384",
