@@ -21,15 +21,13 @@ import Meta from "@components/Meta";
 import useStore from "@store/store";
 
 const boxStyle = {
-  width: { xs: "330px", md: "500px" },
+  width: { xs: "92%", sm: "600px", md: "720px" },
   bgcolor: "background.paper",
-  border: "white solid 2px",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 4,
+  borderRadius: "18px",
+  boxShadow: "0 18px 45px rgba(0,0,0,0.16)",
+  p: { xs: 3, sm: 4 },
   marginTop: 5,
   marginBottom: 10,
-  alignItems: "center",
 };
 function Apply() {
   const {
@@ -82,82 +80,109 @@ function Apply() {
     index: number,
     question: studentApplicationQuestions
   ) => {
-    if (question) {
-      let name = question.ID.toString();
-      switch (question?.type) {
-        case "MCQ":
-          return (
-            <FormControl>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={question.answer}
-                row
-              >
-                {question.options
-                  .toString()
-                  .split(",")
-                  .map((option) => (
-                    <FormControlLabel
-                      key={option}
-                      value={option}
-                      control={<Radio />}
-                      label={option}
-                      {...register(name)}
-                    />
-                  ))}
-              </RadioGroup>
-              {errors[name] && (
-                <Typography variant="caption" color="error">
-                  *Required
-                </Typography>
-              )}
-            </FormControl>
-          );
-        case "Short Answer":
-          return (
-            <TextField
-              multiline
-              minRows={3}
+    if (!question) return <div />;
+
+    const name = question.ID.toString();
+    const isMandatory = question.mandatory;
+
+    switch (question?.type) {
+      case "MCQ":
+        return (
+          <FormControl error={!!errors[name]}>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
               defaultValue={question.answer}
-              variant="standard"
-              error={errors[name]}
-              helperText={errors[name] && "*Required"}
-              {...register(name)}
-            />
-          );
-        case "Boolean":
-          return (
-            <FormControl>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue={question.answer}
-                row
-              >
-                <FormControlLabel
-                  value="true"
-                  control={<Radio />}
-                  label="True"
-                  {...register(name)}
-                />
-                <FormControlLabel
-                  value="false"
-                  control={<Radio />}
-                  label="False"
-                  {...register(name)}
-                />
-              </RadioGroup>
-              {errors[name] && (
-                <Typography variant="caption" color="error">
-                  *Required
-                </Typography>
-              )}
-            </FormControl>
-          );
-        default:
-          return <div />;
-      }
+              row
+            >
+              {question.options
+                .toString()
+                .split(",")
+                .map((option) => (
+                  <FormControlLabel
+                    key={option.trim()}
+                    value={option.trim()}
+                    control={<Radio />}
+                    label={option.trim()}
+                    {...register(name, {
+                      required: isMandatory,
+                    })}
+                  />
+                ))}
+            </RadioGroup>
+
+            {errors[name] && (
+              <Typography variant="caption" color="error">
+                *Required
+              </Typography>
+            )}
+          </FormControl>
+        );
+
+      case "Short Answer":
+        return (
+          <TextField
+            fullWidth
+            multiline
+            minRows={3}
+            defaultValue={question.answer}
+            variant="outlined"
+            placeholder="Type your answer here..."
+            error={!!errors[name]}
+            helperText={errors[name] ? "This question is required" : " "}
+            sx={{
+              mt: 1,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "12px",
+              },
+            }}
+            {...register(name, {
+              required: isMandatory,
+              validate: (value) => {
+                if (!isMandatory) return true;
+                return value?.toString().trim() !== "";
+              },
+            })}
+          />
+        );
+
+      case "Boolean":
+        return (
+          <FormControl error={!!errors[name]}>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue={question.answer?.toString()}
+              row
+            >
+              <FormControlLabel
+                value="true"
+                control={<Radio />}
+                label="True"
+                {...register(name, {
+                  required: isMandatory,
+                })}
+              />
+
+              <FormControlLabel
+                value="false"
+                control={<Radio />}
+                label="False"
+                {...register(name, {
+                  required: isMandatory,
+                })}
+              />
+            </RadioGroup>
+
+            {errors[name] && (
+              <Typography variant="caption" color="error">
+                *Required
+              </Typography>
+            )}
+          </FormControl>
+        );
+
+      default:
+        return <div />;
     }
-    return <div />;
   };
 
   return (
@@ -171,10 +196,38 @@ function Apply() {
               {questions &&
                 questions.length > 0 &&
                 questions.map((question, index) => (
-                  <FormControl key={question.ID} sx={{ m: 1, width: "100%" }}>
-                    <h3 style={{ fontWeight: 300 }}>
-                      <b>Ques: </b> {questions[index]?.question}
-                    </h3>
+                  <FormControl
+                    key={question.ID}
+                    sx={{
+                      width: "100%",
+                      p: 2.5,
+                      border: "1px solid",
+                      borderColor: "divider",
+                      borderRadius: "14px",
+                      boxShadow: "0 4px 16px rgba(0,0,0,0.04)",
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      color="text.secondary"
+                      fontWeight={600}
+                    >
+                      QUESTION {index + 1}
+                    </Typography>
+
+                    <Typography variant="h6" fontWeight={600}>
+                      {question.question}
+                      {question.mandatory && (
+                        <Typography
+                          component="span"
+                          color="error"
+                          sx={{ ml: 0.5 }}
+                        >
+                          *
+                        </Typography>
+                      )}
+                    </Typography>
+
                     {questions && renderSwitch(index, question)}
                   </FormControl>
                 ))}

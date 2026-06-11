@@ -83,6 +83,11 @@ const columns: GridColDef[] = [
     width: 300,
   },
   {
+    field: "mandatory",
+    headerName: "Mandatory",
+    width: 100,
+  },
+  {
     field: "delete",
     headerName: "",
     renderCell: (params: any) => <DeleteQues id={params.row.ID} />,
