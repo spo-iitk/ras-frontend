@@ -216,7 +216,11 @@ function Apply() {
                     <Typography variant="h6" fontWeight={600}>
                       {question.question}
                       {question.mandatory && (
-                        <Typography component="span" color="error" sx={{ ml: 0.5 }}>
+                        <Typography
+                          component="span"
+                          color="error"
+                          sx={{ ml: 0.5 }}
+                        >
                           *
                         </Typography>
                       )}
