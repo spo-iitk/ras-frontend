@@ -541,7 +541,12 @@ function Index() {
               loading={loading}
               isVisibleToRole102
               exportFileName={
-                company ? `${company.role}-${company.company_name}` : undefined
+                company
+                  ? `${company.profile?.replace(
+                      / /g,
+                      "_"
+                    )}-${company.company_name?.replace(/ /g, "_")}`
+                  : undefined
               }
             />
           </Stack>
@@ -600,3 +605,4 @@ function Index() {
 
 Index.layout = "adminPhaseDashBoard";
 export default Index;
+// esLint comment
